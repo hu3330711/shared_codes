@@ -1,0 +1,584 @@
+************************************************************************
+
+   README.General.UCB.wt.qflag_value_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.qflag_value_002
+
+************************************************************************
+
+   Quality flag for data values in time intervals, with common limits.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.qflag_value_002	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a quality flag for the number of
+       data points of any number of data inputs, within a time interval,
+       that have out of range data values.
+
+
+
+       There is a timing input, that is used to set the time tags for
+       the quality flag, and the time intervals.
+
+
+
+       There can be any number of input data quantities; all share the
+       same range of valid data values.
+
+
+
+       A range of valid data values can be specified with either a
+       minimum value and a maximum value, or with a maximum absolute
+       value.
+
+       If the range is specified with a maximum absolute value, then the
+       lower limit will be minus the maximum absolute value.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The timing input, that is used to set the time tags for
+               the quality flag, and the time intervals.
+
+
+
+            2) 1 or more data quantity inputs, with the data quantities
+               whose values are to be inspected.
+
+
+
+
+
+    3) For an input data point of the timing input to be used, its input
+       time tag must not be closer to that of neighboring data points
+       than a minimum time separation specified by the user; and it must
+       not be farther from that of neighboring data points than a
+       maximum time separation specified by the user.
+
+
+
+
+
+    4) For each data quantity input, there must be 1 or more data
+       quantities, which are components of that input.
+
+
+
+
+
+    5) For each data quantity, its value must be within limits set by
+       the user for it to be valid.
+
+
+
+
+
+    6) An input data point of a data quantity input is a valid data
+       point, if every quantity for that input data point is valid.
+
+
+
+       An input data point of a data quantity input is an invalid data
+       point, if any quantity for that input data point is invalid.
+
+
+
+
+
+    7) The user can choose the procedure to set the time tags for the
+       quality flags, from among the following:
+
+
+
+            1) Add to the time tag of each data point of the timing
+               input a fixed offset.
+
+
+
+            2) Add to the time tag of each data point of the timing
+               input a fixed fraction of the time interval to the next
+               data point of the timing input.
+
+
+
+
+
+    8) If there is an input data point for the timing input, preceded by
+       another point and followed by another point; such that the
+       intervals between this point and each of the other two are both
+       within the limits prescribed by the user; then we can define a
+       time interval for the quality flag for this point.
+
+
+
+       First, we determine the time tag for the quality flag for this
+       point, as indicated above; and we determine the time tags for the
+       quality flag for the preceding point and for the following point.
+
+
+
+       Then the time interval that corresponds to this point, for
+       determining the quality flag, begins at the mid-point between the
+       time tag for the quality flag for this point and the time tag for
+       the quality flag for the previous point, and ends at the
+       mid-point between the time tag for the quality flag for this
+       point and the time tag for the quality flag for the next point.
+
+
+
+       Note that a time tag for a quality flag will not necessarily be
+       the mid-point of the interval associated with it.
+
+
+
+
+
+    9) Once a time interval for a quality flag time tag has been
+       determined, we must count the number of invalid data points for
+       the data quantity inputs, within the time interval.
+
+
+
+       At the user's choice, an invalid data point can be counted in any
+       one of the following ways:
+
+
+        1) An invalid data point for an input counts as 1, even if it
+           contains more than 1 invalid quantity.
+
+
+        2) An invalid data point for an input counts as the number of
+           invalid quantities it contains.
+
+
+        3) An invalid data point for an input counts as the total number
+           of quantities it contains (valid and invalid).
+
+
+
+       The resulting count is the total number of invalid data points
+       within the interval, from all the data quantity inputs.
+
+
+
+       Although the count is referred to as the number of invalid data
+       points, of course it could be larger, if the choice is made to
+       count each invalid data point multiple times, according to one of
+       the methods listed above.
+
+
+
+
+
+   10) An output data point is produced for each data point of the
+       timing input.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag for the quality flag, that is set for the corresponding
+       timing input data point.
+
+
+
+       For an output data point to be produced, there must be a time
+       interval associated with the time tag, as defined above.
+
+
+
+
+
+   11) The output data value is a quality flag.
+
+
+
+       The quality flag is "good" if the total number of invalid data
+       points for the data quantity inputs is less than or equal to a
+       maximum chosen by the user.
+
+
+
+       The quality flag is "bad" if the total number of invalid data
+       points for the data quantity inputs is greater than the maximum
+       chosen by the user.
+
+
+
+       The values for "good" and "bad" (e.g., 0 and 1) are chosen by the
+       user.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Value for "good" flag.
+
+
+               Int.
+
+
+
+            3) Value for "bad" flag.
+
+
+               Int.
+
+
+               Must be different from the value for "good" flag.
+
+
+
+            4) Number of data quantity inputs.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            5) Code for the method of counting bad data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  A bad data point counts as 1.
+
+                    2  =  A bad data point counts as the number of bad
+                          quantities it contains.
+
+                    3  =  A bad data point counts as the total number of
+                          quantities it contains.
+
+
+
+            6) Maximum number of invalid data points per interval.
+
+
+               Int.
+
+
+               Must be  >=  0.
+
+
+
+            7) Flag for valid range specified by absolute value.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  The range is specified by absolute
+                                value.
+
+                   WT_FALSE  =  The range is not specified by
+                                absolute value.
+
+
+
+            8) Lower limit for valid data quantity values.
+
+
+               Double.
+
+
+
+            9) Upper limit for valid data quantity values.
+
+
+               Double.
+
+
+           If the range is specified by absolute value, then the value
+           entered for the lower limit is ignored.
+
+
+           If the range is specified by absolute value, then the value
+           entered for the upper limit must be  >=  0; and will be used
+           as the maximum absolute value.
+
+
+           If the range is not specified by absolute value, then the
+           value entered for the lower limit must be  <=  the upper
+           limit.
+
+
+
+           10) Code for the method of determining the time tags.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Add a fixed offset.
+
+                    2  =  Add a fixed fraction.
+
+
+
+           11) Offset for the time tags.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+
+           12) Fraction for the time tags.
+
+
+               Double.
+
+
+               The value entered is interpreted as a percent.
+
+
+               If fractions will be used, then this value must be  >=  0
+               and  <=  100.
+
+
+
+           13) Minimum time separation for consecutive input data points
+               of the timing input.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           14) Maximum time separation for consecutive input data points
+               of the timing input.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation for the input.
+
+
+
+           15) Data value component index for the timing input.
+
+
+               Int.
+
+
+
+           16) The group of parameters described here occurs once for
+               each data quantity input.
+
+
+
+                1) Number of data quantities for this input.
+
+
+                   Int.
+
+
+                   Must be  >=  1.
+
+
+
+                2) The group of parameters described here occurs once
+                   for each data quantity for this input.
+
+
+
+                    1) Input data quantity component index.
+
+
+                       Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input for the timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component, for the value of the timing
+                   input.
+
+                   Float.
+
+
+
+            2) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components, one for the value
+                   of each data quantity.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Quality flag.
+
+
+               Float.

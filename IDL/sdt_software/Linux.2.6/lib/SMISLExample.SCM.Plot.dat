@@ -1,0 +1,121 @@
+
+# @(#)SMISLExample.SCM.Plot.dat	1.7, 08/17/95
+
+@2 { PlotQuantityConstants
+  'SBlock SMISL Example SciMods' BLOCK 0 0 0 0
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  }
+
+
+@2 { PlotQuantityConstants
+  'Standard' TIME_SERIES 1 1 2 1
+  'Standard' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'standard' 'value' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Standard' 0 0 0
+  'Standard' 1 0 0
+  }
+
+@2 { PlotQuantityConstants
+  'MultiDimensional (Angle)' SPECTRAL 1 1 3 1
+  'MultiDimensional' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Seconds' LINEAR FALSE 0.0 86400.0
+  'Angle' 'Deg' LINEAR TRUE 0.0 48.0
+  'Counts' '#' LINEAR TRUE 0.0 255.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 4 1
+  'MultiDimensional' 0 0 0
+  'MultiDimensional' 1 0 0
+  'MultiDimensional' 1 1 0
+  'MultiDimensional' 1 2 0
+  2 TRUE FALSE 0.0 0.0 0.0 64.0
+  }
+
+@2 { PlotQuantityConstants
+  'MultiDimensional (Energy)' SPECTRAL 1 1 3 1
+  'MultiDimensional' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Seconds' LINEAR FALSE 0.0 86400.0
+  'Energy' 'eV' LINEAR TRUE 0.0 64.0
+  'Counts' '#' LINEAR TRUE 0.0 255.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 4 1
+  'MultiDimensional' 0 0 0
+  'MultiDimensional' 1 0 0
+  'MultiDimensional' 1 1 0
+  'MultiDimensional' 1 2 0
+  1 TRUE FALSE 0.0 0.0 0.0 48.0
+  }
+
+@2 { PlotQuantityConstants
+  'MultiToStandard' TIME_SERIES 1 1 2 1
+  'MultiToStandard' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'multi to standard' 'value' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'MultiToStandard' 0 0 0
+  'MultiToStandard' 1 0 0
+  }
+
+@2 { PlotQuantityConstants
+  'Depth' TIME_SERIES 1 1 2 1
+  'Depth' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'depth' 'value' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'MultiToStandard' 0 0 0
+  'MultiToStandard' 1 0 0
+  }
+
+@2 { PlotQuantityConstants
+  'Standard V1_V4_S' TIME_SERIES 1 1 2 1
+  'Standard V1_V4_S' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'Standard V1_V4_S' 'mV/m' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Standard V1_V4_S' 0 0 0
+  'Standard V1_V4_S' 1 0 0
+  }
+
+@2 { PlotQuantityConstants
+  'Standard V8_S' TIME_SERIES 1 1 2 1
+  'Standard V8_S' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'Standard V8_S' 'mV/m' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Standard V8_S' 0 0 0
+  'Standard V8_S' 1 0 0
+  }
+
+@2 { PlotQuantityConstants
+  'Standard Parameter' TIME_SERIES 1 1 2 1
+  'Standard Parameter' FAST_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'time' 'seconds' LINEAR FALSE 0.0 86400.0
+  'Standard Parameter' 'mV/m' LINEAR TRUE 0.0 100.0
+  '-' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Standard Parameter' 0 0 0
+  'Standard Parameter' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'EBlock SMISL Example SciMods' BLOCK 0 0 0 0
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  }
+

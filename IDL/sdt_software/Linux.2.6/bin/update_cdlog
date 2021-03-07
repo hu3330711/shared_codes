@@ -1,0 +1,127 @@
+#!/usr/bin/ksh
+
+flag=0
+
+while [[ $flag != 1 ]]; do
+
+
+
+# Prompt user to enter starting and ending CD numbers in the
+# box to be shipped.
+
+print -n "\nFirst CD in box:  "
+read FIRSTCD
+let FIRSTCD=$FIRSTCD
+
+print -n "Last CD in box:  "
+read LASTCD
+let LASTCD=$LASTCD
+
+# If the "first CD" has a higher number than the "last CD", the user is
+# prompted to enter the information again.
+
+while (($FIRSTCD>$LASTCD)); do
+
+    print "\nFirst CD in box must have a lower number than last CD in box.\n"
+    
+    print -n 'First CD in box: '
+    read FIRSTCD
+    let FIRSTCD=$FIRSTCD
+    
+    print -n 'Last CD in box: '
+    read LASTCD
+    let LASTCD=$LASTCD
+    
+done
+
+print -n "\nDay of month?  "
+read DAY
+
+print "\n"
+
+# Prompt the user to enter the month.  If it is invalid, prompt
+# the user again.
+
+print "1) January\t7) July"
+print "2) February\t8) August"
+print "3) March\t9) September"
+print "4) April\t10) October"
+print "5) May\t\t11) November"
+print "6) June\t\t12) December"
+
+print -n "\nEnter number of month from menu above.  "
+read MONTH
+let MONTH=MONTH
+
+while (( (MONTH<1) || (MONTH>12) )); do
+    
+    print -n "Invalid month.  Please enter the month again.  "
+    read MONTH
+    let MONTH=MONTH
+
+done
+
+# Convert the number of the month to a three-letter abbrevaition.
+# For instance, August (entered as an "8") would become "Aug"
+
+case $MONTH in
+    
+    1)		MON="Jan";;
+    2)		MON="Feb";;
+    3)		MON="Mar";;
+    4)		MON="Apr";;
+    5)		MON="May";;
+    6)		MON="Jun";;
+    7)		MON="Jul";;
+    8)		MON="Aug";;
+    9)		MON="Sep";;
+    10)		MON="Oct";;
+    11)		MON="Nov";;
+    12)		MON="Dec";;
+    
+esac
+
+# Prompt the user to enter the year in YYYY for.
+
+print -n "\nYear?  Please enter the year in YYYY form.  "
+read YEAR
+
+print "\nCD's to be sent:  $FIRSTCD - $LASTCD"
+print "Date sent:  $DAY $MON $YEAR"
+
+print -n "\nIs this correct? (y/n)  "
+read ANS
+
+# Ask the user if the info is correct.  If not, start over...
+
+while [[ $ANS != "y" && $ANS != "Y" && $ANS != "n" && $ANS != "N" ]]; do
+ 
+    print -n "\nIs this correct? (y/n)  "
+    read ANS
+
+done
+
+case $ANS in
+
+    y) flag=1 ;;
+    Y) flag=1 ;;
+    n) flag=0 ;;
+    N) flag=0 ;;
+    
+esac
+
+if [[ $flag = 0 ]]; then
+    print "\nStarting over...\n"
+fi
+
+done
+
+# Add the new info to the mailing log
+
+print "\nUpdating the mailing log information...\n"
+
+let index="$(cat /disks/plasma2/www/fast/update/update.cdHistory.txt | wc -l)+1"
+
+print "cd_volumes.${index}  \"Volumes ${FIRSTCD} - ${LASTCD}, mailed $DAY $MON $YEAR\"" >> /disks/plasma2/www/fast/update/update.cdHistory.txt
+
+

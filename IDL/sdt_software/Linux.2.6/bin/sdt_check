@@ -1,0 +1,65 @@
+#! /usr/bin/ksh
+#
+# sdt_check.ksh
+#
+# sdt_batch is periodically hanging up on manitou, which
+# hangs up the whole archive process. This procedure will
+# run from a cronjob on manitou and will periodically check
+# the run time on all sdt_batch processes. If they have been 
+# running for longer then 2 hours, they will be terminated
+# 
+# Tim Quinn
+# 7 December 2001
+#
+
+# Execute the configuration file which sets environment 
+# variables
+#
+. /disks/fast/software/config/archive_config
+
+# Make a logfile for information transfer
+#
+SDTCHKLOG=/tmp/sdtchklog$$
+
+echo "$$:"							>> $SDTCHKLOG
+echo "$$: Starting sdt_batch process check on $(date)" 		>> $SDTCHKLOG
+
+# Grab the process id for the sdt_batch job currently running
+# 
+psid=$(ps -ef |grep sdt_batch|grep -v grep| awk '{print $2}')
+
+# If no process exists, quit. Otherwise, continue
+#
+if [[ -z $psid ]]
+then
+	echo "$$:"						>> $SDTCHKLOG
+	echo "$$: No sdt_batch processes running. Quitting..."  >> $SDTCHKLOG
+	echo "$$:"						>> $SDTCHKLOG
+	exit 0
+fi
+	
+# Now grab the number of minutes that the process has been running
+#
+time=$(ps -ef |grep sdt_batch|grep -v grep| awk '{print $7}'| awk -F: '{print $1}')
+
+# Now check to see if this time is greater then 120 minutes,
+# and if so, terminate the process and report this information to 
+# personnel
+#
+
+if (( $time > 120 ))
+then
+	kill $psid
+	echo "$$:"						>> $SDTCHKLOG
+	echo "$$: sdt_batch process $psid run time at $time min.>> $SDTCHKLOG
+	echo "$$: Terminating process.....			>> $SDTCHKLOG
+	echo "$$:"						>> $SDTCHKLOG
+	printf "%s\n" "Subject: sdt_batch Process Terminated" \
+		      "Contents of log file are listed below" \
+		      ""	\
+		      "$(cat $SDTCHKLOG)" \
+	| mail $ARCHIVEMASTER
+fi
+
+
+exit 0

@@ -1,0 +1,259 @@
+************************************************************************
+
+   README.General.UCB.wt.transpose_matrix_3D
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.transpose_matrix_3D
+
+************************************************************************
+
+   Transpose matrix in 3D.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.transpose_matrix_3D	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the transpose of a matrix in 3D.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The matrix to be transposed.
+
+
+
+
+
+    3) An output data point is produced for each input matrix.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input matrix.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The matrix to be transposed.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) a(1,1).
+
+
+               Double.
+
+
+
+            3) a(1,2).
+
+
+               Double.
+
+
+
+            4) a(1,3).
+
+
+               Double.
+
+
+
+            5) a(2,1).
+
+
+               Double.
+
+
+
+            6) a(2,2).
+
+
+               Double.
+
+
+
+            7) a(2,3).
+
+
+               Double.
+
+
+
+            8) a(3,1).
+
+
+               Double.
+
+
+
+            9) a(3,2).
+
+
+               Double.
+
+
+
+           10) a(3,3).
+
+
+               Double.
+
+
+
+       Note: The matrix is designated "a", with rows and columns
+       numbered 1 to 3; the first subscript is the row number, the
+       second subscript is the column number.

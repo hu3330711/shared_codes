@@ -1,0 +1,38 @@
+#!/usr/bin/ksh
+#
+# tapeswap
+# created by R. Abiad/T. Quinn
+# 10/6/94
+#
+# This script will be used interrupt a tape stacker
+# to allow tapes to be taken out and replaced 
+#
+
+. /disks/fast/software/config/archive_config
+
+echo $$: ---- tapeswap run on $(date) ---- >> $LOGFILE
+
+while [[ -a $BACKUPLOCK ]]
+do
+        echo $$: backup sleeping 60 for $(cat $BACKUPLOCK)
+        sleep 60
+done
+echo $$ > $BACKUPLOCK
+
+echo ": ** Remove Stacker Now **"
+echo 
+echo ": ** Type 'go' after replacing stacker **"
+
+read ready
+while [[ ($ready != 'go') || ($(stackutil status | grep 'Full') = "")]]
+do
+	echo "**Check cartridge is replaced in stacker properly**"
+	echo "**Type 'go' to continue**"
+	read ready
+done
+
+
+rm $BACKUPLOCK	 
+
+
+ 

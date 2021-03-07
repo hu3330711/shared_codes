@@ -1,0 +1,55 @@
+#!/usr/bin/ksh
+# quality - produce the transmission quality report
+# $1 has the orbit number
+
+# Function warn_exit declaration.
+# Mails ARCHIVEMASTER if script exits prematurely.
+function warn_exit {
+    typeset procid=$2
+    {
+	printf "%s\n" 'Subject: Archive System message' \
+	              "Quality script exited prematurely at line $1" \
+	              "Process ID: $procid"
+    } | mail $ARCHIVEMASTER
+}
+
+trap 'warn_exit $LINENO $2' EXIT
+
+newdir=$(ls -d1rt fast_lzp*orbit$1* | tail -1)
+if [[ $newdir = fast_lzp* ]]
+then
+	print " $(cat $TOTALDIRS)) $newdir" >> $DIRS
+	print "$newdir" >> $QQFILE
+	print "\t Received at approximately $(date)" >> $DIRS
+	print "\t Received at approximately $(date)" >> $QQFILE
+	files=$(ls -1 $newdir | wc -l)
+	print "\t Total number of files received $files" >> $DIRS
+	print "\t Total number of files received $files" >> $QQFILE
+	total=$(cat $RECFILES)
+	total=$(($total + $files))
+	echo $total > $RECFILES
+	size=$(ls -go $newdir | awk 'BEGIN { tot = 0 } \
+		{tot = tot + $3} \
+		END {print tot}' )
+	print "\t Total bytes received $size" >> $DIRS
+	print "\t Total bytes received $size" >> $QQFILE
+	dir_received=$(cat $TOTALDIRS)
+	dir_received=$(($dir_received + 1))
+	rm $TOTALDIRS
+	echo $dir_received > $TOTALDIRS
+
+	host=$(hostname)
+	if [[ $host = $FINETPRIMARY ]]
+	then
+		if rcp $RECFILES $FINETBACKUP:$RECFILES
+		then
+			echo $2: $RECFILES copied from $FINETPRIMARY to $FINETBACKUP
+		fi
+	fi
+else
+	echo $2: Quality could not find new data session directory.
+	exit 1
+fi
+
+trap - EXIT
+exit 0

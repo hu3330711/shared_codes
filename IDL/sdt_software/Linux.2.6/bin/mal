@@ -1,0 +1,187 @@
+#! /usr/bin/ksh
+#
+# mal
+#
+# Edits files used to keep track of orbits that are permanently bad,
+# tentatively bad, those in need of regeneration, and those that have 
+# failed to regenerate for unknown reasons.
+#
+# There are 4 sets of 5 files each.  To edit files, you must supply an 
+# option to specify the file set, and another option to specify the 
+# quantities within that set.
+#
+# Options specifying file sets (may NOT be combined):
+#
+#    -w     "tentative" (waiting) file set. (To be generated in the future.)
+#    -g     "regeneration" file set. (To be generated immediately.)
+#    -m     "mystery" file set. (Regeneration failed for unknown reasons.)
+#    [none] "permanently bad" file set. (We know they can't be generated.)
+#
+# Options specifying quantities (may be combined):
+#
+#    -e     electrons
+#    -i     ions
+#    -E     Both electrons and ions
+#    -t     TEAMS
+#    -a     AC Fields
+#    -d     DC Fields
+#    -[f|F] Both AC and DC Fields
+#    [none] All 5 quantites
+#
+# Other options:
+#
+#    -r     Remove orbits from designated files instead of inserting.
+#    -b     Backup designated files.
+#
+# Notes:
+#
+# Mal is capable of removing (-r) up to 1024 orbits from a file.
+# The number it can insert into a file is limited by the maximum line
+# length printf can handle.
+#
+
+. /disks/fast/software/config/archive_config
+
+wrkdir=$FAST_CDF_HOME/cdf_status
+tmpdir=/tmp
+
+# Option Handling
+
+while getopts ":eiEtadfFrwgmb" opt ; do
+    case $opt in
+	e ) set -A qties ${qties[*]} ees ;;
+	i ) set -A qties ${qties[*]} ies ;;
+	E ) set -A qties ${qties[*]} ees ies ;;
+	t ) set -A qties ${qties[*]} tms ;;
+	a ) set -A qties ${qties[*]} acf ;;
+	d ) set -A qties ${qties[*]} dcf ;;
+	f ) set -A qties ${qties[*]} acf dcf ;;
+        F ) set -A qties ${qties[*]} acf dcf ;;
+	r ) delete=1 ;;
+	w ) fsuffix='_tnt' ;;
+	g ) fsuffix='_gen' ;;
+	m ) fsuffix='_mys' ;;
+	b ) backup=1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ ${#qties[*]} = 0 ]] ; then
+    set -A qties ees ies tms acf dcf
+fi
+
+# Names of files to edit
+
+j=0
+for qty in ${qties[*]} ; do 
+    fnames[$j]=$wrkdir/bad_${qty}${fsuffix}
+    let j=$j+1
+done
+
+# Backup designated files if requested
+
+if [[ $backup = 1 ]]; then
+    for file in ${fnames[*]} ; do
+	print "Backing up $file"
+	cp $file $wrkdir/.${file##*/}.bak
+    done
+    exit 0
+fi
+
+# Expand orbit intervals
+
+set -A orbargs ${*}
+i=0
+for span in ${orbargs[*]} ; do
+    case $span in
+	*-*) first=${span%-*}
+	     last=${span#*-}
+	     while ((first <= last)) ; do
+		orbits[$i]=$first
+		let first=$first+1
+		let i=$i+1
+	     done ;;
+	  *) orbits[$i]=$span
+	     let i=$i+1 ;;
+    esac
+done
+
+# Set limits on number of orbits
+
+maxorbs=1024
+if (( ${#orbits[*]} > maxorbs )) ; then
+    print "${#orbits[*]} exceeds maximum ($maxorbs)"
+    exit 1
+fi
+
+# Edit files, inserting or deleting orbits
+
+if [[ $delete = 1 ]] ; then
+
+    # Prepare the extraction regular expression
+
+    #k=0
+    #for orb in ${orbits[*]} ; do
+    #	 orblines[$k]="^${orb}\$"
+    #	 let k=$k+1
+    #done
+    #extricate=$(print ${orblines[*]} | tr ' ' '|')
+    #if [[ $extricate = "" ]] ; then
+    #	 extricate='^$'
+    #fi
+
+    if [[ ${#orbits[*]} != "0" ]] ; then
+	extricate="$(print ${orbits[*]}                 |
+		     tr ' ' '\n'                        |
+		     nawk -v nl=n -v cr=c '{
+			line = nl $0 cr ;
+			if (NR == 1) printf("%s",line);
+			else printf(" %s",line) }'      |
+		     tr ' nc' '|^$')"
+    else
+	print "Will remove empty lines only"
+	extricate='^$'
+    fi
+
+    # Loop through all files in set
+
+    for file in ${fnames[*]} ; do
+	if [[ -s $file ]] ; then
+	    tmpfile1=$tmpdir/${file##*/}.tmp
+	    trap "rm -f $tmpfile1" EXIT
+	    egrep -v "$extricate" $file > $tmpfile1
+	    exitstat=$?
+	    if ((exitstat > 1)) ; then
+		print "Error deleting orbits from $file"
+		exit 1
+	    fi
+	    print "Depopulating $file"
+	    cp $tmpfile1 $file
+	    rm -f $tmpfile1
+	    trap - EXIT
+	fi
+    done
+else
+
+    # Loop through all files in set
+
+    for file in ${fnames[*]} ; do
+	print ${orbits[*]} | tr ' ' '\n' >> $file
+	if (( $? > 0 )) ; then
+	    print "Error appending orbits to $file"
+	    exit 1
+	fi
+	tmpfile2=$tmpdir/${file##*/}.TMP
+	trap "rm -f $tmpfile2" EXIT
+	sort -u -n $file > $tmpfile2
+	exitstat=$?
+	if ((exitstat > 1)) ; then
+	    print "Error sorting $file"
+	    exit 1
+	fi
+	print "Populating $file"
+	cp $tmpfile2 $file
+	rm -f $tmpfile2
+	trap - EXIT
+    done
+fi

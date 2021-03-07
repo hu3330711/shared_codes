@@ -1,0 +1,420 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsinq.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Inquire about ogs-type job with exclusive lock.
+#
+# **************************************************************
+#
+#      @(#)ogsinq.shp	1.2    09/22/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsinq
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xjob   = 0                  # all worked OK - job found
+
+   set xnojob = 1                  # all worked OK - no job
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set dprcjb = ogs                # default job procedure name
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the name of the procedure for the job.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set prcjob = $aux001
+         else
+           echo " $prcnam : " \
+               "Procedure name must be single word"
+           goto l8000
+         endif
+
+     else                          # arg missing
+
+       set prcjob = $dprcjb
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for lock file for simultaneous jobs.
+#
+#---------------------------------------------------------------
+
+   set lkjob0 = $rdwork/$lock.$prcjob    # common part of name
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if a job is currently running.
+#
+#---------------------------------------------------------------
+
+   ls $lkjob0.* >&! /dev/null
+
+
+   if  ($status == 0)  then        # there is a job
+
+       goto l7000
+
+     else                          # there is no job
+
+       goto l7200
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      A job has been found.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xjob
+
+
+   echo  ""
+   echo  " A job of  $prcjob  is running currently"
+   echo  ""
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      No job has been found.
+#
+#---------------------------------------------------------------
+
+ l7200:
+
+
+   set xitcod = $xnojob
+
+
+   echo  ""
+   echo  " No job of  $prcjob  found"
+   echo  ""
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

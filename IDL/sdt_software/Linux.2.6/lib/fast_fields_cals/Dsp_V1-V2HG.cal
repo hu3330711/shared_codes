@@ -1,0 +1,39 @@
+#  SCCS Id
+#  @(#)Dsp_V1-V2HG.cal	1.3 03/09/03
+#
+# Dsp_V1-V2HG.cal
+# IS 6/29/95
+# Modified by REE 11/05/96
+# John Bonnell, 6 March 2003
+# Gain decreased by factor of 630. to match DSP cal with 16k-Burst spectra.
+#
+Dsp_V1-V2HG.cal		Data Name
+11			Type:  Dsp
+sec			x-axis units
+kHz			y-axis units
+(V/m)^2/Hz		z-axis units
+11			Boomlength index
+0			No gain state
+0			History
+#
+# The Dsp removes the offset, so it is always zero.
+# Dsp Gain = (Corresponding 16-bit ADC gain) ^2 * 1.678x10^9 / 10^6. 
+# ADC gain in mV/bit. 
+# Dsp is evaluated by SDT to range from -96 to 0 in dB.
+# Dsp calibration: 10^(DSP/10) * Dsp Gain / Boomlength^2 / Bandwidth.
+# Amplitude vs frequency is renormalized with amplitude array.
+# Frequecies in amplitude array are in kHz!
+# See corresponding file, FPA_xxx.cal for details on FPA.
+#
+0				Time in seconds
+#3.2374e1			Gain
+5.139e-2			Gain
+32				Bandwidth in Hz.			
+0 				Cof_type. 0=poly, 1=highps, 2=lowpass, 3 = RC/C
+6				Number of coeficients. MUST MATCH BELOW!!!
+-0.0067208289    1.5858014	0 order Amplitude / Phase vs frequency fits
+ 0.28409346     -0.34586941	1 order Frequency in kHz!
+-0.045078868     0.040217051	2 order Use polynomial evaluation.
+ 0.0037273391   -0.0024767530	3 order
+-0.00015546882   7.2867866e-05	4 order
+2.5800832e-06   -7.3117018e-07	5 order

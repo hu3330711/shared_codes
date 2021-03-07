@@ -1,0 +1,70 @@
+#!/bin/csh -f
+#
+# For SCCS:
+# %W%, %G%
+#
+set prefix = $1
+set inlexfile = $2
+set outlexfile = $3
+
+echo "prefix= $prefix"
+echo "inlexfile= $inlexfile"
+echo "outlexfile= $outlexfile"
+
+set sedlexfile = "sed_lex_tmp."$prefix
+echo "sedlexfile= $sedlexfile"
+touch $sedlexfile
+chmod a+rw $sedlexfile
+
+echo "s/yyback/$1back/g" >> $sedlexfile
+echo "s/yybgin/$1bgin/g" >> $sedlexfile
+echo "s/yycrank/$1crank/g" >> $sedlexfile
+echo "s/yyerror/$1error/g" >> $sedlexfile
+echo "s/yyestate/$1estate/g" >> $sedlexfile
+echo "s/yyextra/$1extra/g" >> $sedlexfile
+echo "s/yyfnd/$1fnd/g" >> $sedlexfile
+echo "s/yyin/$1in/g" >> $sedlexfile
+echo "s/yyinput/$1input/g" >> $sedlexfile
+echo "s/yyleng/$1leng/g" >> $sedlexfile
+echo "s/yylex/$1lex/g" >> $sedlexfile
+echo "s/yylineno/$1lineno/g" >> $sedlexfile
+echo "s/yylook/$1look/g" >> $sedlexfile
+echo "s/yylsp/$1lsp/g" >> $sedlexfile
+echo "s/yylstate/$1lstate/g" >> $sedlexfile
+echo "s/yylval/$1lval/g" >> $sedlexfile
+echo "s/yymatch/$1match/g" >> $sedlexfile
+echo "s/yymorfg/$1morfg/g" >> $sedlexfile
+echo "s/yyolsp/$1olsp/g" >> $sedlexfile
+echo "s/yyout/$1out/g" >> $sedlexfile
+echo "s/yyoutput/$1output/g" >> $sedlexfile
+echo "s/yyprevious/$1previous/g" >> $sedlexfile
+echo "s/yysbuf/$1sbuf/g" >> $sedlexfile
+echo "s/yysptr/$1sptr/g" >> $sedlexfile
+echo "s/yysvec/$1svec/g" >> $sedlexfile
+echo "s/yytchar/$1tchar/g" >> $sedlexfile
+echo "s/yytext/$1text/g" >> $sedlexfile
+echo "s/yytop/$1top/g" >> $sedlexfile
+echo "s/yyunput/$1unput/g" >> $sedlexfile
+echo "s/yyvstop/$1vstop/g" >> $sedlexfile
+echo "s/yywrap/$1wrap/g" >> $sedlexfile
+echo "s/y.tab.h/y.$1.h/g" >> $sedlexfile
+echo "s/yylhs/$1lhs/g" >> $sedlexfile
+echo "s/yylen/$1len/g" >> $sedlexfile
+echo "s/yydgoto/$1dgoto/g" >> $sedlexfile
+echo "s/yyrindex/$1rindex/g" >> $sedlexfile
+echo "s/yygindex/$1gindex/g" >> $sedlexfile
+echo "s/yytable/$1table/g" >> $sedlexfile
+echo "s/yycheck/$1check/g" >> $sedlexfile
+echo "s/yy_load_buffer_state/$1_load_buffer_state/g" >> $sedlexfile
+echo "s/yyrestart/$1restart/g" >> $sedlexfile
+echo "s/yy_create_buffer/$1_create_buffer/g" >> $sedlexfile
+echo "s/yy_init_buffer/$1_init_buffer/g" >> $sedlexfile
+echo "s/yy_flush_buffer/$1_flush_buffer/g" >> $sedlexfile
+echo "s/yy_switch_to_buffer/$1_switch_to_buffer/g" >> $sedlexfile
+echo "s/yy_delete_buffer/$1_delete_buffer/g" >> $sedlexfile
+echo "s/yy_scan_buffer/$1_scan_buffer/g" >> $sedlexfile
+echo "s/yy_scan_string/$1_scan_string/g" >> $sedlexfile
+echo "s/yy_scan_bytes/$1_scan_bytes/g" >> $sedlexfile
+
+sed -f $sedlexfile $inlexfile > $outlexfile
+rm -f $sedlexfile

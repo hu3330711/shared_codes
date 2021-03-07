@@ -1,0 +1,30 @@
+#!/usr/bin/ksh
+#
+# lzpinfomove
+#
+# Note: we no longer get status files
+#
+# $1 -- name of the directory
+#
+# $2 -- intercept's process number
+
+currentpath=$(pwd)
+cd $1
+
+#statusfile=$(ls fast_status*)
+#if [[ -n $statusfile ]]; then
+#	 rcp $1/$statusfile $DANETHOST:$LZPINFO/status
+#	 echo $2: $1/$statusfile copied to $DANETHOST:$LZPINFO/status >> $LOGFILE
+#else
+#	 echo $2: !!!!! No status file found in $1 !!!!! >> $LOGFILE
+#fi
+
+countfile=$(ls *.cnt)
+if [[ -n $countfile ]]; then
+	rcp $1/$countfile $DANETHOST:$LZPINFO/count
+	echo $2: $1/$countfile copied to $DANETHOST:$LZPINFO/count >> $LOGFILE
+else
+	echo $2: !!!!! No count file found in $1 !!!!! >> $LOGFILE
+fi
+
+cd $currentpath

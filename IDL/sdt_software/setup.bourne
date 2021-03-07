@@ -1,0 +1,120 @@
+#
+#	setup.bourne
+#
+#	%W% %G%	UCB SSL
+#
+#	Set FASTHOME environ variable; add bin, library, and man
+#	directories to appropriate path variables.
+#
+#	Usage:  . <pathname>/setup 
+#
+#		If the variable VERBOSESETUP is defined and 
+#		non-zero, then output is verbose.
+#
+# ****************************************************************
+
+# ****************************************************************
+#  FASTHOME should be set to the root of Workspace.  This file is
+#  configured for the location at the time the software was compiled.
+#  If the run-time portions of the Workspace are installed in a different
+#  location, then this file can be edited to reflect the change.
+#
+#  FASTHOME is used during compilation, and to set PATH, LD_LIBRARY_PATH,
+#  and MANPATH.  It is not needed by any of the software at run-time.
+#
+#  FASTLIB is the location of runtime libraries and default configuration
+#  files.  Configuration files in FASTCONFIG will override configuration
+#  files in FASTLIB.  At a minimum, FASTLIB must be set at run-time, although
+#  all programs with configuration files check the FASTCONFIG variable
+#  first.
+
+export FASTHOME
+FASTHOME=/disks/fast/software/delivery
+OS=`uname -s`
+MAJOR_REL=`uname -r | awk -F. '{print $1}'`
+MINOR_REL=`uname -r | awk -F. '{print $2}'`
+REL=$MAJOR_REL.$MINOR_REL
+while [ ! -d $FASTHOME/$OS.$REL -a $MAJOR_REL -ne 4 ] 
+do
+	if [ "$MINOR_REL" = "0" ] 
+	then
+		MAJOR_REL=`expr $MAJOR_REL - 1`
+		MINOR_REL=9
+	else 
+		MINOR_REL=`expr $MINOR_REL - 1`
+	fi
+	if [ $MAJOR_REL -ne 4 ] 
+	then
+		REL=$MAJOR_REL.$MINOR_REL
+	else
+		if [ ${VERBOSESETUP:-} ] ; then echo "No OS level >= 5 found\!" ; fi
+		if [ ${VERBOSESETUP:-} ] ; then echo "Unable to setup for workspace $FASTHOME" ; fi
+		exit 1
+	fi
+done
+
+if [ ${VERBOSESETUP:-} ] ; then echo "Using OS level $REL binaries." ; fi
+
+export FASTOS; FASTOS=$FASTHOME/$OS.$REL
+export FASTBIN; FASTBIN=$FASTOS/bin
+export FASTLIB; FASTLIB=$FASTOS/lib
+export FASTSNAPONS; FASTSNAPONS=$FASTLIB/SnapOns
+export FASTMAN; FASTMAN=$FASTHOME/man
+export FASTCONFIG; FASTCONFIG=/disks/fast/software/config
+export SYBASE; SYBASE=$FASTLIB/Sybase
+
+export PATH
+PATH=${FASTBIN}:${PATH}
+export LD_LIBRARY_PATH
+if [ "x$LD_LIBRARY_PATH" = "x" ] ; then
+	LD_LIBRARY_PATH=${FASTLIB}/openwin/lib:/usr/lib
+else
+	LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${FASTLIB}/openwin/lib:/usr/lib
+fi
+LD_LIBRARY_PATH=${FASTLIB}:${LD_LIBRARY_PATH}
+
+export MANPATH
+if [ "x$MANPATH" = "x" ] ; then
+	MANPATH=/usr/man
+fi
+MANPATH=${FASTMAN}:${MANPATH}
+
+# ****************************************************************
+# CDF stuff
+
+export CDF_HOME; CDF_HOME=$FASTHOME/src/cdf/cdfdist
+export CDF_SMPL; CDF_SMPL=$CDF_HOME/samples
+export CDF_HELP; CDF_HELP=$CDF_HOME/help
+export CDF_BIN; CDF_BIN=$FASTOS/bin
+export CDF_LIB; CDF_LIB=$FASTOS/lib
+export CDF_INC; CDF_INC=$CDF_BIN
+
+# ****************************************************************
+# FAST specific CDF stuff (Must be changed for remote sites)
+
+FAST_CDF_HOME=/disks/juneau/cdf1; export FAST_CDF_HOME
+CDF_INDEX_DIR=${FAST_CDF_HOME}/index; export CDF_INDEX_DIR
+
+# the following two lines will be obsolete soon
+FAST_CDF_MAST_DIR=/disks/juneau/cdf1/index/fast_mast; export FAST_CDF_MAST_DIR
+FAST_TPLOTFILE_HOME=/disks/juneau/cdf1/tplotfile; export FAST_TPLOTFILE_HOME
+
+# ****************************************************************
+# POLAR specific CDF stuff (Must be changed for remote sites)
+
+POLAR_CDF_MAST_DIR=/disks/juneau/cdf1/index/polar_mast; export POLAR_CDF_MAST_DIR
+
+# ****************************************************************
+# IDL stuff
+
+if [ "_${IDL_PATH}_" != "__" ] ; then
+	IDL_PATH="+$FASTHOME/idl:$IDL_PATH"; export IDL_PATH
+	IDL_CT_FILE="${FASTCONFIG}/idl_ctables/colors1.tbl"; export IDL_PATH
+fi
+
+# ****************************************************************
+# Image directories
+
+GIFDIR=$FASTHOME/images/gif; export GIFDIR
+JPEGDIR=$FASTHOME/images/jpeg; export JPEGDIR
+TIFFDIR=$FASTHOME/images/tiff; export TIFFDIR

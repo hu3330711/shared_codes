@@ -1,0 +1,196 @@
+#!/bin/ksh
+#
+#	fast_dbenv_setup.sh
+#
+#	Look up configuration parameters for FAST Sybase
+#	archive database software.
+#
+#	@(#)fast_dbenv_setup.sh	1.7 08/17/95
+#
+#	Usage:  
+#	   . fast_dbenv_setup [-c <filename]
+#
+#	This script processes the configuration file for the FAST
+#	archive database processing script.  It's a Korn shell
+#	script; it must be included with '.' (rather than executed).
+#
+#	The default configuration file is named "fast_archive.conf"
+#	but this can be overridden by command line options
+#	"-c <filename>".  These must be the first two command line
+#	parameters; normally, this script will be sourced at the
+#	start of an executable script.
+#
+#	Several shell variables are set according to values in
+#	the configurationfile:
+#
+#	General database access
+
+#		ARCH_LOGIN	Sybase login
+#				(default:  user's Unix login)
+#
+#		ARCH_PASSWD	Password for Sybase login
+#				(default:  given in ~/.sybrc)
+#
+#		ARCH_DB		Database to use
+#				(default:  User default database)
+#
+#		FAST_ALMANAC	Location root of almanac directories
+#				(default:  none)
+#
+#	Database setup
+#
+#		ARCH_DBTEMPLATE	Name of database SQL template
+#		ARCH_DATADEV	Data device for FAST database
+#		ARCH_DATASIZE	Size of data device
+#		ARCH_INDEXDEV	Index device
+#		ARCH_INDEXSIZE	Size of index device
+#		ARCH_LOGDEV	Log device
+#		ARCH_LOGSIZE	Size of log device
+#
+#	Environment variables
+#		SYBASE		Sybase installation directory
+#		DSQUERY		Sybase server name
+#		PATH		$SYBASE/bin appended
+#
+#	A function to do an isql query is also defined:
+#		do_isql	[sqlfile]
+#
+#	'do_isql' runs isql, using the variables defined above for
+#	Sybase access, and submits the SQL queries in "sqlfile" (or
+#	stdin if no file is specified.
+#
+#	If an error occurs, a variable ARCH_ERROR will contain an
+#	error message.
+#
+# ======================================================
+
+ARCH_ERROR=
+SYBRC=${HOME}/.sybrc
+
+# *** Command line processing
+
+# Find the configuration file.  Use CONFIG shell variable if set,
+# otherwise default to 'fast_archive.conf'
+
+if [ "x${CONFIG}" = "x" ] ; then
+	CONFIG=fast_archive.conf
+fi
+CONFIGFILE=
+
+# The -c option overrides CONFIG, and must be an
+# explicit path, either in the local directory or an absolute
+# path
+if [ $# -gt 1 ] ; then
+	if [ "$1" = "-c" ] ; then
+		CONFIGFILE=$2
+	fi
+fi
+
+# Otherwise, we look for $CONFIG in $FASTCONFIG, and then $FASTLIB
+if [ "x${CONFIGFILE}" = "x" ] ; then
+	if [ -r ${FASTCONFIG}/${CONFIG} ] ; then
+		CONFIGFILE=${FASTCONFIG}/${CONFIG}
+	elif [ -r ${FASTLIB}/${CONFIG} ] ; then
+		CONFIGFILE=${FASTLIB}/${CONFIG}
+	else
+		ARCH_ERROR='Configuration file not found'
+		return 1
+	fi
+fi
+
+if [ ! -r ${CONFIGFILE} ] ; then
+	ARCH_ERROR="Unable to read Configuration file ${CONFIGFILE}"
+	return 1
+fi
+
+# *** Find the configuration parameters in the config file
+
+# Use password from config file if specified, otherwise from
+# users ".sybrc" file
+ARCH_PASSWD=`awk '$1 == "ARCH_PASSWD" {print $2}' ${CONFIGFILE}`
+if [ "x${ARCH_PASSWD}" = "x" ] ; then
+	if [ ! -r ${SYBRC} ] ; then
+		ARCH_ERROR='Unable to find password'
+		return 1
+	else
+		ARCH_PASSWD=`cat ${SYBRC}`
+	fi
+fi
+
+# Get login name from config file, or just use Unix login name
+ARCH_LOGIN=`awk '$1 == "ARCH_LOGIN" {print $2}' ${CONFIGFILE}`
+if [ "x${ARCH_LOGIN}" = "x" ] ; then
+	ARCH_LOGIN=${LOGNAME}
+fi
+
+# If ARCH_DB isn't specified, we won't ask for any database
+# in particular and the user's Sybase default will prevail
+ARCH_DB=`awk '$1 == "ARCH_DB" {print $2}' ${CONFIGFILE}`
+
+# The database setup parameters are needed only for building
+# the database from scratch.  No defaults; no errors if they're
+# missing, but the setup scripts should check for them.
+ARCH_DBTEMPLATE=`awk '$1 == "ARCH_DBTEMPLATE" {print $2}' ${CONFIGFILE}`
+ARCH_DATADEV=`awk '$1 == "ARCH_DATADEV" {print $2}' ${CONFIGFILE}`
+ARCH_DATASIZE=`awk '$1 == "ARCH_DATASIZE" {print $2}' ${CONFIGFILE}`
+ARCH_INDEXDEV=`awk '$1 == "ARCH_INDEXDEV" {print $2}' ${CONFIGFILE}`
+ARCH_INDEXSIZE=`awk '$1 == "ARCH_INDEXSIZE" {print $2}' ${CONFIGFILE}`
+ARCH_LOGDEV=`awk '$1 == "ARCH_LOGDEV" {print $2}' ${CONFIGFILE}`
+ARCH_LOGSIZE=`awk '$1 == "ARCH_LOGSIZE" {print $2}' ${CONFIGFILE}`
+
+# No default for FAST_ALMANAC.  It's not an error here if
+# it's missing, but programs that need it better check.
+FAST_ALMANAC=`awk '$1 == "FAST_ALMANAC" {print $2}' ${CONFIGFILE}`
+
+# Config file overrides existing environment vars SYBASE
+# and DSQUERY
+ARCH_SYBASE=`awk '$1 == "SYBASE" {print $2}' ${CONFIGFILE}`
+if [ "x${ARCH_SYBASE}" != "x" ] ; then
+	export SYBASE ; SYBASE=${ARCH_SYBASE}
+fi
+
+ARCH_DSQUERY=`awk '$1 == "DSQUERY" {print $2}' ${CONFIGFILE}`
+if [ "x${ARCH_DSQUERY}" != "x" ] ; then
+	export DSQUERY ; DSQUERY=${ARCH_DSQUERY}
+fi
+
+export PATH; PATH=${PATH}:${SYBASE}/bin
+
+
+# Function to run a query through isql using configuration setup
+# from above.  We jump through some hoops to minimize the visibility
+# of the password in, say a 'ps' listing.  This assumes people are
+# smart enough to make their .sybrc files readable only by the user.
+#
+# Usage:
+#	do_isql <isqlfile>
+#  or
+#	cat <isqlfile> | do_isql
+#
+do_isql () 
+{
+	TMPUSE=/tmp/use$$
+	/bin/rm -f ${TMPUSE}
+	touch ${TMPUSE}
+	chmod 600 ${TMPUSE}
+	echo ${ARCH_PASSWD} >> ${TMPUSE}
+	if [ "x${ARCH_DB}" != "x" ] ; then
+		echo "use ${ARCH_DB}" >> ${TMPUSE}
+		echo "go" >> ${TMPUSE}
+	fi
+	echo "set nocount on" >> ${TMPUSE}
+	echo "go" >> ${TMPUSE}
+
+	if [ $# -gt 0 ] ; then
+		cat ${TMPUSE} $1 | isql -U${ARCH_LOGIN}
+		result=$?
+	else
+		cat ${TMPUSE} - | isql -U${ARCH_LOGIN}
+		result=$?
+	fi
+	/bin/rm ${TMPUSE}
+
+	return ${result}
+}
+
+

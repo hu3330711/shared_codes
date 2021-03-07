@@ -1,0 +1,136 @@
+#! /usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+# missing_cdf
+#
+# PURPOSE:
+#
+# Reports missing CDFs for a particular data quantity by listing
+# orbit numbers in an output file
+#
+# OPTIONS and ARGUMENTS:
+#
+# -q QTY    The 3-letter data quantity designation
+# -f FILE   The output filename
+# -v VER    The specific version of CDF.  This is optional and defaults to '??'
+# -V        Use the version in the archive_config file. Overrides -v.
+# -e RE     Quoted UNIX Regular Expression encompassing all desired orbits.
+#           This will be substituted into the 5-digit orbit field of CDF names.
+# -s        Summarize.  Do not print each missing orbit number to output file,
+#           but rather use xxxxx - yyyyy notation.
+#
+
+# Environment Setup
+
+. /disks/fast/software/config/archive_config
+tmpfile=/tmp/missing_cdf.tmp$$
+
+# Disable Filename generation
+
+set -f
+
+# Option and argument handling
+
+typeset -i summarize=0
+typeset -i latestver=0
+
+while getopts ":q:f:v:e:sV" opt ; do
+    case $opt in
+	q ) qty=$OPTARG ;;
+	f ) outfile=$OPTARG ;;
+	v ) ver=$(printf "%02s" "$OPTARG") ;;
+	V ) latestver=1 ;;
+	e ) orbit_RE="$OPTARG" ;;
+	s ) summarize=1 ;;
+       \? ) print 'Usage:missing_cdf -q <qty> -f <file> [ -v <ver> ] [ -e RE ]'
+            exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ -z $qty || -z $outfile ]] ; then
+    print 'Usage: missing_cdf -q <qty> -f <file> [ -v <ver> ] [ -e RE ]'
+    exit 1
+fi
+
+# Set traps for premature termination
+
+trap 'print Line number: $LINENO ; rm -f $tmpfile ' EXIT
+
+# Create the output file
+
+if ! touch $outfile ; then
+    print "Cannot modify file: $outfile"
+    exit 1
+fi
+
+# Verify the CDF directory
+
+cdfdir=$FAST_CDF_HOME/$qty
+if [[ ! -x $cdfdir ]] ; then
+    print "Cannot access CDF directory: $cdfdir"
+    exit 1
+fi
+
+# Make sure CDF version number is set
+
+if [[ -z $ver ]] ; then
+    ver='??'
+fi
+if (( latestver )); then
+    typeset -u QTY=$qty
+    eval ver=\$\{${QTY}VERSION\}
+fi
+
+# Create CDF listing
+
+if [[ -z ${orbit_RE} ]] ; then
+    orbit_RE="?????"
+fi
+
+# Enable filename generation
+
+set +f
+
+find $cdfdir -name fa_k0_${qty}_${orbit_RE}_v${ver}.cdf | sort -t_ -n -k 4\
+	> $tmpfile
+
+# Determine CDFs missing from list
+# Read a CDF name, extract orbit number
+# Print integers to file up to that number
+
+typeset -i orbit
+typeset -i discr
+typeset -i index=1
+while read cdfname ; do
+    orbit_junk=${cdfname##*/fa_k0_${qty}_}
+    orbit=${orbit_junk%%_v${ver}.cdf}
+    discr=$((orbit - index))
+    if (( discr == 0 )); then
+	index=$((orbit + 1))
+	continue
+    fi
+    if ((summarize)); then
+	# print orbit range if string of CDFs missing
+	# print orbit number if only one missing
+	if (( discr == 1 )); then
+	    printf "%6d\n" $index
+	elif (( discr > 1 )); then
+	    printf "%6d-%-6d\t%5d\n" $index $((orbit - 1)) $discr
+	fi
+    else
+	# print all orbits from index to orbit less one
+	while (( index < orbit )) ; do
+	    echo $index
+	    index=$((index + 1))
+	done
+    fi
+    index=$((orbit + 1))
+done < $tmpfile > $outfile
+
+# Cleanup and exit
+
+rm $tmpfile
+trap - EXIT
+exit 0

@@ -1,0 +1,90 @@
+
+# @(#)SMISLExample.SCM.Data.dat	1.11, 03/22/06
+
+@2 { DataQuantityDescription
+  'Standard' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V1-V4_S' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.Standard.Simple' FALSE 1 0
+  'V1-V4_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'MultiDimensional' FAST_SPACECRAFT 0 2
+  DQ_TWO_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 3
+  FALSE 'Angle' 'Deg'
+  FALSE 'Energy' 'eV'
+  FALSE 'Counts' '#'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.MultiDimensional.Simple' FALSE 1 0
+  'Sesa Survey' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'MultiToStandard' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sesa Survey' '#'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.MultiDimensionalToStandard.Simple' FALSE 1 0
+  'Sesa Survey' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Depth' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_CHAR 14 1
+  FALSE 'DataHdr_1032' 'Raw'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.Depth.Simple' FALSE 1 0
+  'DataHdr_1032' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Standard V1_V4_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V1-V4_S' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.Standard.CommandLineName <V1-V4_S>' FALSE 1 0
+  'V1-V4_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Standard V8_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V8_S' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.Standard.CommandLineName <V8_S>' FALSE 1 0
+  'V8_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Standard Parameter' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Seconds'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V1-V4_S' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$SCMUSERDIR/SMISLExample.Standard.Simple' FALSE 1 1
+  'V1-V4_S' FAST_SPACECRAFT
+  'The Value' DQ_STORE_INT32 10
+  }
+

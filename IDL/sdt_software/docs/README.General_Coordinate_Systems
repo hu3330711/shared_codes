@@ -1,0 +1,1651 @@
+************************************************************************
+
+   README.General_Coordinate_Systems
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Coordinate systems for spacecraft data.
+
+************************************************************************
+
+   @(#)README.General_Coordinate_Systems	1.2    06/06/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Basic features of coordinate transformations.
+
+
+
+
+
+    3. Coordinate systems.
+
+
+        3.1 Geocentric Equatorial Inertial.
+
+
+        3.2 Geographic Coordinates.
+
+
+        3.3 Geocentric Solar Ecliptic.
+
+
+        3.4 Geocentric Solar Magnetospheric.
+
+
+        3.5 Field-Aligned Coordinates.
+
+            3.5.1 Definition.
+
+            3.5.2 Transformation.
+
+
+        3.6 Spacecraft Coordinates.
+
+
+        3.7 Despun Spacecraft Coordinates.
+
+            3.7.1 Definition.
+
+            3.7.2 Transformation from SCC.
+
+            3.7.3 Transformation from GSE.
+
+
+        3.8 Magnetic Spacecraft Coordinates.
+
+            3.8.1 Definition.
+
+            3.8.2 Transformation from DSC.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes coordinate systems that are useful in the
+analysis of data from spacecraft.
+
+
+
+
+       Several coordinate systems are included, and the transformations
+between some of them.
+
+
+
+
+       A basic reference is "Geophysical Coordinate Transformations" by
+Christopher T. Russell: Cosmic Electrodynamics 2 (1971) 184-196.
+
+
+
+
+       All the coordinate systems included here are Cartesian or
+rectangular coordinate systems, and all are right-handed.
+
+
+
+
+       In all cases, we are interested in the relation between the
+directions of the coordinate axes of the different systems; i.e., the
+rotation required to transform a vector from one system to another.
+
+
+
+       In general, the origin of the different coordinate systems is not
+under consideration; just the directions of the coordinate axes.
+
+
+
+       For some systems, it is assumed that the origin is the center of
+the Earth.
+
+
+
+       For other systems, it is assumed that the origin is the location
+of a spacecraft.
+
+       In these cases, it is assumed that the spacecraft is in an orbit
+relatively near the Earth; so that, for example, the direction from the
+spacecraft to the Sun is the same as the direction from the center of
+the Earth to the Sun.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Basic features of coordinate transformations.
+
+
+
+
+
+       A matrix that rotates from system A to system B will transform
+vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+       The matrix above consists of 3 rows.
+
+
+       Row 1 contains the direction cosines of the positive X direction
+of system B, with respect to system A.
+
+
+       Row 2 contains the direction cosines of the positive Y direction
+of system B, with respect to system A.
+
+
+       Row 3 contains the direction cosines of the positive Z direction
+of system B, with respect to system A.
+
+
+
+
+       The inverse of a rotation matrix is the transpose of the matrix.
+
+
+       Therefore, the transpose of the matrix above rotates from system
+B to system A.
+
+
+
+
+       If matrix M1 rotates from system A to system B, and matrix M2
+rotates from system B to system C, then
+
+           matrix (M2 * M1) rotates from system A to system C.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. Coordinate systems.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Geocentric Equatorial Inertial.
+
+
+
+
+
+       Abbreviation: GEI.
+
+
+
+
+       This coordinate system is described by Russell.
+
+
+
+
+       Other names for this system: Earth-Centered Inertial (ECI);
+Geocentric Celestial Inertial (GCI).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Geographic Coordinates.
+
+
+
+
+
+       Abbreviation: GEO.
+
+
+
+
+       This coordinate system is described by Russell.
+
+
+
+
+       The matrix that rotates from GEO to GEI has the following
+elements:
+
+
+
+Row 1:  cos(GMST)   -sin(GMST)  0
+
+Row 2:  sin(GMST)    cos(GMST)  0
+
+Row 3:      0            0      1
+
+
+
+       The angle GMST is the Greenwich Mean Sidereal Time.  It can be
+calculated using formulas given in the astronomical literature, more
+recent than Russell's article.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Geocentric Solar Ecliptic.
+
+
+
+
+
+       Abbreviation: GSE.
+
+
+
+
+       This coordinate system is described by Russell.
+
+
+
+
+       The matrix that rotates from GEI to GSE has the following
+elements:
+
+
+
+Row 1:  S1  S2  S3
+
+Row 2:  Y1  Y2  Y3
+
+Row 3:  P1  P2  P3
+
+
+
+       S1, S2, S3 are the components in GEI of the direction of the Sun
+(a unit vector from the center of the Earth to the Sun).
+
+
+
+       P1, P2, P3 are the components in GEI of the direction of ecliptic
+pole (a unit vector from the center of the Earth to the North pole of
+the ecliptic).
+
+P1 = 0
+
+P2 = -sin(Obliq)
+
+P3 =  cos(Obliq)
+
+       The angle Obliq is the obliquity of the ecliptic.
+
+
+
+       (Y1, Y2, Y3) = (P1, P2, P3) x (S1, S2, S3)
+
+
+where x is the vector cross product.
+
+
+
+       The direction of the Sun, and the obliquity of the ecliptic, can
+be calculated using formulas given in the astronomical literature, more
+recent than Russell's article.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4 Geocentric Solar Magnetospheric.
+
+
+
+
+
+       Abbreviation: GSM.
+
+
+
+
+       This coordinate system is described by Russell.
+
+
+
+
+       The matrix that rotates from GEI to GSM has the following
+elements:
+
+
+
+Row 1:  S1  S2  S3
+
+Row 2:  Y1  Y2  Y3
+
+Row 3:  Z1  Z2  Z3
+
+
+
+       S1, S2, S3 are the components in GEI of the direction of the Sun
+(a unit vector from the center of the Earth to the Sun).
+
+
+
+       Let:
+
+S  = the direction of the Sun in GEI; i.e., S = (S1, S2, S3)
+
+D  = the vector that represents the direction of the Earth's magnetic
+     field dipole axis, in GEO (a unit vector parallel to the dipole
+     axis, pointing generally towards the North)
+
+D' = the vector D transformed into GEI
+
+       Then:
+
+       (Y1, Y2, Y3) = (D' x S) / |D' x S|
+
+
+
+       (Z1, Z2, Z3) = (S1, S2, S3) x (Y1, Y2, Y3)
+
+
+
+       The direction of the Sun can be calculated using formulas given
+in the astronomical literature, more recent than Russell's article.
+
+
+       The direction of the dipole axis can be calculated using the
+Eccentric Dipole model, and an IGRF model of the geomagnetic field, more
+recent than Russell's article.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5 Field-Aligned Coordinates.
+
+
+
+
+
+       Abbreviation: FAC.
+
+
+
+
+       This coordinate system is not described by Russell in detail.
+
+
+       It is possible that some people use a system equivalent to this
+one but with a different name; or a similar system, but with some
+differences.
+
+
+
+
+       This system is defined for a spacecraft that is in an orbit near
+the Earth.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5.1 Definition.
+
+
+
+
+
+       The positive Z axis points in the direction of the Earth's
+magnetic field vector B at the spacecraft's location.
+
+
+       The Z axis will be in the plane of the Earth's magnetic field
+line passing through the spacecraft's location, and will be tangent to
+the field line.
+
+
+       At low and middle latitudes, the positive Z axis points generally
+towards the North.
+
+
+
+
+       The positive X axis lies in the plane of the Earth's magnetic
+field line passing through the spacecraft's location, perpendicular to
+the Z axis, and points inwards (towards the inside of the field line,
+rather than towards outer space).
+
+
+       In either the Northern or the Southern hemisphere, the positive X
+axis points generally towards the magnetic Equator; on the magnetic
+Equator itself, the positive X axis points generally towards the center
+of the Earth.
+
+
+
+
+       The positive Y axis is determined by the requirement that the
+system be an orthogonal right-handed system.
+
+       It follows that at low and middle latitudes, the positive Y axis
+points generally towards the West.
+
+
+
+
+       This system is well-defined at all locations, except right over
+the magnetic poles.
+
+
+       Over the magnetic poles, the positive X axis is undefined.
+
+
+       After a passage over a magnetic pole, the direction of the
+positive Z axis is continuous with the corresponding direction before
+the passage; however, the positive X and Y directions are not
+continuous: each of them undergoes multiplication by -1 (change by 180
+degrees).
+
+
+
+
+       Normally, the spacecraft will be rotating; and we will want to
+perform coordinate transformations between FAC and systems defined in
+terms of the spacecraft's spin.
+
+
+       It is assumed that the spin period is short compared to the
+orbital period.  Therefore, in the course of one complete spin period,
+the location of the spacecraft around the Earth will not change
+appreciably; therefore, the FAC system for the spacecraft will not have
+changed either.
+
+
+       It is assumed that the spin period is short compared to a day.
+Therefore, in the course of one complete spin period, the direction from
+the Earth to the Sun (or other directions of interest to coordinate
+systems) will not have changed appreciably.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5.2 Transformation.
+
+
+
+
+
+       Let us derive the transformation between some "other" coordinate
+system "A", and the FAC system.
+
+
+
+
+       Let B be the magnetic field vector at the location of the
+spacecraft; and let R1 be the position vector of the spacecraft.
+
+
+       Normally, the position vector of the spacecraft is referred to
+the center of the Earth.
+
+
+       We assume that the components of both B and R1 are expressed in
+the "A" coordinate system.
+
+
+
+
+       We will need to establish the plane that contains the field line
+that goes through the location of the spacecraft.
+
+
+       The simplest approximation is to assume that the plane of every
+field line contains the center of the Earth.  In that case, we can use
+the position vector R1, which is referred to the center of the Earth.
+
+
+       However, a better approximation is to assume that the plane of
+every field line contains the center of the Earth's magnetic dipole.
+
+
+       We will use this better approximation.  All that is required is
+to correct R1, to obtain a vector that corresponds to the position of
+the spacecraft with respect to the center of the dipole; instead of the
+position with respect to the center of the Earth.
+
+
+       The position of the dipole center with respect to the center of
+the Earth can be calculated using the Eccentric Dipole model, and an
+IGRF model of the geomagnetic field, more recent than Russell's article.
+
+
+       Having the position of the dipole center with respect to the
+center of the Earth, first in Geographic coordinates, then transformed
+into the "A" coordinate system; then simple vector subtraction gives us
+the desired position vector of the spacecraft with respect to the dipole
+center, in the "A" coordinate system; we will call this position vector,
+the one we will actually use, R.
+
+
+       In justification of the assumption that the plane of every field
+line contains the dipole center; it should be remembered that we are
+considering a spacecraft that is near the Earth.
+
+
+
+
+       Let x', y', and z' be the unit vectors in the positive X, Y, and
+Z directions of the FAC system, respectively.
+
+
+
+       Obviously, by the definition of the FAC system:
+
+
+           z' = B / |B|                                              (1)
+
+
+
+       If the plane of the field line contains the location of the
+spacecraft, and contains also the dipole center; then the plane of the
+field line contains the position vector R, from the dipole center to the
+spacecraft.
+
+       The magnetic field B is contained also in the plane of the field
+line that goes through the location of the spacecraft.
+
+       Therefore, the vectors B and R define the plane of the field
+line.
+
+
+
+       Since both x' and z' are defined to be in the plane of the field
+line, then y' must be perpendicular to that plane; therefore,
+
+
+           y' = K * (B x R)                                          (2)
+
+
+where K is a scalar factor; we must determine whether K is positive or
+negative.
+
+
+
+       Since x', y', z' form an orthogonal, right-handed system:
+
+
+           x' = y' x z'                                              (3)
+
+
+(note that x' is a unit vector, x is the cross product operator).
+
+
+
+       Since x' points generally towards the inside of the field line,
+
+
+           x' . R <= 0                                               (4)
+
+
+where  .  is the vector dot product, and <= is used to represent "less
+than or equal to".
+
+
+
+       From  (3), (2), and (1):
+
+
+           x' = y' x z' = [K * (B x R)] x [B / |B|] =
+               (K / |B|) * [(B x R) x B] =
+               K' * [(B . B) * R - (B . R) * B] =
+               K' * [(|B|^2) * R - (B . R) * B]
+
+
+where K' is (K / |B|), a scalar with the same sign as K; and ^
+represents exponentiation;
+
+
+therefore,
+
+
+           x' . R = K' * [(|B|^2) * R - (B . R) * B] . R =
+               K' * [(|B|^2) * (|R|^2)] - (B . R)^2] =
+               K' * [(B x R)^2]
+
+
+and, since by (4) this must be <= 0, it follows that K' must be
+negative, and hence K must be negative as well.
+
+
+
+       From  (2), if K is negative, and since y' is a unit vector:
+
+
+           y' = (R x B) / |R x B|                                    (5)
+
+
+
+       From  (1), (5), and (3), we can obtain the components of x', y'
+and z' in the "A" coordinate system.
+
+
+
+       These components are the direction cosines of the directions of
+the positive FAC coordinate axes, in the "A" coordinate system.
+
+
+
+
+       Therefore, a matrix
+
+
+           whose Row 1 contains the components of x' in the "A" system,
+
+           whose Row 2 contains the components of y' in the "A" system,
+
+           whose Row 3 contains the components of z' in the "A" system,
+
+
+will rotate from the coordinate system "A" into FAC.
+
+
+
+
+       From the above, it is clear that the transformation will not be
+defined if B is zero, or if (R x B) is zero.
+
+
+
+       Normally, in the vicinity of the Earth, B will not be zero.
+
+
+
+       Since the spacecraft of course is outside the Earth, and since R
+is the position vector of the spacecraft with respect to the dipole
+center (which is located inside the Earth); then R will not be zero
+either.
+
+
+
+       However, if R and B are parallel or anti-parallel to each other,
+their cross product will be zero.
+
+       In that case, the plane of the field line is undefined, and the
+transformation is undefined.
+
+       This corresponds to the singularity mentioned earlier, located
+over the magnetic poles.  Here B points directly towards or away from
+the dipole center, so (R x B) is zero.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.6 Spacecraft Coordinates.
+
+
+
+
+
+       Abbreviation: SCC.
+
+
+
+
+       This coordinate system is not described by Russell.
+
+
+       It is possible that some people use a system equivalent to this
+one but with a different name; or a similar system, but with some
+differences.
+
+
+
+
+       This system is defined for a spacecraft that is in an orbit near
+the Earth.
+
+
+
+
+       It is assumed that the spacecraft is rotating.
+
+
+       It is assumed that the spin axis is a line that is fixed within
+the spacecraft.
+
+
+       It is assumed that the spacecraft has axial symmetry around the
+spin axis (at least, to a good approximation).
+
+
+       It is assumed that the spin vector or attitude vector (a unit
+vector along the spin axis, in the same direction as the rotation
+angular momentum vector), is nearly constant; i.e., the direction of the
+spin axis in inertial space is nearly constant.
+
+
+       It is assumed that the spin rate is nearly constant.
+
+
+       It is assumed that the spin period is very short compared to the
+orbital period, or to a day (and much shorter still compared to a year).
+
+
+
+
+       The spacecraft can be thought of as a very thin rotating disk or
+pancake; the disk is the spin plane; the spin axis is perpendicular to
+this plane, and goes through the center of the disk.
+
+
+       We will consider the center of the rotating disk as the origin of
+the SCC coordinate system.
+
+
+
+
+       The axes of the SCC system are rigidly attached to the
+spacecraft, and therefore rotate along with it (SCC is the only
+coordinate system included here, that participates in the rotation of
+the spacecraft).
+
+
+
+
+       The positive X and Y axes are in the spin plane, with the Y axis
+90 degrees ahead of the positive X axis (in the direction of the
+rotation).
+
+
+       Because the system is orthogonal and right-handed, the positive Z
+axis is along the spin axis, and in the same direction as the spin or
+attitude vector (i.e., the same direction as the angular momentum
+vector).
+
+
+       All that is still needed to have the coordinate system completely
+defined, is to specify the azimuth of the positive X axis in the spin
+plane.
+
+
+
+
+       The spacecraft has sensors that, as the rotation proceeds,
+produce periodic Sun pulses, one pulse for every revolution.
+
+
+       If, at the moment of a Sun pulse, we project on the spin plane
+the vector from the spacecraft to the Sun; this will mark the direction
+on the spin plane closest to the direction of the Sun at the moment of
+the Sun pulse.  The line that marks this direction on the spin plane is
+the positive X axis of the SCC system (the line must be considered as
+"painted" on the spin plane, and rotating with it; so that at a time
+other than the moment of the Sun pulse, it is pointing in some other
+direction, not the direction closest to the direction of the Sun).
+
+
+
+
+       Because the direction of the spin axis in space is nearly fixed,
+the positive Z axis points in a nearly fixed direction.
+
+
+       The positive X and Y axes rotate around the Z axis, along with
+the spacecraft, at a nearly constant rate.
+
+
+       After one spin period has elapsed from a Sun pulse, there will be
+a new Sun pulse; and, once again, the positive X axis will be pointing
+in the direction on the spin plane closest to the direction from the
+spacecraft towards the Sun.  This is because the spin period is short
+compared to the orbital period, and much shorter still compared to a
+year; so that, after one spin period, the position of the spacecraft
+with respect to the Sun will not have changed appreciably, so that the
+direction from the spacecraft to the Sun will have remained essentially
+constant.
+
+
+
+
+       This system is well-defined at all times (because the spacecraft
+spins at all times), except as follows:
+
+
+       If the spin vector points directly at the Sun or directly away
+from the Sun, then the line from the spacecraft to the Sun is
+perpendicular to the spin plane; its projection on the spin plane is
+reduced to a point at the center of rotation.
+
+
+       In this case, a Sun pulse will not be clearly defined; and the
+positive X axis cannot be defined.
+
+
+       In this situation, the spin plane corresponds to the dawn-dusk
+meridian.
+
+
+
+
+       If, at one extreme, the spin vector is nearly in the ecliptic
+plane, and the spin plane is nearly perpendicular to the ecliptic; then
+at intervals of 6 months, the orbit of the Earth around the Sun will
+carry the spacecraft where its spin plane is nearly in the dawn-dusk
+meridian; and the SCC system will be poorly defined.
+
+
+       In this case, there can be a discontinuity in the SCC system
+across the passage through the dawn-dusk meridian.
+
+
+       The direction in the spin plane that is closest to the direction
+of the Sun at a Sun pulse, will undergo a change by 180 degrees; i.e.,
+the positive X direction undergoes multiplication by -1.
+
+
+       The positive Y direction also undergoes multiplication by -1.
+
+
+
+
+       If, at the other extreme, the spin vector is nearly perpendicular
+to the  ecliptic plane, and the spin plane is nearly the same as the
+ecliptic; then there is no ambiguity or discontinuity, and the positive
+X axis at the time of a Sun pulse corresponds nearly to the GSE X axis,
+that makes one circle in a year.
+
+
+
+
+       Discontinuities or ambiguities may occur also if for some reason
+the direction of the spin vector, or the spin rate, change.
+
+       This occurs when maneuvers are performed that change the rotation
+of the spacecraft.
+
+
+
+
+       If the components of a vector (e.g., electric field) are measured
+by means of instruments that are rigidly attached to the spacecraft, and
+that provide components along the spin axis and on the spin plane; then
+it is very easy to obtain the components of the vector in SCC
+coordinates; the components on the spin plane must be rotated around the
+spin axis by the appropriate angles, and these angles are constant
+(determined by the location of the measuring instruments with respect to
+the rest of the spacecraft).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7 Despun Spacecraft Coordinates.
+
+
+
+
+
+       Abbreviation: DSC.
+
+
+
+
+       This coordinate system is not described by Russell.
+
+
+       It is possible that some people use a system equivalent to this
+one but with a different name; or a similar system, but with some
+differences.
+
+
+
+
+       This system is defined for a spacecraft that is in an orbit near
+the Earth.
+
+
+
+
+       It is assumed that the spacecraft is rotating.
+
+
+       All the assumptions regarding the spacecraft's rotation, that are
+made in the definition of the SCC system; apply to DSC as well.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7.1 Definition.
+
+
+
+
+
+       The positive Z axis of this system is the same as the positive Z
+axis of the SCC system (i.e., the spin vector).
+
+
+
+
+       The positive X and Y axes are in the spin plane.
+
+
+       The positive X axis points in the direction closest to the
+direction of the Sun.
+
+
+       The positive Y axis is 90 degrees ahead of the positive X axis
+(in the direction of rotation).
+
+
+
+
+       The X and Y axes of this system do not rotate.
+
+
+       At the moment of a Sun pulse, the positive X and Y axes of the
+DSC system coincide with the positive X and Y axes of the SCC system,
+respectively; but after the Sun pulse, the DSC axes continue pointing in
+fixed directions, while the SCC axes rotate and will point in different
+directions at every moment; at the moment of the next Sun pulse, the SCC
+axes have completed a revolution, and coincide with the DSC axes once
+again.
+
+
+
+
+       This system is well-defined at all times, except as explained for
+the SCC system.
+
+
+       The same discontinuities or ambiguities described for the SCC
+system apply to the DSC system; i.e., if the spin plane is nearly in the
+dawn-dusk meridian; or if the spin vector or spin rate change.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7.2 Transformation from SCC.
+
+
+
+
+
+       For a given time t, let t0 be the time of the last Sun pulse that
+comes at or before time t; and let t1 be the time of the next Sun pulse
+after t0.
+
+
+           t0 <= t < t1
+
+
+where t0 and t1 are the times of consecutive Sun pulses.
+
+
+
+       The duration of a spin period is
+
+
+           T = t1 - t0
+
+
+
+
+       Since we assume the direction of the spin vector to be constant
+over one spin period; then the positive Z axes of the SCC and DSC
+systems have the same direction (which is constant).
+
+
+
+       Therefore, the transformation between SCC and DSC coordinates is
+simply a rotation around the common Z axis.
+
+
+
+       Since we assume that the spin rate is constant as well, then the
+angle by which the SCC axes have rotated with respect to the DSC
+(constant) axes, in the time interval from t0 (when the axes of both
+systems last coincided) to t, is
+
+
+           Alpha = (2 * Pi) * [(t - t0) / T]
+
+
+or
+
+
+           Alpha = Omega * (t - t0)
+
+
+where Omega is the angular frequency
+
+
+           Omega = (2 * Pi) / T
+
+
+
+
+       The components in the SCC system, of the unit vectors along the
+positive DSC coordinate axes, are:
+
+
+Positive DSC X axis: (cos(Alpha), -sin(Alpha), 0)
+
+
+Positive DSC Y axis: (sin(Alpha),  cos(Alpha), 0)
+
+
+Positive DSC Z axis: (     0    ,       0    , 1)
+
+
+
+
+       The matrix that has, as rows, the components of the DSC unit
+vectors in SCC; will rotate from the SCC to the DSC system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7.3 Transformation from GSE.
+
+
+
+
+
+       We assume that in the course of one spin period, the spin vector
+has a constant direction, and the spin rate is constant; also, that in
+the course of one spin period the direction from the Earth to the Sun
+(or any similar direction of importance to a coordinate system) is
+constant; and we assume that the spacecraft is near enough to the Earth,
+that the direction from the spacecraft to the Sun is the same as the
+direction from the center of the Earth to the Sun.
+
+
+
+
+       The GSE coordinate system has the very important feature that the
+positive X axis always points towards the Sun.
+
+
+       The transformation that will be derived below, from DSC to GSE,
+relies on this property of the GSE system.
+
+
+       However, an analogous derivation could be carried out for some
+other suitable system, such as GSM, instead of GSE; provided that the
+other system also have its positive X axis pointing towards the Sun.
+
+
+
+
+       Let X, Y, and Z be the positive axes in the GSE system; with unit
+vectors x', y', and z', respectively.
+
+
+
+
+       Let P, Q, and S be the unit vectors of the DSC system.
+
+
+
+
+       S is the spin vector; let its components in the GSE system be Sx,
+Sy, and Sz; we assume Sx, Sy, and Sz to be known.
+
+
+
+
+       Since S is a unit vector,
+
+           Sx^2 + Sy^2 + Sz^2 = 1                                    (6)
+
+
+
+
+       Since the Sun pulse and the DSC system are not defined if the
+spin vector points directly at the Sun or directly away from the Sun, we
+must assume that that is not the case.
+
+
+       This means that S is not parallel to x'; therefore,
+
+
+           Sy and Sz are not both zero
+
+or:
+
+           Sy^2 + Sz^2 > 0                                           (7)
+
+
+
+
+       It is our aim to find the GSE components of P and Q: Px, Py, Pz,
+Qx, Qy, Qz.
+
+
+       Having these,
+
+
+           The matrix that has P, Q, S (in GSE components) as rows
+will transform the GSE components of a vector into DSC components.
+
+
+
+
+       First we find the components of P.
+
+
+
+       For this we have the following conditions:
+
+
+
+ 1) P is a unit vector.
+
+
+ 2) P is perpendicular to S.
+
+
+ 3) Because P is the unit vector along the projection on the spin plane
+of the vector from the spacecraft to the Sun; the vector from the
+spacecraft to the Sun is contained in the plane defined by S and P.
+
+    However, the vector from the spacecraft to the Sun is x'.
+
+    Furthermore, P points generally towards the Sun.
+
+
+
+       From 1):
+
+
+           Px^2 + Py^2 + Pz^2 = 1                                    (8)
+
+
+
+       From 2):
+
+
+           S . P = 0
+
+i.e.,
+
+           Sx * Px + Sy * Py + Sz * Pz = 0                           (9)
+
+
+
+       From 3):
+
+
+           There must exist numbers (scalars) A and B such that
+
+           x' = A * S + B * P                                       (10)
+
+
+           Also, if P points generally towards the Sun, and since x' is
+the unit vector towards the Sun,
+
+
+           P . x' must be greater than or equal to zero, i.e.,
+
+           Px >= 0                                                  (11)
+
+
+
+
+       From (10):
+
+
+           A * Sx + B * Px = 1
+
+           A * Sy + B * Py = 0                                      (12)
+
+           A * Sz + B * Pz = 0
+
+
+
+
+       Also from (10):
+
+
+           A = x' . S
+
+           B = x' . P
+
+
+(A and B are the components of x' along S and P respectively)
+
+
+
+
+and therefore:
+
+
+           A = Sx                                                   (13)
+
+
+           B = Px                                                   (14)
+
+
+
+
+       From (12), (13), (14):
+
+
+           Sx^2 + Px^2 = 1
+
+           Sx * Sy + Px * Py = 0                                    (15)
+
+           Sx * Sz + Px * Pz = 0
+
+
+
+
+      Therefore,
+
+
+           Px^2 = 1 - Sx^2 = Sy^2 + Sz^2
+
+
+the last step being due to (6).
+
+
+       From this and (11),
+
+
+           Px = sqrt(Sy^2 + Sz^2)                                   (16)
+
+
+where "sqrt" represents the square root function (positive square root).
+
+
+       Note from (7) that Px will be strictly positive (not zero).
+
+
+
+
+       From (15) and (16):
+
+
+           Py = - (Sx * Sy) / Px
+
+           Pz = - (Sx * Sz) / Px
+
+
+i.e.,
+
+
+           Py = - (Sx * Sy) / sqrt(Sy^2 + Sz^2)
+                                                                    (17)
+           Pz = - (Sx * Sz) / sqrt(Sy^2 + Sz^2)
+
+
+
+
+       Once Px, Py, and Pz have been obtained in (16) and (17), then Qx,
+Qy, and Qz are determined by:
+
+
+           Q = S x P                                                (18)
+
+
+
+
+       It is interesting to derive Qx, Qy, and Qz.
+
+
+
+
+       From (18):
+
+
+           Qx = Sy * Pz - Sz * Py
+
+           Qy = Sz * Px - Sx * Pz
+
+           Qz = Sx * Py - Sy * Px
+
+
+and substituting from (16) and (17), and using (6):
+
+
+           Qx = - (Sy * Sx * Sz / Px) + (Sz * Sx * Sy / Px) = 0
+
+
+           Qy = Sz * Px + (Sx * Sx * Sz / Px) =
+                (Sz / Px) * (Px^2 + Sx^2) =
+                (Sz / Px) * (Sy^2 + Sz^2 + Sx^2) = Sz / Px
+
+
+           Qz = - (Sx * Sx * Sy / Px) - Sy * Px =
+                - (Sy / Px) * (Sx^2 + Px^2) =
+                - (Sy / Px) * (Sx^2 + Sy^2 + Sz^2) = - Sy / Px
+
+
+i.e., finally,
+
+
+           Qx = 0
+
+           Qy = Sz / sqrt(Sy^2 + Sz^2)                              (19)
+
+           Qz = - Sy / sqrt(Sy^2 + Sz^2)
+
+
+
+
+       Note that Qx = 0 is a consequence of the fact that x' is in the
+plane defined by S and P; i.e.,
+
+
+           x' . Q = 0.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.8 Magnetic Spacecraft Coordinates.
+
+
+
+
+
+       Abbreviation: BSC.
+
+
+
+
+       This coordinate system is not described by Russell.
+
+
+       It is possible that some people use a system equivalent to this
+one but with a different name; or a similar system, but with some
+differences.
+
+
+
+
+       This system is defined for a spacecraft that is in an orbit near
+the Earth.
+
+
+
+
+       It is assumed that the spacecraft is rotating.
+
+
+       All the assumptions regarding the spacecraft's rotation, that are
+made in the definition of the SCC system; apply to BSC as well.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.8.1 Definition.
+
+
+
+
+
+       The positive Z axis of this system is the same as the positive Z
+axis of the DSC system (i.e., the spin vector).
+
+
+
+
+       The positive X and Y axes are in the spin plane.
+
+
+       The positive X axis points in the direction closest to the
+direction of the magnetic field.
+
+
+       The positive Y axis is 90 degrees ahead of the positive X axis
+(in the direction of rotation).
+
+
+
+
+       The X and Y axes of this system do not rotate.
+
+
+
+
+       It is clear that the positive X axis is the projection of the
+magnetic field vector on the spin plane.
+
+
+
+
+       This system is well-defined at all times, except as follows:
+
+
+       If the magnetic field vector is zero, or is perpendicular to the
+spin plane; its projection on the spin plane is reduced to a point at
+the center of rotation.
+
+
+       In this case, the positive X axis cannot be defined.
+
+
+       In this situation, the projection of the magnetic field vector on
+the spin plane has a magnitude of zero.
+
+
+
+
+       Discontinuities or ambiguities may occur also if for some reason
+the direction of the spin vector changes.
+
+       This occurs when maneuvers are performed that change the rotation
+of the spacecraft.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.8.2 Transformation from DSC.
+
+
+
+
+
+       The positive Z axes of the DSC and BSC systems have the same
+direction (which is constant).
+
+
+
+       Therefore, the transformation between DSC and BSC coordinates is
+simply a rotation around the common Z axis.
+
+
+
+       Let the magnetic field vector B have the components BX, BY, BZ in
+DSC.
+
+       Let Phi be the azimuth angle of the projection of the B vector on
+the spin plane, in relation to the DSC system.
+
+
+
+
+       The components in the DSC system, of the unit vectors along the
+positive BSC coordinate axes, are:
+
+
+Positive BSC X axis: ( cos(Phi), sin(Phi), 0)
+
+
+Positive BSC Y axis: (-sin(Phi), cos(Phi), 0)
+
+
+Positive BSC Z axis: (    0    ,    0    , 1)
+
+
+
+
+       The matrix that has, as rows, the components of the BSC unit
+vectors in DSC; will rotate from the DSC to the BSC system.
+
+
+
+
+
+       On the spin plane, the projection of the vector B has a magnitude
+
+           sqrt(BX^2 + BY^2)
+
+and the cosine and sine of Phi are given by:
+
+           cos(Phi) = BX / sqrt(BX^2 + BY^2)
+
+           sin(Phi) = BY / sqrt(BX^2 + BY^2)
+
+
+
+
+
+       It is clear that the transformation is undefined if
+
+           sqrt(BX^2 + BY^2) = 0
+
+i.e., if both BX and BY are zero.
+
+       This corresponds to the case when the magnitude of the projection
+of B on the spin plane is zero; in which case, the BSC system itself is
+undefined.

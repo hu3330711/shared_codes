@@ -1,0 +1,121 @@
+
+Usage of "NRT_Client":
+---------------------
+
+"NRT_Client" is a program which is used to read ISTP Near-Real-Time
+data, from the network as available from the ISTP CDHF, and write the
+data, in standard ISTP LZ format (no FLR however), into a local disk
+file.
+
+
+Program Use:
+-----------
+
+The program is invoked as follows:
+
+    NRT_Client -u username -p passwd -t datatype -f outputfile <-r numrecs>
+    <-v> <-s server>
+
+Note that the arguments:
+
+    -u username, -p passwd, -t datatype, -f outputfile
+
+are required and arguments:
+
+    -r numrecs, -v, -s server
+
+are optional.
+
+Also note that all of the option letters (u,p,t,f,r,v,s) can be lower or
+upper case.
+
+If no arguments are used, the program will immediately exit, after
+outputting a brief usage instruction message to standard out (stdout).
+
+
+Description of Arguments:
+------------------------
+
+    -u  Sets the username with which to login to the CDFH
+
+    -p  Sets the password with which to login to the CDFH
+
+    -t  Sets the data type to receive - it must be one of the following
+	strings:
+
+	  PO_LZ_CAM
+	  PO_LZ_CEP
+	  PO_LZ_EFI
+	  PO_LZ_HYD
+	  PO_LZ_MFE
+	  PO_LZ_PIX
+	  PO_LZ_PWI
+	  PO_LZ_SCR
+	  PO_LZ_TID
+	  PO_LZ_TIM
+	  PO_LZ_UVI
+	  PO_LZ_VIS
+	  WI_LZ_3DP
+	  WI_LZ_EPA
+	  WI_LZ_KON
+	  WI_LZ_MFI
+	  WI_LZ_SCR
+	  WI_LZ_SMS
+	  WI_LZ_SWE
+	  WI_LZ_TGR
+	  WI_LZ_WAV
+
+	Note that only one data type can be requested per program
+	invocation.
+
+    -f  Sets the name of the output file to receive the data.
+
+    -r  Indicates how many records to read.  If not set or set to zero,
+	all records are written to "outputfile".
+
+    -v  Sets the verbose flag - a summary of each frame is sent to stdout.
+
+    -s  Resets the NRT server from the default:  istp6.gsfc.nasa.gov
+
+
+Program Action:
+--------------
+
+Once invoked, the program will perform the following:
+
+   1.  Connect, via a socket, to the NRT server program running on
+       the CDHF machine.  The default CDHF machine is:
+
+	   istp6.gsfc.nasa.gov
+
+       If, for any reason, you need to connect with a different NRT
+       serving machine, you can do so with the "-s" argument.
+
+   2.  Login to the CDHF machine, using the CDHF username/password
+       as specified with the "-u" and "-p" arguments.
+
+   3.  Select the data type (specified by the "-t" argument) for
+       reception.
+
+   4.  Begin reception of the requested packets.  If the "-r" argument
+       has been used with a positive integer, then only that many frames
+       will be accumulated.  Otherwise, all frames will be accumulated
+       until either:
+
+	    an end of pass packet is received
+
+       or
+
+	    the user kills the program with ctrl-C
+
+       Note that the frames are written into the file set by the "-f"
+       argument and are stored in the standard Level Zero ISTP file
+       format for the selected type of data, except that no FLR is
+       written.  The 24-byte packet headers and 8-byte packet trailers
+       are not written into the output file.
+
+       The program writes the frames silently, unless the "-v" option
+       has been invoked.  In this case, a brief summary of each frame
+       is written, upon its reception, to standard out (stdout).
+
+

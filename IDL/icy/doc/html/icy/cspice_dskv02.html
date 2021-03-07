@@ -1,0 +1,445 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dskv02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dskv02</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKV02 returns specified vertices from a type 2 DSK segment.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dskv02_c.html">dskv02_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle    the handle of a DSK file containing a type 2
+                segment from which data are to be fetched.
+
+      dladsc    the DLA descriptor associated with the segment
+                from which data are to be fetched.
+
+      start     the ID of the first vertex to be fetched from the
+                segment designated by `handle' and `dladsc'. The ID
+                of a vertex is its ordinal position within the
+                segment. Vertex IDs range from 1 to NV, where NV is
+                the number of vertices in the segment.
+
+                Note that Fortran-style 1-based indexing is used for
+                vertex IDs because these IDs must be consistent with
+                the IDs used in DSK files, across all languages
+                supported by SPICE.
+
+      room      the maximum number of vertices to return.
+
+   the call:
+
+      <b>cspice_dskv02</b>, handle, dladsc, start, room, vrtces
+
+   returns:
+
+      vrtces    the array representing a contiguous set of `n' vertices,
+                where `n' is between 1 and `room' inclusive. The returned
+                vertices are arranged in order of increasing vertex ID.
+                The IDs of the returned vertices range from
+
+                    start
+
+                to
+
+                    start + n - 1
+
+                Each vertex is a 3-vector. The correspondence of elements
+                of `vrtces' with the elements of the set of vertices
+                contained in the segment is:
+
+                   vrtces[0,0]      segment_vertex_set[0, start]
+                   vrtces[1,0]      segment_vertex_set[1, start]
+                   vrtces[2,0]      segment_vertex_set[2, start]
+                     ...             ...
+                   vrtces[0,n-1]    segment_vertex_set[0, start+n-1]
+                   vrtces[1,n-1]    segment_vertex_set[1, start+n-1]
+                   vrtces[2,n-1]    segment_vertex_set[2, start+n-1]
+
+                The vertices are expressed in the body-fixed
+                reference frame of the segment designated by `handle'
+                and `dladsc'. The center of this frame is the origin
+                of the cartesian coordinate system in which the
+                vertices are expressed. Note that the frame center
+                need not coincide with the central body of the
+                segment. Units are km.
+
+                If an error occurs on the call, `vrtces' is
+                undefined.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Create a three-segment DSK file using plate model data for
+   Phobos. Use latitudinal, rectangular, and planetodetic
+   coordinates in the respective segments. This is not a
+   realistic example, but it serves to demonstrate use of
+   the supported coordinate systems.
+
+   For simplicity, use an existing DSK file to provide the
+   input plate and vertex data. The selected input file has one
+   segment.
+
+      PRO DSKW02_T
+
+         ;;
+         ;; IcyUser globally defines DSK parameters.
+         ;; For more information, please see DSKIcyUser.m and
+         ;; DSKIcyUser02.m.
+         ;;
+         @IcyUser
+
+         SPICETRUE = 1L
+         NSEG = 3
+
+         cornam = [ 'radius', 'Z-coordinate', 'Z-coordinate', 'altitude']
+
+         ;;
+         ;; Assign names of input and output DSK files.
+         ;;
+         indsk = 'phobos_3_3.bds'
+         dsk   = 'phobos_3_3_3seg.bds'
+
+         if ( <a href="cspice_exists.html">cspice_exists</a>(dsk) ) then begin
+            file_delete, dsk
+         endif
+
+
+         ;;
+         ;; Open input DSK for read access; find first segment.
+         ;;
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, indsk, inhan
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, inhan, dladsc, found
+
+
+         ;;
+         ;; Fetch vertices and plates from input DSK file.
+         ;;
+         ;; Note that vertex and plate indices are 1-based.
+         ;;
+         print, 'Reading input data...'
+
+         <b>cspice_dskv02</b>, inhan, dladsc, 1, SPICE_DSK02_MAXVRT, vrtces
+         <a href="cspice_dskp02.html">cspice_dskp02</a>, inhan, dladsc, 1, SPICE_DSK02_MAXPLT, plates
+
+         print, 'Done.'
+
+
+         ;;
+         ;; Set input array sizes required by <a href="cspice_dskmi2.html">cspice_dskmi2</a>.
+         ;;
+         voxpsz = SPICE_DSK02_MAXVXP
+         voxlsz = SPICE_DSK02_MXNVLS
+         worksz = SPICE_DSK02_MAXCEL
+         spaisz = SPICE_DSK02_SPAISZ
+         makvtl = SPICETRUE
+
+         ;;
+         ;; Set fine and coarse voxel scales. (These usually
+         ;; need to determined by experimentation.)
+         ;;
+         finscl = 5.D
+         corscl = 4
+
+         ;;
+         ;; Open a new DSK file.
+         ;;
+         <a href="cspice_dskopn.html">cspice_dskopn</a>, dsk, dsk, 0, handle
+
+         for segno=1, NSEG do begin
+
+            ;;
+            ;; Create spatial index. We won't generate a
+            ;; vertex-plate mapping, so we set the flag
+            ;; for creating this map to &quot;false.&quot;
+            ;;
+            print, 'Creating segment ', segno
+            print, 'Creating spatial index...'
+
+            <a href="cspice_dskmi2.html">cspice_dskmi2</a>, vrtces, plates, finscl, corscl, $
+                           worksz, voxpsz, voxlsz, makvtl, $
+                           spaisz, spaixd, spaixi
+
+
+            print, 'Done.'
+
+            ;;
+            ;; Set up inputs describing segment attributes:
+            ;;
+            ;; - Central body: Phobos
+            ;; - Surface ID code: user's choice.
+            ;;   We use the segment number here.
+            ;; - Data class: general (arbitrary) shape
+            ;; - Body-fixed reference frame
+            ;; - Time coverage bounds (TBD)
+            ;;
+            center = 401
+            surfid = segno
+            dclass = SPICE_DSK_GENCLS
+            frame  = 'IAU_PHOBOS'
+
+            first = -50.D * <a href="cspice_jyear.html">cspice_jyear</a>()
+            last  =  50.D * <a href="cspice_jyear.html">cspice_jyear</a>()
+
+
+            ;;
+            ;; Set the coordinate system and coordinate system
+            ;; bounds based on the segment index.
+            ;;
+            ;; Zero out the coordinate parameters to start.
+            ;;
+            corpar = dblarr(SPICE_DSK_NSYPAR)
+
+            case segno of
+
+               1 : begin
+
+                  ;;
+                  ;; Use planetocentric latitudinal coordinates. Set
+                  ;; the longitude and latitude bounds.
+                  ;;
+                  corsys = SPICE_DSK_LATSYS
+
+                  mncor1 = -<a href="cspice_pi.html">cspice_pi</a>()
+                  mxcor1 =  <a href="cspice_pi.html">cspice_pi</a>()
+                  mncor2 = -<a href="cspice_halfpi.html">cspice_halfpi</a>()
+                  mxcor2 =  <a href="cspice_halfpi.html">cspice_halfpi</a>()
+
+                  end
+
+               2 : begin
+
+                  ;;
+                  ;; Use rectangular coordinates. Set the
+                  ;; X and Y bounds.
+                  ;;
+                  ;; The bounds shown here were derived from
+                  ;; the plate data. They lie slightly outside
+                  ;; of the range spanned by the plates.
+                  ;;
+                  corsys = SPICE_DSK_RECSYS
+
+                  mncor1 = -1.3D
+                  mxcor1 =  1.31D
+                  mncor2 = -1.21D
+                  mxcor2 =  1.2D
+
+                  end
+
+               3 : begin
+
+                  ;;
+                  ;; Set the coordinate system to planetodetic.
+                  ;;
+                  corsys    = SPICE_DSK_PDTSYS
+
+                  mncor1    = -<a href="cspice_pi.html">cspice_pi</a>()
+                  mxcor1    =  <a href="cspice_pi.html">cspice_pi</a>()
+                  mncor2    = -<a href="cspice_halfpi.html">cspice_halfpi</a>()
+                  mxcor2    =  <a href="cspice_halfpi.html">cspice_halfpi</a>()
+
+                  ;;
+                  ;; We'll use equatorial and polar radii from
+                  ;; pck00010.tpc. These normally would be fetched
+                  ;; at run time, but for simplicity, we'll use
+                  ;; hard-coded values.
+                  ;;
+                  re        = 13.D0
+                  rp        =  9.1D
+                  f         = ( re - rp ) / re
+
+                  corpar = [ re, f ]
+
+                  end
+
+               else: message, 'Icy(BUG)'
+
+            endcase
+
+           ;;
+           ;; Compute plate model radius bounds.
+           ;;
+           print, 'Computing ' + cornam[corsys-1] +' bounds of plate set...'
+
+           <a href="cspice_dskrb2.html">cspice_dskrb2</a>, vrtces, plates, corsys, corpar, mncor3, mxcor3
+
+           print, 'Done.'
+
+           ;;
+           ;; Write the segment to the file.
+           ;;
+           print, 'Writing segment...'
+
+           <a href="cspice_dskw02.html">cspice_dskw02</a>, handle, $
+                          center, $
+                          surfid, $
+                          dclass, $
+                          frame,  $
+                          corsys, $
+                          corpar, $
+                          mncor1, $
+                          mxcor1, $
+                          mncor2, $
+                          mxcor2, $
+                          mncor3, $
+                          mxcor3, $
+                          first,  $
+                          last,   $
+                          vrtces, $
+                          plates, $
+                          spaixd, $
+                          spaixi
+
+         end
+
+         ;;
+         ;; Close the input DSK.
+         ;;
+         <a href="cspice_dskcls.html">cspice_dskcls</a>, handle, SPICETRUE
+         <a href="cspice_dascls.html">cspice_dascls</a>, inhan
+
+      END
+
+   IDL outputs:
+
+      Reading input data...
+      Done.
+      Creating segment        1
+      Creating spatial index...
+      Done.
+      Computing radius bounds of plate set...
+      Done.
+      Writing segment...
+      Creating segment        2
+      Creating spatial index...
+      Done.
+      Computing Z-coordinate bounds of plate set...
+      Done.
+      Writing segment...
+      Creating segment        3
+      Creating spatial index...
+      Done.
+      Computing altitude bounds of plate set...
+      Done.
+      Writing segment...
+
+      After run completion, A DSK exists in the output directory.
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   None.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 04-APR-2017, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   return specified vertices from type 2 DSK segment
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

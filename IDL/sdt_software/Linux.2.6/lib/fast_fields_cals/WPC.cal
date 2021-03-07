@@ -1,0 +1,19 @@
+#  SCCS Id
+#  @(#)WPC.cal	1.2 06/25/97
+#
+# WPC.cal
+# KRB
+WPC			Data name.
+9    			WPC calibration
+sec			x-axis units.
+counts			y-axis units.
+na			z-axis units.
+0			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration table as of 5/25/95.
+0			Time in seconds.
+0.14e-6			Registration time for dead time correction.
+# Low frequency phase calibration
+2.778	-22.0		Lower limit: Log10 of frequency, degrees
+4.183	-242.0		Upper limit: Log10 of frequency, degrees

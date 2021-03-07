@@ -1,0 +1,531 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_cross_product
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_cross_product
+
+************************************************************************
+
+   Vector cross product.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_cross_product	1.1    10/21/02    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the cross product of 2 vectors.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The first vector v_1.
+
+
+
+            2) The second vector v_2.
+
+
+
+
+
+    3) The output vector that is calculated is:
+
+
+
+           K * (v_1 x v_2)
+
+
+
+       K is a scalar constant to adjust for the units.
+
+
+
+
+
+    4) Each input vector must be in a coordinate system that does not
+       participate of the rotation of the spacecraft.
+
+
+
+       The output vector will be in the same coordinate system as the
+       input vector v_1 (v_1 is the primary input vector, v_2 is the
+       secondary input vector).
+
+
+
+
+
+    5) If the components of v_2 are not referred to the same coordinate
+       system as the components of v_1, then there must be an additional
+       SDT input, which is a rotation matrix that rotates vector
+       components, from the coordinate system of v_2 into the
+       coordinate system of v_1.
+
+
+
+
+
+    6) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    7) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    8) An output data point is produced for each input point of v_1.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of v_1.
+
+
+
+
+
+    9) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of v_2.
+
+
+
+       The user can specify whether the vector v_2 for the time of the
+       output data point is obtained by linear interpolation or by
+       replication.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   10) Note that it is permissible for the constant K that multiplies
+       the resulting vector to be negative.
+
+
+
+       If K is chosen to be negative, then v_1 still is the primary
+       input vector, and v_2 still is the secondary input vector; but
+       the output vector will have the same sense as
+
+           v_2 x v_1
+
+
+
+
+
+   11) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The user can specify whether the input rotation matrix for the
+       time of the output data point is obtained by linear interpolation
+       or by replication.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Factor for the units.
+
+
+               Double.
+
+
+               Must be  !=  0.
+
+
+
+            3) Flag for the coordinate system of the vector v_2.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in the same system as
+                                 v_1.
+
+                    WT_FALSE  =  The vector is not in the same system as
+                                 v_1.
+
+
+
+            4) Flag for the rotation matrix input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               If the vector v_2 is not in the same coordinate system as
+               the vector v_1, then
+               this input must be present.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the 3 input vector components of v_1.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            6) Dropout time for v_2.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            7) Flag to interpolate v_2.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Interpolate.
+
+                    WT_FALSE  =  Do not interpolate (replicate).
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the 3 input vector components of v_2.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            9) Flag to transpose the rotation matrix.
+
+
+               Int.
+
+
+               If the input rotation matrix is used, then
+               must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+           10) Dropout time for the rotation matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If the input rotation matrix is used, then
+               must be  >  0.
+
+
+
+           11) Flag to interpolate the rotation matrix.
+
+
+               Int.
+
+
+               If the input rotation matrix is used, then
+               must be one of the following:
+
+
+                    WT_TRUE   =  Interpolate.
+
+                    WT_FALSE  =  Do not interpolate (replicate).
+
+
+
+           12) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If the input rotation matrix is used, then
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The vector v_1.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The vector v_2.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The rotation matrix between the coordinate system of v_2
+               and the coordinate system of v_1.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the output vector.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

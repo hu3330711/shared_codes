@@ -1,0 +1,22 @@
+#  SCCS Id
+#  @(#)BBF_V3-V4.cal	1.1 04/15/96
+#
+# BBF_V3-V4.cal
+# REE 6/7/95
+BBF_V3-V4		Data name.
+3    			Decompressed linear.
+sec			x-axis units.
+mV/m			y-axis units.
+xx			z-axis units.
+16			Boomlength index.
+0			No subtype.
+0			History.
+# Calibration table as of 6/7/95.
+# Calibration set for 400 kHz input frequency. 
+# Linear calibration on decompressed output.
+# Output in mV/m 1/2 Vpp.
+0			Time in seconds.
+-0.992			Zerolevel (raw).
+3.393			Gain (in exponent).
+
+

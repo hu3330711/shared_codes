@@ -1,0 +1,99 @@
+#!/usr/local/perl-5.6.1/bin/perl -w
+#
+# mscrub_control.pl	Calls sdt_batch which calls IDL to make
+#			a day-long CDF file full of memory scrub data.
+#
+# Dates should be strings like "yyyy/mm/dd hh:mm:ss" which SQL will
+# recognize as datetime type.
+#
+# Original script mscrub_control.ksh by Joe Rauch.
+# Perl adaptation by Jenna Kloosterman 12/12/2002.
+#
+
+use strict;
+use warnings;
+
+# Assign a variable to the input date
+my $stdate = $ARGV[0];
+my $endate = $ARGV[1];
+#print "$endate\n";
+
+#Make sure the dates have been entered and entered correctly
+
+if ($stdate eq '') {
+        print "Usage: Please enter a start date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+my $stdate_check_1 = substr($stdate, 4, 1);
+
+if ($stdate_check_1 ne '/') {
+        print "Usage: Please enter a start date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+my $stdate_check_2 = substr($stdate, 9, 1);
+
+if ($stdate_check_2 eq '') {
+        print "Usage: Please enter a start date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+if ($endate eq '') {
+        print "Usage: Please enter an end date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+my $endate_check_1 = substr($endate, 4, 1);
+
+if ($endate_check_1 ne '/') {
+        print "Usage: Please enter an end date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+my $endate_check_2 = substr($endate, 9, 1);
+
+if ($endate_check_2 eq '') {
+        print "Usage: Please enter an end date in the form yyyy/mm/dd\n";
+        exit;
+}
+
+# Find number of days between start and end dates.
+
+my $stday = substr($stdate, 8, 2);
+my $stmonth = substr($stdate, 5, 2);
+my $styear = substr($stdate, 0, 4);
+#print "$stday, $stmonth, $styear\n";
+my $enday = substr($endate, 8, 2);
+my $endmonth = substr($endate, 5, 2);
+my $endyear = substr($endate, 0, 4);
+#print "$enday, $endmonth, $endyear\n";
+
+use Date::Calc qw(Delta_Days);
+my $diff = Delta_Days($styear, $stmonth, $stday, $endyear, $endmonth, $enday);
+my $count = $diff + 1;
+#print "$count\n";
+
+# Retrieve data files for idl for each day
+
+my $i;
+
+foreach $i (1..$count) {
+  #print "$stdate\n";
+  my $files = `get_cd_path -t $stdate 00:00:00 $stdate 23:59:59`;
+  #print "$files\n";
+
+  # Run sdt batch with files for date.
+
+  $ENV{'stdate'} = "$stdate";
+  $ENV{'files'} = "$files";
+  #print $ENV{'stdate'};
+  #print $ENV{'files'};
+  system("sdt_batch /disks/fast/software/batchjobs/memscrub.batch");
+  use Date::Calc qw(Add_Delta_Days);
+  (my $nextyear, my $nextmonth, my $nextday) = Add_Delta_Days($styear, $stmonth, $stday, 1);
+  $stdate = "$nextyear/$nextmonth/$nextday";
+  $styear = $nextyear;
+  $stmonth = $nextmonth;
+  $stday = $nextday;
+}

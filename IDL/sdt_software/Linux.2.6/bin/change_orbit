@@ -1,0 +1,83 @@
+#!/usr/bin/ksh
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+
+lzpdir=$(grep lzp /etc/passwd | awk -F: '{ print $6}')
+cd $lzpdir
+
+cd $1
+#Rename prduction files
+ls -1 fast_p_[A-Z]* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+	this=$(head -1 /tmp/files$$)
+	new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s_%s",$1,$2,$3,$5,$6}')
+	echo $this to $new
+	mv $this $new
+	sed '1d' /tmp/files$$ > /tmp/FILES$$
+	mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+#Rename reject files
+ls -1 fast_r_[A-Z]* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+	this=$(head -1 /tmp/files$$)
+	new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s_%s",$1,$2,$3,$5,$6}')
+	echo $this to $new
+	mv $this $new
+	sed '1d' /tmp/files$$ > /tmp/FILES$$
+	mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+#Rename directory file
+ls -1 fast_dir* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+	this=$(head -1 /tmp/files$$)
+	new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s",$1,$2,$3,$5}')
+	echo $this to $new
+	mv $this $new
+	sed '1d' /tmp/files$$ > /tmp/FILES$$
+	mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+#Rename frame reject file
+ls -1 fast_f* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+        this=$(head -1 /tmp/files$$)
+        new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s",$1,$2,$3,$5}')
+        echo $this to $new
+        mv $this $new
+        sed '1d' /tmp/files$$ > /tmp/FILES$$
+        mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+#Rename counts file
+ls -1 fast_lzp* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+        this=$(head -1 /tmp/files$$)
+        new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s",$1,$2,$3,$5}')
+        echo $this to $new
+        mv $this $new
+        sed '1d' /tmp/files$$ > /tmp/FILES$$
+        mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+#Rename status file
+ls -1 fast_status* > /tmp/files$$
+while [[ -s /tmp/files$$ ]]
+do
+        this=$(head -1 /tmp/files$$)
+        new=$(echo $this | awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s",$1,$2,$3,$5}')
+        echo $this to $new
+        mv $this $new
+        sed '1d' /tmp/files$$ > /tmp/FILES$$
+        mv /tmp/FILES$$ /tmp/files$$
+done
+rm /tmp/files$$
+cd ..
+new_name=$(echo $1| awk -F_ '{printf "%s_%s_%s_orbit'$2'_%s",$1,$2,$3,$5}')
+mv $1 $new_name

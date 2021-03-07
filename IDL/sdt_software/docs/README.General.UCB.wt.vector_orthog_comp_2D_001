@@ -1,0 +1,470 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_orthog_comp_2D_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_orthog_comp_2D_001
+
+************************************************************************
+
+   Orthogonal components of vector in 2D.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_orthog_comp_2D_001	1.1    07/09/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the components of a vector in 2D,
+       along 2 orthogonal directions; from the orthogonal projections of
+       the vector along 2 arbitrary directions (not necessarily
+       orthogonal).
+
+
+
+       The 2 directions with the known projections, and the 2 orthogonal
+       directions for which the components are desired; must all be on
+       the same plane.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) First projection of the vector.
+
+
+
+            2) Second projection of the vector.
+
+
+
+
+
+    3) The 2 directions for which the projections are known, must not be
+       along the same line on the plane (same or opposite direction).
+
+
+
+       The calculation involves a denominator, which is the sine of the
+       angle between these 2 directions.
+
+
+
+
+
+    4) There is a "basic" line on the plane; every azimuth is an angle
+       on the plane, measured from this "basic" line.
+
+
+
+       There is a reference line on the plane.
+
+
+
+       Each azimuth is made up of the sum of the azimuth of the
+       reference line with respect to the "basic" line, plus an
+       additional part; the sum, then, is azimuth with respect to the
+       "basic" line.
+
+
+
+       The user can specify: the azimuth of each direction for which the
+       projection is known; and the azimuth of the first of the
+       directions for which the component is desired.
+
+
+
+       The azimuth of the second of the directions for which the
+       component is desired, must be either 90 degrees more or 90
+       degrees less than that for the first direction for which the
+       component is desired (modulo 360 degrees).
+
+
+
+
+
+    5) The user can specify a separate factor for each vector projection
+       value, to allow for the possibility that the input value is in
+       the opposite direction than is needed.
+
+
+
+       Each factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a vector projection is related to the corresponding
+       input value as follows:
+
+
+           Vector projection = (Direction factor) * (Input value)
+
+
+
+
+
+    6) An output data point is produced for each successful match
+       containing a data point of each of the following inputs:
+
+            1) The first projection of the vector.
+
+            2) The second projection of the vector.
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+
+
+    7) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+    8) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) The group of parameters described here occurs once for
+               the first vector projection, and once for the second
+               vector projection.
+
+
+
+                1) Weight for output time tag.
+
+
+                   Double.
+
+
+                   Must be  >=  0.
+
+
+
+                2) Maximum time separation for consecutive input data
+                   points.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                3) Input component index.
+
+
+                   Int.
+
+
+
+                4) Direction factor.
+
+
+                   Double.
+
+
+                   Must be  -1  or  +1.
+
+
+
+               The sum of the weights for the output time tag must be
+               >  0  (not necessarily 1).
+
+
+
+            3) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+            4) Minimum absolute value for the denominator in the
+               calculation of the values of the orthogonal components.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+            5) Azimuth of the reference line.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+            6) Additional part of the azimuth of the first direction
+               with known projection.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+            7) Additional part of the azimuth of the second direction
+               with known projection.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           8) Additional part of the azimuth of the first direction for
+               which the component is desired.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+            9) Value to add to the azimuth of the first direction for
+               which the component is desired, to obtain the azimuth of
+               the second direction for which the component is desired.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  +90  or  -90.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The first vector projection.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the vector projection
+                   value.
+
+                   Float.
+
+
+
+            2) The second vector projection.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the vector projection
+                   value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component of the vector along the first desired
+               direction.
+
+
+               Float.
+
+
+
+            3) Component of the vector along the second desired
+               direction.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

@@ -1,0 +1,15 @@
+;;
+;; IDLWAVE catalog for library Astrolib
+;; Automatically Generated -- do not edit.
+;; Created by idlwave_catalog on Tue Sep  5 09:37:17 2017
+;;
+(setq idlwave-library-catalog-libname "Astrolib")
+(setq idlwave-library-catalog-routines
+ '(("spc" fun nil (lib "factor.pro" nil "Astrolib") "Result = %s(n, text)" (nil ("character") ("help") ("notrim")))
+   ("print_fact" pro nil (lib "factor.pro" nil "Astrolib") "%s, p, n" (nil ("help")))
+   ("factor" pro nil (lib "factor.pro" nil "Astrolib") "%s, x, p, n" (nil ("debug") ("help") ("quiet") ("try")))
+   ("GETWRD" fun nil (lib "getwrd.pro" nil "Astrolib") "Result = %s(TXTSTR, NTH, MTH)" (nil ("delimiter") ("help") ("last") ("location") ("notrim") ("nwords")))
+   ("POLREC" pro nil (lib "polrec.pro" nil "Astrolib") "%s, R, A, X, Y" (nil ("degrees") ("help")))
+   ("prime" fun nil (lib "prime.pro" nil "Astrolib") "Result = %s(n)" (nil ("help")))
+   ("recpol" pro nil (lib "recpol.pro" nil "Astrolib") "%s, x, y, r, a" (nil ("degrees") ("help")))
+   ("sphdist" fun nil (lib "sphdist.pro" nil "Astrolib") "Result = %s(long1, lat1, long2, lat2)" (nil ("degrees") ("help")))))

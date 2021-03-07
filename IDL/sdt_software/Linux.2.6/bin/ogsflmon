@@ -1,0 +1,481 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsflmon.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Monitor CMS/FDF file log.
+#
+# **************************************************************
+#
+#      @(#)ogsflmon.shp	1.1    10/21/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsflmon
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+                                   # display title separator
+   set titsep = \
+       " ************************************************"
+
+                                   # display title
+   set title  = " CMS/FDF File Log Monitor  -  Process ID  $pid"
+
+   set dtimin = 10                 # default time interval
+
+   set dnlins = 100                # default number of lines
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set optt   = $no                # time interval
+
+   set optn   = $no                # number of lines
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-t")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -t arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -t arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optt   = $yes
+           set timint = $aux002
+
+
+         else  if  ("$aux001" == "-n")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -n arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -n arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optn   = $yes
+           set nlines = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the time interval and number of lines.
+#
+#---------------------------------------------------------------
+
+   if  ($optt == $no)  then
+       set timint = $dtimin
+     endif
+
+
+   if  ($optn == $no)  then
+       set nlines = $dnlins
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for the file log.
+#
+#---------------------------------------------------------------
+
+   set cfflog = $rduser/$sduspc/$cflg
+
+
+
+#---------------------------------------------------------------
+#
+#      Display title.
+#
+#---------------------------------------------------------------
+
+   echo ""
+   echo ""
+   echo ""
+   echo "$titsep"
+   echo ""
+   echo "$title"
+   echo ""
+   echo "$titsep"
+   echo ""
+   echo ""
+
+
+
+#---------------------------------------------------------------
+#
+#      Wait until the file log exists.
+#
+#---------------------------------------------------------------
+
+   while  (!(-e $cfflog))
+
+       sleep $timint
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Display the file log.
+#
+#---------------------------------------------------------------
+
+   tail -${nlines}f $cfflog
+
+   if  ($status == 0)  then
+     else
+       echo " $prcnam : " \
+           "Error displaying end of  $cfflog"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

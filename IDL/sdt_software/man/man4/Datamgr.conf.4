@@ -1,0 +1,126 @@
+.\" @(#)Datamgr.conf.4	1.4 12/15/03
+'\"macro stdmacro
+.nr X
+.TH Datamgr.conf 4 12/15/03
+.SH NAME
+Datamgr.conf \- config files for datamgr
+.SH SYNOPSIS
+.B $FASTCONFIG/Datamgr/Datamgr.conf, ~/.datamgr.conf 
+.SH DESCRIPTION
+
+These are the configuration files for datamgr.  
+The file in the $FASTCONFIG directory 
+is read first, and then the file in the users home directory, if it exists.
+
+These files set Tcl variables which define the behavior of datamgr(1).  They are
+written in Tcl language, but here is a synopsis of all the Tcl syntax you really need to know
+to edit the Datamgr.conf files:
+
+The syntax to set a Tcl variable is 
+.LP
+.BI set\ VARNAME\  value
+.LP
+where 
+.I value
+can be a boolean value, a numeric value, a string quoted with double quotes "", 
+or a whitespace-separated list surrounded by curly
+braces {}.  Valid values for
+.B VARNAME
+are detailed below in the Variables section.  
+.LP
+Tcl keeps the environment in an associative array called env, so
+the FASTCONFIG environment variable can be referenced, 
+for example, as $env(FASTCONFIG).
+
+.SH Variables
+.TP
+DATA_DIR
+User data directory, in which datamgr stores LZP files.
+TRUSTED_DIRS
+A list of directories which datamgr won't give you the option to copy files from, because
+they can be presumed to be permanantly online.  I don't really think this feature turned out
+to be that useful, so I recommend leaving this list empty {}, and
+setting COPY_OTHERS_FILES to false -- so datamgr will never copy a file that is already
+online into your own DATA_DIR.  We all trust each other anyway, right?
+.TP
+INIT_CONFIG
+A query configuration file, saved with the 'Save Query Criteria...' command in the 'File' menu, 
+that you want 
+.B datamgr 
+to load on startup.  You can, for example, de-select "Query Results: Time Spans" by default
+to save screen space and query processing time.
+.TP
+RSH
+This can be set to the path to 
+.B ssh 
+on your machine, to use ssh instead of rsh when getting files from remote sites.
+.TP
+JUKEBOX_VOL_LIST 
+Listing of volumes in a jukebox system.  Maintained by local jukebox software or 
+downloaded through ftp from juneau's pub/dailies ftp directory.  This file is no
+longer mandatory (since the jukeboxes may disappear).
+.TP
+JUKEBOX_HOST
+The host of the jukeboxes for which JUKEBOX_VOL_LIST
+lists all volumes.  If not set, then the '(J) Jukebox' checkbox will not appear in the File List 
+window.
+.TP
+JUKEBOX_MOUNT_POINT
+Path to the directory on JUKEBOX_HOST where the CDROM volumes can be accessed by volume name.
+.TP
+REMOTE_DOMAIN_HOSTS
+List of hosts from which to get files from user data directories, or CDROM volumes which have
+been added as data directories with trimFileList.  If not set,  then the '(r) Remote Data 
+Directory' checkbox will not appear in the File List window.
+.TP
+REMOTE_ONLINE_VOL_HOST
+Host which serves the online CDROM volume images listed in the OnlineVolumes table, updated
+with update_vollist.  If used, this would be set to mammoth.ssl.berkeley.edu.  If not set, then
+the '(R) Remote Online Volume' checkbox will not appear in the File List window.
+.TP
+LOCAL_ONLINE_VOL_HOST
+Host on the local network which serves the online CDROM volume images listed in the OnlineVolumes
+table, updated with update_vollist.  If set, then 
+.B datamgr
+will consider files in volumes on LOCAL_ONLINE_VOL_HOST as online.
+.TP
+REMOTE_JUKEBOX_HOST
+If used, then the JUKEBOX_HOST is prioritized as a local jukebox.  update_vollist can 
+place the UCSOC jukebox volume list into the OnlineVolumes table, so they can be seen
+from remote sites if REMOTE_JUKEBOX_HOST is set to kenai.ssl.berkeley.edu (i.e. the 
+JUKEBOX_HOST at UCSOC).
+.TP
+DATAFILE_LIST
+Obsolete filelist used to keep track of user data directories.  Can be used by 
+.B dmls
+and 
+.B fileListToDB
+to keep a backup of the filelist in the fast_online database.
+.TP
+DBCONF
+File (by default $env(FASTCONFIG)/fast_archive.conf) which contains login information
+for Sybase.
+.TP
+CDROM_MOUNTPOINT
+Mounpoint for cdroms in a local cdrom drive.
+.IP COPY_OTHERS_FILES\ GET_JUKEBOX_FILE\ GET_CDROM_FILES\ GET_REMOTE_VOL_FILES\ GET_REMOTE_DIR_FILES\ GET_REMOTE_JUKEBOX_FILES
+Boolean variables (set to true or false, or 1 or 0)  To select or de-select the corresponding data source
+checkboxes in the File List window, by default.  I recommend setting COPY_OTHERS_FILES to false.
+
+
+.SH SEE ALSO
+whichfiles(1), datamgr(1), trimFileList(1), update_filelist(1), dmls(1), fileListToDB(1), update_vollist(1)
+.LP
+.SH BUGS
+.LP
+Watch this space
+
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

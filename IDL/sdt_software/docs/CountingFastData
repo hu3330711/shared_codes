@@ -1,0 +1,129 @@
+
+SccsId:  @(#)CountingFastData	1.3 07/03/96
+
+Description of the "FastCount" Program:
+--------------------------------------
+
+In order to be able to view Fast data with SDT in Data Analysis Mode,
+a "set" of Fast data must be "counted" by the program:
+
+    $FASTBIN/FastCount
+
+Note that there are two types of "sets" of Fast data:
+
+    1.  Captured Fast Relay session files, hereby called
+        "PDU files".
+
+    2.  "Directory Sets" of LZP-generated post-pass data, hereby
+	called  "PPS data".  These are NOT single files but
+	directories, whose names are of the form:
+
+            fast_lzp_GNDSTN_orbitnnnn_y
+
+        where "GNDSTN", "nnnn", and "y" are as defined in the LZP
+	documentation.  It is this data that will be stored in
+	the official Fast data base.
+
+
+Usage of the "FastCount" program is as follows:
+
+    $FASTBIN/FastCount  DType  InDir=InputDir  File=FName  OutDir= OutDir
+
+    Arguments:
+
+	 DType:    Required:  Indicates which data set type to be
+		   counted.  Must be one of:
+
+		       PDU
+		       DA
+
+	 InputDir:  Optional:  The name of the directory in which
+		    the data set(s) exist.  If not used, then the
+		    current working directory is assumed to be
+		    the location of the Fast data to be counted.
+
+	 FName:     Optional:  If used, it is the name of the PDU file
+		    or DA data set to be counted, within "InputDir".
+		    If not used, then, if DType == PDU, all PDU files
+		    in "InputDir" will be counted, or, if DType == DA,
+		    all PPS data sets in "InputDir" will be counted.
+
+	 OutputDir: Optional:  The name of the directory in which to
+		    put the generated count files.  If not used, the
+		    count files are put into the current working
+		    directory.
+
+
+The "FastCount" program produces a count file for each Fast data set
+it scans.  In the case of a PDU file, the name of the file is:
+
+      pdufilename.cnt
+
+where "pdufilename" is the name of the PDU file.  In the PPS data case,
+the name of the count file is of the form:
+
+     fast_lzp_GNDSTN_orbitnnnn_y.cnt
+
+where "GNDSTN", "nnnn", and "y" are as defined in the LZP documentation.
+
+Note that the count file is ASCII and can be read into a "C" program by
+use of the library:
+
+     libfastcount.a
+
+The program also produces, in the current working directory, a diagnostic
+file:
+
+    outfastcnt
+
+and an error file:
+
+    errfastcnt
+
+If the count files were successfully generated, "errfastcnt" should be
+of zero length.
+
+
+Examples:
+
+    1.  In order to "count" all of the PDU files in the directory:
+
+	     /disks/juneau/disk2/gsedata
+
+        and put the count files in that same directory, enter:
+
+	     $FASTBIN/FastCount PDU InDir=/disks/juneau/disk2/gsedata \
+	     OutDir=/disks/juneau/disk2/gsedata
+
+    2.  In order to "count" the PDU file:
+
+	     it_esa_burst
+
+        inside directory:
+
+	     /disks/juneau/disk2/gsedata/ITdata
+
+        and put the count file into your current working directory, enter:
+
+	   $FASTBIN/FastCount PDU InDir=/disks/juneau/disk2/gsedata/ITdata \
+	   File=it_esa_burst
+
+    3.  In order to "count" the PPS data set:
+
+	     /diska/lzp/fast_lzp_DSS-16_orbit0027_r
+
+        and put the count file into:
+	
+	   /diska/lzp/fast_lzp_DSS-16_orbit0027_r
+
+	enter:
+
+	   $FASTBIN/FastCount DA InDir=/diska/lzp \
+	   File=fast_lzp_DSS-16_orbit0027_r \
+	   OutDir=/diska/lzp/fast_lzp_DSS-16_orbit0027_r
+
+        Note that:
+
+	    fast_lzp_DSS-16_orbit0027_r
+
+        is not a file, but a sub-directory of "/diska/lzp".

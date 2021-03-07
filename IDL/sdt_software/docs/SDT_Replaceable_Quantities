@@ -1,0 +1,336 @@
+#
+#  @(#)SDT_Replaceable_Quantities	1.3, 03/27/02
+#
+
+"Replaceable" Quantities in SDT:
+-------------------------------
+
+In early 2002, it was deemed very valuable to be able to perform
+convolutions, using pre-computed FIR filters, on the POLAR raw
+voltage/efield quantities.  It was essential that, after performing
+these convolutions on these raw quantities, all quantities having
+the convoluted quantities as ancestors also be recomputed, using the
+new input data.  In the past, we would have simply defined the
+convoluted versions of the raw quantities as new science quantities
+and generated a new set of science quantities to parallel the science
+quantities which depended on the original raw quantities.
+
+Because of the enormous number of science quantities involved, it was
+deemed that a new feature be added to SDT to facilitate this and future
+changes of this type.  It is the concept of "replacing" an existing
+quantity by a modification, but giving the new version of the quantity
+the same name as the original, so that all follow on quantities will
+be recomputed using the new version of the input data.   The original
+version of the data will be preserved, but renamed, and can be restored
+as the "current" version of the data (and recomputing the follow-on
+data accordingly).   The use of the original or modified data is
+controlled by SDT parameters.  Note that if the parameter corresponding
+to the use/non-use of the modified data is turned OFF, the modified
+data is NOT preserved (the original data always is).
+
+To implement this methodology, a great amount of work was required in
+the SDT programs "UI", "SCM" and "dqh".  Now that it is active, it has
+the potential to save an enormous amount of effort, in appropriate cases,
+since it is not required to define (perhaps many) new quantities, either
+raw or science, to allow for significant changes to be made to raw data
+that is piped into science quantity computation.
+
+A very brief description of the steps needed to implement a
+"replacement" quantity is listed in the section entitled:
+
+   Steps in Creating a Replacement for an Existing Quantity
+
+As to the issue of when it is "appropriate" to use "replacement"
+quantities instead of defining new quantities, a good rule of thumb
+would be that a heavily-used decommutator quantity is a good candidate,
+especially if many science quantities have that quantity as an ancestor.
+
+
+---------------------------------------------------------------------
+Defining Replacement Quantities:
+
+For a specific decommutator (e.g. POLAR, FAST, CLUSTER), all
+"Replacements" are defined in one ASCII file, which shall be distributed
+in directory:
+
+    $FASTLIB/sdt_cfg
+
+and shall have the name:
+
+    UI_Rplc_Params.<decommutator>
+
+where <decommutator> will be the official "SDT" name of the project.
+As of March 2002, the only project using replacements is "POLAR"
+and so there exists the file:
+
+    $FASTLIB/sdt_cfg/UI_Rplc_Params.POLAR
+
+which defines the convolution replacements mentioned above.  If and
+when we want to define replacements for the other missions, the
+names would be:
+
+    CLUSTER:    UI_Rplc_Params.Cluster
+
+    FAST:       UI_Rplc_Params.FAST
+
+    GEOTAIL:    UI_Rplc_Params.Geotail
+
+    CRRES:      UI_Rplc_Params.Crres
+
+    ISEE:       UI_Rplc_Params.ISEE
+
+    WIND:       UI_Rplc_Params.WIND
+
+This feature should also work with science module data quantities, but
+usually the computation of those can be controlled via parameters and
+we will probably never use "Replacement" quantities, starting at the
+science module level.
+
+This definition file, which will sometimes be referred to as the:
+
+   "Mission Replacement Quantity File"
+
+is described in the next set of paragraphs.
+
+The "Mission Replacement Quantity File" for a given spacecraft consists
+of one record per quantity/replacement.   Please note that, as of March
+2002, we only allow one replacement type for any quantity - i.e. the
+POLAR quantity "V12L" already has a Convolution replacement quantity
+defined for it.   It cannot have any other.
+
+Each record consists of the following lines:
+
+    DQD:    quantity_name
+    Exec:   science_module_for_replacement_computation
+    RType:  <Integer>
+    Parameter1
+    Parameter2
+        .
+        .
+        .
+    ParameterN
+
+"quantity_name" must be the name of an existing DQD for the mission.
+
+"science_module_for_replacement_computation" is the full pathname of
+the science module that is called to perform the recomputation.
+It will be referred to, in this document as the
+"associated science module".
+
+A basic description of these types of science modules is given below
+in the section entitled:
+
+    Replacement Quantity Science Modules:
+    -------------------------------------
+
+The integer following "RType" is not used.  It is a code indicating
+which type of replacement is requested.  As of March 2002, the following
+codes are defined:
+
+     0     ->    Convolution
+
+It may be that we will never use the "RType" field.
+
+The list of Parameters follows with the first two being required as
+follows:
+
+
+
+Parameter1:
+
+  This is the parameter which allows the user to toggle use of the
+  replacement On/Off.   It should have the form:
+
+    'SCRAFT: Rplc: <description> (1 = Yes / 0 = No)' DQ_STORE_INT32 0
+
+  where "SCRAFT" is "POLAR", "Cluster", or the appropriate spacecraft
+  name and <description> is a brief description like:
+
+      Use V56L Convolution Table
+
+
+
+Parameter2:
+
+   This parameter will usually contain the name of an ASCII file which
+   will hold further information required by the associated science
+   module.  It is not to be seen by the user so will be of type
+   "DQ_LITERAL".   The format of the file needs to be defined and
+   documented by the writer of the associated science module.  The
+   parameter line should have the form:
+
+    'SCRAFT: Rplc: <description>' DQ_LITERAL <filename>
+
+  where "SCRAFT" is "POLAR", "Cluster", or the appropriate spacecraft
+  name and <description> is a brief description like:
+
+      Use V56L Convolution Table FileNmae
+
+  <filename> is the name of the file read by the associated science
+  module.  It is not a full pathname, just the filename.  It is up
+  to the science module to look for it.  It is expected that the
+  search order will be:
+
+       ./
+       $FASTCONFIG/sdt_cfg/scraft_subdir
+       $FASTLIB/sdt_cfg/scraft_subdir
+
+  where "sdt_cfg/scraft_subdir" is as follows:
+
+       POLAR     ->    sdt_cfg/polar
+       Cluster   ->    sdt_cfg/cluster
+       FAST      ->    sdt_cfg/fast
+       GEOTAIL   ->    sdt_cfg/geotail
+       Crres     ->    sdt_cfg/crres
+       WIND      ->    sdt_cfg/wind
+       ISEE      ->    sdt_cfg/isee
+
+  The writer of the associated science module does not have to adhere
+  to this search order - it is but a suggestion.
+
+  It is expected that SCCS control of the files mentioned by
+  Parameter2 entries will be under the decommutator it pertains to.
+  For instance, the Parameter2 files for the Polar convolutions
+  are in SCCS under:
+
+      src/sdt/PolarDecom
+
+
+
+
+Other Parameters:
+
+   These can be defined as need be and can be made resettable by the
+   user (unlike Parameter2).   The Convolution replacement did not,
+   at least as of March 2002, require any of these.
+ 
+
+
+To see examples of these records, look at the file:
+
+    $FASTLIB/sdt_cfg/UI_Rplc_Params.POLAR
+	
+It is expected that SCCS control of the "UI_Rplc_Params.*" files
+will be in:
+
+    workspace/src/sdt/UI
+
+
+
+---------------------------------------------------------------------
+Replacement Quantity Science Modules:
+
+Writing a science module to support  a "replacement" quantity is much
+like writing any other science module with one BIG difference.   There
+is no "Output" quantity.   There are two input quantities - the original,
+unreplaced quantity and the new quantity, which needs its space to be
+filled.   It is expected that the input to the computational algorithm
+will be the first Input DQI and the output will be set into the second
+input quantity. 
+
+So, in the "SnapOnFillBuffers" buffers routine of the science module,
+the "SO->InputQuantCount" should be at least 2 and:
+
+    SO->InputQuant[0].DQIList->qty.qty_val[0]
+
+is the input DQI, and:
+
+    SO->InputQuant[1].DQIList->qty.qty_val[0]
+
+is the output DQI.
+
+It is expected that a definition ASCII file will be Parameter 1 when
+you read the parameters (the very first is Parameter 0 and that is
+a "direction" integer which can be ignored - it is always "1").
+
+Usually, you get Parameter 0 with "GetParamInt (0, ...)" and Parameter 1
+with "GetParamChar (1, ...)".  If you have more parameters, you must
+be sure to use the correct "GetParam" routine to fetch them.
+
+See:
+
+    General.UCB.sparhawk.convolution1.c
+
+in directory:
+
+    src/sdt/FastSnapOns/UCB/sparhawk/General
+
+as an example science module for a replacement quantity.
+
+
+
+
+
+---------------------------------------------------------------------
+Steps in Creating a Replacement for an Existing Quantity
+
+1.  If it doesn't already exist, create the appropriate
+    "UI_Rplc_Params" file.  If it had to be created, put it under
+    SCCS control in:
+
+	src/sdt/UI
+
+    If you had to create a new "UI_Rplc_Params", you will have to
+    modify:
+
+	src/sdt/UI/Makefile
+
+    so that you add the file "UI_Rplc_Params.<decommutator>" to the
+    dependency line:
+
+	UI_Rplc_Files:  UI_Rplc_Params.POLAR   ...
+
+    and to the $(INSTALL) line (2 lines later).
+
+    As of March 2002, only "UI_Rplc_Params.POLAR" existed.
+
+
+2.  Add the appropriate records into this file.
+
+3.  Define and create the associated ASCII input file(s) (as listed
+    in "Parameter2" above).   If these files refer to any other files,
+    you need to define and/or create them as well.   These files
+    should be put under SCCS control in:
+
+	src/sdt/<decommutator>
+
+    where <decommutator> is "PolarDecom", "FastDecom", "Cluster" or
+    whichever project is involved.   The decommutator "Makefile" should
+    be setup to install these files into the appropriate sub-directory
+    of $FASTLIB/sdt_lib - i.e. one of:
+
+	 $FASTLIB/sdt_lib/polar
+	 $FASTLIB/sdt_lib/fast
+	 $FASTLIB/sdt_lib/cluster
+	     etc.
+
+    See the "Makefile" in "src/sdt/PolarDecom" for an example of
+    how this can be done (look for "POLAR_RPLC_SETUPS" and
+    "POLAR_CONVOL1_FIRS").
+
+4.  Write the associated science module, somewhere in the
+    "src/sdt/FastSnapOns" area of the workspace.  You will have to
+    add the new program to the appropriate "Makefile".
+
+5.  Write a document defining the formats of the associated ASCII
+    input files.   An example would be (from Polar):
+    
+	PolarConvolutionReplacementQtys
+
+    Put this document under SCCS control of the appropriate decommutator
+    and change the "Makefile" for that decommutator so that the
+    document gets installed into "DOCS".
+
+Note that no modification of "UI", "SCM", or "SCMLibs" is required.
+The only source code that needs to be written is in (4) - the writing
+of the associated science module.
+
+
+---------------------------------------------------------------------
+Other Documentation:
+
+   For a description of the files required for the Polar Convolution
+   replacement (the first use of "Replacement" quantities), see the
+   document:
+
+       $FASTHOME/docs/PolarConvolutionReplacementQtys

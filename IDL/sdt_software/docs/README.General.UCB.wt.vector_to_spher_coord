@@ -1,0 +1,234 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_to_spher_coord
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_to_spher_coord
+
+************************************************************************
+
+   Transform vector to spherical coordinates.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_to_spher_coord	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module transforms a vector (in 3D) into spherical
+       coordinates.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The input vector.
+
+
+
+               This gives the vector in Cartesian components.
+
+
+
+
+
+    3) The spherical coordinates are:
+
+
+
+            1) Magnitude.
+
+
+
+            2) Latitude.
+
+               Is produced in degrees, from -90 to +90.
+
+
+
+            3) Longitude.
+
+               Is produced in degrees, from -180 to +180.
+
+
+
+
+
+    4) An output data point is produced for each input vector.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input vector.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Magnitude.
+
+
+               Float.
+
+
+
+            3) Latitude.
+
+
+               Float.
+
+
+
+            4) Longitude.
+
+
+               Float.

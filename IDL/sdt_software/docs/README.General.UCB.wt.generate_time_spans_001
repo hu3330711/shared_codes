@@ -1,0 +1,487 @@
+************************************************************************
+
+   README.General.UCB.wt.generate_time_spans_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.generate_time_spans_001
+
+************************************************************************
+
+   Generate time spans.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.generate_time_spans_001	1.2    07/19/07    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module generates time spans, suitable for use with
+       "sdt_batch".
+
+
+
+
+
+    2) Each time span is a sub time span of the total specified SDT
+       time span.
+
+
+
+
+
+    3) The SDT output data quantity, containing the sub time spans, can
+       be used directly as the SubTimeSpanGenerator in sdt_batch.
+
+
+
+       Additionally, there is the option of writing the sub time spans
+       to a file.
+
+
+
+       The file contains the sub time spans in a format usable by
+       sdt_batch.
+
+       For some spacecraft, the file contains also the corresponding
+       data directory information; but this information should be
+       checked carefully before using it, to make sure that it is
+       correct.
+
+
+
+       If the file is written, it resides in the directory from which
+       SDT is being run; and has the file name
+
+           time_spans.txt
+
+       There is the choice of appending to an existing file, or
+       overwriting it.
+
+
+
+
+
+    4) The time spans are specified by conditions on a number of input
+       data quantities.
+
+
+
+
+
+    5) There can be any number of input data quantities; the minimum is
+       1.
+
+
+
+       Different quantities may be data components of the same or of
+       different inputs.
+
+
+
+
+
+    6) There must be the following SDT inputs:
+
+
+
+        1) The inputs for all the input data quantities to be used to
+           determine the time spans.
+
+
+
+
+
+    7) The logical connector between the different quantities is "and".
+
+
+
+       Within each output time span, the requirements for all the
+       quantities are satisfied.
+
+
+
+
+
+    8) For each data quantity, a 2-part condition can be specified.
+
+
+
+       Each data quantity will satisfy its requirements if and only if
+       it satisfies its 2-part condition.
+
+
+
+
+
+    9) The 1st. part of the condition consists of a comparison of the
+       quantity value to an interval.
+
+
+
+       See the function
+
+         Compare_To_Interval_001
+
+       for details.
+
+
+
+
+
+   10) The 2nd. part of the condition consists of a condition for the
+       sequence or ordering of the quantity values.
+
+
+
+       See the function
+
+         Check_Sequence_001
+
+       for details.
+
+
+
+
+
+   11) The same input data quantity may be specified any number of times
+       among the parameters for input data quantities.
+
+
+
+       Each such specification is treated as a separate input quantity,
+       with its own 2-part condition for time spans.
+
+
+
+
+
+   12) The user can specify a separate maximum time separation for each
+       data quantity; this is the maximum separation allowed within a
+       time span, between successive data points that satisfy the 2-part
+       condition.
+
+
+
+
+
+   13) The user can specify a minimum duration for a time span.
+
+
+
+       Shorter time spans are not output.
+
+
+
+
+
+   14) The time tags for all the input quantities must be referred to
+       the same date (the start date for the time span requested for
+       SDT); and must be expressed in units of seconds.
+
+
+
+
+
+   15) The times for the output (start and end times for the time spans)
+       are expressed in units of seconds.
+
+
+
+       The JDN/Times for the output are normalized.
+
+
+
+
+
+   16) The time tag for the output is not used by "sdt_batch", and can
+       be filled with an arbitrary contents.
+
+
+
+       This Science Module sets that time tag to the start time of the
+       corresponding time span; but without normalizing (i.e., the time
+       is referred to the SDT start date).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+        1) Dump frequency for the output data points.
+
+
+           Int.
+
+
+           Must be one of the following:
+
+
+                0      =  Do not dump.
+
+                >= 1   =  Dump output data points with indices of:
+                          0, n, 2n, 3n, ...  (where n is the chosen
+                          dump frequency); i.e., every n-th point.
+
+                <= -1  =  Dump output data points with indices of:
+                          0, 1, 2, 3, ..., (n-1)  (where -n is the
+                          chosen dump frequency); i.e., the first n
+                          points.
+
+
+
+        2) Number of data inputs.
+
+
+           Int.
+
+
+           Must be  >=  1.
+
+
+
+        3) Number of data quantities.
+
+
+           Int.
+
+
+           Must be  >=  1.
+
+
+
+        4) The group of parameters described here occurs once for
+           each data input.
+
+
+
+            1) Input component index for the time tag.
+
+
+               Int.
+
+
+
+        5) The group of parameters described here occurs once for
+           each of the data quantities.
+
+
+
+            1) Integer parameters for each quantity:
+
+                1) Input index.
+
+                2) Input component index.
+
+                3) Condition code for the 1st. part of the
+                   condition.
+
+                4) Reverse flag for the 1st. part of the condition.
+
+                5) Sequence code for the 2nd. part of the condition.
+
+
+
+            2) Double parameters for each quantity:
+
+                1) "a" for the 1st. part of the condition.
+
+                2) "b" for the 1st. part of the condition.
+
+                3) Maximum time gap (in seconds).
+
+
+
+        6) Minimum duration for a time span.
+
+
+           Double.
+
+
+           Units are seconds.
+
+
+           Must be  >  0.
+
+
+
+        7) Flag to write the output file.
+
+
+           Int.
+
+
+           Must be one of the following:
+
+
+               WT_TRUE   =  Write the file.
+
+               WT_FALSE  =  Do not write the file.
+
+
+
+        8) Flag to append to an existing output file.
+
+
+           Int.
+
+
+           If the output file is to be written,
+           must be one of the following:
+
+
+               WT_TRUE   =  Append to the file.
+
+               WT_FALSE  =  Do not append to the file (overwrite).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+        1) The data inputs for the data quantities.
+
+
+           Each of these inputs consists of a time series (Standard data
+           type); the following components are required, and must be of
+           the indicated types:
+
+
+            1) Time.
+
+               Double, or a type that can be converted to double.
+
+
+            2) One or more components, for the values of the data
+               quantities.
+
+               Float, or a type that can be converted to double.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+        1) Time.
+
+
+           Double.
+
+
+
+        2) The time for the start of the time span.
+
+
+           Double.
+
+
+
+        3) The time for the end of the time span.
+
+
+           Double.
+
+
+
+        4) The Julian Day Number for the start of the time span.
+
+
+           Int.
+
+
+
+        5) The Julian Day Number for the end of the time span.
+
+
+           Int.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+        1) The file with the time spans (and possibly data directory
+           information); this file is optional.

@@ -1,0 +1,27 @@
+
+@(#)README.InstallSpecialTasks	1.2 04/20/95		UCB SSL
+
+	      FAST Software Installation - Special Tasks
+
+This document describes special tasks that must be performed to
+install the FAST software on a workstation, that are not covered by
+the make process.  Programmers are encouraged to keep this file
+complete and current.  It can then be used as a checklist when
+installing a new workspace on a FAST system.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Before Building the Workspace: (enter here items that must be done
+before the `make install' process)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+After Building the Workspace: (enter here items that must be done
+after the `make install' process)
+
+1) Changing the program `cleandir' to be owned by root and SUID 
+   (NOTE!! This step should only be done on the FINET computers !!):
+	a) Become super user
+	b) cd $FASTBIN
+	c) type `chown root cleandir'
+	d) type `chmod u+s cleandir'
+	e) exit from super user.
+

@@ -1,0 +1,136 @@
+#!/bin/ksh
+#
+#	db_update_op_events.sh
+#
+#
+#	@(#)db_update_op_events.sh	1.6 05/30/97	UCB SSL
+#
+#	Usage:
+#	    db_update_op_events [-c <config>]
+#
+#	Connects to Sybase and the FAST database, and updates
+#	orbit and ephemeris data in the operational_events and
+#	events_data tables based in information in the orbit
+#	almanac.
+#
+#	Parameters:
+#	-c <config>	Configuration file.  Default: fast_dbupdate.conf 
+#			in FASTCONFIG, then FASTLIB.  Must be the first
+#			option if present.
+#
+#	Operational events added to the database by 'db_insertcounts'
+#	do not include ephemeris information.  This script 
+#	uses the orbit almanac data to fill in the ephemeris data
+#	for these events with predicted orbit data.
+#
+# ***********************************************************
+
+
+# -----------------------------------------------------
+# Temporary files
+TEMPSQL=/tmp/sql$$		# For SQL queries
+TEMPEVENTS=/tmp/events$$	# Events list
+TEMPRES=/tmp/res$$		# isql return status
+
+# -----------------------------------------------------
+# Exit processing
+
+# *** Clean up when we leave
+finish () {
+	/bin/rm -f ${TEMPSQL} ${TEMPEVENTS} ${TEMPRES}
+	echo "Finished 'db_update_op_events'"
+}
+trap finish EXIT
+
+# -----------------------------------------------------
+# Command line processing
+MYNAME=$(basename $0)
+
+CONFIG=fast_dbupdate.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+        echo "${MYNAME}:  ${ARCH_ERROR}" 1>&2
+        exit ${ERR}
+fi
+
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		shift 2
+	else
+		break
+	fi
+done
+
+ORBITALMANAC=${FAST_ALMANAC}/orbit
+ORBPREDICTED=${ORBITALMANAC}/predicted
+
+# -----------------------------------------------------
+# We need SQL_queryfilter and awk to format the events list the
+# way we need it for op_events_sqlgen
+#
+#   do_times  <sql_file>
+
+do_times() {
+	/bin/rm -f ${TEMPRES}
+	(do_isql ${1} ; echo $? > ${TEMPRES}) | SQL_queryfilter | awk '{
+		printf "%04d%02d%02d %02d:%02d:%02d.%03d\n", \
+			$1, $2, $3, $4, $5, $6, $7;
+	}'
+	return $(cat ${TEMPRES})
+}
+
+
+# =============================================================
+
+# -----------------------------------------------------
+# Query for a list of operational_event times for events that
+# don't yet have any ephemeris information
+
+/bin/rm -f ${TEMPSQL}
+cat <<END > ${TEMPSQL}
+select ident into #nidents from events_data
+where X = null and Y = null and Z = null
+go
+select
+	str(datepart(year, time), 4),
+	str(datepart(month, time), 2),
+	str(datepart(day, time), 2),
+	str(datepart(hour, time), 2),
+	str(datepart(minute, time), 2),
+	str(datepart(second, time), 2),
+	str(datepart(millisecond, time), 3)
+from operational_events, #nidents
+where data = ident
+order by time
+go
+END
+
+do_times ${TEMPSQL} > ${TEMPEVENTS}
+ERR=$?
+if [[ ${ERR} != 0 ]] ; then
+	echo "${MYNAME}:  isql error finding events to update" 1>&2
+	exit ${ERR}
+fi
+
+# -----------------------------------------------------
+# Now process the events list and the orbit file to update the
+# orbit and ephemeris data for those events
+
+/bin/rm -f ${TEMPSQL}
+op_events_sqlgen ${ORBPREDICTED} ${TEMPEVENTS} > ${TEMPSQL}
+ERR=$?
+if [[ ${ERR} = 0 ]] ; then
+	(do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | grep -v 'Password:'
+	ERR=$(cat ${TEMPRES})
+	if [[ ${ERR} != 0 ]] ; then
+		echo "${MYNAME}:  isql error updating events" 1>&2
+	fi
+else
+	echo "${MYNAME}:  error in op_events_sqlgen" 1>&2
+fi
+
+# -----------------------------------------------------
+# Clean up our temp. files and leave
+
+exit ${ERR}

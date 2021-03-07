@@ -1,0 +1,18 @@
+#  SCCS Id
+#  @(#)V6_S.cal	1.1 04/15/96
+#
+# V6_S.cal
+# REE 5/25/95
+V6_S			Data name.
+1    			Linear calibration.
+sec			x-axis units.
+Volts			y-axis units.
+xx			z-axis units.
+0			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration table as of 5/25/95.
+0			Time in seconds.
+8.2			Offset.
+1.379e-3		Gain.
+

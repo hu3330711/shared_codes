@@ -1,0 +1,147 @@
+#!/usr/bin/ksh
+#
+#	orbupdate
+#
+#	Author:  George Kaplan
+#
+#	@(#)orbupdate.ksh	1.4 05/09/95	UCB SSL
+#
+#	Update the FAST database with orbit data
+#
+#	Usage:
+#		orbupdate [-c config] <ogs-directory> <process-id>
+#
+#	This script is part of the automated archive processing
+#	that handles incoming data from GSFC.  It's called
+#	after FDF orbit vectors have been transferred to DANET.
+#	<ogs-directory> is the name of the directory where the
+#	FDF data has been placed.  This is a subset of the 'ogsarch'
+#	directory managed by the 'ogs' facility on FINET.  The
+#	directory structure is preserved, but only the FDF orbit
+#	vectors are present.  Subdirectories of <ogs-directory>
+#	each correspond to an ogs run, and have names in the form:
+#
+#		ogs.archive.yyyy.ddd.hh.mm.ss
+#
+#	where	yyyy = year
+#		ddd  = day of year (1 Jan = DOY 1)
+#		hh   = hour of the ogs run (UTC)
+#		mm   = minutes
+#		ss   = seconds
+#
+#	<process-id> is the PID of the calling process, and will 
+#	be included in all messages.
+#
+#	If present, the -c option specifies an alternate
+#	configuration file to use in place of the standard
+#	one.  This is intended mainly for testing.
+#
+#	Exit status	Meaning
+#	--------------------------------------------
+#		0	Success (except for non-fatal database
+#			problems; see below)
+#		1	Failure; missing or incorrect files or other
+#			fatal error.  Output includes "FAILED" message
+#		2	Interrupt.  Output includes "INTERRUPT" message
+#
+#	Note that errors updating the database do not (as yet)
+#	constitute fatal errors as far as 'dbupdate' is concerned.
+#	Error messages from the database update scripts are logged
+#	kept in the DANETLOG (defined in the config file) directory.
+#
+# ***********************************************************
+
+# ***********************************************************
+# *** Command line processing
+
+MYNAME=$(basename $0)		# Name of this program
+
+CONFIGFILE=/disks/fast/software/config/archive_config	# Default configuration file
+if [[ "$1" = "-c" ]] ; then
+	CONFIGFILE=$2
+	shift 2
+fi
+
+OGSDIR=$1		# OGS directory being processed
+PPROC=$2		# Calling process ID (for logging)
+
+ALMANACLOG=/tmp/almanaclog$$	# Output from orbalmanac
+PAUSE=60		# sleep time while waiting for a lock
+
+OGSPATTERN='^ogs.archive.[0-9][0-9][0-9][0-9].[0-3][0-9][0-9].[0-2][0-9].[0-5][0-9].[0-5][0-9]'
+
+# ***********************************************************
+# *** Output log and exit message handling
+
+LOGECHO="echo ${PPROC}:"	# Prepend PPROC to log messages
+
+# *** Clean up and say goodbye when we leave
+logfinish () {
+	/bin/rm -f ${ALMANACLOG}
+	${LOGECHO} ---- ${MYNAME} ends $(date) ----
+}
+trap logfinish EXIT
+
+# *** Catch interrupts and notify the caller
+trap "${LOGECHO} INTERRUPT; exit 2" INT
+trap "${LOGECHO} INTERRUPT; exit 2" QUIT
+trap "${LOGECHO} INTERRUPT; exit 2" HUP
+
+# *** Notify caller of failure
+failexit () {
+	${LOGECHO} ${MYNAME} FAILED
+	exit 1
+}
+
+# ***********************************************************
+# *** Start the real work
+
+echo
+${LOGECHO} ---- ${MYNAME} run on $(date) ----
+
+
+# *** Archive configuration processing
+
+if [[ ! -r ${CONFIGFILE} ]] ; then
+	${LOGECHO} "${MYNAME} can't read config file ${CONFIGFILE}"
+	failexit
+fi
+. ${CONFIGFILE}
+
+if [[ "x${DANETLOG}" = "x" ]] ; then
+	${LOGECHO} "Must set DANETLOG directory - check configuration file"
+	failexit
+fi
+
+# *** Process the ogs subdirectories in order by timestamp
+if [[ ! -d ${OGSDIR} ]] ; then
+	${LOGECHO} "Directory ${OGSDIR} not found; giving up"
+	exit 0
+fi
+
+cd ${OGSDIR}
+ogs_list=$(ls | egrep "${OGSPATTERN}" | sort)
+
+if [[ "x${ogs_list}" = "x" ]] ; then
+	${LOGECHO} "No OGS archive directories found in ${OGSDIR}"
+	failexit
+fi
+
+for ogs_dir in ${ogs_list} ; do
+	${LOGECHO} Processing ${ogs_dir}
+	orbalmanac ${ogs_dir} > ${ALMANACLOG} 2>&1
+	if [[ $? -ne 0 ]] ; then
+		${LOGECHO} "orbalmanac failed"
+		cat ${ALMANACLOG}
+		failexit
+	fi
+	if [[ $(grep -c '^Msg' ${ALMANACLOG}) -ne 0 ]] ; then
+		${LOGECHO} Errors updating orbit data.  
+		${LOGECHO} See ${DANETLOG}.${ogs_dir}.errs
+		cat ${ALMANACLOG} >> ${DANETLOG}/${ogs_dir}.errs
+	fi
+done
+
+# *** Clean up and get outta here
+
+exit 0

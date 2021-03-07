@@ -1,0 +1,62 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	astat_cds_ondisk	
+#	
+# PURPOSE:	Display information about the archive system:
+#		show cd distribution on juneau hard-drives
+#
+# INPUTS:       none
+#
+#
+
+# Environment setup
+
+. /disks/fast/software/config/archive_config
+
+# Cleanup function
+
+function quitearly {
+	if [ -a /tmp/astattmp ] ; then
+		rm /tmp/astattmp
+	fi
+	print
+	exit 0
+}
+
+# Set trap for premature exit
+
+trap quitearly EXIT
+
+# Report Header
+#
+printf '\n\t\t  >>>>> ARCHIVE SYSTEM STATUS REPORT <<<<<\n\t\t\t%s\n\n' "`date`"
+
+# CDs residing on DANET disks
+#
+printf "\n\nCDs ON DANET DISKS\n======================================\n"
+
+printf "\n%-20s \n%-20s \n" \
+"Current On-Line Disks:" "----------------------"
+for disk in ${DANETSTORAGE[*]}
+do 
+	printf "%-20s \n" "$disk"
+done
+
+for disk in ${DANETSTORAGE[*]}
+do
+	printf "\n%-20s \n%-20s \n" \
+    	"Disk:$disk" "--------------------------------"
+	ls -1l $disk | grep ORBIT | awk '{print $9, $6, $7, $8}' | sort -n -tT -k 2 > /tmp/cdlisting$$
+	i=0
+	while [[ -s /tmp/cdlisting$$ ]]
+	do
+		i=$(( i + 1))
+		listing=$(head -1 /tmp/cdlisting$$)
+    		printf "%-20s \n" "$i) $listing" 
+		sed '1d' /tmp/cdlisting$$ > /tmp/CDLISTING$$
+		mv /tmp/CDLISTING$$ /tmp/cdlisting$$
+	done
+	rm /tmp/cdlisting$$
+done
+
+exit 0

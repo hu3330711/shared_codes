@@ -1,0 +1,344 @@
+************************************************************************
+
+   README.General.UCB.wt.import_ASCII_file_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.import_ASCII_file_001
+
+************************************************************************
+
+   Import ASCII file to SDT.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.import_ASCII_file_001	1.4    06/13/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module creates an SDT quantity from an ASCII input
+       file.
+
+
+
+
+
+    2) There are no SDT inputs.
+
+
+
+
+
+    3) The user has the option of not having an input file at all.
+
+
+
+       If there is no input file, then the SDT output has zero data
+       data points.
+
+
+
+
+
+    4) All the times in the file must be referred to the same date.
+
+
+
+       Therefore, times could go over 86,400 seconds (and could be
+       negative).
+
+
+
+
+
+    5) The user can designate a limit for the length of an input line.
+
+
+
+       This limit refers to the largest number of characters allowed for
+       a line (not counting the "newline" or end of line character).
+
+
+
+
+
+    6) The user can designate a special "comment character", that makes
+       lines from the input file be treated as comment lines.
+
+
+
+       A line is considered a comment line if its first (or only)
+       non-white space character is the "comment character".
+
+
+       Other types of comment lines are described below.
+
+
+
+
+
+    7) An output data point is produced for each data point in the
+       input file; provided that it is within the time interval
+       specified to SDT.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag for the corresponding input data point.
+
+
+
+       The data quantity values for the output data point are the same
+       as the values for the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   0     =  Do not dump.
+
+                   >= 1  =  Dump output data points with indices of:
+                            0, n, 2n, 3n, ...  (where n is the chosen
+                            dump frequency).
+
+
+
+            2) Flag for the input file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            3) Directory for the input file.
+
+
+               Char.
+
+
+               If there is an input file, then
+               must be a valid directory (not blank).
+
+
+
+            4) File name for the input file.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            5) Maximum number of characters for an input line.
+
+
+               Int.
+
+
+               Must be  >=  0.
+
+
+
+            6) Comment character.
+
+
+               Char.
+
+
+               Must be a single, non-white-space character.
+
+
+
+            7) Date to which the time in the file is referred.
+
+
+               Char.
+
+
+               Must be a valid date in the format YYYY/MM/DD (e.g.,
+               1996/05/29).
+
+
+
+            8) Number of data quantities for each data point.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The file with the input data.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is the designated "comment character".
+
+
+               Each line not a comment line contains one data point.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Time.
+
+                   Real.
+
+                   This is time in seconds, since 0 hours of the
+                   designated date.
+
+
+                2) One or more additional fields, one for the value of
+                   each data quantity for the data point.
+
+                   Real.
+
+
+               The lines should be in sequence of increasing time.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+               No line should be longer than the designated limit.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+           None.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each input data quantity value.
+
+
+               Float.

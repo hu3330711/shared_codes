@@ -1,0 +1,354 @@
+************************************************************************
+
+   README.General.UCB.wt.add_vectors_3D_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.add_vectors_3D_002
+
+************************************************************************
+
+   Add multiple vector quantities in 3D, with a primary input.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.add_vectors_3D_002	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a linear combination of a number of
+       input vector quantities.
+
+
+
+       One of the the inputs for the quantities is the primary input.
+
+
+
+
+
+    2) Since the vector components are simply added as they are, i.e.,
+       no rotations are performed; the result will be meaningful only if
+       all the vector quantities are referred to the same coordinate
+       system.
+
+
+
+
+
+    3) There can be any number of input quantities to be added; the
+       minimum is 1.
+
+
+
+       All components of a vector input quantity must be data components
+       of the same input.
+
+
+
+       Different quantities must come from different inputs, and
+       therefore the number of data inputs must be the same as the
+       number of quantities.
+
+
+
+       There must always be a primary input, and a corresponding primary
+       quantity.
+
+
+
+
+
+    4) If the values of the quantities are
+
+           v1, v2, ...
+
+       where of course v1, v2, ... are vectors,
+
+       then what is computed is
+
+           Output vector = (A1 * v1 + A2 * v2 + ...) - B
+
+       where the scalar coefficients A1, A2, ... and the vector B are
+       all specified by the user.
+
+
+
+
+
+    5) An output data point is produced for each input point of the
+       primary input.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding primary input data point.
+
+
+
+
+
+    6) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of each secondary
+       input (these are distinct intervals).
+
+
+
+       Each secondary quantity for the time of the output data point is
+       obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) The group of parameters described here occurs once for
+               each of the input vector components of the primary
+               quantity.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            4) Coefficient for the primary quantity.
+
+
+               Double.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the secondary data quantities, in the order of
+               the corresponding inputs.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) The group of parameters described here occurs once
+                   for each of the vector components of the quantity.
+
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+
+                3) Coefficient.
+
+
+                   Double.
+
+
+
+            6) The group of parameters described here occurs once for
+               each of the components of the vector B to subtract from
+               the linear combination.
+
+
+
+                1) Component value.
+
+
+                   Double.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+               The first data input is the primary one.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the sum (linear combination) of the input
+               data quantities.
+
+
+               Float.
+
+
+
+            3) Component 2 of the sum (linear combination) of the input
+               data quantities.
+
+
+               Float.
+
+
+
+            4) Component 3 of the sum (linear combination) of the input
+               data quantities.
+
+
+               Float.
+
+
+
+            5) Magnitude of the sum (linear combination) of the input
+               data quantities.
+
+
+               Float.

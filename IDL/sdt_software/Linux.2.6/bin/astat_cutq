@@ -1,0 +1,46 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	astat	
+#	
+# PURPOSE:	Display information about the archive system.
+#
+# INPUTS:       none
+#
+#
+
+# Environment setup
+
+. /disks/fast/software/config/archive_config
+
+# Cleanup function
+
+function quitearly {
+	if [ -a /tmp/astattmp ] ; then
+		rm /tmp/astattmp
+	fi
+	print
+	exit 0
+}
+
+# Must run from FINET machine
+
+host=$(uname -n)
+if [[ "$host" != "$FINETPRIMARY" && $host != "$FINETBACKUP" ]] ; then
+    print "Must run from a FINET machine."
+    exit 1
+fi
+
+# Set trap for premature exit
+
+trap quitearly EXIT
+
+# Report Header
+
+printf '\n\t\t  >>>>> ARCHIVE SYSTEM STATUS REPORT <<<<<\n\t\t\t%s\n\n' "`date`"
+
+# CDs left to Cut
+#
+printf "\nCDs TO BE CUT (contents of juneau:/disks/cdstudio/workdir/ymi_images)\n=====================================================================\n"
+rsh $DANETHOST cat $WORKDIR/ymi_images
+
+exit 0

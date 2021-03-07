@@ -1,0 +1,216 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dsksrf</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dsksrf</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKSRF finds the set of surface ID codes for all surfaces
+   associated with a given body in a specified DSK file.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dsksrf_c.html">dsksrf_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      dsk       is the name of a DSK file. This file will be
+                opened for read access by this routine.
+
+      idcode    the SPK ID code of a body for which topographic
+                data are present in the specified DSK files.
+
+      srfids    is an initialized Icy cell data structure.
+
+                `srfids' optionally may contain a set of DSK ID
+                codes on input.
+
+                The cell is initialized to cardinality zero, and
+                defined size, on creation.
+
+   the call:
+
+      <b>cspice_dsksrf</b>, dsk, idcode, srfids
+
+   returns:
+
+      srfids    is a Icy set data structure that contains
+                the union of its contents upon input with the set
+                of ID codes of the surfaces associated with the
+                body designated by `bodyid', for which segments were
+                found in the indicated DSK file.
+
+                The elements of Icy sets are unique; each ID
+                code in `srfids' appears only once, even if the DSK
+                file contains multiple segments for that ID code.
+
+                See the Examples section below for a complete
+                example program showing how to retrieve body and
+                surface ID codes from a DSK file.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Use a simple function to display the DSK IDs found in a DSK or set of
+   DSKs, and the time coverage of the data corresponding to those IDs.
+
+      PRO DSKSRF_T, dsk
+
+         MAXID  = 1000L
+
+         ;;
+         ;; Find the set of objects in the dsk file.
+         ;;
+         bodids = <a href="cspice_celli.html">cspice_celli</a>(MAXID)
+         srfids = <a href="cspice_celli.html">cspice_celli</a>(MAXID)
+
+         <a href="cspice_dskobj.html">cspice_dskobj</a>, dsk, bodids
+
+         for i=0, <a href="cspice_card.html">cspice_card</a>( bodids ) - 1 do begin
+
+            obj = bodids.base[ bodids.data + i ]
+
+            print, 'Body ID:     '  , obj
+
+            ;;
+            ;; Get the surface IDs for the Ith body.
+            ;;
+            <b>cspice_dsksrf</b>, dsk, obj, srfids
+
+            for i=0, <a href="cspice_card.html">cspice_card</a>( srfids ) - 1 do begin
+
+               srf = srfids.base[ srfids.data + i ]
+
+               print, '   Surface ID:  '  , srf
+
+            endfor
+
+         endfor
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; dsksrf_t, 'hay_a_amica_5_itokawashape_v1_0_64q.bds'
+      Body ID:          2025143
+         Surface ID:       2025143
+
+      The output lists the SPK IDs in the DSK and the surface IDs.
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   This routine provides an API via which applications can determine
+   the set of surfaces associated with a given body in a specified
+   DSK file. This routine is normally used together with <a href="cspice_dskobj.html">cspice_dskobj</a>.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/sets.html">SETS.REQ</a>
+   <a href="../req/naif_ids.html">NAIF_IDS.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 14-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   get coverage window for dsk object
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

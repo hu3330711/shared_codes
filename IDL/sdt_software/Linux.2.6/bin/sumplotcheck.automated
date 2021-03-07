@@ -1,0 +1,21 @@
+#!/usr/bin/ksh
+
+. /disks/fast/software/config/archive_config
+CHILDPROG1='/disks/fast/software/integration/SunOS.5.7/bin/sumplotcheck -g -n 100'
+CHILDPROG2='/disks/fast/software/integration/SunOS.5.7/bin/sumplotcheck -l'
+TMPFILE1='/tmp/sumplotcheck.automated.'$$.1
+TMPFILE2='/tmp/sumplotcheck.automated.'$$.2
+
+ARCHIVEMASTER='teq@ssl.berkeley.edu'
+
+if ! $CHILDPROG1 > $TMPFILE1; then
+  if ! $CHILDPROG2 > $TMPFILE2; then
+    echo "Date: " `date` "\nSubject: Summary Plot CDF Check\n\nThe following orbits are missing cdfs in /disks/juneau/cdf1/\n\n" `cat $TMPFILE1` "\n\n" `cat $TMPFILE2` | mail $ARCHIVEMASTER
+  else
+    echo "Date: " `date` "\nSubject: Summary Plot CDF Check\n\nThe following orbits are missing cdfs in /disks/juneau/cdf1/\n\n" `cat $TMPFILE1` | mail $ARCHIVEMASTER
+  fi
+elif ! $CHILDPROG2 > $TMPFILE2; then
+    echo "Date: " `date` "\nSubject: Summary Plot CDF Check\n\n" `cat $TMPFILE2` | mail $ARCHIVEMASTER
+fi
+
+rm $TMPFILE1 #TMPFILE2

@@ -1,0 +1,107 @@
+#!/bin/ksh
+#
+#	db_insertcounts.sh
+#
+#	Insert SDT counts information from all lzp contact
+#	directories on a FAST archive CD.  Assumes all 
+#	files from the CD have already been entered into the
+#	files table of the database
+#
+#	@(#)db_insertcounts.sh	1.17 02/03/99	UCB SSL
+#
+#	Usage:
+#		db_insertcounts [-c <config>] [<directory>]
+#
+#	Connects to Sybase and the FAST database, and inserts
+#	SDT counts and lzp contact information into the
+#	contacts, contact_APID, mode_periods, and mode_APID
+#	tables.
+#
+#	Parameters:
+#	<directory>	Root directory of the CD being processed.
+#			defaults to current directory.
+#
+#	<config>	Configuration file.  Default: fast_dbupdate.conf 
+#			in FASTCONFIG, then FASTLIB
+#
+# ***********************************************************
+
+# *** Temporary files
+TEMPSQL=/tmp/sql$$
+TEMPRES=/tmp/res$$
+
+# *** Exit processing
+finish () {
+	/bin/rm -f ${TEMPSQL} ${TEMPRES}
+}
+trap finish EXIT
+
+
+# *** Command line processing
+MYNAME=$(basename $0)
+DIRECTORY=`pwd`
+CONFIG=fast_dbupdate.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+        echo "${MYNAME}:  ${ARCH_ERROR}" 1>&2
+        exit ${ERR}
+fi
+
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		shift 2
+	elif [ "x${1}" != "x" ] ; then
+		DIRECTORY=$1
+		break
+	fi
+done
+
+# Environment
+
+# =============================================================
+DIRECTORY=${DIRECTORY%/}		 # remove trailing /, if any
+CDSOURCE=${DIRECTORY%[Ff][Aa][Ss][Tt]*}  # directory beneath cd volume
+CDNAME=${DIRECTORY#${CDSOURCE}}          # volume name
+typeset -u CDNAME
+# for each lzp directory:
+for i in ${DIRECTORY}/lzp/fast_lzp_??????_orbit@(????|?????)_? ; do
+	COUNTSNAME=${CDNAME}${i#${DIRECTORY}}    # volname/lzp/contact_dir
+	COUNTSNAME=${COUNTSNAME%/}		 # remove trailing /, if any
+
+# check if the countsfile already has been processed.
+# if it has been processed already, try the next countsfile.
+
+	if [[ $(grep -c "${COUNTSNAME}" ${CHECKCOUNTS}) -ne 0 ]] ; then
+
+	   echo "${MYNAME}:  ${COUNTSNAME} has already been processed" 1>&2
+
+	else
+
+	   echo "Inserting counts data for $i"
+	   counts_sqlgen $i > ${TEMPSQL}
+	   ERR=$?
+	   if [ ${ERR} = 0 ] ; then
+		(do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | \
+		    grep -v 'return status' | grep -v 'Password:'
+		ERR=$(cat ${TEMPRES})
+		if [ ${ERR} != 0 ] ; then
+		   echo "${MYNAME}:  isql error" 1>&2
+		   exit ${ERR}
+		fi
+
+# check if the countsfile exist and if so add the name of the directory
+# to ${CHECKCOUNTS} ( happens only after counts_sqlgen finished successfully )
+
+		echo "${COUNTSNAME}" >> ${CHECKCOUNTS}
+
+	   else
+		echo "${MYNAME}:  counts_sqlgen error" 1>&2
+	   fi
+
+	fi
+
+done
+
+# *** All done
+exit ${ERR}

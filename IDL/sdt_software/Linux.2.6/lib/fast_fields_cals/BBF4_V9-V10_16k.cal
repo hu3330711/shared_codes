@@ -1,0 +1,25 @@
+#  SCCS Id
+#  @(#)BBF4_V9-V10_16k.cal	1.1 04/15/96
+#
+# BBF4_V9-V10_16k.cal
+# REE 6/7/95
+BBF4_V9-V10_16k		Data name.
+3    			Decompressed linear.
+sec			x-axis units.
+mV/m			y-axis units.
+xx			z-axis units.
+11			Boomlength index.
+0			No subtype.
+0			History.
+# Calibration table as of 6/7/95.
+# Calibration set for 400 kHz input frequency. 
+# Linear calibration on decompressed output.
+# Output in mV/m 1/2 Vpp.
+# Since data collected requires only 12 bits, there will be little 
+# discrepency in data between frequency domains, so BBF files are 
+# identical for two given spheres.
+0			Time in seconds.
+-0.490			Zerolevel (raw).
+4.004			Gain (in exponent).
+
+

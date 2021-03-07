@@ -1,0 +1,133 @@
+#!/usr/bin/ksh
+# dpsprocess - dpsprocess will search for
+# dps data sessions and hand them off to the 
+# existing archive process
+#
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+
+# Function wrn_exitarn_exit declaration
+# Mails ARCHIVEMASTER if intercept exits prematurely.
+
+function warn_exit {
+	{
+        # <word>: is interpreted as mail tag unless <word> contains whitespace
+        printf "%s\n" 'Subject: Archive System message' \
+                      "Dpsprocess script exited prematurely at line $1" \
+                      'See archivelog and/or other Archive System messages.' \
+                      "Process ID: $$"
+    } | mail $ARCHIVEMASTER
+}
+
+
+# Set trap for premature EXIT
+
+trap 'warn_exit $LINENO' EXIT
+
+
+# Check for existing dps processes and sleep until complete.
+# Otherwise, create lock file and continue
+
+DPSLOCK=/var/tmp/dpsprocess
+while [[ -a $DPSLOCK ]]
+do
+	echo $$: dpsprocess sleeping 30 for $(cat $DPSLOCK) >> $LOGFILE
+	sleep 30
+done
+echo $$ > $DPSLOCK
+
+# Set directory locations for both DPS and LZP sessions
+
+DPSDIR=/fast_data/b/dps
+LZPDIR=/fast_data/b/lzp
+
+# Make dure all DPS sessions are group writable
+
+chmod -R g+w $DPSDIR/*
+
+
+# Search DPS session directories for files with the ".done"
+# extension, which indicates the session is complete
+
+ls -t $DPSDIR/*/*.done 2>/dev/null | awk -F/ '{ print $5}' 1>/tmp/dps_sessions$$ 2>/dev/null
+
+# Process all DPS sessions found in the previous search
+
+while [[ -s /tmp/dps_sessions$$ ]]
+do
+	# Parse out session information from a session directory name
+
+	session_name=$(head -1 /tmp/dps_sessions$$)
+	session_type=$(print $session_name | awk -F_ '{print $5}')
+	session_gs=$(print $session_name | awk -F_ '{print $3}')
+	session_orbit=$(print $session_name | awk -F_ '{print substr($4,6,5)}')
+
+	# Send info to the LZP status log about what DPS session is being 
+	# processed
+
+	echo $$: ---- DPS session $session_name received at $(date) ---- >> $LOGFILE
+
+	# Indicate what type of session is being processed
+
+	if [[ $session_type = r ]] ; then
+		session_type="Realtime"
+	elif [[ $session_type = t ]] ; then
+		session_type="Tape Playback"
+	elif [[ $session_type = p ]] ; then
+		session_type="Ground Station Playback"
+	elif [[ $session_type = "" ]] ; then
+		echo $$: !!!!DPS session name incomplete!!!! >> $LOGFILE
+		rm /tmp/dps_sessions$$
+		rm $DPSLOCK
+		trap - EXIT
+		exit 0
+	fi
+
+	# Time to generate a Begin mail message to the LZP
+
+	printf "%s\n" "Subject:		Message id: 1 - Ground Station: $session_gs orbit: $session_orbit type: $session_type data transmission begins" \
+			"orbit number: $session_orbit" |
+	mail lzp
+
+
+	# Following the begin mail message, move the dps session to the lzp
+	# directory
+
+	mv -f $DPSDIR/$session_name $LZPDIR
+
+	
+	# Send information to the archive log noting the DPS session that was
+	# just moved to the LZP home directory
+
+	echo $$: DPS session $session_name moved to LZP home directory >> $LOGFILE
+
+	sleep 300
+
+	# Once the session has been moved, send the end mail message
+
+	printf "%s\n" "Subject:         Message id: 2 - Ground Station: $session_gs orbit: $session_orbit type: $session_type data transmission ends" \
+			"orbit number: $session_orbit" |
+	mail lzp
+
+
+	# Update the file containing the DPS session names
+
+	sed '1d' /tmp/dps_sessions$$ > /tmp/DPS_SESSIONS$$
+	mv /tmp/DPS_SESSIONS$$ /tmp/dps_sessions$$
+
+	sleep 30
+done
+
+
+# Remove temp file containing DPS session names
+
+rm /tmp/dps_sessions$$
+rm $DPSLOCK
+
+
+# Unset traps and exit
+
+trap - EXIT
+exit 0

@@ -1,0 +1,619 @@
+************************************************************************
+
+   README.POLAR_Coordinates
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Coordinate systems for POLAR.
+
+************************************************************************
+
+   @(#)README.POLAR_Coordinates	1.9    01/31/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Time resolution.
+
+
+
+
+
+    3. Coordinate systems.
+
+
+        3.1 Field-Aligned Coordinates.
+
+
+        3.2 Spacecraft Coordinates.
+
+            3.2.1 Early part of the mission.
+
+            3.2.2 Late part of the mission.
+
+
+        3.3 Despun Spacecraft Coordinates.
+
+
+        3.4 Spin Plane Coordinates.
+
+            3.4.1 Definition.
+
+            3.4.2 Transformation from DSC.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes coordinate systems that are useful in the
+analysis of POLAR data.
+
+
+
+
+       The reader is referred to the document
+
+           README.General_Coordinate_Systems
+
+which contains information on coordinate systems for any spacecraft.
+
+
+
+
+       Much information from that document (the "General" document) will
+be used here, without repeating it.
+
+
+
+
+       The main coordinate systems for POLAR Science plots are:
+
+
+           GSE = Geocentric Solar Ecliptic.
+
+
+           GSM = Geocentric Solar Magnetospheric.
+
+
+           FAC = Field-Aligned Coordinates.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Time resolution.
+
+
+
+
+
+       Most rotation matrices for POLAR Science data are computed with a
+time resolution of 1 matrix per second.
+
+
+
+
+       The one exception is for transformations involving the FAC_I
+coordinate system (defined below).
+
+
+       Rotation matrices to or from FAC_I are computed with a time
+resolution of 1 matrix for each data point of the measured instantaneous
+electric field; i.e., normally about 40 matrices per second.
+
+
+
+
+       When using rotation matrices to transform vector data, the matrix
+that is used is the one for the closest time available.
+
+
+       More specifically, if rotation matrices are available at times t1
+and t2 (with t1 < t2, and t2 being the first time after t1 when the
+matrix is available); and if we need to transform data at time t, where
+
+
+           t1 <= t <= t2
+
+
+then we determine the mid-point time of the interval, tm:
+
+
+           tm = (t1 + t2) / 2
+
+
+and,
+
+
+if  t1 <= t <= tm,  then the matrix used is the one for time t1;
+
+
+if  tm < t <= t2,   then the matrix used is the one for time t2.
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. Coordinate systems.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Field-Aligned Coordinates.
+
+
+
+
+
+       Since one basic element in the definition of the FAC system is
+the magnetic field; then there can be more than one FAC system,
+depending on the particular magnetic field used for the definition.
+
+
+
+
+       For POLAR, 3 different FAC coordinate systems are defined:
+
+
+           FAC_I, defined by the instantaneous magnetic field.
+
+
+           FAC_S, defined by the spin period magnetic field.
+
+
+           FAC_M, defined by the model magnetic field.
+
+
+
+
+       While in principle any FAC coordinate system can be used for any
+       data, in practice these coordinate systems are used as follows:
+
+
+           FAC_I  is used for burst and for instantaneous data.
+
+
+           FAC_S  is used for spin period data.
+
+
+           FAC_M  is used for all data (burst, instantaneous, spin
+                  period).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Spacecraft Coordinates.
+
+
+
+
+
+       The arrangement of the POLAR spin underwent a major change on
+2002/03/18.
+
+
+
+
+       The time before that change ("early mission") and after that
+change ("late mission") are considered in turn.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2.1 Early part of the mission.
+
+
+
+
+
+       For POLAR, during the early part of the mission, the spin vector
+is nearly in the ecliptic plane, and the spin plane is nearly
+perpendicular to the ecliptic.
+
+
+       Therefore, as explained in the "General" document, at intervals
+of 6 months, the orbit of the Earth around the Sun will carry the
+spacecraft where its spin plane is nearly in the dawn-dusk meridian; and
+the SCC system will be poorly defined.
+
+
+       This occurs approximately in mid-July and mid-January.
+
+
+       There is a discontinuity in the SCC system across the passage
+through the dawn-dusk meridian.
+
+
+       The direction in the spin plane that is closest to the direction
+of the Sun at a Sun pulse, will undergo a change by 180 degrees; i.e.,
+the positive X direction undergoes multiplication by -1.
+
+
+       The positive Y direction also undergoes multiplication by -1.
+
+
+
+
+       Also, discontinuities and ambiguities will occur for brief
+periods of time every 6 months, when maneuvers are performed to flip the
+spacecraft's spin vector by 180 degrees.
+
+
+       This occurs when the spacecraft's spin plane is nearly in the
+noon-midnight meridian; approximately in mid-April and mid-October.
+
+
+       The reason for these maneuvers is to keep the spacecraft's despun
+platform pointed away from the Sun.
+
+
+       There is a discontinuity in the SCC system across the passage
+through the noon-midnight meridian, due to the spin flips.
+
+
+       The direction of the spin vector undergoes a change by 180
+degrees; i.e., the positive Z direction undergoes multiplication by -1.
+
+
+       The positive Y direction also undergoes multiplication by -1.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2.2 Late part of the mission.
+
+
+
+
+
+       For POLAR, during the late part of the mission, the spin vector
+can be nearly in the ecliptic plane, with the spin plane nearly
+perpendicular to the ecliptic; or the spin vector can be nearly
+perpendicular to the ecliptic, with the spin plane nearly the same as
+the ecliptic.
+
+
+       Therefore, when the spin vector is nearly in the ecliptic plane,
+there can be ambiguities and discontinuities, as in the early part of
+the mission.
+
+
+       There will be ambiguities and discontinuities also, whenever
+there is a "flip" from spin vector in the ecliptic plane to spin vector
+perpendicular to the ecliptic plane, or vice-versa.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Despun Spacecraft Coordinates.
+
+
+
+
+
+       This system is well-defined at all times, except as explained for
+the SCC system.
+
+
+       The same discontinuities or ambiguities described for the SCC
+system apply to the DSC system; i.e., if the spin plane is nearly in the
+dawn-dusk meridian; or if the spin plane is nearly in the noon-midnight
+meridian (spin flips); or if the spin is flipped from being in the
+ecliptic plane to being perpendicular to the ecliptic plane, or
+vice-versa.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4 Spin Plane Coordinates.
+
+
+
+
+
+       Abbreviation: SPC.
+
+
+
+
+       This coordinate system is not described by Russell.
+
+
+       It is possible that some people use a system equivalent to this
+one but with a different name; or a similar system, but with some
+differences.
+
+
+       This coordinate system is specifically for POLAR.
+
+
+
+
+       This coordinate system is defined, and intended to be used, only
+when the spin vector of the spacecraft is nearly in the ecliptic plane;
+specifically, during the "early" part of the mission (before
+2002/03/18).
+
+
+
+
+       The axes in this system do not rotate along with the spacecraft.
+
+
+
+
+       This system is almost the same as the DSC system; its purpose is
+to remove discontinuities that occur across flips in the spin vector
+every 6 months.
+
+
+
+
+       The coordinate axes are labeled X-Y, Z, 56.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4.1 Definition.
+
+
+
+
+
+       The positive X-Y axis lies in the spin plane, and points in a
+direction as far from the direction towards the Sun as possible; this
+corresponds to the negative X axis of the DSC system.
+
+
+
+
+       The positive Z axis lies in the spin plane, and points in a
+direction perpendicular to the X-Y axis and generally towards the North
+pole of the ecliptic.
+
+
+       When the spin plane of the spacecraft is progressing from the
+dawn-dusk meridian towards the noon-midnight meridian, the positive Z
+axis corresponds to the negative Y axis of the DSC system.
+
+
+       When the spin plane of the spacecraft is progressing from the
+noon-midnight meridian towards the dawn-dusk meridian, the positive Z
+axis corresponds to the positive Y axis of the DSC system.
+
+
+
+
+       The positive 56 axis lies along the spin axis, and points in a
+direction determined by the requirement that X-Y, Z, 56, form a
+right-handed system.
+
+
+       When the spin plane of the spacecraft is progressing from the
+dawn-dusk meridian towards the noon-midnight meridian, the positive 56
+axis corresponds to the positive Z axis of the DSC system.
+
+
+       When the spin plane of the spacecraft is progressing from the
+noon-midnight meridian towards the dawn-dusk meridian, the positive 56
+axis corresponds to the negative Z axis of the DSC system.
+
+
+
+
+       This system is well-defined at all times, except every 6 months,
+when the spin plane is nearly in the dawn-dusk meridian.
+
+
+
+
+       However, unlike the SCC and DSC systems for POLAR, there is no
+discontinuity in the SPC system, across the passage of the spin plane
+through the noon-midnight meridian (when the spin flips occur).
+
+
+       This, of course, is the advantage of the SPC system over the DSC
+system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4.2 Transformation from DSC.
+
+
+
+
+
+       From the above, it follows that when the spin plane is
+progressing from the dawn-dusk meridian towards the noon-midnight
+meridian,
+
+
+           positive X-Y of SPC  =  negative X of DSC
+
+
+           positive Z of SPC    =  negative Y of DSC
+
+
+           positive 56 of SPC   =  positive Z of DSC
+
+
+while when the spin plane of the spacecraft is progressing from the
+noon-midnight meridian towards the dawn-dusk meridian,
+
+
+           positive X-Y of SPC  =  negative X of DSC
+
+
+           positive Z of SPC    =  positive Y of DSC
+
+
+           positive 56 of SPC   =  negative Z of DSC
+
+
+
+
+       Therefore, the transformation between the DSC and SPC systems is
+extremely simple to perform.
+
+
+
+
+       The rotation matrix from DSC to SPC is a diagonal matrix, i.e.,
+all the elements off the diagonal are zero.
+
+
+
+
+       When the spin plane is progressing from the dawn-dusk meridian
+towards the noon-midnight meridian, the diagonal of the rotation matrix
+consists of the elements
+
+
+           -1, -1, +1
+
+
+
+
+       When the spin plane is progressing from the noon-midnight
+meridian towards the dawn-dusk meridian, the diagonal of the rotation
+matrix consists of the elements
+
+
+           -1, +1, -1
+
+
+
+
+       Note that the transformation between the DSC and SPC systems will
+switch from one of the two rotation matrices above to the other one,
+with switches occurring 4 times per year.
+
+
+
+
+       When the spin plane is progressing from the dawn-dusk meridian
+towards the noon-midnight meridian, the dot product of the spin vector
+and the Y vector in the GSE coordinate system is positive.
+
+
+       When the spin plane is progressing from the noon-midnight
+meridian towards the dawn-dusk meridian, the dot product of the spin
+vector and the Y vector in the GSE coordinate system is negative.
+
+
+       Therefore, which rotation matrix should be used to transform
+between the DSC and SPC systems can be determined by inspecting the sign
+of the quantity:
+
+           Y component of the spin vector in the GSE system.
+
+
+
+
+       Because the rotation matrix from DSC to SPC is diagonal, its
+transpose is the same as the original matrix; therefore, the same matrix
+will rotate also from SPC back to DSC.
+
+
+       This is to be expected, of course, as the transformation consists
+in multiplying two of the components by -1, leaving the third component
+unchanged.

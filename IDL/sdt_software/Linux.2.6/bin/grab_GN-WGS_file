@@ -1,0 +1,142 @@
+#!/usr/local/bin/perl
+
+#retrieve Wallops file
+#Wallops file can be found on two different servers, one primary, one backup, both of these places need to be polled.
+#this operation should initiate 15 min. after the script starts. and then check 5 min. after that for another 15 min. If the file is still not found, alarm.
+
+#this takes in one argument: start time in the form of yy/mm/dd hh:mm [GMT]
+
+#change this later by importing the config file
+$LOG_DIR="/home/tracyx/shellwork/themis/pdr/log/";
+$ext=`date '+%y%m'`;
+$LOGFILE="$LOGDIR/hsi_archivelog".$ext;
+print "see outputs at $LOGFILE\n";
+
+$USAGE="$0 orbit yy/mm/dd hh:mm ";
+if($#ARGV!=2){
+	print $USAGE;
+	exit(1);
+}
+
+$WAITTIME=15*60; #15 minutes
+sleep $WAITTIME;
+$startday=$ARGV[1];
+$starttime=$ARGV[2];
+$graborbit=$ARGV[0];
+$movedir="/home/tracyx/shellwork/themis/pdr/scheds/";
+#the following is for actual HESSI stuff
+#$movedir="/disks/sunny/raid2/itos_pktdata1/";
+
+use Net::FTP;
+use DBI;
+$dbh=DBI->connect("dbi:mysql:testdb2:juneau", "dbuser2", "enter2") || die "cannot connect to database: $!";
+
+$USER=`(rot13 urfphfg)`;
+chop($USER);
+$PASS="ann)y23";
+$dir="/raid1/safsarchive/hes";
+
+########################################
+sub poll_primary{
+	print "polling primary\n";
+	local $host='150.144.211.37';
+	&ftpcall;
+}
+
+sub poll_backup{
+	print "polling backup\n";
+	local $host='150.144.211.38';
+	&ftpcall;
+}
+
+sub ftpcall{
+	print "FTP with $USER, $PASS, $dir, $host\n";
+	my $ftp=Net::FTP->new($host, Timeout=>240) or $newerr=1;
+	push(@ERRORS, "Cannot connect to ftp $host: $!\n") if $newerr;
+	print "Connected\n";
+
+	$ftp->login($USER, $PASS) or $newerr=1;
+	push (@ERRORS, "Can't login to $host: $!\n") if $newerr;
+	$ftp->quit if $newerr;
+	print "logged in\n";
+
+	$ftp->cwd($dir) or $newerr=1;
+	push (@ERRORS, "Can't cd $!\n") if $newerr;
+	$ftp->quit if $newerr;
+	print "changed directories\n";
+
+	my @listing=$ftp->dir or $newerr=1;
+	push (@ERRORS, "Can't get file list $!\n") if $newerr;
+	$ftp->quit if $newerr;
+
+	&findfile(\@listing);
+}
+
+####################################
+
+#return 0 for failure and 1 for success
+sub findfile{
+	my @df=split("/", $startday);
+	my @tf=split(/:/, $starttime);
+	#search with a specific file pattern determined by the start time
+	my $pattern="hes${df[0]}${df[1]}${df[2]}${tf[0]}.*vc[0123].dat";
+	print "$pattern\n";
+	my $listref=$_[0];
+	my @filtered=grep { /${pattern}$/ } @$listref;
+	@filtered;
+}
+
+sub myerr{
+	print "ERROR: \n";
+	print @ERRORS;
+	exit 0;
+}
+
+open(LOG, ">>$LOGFILE");
+
+##TODO: change stdout to LOG
+
+$tries=3;
+@try=&poll_primary();
+print "first try returned $#try \n";
+if($#try==-1){
+	@try=&poll_backup();
+	print "second try returned $#try \n";
+	if($#try==-1 && $tries>0){
+		$tries=$tries-1;
+		sleep $WAITTIME;
+	}
+}
+
+foreach $file (@try){
+	@fields=split(/ /, $file);
+	chdir(${movedir});
+	print "${movedir}${fields[$#fields]}\n";
+	`touch ${fields[$#fields]}`;
+	&statisticsgen(${fields[$#fields]});
+}
+
+sub statisticsgen{
+	my $file=$_[0];
+	my $dir=$_[1];
+	my $sta="GN-WGS";
+	#should be today's date in 0000-00-00 00:00:00
+	my $d=`(date -u '+%Y-%m-%d %H:%M:%S')`;
+
+	print "inserting $file, GN-WGS, $dir, $d into testthemis\n"; 
+	my $sth=$dbh->prepare(qq{
+		INSERT INTO testthemis
+		VALUES( ?, "GN-WGS", ?, ?)
+		}) || die "cannot prepare";
+
+	$sth->bind_param(1, "$file");
+	$sth->bind_param(2, "$dir");
+	$sth->bind_param(3, "$d");
+
+	$sth->execute() || die "cannot execute";
+
+	#update database for successful retrieval
+	print "updating the database for successful retrieval for orbit $graborbit"; 
+
+	system("update_contact_schedule.pl -s $graborbit -t $sta");
+}

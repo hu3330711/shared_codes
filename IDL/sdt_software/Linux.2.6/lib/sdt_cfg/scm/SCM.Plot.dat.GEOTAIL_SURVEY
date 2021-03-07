@@ -1,0 +1,1497 @@
+
+@2 { PlotQuantityDescription
+   'SBlock UCB_GEOTAIL_SURVEY_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+
+# @(#)SCM.Plot.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.BinAndTable.dat	1.14, 04/23/04
+
+
+@2 { PlotQuantityDescription
+  'BinAndTable' TIME_SERIES 1 1 2 1
+  'BinAndTable' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Done' 'T/F' LINEAR TRUE -1.0 2.0
+  'Done' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BinAndTable' 0 0 0
+  'BinAndTable' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Regions' TIME_SERIES 1 1 2 1
+  'Regions' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Region' '0-?, 1-PS, 2-LB, 3-BL, 4-MS, 5-SW' LINEAR TRUE -1.0 6.0
+  'Value' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Regions' 0 0 0
+  'Regions' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BinAndTable II (Regions) (Part I [PS-LB])' TIME_SERIES 1 1 2 1
+  'BinAndTable Regions (Part I)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Done' 'T/F' LINEAR TRUE -1.0 2.0
+  'Done' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BinAndTable Regions (Part I)' 0 0 0
+  'BinAndTable Regions (Part I)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BinAndTable II (Regions) (Part II [BL-SW])' TIME_SERIES 1 1 2 1
+  'BinAndTable Regions (Part II)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Done' 'T/F' LINEAR TRUE -1.0 2.0
+  'Done' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BinAndTable Regions (Part II)' 0 0 0
+  'BinAndTable Regions (Part II)' 1 0 0
+  }
+************************************************************************
+
+
+
+# @(#)SCM.Plot.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.Imp8.dat	1.3, 04/23/04
+
+@2 { PlotQuantityDescription
+  'Imp8 - BZgsm' TIME_SERIES 1 1 2 1
+  'Imp8 - BZgsm' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Imp8 - BZgsm' 'nT' LINEAR TRUE -100.0 100.0
+  'Imp8 - BZgsm' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Imp8 - BZgsm' 0 0 0
+  'Imp8 - BZgsm' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Imp8 BinAndTable' TIME_SERIES 1 1 2 1
+  'Imp8 BinAndTable' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Done' 'T/F' LINEAR TRUE -1.0 2.0
+  'Done' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Imp8 BinAndTable' 0 0 0
+  'Imp8 BinAndTable' 1 0 0
+  }
+************************************************************************
+
+
+************************************************************************
+* SCM.Plot.dat for GEOTAIL_SURVEY Plots
+*
+* For SCCS:
+* @(#)SCM.Plot.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.dat	1.6, 04/23/04
+*
+************************************************************************
+
+
+@2 { PlotQuantityDescription
+  'Log( b) (10)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10)' 0 0 0
+  'b (10)' 1 0 0
+  }
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (10) (5 > Probe_A > 0)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (5 > Probe_A > 0)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (5 > Probe_A > 0)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (5 > Probe_A > 0)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (5 > Probe_A > 0)' 0 0 0
+  'b (10) (5 > Probe_A > 0)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (0 > Probe_A > -5)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (0 > Probe_A > -5)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (0 > Probe_A > -5)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (0 > Probe_A > -5)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (0 > Probe_A > -5)' 0 0 0
+  'b (10) (0 > Probe_A > -5)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-5 > Probe_A > -10)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-5 > Probe_A > -10)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-5 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-5 > Probe_A > -10)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-5 > Probe_A > -10)' 0 0 0
+  'b (10) (-5 > Probe_A > -10)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-10 > Probe_A > -15)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-10 > Probe_A > -15)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -15)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -15)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-10 > Probe_A > -15)' 0 0 0
+  'b (10) (-10 > Probe_A > -15)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-15 > Probe_A > -20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-15 > Probe_A > -20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-15 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-15 > Probe_A > -20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-15 > Probe_A > -20)' 0 0 0
+  'b (10) (-15 > Probe_A > -20)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-20 > Probe_A > -25)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-20 > Probe_A > -25)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -25)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -25)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-20 > Probe_A > -25)' 0 0 0
+  'b (10) (-20 > Probe_A > -25)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-25 > Probe_A > -30)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-25 > Probe_A > -30)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-25 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-25 > Probe_A > -30)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-25 > Probe_A > -30)' 0 0 0
+  'b (10) (-25 > Probe_A > -30)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-30 > Probe_A > -35)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-30 > Probe_A > -35)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -35)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -35)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-30 > Probe_A > -35)' 0 0 0
+  'b (10) (-30 > Probe_A > -35)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-35 > Probe_A > -40)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-35 > Probe_A > -40)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-35 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-35 > Probe_A > -40)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-35 > Probe_A > -40)' 0 0 0
+  'b (10) (-35 > Probe_A > -40)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-40 > Probe_A > -45)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-40 > Probe_A > -45)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -45)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -45)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-40 > Probe_A > -45)' 0 0 0
+  'b (10) (-40 > Probe_A > -45)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-45 > Probe_A > -50)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-45 > Probe_A > -50)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-45 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-45 > Probe_A > -50)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-45 > Probe_A > -50)' 0 0 0
+  'b (10) (-45 > Probe_A > -50)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-50 > Probe_A > -55)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-50 > Probe_A > -55)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-50 > Probe_A > -55)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-50 > Probe_A > -55)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-50 > Probe_A > -55)' 0 0 0
+  'b (10) (-50 > Probe_A > -55)' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (10) (5 > Probe_A > 0) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (5 > Probe_A > 0) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (5 > Probe_A > 0)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (5 > Probe_A > 0) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (5 > Probe_A > 0) vs X' 0 0 0
+  'b (10) (5 > Probe_A > 0) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (0 > Probe_A > -5) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (0 > Probe_A > -5) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (0 > Probe_A > -5)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (0 > Probe_A > -5) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (0 > Probe_A > -5) vs X' 0 0 0
+  'b (10) (0 > Probe_A > -5) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-5 > Probe_A > -10) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-5 > Probe_A > -10) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-5 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-5 > Probe_A > -10) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-5 > Probe_A > -10) vs X' 0 0 0
+  'b (10) (-5 > Probe_A > -10) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-10 > Probe_A > -15) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-10 > Probe_A > -15) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-10 > Probe_A > -15)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -15) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-10 > Probe_A > -15) vs X' 0 0 0
+  'b (10) (-10 > Probe_A > -15) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-15 > Probe_A > -20) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-15 > Probe_A > -20) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-15 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-15 > Probe_A > -20) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-15 > Probe_A > -20) vs X' 0 0 0
+  'b (10) (-15 > Probe_A > -20) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-20 > Probe_A > -25) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-20 > Probe_A > -25) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-20 > Probe_A > -25)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -25) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-20 > Probe_A > -25) vs X' 0 0 0
+  'b (10) (-20 > Probe_A > -25) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-25 > Probe_A > -30) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-25 > Probe_A > -30) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-25 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-25 > Probe_A > -30) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-25 > Probe_A > -30) vs X' 0 0 0
+  'b (10) (-25 > Probe_A > -30) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-30 > Probe_A > -35) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-30 > Probe_A > -35) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-30 > Probe_A > -35)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -35) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-30 > Probe_A > -35) vs X' 0 0 0
+  'b (10) (-30 > Probe_A > -35) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-35 > Probe_A > -40) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-35 > Probe_A > -40) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-35 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-35 > Probe_A > -40) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-35 > Probe_A > -40) vs X' 0 0 0
+  'b (10) (-35 > Probe_A > -40) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-40 > Probe_A > -45) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-40 > Probe_A > -45) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-40 > Probe_A > -45)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -45) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-40 > Probe_A > -45) vs X' 0 0 0
+  'b (10) (-40 > Probe_A > -45) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-45 > Probe_A > -50) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-45 > Probe_A > -50) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-45 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-45 > Probe_A > -50) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-45 > Probe_A > -50) vs X' 0 0 0
+  'b (10) (-45 > Probe_A > -50) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-50 > Probe_A > -55) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-50 > Probe_A > -55) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-50 > Probe_A > -55)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-50 > Probe_A > -55) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-50 > Probe_A > -55) vs X' 0 0 0
+  'b (10) (-50 > Probe_A > -55) vs X' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (10) (0 > Probe_A > -10)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (0 > Probe_A > -10)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (0 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (0 > Probe_A > -10)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (0 > Probe_A > -10)' 0 0 0
+  'b (10) (0 > Probe_A > -10)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-10 > Probe_A > -20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-10 > Probe_A > -20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-10 > Probe_A > -20)' 0 0 0
+  'b (10) (-10 > Probe_A > -20)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-20 > Probe_A > -30)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-20 > Probe_A > -30)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -30)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-20 > Probe_A > -30)' 0 0 0
+  'b (10) (-20 > Probe_A > -30)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-30 > Probe_A > -40)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-30 > Probe_A > -40)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -40)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-30 > Probe_A > -40)' 0 0 0
+  'b (10) (-30 > Probe_A > -40)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-40 > Probe_A > -50)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-40 > Probe_A > -50)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -50)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-40 > Probe_A > -50)' 0 0 0
+  'b (10) (-40 > Probe_A > -50)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-50 > Probe_A)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (10) (-50 > Probe_A)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (10) (-50 > Probe_A)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-50 > Probe_A)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-50 > Probe_A)' 0 0 0
+  'b (10) (-50 > Probe_A)' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (10) (0 > Probe_A > -10) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (0 > Probe_A > -10) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (0 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (0 > Probe_A > -10) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (0 > Probe_A > -10) vs X' 0 0 0
+  'b (10) (0 > Probe_A > -10) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-10 > Probe_A > -20) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-10 > Probe_A > -20) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-10 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-10 > Probe_A > -20) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-10 > Probe_A > -20) vs X' 0 0 0
+  'b (10) (-10 > Probe_A > -20) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-20 > Probe_A > -30) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-20 > Probe_A > -30) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-20 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-20 > Probe_A > -30) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-20 > Probe_A > -30) vs X' 0 0 0
+  'b (10) (-20 > Probe_A > -30) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-30 > Probe_A > -40) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-30 > Probe_A > -40) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-30 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-30 > Probe_A > -40) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-30 > Probe_A > -40) vs X' 0 0 0
+  'b (10) (-30 > Probe_A > -40) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-40 > Probe_A > -50) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-40 > Probe_A > -50) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-40 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-40 > Probe_A > -50) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-40 > Probe_A > -50) vs X' 0 0 0
+  'b (10) (-40 > Probe_A > -50) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (10) (-50 > Probe_A) vs X' X_VS_LOGY 1 1 2 1
+  'b (10) (-50 > Probe_A) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (10) (-50 > Probe_A)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (10) (-50 > Probe_A) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) (-50 > Probe_A) vs X' 0 0 0
+  'b (10) (-50 > Probe_A) vs X' 1 0 0
+  }
+}
+
+@2 { PlotQuantityDescription
+  'Log(b) (10) vs Probe_A' X_VS_LOGY 1 1 2 1
+  'b (10) vs Probe_A' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Probe_A' 'Volts' LINEAR TRUE -100.0 100.0
+  'Log(b) (10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log(b) (10) vs Probe_A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (10) vs Probe_A' 0 0 0
+  'b (10) vs Probe_A' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20)' 0 0 0
+  'b (20)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (>20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (>20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (>20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (>20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (>20)' 0 0 0
+  'b (>20)' 1 0 0
+  }
+
+
+
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (20) (5 > Probe_A > 0)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (5 > Probe_A > 0)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (5 > Probe_A > 0)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (5 > Probe_A > 0)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (5 > Probe_A > 0)' 0 0 0
+  'b (20) (5 > Probe_A > 0)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (0 > Probe_A > -5)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (0 > Probe_A > -5)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (0 > Probe_A > -5)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (0 > Probe_A > -5)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (0 > Probe_A > -5)' 0 0 0
+  'b (20) (0 > Probe_A > -5)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-5 > Probe_A > -10)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-5 > Probe_A > -10)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-5 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-5 > Probe_A > -10)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-5 > Probe_A > -10)' 0 0 0
+  'b (20) (-5 > Probe_A > -10)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-10 > Probe_A > -15)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-10 > Probe_A > -15)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -15)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -15)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-10 > Probe_A > -15)' 0 0 0
+  'b (20) (-10 > Probe_A > -15)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-15 > Probe_A > -20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-15 > Probe_A > -20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-15 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-15 > Probe_A > -20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-15 > Probe_A > -20)' 0 0 0
+  'b (20) (-15 > Probe_A > -20)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-20 > Probe_A > -25)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-20 > Probe_A > -25)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -25)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -25)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-20 > Probe_A > -25)' 0 0 0
+  'b (20) (-20 > Probe_A > -25)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-25 > Probe_A > -30)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-25 > Probe_A > -30)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-25 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-25 > Probe_A > -30)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-25 > Probe_A > -30)' 0 0 0
+  'b (20) (-25 > Probe_A > -30)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-30 > Probe_A > -35)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-30 > Probe_A > -35)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -35)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -35)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-30 > Probe_A > -35)' 0 0 0
+  'b (20) (-30 > Probe_A > -35)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-35 > Probe_A > -40)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-35 > Probe_A > -40)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-35 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-35 > Probe_A > -40)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-35 > Probe_A > -40)' 0 0 0
+  'b (20) (-35 > Probe_A > -40)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-40 > Probe_A > -45)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-40 > Probe_A > -45)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -45)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -45)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-40 > Probe_A > -45)' 0 0 0
+  'b (20) (-40 > Probe_A > -45)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-45 > Probe_A > -50)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-45 > Probe_A > -50)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-45 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-45 > Probe_A > -50)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-45 > Probe_A > -50)' 0 0 0
+  'b (20) (-45 > Probe_A > -50)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-50 > Probe_A > -55)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-50 > Probe_A > -55)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-50 > Probe_A > -55)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-50 > Probe_A > -55)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-50 > Probe_A > -55)' 0 0 0
+  'b (20) (-50 > Probe_A > -55)' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (20) (5 > Probe_A > 0) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (5 > Probe_A > 0) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (5 > Probe_A > 0)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (5 > Probe_A > 0) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (5 > Probe_A > 0) vs X' 0 0 0
+  'b (20) (5 > Probe_A > 0) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (0 > Probe_A > -5) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (0 > Probe_A > -5) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (0 > Probe_A > -5)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (0 > Probe_A > -5) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (0 > Probe_A > -5) vs X' 0 0 0
+  'b (20) (0 > Probe_A > -5) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-5 > Probe_A > -10) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-5 > Probe_A > -10) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-5 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-5 > Probe_A > -10) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-5 > Probe_A > -10) vs X' 0 0 0
+  'b (20) (-5 > Probe_A > -10) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-10 > Probe_A > -15) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-10 > Probe_A > -15) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-10 > Probe_A > -15)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -15) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-10 > Probe_A > -15) vs X' 0 0 0
+  'b (20) (-10 > Probe_A > -15) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-15 > Probe_A > -20) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-15 > Probe_A > -20) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-15 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-15 > Probe_A > -20) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-15 > Probe_A > -20) vs X' 0 0 0
+  'b (20) (-15 > Probe_A > -20) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-20 > Probe_A > -25) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-20 > Probe_A > -25) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-20 > Probe_A > -25)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -25) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-20 > Probe_A > -25) vs X' 0 0 0
+  'b (20) (-20 > Probe_A > -25) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-25 > Probe_A > -30) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-25 > Probe_A > -30) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-25 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-25 > Probe_A > -30) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-25 > Probe_A > -30) vs X' 0 0 0
+  'b (20) (-25 > Probe_A > -30) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-30 > Probe_A > -35) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-30 > Probe_A > -35) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-30 > Probe_A > -35)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -35) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-30 > Probe_A > -35) vs X' 0 0 0
+  'b (20) (-30 > Probe_A > -35) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-35 > Probe_A > -40) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-35 > Probe_A > -40) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-35 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-35 > Probe_A > -40) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-35 > Probe_A > -40) vs X' 0 0 0
+  'b (20) (-35 > Probe_A > -40) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-40 > Probe_A > -45) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-40 > Probe_A > -45) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-40 > Probe_A > -45)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -45) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-40 > Probe_A > -45) vs X' 0 0 0
+  'b (20) (-40 > Probe_A > -45) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-45 > Probe_A > -50) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-45 > Probe_A > -50) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-45 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-45 > Probe_A > -50) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-45 > Probe_A > -50) vs X' 0 0 0
+  'b (20) (-45 > Probe_A > -50) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-50 > Probe_A > -55) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-50 > Probe_A > -55) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-50 > Probe_A > -55)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-50 > Probe_A > -55) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-50 > Probe_A > -55) vs X' 0 0 0
+  'b (20) (-50 > Probe_A > -55) vs X' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (20) (0 > Probe_A > -10)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (0 > Probe_A > -10)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (0 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (0 > Probe_A > -10)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (0 > Probe_A > -10)' 0 0 0
+  'b (20) (0 > Probe_A > -10)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-10 > Probe_A > -20)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-10 > Probe_A > -20)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -20)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-10 > Probe_A > -20)' 0 0 0
+  'b (20) (-10 > Probe_A > -20)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-20 > Probe_A > -30)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-20 > Probe_A > -30)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -30)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-20 > Probe_A > -30)' 0 0 0
+  'b (20) (-20 > Probe_A > -30)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-30 > Probe_A > -40)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-30 > Probe_A > -40)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -40)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-30 > Probe_A > -40)' 0 0 0
+  'b (20) (-30 > Probe_A > -40)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-40 > Probe_A > -50)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-40 > Probe_A > -50)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -50)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-40 > Probe_A > -50)' 0 0 0
+  'b (20) (-40 > Probe_A > -50)' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-50 > Probe_A)' LOG_VS_TIME_SERIES 1 1 2 1
+  'b (20) (-50 > Probe_A)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Log( b) (20) (-50 > Probe_A)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-50 > Probe_A)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-50 > Probe_A)' 0 0 0
+  'b (20) (-50 > Probe_A)' 1 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'Log( b) (20) (0 > Probe_A > -10) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (0 > Probe_A > -10) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (0 > Probe_A > -10)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (0 > Probe_A > -10) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (0 > Probe_A > -10) vs X' 0 0 0
+  'b (20) (0 > Probe_A > -10) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-10 > Probe_A > -20) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-10 > Probe_A > -20) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-10 > Probe_A > -20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-10 > Probe_A > -20) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-10 > Probe_A > -20) vs X' 0 0 0
+  'b (20) (-10 > Probe_A > -20) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-20 > Probe_A > -30) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-20 > Probe_A > -30) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-20 > Probe_A > -30)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-20 > Probe_A > -30) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-20 > Probe_A > -30) vs X' 0 0 0
+  'b (20) (-20 > Probe_A > -30) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-30 > Probe_A > -40) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-30 > Probe_A > -40) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-30 > Probe_A > -40)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-30 > Probe_A > -40) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-30 > Probe_A > -40) vs X' 0 0 0
+  'b (20) (-30 > Probe_A > -40) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-40 > Probe_A > -50) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-40 > Probe_A > -50) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-40 > Probe_A > -50)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-40 > Probe_A > -50) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-40 > Probe_A > -50) vs X' 0 0 0
+  'b (20) (-40 > Probe_A > -50) vs X' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Log( b) (20) (-50 > Probe_A) vs X' X_VS_LOGY 1 1 2 1
+  'b (20) (-50 > Probe_A) vs X' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'SCX' 'km' LINEAR TRUE -200.0 0.0
+  'Log( b) (20) (-50 > Probe_A)' 'Log10' LOG TRUE -1.0 1.0
+  'Log( b) (20) (-50 > Probe_A) vs X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) (-50 > Probe_A) vs X' 0 0 0
+  'b (20) (-50 > Probe_A) vs X' 1 0 0
+  }
+}
+
+@2 { PlotQuantityDescription
+  'Log(b) (20) vs Probe_A' X_VS_LOGY 1 1 2 1
+  'b (20) vs Probe_A' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Probe_A' 'Volts' LINEAR TRUE -100.0 100.0
+  'Log(b) (20)' 'Log10' LOG TRUE -1.0 1.0
+  'Log(b) (20) vs Probe_A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'b (20) vs Probe_A' 0 0 0
+  'b (20) vs Probe_A' 1 0 0
+  }
+
+{
+@2 { PlotQuantityDescription
+  'EXGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EXGSE(C) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EXGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EYGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EYGSE(C) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EYGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EZGSE(C) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EZGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VXGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VXGSE(C) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VXGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 4 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VYGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VYGSE(C) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VYGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 5 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VZGSE(C) Survey' TIME_SERIES 1 1 2 1
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VZGSE(C) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VZGSE(C) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CorrEBV.Survey' 0 0 0
+  'CorrEBV.Survey' 6 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  'EXGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EXGSE(CP) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EXGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EYGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EYGSE(CP) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EYGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EZGSE(CP) Survey' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EZGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BXGSE(P) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BXGSE(P) Survey' 'nT' LINEAR TRUE -10.0 10.0
+  'BXGSE(P) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 4 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BYGSE(P) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BYGSE(P) Survey' 'nT' LINEAR TRUE -10.0 10.0
+  'BYGSE(P) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 5 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BZGSE(P) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BZGSE(P) Survey' 'nT' LINEAR TRUE -10.0 10.0
+  'BZGSE(P) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 6 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VXGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VXGSE(CP) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VXGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 7 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VYGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VYGSE(CP) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VYGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 8 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'VZGSE(CP) Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VZGSE(CP) Survey' 'km/sec' LINEAR TRUE -10.0 10.0
+  'VZGSE(CP) Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 9 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'FLOW_ANGLE Survey' TIME_SERIES 1 1 2 1
+  'RotEBV.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'FLOW_ANGLE Survey' 'deg' LINEAR TRUE -360.0 360.0
+  'FLOW_ANGLE Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'RotEBV.Survey' 0 0 0
+  'RotEBV.Survey' 10 0 0
+  }
+}
+
+{
+@2 { PlotQuantityDescription
+  '-1000*EXGSE(C)/BZGSE Survey' TIME_SERIES 1 1 2 1
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '-1000*EXGSE(C)/BZGSE Survey' 'km/s' LINEAR TRUE -1000.0 1000.0
+  '-1000*EXGSE(C)/BZGSE Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'ECoverBZ.Survey' 0 0 0
+  'ECoverBZ.Survey' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  '1000*EYGSE(C)/BZGSE Survey' TIME_SERIES 1 1 2 1
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '1000*EYGSE(C)/BZGSE Survey' 'km/s' LINEAR TRUE -1000.0 1000.0
+  '1000*EYGSE(C)/BZGSE Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'ECoverBZ.Survey' 0 0 0
+  'ECoverBZ.Survey' 2 0 0
+  }
+}
+
+
+{
+@2 { PlotQuantityDescription
+  '-1000*EXGSE(CP)/ Survey' TIME_SERIES 1 1 2 1
+  'ECPoverBZP.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '-1000*EXGSE(CP)/ Survey' 'km/s' LINEAR TRUE -1000.0 1000.0
+  '-1000*EXGSE(CP)/ Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'ECPoverBZP.Survey' 0 0 0
+  'ECPoverBZP.Survey' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  '1000*EYGSE(CP)/ Survey' TIME_SERIES 1 1 2 1
+  'ECPoverBZP.Survey' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '1000*EYGSE(CP)/ Survey' 'km/s' LINEAR TRUE -1000.0 1000.0
+  '1000*EYGSE(CP)/ Survey' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'ECPoverBZP.Survey' 0 0 0
+  'ECPoverBZP.Survey' 2 0 0
+  }
+}
+
+@2 { PlotQuantityDescription
+  'Generate Survey Stats to file SurveyStats.dat...' TIME_SERIES 1 1 2 1
+  'SurveyStats' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Generate Survey Stats to file SurveyStats.dat...' '-' LINEAR TRUE 0.0 1000.0
+  'Generate Survey Stats to file SurveyStats.dat...' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SurveyStats' 0 0 0
+  'SurveyStats' 19 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Generate Survey Stats to file SurveyStats.GT20.dat...' TIME_SERIES 1 1 2 1
+  'SurveyStats.GT20' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Generate Survey Stats to file SurveyStats.GT20.dat...' '-' LINEAR TRUE 0.0 1000.0
+  'Generate Survey Stats to file SurveyStats.GT20.dat...' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SurveyStats.GT20' 0 0 0
+  'SurveyStats.GT20' 19 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'SurveyBiggest EYCGSE' TIME_SERIES 1 1 2 1
+  'SurveyBiggest EYC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SurveyBiggest EYCGSE' 'n' LINEAR TRUE 0.0 100.0
+  'SurveyBiggest EYCGSE' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SurveyBiggest EYC' 0 0 0
+  'SurveyBiggest EYC' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Survey5Biggest.GT20.dat' TIME_SERIES 1 1 2 1
+  'Survey5Biggest.GT20' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Survey5Biggest.GT20.dat' 'n' LINEAR TRUE 0.0 1000.0
+  'Survey5Biggest.GT20.dat' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Survey5Biggest.GT20' 0 0 0
+  'Survey5Biggest.GT20' 0 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'Survey5Biggest.LT20.dat' TIME_SERIES 1 1 2 1
+  'Survey5Biggest.LT20' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Survey5Biggest.LT20.dat' 'n' LINEAR TRUE 0.0 1000.0
+  'Survey5Biggest.LT20.dat' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Survey5Biggest.LT20' 0 0 0
+  'Survey5Biggest.LT20' 0 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'FlowEvalCount' TIME_SERIES 1 1 2 1
+  'FlowEval' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Count' 'n' LINEAR TRUE 0.0 20.0
+  'Count' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'FlowEval' 0 0 0
+  'FlowEval' 1 0 0
+  }
+
+{
+@2 { PlotQuantityDescription
+  'r' TIME_SERIES 1 1 2 1
+  'Correlate' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'r' '-' LINEAR TRUE -1.0 1.0
+  'r' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Correlate' 0 0 0
+  'Correlate' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Xgse Vs r' X_VS_Y 1 2 2 1
+  'Correlate' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'XGSE' 'Re' LINEAR TRUE -350.0 50.0
+  'r' '-' LINEAR TRUE -1.0 1.0
+  'Xgse Vs r' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 4 0
+  'SfrEphAttQtys' 1 2 14
+  'Correlate' 1 0 0
+  'Correlate' 0 0 0
+  'SfrEphAttQtys' 0 0 0
+  }
+}
+
+@2 { PlotQuantityDescription
+  'EYC.XGSE Sums' TIME_SERIES 1 1 2 1
+  'EYC binned over XGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EYC binned over XGSE' 0 0 0
+  'EYC binned over XGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BZ.XGSE Sums' TIME_SERIES 1 1 2 1
+  'BZ binned over XGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BZ binned over XGSE' 0 0 0
+  'BZ binned over XGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BTOT.XGSE Sums' TIME_SERIES 1 1 2 1
+  'BTOT binned over XGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BTOT binned over XGSE' 0 0 0
+  'BTOT binned over XGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EYC.BX Sums' TIME_SERIES 1 1 2 1
+  'EYC binned over BX' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EYC binned over BX' 0 0 0
+  'EYC binned over BX' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EYC.BY Sums' TIME_SERIES 1 1 2 1
+  'EYC binned over BY' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EYC binned over BY' 0 0 0
+  'EYC binned over BY' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EYC.BZ Sums' TIME_SERIES 1 1 2 1
+  'EYC binned over BZ' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Sums' '-' LINEAR TRUE -1.0 1.0
+  'Sums' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EYC binned over BZ' 0 0 0
+  'EYC binned over BZ' 1 0 0
+  }
+
+
+
+@2 { PlotQuantityDescription
+  'SurveyBigSimple.GT20.dat' TIME_SERIES 1 1 2 1
+  'SurveyBigSimple.GT20' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SurveyBigSimple.GT20.dat' 'n' LINEAR TRUE 0.0 1000.0
+  'SurveyBigSimple.GT20.dat' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SurveyBigSimple.GT20' 0 0 0
+  'SurveyBigSimple.GT20' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'SurveyBigSimple.LT20.dat' TIME_SERIES 1 1 2 1
+  'SurveyBigSimple.LT20' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SurveyBigSimple.LT20.dat' 'n' LINEAR TRUE 0.0 1000.0
+  'SurveyBigSimple.LT20.dat' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_PTS 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SurveyBigSimple.LT20' 0 0 0
+  'SurveyBigSimple.LT20' 1 0 0
+  }
+************************************************************************
+
+
+@2 { PlotQuantityDescription
+   'EBlock UCB_GEOTAIL_SURVEY_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }

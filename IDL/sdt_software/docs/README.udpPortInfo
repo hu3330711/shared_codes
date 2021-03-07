@@ -1,0 +1,39 @@
+udpPortInfo (upi) README file
+-----------------------------
+
+The rpc service
+---------------
+
+udpPortInfo_svc is an rpc service which essential to the operation
+of the relay program and the core program (sdt).  It must be availabe on
+any machine which will run the relay program.
+
+To configure each potential relay machine to be sure it is always available,
+an entry should be added to the /etc/inetd.conf file.
+
+The inetd.conf entry should have the following format:
+
+600006000/1 tli rpc/tcp wait fastsw $FASTBIN/udpPortInfo_svc udpPortInfo_svc \
+$FASTCONFIG $FASTLIB
+
+fastsw is the effective user as which the rpc server should run.
+You must $FASTBIN, $FASTCONFIG, and $FASTLIB with the values to which they
+are set by the setup script in your workspace.
+
+Don't forget to re-initialize inetd by sending it a SIGHUP after changing 
+the inetd.conf file.
+
+
+The configuration file
+----------------------
+
+udpPortInfo_svc looks first in $FASTCONFIG and then in $FASTLIB (as
+specified in the arguments in the inetd.conf entry) for a
+configuration file called Relay_port_config.  It should always find
+the one in $FASTLIB as long as the workspace has been properly
+installed.  Any custom versions of Relay_port_config should be placed
+in $FASTCONFIG.  The configuration file can be changed at any time: it
+is re-read each time a rpc request is made to udpPortInfo_svc.
+
+See the Relay_port_config file in the upi directory, or the one installed in 
+$FASTLIB for a description of the format.

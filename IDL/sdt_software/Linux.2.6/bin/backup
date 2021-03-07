@@ -1,0 +1,233 @@
+#!/usr/bin/ksh
+#
+# Backup - backup an orbit of data onto tape
+#
+# Will check for archive directories in ARCHIVESTORAGE.  If it finds any, it
+# will back them up on tape.
+# Write a tar file of the orbit directory at the end of the tape
+# preceded by file of 80 byte records containing an ASCII listing of
+# the date and source of the archive, a listing of the archive directory,
+# and the size of the archive. It first checks for a FAST label, then
+# reports the amount of data already on the tape and the amount to be
+# added. It then gives the user an opportunity to bail out.
+#
+
+echo
+echo $2: ---- backup run on $(date) ----
+
+. $CONFIGPATH/archive_config
+
+while [[ -a $BACKUPLOCK ]]
+do
+	echo $2: backup sleeping 60 for $(cat $BACKUPLOCK)
+	sleep 60
+done
+echo $2 > $BACKUPLOCK
+
+# function to rewind the tape and quit with error message on error
+# Usage: rewind_tape progname sequence_count return_code
+rewind_tape() {
+if mt -f $TAPE rewind
+then
+	return
+else
+	echo "$1: Tape rewind failed"
+	echo "$1: Tape rewind failed" | mail $ARCHIVEMASTER
+	rm $BACKUPLOCK
+	exit 1
+fi
+}
+
+# function for creating a label
+create_label() {
+
+	tapeLabel="FAST LABEL: Backup beginning CD $PASS - written \
+		$(date -u | awk '{print $2 " " $3 " " $6}')"
+	echo $1: Writing a tape label:
+	echo $1: $tapeLabel
+	rewind_tape $0
+	echo $tapeLabel | \
+		dd of=$TAPE bs=$RECSIZE cbs=$RECSIZE conv=block 2> /dev/null
+}
+
+# function for taking the current tape out of the tape stacker and putting the
+# next one in.
+load_next() {
+	rewind_tape $0
+	current=$(stackutil status | grep 'Tape in Drive' | awk '{print $2}')
+	if (( $current == 6))
+	then
+		echo "Stacker is out of tapes! Resetting to 1" | \
+			mail $ARCHIVEMASTER
+		nexttape=1
+	elif [[ $current = "" ]]
+	then
+		nexttape=1
+	else
+		nexttape=$(($current + 1))
+	fi
+	stackutil eject				# eject old tape
+
+# check to see if a tape is in the $nexttape slot
+
+	while [[ $(stackutil status | grep $nexttape | grep 'Empty') != "" ]]
+	do
+		nexttape=$(($nexttape + 1))
+	done
+
+	stat=$(stackutil insert $nexttape)
+}
+
+# Now find out if there is anything we need to archive, and archive it if so
+
+if [[ -z $(cat $1) ]]
+then
+	echo $2: Nothing to backup to tape
+	rm $BACKUPLOCK
+	exit 0
+fi
+
+# First check to see if we have a tape stacker or just a tape drive
+
+if [[ $(stackutil status | awk '{ \
+	if ($1=="Drive0:") print "full" }') = "full" ]]
+then
+
+# Make sure that the tape stacker has a magazine stack in it.
+
+	if [[ $(stackutil status | grep 'Full') = "" ]]
+	then
+		echo $2: No tapes in the tape stacker!!
+		echo $2: No tapes in the tape stacker!! | mail $ARCHIVEMASTER
+		rm $BACKUPLOCK
+		exit 1
+	else
+		if [[ $(stackutil status | grep 'Tape') = "" ]]
+		then
+			echo $2: No tape in the tape drive.  Loading tape 1.
+			stackutil insert 1
+		fi
+		TAPE=$STACKER
+		echo $2: Using stacker at location $STACKER
+	fi
+
+else
+	echo $2: No tape stacker found, using tape drive
+	rm $BACKUPLOCK
+	exit 1
+fi
+# Look for a tape label. Report one if found and quit otherwise
+# If we find a label, read index files and skip other tar files until the 
+# end of the tape, so we know how much is on this tape.
+
+tapeLabel=""
+while [[ $tapeLabel = "" ]]
+do
+	rewind_tape $0
+	kBytesOnTape=0
+	tapeLabel=`dd if=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} \
+		conv=unblock  2> /dev/null`
+	if [[ $tapeLabel = "" ]]
+	then
+		createlabel=1
+		tapeLabel=blah
+	else
+		createlabel=0
+		if [[ "`echo ${tapeLabel} | awk -F":" '{print $1}'`" = "FAST LABEL" ]]
+		then
+			echo ""
+			echo $2: "The tape has the following FAST label:"
+			echo $2: $tapeLabel
+			echo ""
+			while ( true )
+			do
+				byteCnt=`(dd if=${TAPE} bs=${RECSIZE} \
+					cbs=${RECSIZE} conv=unblock 2> \
+					/dev/null) | awk '{byteVal = $1} END \
+					{print byteVal}'`
+				if [[ $byteCnt = "" ]]
+				then
+					break
+				fi
+				kBytesOnTape=$(($kBytesOnTape + $byteCnt))
+
+				mt -f ${TAPE} fsf 1
+				if (( $? != 0 ))
+				then
+					echo $2: "Inconsistent number of files on tape"
+					echo ""
+					load_next
+					echo $2: tape $current is missing a tar file | mail $ARCHIVEMASTER
+				fi
+			done
+		else
+			echo $2: "The tape is not properly labelled."
+			echo $2: $tapeLabel
+			echo ""
+			load_next
+			echo $2: tape $current is not a FAST tape: $tapeLabel | mail $ARCHIVEMASTER
+			tapeLabel=""
+		fi
+	fi
+done
+
+if (( $(($kBytesOnTape + 650000))>$TAPELIMIT ))	# Assume 20% compression
+then
+	load_next
+	echo $2: tape $current is full | mail $ARCHIVEMASTER
+	createlabel=1
+	kBytesOnTape=0
+fi
+
+
+PASS=$(basename $(cat $1))
+DIR=$(dirname $(cat $1))
+echo $2: Backing up $PASS
+if (( $createlabel == 1 ))
+then
+	create_label $2
+	createlabel=0
+fi
+cd $DIR
+
+# Figure out the number of kbytes in the archive directory
+newKBytes=$(du -k $DIR/$PASS | tail -1 | awk '{print $1}')
+
+# Report current and proposed bytes and give quit option
+#echo "The tape has ${kBytesOnTape} kb. We propose to add ${newKBytes} kb."
+#		print -n "Continue? (y/n) [n]:"
+#		read resp
+#		if [[ $resp != "Y" && $resp != "y" ]]
+#		then
+#			rewind_tape $0
+#			rm $BACKUPLOCK
+#			exit 0
+#		fi
+
+# Write index file
+(echo "Saved on `date -u`"; \
+	echo "Pass is $PASS"
+	ls -goR $PASS ; \
+	echo "${newKBytes} kbytes") | \
+	dd of=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=block \
+		2> /dev/null
+if [ $? -ne 0 ]
+then
+	rewind_tape $0
+	echo $2: Index file write on tape backup failed |\
+		mail $ARCHIVEMASTER
+	rm $BACKUPLOCK
+	exit 1
+fi
+
+# Archive the current directory
+if tar -cf ${TAPE} $PASS
+then
+	rewind_tape $0
+	rm $BACKUPLOCK
+else
+	echo $2: tar failed
+	load_next
+	rm $BACKUPLOCK
+	exit 1
+fi

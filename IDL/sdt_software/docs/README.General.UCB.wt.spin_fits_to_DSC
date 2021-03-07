@@ -1,0 +1,689 @@
+************************************************************************
+
+   README.General.UCB.wt.spin_fits_to_DSC
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.spin_fits_to_DSC
+
+************************************************************************
+
+   Transform spin fits to DSC.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.spin_fits_to_DSC	1.7    09/12/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module uses spin fits to obtain a vector in DSC, at
+       spin period time resolution.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) Spin fit of a component of the vector on the spin plane.
+
+
+               The spin fit coefficients B and C are used.
+
+
+
+            2) Spin fit of the component of the vector along the spin
+               axis.
+
+
+               The spin fit coefficient A is used.
+
+
+
+
+
+    3) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the boom that measures the
+       spin plane component whose spin fit is used; and the azimuth of
+       the Sun pulse.
+
+
+
+
+
+    4) There is a phase offset, that was used when the spin fit of the
+       spin plane component was produced.
+
+
+
+       The user can specify a main part of the phase offset, and an
+       additional part of the phase offset.
+
+
+
+       The actual phase offset is the sum of these two parts.
+
+
+
+
+
+    5) The user can specify an additional factor for the spin axis
+       component, to indicate whether the spin axis component is in the
+       same direction as the angular momentum vector or in the opposite
+       direction.
+
+
+
+       This factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+
+
+    6) Provision is made for the possibility that each spin fit
+       coefficient may have its input value "reversed" (i.e., its sign
+       has been reversed).
+
+
+
+
+
+    7) The user can specify corrections to the DSC components of the
+       resulting vector.  The correction for each component is a
+       constant offset.
+
+
+
+       For each component, the user can specify an additional scale
+       correction factor.
+
+
+
+       For each component, the user can specify an additional direction
+       correction factor.
+
+       This factor must be either +1 or -1.
+
+
+
+       The value of a component correction is related to the value of
+       the corresponding offset as follows:
+
+
+           Correction value = (Scale correction factor) *
+                              (Direction correction factor) *
+                              (Offset)
+
+
+
+       These corrections are subtracted from the DSC components.
+
+
+
+
+
+    8) The user can specify a separate scale factor for each component
+       whose spin fit is used.
+
+
+
+       The user can specify a separate direction factor for each
+       component whose spin fit is used, to allow for the possibility
+       that the measured value is in the opposite direction of the
+       vector component.
+
+       Each factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a vector component is related to the value of a
+       measured component in the same direction as follows:
+
+
+           Vector component = (Scale factor) *
+                              (Direction factor) *
+                              (Measured component)
+
+
+
+       The scale factors are applied after the corrections to the DSC
+       components have been applied.
+
+
+
+
+
+    9) An output data point is produced for each successful match
+       containing a data point of each of the following inputs:
+
+            1) Spin fit of a component of the vector on the spin plane.
+
+            2) Spin fit of the component of the vector along the spin
+               axis.
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+
+
+   10) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+   11) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Weight for output time tag for the spin plane component.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+            3) Maximum time separation for consecutive input data
+               points, for the spin plane component.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Input component index for the B coefficient.
+
+
+               Int.
+
+
+
+            5) Input component index for the C coefficient.
+
+
+               Int.
+
+
+
+            6) Flag for reversal of B.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  B is reversed.
+
+                   WT_FALSE  =  B is not reversed.
+
+
+
+            7) Flag for reversal of C.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  C is reversed.
+
+                   WT_FALSE  =  C is not reversed.
+
+
+
+            8) Scale factor for the spin plane component.
+
+
+               Double.
+
+
+
+            9) Direction factor for the spin plane component.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           10) Weight for output time tag for the spin axis component.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           The sum of the weights for the output time tag must be  >  0
+           (not necessarily 1).
+
+
+
+           11) Maximum time separation for consecutive input data
+               points, for the spin axis component.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           12) Input component index for the A coefficient.
+
+
+               Int.
+
+
+
+           13) Flag for reversal of A.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  A is reversed.
+
+                   WT_FALSE  =  A is not reversed.
+
+
+
+           14) Scale factor for the spin axis component.
+
+
+               Double.
+
+
+
+           15) Direction factor for the spin axis component.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           16) Additional factor for the spin axis component.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           17) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+           18) Main part of the azimuth of the instrument boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           19) Additional part of the azimuth of the instrument boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           20) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           21) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           22) Main part of the phase offset for the spin fit of the
+               spin plane component.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  360.
+
+
+
+           23) Additional part of the phase offset for the spin fit of
+               the spin plane component.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  360.
+
+
+
+           24) The group of parameters described here occurs once for
+               each of the DSC components (X, Y, Z).
+
+
+
+                1) Offset to subtract from the component.
+
+
+                   Double.
+
+
+
+                2) Additional scale correction factor for the
+                   component.
+
+
+                   Double.
+
+
+
+                3) Additional direction correction factor for the
+                   component.
+
+
+                   Double.
+
+
+                   Must be  -1  or  +1.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The spin fit of the spin plane component.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin fit coefficient
+                   B.
+
+                   Float.
+
+
+                3) One additional component for the spin fit coefficient
+                   C.
+
+                   Float.
+
+
+
+            2) The spin fit of the spin axis component.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin fit coefficient
+                   A.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component X of the vector in DSC.
+
+
+               Float.
+
+
+
+            3) Component Y of the vector in DSC.
+
+
+               Float.
+
+
+
+            4) Component Z of the vector in DSC.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

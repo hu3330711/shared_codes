@@ -1,0 +1,317 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dskn02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dskn02</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKN02 returns the unit normal vector for a specified plate
+   from a type 2 DSK segment.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dskn02_c.html">dskn02_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle    the handle of a DSK file containing a type 2 segment
+                from which data are to be fetched.
+
+      dladsc    the DLA descriptor associated with the segment from
+                which data are to be fetched.
+
+      plid      a plate ID. Plate IDs range from 1 to NP (the number of
+                plates in the segment identified by `dladsc').
+
+
+   the call:
+
+      <b>cspice_dskn02</b>, handle, dladsc, plid, normal
+
+   returns:
+
+      normal    the normal vector associated with the plate designated
+                by `plid'. The direction of `normal' is determined by
+                the order of the plate's vertices; the vertices are
+                presumed to be ordered in the right-handed
+                (counterclockwise) sense about the normal direction.
+
+                The vector has magnitude 1.
+
+                If an error occurs on the call, `normal' is undefined.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Look up all the vertices associated with each plate
+   of the model contained in a specified type 2 segment. For each
+   plate, display the plate's vertices and normal vector.
+
+   For this example, we'll show the context of this look-up:
+   opening the DSK file for read access, traversing a trivial,
+   one-segment list to obtain the segment of interest.
+
+      PRO DSKZ02_T, dsk
+
+         ;;
+         ;; Declare DSK Mice parameters for use in API calls.
+         ;;
+         @IcyUser
+
+         ;;
+         ;; Constants
+         ;;
+         PBUFSIZ = 10000L
+
+         ;;
+         ;; Initial values
+         ;;
+         verts = dblarr(3,3)
+
+         ;;
+         ;; Open the DSK file for read access.
+         ;; We use the DAS-level interface for
+         ;; this function.
+         ;;
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, dsk, handle
+
+         ;;
+         ;; Begin a forward search through the
+         ;; kernel, treating the file as a DLA.
+         ;; In this example, it's a very short
+         ;; search.
+         ;;
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, handle, dladsc, found
+
+         if ( ~found ) then begin
+
+            ;;
+            ;; We arrive here only if the kernel
+            ;; contains no segments. This is
+            ;; unexpected, but we're prepared for it.
+            ;;
+            warning, 'No segments found in DSK file ' + dsk
+
+         endif
+
+         ;;
+         ;; If we made it this far, `dladsc' is the
+         ;; DLA descriptor of the first segment.
+         ;;
+         ;; Get segment vertex and plate counts.
+         ;;
+         <a href="cspice_dskz02.html">cspice_dskz02</a>, handle, dladsc, nv, np
+
+         print
+         print, 'Number of vertices: ', nv
+         print, 'Number of plates:   ', np
+
+         ;;
+         ;;  Display the vertices of each plate.
+         ;;
+         remain = np
+         start  = 1
+
+         while (remain gt 0 ) do begin
+
+            ;;
+            ;; `nread' is the number of plates we&quot;ll read on this
+            ;; loop pass. Set `nread' to the minimum of PBUFSIZ
+            ;; and `remain'.
+            ;;
+            nread = min( [PBUFSIZ, remain])
+
+            <a href="cspice_dskp02.html">cspice_dskp02</a>, handle, dladsc, start, nread, plates
+
+            for  i = 1, nread do begin
+
+               plix = start + i - 1
+
+               ;;
+               ;;  Read the vertices of the current plate.
+               ;;
+               for  j = 1, 3 do begin
+
+                  <a href="cspice_dskv02.html">cspice_dskv02</a>, handle, dladsc, plates[j-1,i-1], 1, v
+                  verts[*,j-1] = v
+
+               endfor
+
+
+               ;;
+               ;; Display the vertices of the ith plate:
+               ;;
+               print
+               print, 'Plate number: ', i
+
+               for j = 1, 3 do begin
+                  print, '   Vertex :', j, verts[*,j-1]
+               endfor
+
+               ;;
+               ;; Display the normal vector of the current plate:
+               ;;
+               <b>cspice_dskn02</b>, handle, dladsc, plix, normal
+               print, '   Normal: ', normal
+
+            end
+
+            start  = start  + nread
+            remain = remain - nread
+
+         endwhile
+
+         ;;
+         ;; Close file.
+         ;;
+         <a href="cspice_dascls.html">cspice_dascls</a>, handle
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; dskz02_t, 'solid.bds'
+
+      Number of vertices:           12
+      Number of plates:             20
+
+      Plate number:        1
+         Vertex :       1       0.0000000       0.0000000       1.1755700
+         Vertex :       2       1.0514600       0.0000000      0.52573100
+         Vertex :       3      0.32492000       1.0000000      0.52573100
+         Normal:       0.49112416      0.35682135      0.79465438
+
+      Plate number:        2
+         Vertex :       1       0.0000000       0.0000000       1.1755700
+         Vertex :       2      0.32492000       1.0000000      0.52573100
+         Vertex :       3     -0.85065100      0.61803400      0.52573100
+         Normal:      -0.18759233      0.57735008      0.79465465
+
+         ...
+
+      Plate number:       19
+         Vertex :       1     -0.32492000      -1.0000000     -0.52573100
+         Vertex :       2       0.0000000       0.0000000      -1.1755700
+         Vertex :       3      0.85065100     -0.61803400     -0.52573100
+         Normal:       0.18759233     -0.57735008     -0.79465465
+
+      Plate number:       20
+         Vertex :       1      0.85065100     -0.61803400     -0.52573100
+         Vertex :       2       0.0000000       0.0000000      -1.1755700
+         Vertex :       3      0.85065100      0.61803400     -0.52573100
+         Normal:       0.60706168       0.0000000     -0.79465472
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   None.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 13-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   compute normal vector for a type 2 dsk plate
+   compute normal vector from dsk type 2 plate id
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

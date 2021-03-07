@@ -1,0 +1,301 @@
+************************************************************************
+
+   README.General.UCB.wt.constant_output_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.constant_output_001
+
+************************************************************************
+
+   Create constant output.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.constant_output_001	1.1    10/23/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module creates a constant output.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+       None.
+
+
+
+
+
+    3) The constant output contains 1 or more data quantities, 1 for
+       each output data component.
+
+
+
+
+
+    4) The values for the output data quantities are chosen by the user.
+
+
+
+
+
+    5) The data quantity values for each output data point are the same
+       values specified by the user.
+
+
+
+
+
+    6) A total of 6 output data points is written.
+
+
+
+       If
+
+           t_beg and t_end designate the beginning and the end of the
+           time interval
+
+           dur designates the duration of the time interval
+
+               dur = t_end - t_beg
+
+           t_1, t_2, ..., t_6 designate the output time tags
+
+       then:
+
+           t_1 < t_2 = t_beg < t_3 < t_4 < t_5 = t_end < t_6
+
+       and also:
+
+           t_diff_1 = t_2 - t_1 = t_6 - t_5
+
+           t_diff_2 = t_3 - t_2 = t_5 - t_4
+
+
+
+
+
+    7) The user can specify the difference t_diff_1, which indicates how
+       far outside the time interval t_1 and t_6 are; either as a
+       specified amount of time, or as a specified factor times dur.
+
+
+
+       The user can specify the difference t_diff_2, which indicates how
+       far inside the time interval t_3 and t_4 are; either as a
+       specified amount of time, or as a specified factor times dur.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of output data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) The group of parameters described here occurs once for
+               each of the output data quantities.
+
+
+
+                1) Data quantity value.
+
+
+                   Double.
+
+
+
+            4) The group of parameters described here occurs once for
+               the time difference for the points outside the time
+               interval; and once for the time difference for the points
+               inside the time interval; in that order.
+
+
+
+                1) Code for the time difference.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                        1  =  The difference is a specified amount of
+                              time.
+
+                        2  =  The difference is a specified factor times
+                              the duration of the interval.
+
+
+
+                2) Amount of time for the time difference.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If this value will be used, then
+                   must be  >  0;
+                   and, for the points inside the time interval, also
+                   must be  <  1/2 of the duration of the time interval.
+
+
+
+                3) Factor for the time difference.
+
+
+                   Double.
+
+
+                   If this value will be used, then
+                   must be  >  0;
+                   and, for the points inside the time interval, also
+                   must be  <  1/2.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+           None.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each output quantity.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

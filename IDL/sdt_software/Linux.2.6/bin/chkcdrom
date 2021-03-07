@@ -1,0 +1,197 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#   chkcdrom
+#
+# PURPOSE:
+#
+#   Interactive; calls vfchksum to run a checksum on CD's.
+#
+# INPUTS
+#
+#   CD_DIR      This should be the full path to the CD to be checked
+#               ONLY if it is not in the CDROM drive.
+#
+# Creator:	J.Rauchleiba
+# Created:	Jun 1996
+#
+
+. /disks/fast/software/config/archive_config
+tempfile=/tmp/chkcdrom_log$$
+startdir=$PWD
+
+function cleanup {
+	print 'chkcdrom interrupted. Cleaning up and exiting...'
+	rm -f $tempfile /tmp/chksm*
+	exit 0
+}
+
+# CD is either in CDROM drive or given as argument
+
+if [[ ${#} = "1" ]] ; then
+    if [[ ! -r $1 ]] ; then
+	print "Could not read $1"
+	exit 1
+    fi
+    cdname=$(basename $1)
+    cd $(dirname $1)
+else    
+    cd /cdrom
+    print
+    print "Load CDROM in drive and type 'go' when ready"
+    
+    read ready
+    while [[ $ready != 'go' ]]; do
+	print "**Type 'go' to continue**"
+	read ready
+    done
+    
+    print
+    print "Looking in CDROM drive..."
+    print
+    
+    # Search for CD volume name in drive and call it cdname
+    # This name is needed as an argument to script vfchksum
+    cdoptions=$(ls -1 | egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+')
+    cdname=$(ls -1 | egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+' | tail -1)
+    
+    print "CD Name Options:"
+    print "$cdoptions"
+    
+    typeset -l correct=n
+    while [[ $correct != "y" ]] ; do
+    print "CD name: $cdname"
+    read correct?"Is this correct? (y/n) "
+    if [[ $correct != "y" ]] ;then
+	read cdname?'Enter CD name: '
+    fi
+    done
+    
+    print 
+    print "Running checksum now... "
+fi
+
+# Set trap so tempfile removed in case of interrupt
+
+trap 'cleanup' INT QUIT HUP TERM
+
+# Run checksum at low priority, in background
+
+/usr/bin/nice -n 19 $BINPATH/vfchksum $cdname > $tempfile 2>&1 &
+#errstat=$?
+
+# Monitor system messages for read errors
+
+echo
+echo Monitoring system messages for read errors:
+echo
+tail -1f /var/adm/messages &
+
+# Set trap for premature exit
+
+trap 'kill %1 %2' EXIT  # Interpreted at EXIT, not here
+
+# Wait until bg checksum finishes before killing monitor
+
+wait %1
+kill %2
+
+# Reset trap for EXIT (not other interrupts)
+
+trap - EXIT
+
+## Test exit status of vfchksum for error
+#
+#if [[ $errstat != 0 ]]
+#then
+#	 print
+#	 print "*** checksum subprocedure terminated with an error ***"
+#	 print
+#fi
+
+if [[ -s $tempfile ]] ; then	# If tempfile nonempty
+	cat $tempfile
+	print
+	savefile=
+	read save?'Save output to file in HOME directory? (y/n) '
+	if [[ $save != "n" ]] ; then
+		print
+		correct=n
+		while [[ $correct != y ]] ; do
+		    read savefile?'Enter filename: '
+		    # Prepend $HOME if not absolute path
+		    if [[ ${savefile%%/*} != "" ]] ; then
+			savefile=$HOME/$savefile
+		    fi
+		    read correct?"Is this correct?: $savefile (y/n) "
+		    if ! touch $savefile || [[ ! -w $(dirname $savefile) ]]
+		    then
+			correct=n
+		    fi
+		done
+		printf '\n\t\t  >>>>> DISCREPANCY  REPORT <<<<<\n' > $savefile
+		printf "\t\t%s\n\n" "    $(date)" >> $savefile
+		printf "%-16s %s\n\n" "CD Volume Name:" "$cdname" >> $savefile
+		printf "%-16s %s\n\n" "User:" "$USER" >> $savefile
+		printf "Checksum Output:\n\n" >> $savefile
+		cat $tempfile >> $savefile
+		printf "\n\n\n" >> $savefile
+		printf "Comments:\n\n" >> $savefile
+	else
+		print 'Fine.'
+	fi
+	
+	# Now recheck individual files
+	
+	print
+	typeset -l recheck=y
+	read recheck?"Check bad files individually? (y/n) "
+	if [[ $recheck != "n" ]] ; then
+	    ## Allow cleaning of CDROM
+	    #if [[ $PWD = "/cdrom" ]] ; then
+	    #	 print "Wipe off CDROM and type 'go' (Ejecting...)"
+	    #	 cd $HOME
+	    #	 eject cdrom
+	    #	 read ready
+	    #	 while [[ $ready != 'go' ]] ; do
+	    #	     print "**Type 'go' to continue**"
+	    #	     read ready
+	    #	 done
+	    #	 while [[ ! -x /cdrom/$cdname ]]; do
+	    #	     sleep 2
+	    #	     print "Attempting to read drive..."
+	    #	 done
+	    #	 cd /cdrom
+	    #fi
+	    # savefile unset if no copy desired
+	    print | tee -a $savefile
+	    printf 'Summing individual files...\n\n' | tee -a $savefile
+	    for bad in $(nawk '/^</ {print $4}' $tempfile) ; do
+		badfile=${cdname}${bad#.}
+		if [[ ! -r $badfile ]] ; then
+		    print "Could not read $badfile  Exiting..."
+		    exit 1
+		fi
+		/usr/bin/sum $badfile 2>&1 | tee -a $savefile
+	    done
+	fi
+fi
+
+rm $tempfile
+trap - INT QUIT HUP TERM
+
+# Eject
+
+print
+print "Checksum verification complete."
+eject cdrom
+
+# Return to original directory and exit
+
+cd - > /dev/null
+print
+print "**chkcdrom finished**"
+
+exit 0
+

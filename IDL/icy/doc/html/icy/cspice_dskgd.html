@@ -1,0 +1,230 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dskgd</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dskgd</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKGD returns the DSK descriptor from a DSK segment
+   identified by a DAS handle and DLA descriptor.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dskgd_c.html">dskgd_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle    the handle of a DSK file that is open for
+                read access.
+
+      dladsc    the DLA segment descriptor corresponding to
+                a DSK segment.
+
+
+   the call:
+
+      <b>cspice_dskgd</b>, handle, dladsc, dskdsc
+
+   returns:
+
+      dskdsc    the DSK segment descriptor of the segment
+                designated by the input handle and DLA descriptor.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Dump the DSK descriptor of the first segment of a DSK file.
+
+      PRO dskgd_t1, dsk
+
+         @IcyUser
+
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, dsk, handle
+
+         ;;
+         ;; Search for the first segment in the file; obtain
+         ;; the segment's DLA descriptor.
+         ;;
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, handle, nxtdsc, found
+
+         while ( found ) do begin
+
+            dladsc = nxtdsc
+
+            <b>cspice_dskgd</b>, handle, dladsc, dskdsc
+
+            print, 'DSK descriptor contents:'
+
+            print, '   ', long( dskdsc[SPICE_DSK_SRFIDX] )
+            print, '   ', long( dskdsc[SPICE_DSK_CTRIDX] )
+            print, '   ', long( dskdsc[SPICE_DSK_CLSIDX] )
+            print, '   ', long( dskdsc[SPICE_DSK_TYPIDX] )
+            print, '   ', long( dskdsc[SPICE_DSK_FRMIDX] )
+            print, '   ', long( dskdsc[SPICE_DSK_SYSIDX] )
+
+            for i = 0, SPICE_DSK_NSYPAR-1 do begin
+               print, '   ', dskdsc[SPICE_DSK_PARIDX+i]
+            endfor
+
+            print, '   ',    dskdsc[SPICE_DSK_MN1IDX]
+            print, '   ',    dskdsc[SPICE_DSK_MX1IDX]
+            print, '   ',    dskdsc[SPICE_DSK_MN2IDX]
+            print, '   ',    dskdsc[SPICE_DSK_MX2IDX]
+            print, '   ',    dskdsc[SPICE_DSK_MN3IDX]
+            print, '   ',    dskdsc[SPICE_DSK_MX3IDX]
+            print, dskdsc[SPICE_DSK_BTMIDX]
+            print, dskdsc[SPICE_DSK_ETMIDX]
+
+            ;;
+            ;; Fetch next DLA descriptor.
+            ;;
+            <a href="cspice_dlafns.html">cspice_dlafns</a>, handle, dladsc, nxtdsc, found
+
+         endwhile
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; dskgd_t1, 'phobos512.bds'
+      DSK descriptor contents:
+                  401
+                  401
+                    1
+                    2
+                10021
+                    1
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+                0.0000000
+               -3.1415927
+                3.1415927
+               -1.5707963
+                1.5707963
+                8.0496322
+                13.940940
+        -1.5778800e+09
+         1.5778801e+09
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   This is a convenience routine intended for use by low-level routines
+   that read DSK segments. This routine may also be called by user
+   applications that must access DSK files at the segment level.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 13-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   return dsk segment_descriptor
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

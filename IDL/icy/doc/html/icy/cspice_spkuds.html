@@ -1,0 +1,252 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_spkuds</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_spkuds</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_SPKUDS unpacks/extracts the contents of an SPK segment descriptor.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/spkuds_c.html">spkuds_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      None.
+
+   the call:
+
+      <b>cspice_spkuds</b>, body , center, frame, type, $
+                     first, last  , beg  , final
+
+   returns:
+
+      body       is the NAIF ID code for the body of the segment.
+
+      center     is the center of motion for body.
+
+      frame      is the SPICE integer code for the frame to which states
+                 for the body are be referenced.
+
+      type       is the type of SPK segment.
+
+      first      is the first epoch for which the segment has
+                 ephemeris data.
+
+      last       is the last epoch for which the segment has
+                 ephemeris data.
+
+      begin      is the starting address of the data associated
+                 with this descriptor.
+
+      end        is the last address of the data associated with
+                 this descriptor.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Read the segment descriptor for each segment in an SPK. Output
+   the SPK ID for the body and center for the segments.
+
+      PRO spkuds_t, file
+
+         ;;
+         ;; Open the SPK file for read.
+         ;;
+         <a href="cspice_dafopr.html">cspice_dafopr</a>, file, handle
+
+         ;;
+         ;; Begin a forward search.
+         ;;
+         <a href="cspice_dafbfs.html">cspice_dafbfs</a>, handle
+
+         ;;
+         ;; Find next array (segment) return true if successful.
+         ;;
+         <a href="cspice_daffna.html">cspice_daffna</a>, found
+
+         ;;
+         ;; Loop while found is TRUE
+         ;;
+         WHILE ( found ) do begin
+
+            ;;
+            ;; Get the segment descxriptor for an SPK file (2,6)
+            ;;
+            <a href="cspice_dafgs.html">cspice_dafgs</a>, 2, 6, dc, ic
+
+            ;;
+            ;; Unpack the segment identifier.
+            ;;
+            <b>cspice_spkuds</b>, body , center, frame, type, $
+                           first, last  , beg  , final
+
+            ;;
+            ;; Output the results.
+            ;;
+            <a href="cspice_bodc2n.html">cspice_bodc2n</a>, body  , bod_name, found
+            <a href="cspice_bodc2n.html">cspice_bodc2n</a>, center, cent_name, found
+
+            print, 'Body   ', body  , ' ' + bod_name
+            print, 'Center ', center, ' ' + cent_name
+
+            ;;
+            ;; Determine if another segment exists.
+            ;;
+            <a href="cspice_daffna.html">cspice_daffna</a>, found
+
+         ENDWHILE
+
+         ;;
+         ;; Don't forget to close.
+         ;;
+         <a href="cspice_spkcls.html">cspice_spkcls</a>, handle
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; spkuds_t, 'de430.bsp'
+      Body              1 MERCURY BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              2 VENUS BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              3 EARTH BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              4 MARS BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              5 JUPITER BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              6 SATURN BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              7 URANUS BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              8 NEPTUNE BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body              9 PLUTO BARYCENTER
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body             10 SUN
+      Center            0 SOLAR SYSTEM BARYCENTER
+      Body            301 MOON
+      Center            3 EARTH BARYCENTER
+      Body            399 EARTH
+      Center            3 EARTH BARYCENTER
+      Body            199 MERCURY
+      Center            1 MERCURY BARYCENTER
+      Body            299 VENUS
+      Center            2 VENUS BARYCENTER
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   This routine extracts the contents of an SPK segment
+   descriptor. It serves as a macro for expanding the SPK
+   segment descriptor.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, DD-MM-YYY, NNN (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   unpack SPK segment descriptor
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:03 2017</pre>
+
+</body>
+</html>
+

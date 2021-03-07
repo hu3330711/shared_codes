@@ -1,0 +1,255 @@
+'\" t
+.\" @(#)isorbitdata.1	1.7 12/06/99
+.TH isorbitdata 1 "12/06/99"
+.SH NAME
+gethilat, isorbitdata, whichfiles \- database queries for summary plots
+.SH SYNOPSIS
+\fBgethilat\fR [\fB-c\fI configfile\fR] \fIorbit#\fR
+
+\fBisorbitdata\fR [\fB-f\fR] \fIorbit#\fR
+
+.HP
+\fBwhichfiles\fR [\fB-c\fI configfile\fR] [\fB-f\fR] [\fB-l\fR | \fB-t\fR] [-s] [\fB-q\fI queryspec-file\fR] \fIorbit#\fR | \fI'queryspecs'\fR [\fIAPID# ...\fR]
+.SH DESCRIPTION
+These commands perform simple queries on the FAST archive database to support 
+the generation of science summary plots.  They all take an orbit number as a 
+parameter, and return information about that orbit.
+
+\fBgethilat\fR prints the time of maximum invariant latitude for the given 
+orbit to stdout in the form:  \fIyyyy/mm/dd/hh/mm/ss.sss\fR.  Returns 
+0000/00/00/00:00:00.000 if maximum invariant latitude is unknown for that orbit.
+
+\fBisorbitdata\fR checks if the given orbit is "complete", i.e. if any data for 
+the following orbit has been received and processed.  Returns status 0 if the 
+orbit is complete, 255 if not.  Any other status value indicates an error, with 
+a printed error message.  No printed output is produced if there are no errors.
+
+\fBwhichfiles\fR returns a list of LZP directories containing data for the 
+specified orbit in the form:  \fI<volname>/lzp/<lzp_dir>\fR.
+If \fIAPID#\fRs are specified, then only directories containing data for the
+listed \fIAPID#\fRs are returned.
+.SH OPTIONS
+.IP "\fB-c \fIconfigfile\fR"
+Use \fIconfigfile\fR instead of $FASTCONFIG/fast_archive.conf as the 
+configuration file.  The \fB-c\fR option must be the first option present if 
+it's used.
+.IP "\fB-f\fR"
+Use the LZP orbit numbers implicit in the LZP directory names instead of the 
+orbit numbers from the \fIorbits\fR table in the database.  This is useful if 
+LZP data has been processed for a given orbit, but for some reason the orbit 
+data processing has been delayed.  The \fB-f\fR option is not available for 
+\fBgethilat\fR since invariant latitude data is present only after the orbit 
+data has been processed.
+.IP "\fB-l\fR"
+Returns a list of LZP and counts files, rather than LZP directories.  
+Output format:
+.RS
+.RS
+\fI<volname>/lzp/<lzp_dir>/<file>\fR
+.RE
+.RE
+.IP "\fB-t\fR"
+Same as \fB-l\fR, but output is formatted for using in \fBtar\fR command:  
+See EXAMPLES.  Output format:
+.RS
+.RS
+\fI-C <volname> ./lzp/<lzp_dir>/<file>\fR
+.RE
+.RE
+.IP "\fB-s\fR"
+Print the SQL statements used to make the query to standard error.
+.IP "\fB-q\fI queryspec-file\fR"
+\fBwhichfiles\fR uses queryspecs it reads from \fIqueryspec-file\fR.  
+If specified as '-' then queryspecs are read from the standard input.
+.SH USAGE
+More detailed queries are possible with \fBwhichfiles\fR by replacing
+\fIorbit#\fR with the \fIqueryspecs\fR string.  The entire 
+\fIqueryspecs\fR string
+must be enclosed in single quotes (') to protect it from the shell.
+The \fIqueryspecs\fR string contains one or more queryspecs, separated by
+white space.
+Each queryspec in the \fIqueryspecs\fR string has the following syntax:
+.RS
+	\fIspec\fR {\fIargument\fR}
+.RE
+The argument to each spec is enclosed by braces, and may be a single word, 
+a list of words 
+separated by white space, or an arbitrary string.  
+
+The type of argument taken 
+by each spec is given in the following list:
+
+.IP "\fBorbit\fR {\fIorbit#\fR}"
+This is the same as specifying \fIorbit#\fR as a command line argument
+.IP "\fBorbitrange\fR {\fIfirstorbit#\fR \fIlastorbit#\fR}"
+Queries for files in the timespan starting at the beginning
+of \fIfirstorbit#\fR and finishing at the end of \fIlastorbit#\fR.
+.IP "\fBtimespan\fR {""\fIStartTime\fR"" ""\fIEndTime\fR""}"
+Query for files in the timespan specified by \fIStartTime\fR and 
+\fIEndTime\fR.  \fBWhichfiles\fR understands all time formats understood 
+by SQL.  However, it
+does not understand the time format "YYYY-MM-DD/HH:MM:SS": 
+the date and time must be separated by a space.
+.IP "\fBtimequery\fR {\fItimespan_query\fR}
+Find LZP files containing data within one or more timespans.
+\fItimespan_query\fR is an
+SQL query which creates a temporary table #timespan which contains two 
+columns: start, finish.  Each row in the table defines a timespan.  
+The query may use any tables from the fast_archive 
+database.  
+Example of a \fItimespan_query\fR argument:
+.RS
+.RS
+{select start, finish into #timespan from orbits where start >=
+"1999-12-04 00:00" and start < "1999-12-05 00:00"}
+.RE
+This example queries for all files containing data for all the orbits
+which begin on December 4, 1999 (including all files for the last orbit
+of the day, even if they only contain data for the next day).
+.RE
+.IP "\fBsql\fR {\fIfile_query\fR}"
+Write your own query!  Cannot be used in combination with other
+specs.  The query result must contain volname, pathname as the first two 
+columns.  
+Example \fIfile_query\fR argument:
+.RS
+.RS
+{select volname, pathname from files}
+.RE
+\fIfile_query\fR may consist of several batches, each terminated by "go" 
+entered on a line by itself.
+.RE
+
+One and only one queryspec of the above types must be inculded in the
+\fIqueryspecs\fR string.  Of these, the \fBorbit\fR, \fBorbitrange\fR,
+\fBtimespan\fR, or \fBtimequery\fR type queryspecs only define a
+timespan for \fBwhichfiles\fR to query.  Additional criteria for the
+query may be specified with one or more queryspecs of the types given
+in the the list which follows.  \fBWhichfiles\fR will then return
+LZP files containing data within the specfied timespan only if the
+additional contitions are also true.  If more than one additional
+queryspec is specified, their conditions are combined using the
+following logic: (\fImode_condition\fR AND
+(\fIattitude_ephemeris_condition\fR OR \fIephem_events_condition\fR OR
+\fIop_events_condition\fR)).
+
+.IP "\fBmode\fR {\fImode_condition\fR}"
+Restrict results to LZP files containing mode periods matching 
+criteria given in \fImode_condition\fR, which may
+consist of any criteria using columns from the mode_periods table.
+Columns include:
+.RS
+.RS
+Pmode, Fmode, fast_surv, FSMode, FSAlg, MinFLevel, MaxFLevel, AvgFLevel
+.RE 
+.HP 6
+Note: for fast_surv, 0 = "slow survey", 1 = "fast survey", 2 = "backorbit"
+.PP
+Example \fImode_condition\fR argument:
+.RS
+{Pmode = 16 and Fmode = 32 and fast_surv = 1}
+.RE
+.RE
+.IP "\fBatt_ephem\fR {\fIattitude_ephemeris_conditions\fR}"
+Return LZP files for which \fIattitude_ephemeris_conditions\fR are met.
+These conditions may consist of any criteria using columns
+from events_data table.
+.br
+Columns include a bit flag: 
+.RS 
+.RS 
+predicted
+.RE
+and vector elements: 
+.RS
+X, Y, Z, VX, VY, VZ, lat, lng, alt, flat, flng, mlt, ilat, ilng, 
+magX, magY, magZ, LX, LY, LZ, Z_sun, lambda, phi
+.RE
+Example \fIattitude_ephemeris_conditions\fR argument:
+.RS 5
+{ilat > 70 and ilat < 90}
+.RE
+.RE
+.IP "\fBephem_events\fR {\fIephem_events_conditions\fR}
+Return LZP files for which \fIephem_events_conditions\fR are met.
+These conditions may consist of any criteria using columns from 
+ephemeris_events table.
+Columns include the following bit flags: 
+.RS
+.RS
+apogee, orbit_start, cross70, max_ilat, eclipse_start, eclipse_end,
+max_spinB, spreadF_start, spreadF_end
+.RE
+Example \fIephem_events_conditions\fR argument:
+.RS
+{apogee = 1}
+.RE
+.RE
+.IP "\fBop_events\fR {\fIop_events_conditions\fR}"
+Return LZP files for which \fIop_events_conditions\fR are met.
+These conditions may consist of any criteria using columns 
+from operational_events table.
+Columns include the following bit flags: 
+.RS
+.RS
+xmit_on, xmit_off, torque_on, torque_off
+.RE
+Example \fIop_events_conditions\fR argument:
+.RS
+{xmit_on = 1}
+.RE
+.RE
+.SH FILES
+.IP "\fB$FASTCONFIG/fast_archive.conf\fR
+Configuration file specifying how to connect to the database to make queries.
+.SH EXAMPLES
+Find out when maximum invariant latitude occurred during orbit number 2000:
+.RS
+% \fBgethilat 2000\fR
+.br
+1995/12/31/02:23:47.000
+.RE
+
+Process summary plots for orbit 2000 if it's complete:
+.RS
+$ \fBif `isorbitdata 2000` ; then\fR
+.br
+>  # do summary plots
+.br
+>  \fBfi\fR
+.RE
+
+Find LZP data for orbit 3006:
+.RS
+% \fBwhichfiles 3006\fR
+.br
+FAST172_TEST3005/lzp/fast_lzp_DSS-74_orbit3006_t
+.RE
+
+Find LZP data files for the month of January 1997, apid 1032, if Fmode is
+23 when the spacecraft is between invariant latitude of 70 and 80 degrees:
+.RS
+% \fBwhichfiles -l \\ \fR
+.br
+? \fB'timespan {"1 jan 1997" "1 feb 1997"} \\ \fR
+.br
+? \fB mode {Fmode = 23} \\ \fR
+.br
+? \fB att_ephem {ilat > 70 and ilat < 80}' 1032 \fR
+
+.RE
+
+Copy Fields Survey data files and counts file for orbit 500 from 
+the jukebox on juneau into a local data directory:
+.RS
+% \fB(rsh juneau -l jbuser 'cd /jb/fast; tar cfvb - 20 \\ \fR
+.br
+? \fB`whichfiles -t 500 1032 1033 1034`') | \\ \fR
+.br
+? \fB(cd $DATA_DIR; tar xBfb - 20)\fR
+.RE
+
+.SH AUTHOR
+George Kaplan
+.br
+Ken Bromund (expanded query capabilities for whichfiles)

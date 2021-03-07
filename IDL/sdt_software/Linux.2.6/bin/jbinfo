@@ -1,0 +1,173 @@
+#!/usr/local/bin/perl
+# Display jukebox information.
+#
+# Usage:
+#	jbinfo [-h] -n <cd name>
+#	jbinfo [-h] -j <jukebox number> [-s <slot number>]
+#
+# 2000.09.28 - Created by Jeremy Huddleston
+
+use integer;
+use strict;
+use sigtrap qw(INT KILL QUIT TERM);
+use vars qw($opt_h $opt_n $opt_j $opt_s);
+use Getopt::Std;
+
+# Global variables
+my $prog=`basename $0`; $prog =~ s/\n//g;
+my $jbfile="/disks/juneau/home/lzp/jukebox/lmount.sh";
+
+# Environment
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'IFS'} = '' if $ENV{'IFS'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config";
+my $path=$ENV{'PATH'};
+
+# Signal catching
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  close(JBFILE);
+  exit($stat);
+}
+
+# Function getOpts
+# Args: none
+#
+# Result: returns ($html, $type, @args) where type is "name" or "jb" and @args is specific to the $type
+
+sub getOpts {
+  my ($html, $type, @args);
+
+  my $ustring = "Usage:\n".
+	"\t".$prog." [-h] -n <cd name>\n".
+	"\t".$prog." [-h] -j <jukebox number> [-s <slot number>]\n";
+
+  getopts('hn:j:s:');
+
+  # (n xor j) and (j or not s) 
+  (($opt_n || $opt_j ) && (!$opt_n || !$opt_j) && (!$opt_s || $opt_j)) || die $ustring;
+
+  # options are valid.
+  ($opt_n eq "" || ($opt_n =~ m/^FAST\d+_ORBIT\d+$/)) && ($opt_j =~ m/^\d*$/) && ($opt_s =~ m/^\d*$/) || die $ustring;
+
+  $html = $opt_h;
+  if( $opt_n ) {
+    $type = "name";
+    @args = ($opt_n);
+  } elsif ( $opt_j && $opt_s ) {
+    $type = "jb";
+    @args = ($opt_j, $opt_s);
+  } else {
+    $type = "jb";
+    @args = ($opt_j, 0);
+  }
+  
+  return ($html, $type, @args);
+}
+
+# Function scanFile
+# Args: <html?> "name" <cd name>
+#	<html?> "jb" <jukebox> <slot> (ust slot = 0 to display all slots)
+#
+# Result: Scans $jbfile and calls printData for each matching entry.
+#	  <html?> is not used by this function but is passed to printData().
+
+sub scanFile {
+  my($html, $type, @args) =  @_;
+  my($name, $jbn, $slotn);
+  
+  open(JBFILE, $jbfile);
+  
+  if($type eq "name") {
+    ($name) = @args;
+    foreach(<JBFILE>) {
+      if(m,^\./lmount -d(\d+) -C\S* /dev/rjb(\d+) /jb/fast/(\S+)$,) {
+        my($lslot, $ljb, $lname) = ($1, $2, $3);
+	if ($name eq $lname) {
+	  printData($html, $ljb, $lslot, $lname);
+	}
+      }
+    }
+  } elsif ($type eq "jb") {
+    ($jbn, $slotn) = @args;
+    foreach(<JBFILE>) {
+      if(m,^\./lmount -d(\d+) -C\S* /dev/rjb(\d+) /jb/fast/(\S+)$,) {
+        my($lslot, $ljb, $lname) = ($1, $2, $3);
+	if (($jbn == $ljb) && (($slotn == 0) || ($slotn == $lslot))){
+	  printData($html, $ljb, $lslot, $lname);
+	}
+      }
+    }
+  } else {
+    print STDERR $prog.": invalid type passed to scanFile(): ".$type.".\n";
+    close(JBFILE);
+    endProgram(1);
+  }
+
+  close(JBFILE);
+}
+
+# Function printHead
+# Args: <html?>
+#
+# Result: Prints to standard out. If <html?> is 1 the output is formatted
+#	  in HTML otherwise just text.
+
+sub printHead {
+  my $html = $_[0];
+  if ($html) {
+    print "<table cols=3 border=1 width=600 cellpadding=2 cellspacing=0>\r\n";
+    print "<tr><td width=75 align=center><span style=\"font-size: 18pt; font-weight: bold;\">JB</span></td>\r\n";
+    print "    <td width=75 align=center><span style=\"font-size: 18pt; font-weight: bold;\">Slot</span></td>\r\n";
+    print "    <td width=450 align=center><span style=\"font-size: 18pt; font-weight: bold;\">Disc Name</span></td></tr>\r\n";
+  } else {
+    print "+---------------------------------+\n";
+    print "| JB | Slot |      Disc Name      |\n";
+    print "+---------------------------------+\n";
+  }
+}
+
+# Function printData
+# Args: <html?> <jubebox> <slot> <cd name>
+#
+# Result: Prints to standard out . If <html?> is 1 the output is formatted
+#	  in HTML otherwise just text.
+
+sub printData {
+  my ($html, $jb, $slot, $name) = @_;
+  if ($html) {
+    print "<tr><td width=75 align=right>".$jb."</td>\r\n";
+    print "    <td width=75 align=right>".$slot."</td>\r\n";
+    print "    <td width=450 align=left>".$name."</td></tr>\r\n";
+  } else {
+    printf "| %2d | %4d | %-19s |\n", $jb, $slot, $name;
+  }
+}
+
+# Function printHead
+# Args: <html?>
+#
+# Result: Prints to standard out. If <html?> is 1 the output is formatted
+#	  in HTML otherwise just text.
+sub printFoot {
+  my $html = $_[0];
+  if ($html) {
+    print "</table>\r\n";
+  } else {
+    print "+---------------------------------+\n";
+  }
+}
+
+my @opts = getOpts();
+
+printHead(@opts);
+scanFile(@opts);
+printFoot(@opts);
+
+endProgram(0);

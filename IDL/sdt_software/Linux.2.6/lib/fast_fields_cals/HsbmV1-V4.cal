@@ -1,0 +1,39 @@
+#  SCCS Id
+#  @(#)HsbmV1-V4.cal	1.2 11/17/96
+#
+# HsbmV1-V4.cal
+# IS 7/25/95
+# REE 11/15/96
+#
+HsbmV1-V4		Data name.
+8			Type:  HSBM
+sec			x-axis units.
+mV/m			y-axis units
+xx			z-axis units.
+13			Boomlength index
+1			Gain state.
+0			History
+# Calibration table as of 7/25/95.
+# The computer HSBM data was stripped into an ASCII file, and then the long-
+# est stretch of continuous data was plotted, and fit to an offset sine 
+# wave:  Asin(fx + K) + B, where f is angular frequency, x is time, K is
+# phase, A is amplitude and B is offset.
+# Phase K constrained to between 0 and 2*pi, and difference calculated with
+# V1-V4 as the baseline.
+# Gain is calculated as:  (1000)(0.5)/(gain bits) mV.
+# "Gain" and "Offset" entries taken from 100kHz data at 500 kHz Nyquist.
+# In the table below, the Nyquist frequency is 125 kHz for the first group, 
+# of data, 500 kHz for the second group and 1 MHz for the third group.
+#
+# Poles added 11/15/96 by REE to fix phase between E and B.
+#
+0			Epoch time.
+514.549			Offset.
+10.537			Gain.
+1.0e9			Base frequency (in Hz!). High value disables.
+6.0e5			First pole (see crib_HSBM in ~ree/fast/idl/src).
+6.0e5			Second pole. 
+1.0e9			Disable third pole.
+#
+# End table 1
+#

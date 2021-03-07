@@ -1,0 +1,318 @@
+************************************************************************
+
+   README.General.UCB.wt.select_components_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.select_components_001
+
+************************************************************************
+
+   Select data components.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.select_components_001	1.1    07/09/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects a number of data components from a
+       single input.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The input from which the components are to be selected.
+
+
+
+
+
+    3) 1 or more input data components can be selected to be used.
+
+
+
+
+
+    4) Each input data component that is selected must be used to
+       generate at least 1 output data quantity.
+
+
+
+
+
+    5) A selected input data component can be used multiple times.
+
+
+
+       Since each input data component that is not selected is not used
+       at all; and since each input data component that is selected can
+       be used once, or more than once; the number of data quantities in
+       the output can be less than, equal to, or greater than the number
+       of data quantities in the input.
+
+
+
+
+
+    6) For each selected input component, there is the option of
+       specifying limits and ignoring data values beyond the limits.
+
+
+
+       An input data point is considered only if all the selected data
+       components have valid values.
+
+
+
+
+
+    7) An output data point is produced for each input data point;
+       provided that the selected components have valid values (if
+       limits are specified).
+
+
+
+       The time tag for the output data point is the same as the time
+       tag of the corresponding input data point.
+
+
+
+       The data quantity values for the output data point are the same
+       as the quantity values of the selected components of the
+       corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of output data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Number of input data quantities selected to be used.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the input data quantities selected.
+
+
+
+                1) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                2) Lower limit.
+
+
+                   Double.
+
+
+
+                3) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then
+               the lower limit  must be  <=  the upper limit.
+
+
+
+                4) Input component index.
+
+
+                   Int.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the output data components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The data input for the data components to be selected.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components, for the values of
+                   the data quantities.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each output quantity.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

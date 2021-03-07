@@ -1,0 +1,464 @@
+'\" t
+.\" @(#)orbitlib.3	1.2 01/19/95
+.TH ORBITLIB 3 "01/19/95"
+.SH NAME
+OrbOpen, OrbClose, OrbRewind, OrbRead, OrbExpandVector, OrbWriteHeader,
+OrbWriteLabel, OrbWriteVector, OrbNormalizeMJD, OrbNormalizeDOY,
+OrbNormalizeDate, OrbInterpTime, OrbInterpCoords \- basic orbit I/O functions
+.SH SYNOPSIS
+\fB#include <orbitlib.h>
+
+orbHandle *OrbOpen(void *\fIname\fB, int \fItype\fB, int \fImode\fB);
+
+orbHandle *OrbOpenStream(FILE *\fIstream\fB);
+
+int OrbClose(orbHandle *\fIorp\fB);
+
+int OrbRewind(orbHandle *\fIorp\fB);
+
+int OrbRead(orbHandle *\fIorp\fB, orbRecord *\fIrec\fB);
+
+.BI "int OrbExpandVector(double " "raw" "[], orbVector *" "vec" ", "
+.br
+.BI "	orbLabel " "flabel" ", orbLabel " "dlabel" ");"
+
+.BI "int OrbWriteHeader(orbHandle *" "orp" ", orbHeader *" "headerp" ");"
+
+.BI "int OrbWriteLabel(orbHandle *" "orp" ", orbLabel " "label" ");"
+
+.BI "int OrbWriteVector(orbHandle *" "orp" ", orbVector *" "vector" ","
+.br
+.BI "	orbLabel " "label" ");"
+
+.BI "void OrbNormalizeMJD(orbTime *" "oTime" ");"
+.br
+.BI "void OrbNormalizeDOY(orbTime *" "oTime" ");"
+.br
+.BI "void OrbNormalizeDate(orbTime *" "oTime" ");"
+
+.BI "int OrbInterpTime (orbHandle *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	int *" "nFound" ", long " "orbit" ", "
+.BI "double " "coordinate" ", "
+.br
+.BI "	orbLabel " "label" ");"
+
+.BI "int OrbInterpCoords (orbHandle *" "orp" ", orbTime " "time" ","
+.br
+.BI "	orbVector *" "v" ", long *" "orbit" ", "
+.BI "orbLabel *" "label" ");"
+
+.SH DESCRIPTION
+The header file \fIorbitlib.h\fR defines the constants, datatypes, and
+functions in the basic orbit I/O library.  The "public" data types are shown
+below.
+
+.nf
+/*  Orbit time and date information */
+/*    Ranges correspond to those in 'struct tm' except for year */
+typedef struct {
+	int  year;		/* 1600 or later */
+	int  DOY;		/* Day of year, [0, 365] */
+	int  month;		/* months since Jan - [0, 11] */
+	int  mday;		/* day of the month  [1, 31] */
+	int  wday;		/* day of the week  [0, 6] */
+	int  hour;		/* hours UTC [0, 23] */
+	int  minute;		/* minutes after hour [0, 59] */
+	double second;		/* seconds after minute [0, 61]*/
+	double MJD;		/* Modified Julian Date */
+} orbTime;
+
+/*  Orbit header data */
+typedef struct {
+	char	version[ORB_VERLEN];	/* orbitlib version #, /*
+					/* e.g. "1.00" */
+	char	satellite[ORB_MAXNAME];	/* Satellite ID */
+	long	orbit;		/* orbit number */
+
+	/* Keplerian elements */
+	
+	orbTime  epoch;		/* Epoch date & time */
+	double	axis;		/* Semimajor axis, Km */
+	double	ecc;		/* Eccentricity */
+	double	inc;		/* Inclination to equator, deg */
+	double	node;		/* RA of ascending node, deg. */
+	double	aperigee;	/* Argument of perigee, deg. */
+	double	manomaly;	/* Mean anomaly, deg */
+} orbHeader;
+
+/* Optional header fields in extended header */
+typedef struct {
+	double	apogee;		/* Apogee altitude */
+	double	apmlt;		/* Apogee Mean Local Time, hr */
+	double	apilat;		/* Apogee invariant altitude */
+} orbExHeader;
+
+/*  Orbit Vectors */
+typedef unsigned long orbLabel;	/* Vector label bitmask */
+
+typedef struct {
+	double	time;		/* Seconds since epoch in header */
+	double	r[3];		/* Position, GEI coords, Km */
+	double	v[3];		/* Velocity, GEI Km/sec */
+	double	lat, lng;	/* Geographic latitude, */
+				/* longitude, deg */
+	double	alt;		/* Altitude, Km */
+	double	mlat, mlng;	/* Geog. latitude, longitude */
+				/* of magnetic footprint, deg */
+	double	mlt;		/* Magnetic local time, hours */
+	double	ilat, ilng;	/* Invariant latitude, */
+				/* longitude, deg */
+	double	b[3];		/* Magnetic field, GEI, nTesla */
+} orbVector;
+
+typedef union {
+	orbHeader  header;
+	orbExHeader  xheader;
+	orbLabel   label;
+	double     rawVector[ORB_MAXVEC];
+} orbRecord;
+.fi
+
+Four functions handle opening and closing sessions for reading or
+writing orbit data:
+.LP
+.BI "orbHandle *OrbOpen(void *" "name" ", int " "type" ", int " "mode);"
+.IP
+Open an orbit data set (I use "data set" in place of "file" to allow
+for the different types of orbit data we'll be supporting) and return 
+a handle for use by other orbit I/O functions.  
+.I "Type"
+is one of 
+the following:
+.TS
+l l.
+ORB_FILE	An ordinary orbit file
+ORB_FILE_SET	An orbit file set.
+ORB_DB	A database connection.
+.TE
+.IP
+.I "Mode"
+is one of:
+.TS
+l l.
+ORB_RDONLY	Open for reading
+ORB_APPEND	Create or open for writing at end of file.
+ORB_WRITE	Create or open for write at beginning of file.
+.TE
+.IP
+Returns NULL if unable to open the file.  
+.IP
+ORB_FILE is the only 
+.I type 
+that allows modes ORB_APPEND or ORB_WRITE;
+the others are read-only.
+.LP
+Note that the type of 
+.I name
+has been changed to 
+.B "(void *)" 
+from 
+.B "(char *)".  
+In fact, the 
+.I name
+will still be a character string (a file name
+or pathname) for the
+currently defined orbit data types.  The 
+.B "(void *)" 
+will allow more
+flexibility for possible future revisions.
+.LP
+.BI "orbHandle *OrbOpenStream (FILE *" "stream" ");"
+.IP
+Associate an orbHandle with an open file stream, which must be a
+normal orbit data file.  (i.e. ORB_FILE).  Returns a NULL pointer on
+error.  Rewinds the stream.
+.LP
+.BI "int  OrbClose(orbHandle *" "orp" ");"
+.IP
+Close the open orbit file given by the handle orp.  Returns
+ORB_OK if successful; ORB_ERROR otherwise.
+.LP
+.BI "int OrbRewind(orbHandle *" "orp" ");"
+.IP
+Rewind the orbit file. Returns:
+.TS
+l l.
+ORB_OK
+ORB_ERROR	I/O error
+.TE
+.LP
+Several functions handle sequential reading (for all types) and
+writing (for ORB_FILE only) of orbit data.
+.LP
+.BI "int  OrbRead(orbHandle *" "orp" ", orbRecord *" "rec" ");"
+.IP
+Read the next record from the open orbit file 
+.I "orp" 
+into the 
+orbRecord buffer at 
+.I "rec."
+The buffer is defined below.  The file
+pointer is positioned just after the end of the record just read.
+.IP
+An orbLabel value is the bitwise OR of any of the following flags:
+.TS
+l l.
+ORBL_TIME
+ORBL_X
+ORBL_Y
+ORBL_Z
+ORBL_VX
+ORBL_VY
+ORBL_VZ
+ORBL_LAT
+ORBL_LNG
+ORBL_ALT
+ORBL_MLAT
+ORBL_MLNG
+ORBL_MLT
+ORBL_ILAT
+ORBL_ILNG
+ORBL_BX
+ORBL_BY
+ORBL_BZ
+
+ORBL_POS	ORBL_X | ORBL_Y | ORBL_Z
+ORBL_VEL	ORBL_VX | ORBL_VY | ORBL_VZ
+ORBL_GEI_STATE	ORBL_TIME | ORBL_POS | ORBL_VEL
+ORBL_ALL	All flags
+.TE
+.IP
+.B OrbRead()
+returns one of the following values:
+.TS
+l l.
+ORB_HEADER	Found an orbit header
+ORB_LABEL	Found a vector set label
+ORB_VECTOR	Found a vector record
+ORB_EOF		End of file
+ORB_ERROR	invalid record or other error
+.TE
+.IP
+Note that the vector returned by OrbRead is a "raw" vector; i.e.
+an array of doubles read directly from the file.  The meaning
+of the components can only be interpreted by the following
+function:
+.LP
+.BI "int OrbExpandVector(double " "raw" "[], orbVector *" "vec" ", "
+.br
+.BI "	orbLabel " "flabel" ", orbLabel " "dlabel" ");"
+.fi
+.IP
+Expand the raw orbit vector data into the orbVector 
+.I vec
+according to the label flag masks 
+.I flabel
+and 
+.I dlabel.
+.I Flabel 
+specifies the quantities present in the raw orbit
+vector; NULL is interpreted as ORBL_ALL.  
+.I Dlabel 
+specifies the
+quantities desired out of the raw vector; if NULL then 
+.I flabel
+is used.
+.LP
+.BI "int OrbWriteHeader(orbHandle *" "orp" ", orbHeader *" "headerp" ");"
+.IP
+Write the header data into the orbit file 
+.I orp
+(which must be
+open for append).  Returns:
+.TS
+l l.
+ORB_OK		no errors
+ORB_ERROR	I/O error
+.TE
+.LP
+.BI "int OrbWriteLabel(orbHandle *" "orp" ", orbLabel " "label" ");"
+.IP
+Write a vector set label into the orbit file 
+.I orp.
+The ORBL_TIME
+flag must be set in the 
+.I
+label 
+mask.  Returns:
+.TS
+l l.
+ORB_OK
+ORB_ERROR	Invalid label mask or I/O error
+.TE
+.LP
+.BI "int OrbWriteVector(orbHandle *" "orp" ", orbVector *" "vector" ", "
+.br
+.BI "	orbLabel " "label" ");"
+.IP
+Write a vector into the orbit file 
+.I orp
+using 
+.I label
+as the
+label mask.  The ORBL_TIME flag must be set in the label mask.  Returns:
+.TS
+l l.
+ORB_OK
+ORB_ERROR	Invalid label mask or I/O error
+.TE
+.LP
+Functions are provided to help manipulate the data structures.  This
+set of functions will expand if more orbit data set types are
+defined.
+.LP
+.BI "void OrbNormalizeMJD(orbTime *" "oTime" ");"
+.LP
+.BI "void OrbNormalizeDOY(orbTime *" "oTime" ");"
+.LP
+.BI "void OrbNormalizeDate(orbTime *" "oTime" ");"
+.IP
+These three functions normalize an orbTime structure, bringing all the
+fields into the proper ranges.  They differ in which of the fields are
+taken to be definitive.  
+.B OrbNormalizeMJD()
+uses the 
+.I MJD 
+field to compute
+all the others.  
+.B OrbNormalizeDOY()
+uses the 
+.I
+year, DOY, hour, minute, 
+and
+.I second 
+fields, and 
+.B OrbNormalizeDate()
+uses the 
+.I
+year, month, mday, hour, minute, 
+and 
+.I second 
+fields.
+.LP
+The following functions handle general (non-sequential) queries for
+orbit data.
+.LP
+.BI "int OrbInterpTime (orbHandle, *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	int *" "nFound" ", "
+.BI "long " "orbit" ", double " "coordinate" ","
+.br
+.BI "	orbLabel " "lab" ");"
+.IP
+.B OrbInterpTime()
+will find times at which a coordinate is crossed 
+during an orbit.  Interpolation is used to get times.
+.IP
+Arguments:
+.TS
+l lw(3i).
+\fIorp\fR	T{
+The orbit file handle.  Note that the 
+file will be rewound when this routine exits.
+T}
+\fItimes\fR	T{
+This is an array of ORB_MAX_INTRP_SLN times 
+that will contain the times where the 
+coordinate is crossed.
+T}
+\fInFound\fR	T{
+Argument where the number of coordinate 
+crossing times found is returned.
+T}
+\fIorbit\fR	T{
+Orbit to look for crossings in.
+T}
+\fIcoordinate\fR	T{
+The value of the coordinate for which to 
+find crossings.
+T}
+\fIlab\fR	T{
+Specifies which coordinate to use.  It is 
+an error to give more than one coordinate.
+T}
+.TE
+.IP
+Return Value:
+.TS
+l lw(3i).
+ORB_OK	Success
+ORB_TM_NO_CRD_ERR:	T{
+Specified coordinate is not in orbit file
+T}
+ORB_TM_ORB_ERR:	T{
+Specified orbit is not in orbit file
+T}
+ORB_TM_LAB_ERR:	T{
+Label contains more than one coordinate
+T}
+ORB_TM_NFND_ERR:	T{
+Specified coord value is not found in file
+T}
+ORB_ERROR:	T{
+An I/O error occurred 
+T}
+.TE
+.LP
+.BI "int OrbInterpCoords (orbHandle *" "orp" ", orbTime " "time" ","
+.br
+.BI "	orbVector *" "v" ", "
+.BI "long *" "orbit" ", orbLabel *" "lab" ")"
+.IP
+.B OrbInterpCoords()
+will return an interpolated orbit vector 
+for a precise time.
+.IP
+Arguments:
+.TS
+l lw(3i).
+\fIorp\fR	T{
+The orbit file handle.  Note that the file will be 
+rewound when this routine exits.
+T}
+\fItime\fR 	T{
+The time to find the orbit vector for.
+T}
+\fIv\fR	T{
+The returned interpolated orbit vector.
+T}
+\fIorbit\fR	T{
+Orbit to look for time in.  If ORB_IGNORE, 
+search whole file, and the orbit the time lies 
+in is returned.
+T}
+\fIlab\fR	T{
+Upon return, will contain the coordinates contained in v.
+T}
+.TE
+.IP
+Return Values:
+.TS
+l lw(3i).
+ORB_OK	Success
+ORB_CRD_ORB_ERR	T{
+Orbit specified before first orbit in file
+T}
+ORB_CRD_TIME_ERR	T{
+Specified time is not in orbit file
+T}
+ORB_ERROR	T{
+An I/O error occurred 
+T}
+.TE
+.SH FILES
+.TS
+l l.
+$(FASTINCLUDE)/orbitio.h	datatypes and function declarations
+$(FASTLIB)/liborbitio.a	the orbit I/O library
+$(FASTLIB)/liborbitio.so	dynamic linking version of library
+.TE
+.SH "SEE ALSO"
+orbitprop(3), orbitfile(4)
+.SH AUTHOR
+George Kaplan, Jon Loran

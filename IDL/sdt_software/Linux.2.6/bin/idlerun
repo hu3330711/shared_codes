@@ -1,0 +1,167 @@
+#!/usr/local/bin/perl
+#
+# Run a process until a user logs in from the console.  At that point, the
+# process is terminated (sig 15) and if that fails, it is killed (sig 9).
+#
+# Usage:
+#       idlerun [-t <secs>] <program name> <program args>
+#
+# If -t is not specified, a query time of 300 seconds will be used.
+#
+# The recommended procedure would be to run as follows:
+# idlerun ls -l /var/tmp \> /logs/tmp.`hostname`
+#
+# The > must be escaped to ensure it is passed as an arguement.  This way the
+# Output is frrom 'ls' rather than 'idlerun'
+
+use integer;
+use strict;
+
+my $querytime = 300;
+my $subpid = "(not set)";
+my $command = "(not set)";
+
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'IFS'} = '' if $ENV{'IFS'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config"; 
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  close (WHO);
+  close (PS);
+  terminateProcess();
+  exit($stat);
+}
+
+
+sub usage {
+  print "Usage:\n".$0." [-t <secs>] <program name> <program args>
+  
+  Options:
+    -t <secs>\tNumber of seconds between querys to see if a user is logged in.
+             \t(Default: 300)\n";
+
+  exit($_);
+}
+
+sub initialize {
+  # Make sure we're given a command
+  if (!(@ARGV > 0) &&
+      !(@ARGV > 2 && $ARGV[0] eq "-t" && (int $ARGV[1]) > 0)) {
+    usage(1);
+  }
+
+  if($ARGV[0] eq "--help" || $ARGV[0] eq "h") {
+    usage(0);
+  }
+  
+  if($ARGV[0] eq "-t") {
+    $querytime = int $ARGV[1];
+    shift @ARGV;
+    shift @ARGV;
+  }
+
+  $command = $ARGV[0];
+  shift @ARGV;
+  
+  while(@ARGV > 0) {
+    $command = $command." ".$ARGV[0];
+    shift @ARGV;
+  }
+}
+
+# logincheck()
+#
+# Returns true if there is a user logged in at the console.  False otherwise
+sub loginCheck {
+  my $who = "who | awk \'{print \$2}\' |";
+
+  open(WHO, $who) or die "Couldn't fork $!\n";
+  while(<WHO>) {
+    $_ =~ s/\W//g;
+    if($_ eq "console") {
+      close(WHO);
+      return 1;
+    }
+  }
+
+  close(WHO);
+  return 0;
+}
+
+# runProcess()
+#
+# Run the process requested and store the pid.
+sub runProcess {
+  $subpid = open(PROGRAM, $command." |") or die "Couldn't fork $!\n";
+}
+
+# terminateProcess()
+#
+# First try killing our process with signal 15.  If that fails, kill -9
+sub terminateProcess {
+  system "kill $subpid";
+
+  if(processCheck() == 1) {
+    system "kill -9 $subpid";
+  }
+  
+}
+
+# processCheck()
+#
+# Check if our process is still running
+sub processCheck {
+  my $ps = "/usr/bin/ps -p $subpid | awk \'{print \$1 \$3}\' |";
+
+  open(PS, $ps) or die "Couldn't fork $!\n";
+  while(<PS>) {
+    $_ =~ s/\W//g;
+    if(m/$subpid/) {
+      # matched PID.  Check if defunct first.
+      if(m/defunct/) {
+        close(PS);
+        return 0;
+      }
+
+      close(PS);
+      return 1;
+    }
+  }
+
+  close(PS);
+  return 0;
+}
+
+# processWatch()
+#
+# Loop until process ends or user logs in
+sub processWatch {
+  while(1) {
+    if(loginCheck() == 1) {
+      printf stderr "User logged in.  Exiting.\n";
+      terminateProcess();
+      endProgram(2);
+    }
+
+    if(processCheck() == 0) {
+      printf stderr "Process Terminated.  Exiting.\n";
+      endProgram(0);
+    }
+
+    print "sleep $querytime...";
+    sleep $querytime;
+    print "awake\n";
+  }
+}
+
+&initialize;
+&runProcess;
+&processWatch;

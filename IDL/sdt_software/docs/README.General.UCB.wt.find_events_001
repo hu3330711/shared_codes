@@ -1,0 +1,1095 @@
+************************************************************************
+
+   README.General.UCB.wt.find_events_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.find_events_001
+
+************************************************************************
+
+   Find events.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.find_events_001	1.3    10/16/02    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module determines the times ("events") when a number
+       of conditions for several quantities are met.
+
+
+
+
+
+    2) More information can be found in the document "Specification on
+       Electron Diffusion Region Search Algorithm", by Forrest Mozer.
+
+
+
+       Information from that document will be used here.
+
+
+
+
+
+    3) There must be the following SDT inputs:
+
+
+
+            1) The magnetic field B.
+
+
+
+            2) The spacecraft position R.
+
+
+
+            3) The plasma velocity v.
+
+
+
+            4) The plasma density n.
+
+
+
+
+
+    4) The components of each vector input must be referred to the
+       coordinate system desired; this program does not rotate any
+       vectors.
+
+
+
+
+
+    5) The SDT output is a vector, the same as the vector B; but only
+       for those times "t" that correspond to events.
+
+
+
+
+
+    6) Additionally, the times of the events, and the values calculated
+       for the various event criteria, can be written to a file.
+
+
+
+
+
+    7) If output will be written to a file, the user can choose whether
+       an existing file is to be appended to, or overwritten.
+
+
+
+
+
+    8) The condition imposed on the vector R is that its magnitude must
+       fulfill a certain condition, in relation to a "comparison
+       interval".
+
+
+
+
+
+    9) If the "comparison interval" for the magnitude of R is defined by
+       its limits "a_R" and "b_R", then the possible conditions are:
+
+
+           |R| < a_R
+
+           |R| <= a_R
+
+           |R| == a_R
+
+           |R| != a_R
+
+           |R| >= a_R
+
+           |R| > a_R
+
+           a_R <= |R| < b_R
+
+           a_R <= |R| <= b_R
+
+           a_R < |R| < b_R
+
+           a_R < |R| <= b_R
+
+
+
+       For any of the conditions above, the user may choose to have the
+       condition reversed (i.e., require that the condition be false).
+
+
+
+
+
+   10) For an output data point to be produced, the time "t" must be in
+       the time interval defined by two input data points of R.
+
+
+
+       The user can specify whether the vector R for the time of the
+       output data point is obtained by linear interpolation or by
+       replication.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   11) For a criterion value to be calculated, the required quantity
+       must be available at all the required times, i.e., each required
+       time must be bracketed by two input data points for the quantity.
+
+
+
+       The user can specify whether the values of the quantity for the
+       the times needed are obtained by linear interpolation or by
+       replication.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Flag to write to an output file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Write.
+
+                    WT_FALSE  =  Do not write.
+
+
+
+            3) Flag to append to the output file.
+
+
+               Int.
+
+
+               If output will be written to a file, then
+               must be one of the following:
+
+
+                    WT_TRUE   =  Append.
+
+                    WT_FALSE  =  Do not append (if file exists,
+                                 overwrite).
+
+
+
+            4) Directory name for the output file.
+
+
+               Char.
+
+
+               This is the directory name with path.
+
+
+               If output will be written to a file, then
+               must be a valid directory name (not blank), and
+               the directory must exist, with appropriate permission.
+
+
+
+            5) File name for the output file.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If output will be written to a file, then
+               must be a valid file name (not blank), and
+               if the file exists already, it must have the appropriate
+               permission.
+
+
+
+            6) Flag to write header lines to the output file.
+
+
+               Int.
+
+
+               If output will be written to a file, then
+               must be one of the following:
+
+
+                    WT_TRUE   =  Write headers.
+
+                    WT_FALSE  =  Do not write headers.
+
+
+
+            7) Comment character for the output file.
+
+
+               Char.
+
+
+               If output will be written to a file,
+               and if header lines will be written, then
+               must be single, non-white-space character.
+
+
+               This character is used to start the header lines.
+
+
+
+            8) Title for the output file.
+
+
+               Char.
+
+
+               If output will be written to a file,
+               and if header lines will be written, then
+               must be a non-empty string (not blank).
+
+
+               This is the first header line.
+
+
+
+            9) T_wait.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           10) Flag to use criterion 00.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           11) Code for the comparison condition for R.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_CMP_I_LT_A       for:  |R| < a_R.
+
+                    WT_CMP_I_LE_A       for:  |R| <= a_R.
+
+                    WT_CMP_I_EQ_A       for:  |R| == a_R.
+
+                    WT_CMP_I_NE_A       for:  |R| != a_R.
+
+                    WT_CMP_I_GE_A       for:  |R| >= a_R.
+
+                    WT_CMP_I_GT_A       for:  |R| > a_R.
+
+                    WT_CMP_I_GE_A_LT_B  for:  a_R <= |R| < b_R.
+
+                    WT_CMP_I_GE_A_LE_B  for:  a_R <= |R| <= b_R.
+
+                    WT_CMP_I_GT_A_LT_B  for:  a_R < |R| < b_R.
+
+                    WT_CMP_I_GT_A_LE_B  for:  a_R < |R| <= b_R.
+
+
+               Note that a_R and b_R are also designated as R_A_00 and
+               R_B_00, respectively.
+
+
+
+           12) Flag to reverse the comparison condition for R.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Reverse the comparison condition.
+
+                   WT_FALSE  =  Do not reverse the comparison condition.
+
+
+
+           13) Lower limit "a_R" for the "comparison interval" for R.
+
+
+               Double.
+
+
+
+           14) Upper limit "b_R" for the "comparison interval" for R.
+
+
+               Double.
+
+
+               If the comparison involves both "a_R" and "b_R",
+               then if a comparison has a strict inequality,
+               it is required that
+
+                   a_R < b_R
+
+
+               If the comparison involves both "a_R" and "b_R",
+               then if neither comparison has a strict inequality,
+               it is required that
+
+                   a_R <= b_R
+
+
+
+           15) Flag to use criterion 01.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           16) Code for the vector component for criterion 01.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  X.
+
+                    2  =  Y.
+
+                    3  =  Z.
+
+
+
+           17) B_01.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           18) T_01.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           19) Flag to use criterion 02.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           20) B_02.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           21) T_02.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           22) Flag to use criterion 03.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           23) Code for the vector component for criterion 03.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  X.
+
+                    2  =  Y.
+
+                    3  =  Z.
+
+
+
+           24) B_03.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           25) T_03.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           26) Flag to use criterion 04.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           27) Code for the vector component for criterion 04.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  X.
+
+                    2  =  Y.
+
+                    3  =  Z.
+
+
+
+           28) T_04.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           29) Flag to use criterion 05.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           30) B_05.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           31) T_05.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           32) Flag to use criterion 06.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           33) N_06.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           34) T_06.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           35) Flag to use criterion 07.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use the criterion.
+
+                   WT_FALSE  =  Do not use the criterion.
+
+
+
+           36) Code for the vector component for criterion 07.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  X.
+
+                    2  =  Y.
+
+                    3  =  Z.
+
+
+
+           37) v_07.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           38) T_07.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  0.
+
+
+
+           39) Min_denom_07.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+           40) Flag for the plasma velocity input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               This input must be present.
+
+
+
+           41) Flag for the spacecraft position input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               This input must be present.
+
+
+
+           42) Flag for the plasma density input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               This input must be present.
+
+
+
+           43) Dropout time for n.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           44) Flag to interpolate n.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Interpolate.
+
+                    WT_FALSE  =  Do not interpolate (replicate).
+
+
+
+           45) Input component index for the data component of n.
+
+
+               Int.
+
+
+
+           46) The group of parameters described here occurs once for
+               each of the 3 input vectors B, v, R.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) Flag to interpolate.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                        WT_TRUE   =  Interpolate.
+
+                        WT_FALSE  =  Do not interpolate (replicate).
+
+
+
+                3) The group of parameters described here occurs once
+                   for each of the 3 input vector components.
+
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The magnetic field B.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The plasma velocity v.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The spacecraft position R.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            4) The plasma density n.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+            1) The file with the times of the events.
+
+
+               This file is written if requested.
+
+
+               This file is an ASCII file.
+
+
+               Header lines have a "pound" character (#) as the first
+               character.
+
+
+               For each event, 1 line is written, as follows:
+
+
+                1) Date.
+
+
+                2) Time.
+
+
+                3) The values for the event criteria.

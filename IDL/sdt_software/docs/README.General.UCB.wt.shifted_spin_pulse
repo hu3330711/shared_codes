@@ -1,0 +1,345 @@
+************************************************************************
+
+   README.General.UCB.wt.shifted_spin_pulse
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.shifted_spin_pulse
+
+************************************************************************
+
+   Shifted spin pulse.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.shifted_spin_pulse	1.4    08/11/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a spin pulse that is shifted by a
+       chosen phase shift.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+       1) The spin timing.
+
+
+          This input gives the time of each Sun pulse.
+
+
+
+
+
+    3) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+       One requirement, then, is to have enough consecutive valid spin
+       periods.
+
+
+
+       Any interval between consecutive input data points, that is not a
+       valid spin period, is considered to be a data dropout.
+
+
+
+
+
+    4) If the times for the Sun pulses for consecutive valid spin
+       periods are
+
+           t1, t2, t3, ...
+
+       and the time lapses between the Sun pulses are
+
+           d1 = t2 - t1
+
+           d2 = t3 - t2
+
+       etc.;
+
+       then the "shifted" times for the Sun pulses are defined as:
+
+           t2' = t2 + factor * [(d1 + d2) / 2]
+
+           t3' = t3 + factor * [(d2 + d3) / 2]
+
+       etc.;
+
+       where "factor" is the factor corresponding to the chosen phase
+       shift (e.g., the factor is +1 for a phase shift of +360 degrees,
+       0 for a phase shift of 0 degrees, and -1 for a phase shift of
+       -360 degrees).
+
+
+
+
+
+    5) The user can specify a main part of the phase shift, and an
+       additional part of the phase shift.
+
+
+
+       The actual phase shift (or phase offset) will be the sum of these
+       two parts.
+
+
+
+
+
+    6) An output data point is produced for each "shifted" Sun pulse.
+
+
+
+       The time tag for the output data point is the "shifted" time
+       defined above.
+
+
+
+
+
+    7) The input spin pulse carries a data quantity value which is a
+       duration.
+
+
+
+       The data quantity value for an output data point is the same as
+       the corresponding input data quantity value.
+
+
+
+       For example, the output data point with time tag t2' will have
+       the same data quantity value as the input data point with time
+       tag t2.
+
+
+
+       Note that in general the input duration may not correspond to the
+       time interval between "shifted" pulses.
+
+
+
+
+
+    8) An advantage of a shifted pulse (even if the shift is zero) is
+       that the data points are guaranteed to be written in increasing
+       time order; and it is also guaranteed that no data point will be
+       too close to a neighbor.
+
+
+
+
+
+    9) If there is an actual shift, then an input data point can be
+       written out only if it is the second one of 3 data points, and is
+       not too far from either one of its neighbors.
+
+
+
+       This restriction does not apply when the shift is zero.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Mission Id.
+
+
+               Int.
+
+
+
+            3) Mission Sub-Id.
+
+
+               Int.
+
+
+           The combination of Mission Id and Mission Sub-Id must
+           correspond to a spacecraft for which the operation of
+           determining the spin pulse parameters is defined.
+
+
+
+            4) Main part of the phase offset for the pulses.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  360.
+
+
+
+            5) Additional part of the phase offset for the pulses.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  360.
+
+
+
+            6) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Approximate duration of the spin period.
+
+
+               Float.

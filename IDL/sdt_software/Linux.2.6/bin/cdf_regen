@@ -1,0 +1,172 @@
+#! /usr/bin/ksh
+#
+# cdf_regen
+# 
+# Script called by master_cdf_regen.
+# Meant to be called on same or remote machine.
+# Calls sumplot to regenerate CDFs for a specific data quantity
+# and then checks their integrity.
+# Imperfect CDFs are placed into the respective "mystery" file 
+# for future regeneration.
+#
+# OPTIONS
+#   -e   electrons
+#   -i   ions
+#   -t   teams
+#   -a   AC fields
+#   -d   DC fields
+#
+# ARGUMENTS
+#
+#    List of orbit numbers.
+#
+# The following variables should be in the global environment:
+#    tmpdir, logfile, workdir
+#
+
+# Environment
+
+PATH=/bin:${PATH}
+. /disks/fast/software/config/archive_config
+
+# Use default values for expected env vars if still unset
+
+if [[ -z $workdir ]] ; then
+    export workdir=$FAST_CDF_HOME/cdf_status
+    echo "Caution: Setting workdir to $workdir"
+fi
+if [[ -z $tmpdir ]] ; then
+    export tmpdir=/tmp
+    echo "Caution: Setting tmpdir to $tmpdir"
+fi
+if [[ -z $logfile ]] ; then
+    export logfile=$workdir/master.log
+    echo "Caution: Setting logfile to $logfile"
+fi
+
+
+# Quantity and orbits requested
+
+qty_opt=$1
+case $qty_opt in
+    -e) qty='ees'
+	plotopt='-e' ;;
+    -i) qty='ies'
+	plotopt='-i' ;;
+    -t) qty='tms'
+	plotopt='-t' ;;
+    -a) qty='acf'
+	plotopt='-f' ;;
+    -d) qty='dcf'
+	plotopt='-f' ;;
+esac
+shift 1
+
+set -A redos ${@}
+host=$(uname -n)
+date=$(date '+%y-%m-%d')
+tag=${host}_${qty}
+
+# Temporary files
+
+inst_turnons=$tmpdir/${tag}_inst
+compare_out=$tmpdir/${tag}_comp
+bad_orbits=$tmpdir/${tag}_bad
+export inst_turnons compare_out bad_orbits
+
+# Logfile for sumplot
+
+sumplotlog=$TEMPLOGS/sumplot_${tag}_$(date '+%j_%T')
+
+# Function early_exit handles premature program termination
+
+function early_exit {
+    line=$1
+    rm -f $inst_turnons $compare_out $bad_orbits $tmpdir/${tag}_stat_${qty}
+    print "$tag: !!!!! $0 ENDS prematurely at line $line on $host $(date '+%y-%m-%d/%H:%M:%S') !!!!!" >> $logfile
+}
+
+# MAIN
+
+trap 'early_exit $LINENO' EXIT
+
+# Run sumplot to regenerate orbits
+
+print "$tag: cdf_regen runs sumplot on $host $(date '+%y-%m-%d/%H:%M:%S')" >> $logfile
+print "$tag: $FASTBIN/sumplot -l $sumplotlog $plotopt ${redos[*]}" >> $logfile
+$FASTBIN/sumplot -l $sumplotlog $plotopt ${redos[*]}     1>/dev/null 2>&1
+$FASTBIN/cleanup                   1>/dev/null 2>&1
+cd -                               1>/dev/null 2>&1
+
+# Create file containing instrument turn-on schedule
+
+print "$tag: getting instrument ON times from DB" >> $logfile
+$FASTBIN/format_mode_output -f $inst_turnons -a ${redos[*]}
+
+# Prepare environment and diagnose regenerated CDFs
+
+first_orbit=
+last_orbit=
+orbit_list=${redos[*]}
+export qty first_orbit last_orbit orbit_list
+print "$tag: Diagnosing CDFs $orbit_list" >> $logfile
+$IDL_DIR/bin/idl call_compare_cdf_db.pro 1>/dev/null 2>&1
+rm $inst_turnons 2>> $logfile
+
+# Remove all attempted orbits from regen and mystery files
+
+print "$tag: Cleaning attempted orbits from regen and mystery files" >> $logfile
+mal -rg $qty_opt ${redos[*]} 1>/dev/null 2>&1
+mal -rm $qty_opt ${redos[*]} 1>/dev/null 2>&1
+
+# Insert bad orbits into mystery file and print ones that succeeded
+
+set -A mys_orbits $(cat $bad_orbits 2>> $logfile)
+rm $bad_orbits 2>> $logfile
+print "$tag: Mystery CDFs: " ${mys_orbits[*]} >> $logfile
+if [[ ${mys_orbits[*]} != '0' ]] ; then
+    mal -m $qty_opt ${mys_orbits[*]} 1>/dev/null 2>&1
+fi
+success=$(echo ${redos[*]} |
+tr ' ' '\n' |
+egrep -v "$(echo \^${mys_orbits[*]}\$ | sed 's/ /\$\|\^/g')" |
+tr '\n' ' ')
+print "$tag: Successful: " "$success" >> $logfile
+
+# Edit entry in status file for each of this quantity's bad orbits
+
+for mys_orb in ${mys_orbits[*]} ; do
+    if [[ $mys_orb != '0' ]] ; then
+        cdf_info=$(egrep "^$mys_orb" $compare_out)
+        nawk -v cdf_info="$cdf_info" -v date="$date" -v orbit="$mys_orb" '
+          BEGIN {
+            updated = 0;
+          }
+          {
+            if ($1 == orbit) {
+        	if ($14 != "") trial = $14 + 1; else trial = 2;
+        	printf("%s %s %s\n", cdf_info, date, trial);
+        	updated=1;
+            }
+            else {
+        	print $0;
+        	next;
+            }
+          }
+          END {
+            if (updated == 0) {
+        	trial = 2;
+        	printf("%s %s %s\n", cdf_info, date, trial);
+            }
+          }' $workdir/stat_${qty} > $tmpdir/${tag}_stat_${qty}
+	if [[ -s $tmpdir/${tag}_stat_${qty} ]] ; then
+	    cp $tmpdir/${tag}_stat_${qty} $workdir/stat_${qty} 
+	fi
+   fi
+done
+rm $compare_out $tmpdir/${tag}_stat_${qty} 2>> $logfile
+
+# Cleanup and Exit
+
+trap - EXIT
+exit 0

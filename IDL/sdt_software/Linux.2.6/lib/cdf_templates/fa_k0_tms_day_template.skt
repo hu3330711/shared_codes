@@ -1,0 +1,1351 @@
+
+!
+! Skeleton table for the fast tms key parameters CDF.
+!
+! VERSION: @(#)fa_k0_tms_day_template.skt	1.11 02/12/99
+!
+
+#header
+
+                       CDF NAME: fa_k0_tms_00000000
+                  DATA ENCODING: NETWORK
+                       MAJORITY: ROW
+                         FORMAT: SINGLE
+
+! Variables  G.Attributes  V.Attributes  Records  Dims  Sizes
+! ---------  ------------  ------------  -------  ----  -----
+     0/39         19            20         0/z      0        
+
+
+#GLOBALattributes
+
+! Attribute         Entry       Data
+! Name              Number      Type       Value
+! ---------         ------      ----       -----
+
+  "Project"             1:    CDF_CHAR     { "SMEX FAST>Small Explorer Program, FAST" } .
+
+  "Discipline"          1:    CDF_CHAR     { "Space Physics>Magnetospheric Science" } .
+
+  "Source_name"         1:    CDF_CHAR     { "FAST>FAST Auroral Snapshot Explorer" } .
+
+  "Data_type"           1:    CDF_CHAR     { "K0>Key Parameters" } .
+
+  "Descriptor"          1:    CDF_CHAR     { "TMS>TEAMS" } .
+
+  "Data_version"        1:    CDF_CHAR     { "0" } .
+
+  "TITLE"               1:    CDF_CHAR     { "SMEX FAST TMS Key Parameters" } .
+
+  "TEXT"                1:    CDF_CHAR
+        { "The Time-of-Flight Energy, Angle, Mass Spectrograph " }
+                        2:    CDF_CHAR
+        { "(TEAMS) Experiment for FAST,  D. M. Klumpar, E. Moebius, " }
+                        3:    CDF_CHAR
+        { "L. M. Kistler, M. Popecki, E. G. Shelley, E. Hertzberg, " }
+                        4:    CDF_CHAR
+        { "K. Crocker, M. Granoff, Li Tang, C. W. Carlson, " }
+                        5:    CDF_CHAR
+        { "J. McFadden, B. Klecker, F. Eberl, E. Kuenneth, " }
+                        6:    CDF_CHAR
+        { "H. Kaestle, M. Ertl, W. K. Peterson, and D. Hovestadt, " }
+                        7:    CDF_CHAR
+        { "to be published, Space Science Reviews, " }
+                        8:    CDF_CHAR
+        { "D. Reidel Publishing Co., Dordrecht, Holland, 1997." }
+                        9:    CDF_CHAR
+        { "The 3-D Plasma Distribution Function Analyzers with " }
+                       10:    CDF_CHAR
+        { "Time-of-Flight Mass Discrimination for CLUSTER, FAST, " }
+                       11:    CDF_CHAR
+        { "and Equator-S, E. Moebius, L. M. Kistler, M. Popecki, " }
+                       12:    CDF_CHAR
+        { "K. Crocker, M. Granoff, Y. Jiang, E. Satori, V. Ye, " }
+                       13:    CDF_CHAR
+        { "H. Reme, J. A. Sauvaud, A. Cros, A. Aoustin, T. Camus, " }
+                       14:    CDF_CHAR
+        { "J. L. Medale, J. Rouzaud, C. W. Carlson, J. McFadden, " }
+                       15:    CDF_CHAR
+        { "D. Curtis, H. Heetdirks, J. Croyle, C. Ingraham, " }
+                       16:    CDF_CHAR
+        { "E. G. Shelley, D. M. Klumpar, E. Hertzberg, B. Klecker, " }
+                       17:    CDF_CHAR
+        { "M. Ertl, F. Eberl, H. Kaestle, E. Kuenneth, " }
+                       18:    CDF_CHAR
+        { "P. Laeverenz, E. Seidenschwang, G. Parks, M. McCarthy, " }
+                       19:    CDF_CHAR
+        { "A. Korth, B. Graeve, H. Balsiger, U. Schwab, and " }
+                       20:    CDF_CHAR
+        { "M. Steinacher, Measurement Techniques for Space Plasmas, " }
+                       21:    CDF_CHAR
+        { "J. Borovsky, R. Pfaff, D. Young, eds.," }
+                       22:    CDF_CHAR
+        { "American Geophysical Union, Washington, DC, 1998." }
+                       23:    CDF_CHAR
+        { "Data are derived from a time-of-flight mass spectrograph " }
+                       24:    CDF_CHAR
+        { "that determines 3-dimensional distribution functions of " }
+                       25:    CDF_CHAR
+        { "individual ion species over the energy range 1 - 12000 eV, " }
+                       26:    CDF_CHAR
+        { "within 2.5 seconds (one-half spacecraft spin).  The " }
+                       27:    CDF_CHAR
+        { "instrument consists of a toroidal top-hat electrostatic " }
+                       28:    CDF_CHAR
+        { "analyzer with instantaneous acceptance of ions over 360 " }
+                       29:    CDF_CHAR
+        { "degrees in polar angle in 16 sectors.  Ions passing " }
+                       30:    CDF_CHAR
+        { "through the electrostatic analyzer are postaccelerated by " }
+                       31:    CDF_CHAR
+        { "up to 25 kV and then analyzed for mass per charge in a " }
+                       32:    CDF_CHAR
+        { "foil-based time-of-flight analyzer.  The data used to " }
+                       33:    CDF_CHAR
+        { "construct CDF data products are derived from the Survey " }
+                       34:    CDF_CHAR
+        { "data.  Survey data consists of " }
+                       35:    CDF_CHAR
+        { "4 mass groups x 48 energies x 64 solid angle segments. " }
+                       36:    CDF_CHAR
+        { "The 4 mass groups are H+, O+, He+, and He++.  Only the " }
+                       37:    CDF_CHAR
+        { "16 equatorial angle segments are used for the CDF data set. " }
+                       38:    CDF_CHAR
+        { "Each equatorial solid angle segment contains 2 (4) samples " }
+                       39:    CDF_CHAR
+        { "at each energy in the 32 (64) sweep/spin mode.  The full " }
+                       40:    CDF_CHAR
+        { "angular range is covered in half a spin but the actual " }
+                       41:    CDF_CHAR
+        { "time resolution of the survey data product depends upon " }
+                       42:    CDF_CHAR
+        { "the telemetry mode.  In the highest TM rate modes H+ and O+ " }
+                       43:    CDF_CHAR
+        { "survey data read out every half spin.  In lowest TM rate " }
+                       44:    CDF_CHAR
+        { "mode these data are accumulated for 4 spins.  The minimum " }
+                       45:    CDF_CHAR
+        { "accumulation time included in the CDF is 1 spin, so if the " }
+                       46:    CDF_CHAR
+        { "actual accumulation time is a half spin, two data points " }
+                       47:    CDF_CHAR
+        { "are averaged.  Otherwise, the full resolution is included. " }
+                       48:    CDF_CHAR
+        { "In every mode He+ and He++ are accumulated twice as long " }
+                       49:    CDF_CHAR
+        { "as H+ and O+.  To force the H+, O+, and He+ to have an " }
+                       50:    CDF_CHAR
+        { "equal number of data points when H+ and O+ have twice the " }
+                       51:    CDF_CHAR
+        { "time resolution, each He+ data point is written twice " }
+                       52:    CDF_CHAR
+        { "consecutively in the file. " } .
+
+  "MODS"                1:    CDF_CHAR     { "none yet" } .
+
+  "ADID_ref"            1:    CDF_CHAR     { "NSSD0293" } .
+
+  "Logical_file_id"     1:    CDF_CHAR     { "FA_K0_TMS_00000000_V00" } .
+
+  "Logical_source"      1:    CDF_CHAR     { "FA_K0_TMS" } .
+
+  "Logical_source_description"
+			1:    CDF_CHAR     { "FAST TEAMS - Key Parameters" } .
+
+  "PI_name"             1:    CDF_CHAR     { "C. Carlson" } .
+
+  "PI_affiliation"      1:    CDF_CHAR     { "U.C. Berkeley" } .
+
+  "Mission_group"       1:    CDF_CHAR     { "FAST" } .
+
+  "Instrument_type"     1:    CDF_CHAR     { "Particles (space)" } .
+
+  "Time_resolution"     1:    CDF_CHAR     { "5 seconds" } .
+
+  "Generation_date"     1:    CDF_CHAR     { "00000000" } .
+
+
+#VARIABLEattributes
+
+  "FIELDNAM"
+  "VALIDMIN"
+  "VALIDMAX"
+  "SCALEMIN"
+  "SCALEMAX"
+  "SCALETYP"
+  "UNITS"
+  "UNIT_PTR"
+  "LABLAXIS"
+  "LABL_PTR_1"
+  "FORMAT"
+  "FORM_PTR"
+  "FILLVAL"
+  "CATDESC"
+  "VAR_TYPE"
+  "DICT_KEY"
+  "DEPEND_0"
+  "DEPEND_1"
+  "DISPLAY_TYPE"
+  "MONOTON"
+
+
+#variables
+
+! no r variables
+
+#zVariables
+
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "Epoch"         CDF_EPOCH       1      0              T               
+
+  ! Attribute        Data
+  ! Name             Type        Value
+  ! --------         ----        -----
+
+    "FIELDNAM"      CDF_CHAR     { "Time" }
+    "VALIDMIN"      CDF_EPOCH    { 21-Aug-1996 00:00:00.000 }
+    "VALIDMAX"      CDF_EPOCH    { 31-Dec-2020 23:59:59.999 }
+    "SCALEMIN"      CDF_EPOCH    { 21-Aug-1996 00:00:00.000 }
+    "SCALEMAX"      CDF_EPOCH    { 31-Dec-2020 23:59:59.999 }
+    "UNITS"         CDF_CHAR     { "ms" }
+    "LABLAXIS"      CDF_CHAR     { "Epoch" }
+    "MONOTON"       CDF_CHAR     { "INCREASE" }
+    "FILLVAL"       CDF_REAL8    { -1.0e+31 }
+    "CATDESC"       CDF_CHAR     { "Time, in NSSDC EPOCH format" }
+    "VAR_TYPE"      CDF_CHAR     { "support_data" }
+    "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+    "DICT_KEY"      CDF_CHAR     { "time>epoch" }
+    .
+
+
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "Time_PB5"      CDF_INT4       1      1      3        T         T  
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Time (PB5)" }
+    "VALIDMIN"    CDF_INT4     { 1992, 1, 0 }
+    "VALIDMAX"    CDF_INT4     { 2020, 366, 86399999 }
+    "SCALEMIN"    CDF_INT4     { 1992, 1, 0 }
+    "SCALEMAX"    CDF_INT4     { 2020, 366, 86399999 }
+    "UNIT_PTR"    CDF_CHAR     { "unit_time" }
+    "LABL_PTR_1"  CDF_CHAR     { "label_time" }
+    "FORM_PTR"    CDF_CHAR     { "format_time" }
+    "FILLVAL"     CDF_INT4     { -2147483648 }
+    "CATDESC"     CDF_CHAR     { "Time, in NSSDC Time_PB5 format" }
+    "VAR_TYPE"    CDF_CHAR     { "support_data" }
+    "DICT_KEY"    CDF_CHAR     { "time>PB5" }
+    "DEPEND_0"    CDF_CHAR     { "Epoch" }
+    "DEPEND_1"    CDF_CHAR     { "unit_time" }
+    .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "unit_time"     CDF_CHAR       4       1     3        F        T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Units for Time_PB5" }
+    "CATDESC"     CDF_CHAR     { "Units for the Time_PB5 variable" }
+    "VAR_TYPE"    CDF_CHAR     { "metadata" }
+    "DICT_KEY"    CDF_CHAR     { "label>" }
+    .
+
+  ! NRV values follow...
+
+    [1] = { "year" }
+    [2] = { "day " }
+    [3] = { "msec" }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "label_time"    CDF_CHAR      27       1     3        F         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Label for Time_PB5" }
+    "CATDESC"     CDF_CHAR     { "Label for the Time_PB5 Variable" }
+    "VAR_TYPE"    CDF_CHAR     { "metadata" }
+    "DICT_KEY"    CDF_CHAR     { "label>" }
+    .
+
+  ! NRV values follow...
+
+    [1] = { "Year                       " }
+    [2] = { "Day of Year (Jan 1 = Day 1)" }
+    [3] = { "Elapsed millisecond of day " }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "format_time"   CDF_CHAR       2       1     3        F         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Format for Time_PB5" }
+    "CATDESC"     CDF_CHAR     { "Formats for the Time_PB5 variable" }
+    "VAR_TYPE"    CDF_CHAR     { "metadata" }
+    "DICT_KEY"    CDF_CHAR     { "label>format" }
+    .
+
+  ! NRV values follow...
+
+    [1] = { "I4" }
+    [2] = { "I3" }
+    [3] = { "I8" }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "cartesian"     CDF_CHAR      1       1      3       F          T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Components in cartesian coord" }
+  "CATDESC"       CDF_CHAR     { "Components in cartesian coord" }
+  "VAR_TYPE"      CDF_CHAR     { "metadata" }
+  "DICT_KEY"      CDF_CHAR     { "label" }
+  .
+
+  ! NRV values follow...
+  [1] = { "x" }
+  [2] = { "y" }
+  [3] = { "z" }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "quality_flag"  CDF_INT4       1       0              T         
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+ 
+  "FIELDNAM"      CDF_CHAR     { "Data quality flag" }
+  "VALIDMIN"      CDF_INT4     { 0 }
+  "VALIDMAX"      CDF_INT4     { 255 }
+  "SCALEMIN"      CDF_INT4     { 0 }
+  "SCALEMAX"      CDF_INT4     { 255 }
+  "UNITS"         CDF_CHAR     { " " }
+  "LABLAXIS"      CDF_CHAR     { "Quality" }
+  "FORMAT"        CDF_CHAR     { "I3" }
+  "FILLVAL"       CDF_INT4     { -2147483648 }
+  "CATDESC"       CDF_CHAR     { "Data quality flag (0:good, 255:bad or missing)" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "flag>quality" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "post_gap_flag" CDF_INT4       1       0              T         
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Post gap flag" }
+  "VALIDMIN"      CDF_INT4     { 0 }
+  "VALIDMAX"      CDF_INT4     { 1 }
+  "SCALEMIN"      CDF_INT4     { 0 }
+  "SCALEMAX"      CDF_INT4     { 1 }
+  "UNITS"         CDF_CHAR     { " " }
+  "LABLAXIS"      CDF_CHAR     { "Postgap" }
+  "FORMAT"        CDF_CHAR     { "I1" }
+  "FILLVAL"       CDF_INT4     { -2147483648 }
+  "CATDESC"       CDF_CHAR     { "Post gap flag (0:no gap, 1:gap)" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "flag>post_gap" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "unix_time"     CDF_REAL8     1       0              T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Time (secs since 1970-01-01)" }
+  "VALIDMIN"      CDF_REAL8    {  694224000.000 }
+  "VALIDMAX"      CDF_REAL8    { 1609459199.999 }
+  "SCALEMIN"      CDF_REAL8    {  694224000.000 }
+  "SCALEMAX"      CDF_REAL8    { 1609459199.999 }
+  "UNITS"         CDF_CHAR     { "s" }
+  "LABLAXIS"      CDF_CHAR     { "Seconds" }
+  "FORMAT"        CDF_CHAR     { "F15.3" }
+  "FILLVAL"       CDF_REAL8    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Time in seconds since 1970-01-01/00:00:00.0 UT" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "time>second" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  "MONOTON"       CDF_CHAR     { "INCREASE" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+"            CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Diff Energy Flux 0-360 deg" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9}
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2}
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7}
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "H+ dJE/dE" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ diff energy flux, 0-360 pitchangle, " -
+				 "48 energies, 1-12000 eV " }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "H+_en" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+_en"         CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Energy" }
+  "VALIDMIN"      CDF_REAL4    { 1.15 }
+  "VALIDMAX"      CDF_REAL4    { 11150.0 }
+  "SCALEMIN"      CDF_REAL4    { 1.0 }
+  "SCALEMAX"      CDF_REAL4    { 12000.0 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV" }
+  "LABLAXIS"      CDF_CHAR     { "H+ Energy" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ energies for H+ variable" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "energy>channel_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+_low"        CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Diff Energy Flux <1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "H+ dJE/dE <1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ diff energy flux, 0.01-1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "H+_low_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+_low_pa"     CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "H+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ pitch angles for H+_low" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+_high"       CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Diff Energy Flux >1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "H+ dJE/dE >1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ diff energy flux, >1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "H+_high_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "H+_high_pa"    CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "H+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "H+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "H+ pitch angles for H+_high" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+"            CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Diff Energy Flux 0-360 deg" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "O+ dJE/dE" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ diff energy flux, 0-360 pitchangle, " -
+				 "48 energies, 1-12000 eV " }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>oxygen_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "O+_en" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+_en"         CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Energy" }
+  "VALIDMIN"      CDF_REAL4    { 1.15 }
+  "VALIDMAX"      CDF_REAL4    { 11150.0 }
+  "SCALEMIN"      CDF_REAL4    { 1.0 }
+  "SCALEMAX"      CDF_REAL4    { 12000.0 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV" }
+  "LABLAXIS"      CDF_CHAR     { "O+ Energy" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ energies for O+ variable" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "energy>channel_ion_oxygen" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+_low"        CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Diff Energy Flux <1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "O+ dJE/dE <1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ diff energy flux, 0.01-1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>oxygen_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "O+_low_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+_low_pa"     CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "O+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ pitch angles for O+_low" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_oxygen" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+_high"       CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Diff Energy Flux >1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "O+ dJE/dE >1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ diff energy flux, >1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>oxygen_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "O+_high_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "O+_high_pa"    CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "O+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "O+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "O+ pitch angles for O+_high" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_oxygen" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+"            CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Diff Energy Flux 0-360 deg" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "He+ dJE/dE" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ diff energy flux, 0-360 pitchangle, " -
+				 "48 energies, 1-12000 eV " }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "He+_en" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+_en"         CDF_REAL4      1       1     48       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Energy" }
+  "VALIDMIN"      CDF_REAL4    { 1.15 }
+  "VALIDMAX"      CDF_REAL4    { 11150.0 }
+  "SCALEMIN"      CDF_REAL4    { 1.0 }
+  "SCALEMAX"      CDF_REAL4    { 12000.0 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV" }
+  "LABLAXIS"      CDF_CHAR     { "He+ Energy" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ energies for He+ variable" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "energy>channel_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+_low"        CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Diff Energy Flux <1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "He+ dJE/dE <1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ diff energy flux, 0.01-1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "He+_low_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+_low_pa"     CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "He+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ pitch angles for He+_low" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+_high"       CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Diff Energy Flux >1 keV" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 1.0e+9 }
+  "SCALEMIN"      CDF_REAL4    { 1.0e+2 }
+  "SCALEMAX"      CDF_REAL4    { 1.0e+7 }
+  "SCALETYP"      CDF_CHAR     { "log" }
+  "UNITS"         CDF_CHAR     { "eV/(cm**2-s-sr-eV)" }
+  "LABLAXIS"      CDF_CHAR     { "He+ dJE/dE >1 keV" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ diff energy flux, >1 keV, " -
+				 "16 pitch angles, 0-360 deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "particle_flux>proton_ion_differential_energy" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "He+_high_pa" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "spectrogram" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "He+_high_pa"    CDF_REAL4      1       1     16       T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "He+ Pitch Angle" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    { 270.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    { 270.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "He+ Pitch Angle" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "He+ pitch angles for He+_high" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>pitch_ion_proton" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "orbit"         CDF_INT4       1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "FAST orbit number" }
+  "VALIDMIN"      CDF_INT4     { 0 }
+  "VALIDMAX"      CDF_INT4     { 100000 }
+  "SCALEMIN"      CDF_INT4     { 0 }
+  "SCALEMAX"      CDF_INT4     { 100000 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { " " }
+  "LABLAXIS"      CDF_CHAR     { "orbit" }
+  "FORMAT"        CDF_CHAR     { "I6" }
+  "FILLVAL"       CDF_INT4     { -2147483648 }
+  "CATDESC"       CDF_CHAR     { "FAST orbit number--normally increments by one for each " -
+                                 "successive orbit" }
+  "VAR_TYPE"      CDF_CHAR     { "support_data" }
+  "DICT_KEY"      CDF_CHAR     { "flag>number" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "fa_spin_ra"  CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Right Ascension of Spin Axis" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 360.0 }
+  "SCALEMIN"      CDF_REAL4    { 0.0 }
+  "SCALEMAX"      CDF_REAL4    { 360.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "Spin RA" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Right Ascension of Spin Axis, degrees, GEI coords" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>spacecraft_axis_right_ascension" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "fa_spin_dec" CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Declination of Spin Axis" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    {  90.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    {  90.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "Spin Dec" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Declination of Spin Axis, degrees, GEI coords" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "angle>spacecraft_axis_declination" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "r"             CDF_REAL4      1       1     3        T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "FAST Spacecraft Position" }
+  "VALIDMIN"      CDF_REAL4    { -12000.0 }
+  "VALIDMAX"      CDF_REAL4    {  12000.0 }
+  "SCALEMIN"      CDF_REAL4    { -12000.0 }
+  "SCALEMAX"      CDF_REAL4    {  12000.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "km" }
+  "LABL_PTR_1"    CDF_CHAR     { "label_r" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "FAST Spacecraft position, cartesian 3 vector, GEI coords, km" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "cartesian" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "label_r"       CDF_CHAR       5       1     3        F        T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Label for r" }
+    "CATDESC"     CDF_CHAR     { "Label for the r Variable" }
+    "VAR_TYPE"    CDF_CHAR     { "metadata" }
+    "DICT_KEY"    CDF_CHAR     { "label>" }
+    .
+
+  ! NRV values follow...
+
+    [1] = { "x GEI" }
+    [2] = { "y GEI" }
+    [3] = { "z GEI" }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "v"             CDF_REAL4      1       1     3        T         T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "FAST Spacecraft Velocity" }
+  "VALIDMIN"      CDF_REAL4    { -12.0 }
+  "VALIDMAX"      CDF_REAL4    {  12.0 }
+  "SCALEMIN"      CDF_REAL4    { -12.0 }
+  "SCALEMAX"      CDF_REAL4    {  12.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "km/s" }
+  "LABL_PTR_1"    CDF_CHAR     { "label_v" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "FAST Spacecraft velocity, cartesian 3 vector, GEI coords, km/s" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "velocity>spacecraft" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DEPEND_1"      CDF_CHAR     { "cartesian" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "label_v"       CDF_CHAR       6       1     3        F        T
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+    "FIELDNAM"    CDF_CHAR     { "Label for v" }
+    "CATDESC"     CDF_CHAR     { "Label for the v Variable" }
+    "VAR_TYPE"    CDF_CHAR     { "metadata" }
+    "DICT_KEY"    CDF_CHAR     { "label>" }
+    .
+
+  ! NRV values follow...
+
+    [1] = { "Vx GEI" }
+    [2] = { "Vy GEI" }
+    [3] = { "Vz GEI" }
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "alt"           CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Spacecraft Altitude" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 5000.0 }
+  "SCALEMIN"      CDF_REAL4    { 0.0 }
+  "SCALEMAX"      CDF_REAL4    { 5000.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "km" }
+  "LABLAXIS"      CDF_CHAR     { "SC Alt" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Spacecraft altitude above an equatorial earth radius " -
+				 "of 6378.14 km, km" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft_altitude" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "flat"          CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Footprint Latitude" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    {  90.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    {  90.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "GLAT Bfoot" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Geodetic latitude of magnetic footprint " -
+				 "at 100 km above the oblate earth, deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft_projection_latitude" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "flng"          CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Footprint Longitude" }
+  "VALIDMIN"      CDF_REAL4    { -180.0 }
+  "VALIDMAX"      CDF_REAL4    {  180.0 }
+  "SCALEMIN"      CDF_REAL4    { -180.0 }
+  "SCALEMAX"      CDF_REAL4    {  180.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "GLNG Bfoot" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Geodetic longitude of magnetic footprint " -
+				 "at 100 km above the oblate earth, deg" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft_projection_longitude" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "mlt"           CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Magnetic Local Time" }
+  "VALIDMIN"      CDF_REAL4    { 0.0 }
+  "VALIDMAX"      CDF_REAL4    { 24.0 }
+  "SCALEMIN"      CDF_REAL4    { 0.0 }
+  "SCALEMAX"      CDF_REAL4    { 24.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "hour" }
+  "LABLAXIS"      CDF_CHAR     { "MLT" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Magnetic Local Time, hours" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!----------------------------------------------------------------------
+! Variable          Data      Number                 Record   Dimension
+! Name              Type     Elements  Dims  Sizes  Variance  Variances
+! --------          ----     --------  ----  -----  --------  ---------
+
+  "ilat"          CDF_REAL4      1       0              T   
+
+  ! Attribute       Data
+  ! Name            Type       Value
+  ! --------        ----       -----
+
+  "FIELDNAM"      CDF_CHAR     { "Invariant Latitude" }
+  "VALIDMIN"      CDF_REAL4    { -90.0 }
+  "VALIDMAX"      CDF_REAL4    {  90.0 }
+  "SCALEMIN"      CDF_REAL4    { -90.0 }
+  "SCALEMAX"      CDF_REAL4    {  90.0 }
+  "SCALETYP"      CDF_CHAR     { "linear" }
+  "UNITS"         CDF_CHAR     { "deg" }
+  "LABLAXIS"      CDF_CHAR     { "ILAT" }
+  "FORMAT"        CDF_CHAR     { "E10.3" }
+  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+  "CATDESC"       CDF_CHAR     { "Invariant Latitude, degrees" }
+  "VAR_TYPE"      CDF_CHAR     { "data" }
+  "DICT_KEY"      CDF_CHAR     { "position>spacecraft" }
+  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+  .
+
+
+!  TEMPLATE FOR USE WHEN ADDING NEW VARIABLES
+!!----------------------------------------------------------------------
+!! Variable          Data      Number                 Record   Dimension
+!! Name              Type     Elements  Dims  Sizes  Variance  Variances
+!! --------          ----     --------  ----  -----  --------  ---------
+!
+!  "var_name"      CDF_REAL4      1       0              T   
+!
+!  ! Attribute       Data
+!  ! Name            Type       Value
+!  ! --------        ----       -----
+!
+!  "FIELDNAM"      CDF_CHAR     { "" }
+!  "VALIDMIN"      CDF_REAL4    { }
+!  "VALIDMAX"      CDF_REAL4    { }
+!  "SCALEMIN"      CDF_REAL4    { }
+!  "SCALEMAX"      CDF_REAL4    { }
+!  "SCALETYP"      CDF_CHAR     { "" }
+!  "UNITS"         CDF_CHAR     { "" }
+!  "UNIT_PTR"      CDF_CHAR     { "" }
+!  "LABLAXIS"      CDF_CHAR     { "" }
+!  "LABL_PTR_1"    CDF_CHAR     { "" }
+!  "FORMAT"        CDF_CHAR     { "E10.3" }
+!  "FORM_PTR"      CDF_CHAR     { "" }
+!  "FILLVAL"       CDF_REAL4    { -1.0e+31 }
+!  "CATDESC"       CDF_CHAR     { "" }
+!  "VAR_TYPE"      CDF_CHAR     { "data" }
+!  "DICT_KEY"      CDF_CHAR     { "" }
+!  "DEPEND_0"      CDF_CHAR     { "Epoch" }
+!  "DEPEND_1"      CDF_CHAR     { "cartesian" }
+!  "DISPLAY_TYPE"  CDF_CHAR     { "time_series" }
+!  "MONOTON"       CDF_CHAR     { "" }
+!  .
+
+
+#end

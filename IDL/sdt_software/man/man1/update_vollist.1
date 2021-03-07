@@ -1,0 +1,99 @@
+.\" @(#)update_vollist.1	1.2 12/16/03
+'\"macro stdmacro
+.nr X
+.TH update_vollist 1 12/16/03
+.SH NAME
+update_vollist \- synchronize fast_online..OnlineVolumes table with volumes actually on line.
+.SH SYNOPSIS
+.B update_vollist
+[
+.B \-v
+] [
+.I pattern
+]
+.SH DESCRIPTION
+.B update_vollist
+removes all volumes with pathnames matching 'pattern' in the 
+fast_online..OnlineVolumes table, and then uploads new entries for all
+volumes matching pattern.
+
+.SH OPTIONS
+
+.TP 18
+.B \-v
+Verbose mode
+
+
+.SH USAGE
+.I pattern
+can be one or more patterns which will match the directories you want
+to be added or deleted from the filelist.  Files are matched from 
+.I pattern
+using the tcl glob command, which is similar to csh globing.  
+Enclose your entire pattern (or list of patterns) in single
+quotes to combine them into a single argument and protect any
+wildcards in your patterns from the shell.
+
+If the 
+.I pattern
+argument is omitted, the default is 
+to find the on-line copies of the most recent
+CDROMs which are stored in the DANETSTORAGE directories (at the Berkeley SOC).
+The locations of the DANETSTORAGE directories are configured in the 
+.B $FASTCONFIG/archive_config
+file.  The default pattern is created by adding /* to the end
+of each pathname
+in the DANETSTORAGE array and then concatenating all the elements into
+a single list.  The default pattern can be overridden
+by specifying
+.I pattern 
+on the command line.  
+
+The LOCAL_ONLINE_VOL_HOST variable must be configured in the Datamgr
+configuration files to point to the file server for the online
+volumes.
+
+
+.SH EXAMPLES
+This command might be used at a remote site which has installed
+most FAST volumes online in directories named /fast/disk1, /fast/disk2, etc.
+.TP
+.B update_filelist '/fast/disk*/*'
+.LP
+The following is an example of a command which might be used to update
+the database after a single new volume has been placed
+on line:
+.TP
+.B update_filelist /disks/FAST_CD_17/FAST6098_ORBIT27703
+.LP
+
+
+.SH ENVIRONMENT
+.LP
+.B update_vollist
+looks in the $FASTCONFIG directory for the Datamgr/Datamgr.conf file
+
+.SH FILES
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.IP
+These files ensure that update_vollist runs in the same environment as datamgr:
+Note that the varible LOCAL_ONLINE_VOL_HOST must be set by one of these files.
+.TP
+.B $FASTCONFIG/archive_config
+.IP
+This file determines the setting of DANETSTORAGE.  It need not exist as long as 
+.I pattern 
+is specified on the command line.
+.SH SEE ALSO
+.BR datamgr (1), Datamgr.conf(4), fast_onlineAccess(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

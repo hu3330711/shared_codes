@@ -1,0 +1,27 @@
+
+T01_01 model code corrections/updates:
+
+
+February 13, 2002. In some cases with abnormally low values of the solar wind
+   pressure, the previous version of the model code crashed at low altitudes,
+   due to inaccurate scaling of the Birkeland currents. In the corrected version,
+   the problem has been eliminated. Courtesy of Dr. Mattias Foerster, (Max-Planck
+   Institute, Germany).
+
+
+May 14, 2002. An update was made of the FUNCTION AP(R,SINT,COST), to eliminate
+   possible floating underflows of the variables DEXP1, DEXP2, and DEXP3, becoming
+   exponentially small at large geocentric distances.
+
+
+
+Author and curator:
+
+Nikolai Tsyganenko - Universities Space Research Association (Nikolai.Tsyganenko@gsfc.nasa.gov)
+
+
+
+
+NASA Official: J. H. King, king@nssdca.gsfc.nasa.gov
+
+

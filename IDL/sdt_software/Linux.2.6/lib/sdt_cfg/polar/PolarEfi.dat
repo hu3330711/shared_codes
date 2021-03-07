@@ -1,0 +1,305 @@
+#
+# This file contains scale, offset information for the Polar EFI
+# instrument.  Note that Redline, Yellowline information is in
+# the "DqdDescription" file for Polar EFI.
+#
+# For SCCS:
+#
+#  @(#)PolarEfi.dat	1.20, 07/26/03
+#
+
+#
+# BoomLengths - Meters (after second V34 deployment 96/08/26, 20:15:15)
+#
+BoomLength12     129.43 
+BoomLength34     100.01    0.0  841090515.0
+BoomLength34     101.21    841090515.0    9999999999.0
+BoomLength56     13.44 
+
+#
+# Density Scale factors:   BoomId   A    B   Offset
+#
+#   (where BoomId  Density =  I * A  -  B * Bias  +  Offset)
+#
+DensityScalingFactors:  1  0.4040   62.11  7.0
+DensityScalingFactors:  2  0.4040   62.10   7.0
+DensityScalingFactors:  3  0.4040   62.26   1.0
+DensityScalingFactors:  4  0.4040   62.25  -4.0
+DensityScalingFactors:  5  0.4040   61.0   0.0
+DensityScalingFactors:  6  0.4040   61.0   0.0
+
+# Calibration Format:
+#
+#  QtyName  Units  Scale  Offset
+
+#
+# HouseKeeping:
+#
+EfiHkMep28I       mA        2.370    -9.3
+EfiHkMep5I        mA        1.592     5.7
+EfiHkMepCnvTmp    DegC      2.400    -225.0
+EfiHkMepTemp0     DegC     -0.943     86.50
+EfiHkMepTemp1     DegC     -0.943     86.50
+EfiHkMepTemp2     DegC     -0.943     86.50
+EfiHkBoomTemp1    DegC     -0.854     86.60
+EfiHkBoomTemp2    DegC     -0.854     86.60
+EfiHkBoomTemp3    DegC     -3.600     215.6
+EfiHkBoomTemp4    DegC     -0.854     86.60
+EfiHkBoomTemp5    DegC     -0.854     86.60
+EfiHkBoomTemp6    DegC     -0.854     86.60
+EfiHkBoomLen1     meters   -0.5403    68.4
+EfiHkBoomLen2     meters   -0.5403    68.4
+EfiHkBoomLen3     meters   -0.5403    68.4
+EfiHkBoomLen4     meters   -0.5403    68.4
+EfiHkBoomLen5     meters   -0.5403    68.4
+EfiHkBoomLen6     meters   -0.5403    68.4
+
+#
+# RealTime V qtys:
+#
+V_1_LF_EFI        Volts     0.002020   0.0
+V_3_LF_EFI        Volts     0.002020   0.0
+V_5_LF_EFI        Volts     0.002020   0.0
+V_1_UF_EFI        Volts     -0.002020   0.0
+V_3_UF_EFI        Volts     -0.002020   0.0
+V_5_UF_EFI        Volts     -0.002020   0.0
+V_1_HF_EFI        Volts     0.002020   0.0
+V_3_HF_EFI        Volts     0.002020   0.0
+V_5_HF_EFI        Volts     0.002020   0.0
+
+V_12_LF_EFI       mVlts     2.020000   0.0
+V_34_LF_EFI       mVlts     2.020000   0.0
+V_56_LF_EFI       mVlts     2.020000   0.0
+V_12_UF_EFI       mVlts     2.020000   0.0
+V_34_UF_EFI       mVlts     2.020000   0.0
+V_56_UF_EFI       mVlts     2.020000   0.0
+V_12_HF_EFI       mVlts     2.020000   0.0
+V_34_HF_EFI       mVlts     2.020000   0.0
+V_56_HF_EFI       mVlts     2.020000   0.0
+V_12_AC_EFI       mVlts     2.020000   0.0
+V_34_AC_EFI       mVlts     2.020000   0.0
+V_56_AC_EFI       mVlts     2.020000   0.0
+
+V_2_LF_EFI        Volts     0.002020   0.0
+V_4_LF_EFI        Volts     0.002020   0.0
+V_6_LF_EFI        Volts     0.002020   0.0
+V_2_UF_EFI        Volts     -0.002020   0.0
+V_4_UF_EFI        Volts     -0.002020   0.0
+V_6_UF_EFI        Volts     -0.002020   0.0
+V_2_HF_EFI        Volts     0.002020   0.0
+V_4_HF_EFI        Volts     0.002020   0.0
+V_6_HF_EFI        Volts     0.002020   0.0
+
+Avg_V12_L         mVlts     2.020000   0.0
+Avg_V34_L         mVlts     2.020000   0.0
+Avg_V56_L         mVlts     2.020000   0.0
+
+#
+# RealTime I qtys:
+#
+I_1_LF_EFI        nAmps     0.002020   0.0
+I_3_LF_EFI        nAmps     0.002020   0.0
+I_5_LF_EFI        nAmps     0.002020   0.0
+I_1_UF_EFI        nAmps     0.002020   0.0
+I_3_UF_EFI        nAmps     0.002020   0.0
+I_5_UF_EFI        nAmps     0.002020   0.0
+I_1_HF_EFI        nAmps     0.002020   0.0
+I_3_HF_EFI        nAmps     0.002020   0.0
+I_5_HF_EFI        nAmps     0.002020   0.0
+
+I_12_LF_EFI       nAmps     0.002020   0.0
+I_34_LF_EFI       nAmps     0.002020   0.0
+I_56_LF_EFI       nAmps     0.002020   0.0
+I_12_UF_EFI       nAmps     0.002020   0.0
+I_34_UF_EFI       nAmps     0.002020   0.0
+I_56_UF_EFI       nAmps     0.002020   0.0
+I_12_HF_EFI       nAmps     0.002020   0.0
+I_34_HF_EFI       nAmps     0.002020   0.0
+I_56_HF_EFI       nAmps     0.002020   0.0
+I_12_AC_EFI       nAmps     0.002020   0.0
+I_34_AC_EFI       nAmps     0.002020   0.0
+I_56_AC_EFI       nAmps     0.002020   0.0
+
+I_2_LF_EFI        nAmps     0.002020   0.0
+I_4_LF_EFI        nAmps     0.002020   0.0
+I_6_LF_EFI        nAmps     0.002020   0.0
+I_2_UF_EFI        nAmps     0.002020   0.0
+I_4_UF_EFI        nAmps     0.002020   0.0
+I_6_UF_EFI        nAmps     0.002020   0.0
+I_2_HF_EFI        nAmps     0.002020   0.0
+I_4_HF_EFI        nAmps     0.002020   0.0
+I_6_HF_EFI        nAmps     0.002020   0.0
+
+Avg_I12_L         nAmps     0.002020   0.0
+Avg_I34_L         nAmps     0.002020   0.0
+Avg_I56_L         nAmps     0.002020   0.0
+
+#
+# Other RealTime qtys:
+#
+FLTR_1_2_3_EFI   "lg(EuV(mHz**.5))"  0.0001330  1.653   CompIdx 0
+FLTR_1_2_3_EFI   "lg(EuV(mHz**.5))"  0.0001154  1.116   CompIdx 1
+FLTR_1_2_3_EFI   "lg(EuV(mHz**.5))"  0.0001170  0.491   CompIdx 2
+
+SCOIL_X_Y_Z_EFI   "nT"  0.0000130  0.0  CompIdx 0
+SCOIL_X_Y_Z_EFI   "nT"  0.0000130  0.0  CompIdx 1
+SCOIL_X_Y_Z_EFI   "nT"  0.0000130  0.0  CompIdx 2
+
+#
+# CPU1 Burst V qtys:
+#
+MBV_1_LF_EFI        Volts     0.002020   0.0
+MBV_3_LF_EFI        Volts     0.002020   0.0
+MBV_5_LF_EFI        Volts     0.002020   0.0
+MBV_1_UF_EFI        Volts     -0.002020   0.0
+MBV_3_UF_EFI        Volts     -0.002020   0.0
+MBV_5_UF_EFI        Volts     -0.002020   0.0
+MBV_1_HF_EFI        Volts     0.002020   0.0
+MBV_3_HF_EFI        Volts     0.002020   0.0
+MBV_5_HF_EFI        Volts     0.002020   0.0
+
+MBV_12_LF_EFI       mVlts     2.020000   0.0
+MBV_34_LF_EFI       mVlts     2.020000   0.0
+MBV_56_LF_EFI       mVlts     2.020000   0.0
+MBV_12_UF_EFI       mVlts     2.020000   0.0
+MBV_34_UF_EFI       mVlts     2.020000   0.0
+MBV_56_UF_EFI       mVlts     2.020000   0.0
+MBV_12_HF_EFI       mVlts     2.020000   0.0
+MBV_34_HF_EFI       mVlts     2.020000   0.0
+MBV_56_HF_EFI       mVlts     2.020000   0.0
+MBV_12_AC_EFI       mVlts     2.020000   0.0
+MBV_34_AC_EFI       mVlts     2.020000   0.0
+MBV_56_AC_EFI       mVlts     2.020000   0.0
+
+MBV_2_LF_EFI        Volts     0.002020   0.0
+MBV_4_LF_EFI        Volts     0.002020   0.0
+MBV_6_LF_EFI        Volts     0.002020   0.0
+MBV_2_UF_EFI        Volts     -0.002020   0.0
+MBV_4_UF_EFI        Volts     -0.002020   0.0
+MBV_6_UF_EFI        Volts     -0.002020   0.0
+MBV_2_HF_EFI        Volts     0.002020   0.0
+MBV_4_HF_EFI        Volts     0.002020   0.0
+MBV_6_HF_EFI        Volts     0.002020   0.0
+
+#
+# CPU1 Burst I qtys:
+#
+MBI_1_LF_EFI        nAmps     0.002020   0.0
+MBI_3_LF_EFI        nAmps     0.002020   0.0
+MBI_5_LF_EFI        nAmps     0.002020   0.0
+MBI_1_UF_EFI        nAmps     0.002020   0.0
+MBI_3_UF_EFI        nAmps     0.002020   0.0
+MBI_5_UF_EFI        nAmps     0.002020   0.0
+MBI_1_HF_EFI        nAmps     0.002020   0.0
+MBI_3_HF_EFI        nAmps     0.002020   0.0
+MBI_5_HF_EFI        nAmps     0.002020   0.0
+
+MBI_12_LF_EFI       nAmps     0.002020   0.0
+MBI_34_LF_EFI       nAmps     0.002020   0.0
+MBI_56_LF_EFI       nAmps     0.002020   0.0
+MBI_12_UF_EFI       nAmps     0.002020   0.0
+MBI_34_UF_EFI       nAmps     0.002020   0.0
+MBI_56_UF_EFI       nAmps     0.002020   0.0
+MBI_12_HF_EFI       nAmps     0.002020   0.0
+MBI_34_HF_EFI       nAmps     0.002020   0.0
+MBI_56_HF_EFI       nAmps     0.002020   0.0
+MBI_12_AC_EFI       nAmps     0.002020   0.0
+MBI_34_AC_EFI       nAmps     0.002020   0.0
+MBI_56_AC_EFI       nAmps     0.002020   0.0
+
+MBI_2_LF_EFI        nAmps     0.002020   0.0
+MBI_4_LF_EFI        nAmps     0.002020   0.0
+MBI_6_LF_EFI        nAmps     0.002020   0.0
+MBI_2_UF_EFI        nAmps     0.002020   0.0
+MBI_4_UF_EFI        nAmps     0.002020   0.0
+MBI_6_UF_EFI        nAmps     0.002020   0.0
+MBI_2_HF_EFI        nAmps     0.002020   0.0
+MBI_4_HF_EFI        nAmps     0.002020   0.0
+MBI_6_HF_EFI        nAmps     0.002020   0.0
+
+#
+# Other CPU1 Burst qtys:
+#
+MBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 0
+MBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 1
+MBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 2
+
+#
+# CPU2 Burst V qtys:
+#
+BBV_1_LF_EFI        Volts     0.002020   0.0
+BBV_3_LF_EFI        Volts     0.002020   0.0
+BBV_5_LF_EFI        Volts     0.002020   0.0
+BBV_1_UF_EFI        Volts     -0.002020   0.0
+BBV_3_UF_EFI        Volts     -0.002020   0.0
+BBV_5_UF_EFI        Volts     -0.002020   0.0
+BBV_1_HF_EFI        Volts     0.002020   0.0
+BBV_3_HF_EFI        Volts     0.002020   0.0
+BBV_5_HF_EFI        Volts     0.002020   0.0
+
+BBV_12_LF_EFI       mVlts     2.020000   0.0
+BBV_34_LF_EFI       mVlts     2.020000   0.0
+BBV_56_LF_EFI       mVlts     2.020000   0.0
+BBV_12_UF_EFI       mVlts     2.020000   0.0
+BBV_34_UF_EFI       mVlts     2.020000   0.0
+BBV_56_UF_EFI       mVlts     2.020000   0.0
+BBV_12_HF_EFI       mVlts     2.020000   0.0
+BBV_34_HF_EFI       mVlts     2.020000   0.0
+BBV_56_HF_EFI       mVlts     2.020000   0.0
+BBV_12_AC_EFI       mVlts     2.020000   0.0
+BBV_34_AC_EFI       mVlts     2.020000   0.0
+BBV_56_AC_EFI       mVlts     2.020000   0.0
+
+BBV_2_LF_EFI        Volts     0.002020   0.0
+BBV_4_LF_EFI        Volts     0.002020   0.0
+BBV_6_LF_EFI        Volts     0.002020   0.0
+BBV_2_UF_EFI        Volts     -0.002020   0.0
+BBV_4_UF_EFI        Volts     -0.002020   0.0
+BBV_6_UF_EFI        Volts     -0.002020   0.0
+BBV_2_HF_EFI        Volts     0.002020   0.0
+BBV_4_HF_EFI        Volts     0.002020   0.0
+BBV_6_HF_EFI        Volts     0.002020   0.0
+
+#
+# CPU2 Burst I qtys:
+#
+BBI_1_LF_EFI        nAmps     0.002020   0.0
+BBI_3_LF_EFI        nAmps     0.002020   0.0
+BBI_5_LF_EFI        nAmps     0.002020   0.0
+BBI_1_UF_EFI        nAmps     0.002020   0.0
+BBI_3_UF_EFI        nAmps     0.002020   0.0
+BBI_5_UF_EFI        nAmps     0.002020   0.0
+BBI_1_HF_EFI        nAmps     0.002020   0.0
+BBI_3_HF_EFI        nAmps     0.002020   0.0
+BBI_5_HF_EFI        nAmps     0.002020   0.0
+
+BBI_12_LF_EFI       nAmps     0.002020   0.0
+BBI_34_LF_EFI       nAmps     0.002020   0.0
+BBI_56_LF_EFI       nAmps     0.002020   0.0
+BBI_12_UF_EFI       nAmps     0.002020   0.0
+BBI_34_UF_EFI       nAmps     0.002020   0.0
+BBI_56_UF_EFI       nAmps     0.002020   0.0
+BBI_12_HF_EFI       nAmps     0.002020   0.0
+BBI_34_HF_EFI       nAmps     0.002020   0.0
+BBI_56_HF_EFI       nAmps     0.002020   0.0
+BBI_12_AC_EFI       nAmps     0.002020   0.0
+BBI_34_AC_EFI       nAmps     0.002020   0.0
+BBI_56_AC_EFI       nAmps     0.002020   0.0
+
+BBI_2_LF_EFI        nAmps     0.002020   0.0
+BBI_4_LF_EFI        nAmps     0.002020   0.0
+BBI_6_LF_EFI        nAmps     0.002020   0.0
+BBI_2_UF_EFI        nAmps     0.002020   0.0
+BBI_4_UF_EFI        nAmps     0.002020   0.0
+BBI_6_UF_EFI        nAmps     0.002020   0.0
+BBI_2_HF_EFI        nAmps     0.002020   0.0
+BBI_4_HF_EFI        nAmps     0.002020   0.0
+BBI_6_HF_EFI        nAmps     0.002020   0.0
+
+#
+# Other CPU1 Burst qtys:
+#
+BBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 0
+BBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 1
+BBurst_SearchCoil   "nT"  0.0000260  0.0  CompIdx 2
+

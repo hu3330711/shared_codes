@@ -1,0 +1,5973 @@
+#
+#  For SCCS:
+#
+#  @(#)DqdDescription	1.65, 02/04/04
+#
+#  Algorithm Notes:
+#     First Integer:
+#        0  ->  Housekeeping
+#        1  ->  Standard Field Quantities
+#        2  ->  FDM Quantities
+#       11  ->  Burst Field Quantities
+#     Second Integer:
+#       Further separation
+#
+# -------------------------------------------------------------------
+#
+#  Miscellaneous Quantities:
+#
+
+# -------------------------------------------------------------------
+#
+#  SunPulse Quantity:
+#
+DataQuantityDescription: "EFISunPulse"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EFISunPulse" "SpPer_secs"
+    Algorithm:  10  0
+EndDQD:
+
+DataQuantityDescription: "EFIMissingBlocks"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32
+	    SubDim:  0  "MissingBlks" "_"
+    Algorithm:  10  15
+EndDQD:
+
+DataQuantityDescription: "EFITelemetryMode"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32
+	    SubDim:  0  "Mode" "_"
+    Algorithm:  10  19
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Aggregate V12L, V34L, V56L:
+#
+DataQuantityDescription: "V12L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12L" "mV/m"
+    Algorithm:  10  1
+EndDQD:
+
+DataQuantityDescription: "V34L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34L" "mV/m"
+    Algorithm:  10  2
+EndDQD:
+
+DataQuantityDescription: "V56L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56L" "mV/m"
+    Algorithm:  10  3
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Ground computed (by subtracting single probes) V12L, V34L, V56L:
+#
+DataQuantityDescription: "V12L_FromV1V2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12L_FromV1V2" "mV/m"
+    Algorithm:  10  4
+EndDQD:
+
+DataQuantityDescription: "V34L_FromV3V4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34L_FromV3V4" "mV/m"
+    Algorithm:  10  5
+EndDQD:
+
+DataQuantityDescription: "V56L_FromV5V6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56L_FromV5V6" "mV/m"
+    Algorithm:  10  6
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Standard Realtime Quantities:
+#
+DataQuantityDescription: "Stat_1_3_5_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Stat_1_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "Stat_3_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "Stat_5_EFI" "raw"
+    Algorithm:  1  0
+EndDQD:
+
+DataQuantityDescription: "V_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_1_LF_EFI" "Volts"
+    Algorithm:  1  10
+EndDQD:
+
+DataQuantityDescription: "V_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_3_LF_EFI" "Volts"
+    Algorithm:  1  11
+EndDQD:
+
+DataQuantityDescription: "V_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_5_LF_EFI" "Volts"
+    Algorithm:  1  12
+EndDQD:
+
+DataQuantityDescription: "I_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_1_LF_EFI" "nAmps"
+    Algorithm:  1  13
+EndDQD:
+
+DataQuantityDescription: "I_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_3_LF_EFI" "nAmps"
+    Algorithm:  1  14
+EndDQD:
+
+DataQuantityDescription: "I_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_5_LF_EFI" "nAmps"
+    Algorithm:  1  15
+EndDQD:
+
+DataQuantityDescription: "V_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_1_UF_EFI" "Volts"
+    Algorithm:  1  20
+EndDQD:
+
+DataQuantityDescription: "V_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_3_UF_EFI" "Volts"
+    Algorithm:  1  21
+EndDQD:
+
+DataQuantityDescription: "V_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_5_UF_EFI" "Volts"
+    Algorithm:  1  22
+EndDQD:
+
+DataQuantityDescription: "I_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_1_UF_EFI" "nAmps"
+    Algorithm:  1  23
+EndDQD:
+
+DataQuantityDescription: "I_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_3_UF_EFI" "nAmps"
+    Algorithm:  1  24
+EndDQD:
+
+DataQuantityDescription: "I_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_5_UF_EFI" "nAmps"
+    Algorithm:  1  25
+EndDQD:
+
+DataQuantityDescription: "V_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_1_HF_EFI" "Volts"
+    Algorithm:  1  30
+EndDQD:
+
+DataQuantityDescription: "V_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_3_HF_EFI" "Volts"
+    Algorithm:  1  31
+EndDQD:
+
+DataQuantityDescription: "V_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_5_HF_EFI" "Volts"
+    Algorithm:  1  32
+EndDQD:
+
+DataQuantityDescription: "I_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_1_HF_EFI" "nAmps"
+    Algorithm:  1  33
+EndDQD:
+
+DataQuantityDescription: "I_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_3_HF_EFI" "nAmps"
+    Algorithm:  1  34
+EndDQD:
+
+DataQuantityDescription: "I_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_5_HF_EFI" "nAmps"
+    Algorithm:  1  35
+EndDQD:
+
+DataQuantityDescription: "V_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12L_Mux4" "mV/M"
+    Algorithm:  1  40
+EndDQD:
+
+DataQuantityDescription: "V_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34L_Mux4" "mV/M"
+    Algorithm:  1  41
+EndDQD:
+
+DataQuantityDescription: "V_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56L_Mux4" "mV/M"
+    Algorithm:  1  42
+EndDQD:
+
+DataQuantityDescription: "I_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I12L_Mux4" "nAmps"
+    Algorithm:  1  43
+EndDQD:
+
+DataQuantityDescription: "I_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I34_L_Mux4" "nAmps"
+    Algorithm:  1  44
+EndDQD:
+
+DataQuantityDescription: "I_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I56L_Mux4" "nAmps"
+    Algorithm:  1  45
+EndDQD:
+
+DataQuantityDescription: "V_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12U" "mV/M"
+    Algorithm:  1  50
+EndDQD:
+
+DataQuantityDescription: "V_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34U" "mV/M"
+    Algorithm:  1  51
+EndDQD:
+
+DataQuantityDescription: "V_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56U" "mV/M"
+    Algorithm:  1  52
+EndDQD:
+
+DataQuantityDescription: "I_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I12U" "nAmps"
+    Algorithm:  1  53
+EndDQD:
+
+DataQuantityDescription: "I_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I34U" "nAmps"
+    Algorithm:  1  54
+EndDQD:
+
+DataQuantityDescription: "I_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I56U" "nAmps"
+    Algorithm:  1  55
+EndDQD:
+
+DataQuantityDescription: "V_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12H" "mV/M"
+    Algorithm:  1  60
+EndDQD:
+
+DataQuantityDescription: "V_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34H" "mV/M"
+    Algorithm:  1  61
+EndDQD:
+
+DataQuantityDescription: "V_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56H" "mV/M"
+    Algorithm:  1  62
+EndDQD:
+
+DataQuantityDescription: "I_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I12H" "nAmps"
+    Algorithm:  1  63
+EndDQD:
+
+DataQuantityDescription: "I_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I34H" "nAmps"
+    Algorithm:  1  64
+EndDQD:
+
+DataQuantityDescription: "I_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I56H" "nAmps"
+    Algorithm:  1  65
+EndDQD:
+
+DataQuantityDescription: "V_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12AC" "mV/M"
+    Algorithm:  1  70
+EndDQD:
+
+DataQuantityDescription: "V_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V34AC" "mV/M"
+    Algorithm:  1  71
+EndDQD:
+
+DataQuantityDescription: "V_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V56AC" "mV/M"
+    Algorithm:  1  72
+EndDQD:
+
+DataQuantityDescription: "I_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I12AC" "nAmps"
+    Algorithm:  1  73
+EndDQD:
+
+DataQuantityDescription: "I_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I34AC" "nAmps"
+    Algorithm:  1  74
+EndDQD:
+
+DataQuantityDescription: "I_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I56AC" "nAmps"
+    Algorithm:  1  75
+EndDQD:
+
+DataQuantityDescription: "Stat_2_4_6_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Stat_2_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "Stat_4_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "Stat_6_EFI" "raw"
+    Algorithm:  1  80
+EndDQD:
+
+DataQuantityDescription: "V_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_2_LF_EFI" "Volts"
+    Algorithm:  1  90
+EndDQD:
+
+DataQuantityDescription: "V_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_4_LF_EFI" "Volts"
+    Algorithm:  1  91
+EndDQD:
+
+DataQuantityDescription: "V_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_6_LF_EFI" "Volts"
+    Algorithm:  1  92
+EndDQD:
+
+DataQuantityDescription: "I_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_2_LF_EFI" "nAmps"
+    Algorithm:  1  93
+EndDQD:
+
+DataQuantityDescription: "I_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_4_LF_EFI" "nAmps"
+    Algorithm:  1  94
+EndDQD:
+
+DataQuantityDescription: "I_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_6_LF_EFI" "nAmps"
+    Algorithm:  1  95
+EndDQD:
+
+DataQuantityDescription: "V_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_2_UF_EFI" "Volts"
+    Algorithm:  1  100
+EndDQD:
+
+DataQuantityDescription: "V_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_4_UF_EFI" "Volts"
+    Algorithm:  1  101
+EndDQD:
+
+DataQuantityDescription: "V_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_6_UF_EFI" "Volts"
+    Algorithm:  1  102
+EndDQD:
+
+DataQuantityDescription: "I_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_2_UF_EFI" "nAmps"
+    Algorithm:  1  103
+EndDQD:
+
+DataQuantityDescription: "I_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_4_UF_EFI" "nAmps"
+    Algorithm:  1  104
+EndDQD:
+
+DataQuantityDescription: "I_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_6_UF_EFI" "nAmps"
+    Algorithm:  1  105
+EndDQD:
+
+DataQuantityDescription: "V_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_2_HF_EFI" "Volts"
+    Algorithm:  1  110
+EndDQD:
+
+DataQuantityDescription: "V_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_4_HF_EFI" "Volts"
+    Algorithm:  1  111
+EndDQD:
+
+DataQuantityDescription: "V_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V_6_HF_EFI" "Volts"
+    Algorithm:  1  112
+EndDQD:
+
+DataQuantityDescription: "I_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_2_HF_EFI" "nAmps"
+    Algorithm:  1  113
+EndDQD:
+
+DataQuantityDescription: "I_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_4_HF_EFI" "nAmps"
+    Algorithm:  1  114
+EndDQD:
+
+DataQuantityDescription: "I_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I_6_HF_EFI" "nAmps"
+    Algorithm:  1  115
+EndDQD:
+
+DataQuantityDescription: "FLTR_1_2_3_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "32HzBPF"   "lg(EuV/(mHz**.5))"
+        comp:     float
+	    SubDim:  0  "256HzBPF"  "lg(EuV/(mHz**.5))"
+        comp:     float
+	    SubDim:  0  "1024HzBPF" "lg(EuV/(mHz**.5))"
+    Algorithm:  1  120
+EndDQD:
+
+DataQuantityDescription: "SCOIL_X_Y_Z_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "SCoilX" "nT"
+        comp:     float
+	    SubDim:  0  "SCoilY" "nT"
+        comp:     float
+	    SubDim:  0  "SCoilZ" "nT"
+    Algorithm:  1  130
+EndDQD:
+
+DataQuantityDescription: "MEP_28_5_CNVRT_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MEP_28_5_CNVRT_EFI_Comp_1" "raw"
+        comp:     float
+	    SubDim:  0  "MEP_28_5_CNVRT_EFI_Comp_2" "raw"
+        comp:     float
+	    SubDim:  0  "MEP_28_5_CNVRT_EFI_Comp_3" "raw"
+    Algorithm:  1  140
+EndDQD:
+
+DataQuantityDescription: "TEST_1_2_3_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "TEST_1_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "TEST_2_EFI" "raw"
+        comp:     float
+	    SubDim:  0  "TEST_3_EFI" "raw"
+    Algorithm:  1  150
+EndDQD:
+
+DataQuantityDescription: "Avg_V12_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_V12_L" "mV/M"
+    Algorithm:  1  160
+EndDQD:
+
+DataQuantityDescription: "Avg_V34_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_V34_L" "mV/M"
+    Algorithm:  1  161
+EndDQD:
+
+DataQuantityDescription: "Avg_V56_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_V56_L" "mV/M"
+    Algorithm:  1  162
+EndDQD:
+
+DataQuantityDescription: "Avg_I12_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_I12_L" "nAmps"
+    Algorithm:  1  163
+EndDQD:
+
+DataQuantityDescription: "Avg_I34_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_I34_L" "nAmps"
+    Algorithm:  1  164
+EndDQD:
+
+DataQuantityDescription: "Avg_I56_L"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Avg_I56_L" "nAmps"
+    Algorithm:  1  165
+EndDQD:
+
+DataQuantityDescription: "I1LF_V34LF_V56LF"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I1LF" "nAmps"
+        comp:     float
+	    SubDim:  0  "V34LF" "mV/M"
+        comp:     float
+	    SubDim:  0  "V56LF" "mV/M"
+    Algorithm:  1  170
+EndDQD:
+
+DataQuantityDescription: "V12LF_I3LF_V56LF"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "V12LF" "mV/M"
+        comp:     float
+	    SubDim:  0  "I3LF" "nAmps"
+        comp:     float
+	    SubDim:  0  "V56LF" "mV/M"
+    Algorithm:  1  180
+EndDQD:
+
+DataQuantityDescription: "MFE"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MFE_X" "raw"
+        comp:     float
+	    SubDim:  0  "MFE_Y" "raw"
+        comp:     float
+	    SubDim:  0  "MFE_Z" "raw"
+    Algorithm:  1  190
+EndDQD:
+
+DataQuantityDescription: "FUSER0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "FUSER0_Comp_1" "raw"
+        comp:     float
+	    SubDim:  0  "FUSER0_Comp_2" "raw"
+        comp:     float
+	    SubDim:  0  "FUSER0_Comp_3" "raw"
+    Algorithm:  1  200
+EndDQD:
+
+DataQuantityDescription: "FUSER1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "FUSER1_Comp_1" "raw"
+        comp:     float
+	    SubDim:  0  "FUSER1_Comp_2" "raw"
+        comp:     float
+	    SubDim:  0  "FUSER1_Comp_3" "raw"
+    Algorithm:  1  210
+EndDQD:
+
+DataQuantityDescription: "RamQuantity"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "RamQuantity_Comp_1" "raw"
+        comp:     float
+	    SubDim:  0  "RamQuantity_Comp_2" "raw"
+        comp:     float
+	    SubDim:  0  "RamQuantity_Comp_3" "raw"
+    Algorithm:  1  240
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  SpinFit Quantities:
+#
+DataQuantityDescription: "EFIBoom12SpinFit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # AHi
+	    SubDim:  0  "EFIBoom12SpinFit_A" "mV/M"
+        comp:     float     # B
+	    SubDim:  0  "EFIBoom12SpinFit_B" "mV/M"
+        comp:     float     # C
+	    SubDim:  0  "EFIBoom12SpinFit_C" "mV/M"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "EFIBoom12SpinFit_SDev" "num"
+        comp:     uint16    # N
+	    SubDim:  0  "EFIBoom12SpinFit_N" "Npts"
+        comp:     float     # sqrt(B*B + C*C)
+	    SubDim:  0  "EFIBoom12SpinFit_SqrtBBCC" "mV/M"
+    Algorithm:  11  0
+EndDQD:
+
+DataQuantityDescription: "EFIBoom34SpinFit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # AHi
+	    SubDim:  0  "EFIBoom34SpinFit_A" "mV/M"
+        comp:     float     # B
+	    SubDim:  0  "EFIBoom34SpinFit_B" "mV/M"
+        comp:     float     # C
+	    SubDim:  0  "EFIBoom34SpinFit_C" "mV/M"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "EFIBoom34SpinFit_SDev" "num"
+        comp:     uint16    # N
+	    SubDim:  0  "EFIBoom34SpinFit_N" "Npts"
+        comp:     float     # sqrt(B*B + C*C)
+	    SubDim:  0  "EFIBoom34SpinFit_SqrtBBCC" "mV/M"
+    Algorithm:  11  1
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  FDM Quantities:
+#
+DataQuantityDescription: "EfiFDMPlayback"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMPlayback" "raw"
+    Algorithm:  5  0
+EndDQD:
+
+DataQuantityDescription: "EfiFDMXBit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMXBit" "raw"
+    Algorithm:  5  1
+EndDQD:
+
+DataQuantityDescription: "EfiFDMUBit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMUBit" "raw"
+    Algorithm:  5  2
+EndDQD:
+
+DataQuantityDescription: "EfiFDMSweepBit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMSweepBit" "raw"
+    Algorithm:  5  3
+EndDQD:
+
+DataQuantityDescription: "EfiFDMCPU1BurstStatus"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMCPU1BurstStatus" "raw"
+    Algorithm:  5  4
+EndDQD:
+
+DataQuantityDescription: "EfiFDMCPU2BurstStatus"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMCPU2BurstStatus" "raw"
+    Algorithm:  5  5
+EndDQD:
+
+DataQuantityDescription: "EfiFDMCmdCntMismatch"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar     # on/off
+	    SubDim:  0  "EfiFDMCmdCntMismatch" "raw"
+    Algorithm:  5  6
+EndDQD:
+
+DataQuantityDescription: "EfiBurstDataIndicator"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # qstate value
+	    SubDim:  0  "BurstData" "On/Off"
+    Algorithm:  5  13
+EndDQD:
+
+DataQuantityDescription: "EfiBurstDataIndicatorStep"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # qstate value
+	    SubDim:  0  "BurstData" "On/Off"
+    Algorithm:  5  14
+EndDQD:
+
+DataQuantityDescription: "EfiFDMQuickStatus"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # qstate value
+	    SubDim:  0  "QStatus" "raw"
+    Algorithm:  5  15
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeCombined"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeCombined" "raw"
+    Algorithm:  5  18
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV1" "raw"
+    Algorithm:  5  19
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV2" "raw"
+    Algorithm:  5  20
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV3" "raw"
+    Algorithm:  5  21
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV4" "raw"
+    Algorithm:  5  22
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV5" "raw"
+    Algorithm:  5  23
+EndDQD:
+
+DataQuantityDescription: "EfiEDModeV6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32     # E,D value
+	    SubDim:  0  "EfiEDModeV6" "raw"
+    Algorithm:  5  24
+EndDQD:
+
+DataQuantityDescription: "EfiFDMText"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char   80
+	    SubDim:  0  "EfiFDMText_Comp_1" "raw"
+        comp:     char   80
+	    SubDim:  0  "EfiFDMText_Comp_2" "raw"
+        comp:     char   80
+	    SubDim:  0  "EfiFDMText_Comp_3" "raw"
+    Algorithm:  5  16
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  SWEEP Quantities:
+#
+DataQuantityDescription: "EfiSweepHdrText"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char   92
+	    SubDim:  0  "EfiSweepHdrText_Comp_1" "raw"
+        comp:     char   92
+	    SubDim:  0  "EfiSweepHdrText_Comp_2" "raw"
+        comp:     char   92
+	    SubDim:  0  "EfiSweepHdrText_Comp_3" "raw"
+    Algorithm:  12  20
+EndDQD:
+
+DataQuantityDescription: "EfiSweepIBias"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepIBias" "raw"
+    Algorithm:  12  0
+EndDQD:
+
+DataQuantityDescription: "EfiSweepVBias"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepVBias" "raw"
+    Algorithm:  12  1
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV1" "Volts"
+    Algorithm:  12  2
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV2" "Volts"
+    Algorithm:  12  3
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV1minusV2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV1minusV2" "mV/m"
+    Algorithm:  12  4
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV3" "Volts"
+    Algorithm:  12  5
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV4" "Volts"
+    Algorithm:  12  6
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV3minusV4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV3minusV4" "mV/m"
+    Algorithm:  12  7
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV5" "Volts"
+    Algorithm:  12  8
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV6" "Volts"
+    Algorithm:  12  9
+EndDQD:
+
+DataQuantityDescription: "EfiSweepV5minusV6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepV5minusV6" "mV/M"
+    Algorithm:  12  10
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI1" "nAmps"
+    Algorithm:  12  11
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI2" "nAmps"
+    Algorithm:  12  12
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI1minusI2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI1minusI2" "raw"
+    Algorithm:  12  13
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI3" "nAmps"
+    Algorithm:  12  14
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI4" "nAmps"
+    Algorithm:  12  15
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI3minusI4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI3minusI4" "raw"
+    Algorithm:  12  16
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI5" "nAmps"
+    Algorithm:  12  17
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI6" "nAmps"
+    Algorithm:  12  18
+EndDQD:
+
+DataQuantityDescription: "EfiSweepI5minusI6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepI5minusI6" "raw"
+    Algorithm:  12  19
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  SDT7 SWEEP Quantities:
+#
+DataQuantityDescription: "EfiSdt7SweepHdrText"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char   92
+	    SubDim:  0  "EfiSdt7SweepHdrText_Comp_1" "raw"
+        comp:     char   92
+	    SubDim:  0  "EfiSdt7SweepHdrText_Comp_2" "raw"
+        comp:     char   92
+	    SubDim:  0  "EfiSdt7SweepHdrText_Comp_3" "raw"
+    Algorithm:  13  20
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7IBias"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7IBias" "raw"
+    Algorithm:  13  0
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7VBias"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7VBias" "raw"
+    Algorithm:  13  1
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V1" "Volts"
+    Algorithm:  13  2
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V2" "Volts"
+    Algorithm:  13  3
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V1minusV2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V1minusV2" "mV/M"
+    Algorithm:  13  4
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V3" "Volts"
+    Algorithm:  13  5
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V4" "Volts"
+    Algorithm:  13  6
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7V3minusV4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7V3minusV4" "mV/M"
+    Algorithm:  13  7
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I1" "nAmps"
+    Algorithm:  13  11
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I2" "nAmps"
+    Algorithm:  13  12
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I1minusI2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I1minusI2" "raw"
+    Algorithm:  13  13
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I3" "nAmps"
+    Algorithm:  13  14
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I4" "nAmps"
+    Algorithm:  13  15
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7I3minusI4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7I3minusI4" "raw"
+    Algorithm:  13  16
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7Guard"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7Guard" "raw"
+    Algorithm:  13  21
+EndDQD:
+
+DataQuantityDescription: "EfiSweepSdt7Stub"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiSweepSdt7Stub" "raw"
+    Algorithm:  13  22
+EndDQD:
+
+
+# -------------------------------------------------------------------
+#
+#  DSC Quantities:
+#
+DataQuantityDescription: "EfiDscRawBytes"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp[0]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_1" "raw"
+        comp[1]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_2" "raw"
+        comp[2]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_3" "raw"
+        comp[3]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_4" "raw"
+        comp[4]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_5" "raw"
+        comp[5]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_6" "raw"
+        comp[6]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_7" "raw"
+        comp[7]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_8" "raw"
+        comp[8]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_9" "raw"
+        comp[9]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_10" "raw"
+        comp[10]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_11" "raw"
+        comp[11]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_12" "raw"
+        comp[12]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_13" "raw"
+        comp[13]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_14" "raw"
+        comp[14]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_15" "raw"
+        comp[15]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_16" "raw"
+        comp[16]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_17" "raw"
+        comp[17]:     char   76
+	    SubDim:  0  "EfiDscText_Comp_18" "raw"
+    Algorithm:  35  10
+EndDQD:
+
+DataQuantityDescription: "EfiDscOrbitPeriod"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscOrbPer" "raw"
+    Algorithm:  26  23
+EndDQD:
+
+DataQuantityDescription: "EfiDscCmdSeqAddr"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscCmdSeqAddr" "raw"
+    Algorithm:  27   0
+EndDQD:
+
+DataQuantityDescription: "EfiDscOrbitClock"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscOrbClk" "raw"
+    Algorithm:  27   2
+EndDQD:
+
+DataQuantityDescription: "EfiDscCmdPtrAddr"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscCmdPtrAddr" "raw"
+    Algorithm:  27   4
+EndDQD:
+
+DataQuantityDescription: "EfiDscV34Trigger"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscV34Trg" "raw"
+    Algorithm:  27   6
+EndDQD:
+
+DataQuantityDescription: "EfiDscExecVersion"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "ExecVersion" "raw"
+    Algorithm:  27  21
+EndDQD:
+
+DataQuantityDescription: "EfiDscExecSpare0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "ExecSpare0" "raw"
+    Algorithm:  27  22
+EndDQD:
+
+DataQuantityDescription: "EfiDscExecSpare1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "ExecSpare1" "raw"
+    Algorithm:  27  23
+EndDQD:
+
+DataQuantityDescription: "EfiDscExecSpare2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "ExecSpare2" "raw"
+    Algorithm:  27  24
+EndDQD:
+
+DataQuantityDescription: "EfiDscExecSpare3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "ExecSpare3" "raw"
+    Algorithm:  28  0
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstFreq"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstFreq" "raw"
+    Algorithm:  28  5
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstTrig"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstTrig" "raw"
+    Algorithm:  28  6
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstChirp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstChirp" "raw"
+    Algorithm:  28  7
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstPages"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstPages" "raw"
+    Algorithm:  28  8
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstThreshO"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstThreshO" "raw"
+    Algorithm:  28  9
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstParam0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstParam0" "raw"
+    Algorithm:  28  10
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstParam1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstParam1" "raw"
+    Algorithm:  28  11
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstParam2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstParam2" "raw"
+    Algorithm:  28  12
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstParam3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstParam3" "raw"
+    Algorithm:  28  13
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstEvalMax"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstEvalMax" "raw"
+    Algorithm:  28  14
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstThreshold"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstThreshold" "raw"
+    Algorithm:  28  15
+EndDQD:
+
+DataQuantityDescription: "EfiDscMBurstNMax"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "MBurstNMax" "raw"
+    Algorithm:  28  16
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstFreq"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstFreq" "raw"
+    Algorithm:  28  17
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstTrig"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstTrig" "raw"
+    Algorithm:  28  18
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstChirp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstChirp" "raw"
+    Algorithm:  28  19
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstPages"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstPages" "raw"
+    Algorithm:  28  20
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstThreshO"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstThreshO" "raw"
+    Algorithm:  28   21
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstParam0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstParam0" "raw"
+    Algorithm:  28   22
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstParam1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstParam1" "raw"
+    Algorithm:  28   23
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstParam2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstParam2" "raw"
+    Algorithm:  28   24
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstParam3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstParam3" "raw"
+    Algorithm:  29   0
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstEvalMax"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstEvalMax" "raw"
+    Algorithm:  29   1
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstThreshold"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstThreshold" "raw"
+    Algorithm:  29   2
+EndDQD:
+
+DataQuantityDescription: "EfiDscBBurstNMax"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "BBurstNMax" "raw"
+    Algorithm:  29   3
+EndDQD:
+
+DataQuantityDescription: "EfiDscMfeStatus"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "DscMfeStatus" "raw"
+    Algorithm:  29   4
+EndDQD:
+
+DataQuantityDescription: "EfiDscMfeX"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int16
+	    SubDim:  0  "DscMfeX" "raw"
+    Algorithm:  29   6
+EndDQD:
+
+DataQuantityDescription: "EfiDscMfeY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int16
+	    SubDim:  0  "DscMfeY" "raw"
+    Algorithm:  29   8
+EndDQD:
+
+DataQuantityDescription: "EfiDscMfeZ"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int16
+	    SubDim:  0  "DscMfeZ" "raw"
+    Algorithm:  29   10
+EndDQD:
+
+DataQuantityDescription: "EfiDscSpinMemPhase"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscSpinMemPhase" "raw"
+    Algorithm:  29   12
+EndDQD:
+
+DataQuantityDescription: "EfiDscBandPass0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscBandPass0" "raw"
+    Algorithm:  29   13
+EndDQD:
+
+DataQuantityDescription: "EfiDscBandPass1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscBandPass1" "raw"
+    Algorithm:  29   14
+EndDQD:
+
+DataQuantityDescription: "EfiDscBVersion"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscBVersion" "raw"
+    Algorithm:  29   15
+EndDQD:
+
+DataQuantityDescription: "EfiDscSpare1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscSpare1" "raw"
+    Algorithm:  29   16
+EndDQD:
+
+DataQuantityDescription: "EfiDscSpare2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscSpare2" "raw"
+    Algorithm:  29   17
+EndDQD:
+
+DataQuantityDescription: "EfiDscCpu2FDM"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscCpu2FDM" "raw"
+    Algorithm:  29   18
+EndDQD:
+
+DataQuantityDescription: "EfiDscCpu2FastData"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscCpu2FastData" "raw"
+    Algorithm:  29   19
+EndDQD:
+
+DataQuantityDescription: "EfiDscCpu1Enactl"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscCpu1Enactl" "raw"
+    Algorithm:  29   20
+EndDQD:
+
+DataQuantityDescription: "EfiDscV1Offset"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "DscV1Offset" "raw"
+    Algorithm:  29   21
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias1" "raw"
+    Algorithm:  29  22
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias2" "raw"
+    Algorithm:  29  23
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias3" "raw"
+    Algorithm:  29  24
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias4" "raw"
+    Algorithm:  30  0
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias5" "raw"
+    Algorithm:  30  1
+EndDQD:
+
+DataQuantityDescription: "EfiDscBias6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscBias6" "raw"
+    Algorithm:  30  2
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub1" "raw"
+    Algorithm:  30  3
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub2" "raw"
+    Algorithm:  30  4
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub3" "raw"
+    Algorithm:  30  5
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub4" "raw"
+    Algorithm:  30  6
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub5" "raw"
+    Algorithm:  30  7
+EndDQD:
+
+DataQuantityDescription: "EfiDscStub6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscStub6" "raw"
+    Algorithm:  30  8
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard1" "raw"
+    Algorithm:  30  9
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard2" "raw"
+    Algorithm:  30  10
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard3" "raw"
+    Algorithm:  30  11
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard4" "raw"
+    Algorithm:  30  12
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard5" "raw"
+    Algorithm:  30  13
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuard6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     char
+	    SubDim:  0  "EfiDscGuard6" "raw"
+    Algorithm:  30  14
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD1" "V_or_nA"
+    Algorithm:  30  15
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD2" "V_or_nA"
+    Algorithm:  30  17
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD3" "V_or_nA"
+    Algorithm:  30  19
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD4" "V_or_nA"
+    Algorithm:  30  21
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD5" "V_or_nA"
+    Algorithm:  30  23
+EndDQD:
+
+DataQuantityDescription: "EfiDscBiasDac6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscBiasD6" "V_or_nA"
+    Algorithm:  31   0
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD1" "Volts"
+    Algorithm:  31   2
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD2" "Volts"
+    Algorithm:  31   4
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD3" "Volts"
+    Algorithm:  31   6
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD4" "Volts"
+    Algorithm:  31   8
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD5" "Volts"
+    Algorithm:  31  10
+EndDQD:
+
+DataQuantityDescription: "EfiDscStubDac6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscStubD6" "Volts"
+    Algorithm:  31  12
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardD1" "Volts"
+    Algorithm:  31  14
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardDac2" "Volts"
+    Algorithm:  31  16
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardD3" "Volts"
+    Algorithm:  31  18
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardD4" "Volts"
+    Algorithm:  31  20
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardD5" "Volts"
+    Algorithm:  31  22
+EndDQD:
+
+DataQuantityDescription: "EfiDscGuardDac6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiDscGuardD6" "Volts"
+    Algorithm:  31  24
+EndDQD:
+
+DataQuantityDescription: "EfiDscDeployPair"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscDeployPair" "raw"
+    Algorithm:  32   1
+EndDQD:
+
+DataQuantityDescription: "EfiDscDeployStatus"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscDeployStatus" "raw"
+    Algorithm:  32   2
+EndDQD:
+
+DataQuantityDescription: "EfiDscDeploySwitches"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscDeploySwitches" "raw"
+    Algorithm:  32   3
+EndDQD:
+
+DataQuantityDescription: "EfiDscLengthA"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscLengthA" "raw"
+    Algorithm:  32   4
+EndDQD:
+
+DataQuantityDescription: "EfiDscLengthB"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscLengthB" "raw"
+    Algorithm:  32   5
+EndDQD:
+
+DataQuantityDescription: "EfiDscDeployLimit"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscDeployLimit" "raw"
+    Algorithm:  32   6
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothOffset"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothOffset" "raw"
+    Algorithm:  32   7
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothDelta"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothDelta" "raw"
+    Algorithm:  32   8
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothPeriod"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothPeriod" "raw"
+    Algorithm:  32   9
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothDivider"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothDivider" "raw"
+    Algorithm:  32   10
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothOptions"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothOptions" "raw"
+    Algorithm:  32   11
+EndDQD:
+
+DataQuantityDescription: "EfiDscSawToothEnabled"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscSawToothEnabled" "raw"
+    Algorithm:  32   12
+EndDQD:
+
+DataQuantityDescription: "EfiDscLoadAddr"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "EfiDscLoadAddr" "raw"
+    Algorithm:  32   13
+EndDQD:
+
+DataQuantityDescription: "EfiDscCheckLoad"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscCheckLoad" "raw"
+    Algorithm:  32   15
+EndDQD:
+
+DataQuantityDescription: "EfiDscRomId"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "EfiDscRomId" "raw"
+    Algorithm:  35   5
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  HK Quantities:
+#
+DataQuantityDescription: "EfiHkMep28I"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMep28I" "mA"
+    Algorithm:  7  4
+EndDQD:
+
+DataQuantityDescription: "EfiHkMep5I"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMep5I" "mA"
+    Algorithm:  7  5
+EndDQD:
+
+DataQuantityDescription: "EfiHkMepCnvTmp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMepCnvTmp" "degC"
+    Algorithm:  7  6
+EndDQD:
+
+DataQuantityDescription: "EfiHkMepTemp0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMepTemp0" "degC"
+    Algorithm:  7  7
+EndDQD:
+
+DataQuantityDescription: "EfiHkMepTemp1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMepTemp1" "degC"
+    Algorithm:  7  8
+EndDQD:
+
+DataQuantityDescription: "EfiHkMepTemp2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkMepTemp2" "degC"
+    Algorithm:  7  9
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp1" "degC"
+    Algorithm:  7  10
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp2" "degC"
+    Algorithm:  7  11
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp3" "degC"
+    Algorithm:  7  12
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp4" "degC"
+    Algorithm:  7  13
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp5" "degC"
+    Algorithm:  7  14
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomTemp6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomTemp6" "degC"
+    Algorithm:  7  15
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen1" "M"
+    Algorithm:  7  16
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen2"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen2" "M"
+    Algorithm:  7  17
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen3"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen3" "M"
+    Algorithm:  7  18
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen4"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen4" "M"
+    Algorithm:  7  19
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen5"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen5" "M"
+    Algorithm:  7  20
+EndDQD:
+
+DataQuantityDescription: "EfiHkBoomLen6"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "EfiHkBoomLen6" "M"
+    Algorithm:  7  21
+EndDQD:
+
+DataQuantityDescription: "EfiHkCmdReg0"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "CmdReg0" "-"
+    Algorithm:  8  13
+EndDQD:
+
+DataQuantityDescription: "EfiHkCmdReg1"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "CmdReg1" "-"
+    Algorithm:  8  14
+EndDQD:
+
+DataQuantityDescription: "EfiHkCmdGoodCnt"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "CmdGoodCnt" "-"
+    Algorithm:  8  15
+EndDQD:
+
+DataQuantityDescription: "EfiHkCmdTotalCnt"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uchar
+	    SubDim:  0  "CmdTotalCnt" "-"
+    Algorithm:  8  16
+EndDQD:
+
+DataQuantityDescription: "EfiHkMemLoadAddr"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "EfiHkMemLoadAddr" "-"
+    Algorithm:  8  18
+EndDQD:
+
+DataQuantityDescription: "EfiHkMemLoadCnt"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "EfiHkMemLoadCnt" "-"
+    Algorithm:  8  20
+EndDQD:
+
+DataQuantityDescription: "EfiClk1CntHighBytes"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32
+	    SubDim:  0  "EfiClk1CntHighBytes" "cnt"
+    Algorithm:  9  20
+EndDQD:
+
+DataQuantityDescription: "EfiClk2CntHighBytes"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     int32
+	    SubDim:  0  "EfiClk2CntHighBytes" "cnt"
+    Algorithm:  9  21
+EndDQD:
+
+DataQuantityDescription: "EfiClk1CntLowBytes"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "EfiClk1CntLowBytes" "cnt"
+    Algorithm:  9  22
+EndDQD:
+
+DataQuantityDescription: "EfiClk2CntLowBytes"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double     
+	    SubDim:  0  "time" "UTsecs"
+        comp:     uint16
+	    SubDim:  0  "EfiClk2CntLowBytes" "cnt"
+    Algorithm:  9  23
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Burst Quantities:
+#
+
+# -------------------------------------------------------------------
+#
+#  Burst Burst Quantities:
+#
+DataQuantityDescription: "Efi_BBurst_Hdr"
+    Spacecraft    POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+	Comp[0]:  Double
+	    SubDim:  0  "time" "UTsecs"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_BBurst_Hdr_Comp_1" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_BBurst_Hdr_Comp_2" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_BBurst_Hdr_Comp_3" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_BBurst_Hdr_Comp_4" "raw"
+    Algorithm:  15 200
+EndDQD:
+
+DataQuantityDescription: "BBurst_Stat_135"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_1" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_3" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_5" "raw"
+    Algorithm:  15  0
+EndDQD:
+
+DataQuantityDescription: "BBV_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_1_LF_EFI" "Volts"
+    Algorithm:  15  10
+EndDQD:
+
+DataQuantityDescription: "BBV_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_3_LF_EFI" "Volts"
+    Algorithm:  15  11
+EndDQD:
+
+DataQuantityDescription: "BBV_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_5_LF_EFI" "Volts"
+    Algorithm:  15  12
+EndDQD:
+
+DataQuantityDescription: "BBI_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_1_LF_EFI" "nAmps"
+    Algorithm:  15  13
+EndDQD:
+
+DataQuantityDescription: "BBI_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_3_LF_EFI" "nAmps"
+    Algorithm:  15  14
+EndDQD:
+
+DataQuantityDescription: "BBI_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_5_LF_EFI" "nAmps"
+    Algorithm:  15  15
+EndDQD:
+
+DataQuantityDescription: "BBV_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_1_UF_EFI" "Volts"
+    Algorithm:  15  20
+EndDQD:
+
+DataQuantityDescription: "BBV_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_3_UF_EFI" "Volts"
+    Algorithm:  15  21
+EndDQD:
+
+DataQuantityDescription: "BBV_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_5_UF_EFI" "Volts"
+    Algorithm:  15  22
+EndDQD:
+
+DataQuantityDescription: "BBI_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_1_UF_EFI" "nAmps"
+    Algorithm:  15  23
+EndDQD:
+
+DataQuantityDescription: "BBI_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_3_UF_EFI" "nAmps"
+    Algorithm:  15  24
+EndDQD:
+
+DataQuantityDescription: "BBI_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_5_UF_EFI" "nAmps"
+    Algorithm:  15  25
+EndDQD:
+
+DataQuantityDescription: "BBV_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_1_HF_EFI" "Volts"
+    Algorithm:  15  30
+EndDQD:
+
+DataQuantityDescription: "BBV_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_3_HF_EFI" "Volts"
+    Algorithm:  15  31
+EndDQD:
+
+DataQuantityDescription: "BBV_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_5_HF_EFI" "Volts"
+    Algorithm:  15  32
+EndDQD:
+
+DataQuantityDescription: "BBI_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_1_HF_EFI" "nAmps"
+    Algorithm:  15  33
+EndDQD:
+
+DataQuantityDescription: "BBI_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_3_HF_EFI" "nAmps"
+    Algorithm:  15  34
+EndDQD:
+
+DataQuantityDescription: "BBI_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_5_HF_EFI" "nAmps"
+    Algorithm:  15  35
+EndDQD:
+
+DataQuantityDescription: "BBV_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12L" "mV/M"
+    Algorithm:  15  40
+EndDQD:
+
+DataQuantityDescription: "BBV_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34L" "mV/M"
+    Algorithm:  15  41
+EndDQD:
+
+DataQuantityDescription: "BBV_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56L" "mV/M"
+    Algorithm:  15  42
+EndDQD:
+
+DataQuantityDescription: "BBI_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI12L" "raw"
+    Algorithm:  15  43
+EndDQD:
+
+DataQuantityDescription: "BBI_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI34L" "raw"
+    Algorithm:  15  44
+EndDQD:
+
+DataQuantityDescription: "BBI_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI56L" "raw"
+    Algorithm:  15  45
+EndDQD:
+
+DataQuantityDescription: "BBV_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12U" "mV/M"
+    Algorithm:  15  50
+EndDQD:
+
+DataQuantityDescription: "BBV_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34U" "mV/M"
+    Algorithm:  15  51
+EndDQD:
+
+DataQuantityDescription: "BBV_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56U" "mV/M"
+    Algorithm:  15  52
+EndDQD:
+
+DataQuantityDescription: "BBI_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI12U" "raw"
+    Algorithm:  15  53
+EndDQD:
+
+DataQuantityDescription: "BBI_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI34U" "raw"
+    Algorithm:  15  54
+EndDQD:
+
+DataQuantityDescription: "BBI_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI56U" "raw"
+    Algorithm:  15  55
+EndDQD:
+
+DataQuantityDescription: "BBV_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12H" "mV/M"
+    Algorithm:  15  60
+EndDQD:
+
+DataQuantityDescription: "BBV_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34H" "mV/M"
+    Algorithm:  15  61
+EndDQD:
+
+DataQuantityDescription: "BBV_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56H" "mV/M"
+    Algorithm:  15  62
+EndDQD:
+
+DataQuantityDescription: "BBI_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI12H" "raw"
+    Algorithm:  15  63
+EndDQD:
+
+DataQuantityDescription: "BBI_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI34H" "raw"
+    Algorithm:  15  64
+EndDQD:
+
+DataQuantityDescription: "BBI_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI56H" "raw"
+    Algorithm:  15  65
+EndDQD:
+
+DataQuantityDescription: "BBV_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12AC" "mV/M"
+    Algorithm:  15  70
+EndDQD:
+
+DataQuantityDescription: "BBV_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34AC" "mV/M"
+    Algorithm:  15  71
+EndDQD:
+
+DataQuantityDescription: "BBV_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56AC" "mV/M"
+    Algorithm:  15  72
+EndDQD:
+
+DataQuantityDescription: "BBI_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI12AC" "raw"
+    Algorithm:  15  73
+EndDQD:
+
+DataQuantityDescription: "BBI_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI34AC" "raw"
+    Algorithm:  15  74
+EndDQD:
+
+DataQuantityDescription: "BBI_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI56AC" "raw"
+    Algorithm:  15  75
+EndDQD:
+
+DataQuantityDescription: "BBurst_Stat_246"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_2" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_4" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Stat_6" "raw"
+    Algorithm:  15  80
+EndDQD:
+
+DataQuantityDescription: "BBV_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_2_LF_EFI" "Volts"
+    Algorithm:  15  90
+EndDQD:
+
+DataQuantityDescription: "BBV_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_4_LF_EFI" "Volts"
+    Algorithm:  15  91
+EndDQD:
+
+DataQuantityDescription: "BBV_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_6_LF_EFI" "Volts"
+    Algorithm:  15  92
+EndDQD:
+
+DataQuantityDescription: "BBI_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_2_LF_EFI" "nAmps"
+    Algorithm:  15  93
+EndDQD:
+
+DataQuantityDescription: "BBI_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_4_LF_EFI" "nAmps"
+    Algorithm:  15  94
+EndDQD:
+
+DataQuantityDescription: "BBI_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_6_LF_EFI" "nAmps"
+    Algorithm:  15  95
+EndDQD:
+
+DataQuantityDescription: "BBV_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_2_UF_EFI" "Volts"
+    Algorithm:  15  100
+EndDQD:
+
+DataQuantityDescription: "BBV_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_4_UF_EFI" "Volts"
+    Algorithm:  15  101
+EndDQD:
+
+DataQuantityDescription: "BBV_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_6_UF_EFI" "Volts"
+    Algorithm:  15  102
+EndDQD:
+
+DataQuantityDescription: "BBI_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_2_UF_EFI" "nAmps"
+    Algorithm:  15  103
+EndDQD:
+
+DataQuantityDescription: "BBI_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_4_UF_EFI" "nAmps"
+    Algorithm:  15  104
+EndDQD:
+
+DataQuantityDescription: "BBI_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_6_UF_EFI" "nAmps"
+    Algorithm:  15  105
+EndDQD:
+
+DataQuantityDescription: "BBV_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_2_HF_EFI" "Volts"
+    Algorithm:  15  110
+EndDQD:
+
+DataQuantityDescription: "BBV_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_4_HF_EFI" "Volts"
+    Algorithm:  15  111
+EndDQD:
+
+DataQuantityDescription: "BBV_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV_6_HF_EFI" "Volts"
+    Algorithm:  15  112
+EndDQD:
+
+DataQuantityDescription: "BBI_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_2_HF_EFI" "nAmps"
+    Algorithm:  15  113
+EndDQD:
+
+DataQuantityDescription: "BBI_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_4_HF_EFI" "nAmps"
+    Algorithm:  15  114
+EndDQD:
+
+DataQuantityDescription: "BBI_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBI_6_HF_EFI" "nAmps"
+    Algorithm:  15  115
+EndDQD:
+
+DataQuantityDescription: "BBurst_Filters"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_Filter1" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Filter2" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Filter3" "raw"
+    Algorithm:  15  120
+EndDQD:
+
+DataQuantityDescription: "BBurst_SearchCoil"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBSCoilX" "nT"
+        comp:     float
+	    SubDim:  0  "BBSCoilY" "nT"
+        comp:     float
+	    SubDim:  0  "BBSCoilZ" "nT"
+    Algorithm:  15  130
+EndDQD:
+
+DataQuantityDescription: "BBurst_Monitors"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_MEP1" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_MEP2" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_MEP3" "raw"
+    Algorithm:  15  140
+EndDQD:
+
+DataQuantityDescription: "BBurst_Test"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_Test1" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Test2" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_Test3" "raw"
+    Algorithm:  15  150
+EndDQD:
+
+DataQuantityDescription: "BBurst_MFE_XYZ"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_X" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_Y" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_Z" "raw"
+    Algorithm:  15  160
+EndDQD:
+
+DataQuantityDescription: "BBurst_MFE_Info"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_BPFilter" "raw"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_SpinAngle" "deg"
+        comp:     float
+	    SubDim:  0  "BBurst_MFE_ScaleIdx" "raw"
+    Algorithm:  15  161
+EndDQD:
+
+DataQuantityDescription: "BBV12LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12LSCPOT" "volts"
+    Algorithm:  15  170
+EndDQD:
+
+DataQuantityDescription: "BBV34LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34LSCPOT" "volts"
+    Algorithm:  15  171
+EndDQD:
+
+DataQuantityDescription: "BBV56LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56LSCPOT" "volts"
+    Algorithm:  15  172
+EndDQD:
+
+DataQuantityDescription: "BBV12USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV12USCPOT" "volts"
+    Algorithm:  15  180
+EndDQD:
+
+DataQuantityDescription: "BBV34USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV34USCPOT" "volts"
+    Algorithm:  15  181
+EndDQD:
+
+DataQuantityDescription: "BBV56USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BBV56USCPOT" "volts"
+    Algorithm:  15  182
+EndDQD:
+
+
+# -------------------------------------------------------------------
+#
+#  Main Burst Quantities:
+#
+DataQuantityDescription: "Efi_MBurst_Hdr"
+    Spacecraft    POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+	Comp[0]:  Double
+	    SubDim:  0  "time" "UTsecs"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_MBurst_Hdr_Comp_1" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_MBurst_Hdr_Comp_2" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_MBurst_Hdr_Comp_3" "raw"
+	Comp:     Char  100
+	    SubDim:  0  "Efi_MBurst_Hdr_Comp_4" "raw"
+    Algorithm:  17  200
+EndDQD:
+
+DataQuantityDescription: "MBurst_Stat_135"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_1" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_3" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_5" "raw"
+    Algorithm:  17  0
+EndDQD:
+
+DataQuantityDescription: "MBV_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_1_LF_EFI" "Volts"
+    Algorithm:  17  10
+EndDQD:
+
+DataQuantityDescription: "MBV_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_3_LF_EFI" "Volts"
+    Algorithm:  17  11
+EndDQD:
+
+DataQuantityDescription: "MBV_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_5_LF_EFI" "Volts"
+    Algorithm:  17  12
+EndDQD:
+
+DataQuantityDescription: "MBI_1_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_1_LF_EFI" "nAmps"
+    Algorithm:  17  13
+EndDQD:
+
+DataQuantityDescription: "MBI_3_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_3_LF_EFI" "nAmps"
+    Algorithm:  17  14
+EndDQD:
+
+DataQuantityDescription: "MBI_5_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_5_LF_EFI" "nAmps"
+    Algorithm:  17  15
+EndDQD:
+
+DataQuantityDescription: "MBV_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_1_UF_EFI" "Volts"
+    Algorithm:  17  20
+EndDQD:
+
+DataQuantityDescription: "MBV_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_3_UF_EFI" "Volts"
+    Algorithm:  17  21
+EndDQD:
+
+DataQuantityDescription: "MBV_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_5_UF_EFI" "Volts"
+    Algorithm:  17  22
+EndDQD:
+
+DataQuantityDescription: "MBI_1_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_1_UF_EFI" "nAmps"
+    Algorithm:  17  23
+EndDQD:
+
+DataQuantityDescription: "MBI_3_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_3_UF_EFI" "nAmps"
+    Algorithm:  17  24
+EndDQD:
+
+DataQuantityDescription: "MBI_5_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_5_UF_EFI" "nAmps"
+    Algorithm:  17  25
+EndDQD:
+
+DataQuantityDescription: "MBV_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_1_HF_EFI" "Volts"
+    Algorithm:  17  30
+EndDQD:
+
+DataQuantityDescription: "MBV_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_3_HF_EFI" "Volts"
+    Algorithm:  17  31
+EndDQD:
+
+DataQuantityDescription: "MBV_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_5_HF_EFI" "Volts"
+    Algorithm:  17  32
+EndDQD:
+
+DataQuantityDescription: "MBI_1_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_1_HF_EFI" "nAmps"
+    Algorithm:  17  33
+EndDQD:
+
+DataQuantityDescription: "MBI_3_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_3_HF_EFI" "nAmps"
+    Algorithm:  17  34
+EndDQD:
+
+DataQuantityDescription: "MBI_5_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_5_HF_EFI" "nAmps"
+    Algorithm:  17  35
+EndDQD:
+
+DataQuantityDescription: "MBV_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12L" "mV/M"
+    Algorithm:  17  40
+EndDQD:
+
+DataQuantityDescription: "MBV_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34L" "mV/M"
+    Algorithm:  17  41
+EndDQD:
+
+DataQuantityDescription: "MBV_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV56L" "mV/M"
+    Algorithm:  17  42
+EndDQD:
+
+DataQuantityDescription: "MBI_12_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI12L" "raw"
+    Algorithm:  17  43
+EndDQD:
+
+DataQuantityDescription: "MBI_34_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI34L" "raw"
+    Algorithm:  17  44
+EndDQD:
+
+DataQuantityDescription: "MBI_56_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI56L" "raw"
+    Algorithm:  17  45
+EndDQD:
+
+DataQuantityDescription: "MBV_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12U" "mV/M"
+    Algorithm:  17  50
+EndDQD:
+
+DataQuantityDescription: "MBV_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34U" "mV/M"
+    Algorithm:  17  51
+EndDQD:
+
+DataQuantityDescription: "MBV_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV56U" "mV/M"
+    Algorithm:  17  52
+EndDQD:
+
+DataQuantityDescription: "MBI_12_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI12U" "raw"
+    Algorithm:  17  53
+EndDQD:
+
+DataQuantityDescription: "MBI_34_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI34U" "raw"
+    Algorithm:  17  54
+EndDQD:
+
+DataQuantityDescription: "MBI_56_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI56U" "raw"
+    Algorithm:  17  55
+EndDQD:
+
+DataQuantityDescription: "MBV_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12H" "mV/M"
+    Algorithm:  17  60
+EndDQD:
+
+DataQuantityDescription: "MBV_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34H" "mV/M"
+    Algorithm:  17  61
+EndDQD:
+
+DataQuantityDescription: "MBV_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_56_HF_EFI" "mV/M"
+    Algorithm:  17  62
+EndDQD:
+
+DataQuantityDescription: "MBI_12_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI12H" "raw"
+    Algorithm:  17  63
+EndDQD:
+
+DataQuantityDescription: "MBI_34_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI34H" "raw"
+    Algorithm:  17  64
+EndDQD:
+
+DataQuantityDescription: "MBI_56_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI56H" "raw"
+    Algorithm:  17  65
+EndDQD:
+
+DataQuantityDescription: "MBV_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12AC" "mV/M"
+    Algorithm:  17  70
+EndDQD:
+
+DataQuantityDescription: "MBV_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34AC" "mV/M"
+    Algorithm:  17  71
+EndDQD:
+
+DataQuantityDescription: "MBV_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV56AC" "mV/M"
+    Algorithm:  17  72
+EndDQD:
+
+DataQuantityDescription: "MBI_12_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI12AC" "raw"
+    Algorithm:  17  73
+EndDQD:
+
+DataQuantityDescription: "MBI_34_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI34AC" "raw"
+    Algorithm:  17  74
+EndDQD:
+
+DataQuantityDescription: "MBI_56_AC_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI56AC" "raw"
+    Algorithm:  17  75
+EndDQD:
+
+DataQuantityDescription: "MBurst_Stat_246"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_2" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_4" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Stat_6" "raw"
+    Algorithm:  17  80
+EndDQD:
+
+DataQuantityDescription: "MBV_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_2_LF_EFI" "Volts"
+    Algorithm:  17  90
+EndDQD:
+
+DataQuantityDescription: "MBV_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_4_LF_EFI" "Volts"
+    Algorithm:  17  91
+EndDQD:
+
+DataQuantityDescription: "MBV_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_6_LF_EFI" "Volts"
+    Algorithm:  17  92
+EndDQD:
+
+DataQuantityDescription: "MBI_2_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_2_LF_EFI" "nAmps"
+    Algorithm:  17  93
+EndDQD:
+
+DataQuantityDescription: "MBI_4_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_4_LF_EFI" "nAmps"
+    Algorithm:  17  94
+EndDQD:
+
+DataQuantityDescription: "MBI_6_LF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_6_LF_EFI" "nAmps"
+    Algorithm:  17  95
+EndDQD:
+
+DataQuantityDescription: "MBV_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_2_UF_EFI" "Volts"
+    Algorithm:  17  100
+EndDQD:
+
+DataQuantityDescription: "MBV_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_4_UF_EFI" "Volts"
+    Algorithm:  17  101
+EndDQD:
+
+DataQuantityDescription: "MBV_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_6_UF_EFI" "Volts"
+    Algorithm:  17  102
+EndDQD:
+
+DataQuantityDescription: "MBI_2_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_2_UF_EFI" "nAmps"
+    Algorithm:  17  103
+EndDQD:
+
+DataQuantityDescription: "MBI_4_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_4_UF_EFI" "nAmps"
+    Algorithm:  17  104
+EndDQD:
+
+DataQuantityDescription: "MBI_6_UF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_6_UF_EFI" "nAmps"
+    Algorithm:  17  105
+EndDQD:
+
+DataQuantityDescription: "MBV_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_2_HF_EFI" "Volts"
+    Algorithm:  17  110
+EndDQD:
+
+DataQuantityDescription: "MBV_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_4_HF_EFI" "Volts"
+    Algorithm:  17  111
+EndDQD:
+
+DataQuantityDescription: "MBV_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV_6_HF_EFI" "Volts"
+    Algorithm:  17  112
+EndDQD:
+
+DataQuantityDescription: "MBI_2_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_2_HF_EFI" "nAmps"
+    Algorithm:  17  113
+EndDQD:
+
+DataQuantityDescription: "MBI_4_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_4_HF_EFI" "nAmps"
+    Algorithm:  17  114
+EndDQD:
+
+DataQuantityDescription: "MBI_6_HF_EFI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBI_6_HF_EFI" "nAmps"
+    Algorithm:  17  115
+EndDQD:
+
+DataQuantityDescription: "MBurst_Filters"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBurst_Filter1" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Filter2" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Filter3" "raw"
+    Algorithm:  17  120
+EndDQD:
+
+DataQuantityDescription: "MBurst_SearchCoil"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBSCoilX" "nT"
+        comp:     float
+	    SubDim:  0  "MBSCoilY" "nT"
+        comp:     float
+	    SubDim:  0  "MBSCoilZ" "nT"
+    Algorithm:  17  130
+EndDQD:
+
+DataQuantityDescription: "MBurst_Monitors"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBurst_MEP1" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_MEP2" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_MEP3" "raw"
+    Algorithm:  17  140
+EndDQD:
+
+DataQuantityDescription: "MBurst_Test"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBurst_Test1" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Test2" "raw"
+        comp:     float
+	    SubDim:  0  "MBurst_Test3" "raw"
+    Algorithm:  17  150
+EndDQD:
+
+DataQuantityDescription: "MBV12LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12LSCPOT" "volts"
+    Algorithm:  17  170
+EndDQD:
+
+DataQuantityDescription: "MBV34LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34LSCPOT" "volts"
+    Algorithm:  17  171
+EndDQD:
+
+DataQuantityDescription: "MBV56LSCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV56LSCPOT" "volts"
+    Algorithm:  17  172
+EndDQD:
+
+DataQuantityDescription: "MBV12USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV12USCPOT" "volts"
+    Algorithm:  17  180
+EndDQD:
+
+DataQuantityDescription: "MBV34USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV34USCPOT" "volts"
+    Algorithm:  17  181
+EndDQD:
+
+DataQuantityDescription: "MBV56USCPOT_QTY"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "MBV56USCPOT" "volts"
+    Algorithm:  17  182
+EndDQD:
+
+#
+# Attitude Quantities:
+#
+DataQuantityDescription: "PolarSpinAxisECI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "ECI"
+        comp:     float
+	    SubDim:  0  "Y" "ECI"
+        comp:     float
+	    SubDim:  0  "Z" "ECI"
+    Algorithm:  20  0
+EndDQD:
+
+DataQuantityDescription: "PolarSpinAxisGSE"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "GSE"
+        comp:     float
+	    SubDim:  0  "Y" "GSE"
+        comp:     float
+	    SubDim:  0  "Z" "GSE"
+    Algorithm:  20  1
+EndDQD:
+
+DataQuantityDescription: "PolarSpinAxisGSM"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "GSM"
+        comp:     float
+	    SubDim:  0  "Y" "GSM"
+        comp:     float
+	    SubDim:  0  "Z" "GSM"
+    Algorithm:  20  2
+EndDQD:
+
+DataQuantityDescription: "PolarSpinRate"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "SpinRate" "secs"
+    Algorithm:  20  3
+EndDQD:
+
+#
+# Orbit Quantities:
+#
+DataQuantityDescription: "PolarPositionECI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "ERad"
+        comp:     float
+	    SubDim:  0  "Y" "ERad"
+        comp:     float
+	    SubDim:  0  "Z" "ERad"
+    Algorithm:  20  4
+EndDQD:
+
+DataQuantityDescription: "PolarPositionGSE"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "ERad"
+        comp:     float
+	    SubDim:  0  "Y" "ERad"
+        comp:     float
+	    SubDim:  0  "Z" "ERad"
+    Algorithm:  20  5
+EndDQD:
+
+DataQuantityDescription: "PolarPositionGSM"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "ERad"
+        comp:     float
+	    SubDim:  0  "Y" "ERad"
+        comp:     float
+	    SubDim:  0  "Z" "ERad"
+    Algorithm:  20  6
+EndDQD:
+
+DataQuantityDescription: "PolarVelocityECI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+    Algorithm:  20  7
+EndDQD:
+
+DataQuantityDescription: "PolarVelocityGSE"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+    Algorithm:  20  8
+EndDQD:
+
+DataQuantityDescription: "PolarVelocityGSM"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+    Algorithm:  20  9
+EndDQD:
+
+DataQuantityDescription: "PolarSunVectorECI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "ERad"
+        comp:     float
+	    SubDim:  0  "Y" "ERad"
+        comp:     float
+	    SubDim:  0  "Z" "ERad"
+    Algorithm:  20  10
+EndDQD:
+
+DataQuantityDescription: "PolarSpDistMLTMagLatLShell"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "SPcraftDist" "ERad"
+        comp:     float
+	    SubDim:  0  "MLT" "Hours"
+        comp:     float
+	    SubDim:  0  "MagLat" "Deg"
+        comp:     float
+	    SubDim:  0  "LShell" "RE"
+        comp:     float
+	    SubDim:  0  "Latitude" "Deg"
+        comp:     float
+	    SubDim:  0  "Longitude" "Deg"
+        comp:     float
+	    SubDim:  0  "ILat" "Deg"
+    Algorithm:  20  11
+EndDQD:
+
+DataQuantityDescription: "PolarProjectSunPulse"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "PolarProjSunPulse" "spin_secs"
+    Algorithm:  20  12
+EndDQD:
+
+DataQuantityDescription: "PolarBModelT89ECI"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nt"
+        comp:     float
+	    SubDim:  0  "Y" "nt"
+        comp:     float
+	    SubDim:  0  "Z" "nt"
+    Algorithm:  20  13
+EndDQD:
+
+DataQuantityDescription: "PolarBModelT89GSE"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nt"
+        comp:     float
+	    SubDim:  0  "Y" "nt"
+        comp:     float
+	    SubDim:  0  "Z" "nt"
+    Algorithm:  20  14
+EndDQD:
+
+DataQuantityDescription: "PolarBModelT89GSM"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nt"
+        comp:     float
+	    SubDim:  0  "Y" "nt"
+        comp:     float
+	    SubDim:  0  "Z" "nt"
+    Algorithm:  20  15
+EndDQD:
+
+#
+#  MFE quantities
+#
+
+DataQuantityDescription: "MagMFEObrd"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  22  0
+EndDQD:
+
+DataQuantityDescription: "MagMFEIBrd"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  22  1
+EndDQD:
+
+DataQuantityDescription: "MagMFECombined"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  22  2
+EndDQD:
+
+# ---------------------------------------------------------
+#
+#  Pre-Computed Science quantities
+#
+
+DataQuantityDescription: "POLAR_Spin_Fit_V12L_C_2_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_V12L_C_2_A" "mV/m"
+        comp:     float     # B
+	    SubDim:  0  "S_F_V12L_C_2_B" "mV/m"
+        comp:     float     # C
+	    SubDim:  0  "S_F_V12L_C_2_C" "mV/m"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_V12L_C_2_Sigma" "mV/m"
+        comp:     float    # N
+	    SubDim:  0  "S_F_V12L_C_2_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_V12L_C_2_sqrtBBCC" "mV/m"
+    Algorithm:  36  0
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_V34L_C_2_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_V34L_C_2_A" "mV/m"
+        comp:     float     # B
+	    SubDim:  0  "S_F_V34L_C_2_B" "mV/m"
+        comp:     float     # C
+	    SubDim:  0  "S_F_V34L_C_2_C" "mV/m"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_V34L_C_2_Sigma" "mV/m"
+        comp:     float    # N
+	    SubDim:  0  "S_F_V34L_C_2_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_V34L_C_2_sqrtBBCC" "mV/m"
+    Algorithm:  36  1
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_V56L_C_2_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_V56L_C_2_12_A" "mV/m"
+        comp:     float     # B
+	    SubDim:  0  "S_F_V56L_C_2_12_B" "mV/m"
+        comp:     float     # C
+	    SubDim:  0  "S_F_V56L_C_2_12_C" "mV/m"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_V56L_C_2_12_Sigma" "mV/m"
+        comp:     float    # N
+	    SubDim:  0  "S_F_V56L_C_2_12_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_V56L_C_2_12_sqrtBBCC" "mV/m"
+    Algorithm:  36  2
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_V56L_C_2_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_V56L_C_2_34_A" "mV/m"
+        comp:     float     # B
+	    SubDim:  0  "S_F_V56L_C_2_34_B" "mV/m"
+        comp:     float     # C
+	    SubDim:  0  "S_F_V56L_C_2_34_C" "mV/m"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_V56L_C_2_34_Sigma" "mV/m"
+        comp:     float    # N
+	    SubDim:  0  "S_F_V56L_C_2_34_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_V56L_C_2_34_sqrtBBCC" "mV/m"
+    Algorithm:  36  3
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_MFE_X_C_2_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_MFE_X_C_2_12_A" "nT"
+        comp:     float     # B
+	    SubDim:  0  "S_F_MFE_X_C_2_12_B" "nT"
+        comp:     float     # C
+	    SubDim:  0  "S_F_MFE_X_C_2_12_C" "nT"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_MFE_X_C_2_12_Sigma" "nT"
+        comp:     float    # N
+	    SubDim:  0  "S_F_MFE_X_C_2_12_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_MFE_X_C_2_12_sqrtBBCC" "nT"
+    Algorithm:  36  4
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_MFE_X_C_2_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_MFE_X_C_2_34_A" "nT"
+        comp:     float     # B
+	    SubDim:  0  "S_F_MFE_X_C_2_34_B" "nT"
+        comp:     float     # C
+	    SubDim:  0  "S_F_MFE_X_C_2_34_C" "nT"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_MFE_X_C_2_34_Sigma" "nT"
+        comp:     float    # N
+	    SubDim:  0  "S_F_MFE_X_C_2_34_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_MFE_X_C_2_34_sqrtBBCC" "nT"
+    Algorithm:  36  5
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_MFE_Z_C_2_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_A" "nT"
+        comp:     float     # B
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_B" "nT"
+        comp:     float     # C
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_C" "nT"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_Sigma" "nT"
+        comp:     float    # N
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_MFE_Z_C_2_12_sqrtBBCC" "nT"
+    Algorithm:  36  6
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Fit_MFE_Z_C_2_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # A
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_A" "nT"
+        comp:     float     # B
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_B" "nT"
+        comp:     float     # C
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_C" "nT"
+        comp:     float     # STD Deviation
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_Sigma" "nT"
+        comp:     float    # N
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_N" "-"
+        comp:     float     # sqrt(B^2 + C^2)
+	    SubDim:  0  "S_F_MFE_Z_C_2_34_sqrtBBCC" "nT"
+    Algorithm:  36  7
+EndDQD:
+
+DataQuantityDescription: "POLAR_V12L_Spin_Avg_Offset_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Offset
+	    SubDim:  0  "POLAR_V12L_Spin_Avg_Offset_Offset" "mV/m"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_V12L_Spin_Avg_Offset_Npts" "-"
+    Algorithm:  36  8
+EndDQD:
+
+DataQuantityDescription: "POLAR_V34L_Spin_Avg_Offset_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Offset
+	    SubDim:  0  "POLAR_V34L_Spin_Avg_Offset_Offset" "mV/m"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_V34L_Spin_Avg_Offset_Npts" "-"
+    Algorithm:  36  9
+EndDQD:
+
+DataQuantityDescription: "POLAR_MFE_X_Spin_Avg_Offset_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Offset
+	    SubDim:  0  "POLAR_MFE_X_Spin_Avg_Offset_Offset" "nT"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_MFE_X_Spin_Avg_Offset_Npts" "-"
+    Algorithm:  36  10
+EndDQD:
+
+DataQuantityDescription: "POLAR_MFE_Y_Spin_Avg_Offset_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Offset
+	    SubDim:  0  "POLAR_MFE_Y_Spin_Avg_Offset_Offset" "nT"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_MFE_Y_Spin_Avg_Offset_Npts" "-"
+    Algorithm:  36  11
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V1L_V2L_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V1L
+	    SubDim:  0  "POLAR_Spin_Avg_V1L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V1L_12_Npts" "-"
+        comp:     float     # Avg_V2L
+	    SubDim:  0  "POLAR_Spin_Avg_V2L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V2L_12_Npts" "-"
+    Algorithm:  36  12
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V1L_V2L_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V1L
+	    SubDim:  0  "POLAR_Spin_Avg_V1L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V1L_34_Npts" "-"
+        comp:     float     # Avg_V2L
+	    SubDim:  0  "POLAR_Spin_Avg_V2L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V2L_34_Npts" "-"
+    Algorithm:  36  13
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V3L_V4L_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V3L
+	    SubDim:  0  "POLAR_Spin_Avg_V3L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V3L_12_Npts" "-"
+        comp:     float     # Avg_V4L
+	    SubDim:  0  "POLAR_Spin_Avg_V4L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V4L_12_Npts" "-"
+    Algorithm:  36  14
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V3L_V4L_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V3L
+	    SubDim:  0  "POLAR_Spin_Avg_V3L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V3L_34_Npts" "-"
+        comp:     float     # Avg_V4L
+	    SubDim:  0  "POLAR_Spin_Avg_V4L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V4L_34_Npts" "-"
+    Algorithm:  36  15
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V5L_V6L_12_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V5L
+	    SubDim:  0  "POLAR_Spin_Avg_V5L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V5L_12_Npts" "-"
+        comp:     float     # Avg_V6L
+	    SubDim:  0  "POLAR_Spin_Avg_V6L_12_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V6L_12_Npts" "-"
+    Algorithm:  36  16
+EndDQD:
+
+DataQuantityDescription: "POLAR_Spin_Avg_V5L_V6L_34_Comp"
+    Spacecraft:   POLAR
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float     # Avg_V5L
+	    SubDim:  0  "POLAR_Spin_Avg_V5L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V5L_34_Npts" "-"
+        comp:     float     # Avg_V6L
+	    SubDim:  0  "POLAR_Spin_Avg_V6L_34_Avg" "Volt"
+        comp:     float     # Points per spin
+	    SubDim:  0  "POLAR_Spin_Avg_V6L_34_Npts" "-"
+    Algorithm:  36  17
+EndDQD:
+

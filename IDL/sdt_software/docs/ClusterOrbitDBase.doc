@@ -1,0 +1,599 @@
+#
+# For SCCS
+# @(#)ClusterOrbitDBase.doc	1.2, 04/15/03
+#
+
+------------------------------------------------------------------------
+
+Cluster Orbit DataBase (2003/04/14):
+
+
+This document describes the Cluster Orbit Database that was created at
+SSL, Berkeley, to ease the programming and analysis usage of the
+Cluster orbit data files that are part of the project's CD distribution.
+
+
+1.  Motivation:
+--------------
+
+    The project supplies the orbit data files on the daily CD's,
+    one file per spacecraft, per CD, with the naming convention:
+
+	  CD_NAME/clusterN/aux_N/yymmddba.CV1
+
+    where:
+    
+	"N"  is the spacecraft (1, 2, 3, or 4)
+	"yy" is the 2-digit year   ("00" == 2000, "01" == 2001, etc.)
+	"mm" is the 2-digit month  ("01" - "12")
+	"dd" is the 2-digit day-of-month  ("01" - "31")
+	"C"  is the 1-digit CD volume of the day ("1", "2", "3")
+	"V"  is the CD-version ("a", "b") 
+
+    An example name would be:
+
+	030315_2_2a/cluster1/aux_1/030315ba.2a1
+
+    This file belongs to CD 2, version "a", of 2003/03/15 (there are
+    two CDs for that date), and Spacecraft 1.
+
+    The project also provides FORTRAN source code on the CDs:
+
+	 CD_NAME/software/orbit.for
+	 CD_NAME/software/jd2000.for
+	 CD_NAME/software/pr2000.for
+
+    to read the orbit data files.
+
+    Unfortunately, usage of the FORTRAN routines provided in the
+    CD "software" sub-directories requires pre-knowledge of the
+    location of the on-line CDs for any particular date.  This makes
+    it difficult for a program to use the project-supplied software
+    in a systematic way, particularly since the location of on-line
+    data may be changed at any time.  Use of this software might
+    also be slow, since reading data for a even a small number of
+    consecutive dates might require accessing several file systems
+    located on mulitple file servers.
+
+    SSL decided to consolidate all of the orbit data files from the
+    CDs into one set of files, which will hereby be known as the
+    "Cluster Orbit Database" - "COD" for short.  This set of files will,
+    because of its known location and well-defined format, allow for
+    much easier software access.
+
+    Two pieces of software were written to suport the COD -
+
+	a)  A program, residing in $FASTBIN, to create the COD:
+
+		ClusterOrbDBase
+
+	b)  A shared-object library, and a corresponding standard
+	    C-library, both residing in $FASTLIB, which contain
+	    C-routines to access the COD.
+
+	    The shared-object is:
+
+		cluster_orbatt.so
+
+	    The standard C-library is:
+
+		libcluster_orbatt.a
+
+    These two pieces of software are described later, in the
+    sections entitled:
+
+	 "Program to Create the COD"
+
+	 "Library Functions to Access the COD"
+
+
+2.  Description of the COD:
+---------------------------
+
+    The COD consists of five files:
+
+
+	 One ASCII "index" file which contains two header lines and
+	 one line for each date of the mission between the first
+	 and last days of the mission which are at least partially
+	 covered by the orbit data files on the CDs.   The name
+	 of this file is:
+
+	     ClsOrbitHistory.index
+
+         and will, hereafter, be referred to as the "index" file.
+
+
+	 Four ASCII files (one per spacecraft) containing all of the
+	 records from each spacecraft's orbit data files on CD.
+	 The names of these four files are:
+
+	     ClsOrbHistory_SC1
+	     ClsOrbHistory_SC2
+	     ClsOrbHistory_SC3
+	     ClsOrbHistory_SC4
+
+	 These four files will be referred to as the "spacecraft" files.
+
+
+    a)  Description of "ClsOrbitHistory.index":
+
+	First note that, in order to improve I/O access, all lines of
+	this ASCII file consist of 68 characters, where the 68'th
+	and last character of each line is the NEW-LINE character.
+	In lines 1 and 2, this requires that padding blanks be used
+	to fill out the lines to 68 characters.
+
+        Line 1:
+
+	    The first line of the file indicates which days are covered
+	    by this version of the COD.   Its FORTRAN format is:
+
+	       I3, 2x, I5, 3x, A25
+
+	    The first integer is the "StartDay", in JD2000, covered
+	    by the COD.  This will usually be "396" (or 2001/01/31).
+	    Recall that a value in JD2000 is the number of days after
+	    Midnight GMT, of 2000/01/01.
+
+	    The second integer is the "EndDay", in JD2000, covered
+	    by the COD.
+
+	    The string is merely informational and shows, in YYYY/MM/DD
+	    format, the start and end dates represented.
+
+        Line 2:
+
+	    This line indicates how many records are contained in each
+	    of the four spacecraft files, and is of FORTRAN format:
+
+	       4I7, 2x, A16
+
+             where the four integers are the number of records in
+	     "ClsOrbHistory_SC1", ..., "ClsOrbHistory_SC4" respectively.
+	     The string is simply an informational label indicating
+	     what these integers are.
+
+        Lines 3 through "NDays + 2":
+
+	     where "NDays" == "EndDay - StartDay + 1"
+
+	     These are the indexing records, one line per day, and
+	     have FORTRAN format:
+
+	        I5, 2x, A8, 1x, 4(I6, 1x, I2) 
+
+	     The first integer (corresponding to the I5) is simply a
+	     zero-based record index. so the first day record has
+	     "index" 0, the second day record has "index" 1, and so
+	     on.  The last record should have "index":
+	     
+		 (EndDay - StartDay).
+
+	     The string (corresponding to "A8") is the date of the
+	     day in YYYYMMDD format and exists only for readability.
+
+	     The four cycles of:
+	     
+		 (I6, 1x, I2)
+
+	     correspond to the four spacecraft.   The I6 is the
+	     "starting record", for the corresponding day, within the
+	     corresponding "spacecraft" file.  Note that this record
+	     indexing scheme is zero-based, so that the first record
+	     in each of "ClsOrbHistory_SC1", ..., "ClsOrbHistory_SC4"
+	     is record 0.  The I2 represents the number of records in
+	     the corresponding spacecraft file, beginning with the
+	     "starting record", which cover at least part of the day.
+	     A value of "0" means that the day resides entirely in a
+	     gap in the data for that spacecraft, and so is not covered
+	     by any records.
+
+
+    b)  Description of the "Spacecraft" Files:
+
+	The four files:
+
+	     ClsOrbHistory_SC1
+	     ClsOrbHistory_SC2
+	     ClsOrbHistory_SC3
+	     ClsOrbHistory_SC4
+
+	referred to as the "spacecraft" files, are ASCII, and are such
+	that each "line" of the file is 100 characters long, including
+	the NEW-LINE character, to improve record-seeking access.
+	Unlike the Covariant Matrix DataBase, the records do NOT contain
+	a constant number of lines, but each record at least contains
+	three header lines, one of which contains a line count for the
+	record.  The library routines which access the Spacecraft files
+	know how to decode these variable-length records.
+
+	The format of each record is exactly as from the CD files,
+	EXCEPT:
+
+	    1) The 15-byte binary SCET headers, in the records from
+	       the CDs, are removed.
+
+	    2) Some lines require blank-padding to be 100 bytes long.
+
+	See the Cluster DDID, Appendix E.1 (Long Term Orbit Files),
+	for a description of the Cluster orbit records.
+
+	When creating the COD, the program "ClusterOrbDBase" throws
+	out duplicate records and ensures that the records are in
+	monotonically increasing order, based on the "start" time.
+	
+
+3.  Program to Create the COD:
+------------------------------
+
+    The program used to create the COD is "ClusterOrbDBase" whose
+    source code is in:
+
+	$FASTHOME/src/sdt/Cluster/ClusterOrbDBase.cc
+
+    When executed, it creates a new COD from scratch - it does not
+    attempt to build upon older versions of the COD.
+
+    It is important to note that the location of the online CDs at
+    SSL is encoded into this source file in the routine:
+
+	GetDataDirectoryForDate
+
+    If for any reason, the names of the SSL directories containing
+    the CDs are changed, then this routine must be changed
+    appropriately.  As of 2002/12/11, the names of the CD directories
+    at SSL, and the dates covered by them, are:
+
+	/disks/cluster_2001_q1    (CDs for:  2001/01/01 - 2001/03/31)
+	/disks/cluster_2001_q2    (CDs for:  2001/04/01 - 2001/06/30)
+	/disks/cluster_2001_q3    (CDs for:  2001/07/01 - 2001/09/30)
+	/disks/cluster_2001_q4    (CDs for:  2001/10/01 - 2001/12/31)
+	/disks/cluster_2002_q1    (CDs for:  2002/01/01 - 2002/03/31)
+	/disks/cluster_2002_q2    (CDs for:  2002/04/01 - 2002/06/30)
+	/disks/cluster_2002_q3    (CDs for:  2002/07/01 - 2002/09/30)
+	/disks/cluster_2002_q4    (CDs for:  2002/10/01 - 2002/12/31)
+	       etc.
+
+    When the program executes, it determines the first and last dates
+    of the online CDs, finds the files for all of the dates in between
+    the first and last dates, and procedes accordingly.
+
+    NOTE:   It is important (and expected) that the CDs at SSL are
+            stored on disk without skipping any dates.   The SSL policy
+	    is to delay putting Cluster CDs on-line until all CDs from
+	    earlier dates are on-line.
+
+    To execute the program, simply type:
+
+	$FASTBIN/ClusterOrbDBase
+
+     The new COD will be created in the current working directory
+     and a report will be sent to "stdout".  It you wish to save this
+     report, instead enter:
+
+	$FASTBIN/ClusterOrbDBase > outfile
+
+     and "outfile" will receive the contents of the report.  This
+     report indicates how long it took to generate the COD and,
+     on a spacecraft-by-spacecraft basis, lists any gaps or overlaps
+     found by the program.
+
+
+4.  Library Functions to Access the COD:
+----------------------------------------
+
+    As with Cluster "orbit" and "attitude" data access, the routines
+    to access the COD are in either the C-library:
+
+	 $FASTLIB/libcluster_orbatt.a
+
+    or the C-shareable-object (for IDL access):
+
+	 $FASTLIB/cluster_orbatt.so
+
+    C-Software using the library should include the declarations file:
+
+	$FASTINCLUDE/ClusterOrbAtt.h
+
+    The .a and .so files can be linked into a program as required.
+
+
+5.  Library Access routines:
+----------------------------
+
+    -------------------------------------------------------------
+
+    int GetUTClusterDBOrbitData (double StartTime, double IntervalSeconds,
+        double DeltaSeconds, char *dbdir, int *npts,
+        ClusterOrbitData **odata1, ClusterOrbitData **odata2,
+        ClusterOrbitData **odata3, ClusterOrbitData **odata4) ;
+
+    Input arguments:
+
+	 StartTime:        Double containing the Starting time of
+			   interest, in UnixTime (GMT seconds since
+			   midnight of 1970/01/01).
+
+	 IntervalSeconds:  Double containing the length of the
+			   TimeSpan of interest, in seconds.
+
+	 DeltaSeconds:     Double containing the Time Delta, in
+			   seconds, between consecutive times of
+			   computation.  This must be greater than
+			   or equal to 0.001 (in millisecond).
+			   The times at which orbit data will be
+			   computed are:
+                              0:   StartTime
+                              1:   StartTime +   (DeltaSeconds)
+                              2:   StartTime + 2*(DeltaSeconds)
+                                       .
+                                       .
+                                       .
+                              N:   StartTime + N*(DeltaSeconds)
+ 
+                           where "N" == 
+                              (int) (IntervalSeconds / DeltaSeconds)
+
+	 dbdir:            Pointer to a character string which
+			   contains the name of the directory in
+			   which to look for the COD.  If NULL,
+			   then the routine looks for the database
+			   in:
+
+                              $FASTCONFIG/sdt_cfg/cluster
+
+    Output arguments:
+
+	 npts:             Pointer to an Int in which will be
+			   returned the number of orbit vectors
+			   returned in the arrays "odata1", ...,
+			   "odata4".  This must NOT be NULL.
+
+         odata1            Ptr to an "ClusterOrbitData" Ptr into which,
+                           if not NULL, will be output a pointer to an
+                           array of "npts" "ClusterOrbitData" that will
+			   be allocated and filled by this routine with
+			   the results from SC1.  If NULL, SC1 will not
+			   be processed.   It is up to the caller to
+			   delete the allocated "ClusterOrbitData" array
+			   at the time of their choosing.
+
+         odata2            Ptr to an "ClusterOrbitData" Ptr into which,
+                           if not NULL, will be output a pointer to an
+                           array of "npts" "ClusterOrbitData" that will
+			   be allocated and filled by this routine with
+			   the results from SC2.  If NULL, SC2 will not
+			   be processed.   It is up to the caller to
+			   delete the allocated "ClusterOrbitData" array
+			   at the time of their choosing.
+
+         odata3            Ptr to an "ClusterOrbitData" Ptr into which,
+                           if not NULL, will be output a pointer to an
+                           array of "npts" "ClusterOrbitData" that will
+			   be allocated and filled by this routine with
+			   the results from SC3.  If NULL, SC3 will not
+			   be processed.   It is up to the caller to
+			   delete the allocated "ClusterOrbitData" array
+			   at the time of their choosing.
+
+         odata4            Ptr to an "ClusterOrbitData" Ptr into which,
+                           if not NULL, will be output a pointer to an
+                           array of "npts" "ClusterOrbitData" that will
+			   be allocated and filled by this routine with
+			   the results from SC4.  If NULL, SC4 will not
+			   be processed.   It is up to the caller to
+			   delete the allocated "ClusterOrbitData" array
+			   at the time of their choosing.
+
+
+    Function Return:
+
+	 0  -> Successful completion.
+
+        -1  -> Bad input argument - one of the following:
+	         "StartTime" is less than zero, or ridiculously large.
+	         "IntervalSeconds" is less than 1 second.
+	         "DeltaSeconds" is less than 0.001 second.
+	         "DeltaSeconds" is greater than "IntervalSeconds".
+		 "npts" is NULL.
+
+	-2  -> "dbdir" was NULL, AND the software was unable to find
+	       $FASTCONFIG/sdt_cfg/cluster.
+
+	-3  -> The directory-name for the database was of string
+	       length 0.
+
+	-4  -> The software was unable to open the "index" file in
+	       the requested database directory.
+
+	-5  -> The software was unable to read the first record of the
+	       "index" file.
+
+	-6  -> The software found that the first record of the "index"
+	       file was too short.
+
+	-7  -> The start or end days in the first line of the "index"
+	       file did not make sense.
+
+	-8  -> The software was unable to read the second line of
+	       the "index" file.
+
+	-9  -> The software was unable to parse the contents of the
+	       second line.
+
+	-10 -> The software was unable to open one of the required
+	       "spacecraft" files in the COD.
+
+	-11 -> The values of "IntervalSeconds" and "DeltaSeconds"
+	       are such that zero times will be computed.
+
+	-12 -> The values of "IntervalSeconds" and "DeltaSeconds"
+	       are such that zero times will be computed.
+
+    Description of the Routine's Activity:
+
+	The routine will act only on the spacecraft whose output
+	argument pointers (odata1, ..., odata4) are NOT NULL.  For
+	each of the times:
+
+	     StartTime
+	     StartTime + DeltaSeconds
+		    .
+		    .
+		    .
+	     StartTime + (N * DeltaSeconds)
+
+        where "N" = (int) (IntervalSeconds / DeltaSeconds), the
+	spacecraft position and velocity will be computed in GEI
+	coordinates.  If the time falls in a gap, the Position
+	and Velocities will be zero-filled.
+
+
+
+    -------------------------------------------------------------
+
+    int GetClusterDBOrbitData (double StartTime, double IntervalSeconds,
+        double DeltaSeconds, char *dbdir, int *npts,
+        ClusterOrbitData **odata1, ClusterOrbitData **odata2,
+        ClusterOrbitData **odata3, ClusterOrbitData **odata4) ;
+
+    This is exactly as "GetUTClusterDBOrbitData" EXCEPT that
+    "StartTime" is in JD2000 time (GMT Days after midnight 2000/01/01).
+
+
+
+    -------------------------------------------------------------
+
+    int ComputeUTClusterDBT96 (double SolarWindPressure, double Dst,
+        double ByImf, double BzImf, double GeoTilt, int NumberHarmonics,
+        int ComputeMagFootprint, double StartTime,
+        double IntervalSeconds, double DeltaSeconds,
+        int sc, char *dbdir, int *NPts, orbVector **vecp) ;
+
+    Input arguments:
+
+	 SolarWindPressure:  Double used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 Dst:                Double used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 ByImf:              Double used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 BzImf:              Double used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 GeoTitle:           Double used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 NumberHarmonics:    Int used in the Tsyganenko 96
+			     Model B Field computations.
+
+	 ComputeMagFootprint:    Int indicating whether or not
+				 to perform Magnetic Footprint
+				 line tracing:
+				     0   ->  do not trace
+				     1   ->  trace
+
+	 IntervalSeconds:  Double containing the length of the
+			   TimeSpan of interest, in seconds.
+
+	 DeltaSeconds:     Double containing the Time Delta, in
+			   seconds, between consecutive times of
+			   computation.  This must be greater than
+			   or equal to 0.001 (in millisecond).
+			   The times at which orbit data will be
+			   computed are:
+                              0:   StartTime
+                              1:   StartTime +   (DeltaSeconds)
+                              2:   StartTime + 2*(DeltaSeconds)
+                                       .
+                                       .
+                                       .
+                              N:   StartTime + N*(DeltaSeconds)
+ 
+                           where "N" == 
+                              (int) (IntervalSeconds / DeltaSeconds)
+
+	 sc:               Int containing the spacecraft (1, 2, 3, 4).
+
+	 dbdir:            Pointer to a character string which
+			   contains the name of the directory in
+			   which to look for the COD.  If NULL,
+			   then the routine looks for the database
+			   in:
+
+                              $FASTCONFIG/sdt_cfg/cluster
+
+    Output arguments:
+
+	 NPts:             Pointer to an Int in which will be
+			   returned the number of elements in the
+			   returned array "vecp".
+
+	 vecp:             Pointer to an "orbVector" ptr which
+			   will contain the address of an array
+			   of "NPts" "orbVectors allocated and filled
+			   by the routine.   It is up to the caller
+			   to delete the array when finished with it.
+			   If "ComputeMagFootprint", is ON, then
+			   the FLat, FLong, Mlt, etc. fields of each
+			   "orbVector" in "vecp" will be filled.
+
+    Function Return:
+
+	 0  -> Successful completion.
+
+        -1  -> Bad input argument - one of the following:
+	         "StartTime" is less than zero, or ridiculously large.
+	         "IntervalSeconds" is less than 1 second.
+	         "DeltaSeconds" is less than 0.001 second.
+	         "DeltaSeconds" is greater than "IntervalSeconds".
+		 "NPts" is NULL.
+		 "vecp" is NULL.
+		 "sc" is not 1,2,3, or 4.
+
+        -2 through -12 - Unable to successfully call 
+		  "GetClusterDBOrbitData" to get the position and
+		  velocity.
+
+
+    Description of the Routine's Activity:
+
+	The routine will call "GetClusterDBOrbitData" to first fill
+	"vecp" with position and velocity information and, if
+	"ComputeMagFootprint" is ON, will  then line-trace and fill
+	the remaining fields.
+
+
+    -------------------------------------------------------------
+    int ComputeClusterDBT96 (double SolarWindPressure, double Dst,
+        double ByImf, double BzImf, double GeoTilt, int NumberHarmonics,
+        int ComputeMagFootprint, double StartTime,
+        double IntervalSeconds, double DeltaSeconds,
+        int sc, char *dbdir, int *NPts, orbVector **vecp) ;
+
+    This is exactly as "ComputeUTClusterDBT96" EXCEPT that
+    "StartTime" is in JD2000 time (GMT Days after midnight 2000/01/01).
+
+
+    Example(s) of Use:
+
+	See the Source file:
+
+	    src/sdt/Cluster/TestClusterBModel.c
+
+	For an example of a program which calls:
+
+	    ComputeClusterDBT96
+
+	Please note that "make install", from within the directory
+	which contains the source file, does not build this program.
+
+	To build the program, enter:
+
+	    cd  src/sdt/Cluster
+
+	    make TestClusterBModel

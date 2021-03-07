@@ -1,0 +1,644 @@
+************************************************************************
+
+   README.General.UCB.wt.plasma_potential
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.plasma_potential
+
+************************************************************************
+
+   Plasma potential.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.plasma_potential	1.2    02/10/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module determines the plasma potential.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The electric field, E.
+
+
+
+            2) The velocity of the spacecraft, V.
+
+
+
+
+
+    3) The plasma potential is computed as a sum of terms of the form
+
+
+
+           - K * (E . V) * delta_T
+
+
+
+       K is a scalar constant to adjust for the units.
+
+       (E . V)  is the scalar (dot) product of E and V.
+
+       delta_T is the length of a (small) time interval, for which the
+           term that contributes to the sum is computed.
+
+
+
+       The value of the plasma potential is started at zero.
+
+
+
+
+
+    4) Each input vector must be in a coordinate system that does not
+       participate of the rotation of the spacecraft.
+
+
+
+
+
+    5) The dot product is computed with each vector in field-aligned
+       coordinates (FAC).
+
+
+
+       Each of the 3 directions in FAC produces a separate contribution
+       to the plasma potential.
+
+
+
+
+       For example, the FAC X direction produces a sum of terms
+
+           - K * E_FAC_X * V_FAC_X * delta_T
+
+       where E_FAC_X and V_FAC_X are the components of E and V,
+       respectively, in the FAC X direction.
+
+
+
+       The user can choose which of these 3 contributions to include in
+       the total plasma potential, and which to exclude.
+
+
+
+
+
+    6) If the components of E are not referred to the FAC system, then
+       there must be an additional input, which is a rotation matrix
+       that rotates vector components, from the coordinate system of E
+       into FAC.
+
+
+
+
+
+    7) If the components of V are not referred to the FAC system, and
+       are not referred to the same system as the components of E; then
+       there must be an additional input, which is a rotation matrix
+       that rotates vector components, from the coordinate system of V
+       into FAC.
+
+
+
+
+
+    8) If there are any input rotation matrices, it is permissible for
+       any of them to produce a rotation in the opposite direction to
+       that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    9) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+   10) An output data point is produced for each input point of E.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of E.
+
+
+
+
+
+   11) The time interval whose length is delta_T starts at the mid-point
+       between the current input data point of E, and the previous one;
+       and ends at the mid-point between the current input data point of
+       E, and the next one.
+
+
+
+       Note that the current data point of E is not necessarily the
+       mid-point of the interval of length delta_T.
+
+
+
+
+
+   12) For an input data point of the electric field E to be used, its
+       time tag must not be farther from those of neighboring data
+       points than a maximum time separation specified by the user.
+
+
+
+       If the time interval between the input data point and one of its
+       neighbors is larger than the chosen value, this is considered to
+       be a data dropout.
+
+
+
+
+
+   13) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of V.
+
+
+
+       The V vector for the time of the output data point is obtained by
+       linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   14) If there are any input rotation matrices, then additionally for
+       an output data point to be produced, it must be in the time
+       interval defined by two input data points of each rotation
+       matrix.
+
+
+
+       For each input rotation matrix, the input rotation matrix for the
+       time of the output data point is the input rotation matrix at the
+       closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   15) When there is a data dropout, no output data point is produced.
+
+
+
+       The cumulative sums that make up the plasma potential retain
+       their current values, until the contributions from a legitimate
+       input data point can be added; in other words, an input data
+       point of E that is part of a data dropout does not contribute to
+       the value of the plasma potential.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Factor for the units.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+            3) The group of parameters described here occurs once for
+               each of the 3 components FAC X, Y, Z.
+
+
+
+                1) Flag to include the contribution from this component.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                        WT_TRUE   =  Include this component.
+
+                        WT_FALSE  =  Do not include this component.
+
+
+
+            4) Flag for the coordinate system of the electric field
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in FAC.
+
+                    WT_FALSE  =  The vector is not in FAC.
+
+
+
+            5) Flag for the coordinate system of the spacecraft velocity
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in FAC.
+
+                    WT_FALSE  =  The vector is not in FAC.
+
+
+
+            6) Flag for the same coordinate system for the electric
+               field vector and the spacecraft velocity vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The two coordinate systems are     the
+                                 same.
+
+                    WT_FALSE  =  The two coordinate systems are not the
+                                 same.
+
+
+               Must be consistent with the flags for the coordinate
+               systems of each of the two vectors.
+
+
+
+            7) Maximum time separation for E.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the 3 input vector components of E.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            9) Dropout time for V.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           10) The group of parameters described here occurs once for
+               each of the 3 input vector components of V.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+           11) The group of parameters described here occurs once for
+               each of the input rotation matrices (between the
+               coordinate system of E and FAC, and between the
+               coordinate system of V and FAC, in that order).
+
+
+
+                1) Flag to transpose the input matrix.
+
+
+                   Int.
+
+
+                   If this input rotation matrix is used,
+                   must be one of the following:
+
+
+                        WT_TRUE   =  Transpose.
+
+                        WT_FALSE  =  Do not transpose.
+
+
+
+                2) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If this input rotation matrix is used,
+                   must be  >  0.
+
+
+
+                3) The group of parameters described here occurs once
+                   for each of the 9 input matrix components.
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+                       If this input rotation matrix is used,
+                       the indices must correspond to the matrix
+                       elements in row-major order (column subscript
+                       varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The electric field E.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The spacecraft velocity V.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The rotation matrix between the coordinate system of E
+               and FAC.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+            4) The rotation matrix between the coordinate system of V
+               and FAC.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Total plasma potential.
+
+
+               Float.
+
+
+
+            3) Part of the plasma potential that comes from FAC X.
+
+
+               Float.
+
+
+
+            4) Part of the plasma potential that comes from FAC Y.
+
+
+               Float.
+
+
+
+            5) Part of the plasma potential that comes from FAC Z.
+
+
+               Float.

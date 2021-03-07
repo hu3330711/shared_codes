@@ -1,0 +1,36 @@
+Model Name: 	EUVAC
+
+Model Author: 	P.G. Richards, 
+		Computer Sciences Department and Center for Space 
+		Plasma and Aeronomic Research
+		University of Alabama
+		Huntsville, AL 35899
+		(richards@cs.uah.edu)
+
+Parameter: 	Solar EUV photon fluxes
+
+Brief Description:
+
+EUVAC is a solar EUV flux model for aeronomic calculations
+developed by P.G. Richards and colleagues at the University
+of Alabama in Huntsville. The model is based on the F74113
+solar EUV reference spectrum (see AE-EUV directory). It uses
+the F10.7 index for modeling the solar flux variation in the 37
+wavelength groups that are most important for aeronomic computations.
+Photoelectron fluxes calculated with the EUVAC model and a
+set of recommended cross sections agreed well with measured
+photoelectron fluxes from AE-E and DE-2. EUVAC is well suited
+for aeronomic calculations but is not designed to accurately
+predict the solar flux variability for individual lines.
+
+References:
+
+P.G. Richards, J.A. Fennelly, and D.G. Torr, EUVAC: A solar EUV
+flux model for aeronomic calculations, JGR 99, 8981-8992, 1994.
+[and correction in JGR 99, 13283, 1994]
+
+Directory contents: 	EUVAC.FOR, AAREADME.DOC (this file)
+
+NSSDC contact:		Dieter Bilitza (bilitza@nssdca.gsfc.nasa.gov)
+
+Date:			July 12, 1995

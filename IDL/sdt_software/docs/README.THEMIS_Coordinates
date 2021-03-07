@@ -1,0 +1,260 @@
+************************************************************************
+
+   README.THEMIS_Coordinates
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Coordinate systems for THEMIS.
+
+************************************************************************
+
+   @(#)README.THEMIS_Coordinates	1.1    10/30/07    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Time resolution.
+
+
+
+
+
+    3. Coordinate systems.
+
+
+        3.1 Field-Aligned Coordinates.
+
+
+        3.2 Spacecraft Coordinates.
+
+
+        3.3 Despun Spacecraft Coordinates.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes coordinate systems that are useful in the
+analysis of THEMIS data.
+
+
+
+
+       The reader is referred to the document
+
+           README.General_Coordinate_Systems
+
+which contains information on coordinate systems for any spacecraft.
+
+
+
+
+       Much information from that document (the "General" document) will
+be used here, without repeating it.
+
+
+
+
+       The main coordinate systems for THEMIS Science plots are:
+
+
+           GSE = Geocentric Solar Ecliptic.
+
+
+           GSM = Geocentric Solar Magnetospheric.
+
+
+           FAC = Field-Aligned Coordinates.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Time resolution.
+
+
+
+
+
+       Most rotation matrices for THEMIS Science data are computed with
+a time resolution of 1 matrix per second.
+
+
+
+
+       The one exception is for transformations involving the FAC_I
+coordinate system (defined below).
+
+
+       Rotation matrices to or from FAC_I are computed with a time
+resolution of 1 matrix for each data point of the measured instantaneous
+magnetic field.
+
+
+
+
+       When using rotation matrices to transform vector data, the matrix
+that is used is the one for the closest time available.
+
+
+       More specifically, if rotation matrices are available at times t1
+and t2 (with t1 < t2, and t2 being the first time after t1 when the
+matrix is available); and if we need to transform data at time t, where
+
+
+           t1 <= t <= t2
+
+
+then we determine the mid-point time of the interval, tm:
+
+
+           tm = (t1 + t2) / 2
+
+
+and,
+
+
+if  t1 <= t <= tm,  then the matrix used is the one for time t1;
+
+
+if  tm < t <= t2,   then the matrix used is the one for time t2.
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. Coordinate systems.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Field-Aligned Coordinates.
+
+
+
+
+
+       Since one basic element in the definition of the FAC system is
+the magnetic field; then there can be more than one FAC system,
+depending on the particular magnetic field used for the definition.
+
+
+
+
+       For THEMIS, 3 different FAC coordinate systems are defined:
+
+
+           FAC_I, defined by the instantaneous magnetic field.
+
+
+           FAC_S, defined by the spin period magnetic field.
+
+
+           FAC_M, defined by the model magnetic field.
+
+
+
+
+       While in principle any FAC coordinate system can be used for any
+       data, in practice these coordinate systems are used as follows:
+
+
+           FAC_I  is used for instantaneous data.
+
+
+           FAC_S  is used for spin period data.
+
+
+           FAC_M  is used for all data (instantaneous, spin period).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Spacecraft Coordinates.
+
+
+
+
+
+       For THEMIS, the spin vector is nearly perpendicular to the
+ecliptic plane, and the spin plane is nearly the same as the ecliptic.
+
+
+       Therefore, as explained in the "General" document, there is no
+ambiguity or discontinuity in the SCC system; and the positive X axis at
+the time of a Sun pulse corresponds nearly to the GSE X axis, that makes
+one circle in a year.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Despun Spacecraft Coordinates.
+
+
+
+
+
+       This system is well-defined at all times.

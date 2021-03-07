@@ -1,0 +1,4943 @@
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_Science' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_003_E_B_Coord' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_EBC_001_Burst_16k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science+FAST_003_E_B_Coord+FAST_EBC_001_Burst_16k.UCB.wt.dat	1.4    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSE' 0 0 0
+  'FAST_E_0_16k_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSE' 0 0 0
+  'FAST_E_0_16k_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSE' 0 0 0
+  'FAST_E_0_16k_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSE' 0 0 0
+  'FAST_E_Dot0_16k_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSE' 0 0 0
+  'FAST_E_Dot0_16k_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSE' 0 0 0
+  'FAST_E_Dot0_16k_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSM' 0 0 0
+  'FAST_E_0_16k_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSM' 0 0 0
+  'FAST_E_0_16k_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_GSM' 0 0 0
+  'FAST_E_0_16k_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSM' 0 0 0
+  'FAST_E_Dot0_16k_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSM' 0 0 0
+  'FAST_E_Dot0_16k_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_GSM' 0 0 0
+  'FAST_E_Dot0_16k_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_FAC_I' 0 0 0
+  'FAST_E_0_16k_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_FAC_I' 0 0 0
+  'FAST_E_0_16k_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_FAC_I' 0 0 0
+  'FAST_E_0_16k_FAC_I' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_FAC_I' 0 0 0
+  'FAST_E_Dot0_16k_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_FAC_I' 0 0 0
+  'FAST_E_Dot0_16k_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_FAC_I' 0 0 0
+  'FAST_E_Dot0_16k_FAC_I' 3 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_EBC_001_Burst_16k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_EBC_002_Burst_4k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science+FAST_003_E_B_Coord+FAST_EBC_002_Burst_4k.UCB.wt.dat	1.4    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSE' 0 0 0
+  'FAST_E_0_4k_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSE' 0 0 0
+  'FAST_E_0_4k_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSE' 0 0 0
+  'FAST_E_0_4k_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSE' 0 0 0
+  'FAST_E_Dot0_4k_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSE' 0 0 0
+  'FAST_E_Dot0_4k_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSE' 0 0 0
+  'FAST_E_Dot0_4k_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSM' 0 0 0
+  'FAST_E_0_4k_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSM' 0 0 0
+  'FAST_E_0_4k_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_GSM' 0 0 0
+  'FAST_E_0_4k_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSM' 0 0 0
+  'FAST_E_Dot0_4k_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSM' 0 0 0
+  'FAST_E_Dot0_4k_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_GSM' 0 0 0
+  'FAST_E_Dot0_4k_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_FAC_I' 0 0 0
+  'FAST_E_0_4k_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_FAC_I' 0 0 0
+  'FAST_E_0_4k_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_FAC_I' 0 0 0
+  'FAST_E_0_4k_FAC_I' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_FAC_I' 0 0 0
+  'FAST_E_Dot0_4k_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_FAC_I' 0 0 0
+  'FAST_E_Dot0_4k_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_FAC_I' 0 0 0
+  'FAST_E_Dot0_4k_FAC_I' 3 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_EBC_002_Burst_4k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_EBC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science+FAST_003_E_B_Coord+FAST_EBC_003_Survey.UCB.wt.dat	1.4    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSE' 0 0 0
+  'FAST_E_0_S_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSE' 0 0 0
+  'FAST_E_0_S_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSE' 0 0 0
+  'FAST_E_0_S_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSE_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSE' 0 0 0
+  'FAST_E_Dot0_S_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSE_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSE' 0 0 0
+  'FAST_E_Dot0_S_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSE_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSE' 0 0 0
+  'FAST_E_Dot0_S_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSE_X' TIME_SERIES 1 1 2 1
+  'FAST_B_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSE_X' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSE' 0 0 0
+  'FAST_B_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSE_Y' TIME_SERIES 1 1 2 1
+  'FAST_B_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSE_Y' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSE' 0 0 0
+  'FAST_B_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSE_Z' TIME_SERIES 1 1 2 1
+  'FAST_B_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSE_Z' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSE' 0 0 0
+  'FAST_B_GSE' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSM' 0 0 0
+  'FAST_E_0_S_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSM' 0 0 0
+  'FAST_E_0_S_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_GSM' 0 0 0
+  'FAST_E_0_S_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSM_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSM' 0 0 0
+  'FAST_E_Dot0_S_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSM_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSM' 0 0 0
+  'FAST_E_Dot0_S_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_GSM_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_GSM' 0 0 0
+  'FAST_E_Dot0_S_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSM_X' TIME_SERIES 1 1 2 1
+  'FAST_B_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSM_X' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSM_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSM' 0 0 0
+  'FAST_B_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSM_Y' TIME_SERIES 1 1 2 1
+  'FAST_B_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSM_Y' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSM_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSM' 0 0 0
+  'FAST_B_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_GSM_Z' TIME_SERIES 1 1 2 1
+  'FAST_B_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_GSM_Z' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_GSM_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_GSM' 0 0 0
+  'FAST_B_GSM' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_FAC_I' 0 0 0
+  'FAST_E_0_S_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_FAC_I' 0 0 0
+  'FAST_E_0_S_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_FAC_I' 0 0 0
+  'FAST_E_0_S_FAC_I' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_FAC_I_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_FAC_I' 0 0 0
+  'FAST_E_Dot0_S_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_FAC_I_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_FAC_I' 0 0 0
+  'FAST_E_Dot0_S_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_FAC_I_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_FAC_I' 0 0 0
+  'FAST_E_Dot0_S_FAC_I' 3 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_FAC_I_X' TIME_SERIES 1 1 2 1
+  'FAST_B_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_FAC_I_X' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_FAC_I_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_FAC_I' 0 0 0
+  'FAST_B_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_FAC_I_Y' TIME_SERIES 1 1 2 1
+  'FAST_B_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_FAC_I_Y' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_FAC_I_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_FAC_I' 0 0 0
+  'FAST_B_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_FAC_I_Z' TIME_SERIES 1 1 2 1
+  'FAST_B_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_FAC_I_Z' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_FAC_I_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_FAC_I' 0 0 0
+  'FAST_B_FAC_I' 3 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_EBC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_003_E_B_Coord' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_801_Transf_Coord' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_TC_001_Despun' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science+FAST_801_Transf_Coord+FAST_TC_001_Despun.UCB.wt.dat	1.4    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between DSC and standard coordinate systems.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a11' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a12' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a13' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a21' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a22' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a23' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a31' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a32' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_a33' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 3.1 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC' 9 0 0
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GEI_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GEI_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_DSC_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'GEI_DSC_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSE_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSE_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_DSC_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSE_DSC_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_GSM_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_GSM_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_DSC_0.1_sec_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSM_DSC_0.1_sec_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 0 0 0
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' 9 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_TC_001_Despun' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_TC_002_FAC' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_TC_FAC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science+FAST_801_Transf_Coord+FAST_TC_002_FAC+FAST_TC_FAC_003_Survey.UCB.wt.dat	1.5    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between standard coordinate systems and FAC -
+*      Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a11' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a12' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a13' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a21' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a22' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a23' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a31' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a32' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GEI_FAC_I_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GEI_FAC_I_a33' '-' LINEAR TRUE -1.2 1.2
+  'GEI_FAC_I_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GEI_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GEI_FAC_I' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a11' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a12' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a13' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a21' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a22' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a23' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a31' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a32' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GEI_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GEI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GEI_a33' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GEI_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GEI' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GEI' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSE_FAC_I_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSE_FAC_I_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSE_FAC_I_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSE_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSE_FAC_I' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a11' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a12' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a13' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a21' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a22' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a23' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a31' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a32' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSE_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSE_a33' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSE_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSE' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSE' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a11' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a12' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a13' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a21' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a22' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a23' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a31' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a32' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_GSM_FAC_I_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'GSM_FAC_I_a33' '-' LINEAR TRUE -1.2 1.2
+  'GSM_FAC_I_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_GSM_FAC_I' 0 0 0
+  'FAST_Rot_Mat_GSM_FAC_I' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a11' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a12' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a13' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a21' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a22' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a23' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a31' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a32' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_GSM_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_GSM' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_GSM_a33' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_GSM_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_GSM' 0 0 0
+  'FAST_Rot_Mat_FAC_I_GSM' 9 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between DSC and FAC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a11' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a12' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a13' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a21' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a22' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a23' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a31' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a32' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_DSC_FAC_I_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'DSC_FAC_I_a33' '-' LINEAR TRUE -1.2 1.2
+  'DSC_FAC_I_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_DSC_FAC_I' 0 0 0
+  'FAST_Rot_Mat_DSC_FAC_I' 9 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a11' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a11' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a11' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a12' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a12' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a12' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a13' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a13' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a13' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a21' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a21' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a21' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a22' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a22' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a22' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a23' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a23' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a23' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a31' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a31' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a31' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 7 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a32' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a32' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a32' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 8 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Rot_Mat_FAC_I_DSC_a33' TIME_SERIES 1 1 2 1
+  'FAST_Rot_Mat_FAC_I_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'FAC_I_DSC_a33' '-' LINEAR TRUE -1.2 1.2
+  'FAC_I_DSC_a33' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rot_Mat_FAC_I_DSC' 0 0 0
+  'FAST_Rot_Mat_FAC_I_DSC' 9 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_TC_FAC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_TC_002_FAC' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_801_Transf_Coord' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_Science' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_Science_Special_SSL' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_901_Diagnostics' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_001_Spin_Pulse' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_001_Spin_Pulse.UCB.wt.dat	1.3    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Shifted spin pulse.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Shifted_Spin_Pulse' TIME_SERIES 1 1 2 1
+  'FAST_Shifted_Spin_Pulse' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Shifted_Spin_Pulse' 'sec' LINEAR TRUE 0.0 10.0
+  'Shifted_Spin_Pulse' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 17.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Shifted_Spin_Pulse' 0 0 0
+  'FAST_Shifted_Spin_Pulse' 1 0 0
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { PlotQuantityConstants
+  'FAST_Shifted_Spin_Pulse_0.0_deg' TIME_SERIES 1 1 2 1
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Shifted_Spin_Pulse_0.0_deg' 'sec' LINEAR TRUE 0.0 10.0
+  'Shifted_Spin_Pulse_0.0_deg' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 17.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Shifted_Spin_Pulse_0.0_deg' 0 0 0
+  'FAST_Shifted_Spin_Pulse_0.0_deg' 1 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_001_Spin_Pulse' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_003_B_S_C' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_BSC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_003_B_S_C+FAST_SSL_D_BSC_003_Survey.UCB.wt.dat	1.7    04/23/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected rotating B field - Survey.
+*
+*      Without subtracting spin period average offsets from spin plane
+*      components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_MagDC_X_C_2' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'MagDC_X_C_2' 'nT' LINEAR TRUE -40000.0 40000.0
+  'MagDC_X_C_2' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_MagDC_Y_C_2' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'MagDC_Y_C_2' 'nT' LINEAR TRUE -40000.0 40000.0
+  'MagDC_Y_C_2' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_MagDC_Z_C_2' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'MagDC_Z_C_2' 'nT' LINEAR TRUE -40000.0 40000.0
+  'MagDC_Z_C_2' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_2_SCC_X' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_2_SCC_X' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_2_SCC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_2_SCC_Y' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_2_SCC_Y' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_2_SCC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 5 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_2_SCC_Z' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_2_SCC_Z' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_2_SCC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 6 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_2_SCC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_2_SCC_Mag' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_2_SCC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Rotating_B_2' 0 0 0
+  'FAST_Rotating_B_2' 7 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_X' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC' 0 0 0
+  'FAST_B_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Y' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC' 0 0 0
+  'FAST_B_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Z' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC' 0 0 0
+  'FAST_B_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Mag' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC' 0 0 0
+  'FAST_B_DSC' 4 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Spher_Mag' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC_Spher' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Spher_Mag' 'nT' LINEAR TRUE -40000.0 40000.0
+  'B_DSC_Spher_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC_Spher' 0 0 0
+  'FAST_B_DSC_Spher' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Lat' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC_Spher' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Lat' 'deg' LINEAR TRUE -100.0 100.0
+  'B_DSC_Lat' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC_Spher' 0 0 0
+  'FAST_B_DSC_Spher' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_B_DSC_Long' TIME_SERIES 1 1 2 1
+  'FAST_B_DSC_Spher' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'B_DSC_Long' 'deg' LINEAR TRUE -200.0 200.0
+  'B_DSC_Long' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_B_DSC_Spher' 0 0 0
+  'FAST_B_DSC_Spher' 3 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_BSC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_003_B_S_C' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_004_E_S_C' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_ESC_001_Burst_16k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_004_E_S_C+FAST_SSL_D_ESC_001_Burst_16k.UCB.wt.dat	1.6    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Effective components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_1_16k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_1_16k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_1_16k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_1_16k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_1_16k' 0 0 0
+  'FAST_V_Comp_1_16k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_1_16k' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_1_16k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_1_16k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_1_16k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_1_16k' 0 0 0
+  'FAST_Select_V_Comp_1_16k' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_2_16k' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_2_16k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_2_16k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_2_16k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_2_16k' 0 0 0
+  'FAST_Select_V_Comp_2_16k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*      Without detrending of spin plane values.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_1_C_2_16k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_1_C_2_16k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_1_C_2_16k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_1_C_2_16k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_1_C_2_16k' 0 0 0
+  'FAST_V_Comp_1_C_2_16k' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_2_C_2_16k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_2_C_2_16k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_2_C_2_16k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_2_C_2_16k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_2_C_2_16k' 0 0 0
+  'FAST_V_Comp_2_C_2_16k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_DSC' 0 0 0
+  'FAST_E_0_16k_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_DSC' 0 0 0
+  'FAST_E_0_16k_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_DSC' 0 0 0
+  'FAST_E_0_16k_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_16k_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_16k_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_16k_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_16k_DSC' 0 0 0
+  'FAST_E_0_16k_DSC' 4 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_DSC' 0 0 0
+  'FAST_E_Dot0_16k_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_DSC' 0 0 0
+  'FAST_E_Dot0_16k_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_DSC' 0 0 0
+  'FAST_E_Dot0_16k_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_16k_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_16k_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_16k_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_16k_DSC' 0 0 0
+  'FAST_E_Dot0_16k_DSC' 4 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_ESC_001_Burst_16k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_ESC_002_Burst_4k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_004_E_S_C+FAST_SSL_D_ESC_002_Burst_4k.UCB.wt.dat	1.6    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Effective components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_1_4k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_1_4k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_1_4k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_1_4k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_1_4k' 0 0 0
+  'FAST_V_Comp_1_4k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_1_4k' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_1_4k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_1_4k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_1_4k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_1_4k' 0 0 0
+  'FAST_Select_V_Comp_1_4k' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_2_4k' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_2_4k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_2_4k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_2_4k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_2_4k' 0 0 0
+  'FAST_Select_V_Comp_2_4k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*      Without detrending of spin plane values.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_1_C_2_4k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_1_C_2_4k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_1_C_2_4k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_1_C_2_4k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_1_C_2_4k' 0 0 0
+  'FAST_V_Comp_1_C_2_4k' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_2_C_2_4k' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_2_C_2_4k' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_2_C_2_4k' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_2_C_2_4k' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_2_C_2_4k' 0 0 0
+  'FAST_V_Comp_2_C_2_4k' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_DSC' 0 0 0
+  'FAST_E_0_4k_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_DSC' 0 0 0
+  'FAST_E_0_4k_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_DSC' 0 0 0
+  'FAST_E_0_4k_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_4k_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_4k_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_4k_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_4k_DSC' 0 0 0
+  'FAST_E_0_4k_DSC' 4 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_DSC' 0 0 0
+  'FAST_E_Dot0_4k_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_DSC' 0 0 0
+  'FAST_E_Dot0_4k_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_DSC' 0 0 0
+  'FAST_E_Dot0_4k_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_4k_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_4k_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_4k_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_4k_DSC' 0 0 0
+  'FAST_E_Dot0_4k_DSC' 4 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_ESC_002_Burst_4k' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_ESC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_004_E_S_C+FAST_SSL_D_ESC_003_Survey.UCB.wt.dat	1.6    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_1_S' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_1_S' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_1_S' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_1_S' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_1_S' 0 0 0
+  'FAST_Select_V_Comp_1_S' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Select_V_Comp_2_S' TIME_SERIES 1 1 2 1
+  'FAST_Select_V_Comp_2_S' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Select_V_Comp_2_S' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Select_V_Comp_2_S' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Select_V_Comp_2_S' 0 0 0
+  'FAST_Select_V_Comp_2_S' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Survey.
+*
+*      Without detrending of spin plane values.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_1_C_2_S' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_1_C_2_S' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_1_C_2_S' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_1_C_2_S' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_1_C_2_S' 0 0 0
+  'FAST_V_Comp_1_C_2_S' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_V_Comp_2_C_2_S' TIME_SERIES 1 1 2 1
+  'FAST_V_Comp_2_C_2_S' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'V_Comp_2_C_2_S' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'V_Comp_2_C_2_S' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_V_Comp_2_C_2_S' 0 0 0
+  'FAST_V_Comp_2_C_2_S' 1 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_DSC' 0 0 0
+  'FAST_E_0_S_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_DSC' 0 0 0
+  'FAST_E_0_S_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_DSC' 0 0 0
+  'FAST_E_0_S_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_0_S_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_0_S_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_0_S_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_0_S_DSC' 0 0 0
+  'FAST_E_0_S_DSC' 4 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_DSC_X' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_DSC_X' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_DSC' 0 0 0
+  'FAST_E_Dot0_S_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_DSC_Y' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_DSC_Y' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_DSC' 0 0 0
+  'FAST_E_Dot0_S_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_DSC_Z' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_DSC_Z' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_DSC' 0 0 0
+  'FAST_E_Dot0_S_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_E_Dot0_S_DSC_Mag' TIME_SERIES 1 1 2 1
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'E_Dot0_S_DSC_Mag' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'E_Dot0_S_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_E_Dot0_S_DSC' 0 0 0
+  'FAST_E_Dot0_S_DSC' 4 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_ESC_003_Survey' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_004_E_S_C' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_301_Auxiliary' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_SSL_D_Aux_006_Sun_Vector' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the FAST SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.FAST_Science_Special_SSL+FAST_SSL_901_Diagnostics+FAST_SSL_D_301_Auxiliary+FAST_SSL_D_Aux_006_Sun_Vector.UCB.wt.dat	1.3    03/25/03    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Normalized Sun vector in DSC.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec_X' TIME_SERIES 1 1 2 1
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Norm_Sun_Vector_DSC_0.1_sec_X' '-' LINEAR TRUE -1.2 1.2
+  'Norm_Sun_Vector_DSC_0.1_sec_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 0 0 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec_Y' TIME_SERIES 1 1 2 1
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Norm_Sun_Vector_DSC_0.1_sec_Y' '-' LINEAR TRUE -1.2 1.2
+  'Norm_Sun_Vector_DSC_0.1_sec_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 0 0 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec_Z' TIME_SERIES 1 1 2 1
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'Norm_Sun_Vector_DSC_0.1_sec_Z' '-' LINEAR TRUE -1.2 1.2
+  'Norm_Sun_Vector_DSC_0.1_sec_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 1.0 NO_ERROR_BARS 0 0 2 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 0 0 0
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' 3 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_Aux_006_Sun_Vector' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_D_301_Auxiliary' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_SSL_901_Diagnostics' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_Science_Special_SSL' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_Science_UCLA' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock FAST_Sci_UCLA_Attitude' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+* @(#)SCM.Plot.FAST_Science_UCLA+FAST_Sci_UCLA_Attitude.UCLA.bryan.dat	1.3, 03/25/03
+************************************************************************
+
+
+************************************************************************
+* AttgenBatch Science Module Plot Datafile
+************************************************************************
+
+@2 { PlotQuantityConstants
+  'AttgenBatch' TIME_SERIES 1 1 2 1
+  'AttgenBatch' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 86400.0
+  'SpinFreq' 'deg/sec'  LINEAR TRUE -100.0 100.0
+  'SpinFreq' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 NO_ERROR_BARS 2 0
+  'AttgenBatch' 0 0 0
+  'AttgenBatch' 1 0 0
+  }
+
+
+************************************************************************
+* AttgenDump Science Module Plot Datafile
+************************************************************************
+
+@2 { PlotQuantityConstants
+  'AttgenDump' TIME_SERIES 1 1 2 1
+  'AttgenDump' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 86400.0
+  'SpinFreq' 'deg/sec'  LINEAR TRUE -100.0 100.0
+  'SpinFreq' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 NO_ERROR_BARS 2 0
+  'AttgenDump' 0 0 0
+  'AttgenDump' 1 0 0
+  }
+************************************************************************
+
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_Sci_UCLA_Attitude' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock FAST_Science_UCLA' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock UCB_Ken_FAST_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+***************************************************************************
+* @(#)SCM.Plot.UCB_Ken_FAST_Sci_Mod.dat	1.6, 04/23/04
+***************************************************************************
+
+@2 { PlotQuantityDescription
+  'V8_S_avg' TIME_SERIES 1 1 2 1
+  'V8_S_avg' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'V8_S_avg' 'mV/m' LINEAR TRUE -10.0 10.0
+  'V8_S_avg' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_S_avg' 0 0 0
+  'V8_S_avg' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'V9-V10_S_avg' TIME_SERIES 1 1 2 1
+  'V9-V10_S_avg' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'V9-V10_S_avg' 'mV/m' LINEAR TRUE -10.0 10.0
+  'V9-V10_S_avg' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V9-V10_S_avg' 0 0 0
+  'V9-V10_S_avg' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'V8_fit' MULTILINE_TIMESERIES 1 1 2 5
+  'V8_fit' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'V8_fit' 'mV/m' LINEAR TRUE -20000.0 20000.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_fit' 0 0 0
+  'V8_fit' 1 0 0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_fit' 0 0 0
+  'V8_fit' 2 0 0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_fit' 0 0 0
+  'V8_fit' 3 0 0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_fit' 0 0 0
+  'V8_fit' 4 0 0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'V8_fit' 0 0 0
+  'V8_fit' 5 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'mag1_avg' TIME_SERIES 1 1 2 1
+  'mag1_avg' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'av' 'nT' LINEAR TRUE -20000.0 20000.0
+  'mag1_avg' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_avg' 0 0 0
+  'mag1_avg' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'mag1_fit' MULTILINE_TIMESERIES 1 1 2 5
+  'mag1_fit' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'mag1_fit' 'nT' LINEAR TRUE -20000.0 20000.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_fit' 0 0 0
+  'mag1_fit' 1 0 0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_fit' 0 0 0
+  'mag1_fit' 2 0 0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_fit' 0 0 0
+  'mag1_fit' 3 0 0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_fit' 0 0 0
+  'mag1_fit' 4 0 0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag1_fit' 0 0 0
+  'mag1_fit' 5 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'mag2_fit' MULTILINE_TIMESERIES 1 1 2 5
+  'mag2_fit' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'mag2_fit' 'nT' LINEAR TRUE -20000.0 20000.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag2_fit' 0 0 0
+  'mag2_fit' 1 0 0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag2_fit' 0 0 0
+  'mag2_fit' 2 0 0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag2_fit' 0 0 0
+  'mag2_fit' 3 0 0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag2_fit' 0 0 0
+  'mag2_fit' 4 0 0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 10 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'mag2_fit' 0 0 0
+  'mag2_fit' 5 0 0
+  }
+
+***************************************************************************
+
+
+@2 { PlotQuantityDescription
+   'EBlock UCB_Ken_FAST_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+

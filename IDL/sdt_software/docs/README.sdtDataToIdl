@@ -1,0 +1,629 @@
+
+This is a basic introduction to writing and using routines to get data
+from sdt into idl with the UC Berkeley Space Sciences Lab sdt to idl
+interface.
+
+Written by: - Jonathan Loran - Space Sciences Lab, UC Berkeley
+	    voice: (510) 643-8485 e-mail: jloran@ssl.berkeley.edu
+
+            @(#)README.sdtDataToIdl	1.3 03/26/97, SSL U.C. Berkeley
+
+
+-------- Introduction --------------------------------
+
+The idl from sdt interface provides a way of taking data that has been
+loaded into the sdt program, and copying it into an idl session.  The
+user must first run sdt, select data types and files for plotting.
+Then a separate idl session is started, and specially written
+procedures are run which extract the data from sdt.  This readme file
+is about writing such idl procedures.
+
+
+-------- Prerequisites --------------------------------
+
+It is assumed that the reader is familiar with the following aspects
+of sdt:
+- Selecting a plot type.
+- Selecting a data file.
+- Loading and saving configurations.
+
+It is also assumed that the user is familiar with the following 
+features of idl:
+- Running idl.
+- The meaning of an idl function and procedure.
+- Idl structures.
+- How idl searches the IDL_PATH for *.pro files in order to load
+  functions and procedures.
+
+(The idl documentation contains excellent tutorials and explanations
+of all of the above aspects of idl.)
+
+Furthermore, the user must have sdt, the idl from sdt interface
+library and idl routines and idl its self installed on the workstation
+where they will be writing or using the sdt to idl interface routines.
+For the rest of this document, we will say that this software is
+installed below a directory named /WS (WS for workspace).
+
+-------- Writing new idl "get_*.pro" routines --------
+
+The goal of the sdt to idl interface is to extract the data into a
+format that represents the sdt data types listed in appendix A for
+given instruments, that are also compatible with some large existing
+idl analysis libraries.
+
+There are two tiers of idl routines that are used when extracting data
+from the interface.  The first tier (which we will call first tier
+routines for the rest of this document) return sdt data in a mostly
+raw form.  The second tier, which calls the first, are the routines
+the user works with directly while doing data analysis. These second
+tier routines return the data selected in it's final, usable form.  We
+call these second tier routines "get_*.pro" functions.
+
+The first tier routines are summarized as:
+
+get_ts_from_sdt.pro      Gets a time range of time based data
+get_ts_1p_from_sdt.pro   Gets one data point of time based data
+get_md_from_sdt.pro      Gets one data point of multidimensional data
+get_md_ts_from_sdt.pro   Gets a timeseries of multidimensional data
+
+The get_*.pro functions are the ones that the will be written by
+readers of this document.  These should obey the naming convention:
+
+get_<sat>_<inst>_<desc>.pro
+
+where <sat> is the satellite (e.g. fast, wind), <inst> is the
+instrument (e.g. eesa, efi), and <desc> is a description or mode that
+further distinguishes the data (e.g. survey, burst).  (Unfortunately,
+some of the early routines written to this interface don't obey this
+naming convention.)  Also, make sure not to use any upper case
+characters in the name.  Idl will fail to find a routine who's file
+name contains upper case characters.
+
+There are template functions to aid in writing the get_*.pro
+routines.  They are found in /WS/idl, and are summarized as:
+
+get_ts_from_sdt_template.pro  For getting a time series of time based 
+                              data.  Calls get_ts_from_sdt.pro
+get_ts_1p_from_sdt_template.pro For getting one sample of time based 
+                              data.  Calls get_ts_1p_from_sdt.pro
+get_1d_from_sdt_template.pro  For getting one sample of 1-D type data.
+                              Calls get_md_from_sdt.pro 
+get_2d_from_sdt_template.pro  For getting one sample of 2-D type data.
+                              Calls get_md_from_sdt.pro
+get_3d_from_sdt_template.pro  For getting one sample of 3-D type data.
+                              Calls get_md_from_sdt.pro
+get_md_ts_from_sdt_template.pro For getting a time series of multi-
+                              dimensional data. Calls 
+                              get_md_ts_from_sdt.pro
+
+The first step in writing a new get routine is to copy the appropriate
+template to the file that will be the new get_*.pro function.  To know
+which template to choose requires that one knows the way the data is
+stored in the sdt buffers.  There are various documents that list all
+of the sdt data quantities and how they are stored.  For example, for
+the FAST project, this document is FastDQD.doc.
+
+Next, the following information must be collected:
+
+- The satellite code.  This is an integer with gives a code of the
+  satellite for which data will be extracted.
+- The sdt data quantity name.  This is a string that sdt uses to
+  identify which quantity you will want to get.
+- The project name, as a string.
+- The units of the data that are returned.
+- The name of a procedure that will convert to alternate units.
+  This interface is described below in appendix C.
+
+At this point, the information collected is used to edit the template.
+In the templates, whereever a special parameter must be given, it is
+signified by the syntax: <_parameter_>.  For example, where the data
+name must be entered, it is given as <_yourDataName_>.  Be sure not to
+ignore the comments section at the top of each template.  This section
+is printed when a user runs the idl doc_library function, and provides
+valuable documentation
+
+For the multidimensional data types, things can get more tricky.  In
+order to use the array descriptors, the programmer must know what each
+of the dimensions of the data means.  The template routines contain
+examples for 2-D and 3-D arrays which represent electrostatic analyzer
+and view angle mass spec data respectively.  The possibilities for
+different data types are vast.  See appendices A and B for a
+discussion of what array descriptors are and how they are returned by
+the idl from sdt interface.  Also, the routine that gets a time series
+of multidimensional data, get_md_ts_from_sdt will only retrieve data
+until the end of the timespan selection, or till the dimensions of the
+data change, whichever occurs first.
+
+-------- Testing and Using The New get_*.pro functions --
+
+To test the new get_*.pro functions, open up sdt.  Select a plot of
+the type that matches the new get_*.pro routine.  Then use file-select
+to load some data into the plot.  Now you are ready to try loading
+some data into idl.
+
+In another terminal window, open an idl session.  
+
+For a time based get_*.pro routine, type:
+
+IDL> t=0
+IDL> dat= get_<new-name>(t, /st, npts=10)
+IDL> help,/st,dat
+
+where <new-name> is the project/instrument/description part of the new
+routine name.  The help statement should show the scaler values of the
+structure dat, and the sizes of the data arrays, which in this case
+should be 10 long by depth for each component.  (Adjust npts to a more
+interesting value, if desired).  To do a time plot, type:
+
+IDL> plot, dat.data1
+
+If there are more components, then change dat.data1 to dat.data2 and
+so on.
+
+For multidimensional data, type:
+
+IDL> t=0
+IDL> dat=get_<new-name>(t,/st)
+IDL> help,/st,dat
+
+Once again, the help statement gives the structure of the returned
+data dat.  For 2-D and 3-D data, it is interesting to plot the data
+with the idl show3 routine:
+
+IDL> show3,dat.data
+
+If there is a problem, there will likely be an error message printed
+out, and the returned structure dat will have the help,/st,dat output
+of:
+
+IDL> help,/st,dat
+** Structure <1f9608>, 2 tags, length=12, refs=1:
+   DATA_NAME       STRING    'Null'
+   VALID           INT              0
+
+In all cases, make sure that the values look correct.  This will
+require comparing the new get_*.pro function's output to that plotted
+with sdt, as well as checking any calibration values as necessary.
+
+If all checks out, congratulations!  For a more involved discussion of
+the structures returned by the first tier routines, and the structures
+that should be returned by any new routines, see appendix B.
+
+-------- A word about data selection from the finished get_*.pro 
+         functions -------------------------------------------
+
+The first tier routines take a number of keywords for selecting data
+from within the sdt buffers.  If the templates are used without
+changing any of the keywords, the data selection features will be
+fully supported by the get_*.pro functions.  Please refer to the
+documentation within the template routines for the usage of these
+keywords.
+
+-------- where new routines fit into a workspace -----------
+
+This section is for programmers who are using the Sun product
+teamware to share the development effort with others. 
+
+The current directory structure is as follows:
+
+- /WS/idl                 This is the target directory for all idl
+                          *.pro routines.  They are put there using 
+                          the Unix make utility with the IDL target
+                          in the Makefile.default makefile.
+- /WS/src/sdtDataToIdl    This is the source directory for the idl
+                          from sdt interface library, as well as the 
+                          tier one routines and templates.
+- /WS/src/fastDataToIdl   This is the source for and special Fast
+                          project get_*.pro functions.
+- /WS/src/polarDataToIdl  This is the source for and special Polar
+                          project get_*.pro functions.
+- /WS/src/<prog>DataToIdl Any other projects get_*.pro functions 
+                          should obey this naming convention.
+
+-------- Appendices ----------------------------------
+
+**** Appendix (A) Sdt internal data storage:
+
+The sdt software is actually made up of a number of separate programs
+that each perform individual tasks.  It is not the subject of this
+document to discuss the details of these separate programs, however it
+is of interest to the routine writers and users of the sdt to idl
+interface to know how data is store within sdt internals, since the
+extraction routines reflect this internal format.  
+
+Sdt stores data internally in Unix shared memory buffers, and/or
+mapped memory files.  Each data type is called a data quantity.  These
+data quantities are always divided into separate shared memory units
+called components, which are organized by data type in following four
+ways:
+
+1) Time Based Data.  This name is somewhat misleading, since all of
+sdt's data types are time tagged.  However, time based data is stored
+with component 0 always being a monotonically increasing array of time
+tags, and the other components being simple one dimensional arrays of
+data entities corresponding one to one, to each time tag element in
+component 0.  Each data component will have one such array.  There can
+be one or more data components.  Furthermore, each data entity might
+be an array of simple types (for example int, float) for each time
+tag.  In such a case, we say the component has a depth greater than
+one associated with it.
+
+In summary, the following diagram represents time based data storage:
+
+component 0 ->  time tag(0)..                            time tag(n)
+component 1 ->  data entity(0) (possibly has depth).. data entity(n)
+..
+component m ->  data entity(0) (possibly has depth).. data entity(n)
+
+2) One Dimensional Data.  This is the first of the multidimensional
+data types.  For such types, component 0 is an array of headers that
+among other things, gives a time tag, and describes the properties of
+the other data components.
+
+For one dimensional data, each entity in component 1 is a 1-D array of
+simple data types (e.g. int, float).  The size of this array is called
+the number of rows.  There will be a one to one correspondence between
+component 0 headers and component 1 data entities.
+
+If there is an optional component 2, this will contain array
+descriptors for the data entities in component 1.  These array
+descriptors give the physical minmimum and maximum limits that
+correspond to each array indice.  There can be up to three physical
+limits associated with an array description for each indice.  The
+number of array descriptions will be equal to the number of rows
+(i.e. on per indice).
+
+3) Two Dimensional Data.  This data type is very similar to one
+dimensional data, with the only differences being that in component 1,
+each data entity has two dimensions (of size n-rows by n-columns), and
+if component 2 is used, there are up to two corresponding arrays of
+array descriptions (one of size nrows and the other of size ncols) in
+it.
+
+4) Three Dimensional Data.  Also very similar to one dimensional data,
+but with data entities in component 1 having three dimensions (of size
+n-rows by n-columns by n-echelons), and there being up to three arrays
+of array descriptions (of sizes n-rows, n-columns and n-echellons) if
+component 2 is present.
+
+In summary, the following diagram gives the structure of the
+multidimensional data storage in sdt:
+
+Component 0 ->  mult-dim header(0)..          mult-dim header(n)
+
+Component 1 ->  data entity(0)..                  data entity(n)
+                  each data-entity(i):
+                    1, 2, or 3 dimensional data arrays
+                     for 1-D: (n-rows)
+                     for 2-D: (n-rows by n-cols)
+                     for 3-D: (n-rows by n-cols by n-echs)
+Component 2 ->  (optional array descriptors):
+                arr-desc(0)..                        arr-desc(n)
+                  each arr-desc(i):
+                    for 1-D: one array of size n-rows
+                    for 2-D: two arrays, one of size n-rows, other
+                       of size n-cols
+                    for 3-D: three arrays, one of size n-rows,
+                       one of size n-cols, and one of size n-echs
+                    (each array element has up to 3 min and max 
+                       values per indice)
+
+Note the following about multidimensional data:  
+- If Component 2 is present, there need not be array descriptors 
+  for each dimension.  The header gives which dimensions have 
+  array discriptors.
+
+- The dimensionality can change from one time to the next.  It is for 
+  this reason that the routine get_mt_ts_from_sdt, which gets a time
+  series of multidimensional data, will only retrieve data until the
+  dimensions of the data change.  This is so the idl data arrays will
+  be rectangular, with no padding.
+
+
+
+**** Appendix (B) Idl Structures Returned by the idl from sdt
+     interface functions
+
+In this appendix, we discuss the types of data structures that the interface
+returns.
+
+The following structure formats are return from the first tier functions:
+
+1) Time base data, time series (get_ts_from_sdt.pro):
+
+ Structure     Data      Dimensions/
+ Tag           Type      Typical Value
+
+ DATA_NAME     STRING    'QTY'                 ; Data Quantity name
+ VALID         INT       1                     ; Data valid flag
+ START_TIME    DOUBLE    8.0118726e+08         ; Start Time of sample
+ END_TIME      DOUBLE    7.9850884e+08         ; End time of sample
+ NPTS          INT       npts                  ; Number of time samples
+ NCOMP         INT       ncomp                 ; Number of components
+ DEPTH         INT       Array(ncomp)          ; depth of component
+ TIME          DOUBLE    Array(npts)           ; time-tags
+ CALIBRATED    INT       calibrated            ; flags calibrated data
+ CALIBRATED_UNITS STRING units                 ; calibrated units string
+ COMP1         FLOAT     Array(npts,depth(0))  ; Data component 1
+ COMP2         FLOAT     Array(npts,depth(1))  ; Data component 2
+ COMP3         FLOAT     Array(npts,depth(2))  ; Data component 3
+ COMP4         FLOAT     Array(npts,depth(3))  ; Data component 4
+ COMP5         FLOAT     Array(npts,depth(4))  ; Data component 5
+ COMP6         FLOAT     Array(npts,depth(5))  ; Data component 6
+ COMP7         FLOAT     Array(npts,depth(6))  ; Data component 7
+ COMP8         FLOAT     Array(npts,depth(7))  ; Data component 8
+ COMP9         FLOAT     Array(npts,depth(8))  ; Data component 9
+ COMP10        FLOAT     Array(npts,depth(9))  ; Data component 10
+ COMP11        FLOAT     Array(npts,depth(10)) ; Data component 11
+ COMP12        FLOAT     Array(npts,depth(11)) ; Data component 12
+ COMP13        FLOAT     Array(npts,depth(12)) ; Data component 13
+ COMP14        FLOAT     Array(npts,depth(13)) ; Data component 14
+ COMP15        FLOAT     Array(npts,depth(14)) ; Data component 15
+ COMP16        FLOAT     Array(npts,depth(15)) ; Data component 16
+ COMP17        FLOAT     Array(npts,depth(16)) ; Data component 17
+ COMP18        FLOAT     Array(npts,depth(17)) ; Data component 18
+ COMP19        FLOAT     Array(npts,depth(18)) ; Data component 19
+ COMP20        FLOAT     Array(npts,depth(19)) ; Data component 20
+	
+2) Time base data, one sample point (get_ts_1p_from_sdt.pro):
+
+ Structure     Data      Dimensions/
+ Tag           Type      Typical Value
+
+ DATA_NAME     STRING    'QTY'            ; Data Quantity name
+ VALID         INT       1                ; Data valid flag
+ TIME          DOUBLE    8.0118726e+08    ; Time of sample, returned
+ NCOMP         INT       ncomp            ; Number of components
+ DEPTH         INT       Array(ncomp)     ; depth of component
+ CALIBRATED    INT       calibrated       ; flags calibrated data
+ CALIBRATED_UNITS STRING units            ; calibrated units string
+ COMP1         FLOAT     Array(depth(0))  ; Data component 1
+ COMP2         FLOAT     Array(depth(1))  ; Data component 2
+ COMP3         FLOAT     Array(depth(2))  ; Data component 3
+ COMP4         FLOAT     Array(depth(3))  ; Data component 4
+ COMP5         FLOAT     Array(depth(4))  ; Data component 5
+ COMP6         FLOAT     Array(depth(5))  ; Data component 6
+ COMP7         FLOAT     Array(depth(6))  ; Data component 7
+ COMP8         FLOAT     Array(depth(7))  ; Data component 8
+ COMP9         FLOAT     Array(depth(8))  ; Data component 9
+ COMP10        FLOAT     Array(depth(9))  ; Data component 10
+ COMP11        FLOAT     Array(depth(10)) ; Data component 11
+ COMP12        FLOAT     Array(depth(11)) ; Data component 12
+ COMP13        FLOAT     Array(depth(12)) ; Data component 13
+ COMP14        FLOAT     Array(depth(13)) ; Data component 14
+ COMP15        FLOAT     Array(depth(14)) ; Data component 15
+ COMP16        FLOAT     Array(depth(15)) ; Data component 16
+ COMP17        FLOAT     Array(depth(16)) ; Data component 17
+ COMP18        FLOAT     Array(depth(17)) ; Data component 18
+ COMP19        FLOAT     Array(depth(18)) ; Data component 19
+ COMP20        FLOAT     Array(depth(19)) ; Data component 20
+
+3) Multidimensional data (get_md_from_sdt.pro):
+
+ Structure     Data      Dimensions/
+ Tag           Type      Typical Value
+
+ DATA_NAME     STRING    'QTY'                ; Data Quantity name
+ VALID         INT       1                    ; Data valid flag
+ YEAR          LONG      year                 ; Data year
+ MONTH         LONG      month                ; Data month
+ DAY           LONG      day                  ; Data day
+ TIME          DOUBLE    time                 ; Start Time of sample
+ ENDTIME       DOUBLE    end_time             ; End time of sample
+ INTEG_T       DOUBLE    integ_t              ; Integration time
+ CALIBRATED    INT       calibrated           ; flags calibrated data
+ CALIBRATED_UNITS STRING units                ; calibrated units string
+ VALUES        <TYPE>    Array(dimsizes(0..3)); Data quantities
+ NDIMS         LONG      ndims                ; Number of data dimensions
+ DIMSIZES      LONG      dimsizes(3)          ; Sizes of each dimension
+ NCOMP         LONG      ncomp                ; number of data components
+ NMINMAX       INT       nmnmx(ndims)         ; number of array desc(dim)
+ MIN1          DOUBLE    arr(dimsizes(0),nmnmx(0)) ; Arrdesc min (0)
+ MAX1          DOUBLE    arr(dimsizes(0),nmnmx(0)) ; Arrdesc max (0)
+ MIN2          DOUBLE    arr(dimsizes(1),nmnmx(0)) ; Arrdesc min (1)
+ MAX2          DOUBLE    arr(dimsizes(1),nmnmx(0)) ; Arrdesc max (1)
+ MIN3          DOUBLE    arr(dimsizes(2),nmnmx(0)) ; Arrdesc min (2)
+ MAX3          DOUBLE    arr(dimsizes(2),nmnmx(0)) ; Arrdesc max (2)
+
+4) Time series of multidimensional data (get_md_ts_from_sdt.pro):
+
+DATA_NAME     STRING    'QTY'                ; Data Quantity name
+VALID         INT       1                    ; Data valid flag
+START_TIME    DOUBLE    8.0118726e+08        ; Start Time of sample
+END_TIME      DOUBLE    7.9850884e+08        ; End time of sample
+NPTS          INT       npts                 ; Number of time samples
+TIMES         DOUBLE    Array(npts)          ; start timetags
+ENDTIMES      DOUBLE    Array(npts)          ; end timetags
+INTEG_T       DOUBLE    array(npts)          ; Integration time
+CALIBRATED    LONG      calibrated           ; flags calibrated data
+CALIBRATED_UNITS STRING units                ; calibrated units string
+VALUES        <TYPE>    Array(dimsizes(0..3)); Data qauantities
+NDIMS         LONG      ndims                ; Number of data dimensions
+DIMSIZES      LONG      dimsizes(3)          ; Sizes of each dimension
+NCOMP         LONG      ncomp                ; number of data components
+NMINMAX       INT       array(ndims)         ; number of array desc(dim)
+MIN1          DOUBLE    array(dimsizes(0),npts) ; Array desc min(0)
+MAX1          DOUBLE    array(dimsizes(0,npts)) ; Array desc max(0)
+MIN2          DOUBLE    array(dimsizes(1),npts) ; Array desc min(1)
+MAX2          DOUBLE    array(dimsizes(1),npts) ; Array desc max(1)
+MIN3          DOUBLE    array(dimsizes(2),npts) ; Array desc min(2)
+MAX3          DOUBLE    array(dimsizes(2),npts) ; Array desc max(2)
+ST_INDEX      LONG      stidx                ; index of 1st pt in sdt
+EN_INDEX      LONG      enidx                ; index of last pt in sdt
+
+The following describe what the structure formats returned by the
+get_*.pro functions should return to work smoothly with existing idl
+analysis routines.  The author of these functions must assign the
+following:
+
+DATA_NAME:       This will be the name you use to refer to this data type.
+                 It should be unique within one project/satellite.
+
+PROJECT_NAME:    This is the project/satellite name. For example, 'FAST',
+                 'Wind'.
+
+UNITS_NAME:      The units of the returned data. For example: 'Counts',
+                 'Volts'.
+
+UNITS_PROCEDURE: This is the name of an idl procedure that will be
+                 used to convert between various units.  See appendix
+                 C for a description of the conv_units procedure.
+
+MASS:            If used, this will give the mass of a particle detected
+                 by the associated instrument.
+
+GEOM:            If used, this is the geometric factor for a given
+                 data bin.
+
+GEOMFACTOR:      If used, this is the overall instrument geometric factor.
+
+All of the other structure tags are returned automatically, or are
+directly derived from values returned by the idl from sdt interface.
+Note that the data types for the data components (signified by _Type_)
+will be set by the interface.
+
+
+1) Time based data:
+
+ DATA_NAME     STRING    'your-data-name'      ; Data Quantity name
+ VALID         INT       1                     ; Data valid flag
+ PROJECT_NAME  STRING    'yourProject'         ; project name
+ UNITS_NAME    STRING    'unitsOfData'         ; Units of this data
+ UNITS_PROCEDURE  STRING 'unitsProcedure'      ; Units conversion proc
+ START_TIME    DOUBLE    8.0118726e+08         ; Start Time of sample
+ END_TIME      DOUBLE    8.0118733e+08         ; End time of sample
+ NPTS          INT       npts                  ; Number of time samples
+ NCOMP         INT       ncmp                  ; Number of components
+ DEPTH         INT       depth(ncmp)           ; depth of component(s)
+ TIME          DOUBLE    time(npts)            ; time-tags
+ CALIBRATED    INT       calibrated            ; flags calibrated data
+ CALIBRATED_UNITS STRING units                 ; calibrated units string
+ DATA1         _Type_    dat1(npts,depth(0))   ; Data component 1
+ DATA2         _Type_    dat2(npts,depth(2))   ; Data component 2
+ ..
+ DATAn         _Type_    datn(npts,depth(n))   ; Data component ncmp
+
+2) 1-D data (Note that there is currently no standard structure format
+   for 1-D data.  This could change in the future.):
+
+ Structure     Data      Dimensions/
+ Tag           Type      Typical Value
+
+ DATA_NAME     STRING    'your-data-name'      ; Data Quantity name
+ VALID         INT       1                     ; Data valid flag
+ PROJECT_NAME  STRING    'yourProject'         ; project name
+ UNITS_NAME    STRING    'unitsOfData'         ; Units of this data
+ UNITS_PROCEDURE  STRING 'unitsProcedure'      ; Units conversion proc
+ NROWS         INT       nrows                 ; Number of rows in array
+ TIME          DOUBLE    8.0118726e+08         ; Start Time of sample
+ END_TIME      DOUBLE    7.9850884e+08         ; End time of sample
+ CALIBRATED    INT       calibrated            ; flags calibrated data
+ CALIBRATED_UNITS STRING units                 ; calibrated units string
+ DATA          _Type_    array(nrows)          ; Data component 1
+ NMINMAX       INT       nminmax               ; number of arr-desc.           
+ MIN1          DOUBLE    array(nminmax)        ; min array descriptors
+ MAX1          DOUBLE    array(nminmax)        ; max array descriptors
+ MASS          DOUBLE    mass-off-entity       ; Particle Mass (optional)
+ GEOMFACTOR    DOUBLE    your-geom-factor      ; Bin GF (optional)
+ HEADER_BYTES  BYTE      Array(nbytes)	       ; Header bytes (optional)
+
+3) 2-D data.  (The following represents the standard 2-D data format
+   for electrostatic analyzer data.  This format is mostly useless for
+   different types of data):
+
+ DATA_NAME     STRING    'yourDataName'      ; Data Quantity name
+ VALID         INT       1                   ; Data valid flag
+ PROJECT_NAME  STRING    'yourProject'       ; project name
+ UNITS_NAME    STRING    'unitsOfData'       ; Units of this data
+ UNITS_PROCEDURE  STRING 'unitsProcedure'    ; Units conversion proc
+ TIME          DOUBLE    8.0118726e+08       ; Start Time of sample
+ END_TIME      DOUBLE    7.9850884e+08       ; End time of sample
+ INTEG_T       DOUBLE    3.0000000           ; Integration time
+ NBINS         INT       nbins               ; Number of angle bins
+ NENERGY       INT       nnrgs               ; Number of energy bins
+ CALIBRATED    INT       calibrated          ; flags calibrated data
+ CALIBRATED_UNITS STRING units               ; calibrated units string
+ DATA          FLOAT     Array(nnrgs, nbins) ; Data qauantities
+ ENERGY        FLOAT     Array(nnrgs, nbins) ; Energy steps
+ THETA         FLOAT     Array(nnrgs, nbins) ; Angle for bins
+ GEOM          FLOAT     Array(nbins)        ; Geometry factor
+ DENERGY       FLOAT     Array(nnrgs, nbins) ; Energies for bins
+ DTHETA        FLOAT     Array(nbins)        ; Delta Theta
+ EFF           FLOAT     Array(nnrgs)        ; Efficiency (GF)
+ MASS          DOUBLE    mass-off-entity     ; Particle Mass
+ GEOMFACTOR    DOUBLE    your-geom-factor    ; Bin GF
+ HEADER_BYTES  BYTE      Array(25)	     ; Header bytes
+
+4) 3-D data. (The following represents the standard 3-D data format
+   for energy-angle mass spectrometer data.  This format would likely be
+   useless for different types of data):
+
+ DATA_NAME     STRING    'yourDataName'      ; Data Quantity name
+ VALID         INT       1                   ; Data valid flag
+ PROJECT_NAME  STRING    'yourProject'       ; project name
+ UNITS_NAME    STRING    'unitsOfData'       ; Units of this data
+ UNITS_PROCEDURE  STRING 'unitsProcedure'    ; Units conversion proc
+ TIME          DOUBLE    8.0118726e+08       ; Start Time of sample
+ END_TIME      DOUBLE    7.9850884e+08       ; End time of sample
+ INTEG_T       DOUBLE    3.0000000           ; Integration time
+ NBINS         INT       nbins               ; Number of angle bins
+ NENERGY       INT       nnrgs               ; Number of energy bins
+ CALIBRATED    INT       calibrated          ; flags calibrated data
+ CALIBRATED_UNITS STRING units               ; calibrated units string
+ DATA          FLOAT     Array(nnrgs, nbins) ; Data qauantities
+ ENERGY        FLOAT     Array(nnrgs, nbins) ; Energy steps
+ THETA         FLOAT     Array(nnrgs, nbins) ; Angle for bins
+ PHI           FLOAT     Array(nnrgs, nbins) ; Phi angle for bins
+ GEOM          FLOAT     Array(nbins)        ; Geometry factor
+ DENERGY       FLOAT     Array(nnrgs, nbins) ; Energies for bins
+ DTHETA        FLOAT     Array(nbins)        ; Delta Theta
+ DPHI          FLOAT     Array(nbins)        ; Delta Phi
+ DOMEGA        FLOAT     Array(nbins)        ; Solid angle for bins
+ MAP           INT       Array(16,8)         ; Angles to bin # map
+ PT_LIMITS     FLOAT     Array(4)            ; Angle min/max limits
+ EFF           FLOAT     Array(nnrgs)        ; Efficiency (GF)
+ MASS          DOUBLE    mass-off-entity     ; Particle Mass
+ GEOMFACTOR    DOUBLE    your-geom-factor    ; Bin GF
+ HEADER_BYTES  BYTE      Array(25)	     ; Header bytes
+
+5) Multidimensional timeseries data.  The returned structure here
+should be identical to the 1, 2 and 3 -D structure is 2), 3) and 4)
+above, with the exception that there will be an additional dimension
+for the TIME, END_TIME, DATA, and all derived quanties (e.g. ENERGY,
+THETA).
+
+**** Appendix (C) The conv_units interface:
+
+All of the structures returned by the get_*.pro routines that the
+programmer writes, should return a structure tag (UNITS_PROCEDURE)
+with the name of a units conversion routine.  The purpose of this tag
+is to interface with the conv_units idl procedure.  This interface is
+give as:
+
+newdat = conv_units(dat,'new_units_string')
+
+The conv_units routine will look at the UNITS_PROCEDURE tag and call
+the routine given, which should have the following prototype:
+
+units_procedure, new_dat, new_units
+
+The input structure dat will be copied into new_dat within conv_units,
+and the units_procedure should return a new copy with the DATA tag
+converted to the new units, and the UNITS_NAME tag changed to reflect
+the new units.  If the 'new_units_string' does not have a known
+conversion, then the new_dat structure should be passed back
+unchanged.
+
+
+**** Appendix (D) Checking routines back into the Berkeley
+     distribution:
+
+For programmers working outside of the Berkeley workspace, any new
+get_*.pro functions may be checked back into Berkeley distribution.
+When a routine is finished, just e-mail it to the address:
+jloran@ssl.berkeley.edu.
+
+Make sure the doc_library comments are complete and accurate, and the
+routine has been well tested.
+
+Enjoy..

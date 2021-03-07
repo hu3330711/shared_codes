@@ -1,0 +1,2550 @@
+#
+#  For SCCS:
+#
+#  @(#)DqdDescription	1.19, 01/20/08
+#
+#  Themis Decommutator DQD list.
+#
+#  Algorithm Notes:
+#
+#     First Integer:
+#
+#        First be aware the the hundreds place indicates the spacecraft:
+#            100-199 -> spacecraft 1 (tha)
+#            200-299 -> spacecraft 2 (thb)
+#            300-399 -> spacecraft 3 (thc)
+#            400-499 -> spacecraft 4 (thd)
+#            500-599 -> spacecraft 4 (the)
+#
+#        The least significant two digits of this number are then used
+#        as follows:
+#
+#           0  ->  Spacecraft "State" data (Position, etc.)
+#           2  ->  Combined EF, V:
+#           3  ->  EFF
+#           4  ->  EFP
+#           5  ->  EFW
+#           6  ->  VAF
+#           7  ->  VBF
+#           8  ->  VAP
+#           9  ->  VBP
+#          10  ->  VAW
+#          11  ->  VBW
+#          12  ->  FGM 
+#          13  ->  GroundStation FGM
+#          14  ->  EFI HK1
+#          15  ->  EFI HK2  (includes the EFI HK qtys)
+#          16  ->  On-Board SpinFits (Efield and BField).
+#          17  ->  Moment Data.  As of 2007/0610, the only Moment
+#                  data that we display is the spacecraft potential.
+#
+#     Second Integer:
+#
+#       This usually indicates the specific sub-index of the
+#       basic type for the quantity.   For instance, in the
+#       case of the V1-V6 DFB quantities, this indicates:
+#           1 -> V1   ...   6 -> B6
+#
+#     Third Integer:
+#
+#       Not used that much, but if further separation is
+#       required, this can be used.  An example case where it
+#       is used is for the V1-V6 DFB quantities, where the
+#       values are defined as:
+#           0 -> Channel A, Fast Survey
+#           1 -> Channel B, Fast Survey
+#           2 -> Channel A, Particle Burst
+#           3 -> Channel B, Particle Burst
+#           4 -> Channel A, Wave Burst
+#           5 -> Channel B, Wave Burst
+#
+#     Fourth Integer:
+#
+#       Indicates the Apid from in this quantity resides.  This
+#       is not used in the code - it is informational.
+#
+
+NSpacecraft:   5
+SpacecraftId:  1  "a"
+SpacecraftId:  2  "b"
+SpacecraftId:  3  "c"
+SpacecraftId:  4  "d"
+SpacecraftId:  5  "e"
+Alg1Offset:    100
+
+# -------------------------------------------------------------------
+#
+#  EF Combined Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_efc_12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc12" "mV/M"
+    Algorithm:  2  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efc_34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc34" "mV/M"
+    Algorithm:  2  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efc_56"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc56" "mV/M"
+    Algorithm:  2  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+
+
+
+Template: "th<<@>>_raw_vcm_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV1" "V"
+        comp:     float
+    Algorithm:  2  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vcm_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV2" "V"
+        comp:     float
+    Algorithm:  2  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vcm_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV3" "V"
+        comp:     float
+    Algorithm:  2  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vcm_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV4" "V"
+        comp:     float
+    Algorithm:  2  6  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vcm_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV5" "V"
+        comp:     float
+    Algorithm:  2  7  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vcm_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vcmV6" "V"
+        comp:     float
+    Algorithm:  2  8  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+
+
+
+
+Template: "th<<@>>_adc_efc_12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc12_adc" "adc"
+    Algorithm:  2  9  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_adc_efc_34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc34_adc" "adc"
+    Algorithm:  2  10  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_adc_efc_56"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efc56_adc" "adc"
+    Algorithm:  2  11  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+
+
+
+
+
+
+# -------------------------------------------------------------------
+#
+#  EFF Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_eff_12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Eff12" "mV/M"
+    Algorithm:  3  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_eff_34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Eff34" "mV/M"
+    Algorithm:  3  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_eff_56"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Eff56" "mV/M"
+    Algorithm:  3  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_efield_f"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "effX" "mV/m"
+        comp:     float
+	    SubDim:  0  "effY" "mV/m"
+        comp:     float
+	    SubDim:  0  "effZ" "mV/m"
+        comp:     float
+	    SubDim:  0  "|Eff|" "mV/m"
+    Algorithm:  3  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV1" "V"
+        comp:     float
+    Algorithm:  6  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV2" "V"
+        comp:     float
+    Algorithm:  6  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV3" "V"
+        comp:     float
+    Algorithm:  6  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV4" "V"
+        comp:     float
+    Algorithm:  6  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV5" "V"
+        comp:     float
+    Algorithm:  6  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaf_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vafV6" "V"
+        comp:     float
+    Algorithm:  6  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV1" "V"
+        comp:     float
+    Algorithm:  7  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV2" "V"
+        comp:     float
+    Algorithm:  7  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV3" "V"
+        comp:     float
+    Algorithm:  7  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV4" "V"
+        comp:     float
+    Algorithm:  7  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV5" "V"
+        comp:     float
+    Algorithm:  7  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbf_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbfV6" "V"
+        comp:     float
+    Algorithm:  7  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  EFP Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_efp_12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efp12" "mV/M"
+    Algorithm:  4  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efp_34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efp34" "mV/M"
+    Algorithm:  4  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efp_56"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efp56" "mV/M"
+    Algorithm:  4  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_efield_p"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "efpX" "mV/m"
+        comp:     float
+	    SubDim:  0  "efpY" "mV/m"
+        comp:     float
+	    SubDim:  0  "efpZ" "mV/m"
+        comp:     float
+	    SubDim:  0  "|Efp|" "mV/m"
+    Algorithm:  4  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV1" "V"
+        comp:     float
+    Algorithm:  8  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV2" "V"
+        comp:     float
+    Algorithm:  8  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV3" "V"
+        comp:     float
+    Algorithm:  8  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV4" "V"
+        comp:     float
+    Algorithm:  8  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV5" "V"
+        comp:     float
+    Algorithm:  8  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vap_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vapV6" "V"
+        comp:     float
+    Algorithm:  8  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV1" "V"
+        comp:     float
+    Algorithm:  9  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV2" "V"
+        comp:     float
+    Algorithm:  9  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV3" "V"
+        comp:     float
+    Algorithm:  9  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV4" "V"
+        comp:     float
+    Algorithm:  9  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV5" "V"
+        comp:     float
+    Algorithm:  9  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbp_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbpV6" "V"
+        comp:     float
+    Algorithm:  9  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+
+# -------------------------------------------------------------------
+#
+#  EFW Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_efw_12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efw12" "mV/M"
+    Algorithm:  5  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efw_34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efw34" "mV/M"
+    Algorithm:  5  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_efw_56"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "Efw56" "mV/M"
+    Algorithm:  5  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_efield_w"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "efwX" "mV/m"
+        comp:     float
+	    SubDim:  0  "efwY" "mV/m"
+        comp:     float
+	    SubDim:  0  "efwZ" "mV/m"
+        comp:     float
+	    SubDim:  0  "|Efw|" "mV/m"
+    Algorithm:  5  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV1" "V"
+        comp:     float
+    Algorithm:  10  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV2" "V"
+        comp:     float
+    Algorithm:  10  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV3" "V"
+        comp:     float
+    Algorithm:  10  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV4" "V"
+        comp:     float
+    Algorithm:  10  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV5" "V"
+        comp:     float
+    Algorithm:  10  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vaw_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vawV6" "V"
+        comp:     float
+    Algorithm:  10  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v1"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV1" "V"
+        comp:     float
+    Algorithm:  11  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v2"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV2" "V"
+        comp:     float
+    Algorithm:  11  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v3"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV3" "V"
+        comp:     float
+    Algorithm:  11  2  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v4"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV4" "V"
+        comp:     float
+    Algorithm:  11  3  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v5"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV5" "V"
+        comp:     float
+    Algorithm:  11  4  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_vbw_v6"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "vbwV6" "V"
+        comp:     float
+    Algorithm:  11  5  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+
+# -------------------------------------------------------------------
+#
+#  EFI HK Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_efi_hk"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "bias1" "nAmps"
+        comp:     float
+	    SubDim:  0  "bias2" "nAmps"
+        comp:     float
+	    SubDim:  0  "bias3" "nAmps"
+        comp:     float
+	    SubDim:  0  "bias4" "nAmps"
+        comp:     float
+	    SubDim:  0  "bias5" "nAmps"
+        comp:     float
+	    SubDim:  0  "bias6" "nAmps"
+        comp:     float
+	    SubDim:  0  "usher1" "V"
+        comp:     float
+	    SubDim:  0  "usher2" "V"
+        comp:     float
+	    SubDim:  0  "usher3" "V"
+        comp:     float
+	    SubDim:  0  "usher4" "V"
+        comp:     float
+	    SubDim:  0  "usher5" "V"
+        comp:     float
+	    SubDim:  0  "usher6" "V"
+        comp:     float
+	    SubDim:  0  "guard1" "V"
+        comp:     float
+	    SubDim:  0  "guard2" "V"
+        comp:     float
+	    SubDim:  0  "guard3" "V"
+        comp:     float
+	    SubDim:  0  "guard4" "V"
+        comp:     float
+	    SubDim:  0  "guard5" "V"
+        comp:     float
+	    SubDim:  0  "guard6" "V"
+        comp:     float
+	    SubDim:  0  "bebbraid" "V"
+        comp:     float
+	    SubDim:  0  "bebtemp" "C"
+        comp:     float
+	    SubDim:  0  "iaxbtemp" "C"
+        comp:     float
+	    SubDim:  0  "ispbtemp" "C"
+    Algorithm:  15  0  0  0
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Moment Quantities (as of 2007/06/10 - the only such qty is SC Pot):
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_sc_pot"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "ScPot" "V"
+    Algorithm:  17  0  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  On-Board SpinFit Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_onboard_EFits_Both"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "ExA" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExB" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExC" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExSigma" "_"
+        comp:     float
+	    SubDim:  0  "EzAvg" "mV/M"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  0  0  0
+EndDQD:
+
+Template: "th<<@>>_onboard_EFits_V12"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "ExA" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExB" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExC" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExSigma" "_"
+        comp:     float
+	    SubDim:  0  "EzAvg" "mV/M"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  1  0  0
+EndDQD:
+
+Template: "th<<@>>_onboard_EFits_V34"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "ExA" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExB" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExC" "mV/M"
+        comp:     float
+	    SubDim:  0  "ExSigma" "_"
+        comp:     float
+	    SubDim:  0  "EzAvg" "mV/M"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  2  0  0
+EndDQD:
+
+Template: "th<<@>>_onboard_BFits_Both"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BxA" "nT"
+        comp:     float
+	    SubDim:  0  "BxB" "nT"
+        comp:     float
+	    SubDim:  0  "BxC" "nT"
+        comp:     float
+	    SubDim:  0  "BxSigma" "_"
+        comp:     float
+	    SubDim:  0  "BzAvg" "nT"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  3  0  0
+EndDQD:
+
+Template: "th<<@>>_onboard_BFits_FZ"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "BzA" "nT"
+        comp:     float
+	    SubDim:  0  "BzB" "nT"
+        comp:     float
+	    SubDim:  0  "BzC" "nT"
+        comp:     float
+	    SubDim:  0  "BzSigma" "_"
+        comp:     float
+	    SubDim:  0  "BzAvg" "nT"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  4  0  0
+EndDQD:
+
+Template: "th<<@>>_onboard_BFits_FY"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "ByA" "nT"
+        comp:     float
+	    SubDim:  0  "ByB" "nT"
+        comp:     float
+	    SubDim:  0  "ByC" "nT"
+        comp:     float
+	    SubDim:  0  "BySigma" "_"
+        comp:     float
+	    SubDim:  0  "BzAvg" "nT"
+        comp:     int16
+	    SubDim:  0  "NPts" "_"
+    Algorithm:  16  5  0  0
+EndDQD:
+
+
+
+
+# -------------------------------------------------------------------
+#
+#  FGM Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_raw_fge"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  12  1  0  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_fgl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  12  1  1  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_fgh"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  12  1  2  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+Template: "th<<@>>_raw_fgc"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  12  1  3  0
+    Ancestors:
+        Themis  th<<@>>_SPulse
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  FGM-L2 Quantities:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_l2_fge_ssl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  0  0  0
+EndDQD:
+
+Template: "th<<@>>_l2_fge_dsl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  1  0  0
+EndDQD:
+
+Template: "th<<@>>_l2_fge_gse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  2  0  0
+EndDQD:
+
+Template: "th<<@>>_l2_fge_gsm"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  3  0  0
+EndDQD:
+
+
+
+
+Template: "th<<@>>_l2_fgl_ssl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  0  1  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgl_dsl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  1  1  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgl_gse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  2  1  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgl_gsm"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  3  1  0
+EndDQD:
+
+
+
+
+Template: "th<<@>>_l2_fgh_ssl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  0  2  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgh_dsl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  1  2  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgh_gse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  2  2  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgh_gsm"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  3  2  0
+EndDQD:
+
+
+
+
+
+
+Template: "th<<@>>_l2_fgc_ssl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  0  3  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgc_dsl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  1  3  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgc_gse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  2  3  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgc_gsm"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  3  3  0
+EndDQD:
+
+
+
+
+
+
+
+
+
+
+Template: "th<<@>>_l2_fgs_ssl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  0  4  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgs_dsl"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  1  4  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgs_gse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  2  4  0
+EndDQD:
+
+Template: "th<<@>>_l2_fgs_gsm"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "nT"
+        comp:     float
+	    SubDim:  0  "Y" "nT"
+        comp:     float
+	    SubDim:  0  "Z" "nT"
+        comp:     float
+	    SubDim:  0  "Magnitude" "nT"
+    Algorithm:  19  3  4  0
+EndDQD:
+
+
+
+
+# -------------------------------------------------------------------
+#
+#  Pos/Vel Quantities:
+#
+# -------------------------------------------------------------------
+#
+
+# -------------------------------------------------------------------
+# GEI:
+
+Template: "th<<@>>_Pos_GEI"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km"
+        comp:     float
+	    SubDim:  0  "Y" "km"
+        comp:     float
+	    SubDim:  0  "Z" "km"
+        comp:     float
+	    SubDim:  0  "Dist" "km"
+    Algorithm:  0  0  0  0
+EndDQD:
+
+Template: "th<<@>>_Vel_GEI"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+        comp:     float
+	    SubDim:  0  "Speed" "km/sec"
+    Algorithm:  0  1  0  0
+EndDQD:
+
+Template: "th<<@>>_SpAx_GEI"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "Gei"
+        comp:     float
+	    SubDim:  0  "Y" "Gei"
+        comp:     float
+	    SubDim:  0  "Z" "Gei"
+    Algorithm:  0  2  0  0
+EndDQD:
+
+# -------------------------------------------------------------------
+# GSE:
+
+Template: "th<<@>>_Pos_GSE"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km"
+        comp:     float
+	    SubDim:  0  "Y" "km"
+        comp:     float
+	    SubDim:  0  "Z" "km"
+        comp:     float
+	    SubDim:  0  "Dist" "km"
+    Algorithm:  0  3  0  0
+EndDQD:
+
+Template: "th<<@>>_Vel_GSE"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+        comp:     float
+	    SubDim:  0  "Speed" "km/sec"
+    Algorithm:  0  4  0  0
+EndDQD:
+
+Template: "th<<@>>_SpAx_GSE"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "Gse"
+        comp:     float
+	    SubDim:  0  "Y" "Gse"
+        comp:     float
+	    SubDim:  0  "Z" "Gse"
+    Algorithm:  0  5  0  0
+EndDQD:
+
+# -------------------------------------------------------------------
+# GSM:
+
+Template: "th<<@>>_Pos_GSM"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km"
+        comp:     float
+	    SubDim:  0  "Y" "km"
+        comp:     float
+	    SubDim:  0  "Z" "km"
+        comp:     float
+	    SubDim:  0  "Dist" "km"
+    Algorithm:  0  6  0  0
+EndDQD:
+
+Template: "th<<@>>_Vel_GSM"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/sec"
+        comp:     float
+	    SubDim:  0  "Speed" "km/sec"
+    Algorithm:  0  7  0  0
+EndDQD:
+
+Template: "th<<@>>_SpAx_GSM"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "Gsm"
+        comp:     float
+	    SubDim:  0  "Y" "Gsm"
+        comp:     float
+	    SubDim:  0  "Z" "Gsm"
+    Algorithm:  0  8  0  0
+EndDQD:
+
+# -------------------------------------------------------------------
+# SunPulse:
+
+Template: "th<<@>>_SPulse"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "spin_per" "secs"
+    Algorithm:  0  9  0  0
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  McFadden's VxB and Density data:
+#
+# -------------------------------------------------------------------
+#
+Template: "th<<@>>_VIxB_E"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "mV/m"
+        comp:     float
+	    SubDim:  0  "Y" "mV/m"
+        comp:     float
+	    SubDim:  0  "Z" "mV/m"
+    Algorithm:  2  18  0  0
+EndDQD:
+
+Template: "th<<@>>_VExB_E"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "mV/m"
+        comp:     float
+	    SubDim:  0  "Y" "mV/m"
+        comp:     float
+	    SubDim:  0  "Z" "mV/m"
+    Algorithm:  2  18  1  0
+EndDQD:
+
+Template: "th<<@>>_GrndDensity"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "I" "num/cm**3"
+        comp:     float
+	    SubDim:  0  "E" "num/cm**3"
+    Algorithm:  2  18  2  0
+EndDQD:
+
+Template: "th<<@>>_IonVelocity"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/Sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/Sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/Sec"
+    Algorithm:  2  18  3  0
+EndDQD:
+
+Template: "th<<@>>_ElectronVelocity"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "km/Sec"
+        comp:     float
+	    SubDim:  0  "Y" "km/Sec"
+        comp:     float
+	    SubDim:  0  "Z" "km/Sec"
+    Algorithm:  2  18  4  0
+EndDQD:
+
+# -------------------------------------------------------------------
+#
+#  Ground FGM Quantities:
+#
+# -------------------------------------------------------------------
+#
+
+DataQuantityDescription: "thg_bmls_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  0  0
+EndDQD:
+
+DataQuantityDescription: "thg_ccnv_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  1  0
+EndDQD:
+
+DataQuantityDescription: "thg_chbg_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  2  0
+EndDQD:
+
+DataQuantityDescription: "thg_drby_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  3  0
+EndDQD:
+
+DataQuantityDescription: "thg_ekat_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  4  0
+EndDQD:
+
+DataQuantityDescription: "thg_fsim_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  5  0
+EndDQD:
+
+DataQuantityDescription: "thg_fsmi_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  6  0
+EndDQD:
+
+DataQuantityDescription: "thg_fykn_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  7  0
+EndDQD:
+
+DataQuantityDescription: "thg_fyts_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  8  0
+EndDQD:
+
+DataQuantityDescription: "thg_gako_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  0  9  0
+EndDQD:
+
+
+
+DataQuantityDescription: "thg_garage_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  0  0
+EndDQD:
+
+DataQuantityDescription: "thg_gbay_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  1  0
+EndDQD:
+
+DataQuantityDescription: "thg_gill_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  2  0
+EndDQD:
+
+DataQuantityDescription: "thg_hots_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  3  0
+EndDQD:
+
+DataQuantityDescription: "thg_inuv_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  4  0
+EndDQD:
+
+DataQuantityDescription: "thg_kapu_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  5  0
+EndDQD:
+
+DataQuantityDescription: "thg_kian_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  6  0
+EndDQD:
+
+DataQuantityDescription: "thg_loys_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  7  0
+EndDQD:
+
+DataQuantityDescription: "thg_mcgr_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  8  0
+EndDQD:
+
+DataQuantityDescription: "thg_pgeo_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  1  9  0
+EndDQD:
+
+DataQuantityDescription: "thg_pina_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  0  0
+EndDQD:
+
+
+
+DataQuantityDescription: "thg_pine_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  1  0
+EndDQD:
+
+DataQuantityDescription: "thg_ptrs_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  2  0
+EndDQD:
+
+DataQuantityDescription: "thg_rank_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  3  0
+EndDQD:
+
+DataQuantityDescription: "thg_rmus_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  4  0
+EndDQD:
+
+DataQuantityDescription: "thg_swno_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  5  0
+EndDQD:
+
+DataQuantityDescription: "thg_taho_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  6  0
+EndDQD:
+
+DataQuantityDescription: "thg_tbd1_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  7  0
+EndDQD:
+
+DataQuantityDescription: "thg_tpas_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  8  0
+EndDQD:
+
+DataQuantityDescription: "thg_ukia_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  2  9  0
+EndDQD:
+
+DataQuantityDescription: "thg_whit_B"
+    Spacecraft:   THEMIS
+    Type:         TimeSeries
+    StorageType:  SeparateArrays
+    Components:
+        comp:     double    # Time
+	    SubDim:  0  "time" "UTsecs"
+        comp:     float
+	    SubDim:  0  "X" "HDZ"
+        comp:     float
+	    SubDim:  0  "Y" "HDZ"
+        comp:     float
+	    SubDim:  0  "Z" "HDZ"
+        comp:     float
+	    SubDim:  0  "Magnitude" "HDZ"
+    Algorithm:  13  3  0  0
+EndDQD:
+
+

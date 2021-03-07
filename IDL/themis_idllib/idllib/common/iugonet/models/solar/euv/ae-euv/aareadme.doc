@@ -1,0 +1,16 @@
+This directory contains Extrem Ultraviolet (EUV) reference spectra and 
+related EUV model parameters based on the measurements and work of H.E. 
+Hinteregger and his colleagues. The model and reference spectra (R74113, 
+F74113, F76REF, SC21REFW) are described by Hinteregger et al. (Geophys. Res.
+Lett. 8, 1147, 1981). The spectra and model are based on rocket measurements 
+and simultaneously obtained EUV fluxes by the AE-C and AE-E spectrometer. 
+The rocket measurements were used to establish absolute calibration factors 
+for the AE-E instrument. The originally proposed R74113 spectrum (Hinteregger,
+J. Atmos. Terr. Phys. 38, 701, 1976) is based on AE-C measurements and data
+froma rocket flight on April 23, 1974. R74113 revised to become F74113 
+(Heroux and Hinteregger, J. Geophys. Res. 83, 5305, 1978), following refined 
+evaluation of the rocket and satellite data. F76REF used in addition AE-E 
+data from July 13-28, 1976 (when solar activity was low and constant). 
+SC21REFW extends F76REF to include a rocket flight on August 14, 1979.
+The F76REF and SC21REFW files include also the wave-length dependent 
+adjustment factors that are used in Hinteregger's flux model.

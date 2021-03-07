@@ -1,0 +1,66 @@
+#! /usr/bin/ksh
+#
+# modelist.ksh
+#
+# Output history of FAST instrument mode usage for an interval of orbits.
+#
+
+# Get FAST Archive Environment
+
+. /disks/fast/software/config/archive_config
+
+# First and Last orbits must be set
+
+if [[ -z $1 || -z $2 ]]; then
+    echo "Usage: modelist <start_orbit> <last_orbit> [output_file]"
+    exit 1
+fi
+
+# Name final output file
+
+[[ -n $3 ]] || echo "Output file will be 'mode_history'"
+output_file=${3:-mode_history}
+
+# Temporary file
+
+tmpfile=/tmp/mode_list_$$
+if [[ -a $tmpfile ]]; then
+    echo "temporary file already exists: $tmpfile"
+    exit 1
+fi
+echo "using temporary file: $tmpfile"
+
+# Set trap to warn about lack of cleanup if terminated
+
+trap 'echo Not removing temporary file: $tmpfile' EXIT
+
+# Query database for modes used each orbit within interval.
+# Preformat the list for further processing with AWK script.
+
+echo "Querying database for orbits $1 - $2"
+typeset -i orbit=$1
+while (( orbit <= $2 )) ; do
+    format_mode_output -s -o $orbit |
+    nawk -v ORBIT=$orbit '
+    $1 ~ /[0-9]+/ {
+	printf("%s\t%s\t%s\t%s\t%s\n", ORBIT, $3, $4, $1, $2);
+    }' -
+    let 'orbit=orbit+1'
+done > $tmpfile
+
+# Format the list and place into output file
+
+echo "Formatting mode list to file: $output_file"
+if ! nawk -f $DANETBIN/modelist_fix.awk $tmpfile > $output_file
+then
+    echo "Error returned by nawk--leaving $tmpfile"
+    exit 1
+fi
+
+# Cleanup
+
+echo "Cleaning up and exiting..."
+rm $tmpfile
+trap - EXIT
+
+exit 0

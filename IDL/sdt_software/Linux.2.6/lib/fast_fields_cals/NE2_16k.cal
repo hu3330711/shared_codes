@@ -1,0 +1,21 @@
+#  SCCS Id
+#  @(#)NE2_16k.cal	1.1 04/15/96
+#
+# NE2_16.cal
+# IS 6/29/95
+NE2_16k			Data name
+2			Exponential calibration
+sec			x-axis units
+nA			y-axis units
+xx			z-axis units
+0			Boomlength index
+0			No gain state
+0			History
+# Entered 6/27/95
+# Subtract 0x8000 from the raw data, and take ln of current
+# IL set to value from Survey calibrations
+# High offset error:  10.722
+0			Time in seconds
+-674			Zerolevel (raw).
+3.3494e-3		Gain (in exponent).
+-10.625			IL (offset current in nA)

@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_llgrid_pl02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_llgrid_pl02</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   Deprecated: This routine has been superseded by the CSPICE routine
+   <a href="cspice_latsrf.html">cspice_latsrf</a>. This routine is supported for purposes of backward
+   compatibility only.
+
+   CSPICE_LLGRID_PL02, given the planetocentric longitude and latitude
+   values of a set of surface points on a specified target body, compute
+   the corresponding rectangular coordinates of those points.  The
+   target body's surface is represented by a triangular plate model
+   contained in a type 2 DSK segment.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/llgrid_pl02.html">llgrid_pl02</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle      the DAS file handle of a DSK file open for read
+                  access. This kernel must contain a type 2 segment
+                  that provides a plate model representing the entire
+                  surface of the target body.
+
+      dladsc      the DLA descriptor of a DSK segment representing
+                  the surface of a target body.
+
+      npoints     is the number of longitude/latitude pairs in the array
+                  of grid points `grid'.
+
+      grid        an array of planetocentric longitude/latitude pairs
+                  to be mapped to surface points on the target body.
+
+                  Elements
+
+                     grid[0,i]
+                     grid[1,i]
+
+                  are, respectively, the planetocentric longitude and
+                  latitude of the ith grid point.
+
+                  Units are radians.
+
+   the call:
+
+      <b>cspice_llgrid_pl02</b>, handle, dladsc, npoints, grid, spoints, plateIDs
+
+   returns:
+
+      spoints     an array containing the rectangular (Cartesian)
+                  coordinates of the surface points on the target body,
+                  expressed relative to the body-fixed reference frame of
+                  the target body, corresponding to the input grid points.
+
+      plateIDs    an array of integer ID codes of the plates on which
+                  the surface points are located. The ith plate ID
+                  corresponds to the ith surface point. These ID codes can
+                  be use to look up data associated with the plate, such
+                  as the plate's vertices or outward normal vector.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+  In the following example program, the file
+
+      phobos.3.3.bds
+
+   is a DSK file containing a type 2 segment that provides a plate model
+   representation of the surface of Phobos.
+
+   Find the surface points on a target body corresponding to a given
+   planetocentric longitude/latitude grid.
+
+      PRO llgrid_pl02_t, dsk
+
+         ;;
+         ;; Constants
+         ;;
+         NLAT     =  9
+         NLON     =  9
+         MAXGRID  =  NLAT * NLON
+         TOL      =  1.d-12
+
+         ;;
+         ;; Open the DSK file for read access.
+         ;; We use the DAS-level interface for
+         ;; this function.
+         ;;
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, dsk, handle
+
+         ;;
+         ;; Begin a forward search through the
+         ;; kernel, treating the file as a DLA.
+         ;; In this example, it's a very short
+         ;; search.
+         ;;
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, handle, dladsc, found
+
+         if ~found then begin
+
+            ;;
+            ;; We arrive here only if the kernel
+            ;; contains no segments. This is
+            ;; unexpected, but we're prepared for it.
+            ;;
+            message, 'No segments found in DSK file ', dsk
+
+         endif
+
+         ;;
+         ;; If we made it this far, DLADSC is the
+         ;; DLA descriptor of the first segment.
+         ;;
+         ;; Now generate the grid points.  We generate
+         ;; points along latitude bands, working from
+         ;; north to south.  The latitude range is selected
+         ;; to range from +80 to -80 degrees.  Longitude
+         ;; ranges from 0 to 320 degrees.  The increment
+         ;; is 20 degrees for latitude and 40 degrees for
+         ;; longitude.
+         ;;
+
+         grid = dblarr(2,MAXGRID)
+         n    = 0L
+
+         for  i = 0, (NLAT-1) do begin
+
+            lat = <a href="cspice_rpd.html">cspice_rpd</a>() * ( 80.d0 - 20.d0*i )
+
+            for  j = 0, (NLON-1) do begin
+
+               lon = <a href="cspice_rpd.html">cspice_rpd</a>() * 40.d*j
+
+               grid[0,n] = lon
+               grid[1,n] = lat
+
+               n = n + 1
+
+            endfor
+
+         endfor
+
+         npoints = n -1
+
+         ;;
+         ;; Find the surface points corresponding to the grid points.
+         ;;
+         <b>cspice_llgrid_pl02</b>, handle, dladsc, npoints, grid, $
+                             spoints, plateIDs
+
+         ;;
+         ;; fprintf out the surface points in latitudinal
+         ;; coordinates and compare the derived lon/lat values
+         ;; to those of the input grid.
+         ;;
+         for  i = 0, npoints-1 do begin
+
+            ;;
+            ;; Use recrad_c rather than reclat_c to produce
+            ;; non-negative longitudes.
+            ;;
+            <a href="cspice_recrad.html">cspice_recrad</a>, spoints[*,i], xr, xlon, xlat
+
+            print, 'Intercept for grid point  ', i 
+            print, '   Plate ID:              ', plateIDs[i] 
+            print, '   Cartesian Coordinates: ', spoints[*,i]
+            print, '   Latitudinal Coordinates:'
+            print, '   Longitude (deg): ', xlon * <a href="cspice_dpr.html">cspice_dpr</a>() 
+            print, '   Latitude  (deg): ', xlat * <a href="cspice_dpr.html">cspice_dpr</a>() 
+            print, '   Radius     (km): ', xr 
+            print
+
+            print, 'Original grid coordinates:' 
+            print, '   Longitude (deg): ', grid[0,i] * <a href="cspice_dpr.html">cspice_dpr</a>() 
+            print, '   Latitude  (deg): ', grid[1,i] * <a href="cspice_dpr.html">cspice_dpr</a>() 
+            print
+
+            ;;
+            ;; Perform sanity checks on the intercept
+            ;; coordinates.  Stop the program if any error
+            ;; is larger than our tolerance value.
+            ;;
+            lon = grid[0,i]
+            lat = grid[1,i]
+
+            if ( abs(xlat-lat) gt TOL ) then begin
+
+               message, 'Latitude error!' 
+
+            endif
+
+            if ( abs(xlon - lon) gt <a href="cspice_pi.html">cspice_pi</a>() ) then begin
+
+               if ( xlon gt lon ) then begin
+                  xlon = xlon - <a href="cspice_twopi.html">cspice_twopi</a>()
+               endif else begin
+                  xlon = xlon + <a href="cspice_twopi.html">cspice_twopi</a>()
+               endelse
+
+            end
+
+            if  ( abs(xlon - lon)  gt TOL ) then begin
+
+               message, 'Longitude error!' 
+
+            endif
+
+         end
+
+         ;;
+         ;; Close the kernel. 
+         ;;
+         <a href="cspice_dascls.html">cspice_dascls</a>, handle
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; llgrid_pl02_t, 'phobos_3_3.bds'
+      Intercept for grid point         0
+         Plate ID:                    306238
+         Cartesian Coordinates:        1.5208779    0.0000000    8.6253271
+         Latitudinal Coordinates:
+         Longitude (deg):        0.0000000
+         Latitude  (deg):        80.000000
+         Radius     (km):        8.7583867
+      
+      Original grid coordinates:\n
+         Longitude (deg):        0.0000000
+         Latitude  (deg):        80.000000
+      
+      Intercept for grid point         1
+         Plate ID:                    317112
+         Cartesian Coordinates:        1.1897036   0.99827989    8.8077718
+         Latitudinal Coordinates:
+         Longitude (deg):        40.000000
+         Latitude  (deg):        80.000000
+         Radius     (km):        8.9436459
+      
+      Original grid coordinates:
+         Longitude (deg):        40.000000
+         Latitude  (deg):        80.000000
+      
+      Intercept for grid point         2
+         Plate ID:                    324141
+         Cartesian Coordinates:       0.27777518    1.5753413    9.0720290
+         Latitudinal Coordinates:
+         Longitude (deg):        80.000000
+         Latitude  (deg):        80.000000
+         Radius     (km):        9.2119797
+         
+            ...
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   See the headers of the Icy routines
+
+      <a href="cspice_reclat.html">cspice_reclat</a>
+      <a href="cspice_latrec.html">cspice_latrec</a>
+
+   for detailed definitions of Planetocentric coordinates.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+   <a href="../req/pck.html">PCK.REQ</a>
+   <a href="../req/spk.html">SPK.REQ</a>
+   <a href="../req/time.html">TIME.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 15-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   map latitudinal grid to dsk type 2 plate model surface
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:02 2017</pre>
+
+</body>
+</html>
+

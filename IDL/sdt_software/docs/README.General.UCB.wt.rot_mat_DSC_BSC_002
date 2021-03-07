@@ -1,0 +1,435 @@
+************************************************************************
+
+   README.General.UCB.wt.rot_mat_DSC_BSC_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.rot_mat_DSC_BSC_002
+
+************************************************************************
+
+   Rotation matrix from DSC to BSC, for each data point of the magnetic
+   field.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.rot_mat_DSC_BSC_002	1.1    06/06/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a rotation matrix from the DSC
+       (Despun Spacecraft Coordinates) system to the BSC (Magnetic
+       Spacecraft Coordinates) system.
+
+
+
+       One matrix is produced for each data point of the magnetic field.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The magnetic field vector.
+
+
+
+
+
+    3) The magnetic field vector must be in a coordinate system that
+       does not participate of the rotation of the spacecraft.
+
+
+
+
+
+    4) If the components of the magnetic field vector are not referred
+       to the DSC system, then there must be an additional SDT input,
+       which is a rotation matrix that rotates vector components, from
+       the coordinate system of the magnetic field vector into DSC.
+
+
+
+
+
+    5) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    6) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    7) The matrix produced by this Science Module is for rotation in one
+       direction only.
+
+
+
+       The matrix for the rotation in the opposite direction is the
+       transpose of the matrix produced.
+
+
+
+
+
+    8) An output data point is produced for each input data point of the
+       magnetic field.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of the magnetic field.
+
+
+
+
+
+    9) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The input rotation matrix for the time of the output data point
+       is the input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Flag for the coordinate system of the magnetic field
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in DSC.
+
+                    WT_FALSE  =  The vector is not in DSC.
+
+
+
+            3) Flag for the rotation matrix input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  This input is     present.
+
+                    WT_FALSE  =  This input is not present.
+
+
+               If the magnetic field is not in the DSC coordinate
+               system;
+               then this input must be present.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 3 input magnetic field vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            5) Flag to transpose the input matrix.
+
+
+               Int.
+
+
+               If there is an input rotation matrix,
+               must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            6) Dropout time for the input matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If there is an input rotation matrix,
+               must be  >  0.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If there is an input rotation matrix,
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The input rotation matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) a(1,1).
+
+
+               Double.
+
+
+
+            3) a(1,2).
+
+
+               Double.
+
+
+
+            4) a(1,3).
+
+
+               Double.
+
+
+
+            5) a(2,1).
+
+
+               Double.
+
+
+
+            6) a(2,2).
+
+
+               Double.
+
+
+
+            7) a(2,3).
+
+
+               Double.
+
+
+
+            8) a(3,1).
+
+
+               Double.
+
+
+
+            9) a(3,2).
+
+
+               Double.
+
+
+
+           10) a(3,3).
+
+
+               Double.
+
+
+
+       Note: The matrix is designated "a", with rows and columns
+       numbered 1 to 3; the first subscript is the row number, the
+       second subscript is the column number.

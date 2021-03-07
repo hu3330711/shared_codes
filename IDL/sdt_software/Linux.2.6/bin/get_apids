@@ -1,0 +1,240 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#    get_apids	 Copies data from the FAST jukeboxes to a user's data
+#                directory.  Data is requested by specifying either an
+#                orbit number or start and end times. Especially
+#                useful for batch jobs.
+#
+# OPTIONS:
+#
+#    -o          Option argument is the orbit number. Takes precedence
+#                over -s and -e options.
+#    -s          Argument is the start date. Can be either of the following
+#                formats (quotes necesary):
+#                   yyyy/mm/dd    "'yyyy/mm/dd hh:mm:ss'"
+#    -e          Argument is the end time.  Same format as start time.
+#    -d          Data Directory.  If not specified, the current working
+#                directory is used.
+#
+# OUTPUT:
+#
+#    stout       Names of necessary data sessions, one per line. This list
+#                may be passed to an SDT batch job as the "TimeSpan" via the
+#                "$files" variable.  See $FASTHOME/docs/BatchUse.
+#    sterr       All other status messages.
+#
+# EXIT CODES:
+#
+#   255          Error occurred and no data was copied.
+#     0          Total success.
+#    >0          Exit code is number of necessary apid files that were not
+#                retrieved.
+#
+# NOTES:         Here's an example of using variable arguments:
+#
+#                apids="1081 1082 1083"
+#                set -A file_array \
+#                $(get_apids -d  $DataDirectory \
+#                            -s "'$SdtStartDate $SdtStartTime'" \
+#                            -e "'$SdtEndDate $SdtEndTime'"  $apids)
+#
+#                This script uses settings from the file
+#                $FASTCONFIG/Datamgr/Datamgr.conf
+#                Specifically, it gets the jukebox host and mount
+#                point from that file.
+#
+#
+# Written by:    J.Rauchleiba
+#                1998/3/16
+#
+
+. /disks/fast/software/config/archive_config
+
+# Usage
+
+if [[ ${#} = '0' ]] ; then
+    print 'Usage: get_apids -o <orbit> [-d <data_dir>] <apid_list>' 1>&2
+    print '       get_apids -s 1996/12/31 -e 1997/01/01 <apid_list>' 1>&2
+    print '       get_apids -s "'\''1996/12/31 12:00:00'\''" -e "'\''1996/01/01 00:00:00'\''" <apid_list>' 1>&2
+    exit 255
+fi
+
+# Initialize some variables
+
+used_sesh=/tmp/get_apid.used_sesh$$
+datadir=$PWD
+typeset -i verbose=0
+
+# Option handling
+
+while getopts ":vo:s:e:d:" option ; do
+	case $option in
+	   v ) verbose=1 ;;
+	   o ) orbit=$OPTARG ;;
+	   s ) stdate=$OPTARG ;;
+	   e ) endate=$OPTARG ;;
+	   d ) datadir=$OPTARG ;;
+	  \? ) print 'Type get_apids without arguments for usage.' 1>&2
+	       exit 255 ;;
+	esac
+done
+shift $((OPTIND - 1))
+
+# Get jukebox host and mount point from Datamgr.conf file
+# This script must be run on jukebox host
+
+datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+if [[ ! -r $datamgr_conf ]] ; then
+    print "Unable to read data manager config:
+    $FASTCONFIG/Datamgr/Datamgr.conf" 1>&2
+    exit 255
+fi
+
+# Jukebox host
+
+host=$(uname -n)
+jb_host=$(nawk '
+	  NF == 3 {
+		if ($1 == "set" && $2 == "JUKEBOX_HOST") print $3;
+	  }' $datamgr_conf |
+	  tail -1)
+if [[ -z "$jb_host" ]] ; then
+    print "Unable to determine jukebox host" 1>&2
+    exit 255
+fi
+if [[ "$host" != "$jb_host" ]] ; then
+    print "Run get_apids on $jb_host for jukebox access. Use rsh -n" 1>&2
+    exit 255
+fi
+
+# Jukebox mount point
+
+jb_mount=$(nawk '
+	   NF == 3 {
+		if ($1 == "set" && $2 == "JUKEBOX_MOUNTPOINT") print $3;
+	   }' $datamgr_conf |
+	   tail -1)
+if [[ ! -r $jb_mount ]] ; then
+    print "Unable to read jukebox mount point: $jb_mount" 1>&2
+    exit 255
+fi
+
+# Verbose output
+
+if ((verbose)) ; then
+    printf "JB HOST: %s\nJB MOUNT: %s\n" $jb_host $jb_mount 1>&2
+fi
+
+# All data sources, in order searched
+
+set -A DATA_SOURCE ${DANETSTORAGE[*]} $jb_mount
+
+# Check epoch and data directory
+
+if [[ -z $orbit ]] && [[ -z $stdate ]]; then 
+    print 'Must set orbit or dates.' 1>&2
+    exit 255
+fi
+if [[ ! -z $orbit ]] ; then
+    set -A orbit_epoch $(orbittime $orbit)
+    stdate=${orbit_epoch[0]}
+    endate=${orbit_epoch[1]}
+fi
+if [[ ! -w $datadir ]] ; then
+    print "No write permission on data directory: $datadir" 1>&2
+    exit 255
+fi
+
+# Message Header
+
+print 1>&2
+print "Data directory: $datadir" 1>&2
+print 1>&2
+print "Start:  $stdate    End:  $endate" 1>&2
+print 1>&2
+
+# Query database for files containing data for specified orbit or dates
+# Query returns "CDNAME/lzp/session/apidfile".
+
+if [[ ! -z $orbit ]] ; then
+    set -A results $(whichfiles -l $orbit $*)
+else
+    set -A results $(whichfiles -l "timespan { \"$stdate\" \"$endate\" }" $*)
+fi
+if [[ ${results[0]} == '' ]] ; then
+    print "No data files for specified timespan." 1>&2
+    exit 255
+fi
+
+# Retrieve the apid and counts files.
+#
+# Attempt to copy ALL apid files returned by whichfiles, with the 
+# following exceptions (in order):
+#
+#   * Do not copy an apid if it has already been copied and exists in the
+#     data directory.
+#   * Do not attempt to copy an apid if it does not exist in the jukebox.
+#   
+
+cd $datadir
+
+# Create temp file to hold list of sessions used
+
+trap 'rm -f $used_sesh' EXIT
+if ! touch $used_sesh ; then
+    print "Unable to create temp file: $used_sesh" 1>&2
+    exit 255
+fi
+
+# Loop through each apid file returned by whichfiles
+
+typeset -i exitcode=0
+for result in ${results[*]} ; do
+	# Create replica of data session in current (data) dir
+	sesh_apid=${result#*/*/}
+	sesh=${sesh_apid%/*}
+	if [[ ! -a $sesh ]] ; then
+		mkdir -m 775 $sesh
+	fi
+	# Copy the apid or counts file.
+	# Check the data directory first
+	# then check some trusted dirs, finally the jukebox
+	if [[ -a $sesh_apid ]] ; then
+	    print "Not overwriting $sesh_apid" 1>&2
+	    print $sesh >> $used_sesh
+	else
+	    # Check all data sources
+	    typeset -i retrieved=0
+	    for dsource in ${DATA_SOURCE[*]} ; do
+		if [[ -a $dsource/$result ]] ; then
+		    # Copy data and break search
+		    print "Retrieving $result" 1>&2
+		    cp $dsource/$result $sesh
+		    print $sesh >> $used_sesh
+		    retrieved=1
+		    break
+		else
+		    retrieved=0
+		fi
+	    done
+	    # Test result of data search
+	    if ((! retrieved)); then
+		print "Lost $result" 1>&2
+		let 'exitcode=exitcode+1'
+	    fi
+	fi
+	# Change permissions of apid/.cnt file
+	if [[ -O $sesh_apid ]] ; then
+	    chmod 774 $sesh_apid
+	fi
+done
+
+# Print the data session names to stout
+
+cat $used_sesh | sort -u
+rm $used_sesh
+
+trap - EXIT
+exit $exitcode

@@ -1,0 +1,491 @@
+************************************************************************
+
+   README.General.UCB.wt.total_plasma_velocity
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.total_plasma_velocity
+
+************************************************************************
+
+   Total plasma velocity.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.total_plasma_velocity	1.2    02/06/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module determines the total plasma velocity.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The electric field, E.
+
+
+
+            2) The magnetic field, B.
+
+
+
+
+
+    3) If the total plasma velocity is v_Tot, then
+
+
+
+           v_Tot_Z = Value selected by the user
+
+           v_Tot_X = v_Tot_Z * (BX / BZ) + K * (EY / BZ)
+
+           v_Tot_Y = v_Tot_Z * (BY / BZ) - K * (EX / BZ)
+
+
+
+       K is a scalar constant to adjust for the units.
+
+
+
+       Note that v_Tot is not a true vector (E and B can be in any
+       coordinate system, if both are in the same one; but v_Tot cannot
+       be calculated in one coordinate system and then rotated to
+       another one).
+
+
+
+
+
+    4) No output data point is written if the absolute value of BZ is
+       less than a minimum specified by the user.
+
+
+
+
+
+    5) Each input vector must be in a coordinate system that does not
+       participate of the rotation of the spacecraft.
+
+
+
+       The output vector v_Tot will be in the same coordinate system as
+       the input vector E.
+
+
+
+
+
+    6) If the components of B are not referred to the same coordinate
+       system as the components of E, then there must be an additional
+       input, which is a rotation matrix that rotates vector components,
+       from the coordinate system of B into the coordinate system of
+       E.
+
+
+
+
+
+    7) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    8) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    9) An output data point is produced for each input point of E.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of E.
+
+
+
+
+
+   10) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of B.
+
+
+
+       The B vector for the time of the output data point is obtained by
+       linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   11) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The input rotation matrix for the time of the output data point
+       is the input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Factor for the units.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+            3) Flag for the coordinate system of the magnetic field
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in the same system as
+                                 E.
+
+                    WT_FALSE  =  The vector is not in the same system as
+                                 E.
+
+
+
+            4) Minimum for |BZ|.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+            5) Value for v_Tot_Z.
+
+
+               Double.
+
+
+
+            6) The group of parameters described here occurs once for
+               each of the 3 input vector components of E.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            7) Dropout time for B.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the 3 input vector components of B.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            9) Flag to transpose the rotation matrix.
+
+
+               Int.
+
+
+               If the input rotation matrix is used,
+               must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+           10) Dropout time for the rotation matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If the input rotation matrix is used,
+               must be  >  0.
+
+
+
+           11) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If the input rotation matrix is used,
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The electric field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The rotation matrix between the coordinate system of B
+               and the coordinate system of E.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.

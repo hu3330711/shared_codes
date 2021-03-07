@@ -1,0 +1,366 @@
+************************************************************************
+
+   README.General_SDT_Science_Plot_Abbreviations
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Abbreviations for SDT Science Plots.
+
+************************************************************************
+
+   @(#)README.General_SDT_Science_Plot_Abbreviations	1.6    06/28/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+       These abbreviations refer mainly to SDT Science plots for POLAR
+and for CLUSTER; and to a lesser degree, for FAST.
+
+
+
+
+
+################   0-9   ################
+
+12     1) Electric field boom on the spin plane (spheres 1 and 2).
+       2) Timing of the spin fit for V12 (electric field boom 12).
+
+34     1) Electric field boom on the spin plane (spheres 3 and 4).
+       2) Timing of the spin fit for V34 (electric field boom 34).
+
+56     1) POLAR.  Axis 3 of SPC coordinate system.
+       2) POLAR.  Electric field boom on the spin axis.
+
+
+
+
+
+################   A   ################
+
+A      1) Spin period averaged quantity.
+       2) Constant spin fit coefficient.
+
+Avg    Average.
+
+
+
+
+
+################   B   ################
+
+B      1) Magnetic field.
+       2) Spin fit coefficient of cosine term.
+       3) CLUSTER.  Electric field burst quantity.
+
+BBL    POLAR.  Electric field burst quantity; burst CPU (CPU 2),
+       low-pass filtered.
+
+BBU    POLAR.  Electric field burst quantity; burst CPU (CPU 2),
+       unfiltered.
+
+BSC    Magnetic Spacecraft Coordinates.  Spin plane/spin axis,
+       non-rotating, using spin plane projection of B.
+
+BSC_I    BSC coordinate system, defined by the instantaneous B.
+
+BSC_M    BSC coordinate system, defined by the model B.
+
+BSC_S    BSC coordinate system, defined by the spin period B.
+
+
+
+
+
+################   C   ################
+
+C      1) Corrected quantity.
+       2) Spin fit coefficient of sine term.
+
+C_2    Corrected quantity, some particular correction not performed.
+
+
+
+
+
+################   D   ################
+
+DSC    Despun Spacecraft Coordinates.  Spin plane/spin axis,
+       non-rotating, using spin plane projection of Sun vector.
+
+
+
+
+
+################   E   ################
+
+E      Electric field; spin plane components are measured; spin axis
+       component is measured.
+
+E_0    Electric field; spin plane components are measured; spin axis
+       component is assumed to be zero.
+
+E_0_T    E_0, transformed to the frame of reference of the center of the
+         Earth.
+
+E_Dot0    Electric field; spin plane components are measured; spin axis
+          component is assumed to be such, that E_Dot0 is perpendicular
+          to B.
+
+E_Dot0_T    E_Dot0, transformed to the frame of reference of the center
+            of the Earth.
+
+E_T    E, transformed to the frame of reference of the center of the
+       Earth.
+
+E_X0    CLUSTER.  Electric field; spin plane components are measured;
+        spin axis component is assumed to be such, that the X component
+        of E_X0 in FAC is zero.
+
+E_Y0    CLUSTER.  Electric field; spin plane components are measured;
+        spin axis component is assumed to be such, that the Y component
+        of E_Y0 in FAC is zero.
+
+E_Z0    CLUSTER.  Electric field; spin plane components are measured;
+        spin axis component is assumed to be such, that the Z component
+        of E_Z0 in FAC is zero.
+
+ECI    Earth-Centered Inertial coordinate system.  Same as GEI.
+
+
+
+
+
+################   F   ################
+
+FAC    Field-Aligned Coordinates.
+
+FAC_I    FAC coordinate system, defined by the instantaneous B.
+
+FAC_M    FAC coordinate system, defined by the model B.
+
+FAC_S    FAC coordinate system, defined by the spin period B.
+
+
+
+
+
+################   G   ################
+
+GCI    Geocentric Celestial Inertial coordinate system.  Same as GEI.
+
+GEI    Geocentric Equatorial Inertial coordinate system.
+
+GEO    Geographic coordinate system.
+
+GSE    Geocentric Solar Ecliptic coordinate system.
+
+GSM    Geocentric Solar Magnetospheric coordinate system.
+
+
+
+
+
+################   H   ################
+
+H      CLUSTER.  Electric field quantity, high-pass filtered.
+
+HSKF    CLUSTER.  Electric field quantity, from on-board housekeeping
+        spin fits.
+
+
+
+
+
+################   I   ################
+
+Inst    Instantaneous time resolution.
+
+
+
+
+
+################   J   ################
+
+
+
+
+
+################   K   ################
+
+
+
+
+
+################   L   ################
+
+L      Electric field quantity, low-pass filtered.
+
+Lat    Latitude.
+
+Long    Longitude.
+
+
+
+
+
+################   M   ################
+
+M      CLUSTER.  Electric field quantity, medium-pass filtered.
+
+Mag    Magnitude.
+
+MBL    POLAR.  Electric field burst quantity; main CPU (CPU 1),
+       low-pass filtered.
+
+MBU    POLAR.  Electric field burst quantity; main CPU (CPU 1),
+       unfiltered.
+
+
+
+
+
+################   N   ################
+
+n      Plasma density
+
+
+
+
+
+################   O   ################
+
+
+
+
+
+################   P   ################
+
+Plasma_Pot      Plasma potential, determined using E.
+
+Plasma_Pot_0    Plasma potential, determined using E_0.
+
+Plasma_Pot_Dot0    Plasma potential, determined using E_Dot0.
+
+
+
+
+
+################   Q   ################
+
+QF_1      POLAR.  Selection by 1 quality flag: quality flag for
+          spacecraft potentials.
+
+QF_2      POLAR.  Selection by 2 quality flags: quality flag for
+          spacecraft potentials, quality flag for large electric field
+          values.
+
+QFlag      POLAR.  Quality flag.
+
+
+
+
+
+################   R   ################
+
+
+
+
+
+################   S   ################
+
+S      FAST.  Electric field survey quantity.
+
+S_C    Spacecraft.
+
+S_C_Pot12    Spacecraft potential, average from spheres 1, 2.
+
+S_C_Pot1234    Spacecraft potential, average from spheres 1, 2, 3, 4.
+
+S_C_Pot34    Spacecraft potential, average from spheres 3, 4.
+
+S_C_Pot56    POLAR.  Spacecraft potential, average from spheres 5, 6.
+
+S_C_Vel    Spacecraft velocity.
+
+SC1    CLUSTER.  Spacecraft 1.
+
+SC2    CLUSTER.  Spacecraft 2.
+
+SC3    CLUSTER.  Spacecraft 3.
+
+SC4    CLUSTER.  Spacecraft 4.
+
+SCC    Spacecraft Coordinates.  Spin plane/spin axis, rotating.
+
+SPC    POLAR.  Spin Plane Coordinates.  Spin plane/spin axis,
+       non-rotating, using spin plane projection of Sun vector.
+       Coordinate axes are X-Y, Z, 56.
+
+Spin_P    Spin period time resolution.
+
+
+
+
+
+################   T   ################
+
+T96    Tsyganenko 1996 model magnetic field.
+
+
+
+
+
+################   U   ################
+
+U      CLUSTER.  Electric field quantity, unfiltered.
+
+
+
+
+
+################   V   ################
+
+v      Plasma velocity, determined using E.
+
+v_0    Plasma velocity, determined using E_0.
+
+v_0_T    Plasma velocity, determined using E_0_T.
+
+v_Dot0    Plasma velocity, determined using E_Dot0.
+
+v_Dot0_T    Plasma velocity, determined using E_Dot0_T.
+
+v_T    Plasma velocity, determined using E_T.
+
+
+
+
+
+################   W   ################
+
+
+
+
+
+################   X   ################
+
+X-Y    POLAR.  Axis 1 of SPC coordinate system.
+
+
+
+
+
+################   Y   ################
+
+
+
+
+
+################   Z   ################
+
+Z      POLAR.  Axis 2 of SPC coordinate system.

@@ -1,0 +1,419 @@
+****************************************************************
+
+       README.ogs.installation
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogs system.
+
+****************************************************************
+
+       @(#)README.ogs.installation	1.4    07/07/95    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+        1. Introduction.
+
+        2. Software distribution.
+
+        3. Dedicated login name.
+
+        4. Input from Goddard.
+
+        5. Output directory.
+
+        6. Configuration files.
+
+        7. Starting automated production.
+
+        8. Group membership to send output files.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        1. Introduction.
+
+
+
+
+               The purpose of the "ogs" system is to produce
+       instrument command files and shadow ephemeris files for
+       the FAST satellite.
+
+               These files are used to control instruments on
+       the spacecraft.  To accomplish this, the files need to be
+       sent to Goddard (CMS), to be uploaded to the spacecraft.
+
+
+
+               This documentation file explains how the "ogs"
+       system needs to be installed.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        2. Software distribution.
+
+
+
+
+               The first requirement for installing the ogs
+       system is that the FAST software that is distributed by
+       the Space Sciences Laboratory of the University of
+       California, Berkeley; must have been installed.
+
+
+               Normally, what is installed corresponds to the
+       "delivery" workspace; this is what is assumed in what
+       follows.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        3. Dedicated login name.
+
+
+
+
+               Although it is not required, it facilitates
+       things considerably to have a login name dedicated to
+       running the jobs and procedures of the ogs system.
+
+
+               In what follows, it will be assumed that such a
+       login name is set up.
+
+
+               The login name will be referred to as "ogs",
+       although any login name would be permissible.
+
+
+
+               The ogs login must be on a machine belonging to
+       the FINET network, so as to be able to receive input
+       files from Goddard and to send output files to Goddard.
+
+
+
+               The ogs login must have the environment variables
+       $FASTCONFIG and $FASTLIB properly defined; and must
+       include in the path to be searched for executable
+       programs, the directory that contains the FAST software
+       from UC Berkeley.
+
+
+               This can be accomplished by executing the
+       command
+
+           source /disks/fast/software/delivery/setup
+
+       for the C-shell; or the command
+
+           . /disks/fast/software/delivery/setup.bourne
+
+       for the Bourne shell.
+
+
+               It is most convenient to include this command in
+       a file that is executed automatically as part of starting
+       a shell (e.g., the .cshrc file for the C-shell).
+
+
+
+       ---------------------------------------------------------
+
+
+
+        4. Input from Goddard.
+
+
+
+
+               Directories must be set up, where the input from
+       Goddard is to arrive.
+
+
+
+               It is recommended that these directories have
+       write permission for the user and for the group; and that
+       the ogs login be a member of the group, this being the
+       primary group for the ogs login (this implies that the
+       owners of these directories all must have the same
+       primary group).
+
+
+
+       ---------------------------------------------------------
+
+
+
+        5. Output directory.
+
+
+
+
+               The output from the ogs system goes into several
+       subdirectories of one single directory.
+
+
+
+               This top level directory should be created as an
+       empty directory.
+
+
+
+               This top level directory should have write
+       permission for the user and for the group; with the ogs
+       login being a member of the group.
+
+               It is recommended that the owner of this
+       directory be the ogs login; or at least that the
+       directory belong to the primary group of the ogs login.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        6. Configuration files.
+
+
+
+
+               The directory
+
+           $FASTCONFIG
+
+       contains subdirectories with all the configuration files
+       for the ogs system.
+
+
+               This directory can be obtained as a special
+       distribution from UC Berkeley.
+
+
+
+               The files in the subdirectories of $FASTCONFIG
+       are under SCCS code control.
+
+
+
+               The subdirectories of $FASTCONFIG that contain
+       files for the ogs system are:
+
+           ATSConfig
+
+           Fastorb
+
+           ogsDAT
+
+           sunnadirDAT
+
+
+
+               All the subdirectories of $FASTCONFIG that
+       contain all the configuration files for ogs, as well as
+       everything under those subdirectories; should have write
+       permission for the user and for the group; with the ogs
+       login being a member of the group.
+
+               It is recommended that the group for these
+       subdirectories and everything under them be the primary
+       group of the ogs login.
+
+
+
+               The subdirectory "ogsDAT" of $FASTCONFIG contains
+       a file called
+
+           ogs.cfg
+
+
+               This is the procedure configuration file.
+
+
+
+               The procedure configuration file in $FASTCONFIG
+       should be edited directly with a text editor, to make
+       sure that the name of the top level output directory that
+       appears in the file is what it should be.
+
+               The editing should be done under SCCS.
+
+               The top level output directory path name must be
+       assigned to the shell variable "ogsoud" in the procedure
+       configuration file.
+
+
+
+               All the configuration files can be edited now
+       with the procedure
+
+           ogsedtcf
+
+       to make sure that their contents is as desired.
+
+
+               When this is done, care must be taken regarding
+       changes to entries in the procedure configuration file
+       (such as names of printers), as they do not become
+       effective until after the end of the editing procedure.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        7. Starting automated production.
+
+
+
+
+               The main production steps of the ogs system can
+       be automated.
+
+
+
+               A crontab file needs to be created in the ogs
+       login.
+
+
+               This crontab file must contain lines to execute
+       the commands
+
+           *  ogscolgf
+
+           *  ogs
+
+       according to an appropriate schedule.
+
+
+               The crontab file must take care also to perform
+       the appropriate setup for the environment variables and
+       path.
+
+
+
+               A possible crontab file might be:
+
+       S . /disks/fast/software/delivery/setup.bourne ; ogscolgf
+       S . /disks/fast/software/delivery/setup.bourne ; ogs -g -s
+
+       where "S" represents the part of each line that gives
+       the schedule corresponding to that line.
+
+               Note that within the crontab file the Bourne
+       shell setup file must be used.
+
+
+
+               If desired, 2 windows can be opened for the ogs
+       login, and be dedicated to the monitoring procedures
+
+           *  ogsmon
+
+           *  ogsflmon
+
+               One monitoring procedure can be started in each
+       dedicated window.
+
+
+
+               Once the monitoring is started (if a choice was
+       made to have monitoring), the crontab file can be
+       activated, i.e., copied to the system directory for
+       crontab files; so that the automated processing begins.
+
+
+
+               However, it may be preferable to have the first
+       2 runs of ogs be started interactively (i.e., by the
+       intervention of an operator); and to activate the crontab
+       file after the end of the second run.
+
+               The reason to delay starting the automated
+       processing is that after the first run it is necessary to
+       reset the orbit numbers; and this procedure requires that
+       no new input files from Goddard should have been
+       collected between the first and the second run.
+
+               The procedures for interactive operator
+       intervention are documented separately.
+
+               Once the run that resets the orbit numbers has
+       ended successfully, the crontab file can be activated.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        8. Group membership to send output files.
+
+
+
+
+               Once the ogs system creates the final product
+       output files, they need to be sent to Goddard.
+
+
+
+               Special software exists to accomplish this, e.g.,
+       ogssend.
+
+
+
+               Sending the files is done via "ftp" over the
+       FINET network.
+
+
+               This requires the presence of a special file
+       called
+
+           .netrc
+
+
+               Because the .netrc file contains a password,
+       special security considerations apply.
+
+
+               A master copy of the .netrc file is set up, and
+       must be accessed in order to send files.
+
+               This master copy is set up under the name
+
+           $FASTCONFIG/netrc.CMS
+
+       and a copy of it would have to be obtained from UC
+       Berkeley in order to install it elsewhere.
+
+
+
+               Access to this master copy is restricted to login
+       names belonging to a certain group only (at UC Berkeley
+       this group's name is "cms").
+
+
+
+               Therefore, the login name that will be used to
+       send the files must be a member of the group that has
+       access to the master .netrc file (at UC Berkeley, the cms
+       group).

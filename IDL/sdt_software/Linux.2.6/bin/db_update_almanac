@@ -1,0 +1,348 @@
+#!/bin/ksh
+#
+#  db_update_almanac.sh
+#	@(#)db_update_almanac.sh	1.13 06/20/03	UCB SSL
+#
+#	George Kaplan
+#
+#  Process incoming orbit data into the FAST almanac directory and
+#  database.  Expands FDF orbit vectors into orbit almanac
+#  files and installs in the almanac directory.  In addition,
+#  computes orbit start and finish times and ephemeris events
+#  and updates the database.
+#
+#  Orbit numbers are computed by matching orbit start times (ascending
+#  nodes) to previously recorded orbit numbers in the almanac
+#  or the orbits table in the database.
+#
+#  Usage:
+#	db_update_almanac  [-c config] [directory]
+#
+#	-c config	Specifies an alternate orbit almanac config
+#			file.  The default is 'fast_dbupdate.conf'
+#
+#	directory	Root directory of the CD being processed
+#
+# ***************************************************************
+
+# *** Environment update - The following was added due to 
+# *** conflicts with the environment variable LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/disks/fast/software/${WORKSPACE}/SunOS.5.7/lib:/usr/local/lib:/usr/openwin/lib:/usr/lib
+export LD_LIBRARY_PATH
+
+# *** Temporary files
+TEMPSQL=/tmp/sql$$	# SQL queries
+TEMPSQLX=/tmp/sqlx$$	# More SQL queries
+TEMPHDR=/tmp/hdr$$	# Orbit headers for matching orbit numbers
+TEMPFDF=/tmp/fdf$$	# Dummy FDF-style orbit vector
+TEMPORB=/tmp/orb$$	# Dummy orbit header file for extending orbits
+TEMPEVENTS=/tmp/event$$	# Events list for op_events_sqlgen
+TEMPRES=/tmp/res$$	# Return status codes
+TEMPS="${TEMPSQL} ${TEMPSQLX} ${TEMPHDR} ${TEMPFDF} ${TEMPORB} \
+	${TEMPEVENTS} ${TEMPRES}"
+
+# *** Exit processing
+finish () {
+	/bin/rm -f ${TEMPS}
+	echo "Finished 'db_update_almanac'"
+}
+trap finish exit
+
+# *** Patterns for filename types
+
+# Almanac files
+PRED_PATTERN='^orb_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9]_[0-9]*_pred$'
+DEF_PATTERN='^orb_[0-9][0-9][0-9][0-9]_[0-9][0-9][0-9]_[0-9]*_def$'
+
+# FDF orbit vector files
+PRED_FDF='^F[09][0-9][0-9][0-9][0-9]EPVPRE\.[0-9][0-9]$'
+DEF_FDF='^F[09][0-9][0-9][0-9][0-9]EPVDEF\.[0-9][0-9]$'
+
+# OGS file patterns
+OGSARCH=ogsarch		# OGS archive directory
+ORBSTART=orbstart	# file orbit start times
+OGS_PAT='ogs.archive.[12][0-9][0-9][0-9].[0-9][0-9][0-9]'
+
+
+# *** Default values
+ORBIT_PLUS=8000		# More than one orbit; seconds
+DELTA=30		# Range for matching orbit start; seconds
+THREE_DAYS=270000	# Something more than three days
+ALM_SAVE=4		# Save latest 3 almanac files
+
+# ***************************************************************
+# *** Command line processing
+CONFIG=fast_dbupdate.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+	echo "${MYNAME}:  ${ARCH_ERROR}" 1>&2
+	exit ${ERR}
+fi
+if [ "x${FAST_ALMANAC}" = "x" ] ; then
+	echo "${MYNAME}:  FAST_ALMANAC not set" 1>&2
+	exit 1
+fi
+
+MYNAME=$(basename $0)
+DIRECTORY=
+
+while [ $# -gt 0 ] ; do
+        if [ "$1" = "-c" ] ; then
+		shift 2
+	else
+		DIRECTORY=$1
+		break
+        fi
+done
+
+# *** Orbit almanac location
+
+ORBITALMANAC=${FAST_ALMANAC}/orbit
+ORBDEFINITIVE=${ORBITALMANAC}/definitive
+ORBPREDICTED=${ORBITALMANAC}/predicted
+
+# ***************************************************************
+# *** Functions
+
+# Determine orbit number for an FDF orbit vector file, using
+# the epoch from the FDF file and existing orbit numbers in
+# the database.  If the database doesn't already have an
+# orbit number for the given epoch, the orbit numbers are
+# extended from the latest orbit almanac file.
+#
+# On exit, sets the variables:
+#
+#	year	Year of the FDF vector epoch
+#	doy	DOY of the FDF vector epoch
+#	firstorb	Orbit number at the vector epoch
+#
+# Usage:
+#	get_orbnum  fdffile
+
+get_orbnum()
+{
+	# Generate a couple of orbit headers so that we can figure out
+	# the orbit number.
+
+	/bin/rm -f ${TEMPHDR} ${TEMPSQL}
+	orbgen -d ${ORBIT_PLUS} -c 30 -h -f ${1} > ${TEMPHDR}
+
+	((year=$(awk '/^ORBIT:/ {print $4; exit}' ${TEMPHDR})))
+	((doy=$(awk '/^ORBIT:/ {print $5; exit}' ${TEMPHDR})))
+
+	# Now lookup the orbit number of the second header (first
+	# full orbit) from the database
+	awk '/^ORBIT:/ {
+	if (nhdr == 1) {
+		print "declare @target datetime";
+		print "select @target = ";
+		printf "dateadd(day, %d, \"%d jan 1 %s\")\n", \
+			$5 - 1, $4, substr($6, 1, 10);
+		print "select orbit from orbits";
+		print "where start > dateadd(second, -'${DELTA}', @target)";
+		print "and start < dateadd(second, '${DELTA}', @target)";
+		print "go";
+	}
+	nhdr += 1;
+	}' ${TEMPHDR} > ${TEMPSQL}
+
+	firstorb=$(do_isql ${TEMPSQL} | SQL_queryfilter)
+
+	# Look up the same orbit from the OGS orbstart file
+	ogsorb=$(awk -F: '/EPOCH/ {print $3, $4, $5}' ${TEMPHDR} | \
+		tail +2 | head -1 | doy2day | find_orbstart ${ORBSTART} | \
+		awk '{print $1}')
+	
+	# Both firstorb and ogsorb should match, if they were both
+	# found.  
+	if [[ "x${firstorb}" != "x" && "x${ogsorb}" != "x" ]] ; then
+		if [[ ${firstorb} -ne ${ogsorb} ]] ; then
+			return 1
+		fi
+	fi
+	if [[ "x${firstorb}" = "x" ]] ; then
+		firstorb=${ogsorb}
+	fi
+
+	if [[ "x${firstorb}" = "x" ]] ; then
+		return 1
+	fi
+
+	((firstorb = ${firstorb} - 1))
+
+	return 0
+}
+
+# Print a message to stderr and exit if the previous command
+# generated an error (i.e.  had a non-zero return status)
+#
+# Usage:
+#	<command>
+#	errexit $? "<command> failed"
+
+errexit()
+{
+	ERR=$1
+	if [[ ${ERR} != 0 ]] ; then
+		echo "${MYNAME}:  $2" 1>&2
+		exit ${ERR}
+	fi
+}
+
+
+# *************************************************************
+if [ "x${DIRECTORY}" != "x" ] ; then
+	cd ${DIRECTORY}
+else
+	DIRECTORY=$(pwd)
+fi
+
+
+# *** Process FDF orbit vectors; in OGS archive directories.
+#     Within each directory, process predicted FDF vectors first,
+#     then definitive, from oldest to newest.
+
+ogs_list=$(ls -d ${DIRECTORY}/${OGSARCH}/* | egrep "${OGS_PAT}")
+
+for ogs_dir in ${ogs_list} ; do
+	echo "Processing FDF orbit data for ${ogs_dir}"
+
+	cd ${ogs_dir}
+
+	pred_list=$(ls | egrep "${PRED_FDF}" | sort)
+	def_list=$(ls | egrep "${DEF_FDF}" | sort)
+
+	for fdf_file in ${pred_list} ${def_list} ; do
+
+		echo "Processing ${fdf_file}"
+
+		ACT=""
+		ALMTYPE="pred"
+		if [[ $(echo ${fdf_file} | grep -c 'EPVDEF') -eq 1 ]] ; then
+			ACT="-a"
+			ALMTYPE="def"
+		fi
+		get_orbnum ${fdf_file}
+		errexit $? "Couldn't determine initial orbit number"
+
+		# -----------------------------------------------------
+		# Generate orbit headers from the FDF file, now that we
+		# know the orbit number.
+		echo "\tPropagating orbit data..."
+		alm_file=${ORBITALMANAC}/orb_${year}_${doy}_${firstorb}_${ALMTYPE}
+		orbgen -d ${THREE_DAYS} -c 10 -h -n ${firstorb} -f ${fdf_file} \
+			>  ${alm_file}
+		errexit $? "Error in orbgen"
+
+		# -----------------------------------------------------
+		# Now update the database orbit and ephemeris data for the
+		# predicted orbit file we just computed
+		echo "\tUpdating ephemeris_events in database..."
+		/bin/rm -f ${TEMPSQL}
+		eph_events_sqlgen ${ACT} -d ${THREE_DAYS} ${alm_file} \
+			> ${TEMPSQL}
+		errexit $? "Error in eph_events_sqlgen"
+
+		(do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | \
+			grep -v 'return status' | grep -v 'Password:'
+		errexit $(cat ${TEMPRES}) \
+			"isql error updating ephemeris events"
+
+		# -----------------------------------------------------
+		# Update ephemeris data for operational_events within 
+		# the timespan covered by the new almanac data
+		echo "\tFinding operational_events to update..."
+		START=$(awk -F: '/EPOCH/ {print $3, $4, $5}' ${alm_file} \
+			| head -1 | doy2day)
+		/bin/rm -f ${TEMPSQL}
+		cat <<-END > ${TEMPSQL}
+		select
+			datepart(year, time),
+			datepart(dayofyear, time),
+			datepart(hour, time),
+			datepart(minute, time),
+			datepart(second, time) + 
+				datepart(millisecond, time) / 1000.
+		from operational_events
+		where time >= "${START}"
+		and time < dateadd(second, ${THREE_DAYS}, "${START}")
+		go
+		END
+
+		(do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | \
+			SQL_queryfilter | doy2day > ${TEMPEVENTS}
+		errexit $(cat ${TEMPRES}) \
+			"isql error finding operational events"
+
+		# -----------------------------------------------------
+		# Now test if there is any data that should be updated
+		/bin/rm -f ${TEMPSQL}
+		cat <<-END > ${TEMPSQL}
+		select count(*)
+		from operational_events
+		where time >= "${START}"
+		and time < dateadd(second, ${THREE_DAYS}, "${START}")
+		go
+		END
+
+		(do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | \
+			RES=$(awk 'NR == 4 {print $1}')
+		errexit $(cat ${TEMPRES}) \
+			"isql error finding operational events"
+
+		# -----------------------------------------------------
+		# Now process the events list and the new almanac file 
+		# to update the orbit and ephemeris data for those events
+		if [[ ${RES} -gt 0 ]] ; then
+		   echo "\tUpdating operational_events in database..."
+		   /bin/rm -f ${TEMPSQL}
+		   op_events_sqlgen ${ACT} ${alm_file} ${TEMPEVENTS} \
+			> ${TEMPSQL}
+		   errexit $? "Error in op_events_sqlgen"
+
+		   (do_isql ${TEMPSQL} ; echo $? > ${TEMPRES}) | \
+			grep -v 'return status' | grep -v 'Password:'
+		   errexit $(cat ${TEMPRES}) \
+			"isql error updating operational events"
+		fi
+
+		# -----------------------------------------------------
+		# Merge this orbit data with the master predicted or
+		# definitive almanac file.
+
+		echo "\tMerging almanac files..."
+		if [[ "$ALMTYPE" = "def" ]] ; then
+			ORBALMANAC=${ORBDEFINITIVE}
+		else
+			ORBALMANAC=${ORBPREDICTED}
+		fi
+
+		if [[ -r ${ORBALMANAC} ]] ; then
+			orbappend ${ORBALMANAC} ${alm_file}
+			if [[ "$?" != "0" ]] ; then
+				echo "Couldn't merge ${alm_file} into almanac" 1>&2
+			fi
+		else
+			cp ${alm_file} ${ORBALMANAC}
+		fi
+
+
+	done
+done
+
+# -----------------------------------------------------
+# Save the last few propagated almanac files, both predicted
+# and definitive
+oldest_alm=$(ls ${ORBITALMANAC} | egrep ${PRED_PATTERN} \
+	| sort -r | tail +${ALM_SAVE})
+if [[ "x${oldest_alm}" != "x" ]] ; then
+	/bin/rm -f ${oldest_alm}
+fi
+oldest_alm=$(ls ${ORBITALMANAC} | egrep ${DEF_PATTERN} \
+	| sort -r | tail +${ALM_SAVE})
+if [[ "x${oldest_alm}" != "x" ]] ; then
+	/bin/rm -f ${oldest_alm}
+fi
+
+exit 0

@@ -1,0 +1,26 @@
+AURORAL OVAL REPRESENTATION OF THE FELSTEIN OVALS BY HOLZWORTH AND MENG
+
+This model provides a mathematical representation of the auroral oval by a
+seven parameter Fourier series. Holzworth and Meng (1975) list coefficients 
+for the seven Feldstein (1963) ovals which correspond to different levels of 
+geomagnetic activity. The model provides the equatorward and polward 
+boundaries in Corrected Geomagnetic Latitude (CGL) of the oval for given 
+magnetic local time (MLT); MLT is the magnetic local time in a Corrected
+Geomagnetic Coordinate system. The FORTRAN program computes the CGL values 
+for given MLT and level of magnetic activity (0 to 6).
+
+ACKNOWLEDGEMENT:
+Please acknowledge the software provider (NSSDC) and the model authors
+(Holzworth and Meng) in any publication that results from work using this 
+software and in any software program/application that includes these
+model code.
+
+References:
+
+Y. I. Feldstein, On Morphology and Auroral and Magnetic Disturbances at High
+Latitudes, Geomagn.
+Aeron. 3, 138, 1963. 
+
+R. H. Holzworth, C.-I. Meng, Mathematical Representation of the Auroral Oval,
+Geophys. Res. Lett. 2, 377,
+1975. 

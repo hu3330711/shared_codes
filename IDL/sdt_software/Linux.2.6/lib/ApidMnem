@@ -1,0 +1,97 @@
+#This file contains a mapping of APIDs to APID mnemonics.
+#
+# The file format is give as:
+#	BEGIN, <catagory>
+#		<catagory info>
+#	END
+#
+# Where:
+#  the BEGIN and END statments are case sensitive.
+#  <catagory> can be one of: "app_id".
+#   Quotes not included.
+#  each line of <catagory info> has the format:
+#	for the "app_id" catagory:
+#		<real appid>, <mnemonic>, <longMnem>
+#	  e.g.
+#		1024, eESA-Srv, 400
+#	  - note that only the first 9 characters of mnemonic (not longMnem) 
+#	    are displayed.
+#
+# blank lines and line beginning with '#' are ignored.
+# white space is ignored.
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#  (app ID's must be in the range of 1024 to 1098 -- until you recompile )
+BEGIN, app_id 
+    #   app ID	Mnemonic	long Mnemonic
+	0,	Thermal,	Thermal
+	1,	Pwr-BatCh,	Pwr-BatteryCharge
+	2,	ACS-HRate,	ACS-HighRate
+	3,	ACS-LRate,	ACS-LowRate
+	4,	RF-UpDnXp,	RF-UpDownXponder
+	5,	SC_HighRt,	MUE-S/C_MiscHighRate
+	6,	MUE-C&DH,	MUE-C&DH
+	7,	PwrProces,	PwrProcess
+	8,	SC_LowRt,	MUE-S/C_MiscLowRate
+	9, 	MUE-Syst,	MUE-System
+	10,	PwrDist,	PwrDistribution
+	15,	ACS-Mag,	ACS-Magnetometer
+	1024,	eESA-Surv,	eESA-Survey
+	1025,	iESA-Surv,	iESA-Survey
+	1026,	sESA-Surv,	sESA-Survey
+	1027,	TMS-Srv,	TMS-Survey
+	1028,	TMS-HMass,	TMS-HMass
+	1029,	TMS-PChan,	TMS-PChan
+	1030,	TMS-MnRts,	TMS-MnRts
+	1031,	TMS-PHA,	TMS-PHA
+	1032,	FLD-Surv0,	FLD-Survey0
+	1033,	FLD-Surv1,	FLD-Survey1
+	1034,	FLD-Surv2,	FLD-Survey2
+	1035,	BBF,		BBF
+	1036,	SFA-AVG,	SFA-AVG
+	1037,	DSP,		DSP
+	1038,	HFQ,		HFQ
+	1039,	eESA-Brst,	eESA-Burst
+	1040,	iESA-Brst,	iESA-Burst
+	1041,	sESA-1-Bs,	sESA-1-Burst
+	1042,	sESA-2-Bs,	sESA-2-Burst
+	1043,	sESA-3-Bs,	sESA-3-Burst
+	1044,	sESA-4-Bs,	sESA-4-Burst
+	1045,	sESA-5-Bs,	sESA-5-Burst
+	1046,	sESA-6-Bs,	sESA-6-Burst
+	1047,	TMS-Brst,	TMS-Burst
+	1048,	FLD-ADC1,	FLD-ADC1
+	1049,	FLD-ADC2,	FLD-ADC2
+	1050,	FLD-ADC3,	FLD-ADC3
+	1051,	FLD-ADC4,	FLD-ADC4
+	1052,	FLD-ADC5,	FLD-ADC5
+	1053,	FLD-ADC6,	FLD-ADC6
+	1054,	FLD-ADC7,	FLD-ADC7
+	1055,	FLD-ADC8,	FLD-ADC8
+	1056,	WPC,		WPC  
+	1057,	SFA-Brst,	SFA-Burst
+	1058,	HSBM,		HSBM
+	1059,	TEAMS-Hsk,	TEAMS-HskRecords
+	1060,	CPU-BsTrg,	CPU-BurstTrg
+	1061,	CPU-Att,	CPU-Att
+	1062,	CPU-EDiag,	CPU-EDiag
+	1063,	CPU-TMemD,	CPU-TMemD
+	1064,	CPU-EHskD,	CPU-ESAHskDiag
+	1065,	CPU-Trig,	CPU-Trigger
+# 1066 - 1071 unused
+	1072,	CPU-Scrub,	CPU-Scrub
+# 1073 - 1079 unused
+	1080,	HSK-ACtrl,	HSK-AttitudeCtrl
+	1081,	HSK-PAlgs,	HSK-PowerAnalogs
+	1082,	HSK-OAlgs,	HSK-OtherAnalogs
+	1083,	HSK-BMon,	HSK-BoomMonitors
+	1084,	HSK-EMon,	HSK-ESAMonitors
+	1085,	HSK-Undef,	HSK-Undef
+	1086,	HSK-PCtrl,	HSK-PowerCtrl
+	1087,	HSK-MDmp,	HSK-MemoryDmp 
+# 1088 - 1098 unused
+END
+
+# end 
+

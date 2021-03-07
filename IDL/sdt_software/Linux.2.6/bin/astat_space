@@ -1,0 +1,95 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	astat	
+#	
+# PURPOSE:	Display information about the archive system.
+#
+# INPUTS:       none
+#
+#
+
+# Environment setup
+
+. /disks/fast/software/config/archive_config
+
+# Cleanup function
+
+function quitearly {
+	if [ -a /tmp/astattmp ] ; then
+		rm /tmp/astattmp
+	fi
+	print
+	exit 0
+}
+
+# Must run from FINET machines
+#
+host=$(uname -n)
+if [[ "$host" != "$FINETPRIMARY" && $host != "$FINETBACKUP" ]] ; then
+    print "Must run from a FINET machine."
+    exit 1
+fi
+
+if [[ "$host" = "manitou" ]] ; then
+    other_finet="barrow"
+else
+    other_finet="manitou"
+fi
+
+# Set trap for premature exit
+#
+trap quitearly EXIT
+
+# Report Header
+#
+printf '\n\t\t  >>>>> ARCHIVE SYSTEM STATUS REPORT <<<<<\n\t\t\t%s\n\n' "`date`"
+printf "\n\nDISK SPACE\n=============================\n"
+printf "%s:\n-----------------------------\n" "$DANETHOST"
+rsh $DANETHOST '
+	df -k /disks/fast;\
+	df -k /disks/cdstudio;\
+	df -k /disks/cdstudio2;\
+	df -k /disks/plasma2/www;\
+	df -k /disks/juneau/www;\
+	df -k /disks/juneau/cdf1;\
+	df -k /disks/juneau/scratch;' |
+nawk '
+$1 ~ /\/dev\/dsk\/c4t2d0s6/ {
+	printf("%-25s%s\n", "/disks/fast", $5)}
+$1 ~ /\/dev\/dsk\/c4t0d0s7/ {
+	printf("%-25s%s\n", "/disks/cdstudio", $5)}
+$1 ~ /\/dev\/dsk\/c4t3d0s7/ {
+	printf("%-25s%s\n", "/disks/cdstudio2", $5)}
+$1 ~ /plasma2:\/mydisks\/www/ {
+	printf("%-25s%s\n", "/disks/plasma2/www", $5)}
+$1 ~ /\/dev\/dsk\/c5t2d0s7/ {
+	printf("%-25s%s\n", "/disks/juneau/www", $5)}
+$1 ~ /\/dev\/dsk\/c4t4d0s7/ {
+	printf("%-25s%s\n", "/disks/juneau/cdf1", $5)}
+$1 ~ /\/dev\/dsk\/c2t5d0s7/ {
+	printf("%-25s%s\n", "/disks/juneau/scratch", $5)
+}' -
+
+# on this FINET
+printf "-----------------------------\n%s:\n-----------------------------\n" \
+"$host"
+
+df -k /fast_data /export/ravi/home |
+nawk -v data=`du -ks /fast_data/b/lzp/fast_lzp_@(DSS|GN)* |
+		awk '{tot = tot + $1} END {print tot}'` '
+$1 ~ /\/dev\/dsk\/c0t2d0s7/ {
+	printf("%-25s%s\t\(%s kb in lzpdir\)\n", "/fast_data", $5, data)}
+$1 ~ /ravi:\/mydisks\/home/ {
+	printf("%-25s%s\n", "/export/ravi/home", $5) }' -
+
+# on other FINET
+
+printf "-----------------------------\n%s:\n-----------------------------\n" \
+"$other_finet"
+
+rsh $other_finet df -k /fast_data |
+nawk -v data=`rsh $other_finet "du -ks /fast_data/b/lzp/fast_lzp_[A-Z]*" |
+		awk '{tot = tot + $1} END {print tot}'` '
+$1 ~ /\/dev\/dsk\/c0t2d0s7/ {
+	printf("%-25s%s\t\(%s kb in lzpdir\)\n", "/fast_data", $5) }' -
+exit 0

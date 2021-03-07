@@ -1,0 +1,451 @@
+************************************************************************
+
+   README.General.UCB.wt.E_0_to_E
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.E_0_to_E
+
+************************************************************************
+
+   Determine E from E_0.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.E_0_to_E	1.4    05/14/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the full electric field E, at any
+       time resolution.
+
+
+
+       The spin axis component is set to values coming from the
+       measurements.
+
+
+
+
+
+    2) It is assumed that the 3 instrument booms are perpendicular to
+       one another.
+
+
+
+
+
+    3) There must be the following inputs:
+
+
+
+            1) The electric field E_0.
+
+
+
+            2) Spin axis component of the electric field.
+
+               In the case of spin period data, this is a spin fit of
+               spin axis values, and the spin fit coefficient A is used.
+
+
+
+
+
+    4) E_0 must be in a coordinate system tied to the spin plane and
+       spin axis (e.g., DSC or SCC); the output vector E will be in the
+       same coordinate system.
+
+
+
+
+
+    5) The user can specify a factor for the spin axis component, to
+       allow for the possibility that the measured value is in the
+       opposite direction of the vector component.
+
+
+
+       The factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a vector component is related to the value of a
+       measured component in the same direction as follows:
+
+
+           Vector component = (Direction factor) * (Measured component)
+
+
+
+
+
+    6) The user can specify an additional factor for the spin axis
+       component, to indicate whether the spin axis component is in the
+       same direction as the angular momentum vector or in the opposite
+       direction.
+
+
+
+       This factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+
+
+    7) Provision is made for the possibility that, if the spin axis
+       component is given by a spin fit coefficient, the spin fit
+       coefficient may have its input value "reversed" (i.e., its sign
+       has been reversed).
+
+
+
+
+
+    8) An output data point is produced for each successful match
+       containing a data point of each of the following inputs:
+
+            1) The electric field E_0.
+
+            2) The spin axis component.
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+
+
+    9) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+   10) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Weight for output time tag for E_0.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+            3) Maximum time separation for consecutive input data
+               points, for E_0.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 3 input vector components of E_0.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            5) Weight for output time tag for the spin axis component.
+
+
+               Double.
+
+
+               Must be  >=  0.
+
+
+
+           The sum of the weights for the output time tag must be  >  0
+           (not necessarily 1).
+
+
+
+            6) Maximum time separation for consecutive input data
+               points, for the spin axis component.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            7) Input component index for the spin axis component.
+
+
+               Int.
+
+
+               For spin period data, this refers to the spin fit
+               coefficient A.
+
+
+
+            8) Flag for reversal of the spin axis component.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  The value is reversed.
+
+                   WT_FALSE  =  The value is not reversed.
+
+
+               This flag is for spin period data (spin fit); if not spin
+               period data, must be set to false.
+
+
+
+            9) Direction factor for the spin axis component.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           10) Additional factor for the spin axis component.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           11) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The electric field E_0.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The spin axis component.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin axis component
+                   value.
+
+                   Float.
+
+                   This component could be for the spin fit coefficient
+                   A of a spin fit.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.

@@ -1,0 +1,3890 @@
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.001_Spin_Pulse.UCB.wt.dat	1.5    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Shifted spin pulse.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Shifted_Spin_Pulse' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Duration' 'sec'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.shifted_spin_pulse' FALSE 1 6
+  'FastSpinPulse' FAST_SPACECRAFT
+  'FAST: Output dump freq for Shifted_Spin_Pulse (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Mission Id' DQ_LITERAL DQ_STORE_INT32 2001
+  'FAST: Mission Sub-Id' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Phase offset for Shifted_Spin_Pulse (deg)' DQ_STORE_DOUBLE 0.0
+  'FAST: Additional phase offset for Shifted_Spin_Pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { DataQuantityDescription
+  'FAST_Shifted_Spin_Pulse_0.0_deg' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Duration' 'sec'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.shifted_spin_pulse' FALSE 1 6
+  'FastSpinPulse' FAST_SPACECRAFT
+  'FAST: Output dump freq for Shifted_Spin_Pulse_0.0_deg (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Mission Id' DQ_LITERAL DQ_STORE_INT32 2001
+  'FAST: Mission Sub-Id' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Phase offset for Shifted_Spin_Pulse_0.0_deg (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional phase offset for Shifted_Spin_Pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.002_Transf_Coord.001_Despun.UCB.wt.dat	1.4    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between DSC and standard coordinate systems.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GEI' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  'GENERAL_Rot_Mat_GEI_GSE' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GEI (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_DSC_GEI (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'GENERAL: Transpose matrix for GSE_GEI? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Dropout time for Rot_Mat_GEI_GSE (sec)' DQ_STORE_DOUBLE 3.1
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GEI_DSC' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GEI' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GEI_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GSE' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.rot_mat_DSC_GSE' FALSE 2 18
+  'Fast_Attitude_Data' FAST_SPACECRAFT
+  'GENERAL_Rot_Mat_GEI_GSE' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Time resolution for Rot_Mat_DSC_GSE (sec)' DQ_STORE_DOUBLE 1.0
+  'FAST: Attitude in GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for attitude (sec)' DQ_LITERAL DQ_STORE_DOUBLE 31.0
+  'FAST: Comp for att_X' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Comp for att_Y' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Comp for att_Z' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Transpose matrix for GEI_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Dropout time for Rot_Mat_GEI_GSE (sec)' DQ_STORE_DOUBLE 3.1
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSE_DSC' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSE_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GSM' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_GSE' ALL_SPACECRAFT
+  'GENERAL_Rot_Mat_GSE_GSM' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_DSC_GSM (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'GENERAL: Transpose matrix for GSE_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Dropout time for Rot_Mat_GSE_GSM (sec)' DQ_STORE_DOUBLE 3.1
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSM_DSC' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GSM' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSM_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'GENERAL_Rot_Mat_GEI_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GEI_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_DSC_GEI (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'GENERAL: Transpose matrix for GSE_GEI? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GEI_DSC_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GEI_DSC_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.rot_mat_DSC_GSE' FALSE 2 18
+  'Fast_Attitude_Data' FAST_SPACECRAFT
+  'GENERAL_Rot_Mat_GEI_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GSE_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Time resolution for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.1
+  'FAST: Attitude in GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for attitude (sec)' DQ_LITERAL DQ_STORE_DOUBLE 31.0
+  'FAST: Comp for att_X' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Comp for att_Y' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Comp for att_Z' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Transpose matrix for GEI_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSE_DSC_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSE_DSC_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'GENERAL_Rot_Mat_GSE_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_GSM_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_DSC_GSM (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'GENERAL: Transpose matrix for GSE_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSM_DSC_0.1_sec' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSM_DSC_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.002_Transf_Coord.002_FAC.003_Survey.UCB.wt.dat	1.4    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between standard coordinate systems and FAC -
+*      Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GEI_FAC_I' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GEI_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_GEI_FAC_I (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Transpose matrix for GEI_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1) 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2) 2' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3) 2' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1) 2' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2) 2' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3) 2' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1) 2' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2) 2' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3) 2' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_FAC_I_GEI' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_GEI_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_FAC_I_GEI (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSE_FAC_I' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSE_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_GSE_FAC_I (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Transpose matrix for GSE_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1) 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2) 2' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3) 2' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1) 2' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2) 2' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3) 2' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1) 2' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2) 2' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3) 2' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_FAC_I_GSE' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_GSE_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_FAC_I_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_GSM_FAC_I' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_multiplication_3D_002' FALSE 2 23
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_GSM_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Order of product for Rot_Mat_GSM_FAC_I (1 = Prim*Second / 2 = Second*Prim)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Transpose matrix for GSM_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1) 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2) 2' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3) 2' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1) 2' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2) 2' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3) 2' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1) 2' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2) 2' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3) 2' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_FAC_I_GSM' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_GSM_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_FAC_I_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between DSC and FAC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_DSC_FAC_I' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.rot_mat_to_FAC_002' FALSE 3 34
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'Fast_Orbit_Data' FAST_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GEI_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_DSC_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Position in GEI? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Magnetic field in GEI? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Same coord for pos and mag? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Units for position (1 = Km / 2 = Re)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for position (sec)' DQ_LITERAL DQ_STORE_DOUBLE 31.0
+  'FAST: Comp for pos_X' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Comp for pos_Y' DQ_LITERAL DQ_STORE_INT32 10
+  'FAST: Comp for pos_Z' DQ_LITERAL DQ_STORE_INT32 11
+  'FAST: Input matrix rotates from GEI to pos? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Input matrix for Rot_Mat_DSC_FAC_I rotates from GEI to mag? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Rot_Mat_FAC_I_DSC' FAST_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for Rot_Mat_FAC_I_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.003_B_S_C.003_Survey.UCB.wt.dat	1.10    04/23/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected rotating B field - Survey.
+*
+*      Without subtracting spin period average offsets from spin plane
+*      components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Rotating_B_2' FAST_SPACECRAFT 0 8
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'MagDC_X_C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'MagDC_Y_C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'MagDC_Z_C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_SCC_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_SCC_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_SCC_Z' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Mag' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_rotating_vector' FALSE 1 38
+  'MagDC' FAST_SPACECRAFT
+  'FAST: Output dump freq for Rotating_B_2 (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offsets present for B_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offsets from spin plane comps of B_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for MagDC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for MagDC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for MagDC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for value for MagDC offset for B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for MagDC Offset (nT)' DQ_LITERAL DQ_STORE_DOUBLE -10000.0
+  'FAST: Max for value for MagDC Offset (nT)' DQ_LITERAL DQ_STORE_DOUBLE 10000.0
+  'FAST: Comp for MagDC offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for value for MagDC offset for B? (1 = Yes / 0 = No) 2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for MagDC Offset (nT) 2' DQ_LITERAL DQ_STORE_DOUBLE -10000.0
+  'FAST: Max for value for MagDC Offset (nT) 2' DQ_LITERAL DQ_STORE_DOUBLE 10000.0
+  'FAST: Comp for MagDC offset 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Scale factor for MagDC_X' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset to subtract from MagDC_X (nT)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Scale factor for MagDC_Y' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset to subtract from MagDC_Y (nT)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Scale factor for MagDC_Z' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset to subtract from MagDC_Z (nT)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Rotation angles Phi, Theta for B from (1 = User / 2 = Table)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Phi for B (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Theta for B (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: File for table of Phi, Theta present for B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Directory for table of Phi, Theta for B' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File name for table of Phi, Theta for B' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Dropout time for table of Phi, Theta for B (hours)' DQ_LITERAL DQ_STORE_DOUBLE 60.0
+  'FAST: Direction factor for MagDC_X' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Direction factor for MagDC_Y' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Direction factor for MagDC_Z' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional factor for MagDC_Z' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Azimuth of MagDC_X axis (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional azimuth for MagDC_X axis (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional azimuth for MagDC_Y axis (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_B_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Z' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Mag' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.despin_vector' FALSE 2 8
+  'FAST_Rotating_B_2' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for B_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Transf for B_DSC (1 = SCC_DSC / 2 = DSC_SCC)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Comp for B_SCC_X' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Comp for B_SCC_Y' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Comp for B_SCC_Z' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_B_DSC_Spher' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Mag' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Lat' 'deg'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Long' 'deg'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.vector_to_spher_coord' FALSE 1 4
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST: Output dump freq for B_DSC_Spher (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.004_E_S_C.001_Burst_16k.UCB.wt.dat	1.26    11/13/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Effective components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_1_16k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.add_scalars_001' FALSE 2 22
+  'V1-V4_16k' FAST_SPACECRAFT
+  'V1+V4-V5+V8_16k' FAST_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_1_16k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of data inputs for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: No. of data quantities for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Weight for output time for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 16k burst data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 32.0e-6
+  'FAST: Weight for output time for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max time sep for 16k burst data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 32.0e-6
+  'FAST: Tol factor for time match for 16k burst data' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  'FAST: Mult time weights by no. of quantities for burst V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Limits for raw comp V of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for raw comp V of E (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for raw comp V of E (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Coefficient for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.4209
+  'FAST: Input for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for raw comp V of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Limits for raw comp V of E? (1 = Yes / 0 = No) 2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for raw comp V of E (mV/m) 2' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for raw comp V of E (mV/m) 2' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Coefficient for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.4209
+  'FAST: Value to subtract from burst V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_1_16k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'FAST_V_Comp_1_16k' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_1_16k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_2_16k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'V5-V8_16k' FAST_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_2_16k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Burst 16k.
+*
+*      Without subtracting spin period average offset from spin plane
+*      components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_1_C_2_16k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_1_16k' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_1_C_2_16k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_1_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_1' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_2_C_2_16k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_2_16k' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_2_C_2_16k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_2_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_2' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_16k_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.despun_E_0_001' FALSE 3 29
+  'FAST_V_Comp_1_C_2_16k' ALL_SPACECRAFT
+  'FAST_V_Comp_2_C_2_16k' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_16k_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Weight for output time for plane comp 1 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 16k burst data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 32.0e-6
+  'FAST: Comp for corr comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Weight for output time for plane comp 2 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 16k burst data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 32.0e-6
+  'FAST: Comp for corr comp V of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Tol factor for time match for 16k burst data' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Apply special filter for shadow to burst E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for special filter setup for shadow for burst E_0_DSC' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Conv method for special filter for shadow for E_0_DSC (1 = Mult/add / 2 = FFT time / 3 = FFT freq)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Clip ends for conv for special filter for shadow for E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_nskips for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 80
+  'FAST: i_consist for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_srate_fuzz for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.10
+  'FAST: i_max_t_diff for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.02
+  'FAST: i_min_pts for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 100
+  'FAST: i_show_only_consistent for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_hist_alg_code for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_16k_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.E_0_to_E_Dot0' FALSE 2 22
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_16k_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: B in same coord system as E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Min for |spin axis B| for E_Dot0 (nT)' DQ_STORE_DOUBLE 2.0
+  'FAST: Max for |BX/BZ|, |BY/BZ| for E_Dot0' DQ_STORE_DOUBLE 5.0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to coord of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.004_E_S_C.002_Burst_4k.UCB.wt.dat	1.26    11/13/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Effective components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_1_4k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.add_scalars_001' FALSE 2 22
+  'V1-V4_4k' FAST_SPACECRAFT
+  'V1+V4-V5+V8_4k' FAST_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_1_4k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of data inputs for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: No. of data quantities for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Weight for output time for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 4k burst data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 130.0e-6
+  'FAST: Weight for output time for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max time sep for 4k burst data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 130.0e-6
+  'FAST: Tol factor for time match for 4k burst data' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  'FAST: Mult time weights by no. of quantities for burst V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Limits for raw comp V of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for raw comp V of E (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for raw comp V of E (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Coefficient for V1-V4 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.4209
+  'FAST: Input for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for raw comp V of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Limits for raw comp V of E? (1 = Yes / 0 = No) 2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for raw comp V of E (mV/m) 2' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for raw comp V of E (mV/m) 2' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Coefficient for V1+V4-V5+V8 for burst V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 0.4209
+  'FAST: Value to subtract from burst V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_1_4k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'FAST_V_Comp_1_4k' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_1_4k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_2_4k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'V5-V8_4k' FAST_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_2_4k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Burst 4k.
+*
+*      Without subtracting spin period average offset from spin plane
+*      components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_1_C_2_4k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_1_4k' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_1_C_2_4k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_1_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_1' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_2_C_2_4k' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_2_4k' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_2_C_2_4k (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_2_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_2' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_4k_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.despun_E_0_001' FALSE 3 29
+  'FAST_V_Comp_1_C_2_4k' ALL_SPACECRAFT
+  'FAST_V_Comp_2_C_2_4k' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_4k_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Weight for output time for plane comp 1 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 4k burst data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 130.0e-6
+  'FAST: Comp for corr comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Weight for output time for plane comp 2 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for 4k burst data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 130.0e-6
+  'FAST: Comp for corr comp V of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Tol factor for time match for 4k burst data' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Apply special filter for shadow to burst E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for special filter setup for shadow for burst E_0_DSC' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Conv method for special filter for shadow for E_0_DSC (1 = Mult/add / 2 = FFT time / 3 = FFT freq)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Clip ends for conv for special filter for shadow for E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_nskips for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 80
+  'FAST: i_consist for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_srate_fuzz for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.10
+  'FAST: i_max_t_diff for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.02
+  'FAST: i_min_pts for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 100
+  'FAST: i_show_only_consistent for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_hist_alg_code for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_4k_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.E_0_to_E_Dot0' FALSE 2 22
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_4k_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: B in same coord system as E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Min for |spin axis B| for E_Dot0 (nT)' DQ_STORE_DOUBLE 2.0
+  'FAST: Max for |BX/BZ|, |BY/BZ| for E_Dot0' DQ_STORE_DOUBLE 5.0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to coord of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.004_E_S_C.003_Survey.UCB.wt.dat	1.26    11/13/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Selected components V of the E field on the spin plane -
+*      Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_1_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'V1-V2_S' FAST_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_1_S (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_Select_V_Comp_2_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.select_spin_plane_V' FALSE 2 54
+  'V5-V8_S' FAST_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for Select_V_Comp_2_S (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File of inclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use inclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of inclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: File of exclusion time intervals for E present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Use exclusion time intervals for E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of exclusion time intervals for E' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Magnetic field present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Magnetic field in DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Select spin plane E by avoidance of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by latitude of B? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Threshold |B| (nT)' DQ_LITERAL DQ_STORE_DOUBLE 2.0
+  'FAST: Min angle E field boom and B field for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Min |latitude B| for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Sun vector present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by Sun angle? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min angle E field boom and Sun vector for spin plane E (0-90 deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Voltages present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Select spin plane E by values of voltages? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: No. of inputs for voltages to select spin plane E' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Interval to select spin plane E by values of voltages is (1 = Entire interval / 2 = User sub-interval)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Start date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Start time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 06:30
+  'FAST: Stop date to select spin plane E by values of voltages (YYYY/MM/DD)' DQ_LITERAL DQ_STORE_CHAR 1996/05/29
+  'FAST: Stop time to select spin plane E by values of voltages (HH:MM:SS or HH:MM)' DQ_LITERAL DQ_STORE_CHAR 08:00
+  'FAST: Min value of voltages to select spin plane E (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -4.0
+  'FAST: Rotation matrix present for spin plane Select_V? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Corrected components V of the E field on the spin plane -
+*      Survey.
+*
+*      Without subtracting spin period average offset from spin plane
+*      components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_1_C_2_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_1' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_1_S' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_1_C_2_S (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_1_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_1_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_1 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_1' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_1 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_1? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+@2 { DataQuantityDescription
+  'FAST_V_Comp_2_C_2_S' FAST_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V_Comp_2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.correct_spin_plane_V' FALSE 1 48
+  'FAST_Select_V_Comp_2_S' ALL_SPACECRAFT
+  'FAST: Output dump freq for V_Comp_2_C_2_S (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Offset to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: No. of offset terms to correct V_Comp_2_C_2' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Spin period avg offset present for V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract spin period avg offset from V_Comp_2_C_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Input for offset table by S/C Pot for V_Comp_2 present? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Subtract offset by S/C Pot from V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for table of offsets by S/C Pot for V_Comp_2' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Offset E_0_DSC_X to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_X to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Offset E_0_DSC_Y to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for offset E_0_DSC_Y to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of cos for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of cos for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Coeff of sin for Sun angle corr to subtract from V_Comp_2 (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional factor for coeff of sin for Sun angle corr to subtract from V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Input for spin timing present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Sun vector present for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Additional scale factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Comp for raw comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin avg offset for V_Comp_2? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE -100.0
+  'FAST: Max for value for VL_Offset (mV/m)' DQ_LITERAL DQ_STORE_DOUBLE 100.0
+  'FAST: Comp for VL offset' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for instantaneous voltage (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.3
+  'FAST: Limits for S/C potential? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE -80.0
+  'FAST: Max for voltage (Volt)' DQ_LITERAL DQ_STORE_DOUBLE 30.0
+  'FAST: Comp for S/C potential' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for spin period data (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 17.0
+  'FAST: Limits for spin duration? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Max for spin duration (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Dropout time for Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'FAST: Comp for Sun_Vector_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for Sun_Vector_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for Sun_Vector_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_S_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.despun_E_0_001' FALSE 3 29
+  'FAST_V_Comp_1_C_2_S' ALL_SPACECRAFT
+  'FAST_V_Comp_2_C_2_S' ALL_SPACECRAFT
+  'FAST_Shifted_Spin_Pulse_0.0_deg' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_S_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Min time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 4.5
+  'FAST: Max time sep for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 5.5
+  'FAST: Weight for output time for plane comp 1 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for survey E (sec)' DQ_LITERAL DQ_STORE_DOUBLE 70.0e-3
+  'FAST: Comp for corr comp V of E' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_1' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Weight for output time for plane comp 2 for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'FAST: Max time sep for survey E (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 70.0e-3
+  'FAST: Comp for corr comp V of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Direction factor for V_Comp_2' DQ_LITERAL DQ_STORE_DOUBLE -1.0
+  'FAST: Tol factor for time match for survey E' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  'FAST: Comp for spin duration' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Azimuth of 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 217.98
+  'FAST: Additional azimuth for 14 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Additional azimuth for 58 boom (deg)' DQ_LITERAL DQ_STORE_DOUBLE 90.0
+  'FAST: Azimuth of Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 98.0
+  'FAST: Additional azimuth for Sun pulse (deg)' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'FAST: Apply special filter for shadow to survey E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: File name for special filter setup for shadow for survey E_0_DSC_DSC' DQ_LITERAL DQ_STORE_CHAR xxx
+  'FAST: Conv method for special filter for shadow for E_0_DSC (1 = Mult/add / 2 = FFT time / 3 = FFT freq)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Clip ends for conv for special filter for shadow for E_0_DSC? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_nskips for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 80
+  'FAST: i_consist for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_srate_fuzz for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.10
+  'FAST: i_max_t_diff for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_DOUBLE 0.02
+  'FAST: i_min_pts for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 100
+  'FAST: i_show_only_consistent for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: i_hist_alg_code for conv for special filter for shadow for E_0_DSC' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_S_DSC' FAST_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.E_0_to_E_Dot0' FALSE 2 22
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_S_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: B in same coord system as E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Min for |spin axis B| for E_Dot0 (nT)' DQ_STORE_DOUBLE 2.0
+  'FAST: Max for |BX/BZ|, |BY/BZ| for E_Dot0' DQ_STORE_DOUBLE 5.0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for B to coord of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.006_B_Coord.003_Survey.UCB.wt.dat	1.3    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_B_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for B_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_B_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for B_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_B_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_B_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for B_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.007_E_Coord.001_Burst_16k.UCB.wt.dat	1.3    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_16k_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_16k_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_16k_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_16k_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_16k_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_16k_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_16k_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_16k_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_16k_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_16k_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Burst 16k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_16k_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_16k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_16k_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.007_E_Coord.002_Burst_4k.UCB.wt.dat	1.3    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_4k_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_4k_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_4k_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_4k_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_4k_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_4k_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_4k_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_4k_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_4k_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_4k_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Burst 4k.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_4k_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_4k_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_4k_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.007_E_Coord.003_Survey.UCB.wt.dat	1.3    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_S_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_S_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSE - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_S_GSE' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_S_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSE? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_S_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_S_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in GSM - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_S_GSM' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_GSM_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_S_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_GSM? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 310.0e-3
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_0_S_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_0_S_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in FAC_I - Survey.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_E_Dot0_S_FAC_I' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.matrix_times_vector_3D' FALSE 2 15
+  'FAST_E_Dot0_S_DSC' ALL_SPACECRAFT
+  'FAST_Rot_Mat_DSC_FAC_I' ALL_SPACECRAFT
+  'FAST: Output dump freq for E_Dot0_S_FAC_I (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Comp for E_Dot0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Comp for E_Dot0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Comp for E_Dot0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Transpose matrix for DSC_FAC_I? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Dropout time for magnetic field (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.8
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the FAST SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.FAST_Science.301_Auxiliary.006_Sun_Vector.UCB.wt.dat	1.3    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Normalized Sun vector in DSC.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'FAST_Norm_Sun_Vector_DSC_0.1_sec' FAST_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_X' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Y' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Z' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.vector_from_matrix_3D_001' FALSE 1 12
+  'FAST_Rot_Mat_DSC_GSE_0.1_sec' ALL_SPACECRAFT
+  'FAST: Output dump freq for Norm_Sun_Vector_DSC_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'FAST: Extract from Rot_Mat_DSC_GSE for Sun vector (1 = Row / 2 = Column)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Row number from Rot_Mat_DSC_GSE for Sun vector (1-3)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'FAST: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'FAST: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'FAST: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'FAST: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'FAST: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'FAST: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'FAST: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'FAST: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+* @(#)SCM.Data.FAST_Science.UCLA.bryan.dat	1.5, 03/22/06
+************************************************************************
+
+
+************************************************************************
+* AttgenBatch Science Module Datafile
+************************************************************************
+*
+* INFORMATION:
+*	[ SET VARIABLES BEFORE USING THIS SCIENCE MODULE ]
+*	[ NORMALLY RUN THROUGH SCRIPTS running sdt_batch ]
+*		$target=<lzp data file>
+*		$ATTRESFORUCLA=1
+*		$ATTSTAGEFORUCLA=/disks/fast/almanac/attitude/stage
+*
+************************************************************************
+
+@2 { DataQuantityDescription
+  'AttgenBatch' FAST_SPACECRAFT 0 39
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/FAST.UCLA.bryan.AttgenBatch' FALSE 1 0
+  'AttitudeCtrl' FAST_SPACECRAFT
+  }
+
+
+************************************************************************
+* AttgenDump Science Module Datafile
+************************************************************************
+
+@2 { DataQuantityDescription
+  'AttgenDump' FAST_SPACECRAFT 0 39
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Value' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/FAST.UCLA.bryan.AttgenDump' FALSE 1 5
+  'AttitudeCtrl' FAST_SPACECRAFT
+  'Attitude Filename' DQ_STORE_CHAR   /disks/fast/almanac/attitude/scitemp/OutAttdump
+  'Data Resolution (# of 16 Sec Steps)' DQ_STORE_INT32  1
+  '[IF Attitude Predicts Not Found] Enter Data Below' DQ_STORE_CHAR -
+  'Spin Axis Declination Angle' DQ_STORE_DOUBLE -6.99
+  'Spin Axis Right Ascension Angle' DQ_STORE_DOUBLE -98.4
+  }
+************************************************************************
+
+***************************************************************************
+* @(#)SCM.Data.UCB_Ken_FAST_Sci_Mod.dat	1.6, 03/22/06
+***************************************************************************
+
+@2 { DataQuantityDescription
+  'Bphase' FAST_SPACECRAFT 0 4
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_DOUBLE 4 4
+  FALSE 'a1' '-'
+  FALSE 'a2' '-'
+  FALSE 'a3' '-'
+  FALSE 'a4' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'chisqr' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'scale' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/phasefit 0.2' FALSE 1 0
+  'SMPhase_FieldsSurvey0' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'V8_S_avg' FAST_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1 
+  FALSE 'V8_S_avg' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/spinaverage' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'V8_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'V9-V10_S_avg' FAST_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1 
+  FALSE 'V9-V10_S_avg' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/spinaverage' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'V9-V10_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'V8_fit' FAST_SPACECRAFT 0 6
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/magfit' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'V8_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'mag1_avg' FAST_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1 
+  FALSE 'mag1_avg' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/spinaverage' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'Mag1dc_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'mag1_fit' FAST_SPACECRAFT 0 6
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/magfit' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'Mag1dc_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'mag2_fit' FAST_SPACECRAFT 0 6
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/magfit' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'Mag2dc_S' FAST_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'mag3_fit' FAST_SPACECRAFT 0 6
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/magfit' FALSE 2 0
+  'Bphase' ALL_SPACECRAFT
+  'Mag3dc_S' FAST_SPACECRAFT
+  }
+
+***************************************************************************
+

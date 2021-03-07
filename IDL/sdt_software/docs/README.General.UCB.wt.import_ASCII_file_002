@@ -1,0 +1,500 @@
+************************************************************************
+
+   README.General.UCB.wt.import_ASCII_file_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.import_ASCII_file_002
+
+************************************************************************
+
+   Import ASCII file to SDT.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.import_ASCII_file_002	1.2    05/09/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module creates an SDT quantity from an ASCII input
+       file.
+
+
+
+
+
+    2) There are no SDT inputs.
+
+
+
+
+
+    3) The user has the option of not having an input file at all.
+
+
+
+       If there is no input file, then the SDT output has zero data
+       data points.
+
+
+
+
+
+    4) All the times in the file must be referred to the same date.
+
+
+
+       Therefore, times could go over 86,400 seconds (and could be
+       negative).
+
+
+
+
+
+    5) The user can designate a limit for the length of an input line.
+
+
+
+       This limit refers to the largest number of characters allowed for
+       a line (not counting the "newline" or end of line character, or a
+       possible "carriage return").
+
+
+
+
+
+    6) The user can designate special "comment characters", that make
+       lines from the input file be treated as comment lines.
+
+
+
+       A line is considered a comment line if its first (or only)
+       non-white space character is one of the "comment characters".
+
+
+       Other types of comment lines are described below.
+
+
+
+
+
+    7) The user can designate a coefficient A, and offsets B, C, D; and
+       a coefficient a(i), and offsets b(i), c(i), d(i), for each input
+       data component ("i" represents an input data component index).
+
+
+
+       If the input value for data component i is x(i), then the
+       corresponding output value y(i) is determined as follows:
+
+
+           y(i) = A * {a(i) * [x(i) - b(i) - B] - c(i) - C} - d(i) - D
+
+
+
+
+
+    8) An output data point is produced for each data point in the
+       input file; provided that it is within the time interval
+       specified to SDT.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag for the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   0     =  Do not dump.
+
+                   >= 1  =  Dump output data points with indices of:
+                            0, n, 2n, 3n, ...  (where n is the chosen
+                            dump frequency).
+
+
+
+            2) Flag for the input file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            3) Directory for the input file.
+
+
+               Char.
+
+
+               If there is an input file, then
+               must be a valid directory (not blank).
+
+
+
+            4) File name for the input file.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            5) Maximum number of characters for an input line.
+
+
+               Int.
+
+
+               Must be  >=  0.
+
+
+
+            6) Comment characters.
+
+
+               Char.
+
+
+               The character string must consist of non-white-space
+               characters (at least 1).
+
+
+
+            7) Flag for the date to which the time in the file is
+               referred.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  The date is the SDT start date.
+
+
+                   WT_FALSE  =  The date is not the SDT start date.
+
+
+               The SDT start date is the start date for the time
+               interval to be processed by SDT.
+
+
+
+            8) Date to which the time in the file is referred.
+
+
+               Char.
+
+
+               If the flag for the date is "false", then
+               must be a valid date in the format YYYY/MM/DD (e.g.,
+               1996/05/29).
+
+
+
+            9) Number of data quantities for each data point.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+           10) Coefficient A.
+
+
+               Double.
+
+
+
+           11) Offset B.
+
+
+               Double.
+
+
+
+           12) Offset C.
+
+
+               Double.
+
+
+
+           13) Offset D.
+
+
+               Double.
+
+
+
+           14) The group of parameters described here occurs once for
+               each data quantity.
+
+
+
+                1) The group of parameters described here occurs once
+                   for each of the following values, in succession:
+
+                   Coefficient a.
+
+                   Offset b.
+
+                   Offset c.
+
+                   Offset d.
+
+
+
+                    1) "Fill code" for the parameter.
+
+
+                       Int.
+
+
+                       This code indicates how to fill the "final" value
+                       for the parameter (i.e., the value that will be
+                       actually used).
+
+
+                       Must be one of the following:
+
+
+                           WT_SM_PARM_USR       =
+                               Set the final value from the "user" value
+                               for this parameter for this quantity
+                               (i.e., the value entered by the user).
+
+
+                           WT_SM_PARM_COPY_USR  =
+                               Set the final value by copying the user
+                               value from another quantity.
+
+
+                           WT_SM_PARM_COPY_VAL  =
+                               Set the final value by copying the final
+                               value from another quantity.
+
+
+                       If the final parameter value is copied from a
+                       value for a different quantity, then the user
+                       value for the current data quantity (entered
+                       below) is ignored.
+
+                       The copy is made from the appropriate value for
+                       the corresponding parameter for the other
+                       quantity (e.g., the value for "a" for the current
+                       data quantity is copied from a value for "a" from
+                       the other data quantity).
+
+
+
+                    2) "Copy" index for the parameter.
+
+
+                       Int.
+
+
+                       This is the index of the quantity from which to
+                       copy a value, for the final value of the present
+                       quantity.
+
+
+                       If the "fill code" is to copy the final parameter
+                       value, from a value for a different quantity,
+                       then
+                       must be  >=  0  and  <  the index for the
+                       "current data quantity" (the data quantity for
+                       which the parameter values are to be set).
+
+                       The first data quantity has index 0.
+
+
+
+                    3) Parameter value.
+
+
+                       Double.
+
+
+                       This is the "user" value for the parameter.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The file with the input data.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is a designated "comment character".
+
+
+               Each line not a comment line contains one data point.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Time.
+
+                   Real.
+
+                   This is time in seconds, since 0 hours UT of the
+                   designated date.
+
+
+                2) One or more additional fields, one for the value of
+                   each data quantity for the data point.
+
+                   Real.
+
+
+               The lines should be in sequence of increasing time.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+               No line should be longer than the designated limit.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+           None.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each input data quantity value.
+
+
+               Float.

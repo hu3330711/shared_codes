@@ -1,0 +1,775 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogscopcf.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Copy the configuration files for the programs to produce
+#      the FAST commands and shadow ephemeris.
+#
+# **************************************************************
+#
+#      @(#)ogscopcf.shp	1.11    12/05/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogscopcf
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration files.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config files locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set ofmode = 664                # mode for output files.
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set optb   = $no                # config dir for orbgen
+
+   set optr   = $no                # config dir for genCommands
+
+   set optu   = $no                # config file for sunnadir
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-b")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -b arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -b arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optb   = $yes
+           set cdorb  = $aux002
+
+
+         else  if  ("$aux001" == "-r")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -r arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -r arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optr   = $yes
+           set cdgen  = $aux002
+
+
+         else  if  ("$aux001" == "-u")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optu   = $yes
+           set cfsun  = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create a read lock file for configuration files if
+#      needed.
+#
+#---------------------------------------------------------------
+
+   if  (($optc == $no) || \
+        ($optb == $no) || \
+        ($optr == $no) || \
+        ($optu == $no))  then      # some default cfg
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+     endif
+
+
+
+   set list1  = ( )                # list of default directories
+
+   if  ($?FASTCONFIG)  then
+       set list1  = ($list1 $FASTCONFIG)
+     endif
+
+   if  ($?FASTLIB)  then
+       set list1  = ($list1 $FASTLIB)
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       if  ($#list1 >= 1)  then    # search default directories
+           foreach defdir ($list1)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the output directory, and create it if needed.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set outdir = $aux001
+         else
+           echo " $prcnam : " \
+               "Output directory must be single word"
+           goto l8000
+         endif
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, output directory"
+       goto l8000
+
+     endif
+
+
+
+   if  (-e $outdir)  then
+
+       if  (-d $outdir)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Output directory  $outdir  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $outdir
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create output directory  $outdir"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the configuration file for orbgen.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg dir determined
+
+
+
+   if  ($optb == $yes)  then       # explicit cfg dir
+
+       set fcfg   = $yes
+
+     else                          # no explicit cfg dir
+
+       if  ($#list1 >= 1)  then    # search default directories
+           foreach defdir ($list1)
+               set cdorb = $defdir/$orbcd
+               if  (-e $cdorb)  then
+                   set fcfg   = $yes
+                   break
+                 endif
+             end
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to determine config dir for orbgen"
+
+       goto l8000
+
+     endif
+
+
+
+   if  (-e $cdorb)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Configuration directory  $cdorb  not found"
+
+       goto l8000
+
+     endif
+
+
+
+   if  (-d $cdorb)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Configuration directory  $cdorb  is a plain file"
+
+       goto l8000
+
+     endif
+
+
+
+   if  (-e $cdorb/$orbcf)  then
+
+
+       cp $cdorb/$orbcf $outdir
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to copy  $cdorb/$orbcf  to  $outdir"
+           goto l8000
+         endif
+
+
+       chmod -f $ofmode $outdir/$orbcf
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to change mode of file  $outdir/$orbcf"
+           goto l8000
+         endif
+
+
+     else
+
+
+       echo " $prcnam : " \
+           "Unable to find  $cdorb/$orbcf"
+
+       goto l8000
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the configuration files for genCommands.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg dir determined
+
+
+
+   if  ($optr == $yes)  then       # explicit cfg dir
+
+       set fcfg   = $yes
+
+     else                          # no explicit cfg dir
+
+       if  ($#list1 >= 1)  then    # search default directories
+           foreach defdir ($list1)
+               set cdgen = $defdir/$gencd
+               if  (-e $cdgen)  then
+                   set fcfg   = $yes
+                   break
+                 endif
+             end
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to determine config dir for genCommands"
+
+       goto l8000
+
+     endif
+
+
+
+   if  (-e $cdgen)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Configuration directory  $cdgen  not found"
+
+       goto l8000
+
+     endif
+
+
+
+   if  (-d $cdgen)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Configuration directory  $cdgen  is a plain file"
+
+       goto l8000
+
+     endif
+
+
+
+   foreach i ($gencf)
+
+
+       if  (-e $cdgen/$i)  then
+
+
+           cp $cdgen/$i $outdir
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Unable to copy  $cdgen/$i  to  $outdir"
+               goto l8000
+             endif
+
+
+           chmod -f $ofmode $outdir/$i
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Unable to change mode of file  $outdir/$i"
+               goto l8000
+             endif
+
+
+         else
+
+
+           echo " $prcnam : " \
+               "Unable to find  $cdgen/$i"
+
+           goto l8000
+
+
+         endif
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the configuration file for sunnadir.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optu == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfsun)  then
+           cp $cfsun $outdir
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to copy  $cfsun  to  $outdir"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       if  ($#list1 >= 1)  then    # search default directories
+           foreach defdir ($list1)
+               set cfsun = $defdir/$suncd/$suncf
+               if  (-e $cfsun)  then
+                   cp $cfsun $outdir
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to copy  $cfsun  to  $outdir"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find configuration file for sunnadir"
+
+       goto l8000
+
+     endif
+
+
+
+   set fnam   = $cfsun:t
+
+   chmod -f $ofmode $outdir/$fnam
+
+   if  ($status == 0)  then
+     else
+       echo " $prcnam : " \
+           "Unable to change mode of file  $outdir/$fnam"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+     endif
+
+
+
+   exit($xitcod)

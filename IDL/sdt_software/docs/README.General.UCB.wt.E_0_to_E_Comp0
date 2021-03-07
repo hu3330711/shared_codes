@@ -1,0 +1,439 @@
+************************************************************************
+
+   README.General.UCB.wt.E_0_to_E_Comp0
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.E_0_to_E_Comp0
+
+************************************************************************
+
+   Determine E_Comp0 from E_0.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.E_0_to_E_Comp0	1.1    08/29/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the electric field E_Comp0, at any
+       time resolution.
+
+
+
+       The values of the spin plane components are the same as for E_0.
+
+
+
+       The spin axis component is set to a value such, that one chosen
+       component of the electric field E_Comp0 in FAC, is zero.
+
+
+
+       "E_Comp0" is a generic name that represents E_X0, E_Y0, E_Z0;
+       depending on which component is chosen to be zero.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The electric field E_0.
+
+
+
+            2) A rotation matrix to FAC.
+
+
+
+
+
+    3) E_0 must be in a coordinate system that does not participate of
+       the rotation of the spacecraft, and that is tied to the spin
+       plane and spin axis (e.g., DSC); the output vector E_Comp0 will
+       be in the same coordinate system.
+
+
+
+
+
+    4) The rotation matrix rotates vector components, from the
+       coordinate system of E_0 into FAC.
+
+
+
+
+
+    5) It is permissible for the rotation matrix to produce a rotation
+       in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    6) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    7) If the components of E_Comp0 are EX, EY, EZ, where X and Y are on
+       the spin plane, and Z is perpendicular to the spin plane; and the
+       elements of the rotation matrix that rotates from the coordinate
+       system of E_0 to FAC are a(i,j), where i is the row and j is the
+       column (1 <= i,j <= 3); then
+
+
+           Component X of E_Comp0 in FAC =
+
+               a(1,1)*EX + a(1,2)*EY + a(1,3)*EZ
+
+
+           Component Y of E_Comp0 in FAC =
+
+               a(2,1)*EX + a(2,2)*EY + a(2,3)*EZ
+
+
+           Component Z of E_Comp0 in FAC =
+
+               a(3,1)*EX + a(3,2)*EY + a(3,3)*EZ
+
+
+
+       If one of these is to be zero, then we get a first-degree
+       equation for EZ, from which EZ can be determined; all the other
+       values (EX, EY, and the matrix elements a(i,j)) are known.
+
+
+
+       Note that the coefficient of EZ in the equation will be one of
+       the elements in the last column of the rotation matrix: a(1,3),
+       a(2,3), or a(3,3), according to which component of E_Comp0 in FAC
+       is chosen to be zero (X, Y, or Z, respectively).
+
+       The matrix elements are all numbers between -1 and +1, inclusive.
+
+       For the calculation of EZ to be meaningful, the absolute value of
+       the matrix element that is the coefficient of EZ must be at least
+       equal to a minimum.
+
+       The limit value is specified by the user.
+
+
+
+
+
+    8) Note that E_Z0 has an FAC_Z component of zero, and therefore is
+       perpendicular to the magnetic field.
+
+
+
+       Therefore, E_Z0 is the same as the vector E_Dot0.
+
+
+
+
+
+    9) An output data point is produced for each input point of E_0.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of E_0.
+
+
+
+
+
+   10) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the rotation matrix.
+
+
+
+       The input rotation matrix for the time of the output data point
+       is the input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for the component of E_Comp0 in FAC that is to be
+               zero.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  X.
+
+                    2  =  Y.
+
+                    3  =  Z.
+
+
+
+            3) Minimum for the absolute value of the coefficient of EZ.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 3 input vector components of E_0.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            5) Flag to transpose the input matrix.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            6) Dropout time for the input matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The electric field E_0.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The rotation matrix between the coordinate system of E_0
+               and FAC.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.

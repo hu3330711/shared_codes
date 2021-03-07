@@ -1,0 +1,392 @@
+#!/usr/local/bin/perl
+# This program is started by a cron job at times
+# when the host machine can be dedicated to processing jobs with SDT.
+# It reads the hires queue.db, creates the appropriate CDF,
+# emails the requesting user, and logs the request.  This process is
+# repeated until the queue is empty, at which point hiresd sleeps.
+# As long as it is running, it can be sent SIGHUP to wake up and
+# re-read queue.db.
+#
+# ARGS - -trouble 'address list'  'address list' is a list of email
+#                                 addresses to send a message to in 
+#                                 case a CDF file cannot be created.
+#                                 If undefined, only the requestor
+#                                 is informed of the error.
+# Notes:
+# Created by Jeremy Huddleston - jeremyhu@ssl.berkeley.edu
+# Modified by Ken Bromund kenb@ssl.berkeley.edu
+
+require("/disks/plasma2/www/cgi-bin/fastcgi/libraries/date-lib.pl"); 
+
+use integer;
+use strict;
+use Fcntl qw/:flock/;
+use sigtrap qw(INT KILL QUIT TERM HUP);
+
+my $trouble;
+
+sub usage {
+    print STDERR <<'EOF';
+USAGE:
+  hiresd [-trouble email.address]
+EOF
+    exit(1);
+}
+
+if ($#ARGV >= 0) {
+    if ($ARGV[0] eq "-trouble") {
+	if ($#ARGV == 1) {
+	    $trouble = $ARGV[1];
+	} else {
+	    &usage;
+	}
+    } else {
+	&usage;
+    }
+}
+
+my $db_dir="/disks/plasma2/www/fast/hires/config/db";
+my $user_db=$db_dir . "/user.db";
+my $queue_db=$db_dir . "/queue.db";
+my $processed_db=$db_dir . "/processed.db";
+my $mailprog="/usr/bin/mail";
+#my $dateprog="/usr/bin/date";
+my $prog=`basename $0`;
+my $pid_file="/disks/plasma2/www/fast/hires/config/hiresd.pid";
+
+my $hires_cdf_args="-c integration";
+
+# 23 Sep 02 Made changes to PATH which allow the Sybase DBI to function
+# from the HIRES web site
+#
+$ENV{'PATH'} = '/disks/fast/software/integration/SunOS.5.7/bin:/disks/fast/software/integration/SunOS.5.7/bin:/usr/dt/bin:/usr/openwin/bin:/usr/bin:/bin:/usr/ucb:/usr/local/bin:/usr/ccs/bin:/usr/sbin:.:/home/lzpw/bin:/disks/fast/software/integration/SunOS.5.7/bin';
+#$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+#$ENV{'IFS'} = '' if $ENV{'IFS'} ne '';
+#$ENV{'FASTCONFIG'} = "/disks/fast/software/config"; 
+
+#my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+$SIG{'HUP'}= \&sigHup;
+$SIG{'ALRM'} = sub {return;};
+
+sub sigHup {
+    kill('ALRM',$$);
+}
+
+sub endProgram {
+    my $stat = $_;
+    close (QUEUE);
+    close (TEMP);
+    close (MAIL);
+    close (AT);
+
+    my $pid = `cat $pid_file | cut -d'\@' -f1`; $pid =~ s/\n//;
+    my $host = `cat $pid_file | cut -d'\@' -f2`; $host =~ s/\n//;
+    my $hosta = `uname -n`;
+    if ($$ == $pid && $host eq $hosta) {
+	system "rm -f $pid_file";
+    }
+    exit($stat);
+}
+
+sub checkForProc {
+    my $hosta = `uname -n`;
+    chomp $hosta;
+
+    if ( -f $pid_file ) {
+	# pid file exists.  is process still running?
+	open(PIDFILE, "$pid_file") || die "cannot open $pid_file";
+	my ($pid, $host);
+	while (<PIDFILE>) {
+	    if(/(\d+)@(\S+)/) {
+		($pid, $host) = ($1, $2);
+	    }
+	}
+	close(PIDFILE);
+	my $running;
+	if (defined $pid) {
+	    if ($host eq $hosta) {
+		# we got the pid from the file
+		$running = kill(0, $pid);
+	    } else {
+		# got a pid for a different host
+		$running = 1;
+	    }
+	} else {
+	    # could not read pid from file
+	    $running = 0;
+	    print STDERR "Error reading host and pid from $pid_file\n";
+	    print STDERR "Starting hiresd.\n";
+	}
+	if ($running) {
+	    print STDERR "Process is already running on $host: (PID: ${pid})\n";
+	    print STDERR "If this is in error, please delete the file:\n";
+	    print STDERR $pid_file."\n";
+	    print STDERR "sending SIGHUP...\n";
+	    # send sighup so running process wakes up
+	    system "/disks/plasma2/www/fast/hires/config/hiresd_hup.ksh";
+	    exit(1);
+	}
+    } 
+
+    system "echo '$$\@".`uname -n`."' > $pid_file";
+
+}
+
+sub emailSuccess {
+    my ($email, $dataType, $options, $hires_cdf_pid, $httpPath, $localFile) = @_;
+    my ($fileSize, $date) = (stat($localFile))[7,9];
+    my $kSize = $fileSize / 1024;
+    $date = localtime $date;
+
+    $options =~ s/\-t/Timespan: /;
+    $options =~ s/\-o/Orbit:    /;
+    
+    open(MAIL, "|$mailprog $email");
+    print MAIL <<EOF;
+From: FAST CDF Generation <noreply\@ssl.berkeley.edu>
+Subject: FAST CDF Generation Completed
+
+The CDF file you requested 
+Data Type: $dataType
+$options
+has been generated.
+
+Please visit the following URL to retrieve your high resolution cdf.
+$httpPath
+
+Notes:
+This file has a file size of ${kSize}k.
+The cdf will be deleted from our systems one week after the time on this email.
+FAST data is provided as a service to the scientific community.
+This data has not been validated and errors may be present.
+For publication quality data, please contact Dr. C. W. Carlson at cwc\@ssl.berkeley.edu.
+
+If you have any questions about the generation of this CDF file, email 
+FASTMaster\@ssl.berkeley.edu 
+Please reference
+Process ID: $hires_cdf_pid
+
+Thank you.
+EOF
+    close(MAIL);
+}
+
+sub emailApology {
+    my ($email, $dataType, $options, $hires_cdf_pid) = @_;
+
+#  my $date = localtime;
+
+    $options =~ s/\-t/Timespan: /;
+    $options =~ s/\-o/Orbit:    /;
+
+# email notice of failure to web maintainers
+    if (defined $trouble) {
+      open(MAIL, "|$mailprog $trouble");
+      print MAIL <<EOF;
+From: FAST CDF Generation <noreply\@ssl.berkeley.edu>
+Subject: FAST CDF Generation Trouble (PID $hires_cdf_pid)
+
+CDF request error 
+Requested by: $email
+Data Type: $dataType
+$options
+Process ID: $hires_cdf_pid
+
+The following files contain diagnostic output
+/disks/juneau/www/TEMPLOGS/hires/hireslog_$hires_cdf_pid
+~lzp/hires/*_$hires_cdf_pid
+
+EOF
+     close(MAIL);
+  }
+
+# email notice of failure user who requested data
+  open(MAIL, "|$mailprog $email");
+  print MAIL <<EOF;
+From: FAST CDF Generation <noreply\@ssl.berkeley.edu>
+Subject: FAST CDF Generation Trouble (PID $hires_cdf_pid)
+
+Your CDF request could not be completed at this time.
+Data Type: $dataType
+$options
+Process ID: $hires_cdf_pid
+
+Notes:
+Most likely the lzp data files needed to produce your CDF are
+temporarily unavailable.  The UCSOC jukeboxes or online file systems may
+need attention.
+
+It is also possible that the data type you requested is not actually
+available for the timespan you requested.  (The initial test for availability
+is not always 100\% accurate).
+
+It is also possible that there is a bug in the scripts which produce the 
+CDF files.
+
+For help troubleshooting the problem, email FASTMaster\@ssl.berkeley.edu
+Please reference the Process ID from the Subject line in your email.
+
+Thank You
+EOF
+  close(MAIL);
+}
+
+sub parseQueue {
+  while(1) {
+    my ($email, $dataType, $options);
+    my $found = 0;
+
+# find our next item.
+    open(QUEUE, "$queue_db");
+    while(<QUEUE>) {
+      chomp;
+      if(!($found) && (m/^([^#\|]+)\|([^\|]+)\|([^\|]+?)\|(.*)/)) {
+        ($email, $dataType, $options) = ($1, $2, $3);
+        $found = 1;
+     }
+       }
+    close(QUEUE); 
+
+    if ($found) {
+      # make the CDF.
+
+      # Figure out the name of the file.
+      my ($orbit, $startTime, $duration);
+      
+      if ($options =~ m/\-o (\d+)/) {
+        $orbit = $1;
+	my $ot = `orbittime $orbit`;
+	if ($ot =~ m/(\d+)\/(\d+)\/(\d+)\/(\d+)\:(\d+)\:(\d+)\.\d*\n(\d+)\/(\d+)\/(\d+)\/(\d+)\:(\d+)\:(\d+)\.\d*/) {
+	  my ($yyyy1, $mo1, $dd1, $hh1, $mn1, $ss1) = ($1, $2, $3, $4, $5, $6);
+	  my ($yyyy2, $mo2, $dd2, $hh2, $mn2, $ss2) = ($7, $8, $9, $10, $11, $12);
+	  $startTime=sprintf("%04d%02d%02d%02d%02d%02d", $yyyy1, $mo1, $dd1, $hh1, $mn1, $ss1);
+	  $duration=secsBetween(date2doy($yyyy1, $mo1, $dd1), $hh1, $mn1, $ss1, date2doy($yyyy2, $mo2, $dd2), $hh2, $mn2, $ss2);
+        }
+      } elsif ($options =~ m/\-t \"(\d+)\/(\d+)\/(\d+) (\d+)\:(\d+)\:(\d+) (\d+)\/(\d+)\/(\d+) (\d+)\:(\d+)\:(\d+)\"/) {
+	my ($yyyy1, $mo1, $dd1, $hh1, $mn1, $ss1) = ($1, $2, $3, $4, $5, $6);
+	my ($yyyy2, $mo2, $dd2, $hh2, $mn2, $ss2) = ($7, $8, $9, $10, $11, $12);
+	$startTime=sprintf("%04d%02d%02d%02d%02d%02d", $yyyy1, $mo1, $dd1, $hh1, $mn1, $ss1);
+	$duration=secsBetween(date2doy($yyyy1, $mo1, $dd1), $hh1, $mn1, $ss1, date2doy($yyyy2, $mo2, $dd2), $hh2, $mn2, $ss2);
+	$orbit = `timeorbit '$yyyy1/$mo1/$dd1 $hh1:$mn1:$ss1'`;
+      }
+
+      $ENV{'IDL_HIRES_CDFNAME'} = sprintf("fa_hr_%s_%05d_%s_%s.cdf", $dataType, $orbit, $startTime, $duration);
+      $ENV{'IDL_HIRES_CDFNAME'} =~ tr/A-Z/a-z/;
+      $ENV{'IDL_HIRES_OUTDIR'} = '/disks/plasma2/www/fast/hires/cdfs/';
+
+      my $httpPath="http://sprg.ssl.berkeley.edu/fast/hires/cdfs/".$ENV{'IDL_HIRES_CDFNAME'};
+
+#      print $email." ".$dataType." ".$options."\nIDL_HIRES_CDFNAME: ".$ENV{'IDL_HIRES_CDFNAME'}."\nIDL_HIRES_OUTDIR: ".$ENV{'IDL_HIRES_OUTDIR'}."\n";
+#      system "touch ".$ENV{'IDL_HIRES_OUTDIR'}."/".$ENV{'IDL_HIRES_CDFNAME'};
+
+      # generate the CDF -- hires_cdf gets the data files, then runs idl with sdt_batch
+
+      my $hires_cdf_pid = open(HIRES_CDF, "hires_cdf $hires_cdf_args $options $dataType|");
+      while(<HIRES_CDF>) {
+	  # make sure the pid of open isn't the pid of a shell process calling hires_cdf
+	  if (/^Pid:(\d+)/) {
+	      my $pid = $1;
+	      if($pid != $hires_cdf_pid) {
+		  # this actually happens for timespan requests 
+		  # since the shell is used to interpret the times in
+		  # quotes.
+		  $hires_cdf_pid = $pid;
+	      } 
+	  } else {
+	      # this is an error message from hires_cdf
+	      print "$_\n";
+	  }
+      }
+      close(HIRES_CDF);
+
+      my $success;
+      if (-f $ENV{'IDL_HIRES_OUTDIR'}.$ENV{'IDL_HIRES_CDFNAME'}) {
+	  # The CDF exists! Email the user that their CDF is ready.
+	  emailSuccess($email, $dataType, $options, $hires_cdf_pid, 
+		       $httpPath, $ENV{'IDL_HIRES_OUTDIR'}.$ENV{'IDL_HIRES_CDFNAME'});
+	  $success = "Success!"
+      } else {
+	  # the CDF is no where to be found!
+	  emailApology($email, $dataType, $options, $hires_cdf_pid);
+	  $success = "TROUBLE!"
+      }
+      # CDF will be deleted after 7 days by cron job running as lzpw on hiresd host.
+
+      
+      if (-f $queue_db) {
+  #remove request line from queue file, since request has been processed
+	  open(QUEUE, "+<$queue_db");
+	  flock(QUEUE, LOCK_EX);      # Wait for request queue to be accessible
+	  open(TEMP, ">${queue_db}.tmp");  # use a temporary file to save queue 
+	  foreach(<QUEUE>) {
+	      if (!($_=~/^$email\|$dataType\|$options\|/)) {
+		  print TEMP $_;
+	      }
+	  }
+	  close(TEMP);
+
+	  # copy temporary file into queue file, without closing queue (which would
+	  # release the file lock)
+	  seek(QUEUE, 0, 0); truncate(QUEUE, 0);   # truncate queue file
+	  open(TEMP, "${queue_db}.tmp");
+	  while (<TEMP>) {
+	      print QUEUE $_;
+	  }
+	  close(TEMP);
+	  close(QUEUE);
+
+	  system "rm -f ${queue_db}.tmp";
+     }
+
+      # write request line + return status (was file genterated) + 
+      # pid of hires_cdf proc for correlation with log files.
+      
+      my $newlog = 1;
+      if (-f $processed_db) {
+	  $newlog = 0;
+      }
+      if (open(PROCESSED, ">>$processed_db")) { 
+	  if ($newlog) {
+	      # print words to the wise at the head of new processed_db log
+	      print PROCESSED <<'EnoughFoolishness';
+# processed.db
+# Log of all HIRES CDF requests which have been processed
+#
+# Gives entry from queue.db that was processed, followed by
+# Success! if a file was created, or TROUBLE! if no file was 
+# created.
+# The last column is the PID of the hires_cdf process, which is
+# appended to all log files associated with that request.
+# the hires_pid log can be found in 
+#   /disks/juneau/www/TEMPLOGS/hires/hireslog_PID 
+#       It shows the status of retrieving data files, etc. 
+# The IDL and SDT err and out files (with the hires_cdf PID 
+# affixed) can be found in 
+#   /home/lzp/hires/*_PID
+#
+#email|datatype|options|success|hires_cdf_pid
+EnoughFoolishness
+	  }
+	  my $dateinfo=`(date -u '+%y-%m-%d %H:%M:%S')`;
+	  print PROCESSED "${email}|${dataType}|${options}|${success}|${hires_cdf_pid}|${dateinfo}\n";
+	  close(PROCESSED);
+      } else{
+	  print STDERR "cannot open $processed_db";
+      }
+    } else {
+      return;
+    }
+  }
+}
+
+# Start the program
+&checkForProc;
+while(1) {
+    &parseQueue;
+    sleep;  #  wake up & back to work when we get a SIGALRM
+}

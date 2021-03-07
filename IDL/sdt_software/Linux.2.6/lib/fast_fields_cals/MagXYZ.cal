@@ -1,0 +1,28 @@
+#  SCCS Id
+#  @(#)MagXYZ.cal	1.4 11/17/96
+#
+# MagXYZ.cal
+# REE 8/15/96
+MagXYZ			Data name.
+12			Type:  MagDC.
+sec			x-axis units.
+2*Raw			y-axis units
+xx			z-axis units.
+0			Boomlength index
+0			No gain state
+0			History - zero based number of entries.
+#
+# The gain and offset matrix from R. Strangeway document 5/96.
+# Currently gain*(raw-offset). Linear, order2, order3 not used.
+# delta_t for very fine adjustments.
+# delay is from asynchronous sampling.
+#
+ 0					Epoch time.
+ 1.0  0.0  0.0				Gain matrix.
+ 0.0  1.0  0.0				Gain matrix.
+ 0.0  0.0  1.0				Gain matrix.
+ 0.0         0.0         0.0		Offset.
+ 0.0          				Time coeficient must be 0:num_cof-1.
+ 1          				Number of coeficients (1-10).
+ 1.0          1.0          1.0          No spline.
+# End of 0th record, MagXYZ.cal		 

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dskb02</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dskb02</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKB02 return bookkeeping data from a DSK type 2 segment.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dskb02_c.html">dskb02_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle    the handle of a DSK file containing a type 2
+                segment from which data are to be fetched.
+
+      dladsc    the DLA descriptor associated with the segment
+                from which data are to be fetched.
+
+   the call:
+
+      <b>cspice_dskb02</b>, handle, dladsc, nv, np, nvxtot, vtxbds, voxsiz, $
+                     voxori, vgrext, cgscal, vtxnpl, voxnpt, voxnpl
+
+   returns:
+
+      nv        the number of vertices belonging to the specified plate
+                model.
+
+      np        the number of plates belonging to the specified plate
+                model.
+
+      nvxtot    Total number of voxels in fine grid.
+
+      vtxbds    Vertex bounds. This is an array of six values giving
+                the minimum and maximum values of each component of
+                the vertex set. Units are km.
+
+      voxsiz    Fine grid voxel size.  DSK voxels are cubes; the edge
+                length of each cube is given by the voxel size.  This
+                size applies to the fine voxel grid.  Units are km.
+
+      voxori    Voxel grid origin.  This is the location of the voxel
+                grid origin in the body-fixed frame associated with
+                the target body.  Units are km.
+
+      vgrext    Voxel grid extent.  This extent is an array of three
+                integers indicating the number of voxels in the X, Y, and
+                Z directions in the fine voxel grid.
+
+      cgscal    Coarse voxel grid scale.  The extent of the fine voxel
+                grid is related to the extent of the coarse voxel grid by
+                this scale factor.
+
+      vtxnpl    Vertex-plate correspondence list size.
+
+      voxnpt    Size of the voxel-to-plate pointer list.
+
+      voxnpl    Voxel-plate correspondence list size.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Dump several parameters from the first DLA segment of
+   a DSK file. The segment is assumed to be of type 2.
+
+      PRO DSKB02_T, dsk
+      
+         ;;
+         ;; Open the DSK file for read access. We use the
+         ;; DAS-level interface for this function.
+         ;;
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, dsk, handle
+      
+         ;;
+         ;; Begin a forward search through the kernel. In
+         ;; this example, it's a very short search.
+         ;;
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, handle, dladsc, found
+      
+         if ( ~found ) then begin
+      
+            message, 'SPICE(NOSEGMENT): No segment found in file '+ dsk
+      
+         endif
+      
+         while ( found ) do begin
+      
+            ;;
+            ;; If we made it this far, DLADSC is the
+            ;; DLA descriptor of the first segment.
+            ;; Read and display type 2 bookkeeping data.
+            ;;
+            <b>cspice_dskb02</b>, handle, dladsc, nv, np, nvxtot,  $
+                           vtxbds, voxsiz, voxori, vgrext,  $
+                           cgscal, vtxnpl, voxnpt, voxnpl
+      
+            print, 'Number of vertices:                 ', nv
+            print, 'Number of plates:                   ', np
+            print, 'Number of voxels:                   ', nvxtot
+            print, 'Vertex bounds in X direction (km):  ', vtxbds[*,0]
+            print, 'Vertex bounds in Y direction (km):  ', vtxbds[*,1]
+            print, 'Vertex bounds in Z direction (km):  ', vtxbds[*,2]
+            print, 'Voxel edge length (km):             ', voxsiz
+            print, 'Voxel grid origin (km):             ', voxori
+            print, 'Voxel grid extents:                 ', vgrext
+            print, 'Coarse voxel grid scale:            ', cgscal
+            print, 'Size of vertex-plate list:          ', vtxnpl
+            print, 'Size of voxel-plate pointer array:  ', voxnpt
+            print, 'Size of voxel-plate list:           ', voxnpl
+            print
+      
+            ;;
+            ;; Search for the segment after that described by 'dladsc'.
+            ;; 'found' returns as false if no such segment located.
+            ;;
+            <a href="cspice_dlafns.html">cspice_dlafns</a>, handle, dladsc, nxtdsc, found
+      
+            dladsc = nxtdsc
+      
+         endwhile
+      
+      
+         ;;
+         ;; Close the kernel. This frees program and system resources.
+         ;;
+         <a href="cspice_dascls.html">cspice_dascls</a>, handle
+      
+      END
+
+   IDL outputs:
+   
+      IDL&gt; dskb02_t, 'phobos512.bds'
+      Number of vertices:                      1579014
+      Number of plates:                        3145728
+      Number of voxels:                       11914500
+      Vertex bounds in X direction (km):        -13.440030       12.762800
+      Vertex bounds in Y direction (km):        -11.520650       12.061140
+      Vertex bounds in Z direction (km):        -9.5707800       10.055000
+      Voxel edge length (km):                   0.10424830
+      Voxel grid origin (km):         -14.073520   -11.988554   -9.9035881
+      Voxel grid extents:                      260         235         195
+      Coarse voxel grid scale:                       5
+      Size of vertex-plate list:              11010050
+      Size of voxel-plate pointer array:       1151500
+      Size of voxel-plate list:                6419540
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   This routine supports computations involving bookkeeping information
+   stored in DSK type 2 segments. User applications typically will not
+   need to call this routine.
+
+   DSK files are built using the DLA low-level format and the DAS
+   architecture; DLA files are a specialized type of DAS file in which
+   data are organized as a doubly linked list of segments.  Each
+   segment's data belong to contiguous components of character, double
+   precision, and integer type.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 13-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   fetch parameters from a type 2 dsk segment
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

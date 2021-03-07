@@ -1,0 +1,90 @@
+#!/usr/local/bin/perl
+
+##########################################
+#
+#       trigger_wallops_by_sched.pl
+#
+#       by: Tracy Wang
+#
+##########################################
+
+
+#mission in life:
+#somehow give commands to trigger file receipt when they are scheduled to arrive
+
+#first read the schedule pertaining to tomorrow (GMT time)
+
+#this script has to take care of files from:
+#Wallops                GN-WGS
+
+$Wallops="GN-WGS";
+$TEMPSCHEDULE="tempschedule";  #temporary files for schedules
+$TEMPCMD="temp_at";
+
+sub finish{
+	print "exiting and removing \n";
+	system("rm $TEMPCMD");
+	system("rm $TEMPSCHEDULE");
+}
+
+#this is effectively trapping illegal exits
+$SIG{'INT'}='finish';
+$SIG{'KILL'}='finish';
+$SIG{'QUIT'}='finish';
+
+use Date::Manip;
+
+#tomorrow is needed since this script is run the day before the relevant operations
+#note that i assume that the script is called at ~11:50 GMT, approx. 5PM or 4PM PST, at which time the tomorrow of PST is the same as that of GMT because calling further methods of the module is time expensive ..
+
+$tomorrow=&UnixDate(ParseDate("tomorrow"), "%Y/%m/%d");
+print "$tomorrow\n";
+$dayaftertomorrow=&UnixDate(DateCalc("tomorrow", "+1 day"), "%Y/%m/%d");
+print "$dayaftertomorrow\n";
+
+@stations=($Wallops);
+
+foreach $sta (@stations){
+        print "processing schedule information for $sta\n";
+	print "#----------------------------------------\n";
+	open (SCHEDULE, "> $TEMPSCHEDULE");
+	my $schedule=`(readsched $tomorrow $sta)`;
+	print SCHEDULE $schedule;
+
+	if ( `(grep 'ERROR' $TEMPSCHEDULE)` ne ""){
+		print "uhoh unable to readschedule for $tomorrow\n";
+		exit(1);
+	}
+
+	close(SCHEDULE);
+
+	open (READSCHED, "$TEMPSCHEDULE");
+	while(<READSCHED>){
+	my ($orbit, $doy, $start, $end, $stationname, $irrelevant)=split(/[\s]+/, $_);
+	my $daytocall=&get_date($start, $end);
+	my $month=&UnixDate($daytocall, "%b");
+	my $dayofmonth=&UnixDate($daytocall, "%d");
+	print "calling at at ${end}GMT $month $dayofmonth\n";
+
+	open(CMD, "> $TEMPCMD");
+	print CMD "grab_${stationname}_file $orbit $tomorrow $start";
+	close(CMD);
+
+	`at -m -f $TEMPCMD ${end}GMT $month $dayofmonth`;
+	}
+	close(READSCHED);
+	&finish;
+}
+
+#sometimes you get things like 24:40 00:20, in this case, you want to call dayaftertomorrow, instead of tomorrow.
+sub get_date{
+	my @start=split(/:/, $_[0]);
+	my @end=split(/:/, $_[1]);
+
+	#start is 24: something and end is straddled across the day
+	if ($start[0]>20 && $end[0] =~/0\d/){
+		$dayaftertomorrow;
+	}else{
+		$tomorrow;
+	}
+}

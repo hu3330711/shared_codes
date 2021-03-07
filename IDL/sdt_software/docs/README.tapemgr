@@ -1,0 +1,102 @@
+@(#)README.tapemgr	1.2 06/04/96  UCB SSL
+
+The FAST Tape Magager
+Walter Herrick
+20 January 1994
+
+This file explains the scheme for archiving FAST data files to
+tape, for preparing tapes for this archive, and for restoring
+the files from tape.
+
+No changes are required to the system configuration, although some
+assumptions are made:
+1)	The programs will be run on the machine to which
+	the tape drive is attached
+2)	The tape drive is addressed as /dev/rmt/0c.  The scripts now all 
+        support an optional command line argument for tape device.
+3)	Archiving is done a directory at a time.
+4)	Restores are done a file at a time.
+5)	All access to the tape drive is through a series of
+	scripts which will be described below.
+
+The scheme would probably work on any tape drive, but it has only
+been tested on a 4mm (DAT) drive.
+
+The tape format requires that all files be labeled. The label is the
+first file on the tape, and it has a fixed length of 80 bytes. It is
+composed of a series of ASCII characters padded to 80 characters with
+ASCII spaces. It is anticipated that all tapes labels will start with
+"FAST LABEL:" and will contain information as to the context in which
+the label was written (I&T, PF, Kiruna, etc.), a sequential number for
+the tape, and the date and time the label was written, preferably in
+GMT. For I&T, the label will look like:
+
+FAST LABEL: I&T TAPE 1 -- LABEL WRITTEN Thu Jan 20 21:20:04 GMT 1994
+
+This scheme should be backed up by a database, but this has not been
+developed yet.
+
+The rest of the tape is a series of pairs of files. The first of these
+is an informational file and the second is a UNIX "tar" file of the
+directory which was archived. The informational file is a sequence of
+fixed length records of 80 bytes which are also composed of a series
+of ASCII characters padded to 80 characters with ASCII spaces. The first
+record contains the date the archive was written. The second record
+contains the machine which wrote the tape and the directory which was
+archived. The next records are an index of the files in the directory
+which was archived, including name, size, and date the file was written,
+and the last record contains the number of bytes in the archive. An
+informational file  will look like:
+
+Saved on Wed Jan 19 01:33:52 GMT 1994
+sitka:/disks/fast/users/wherrick/src/tapemgr
+     1483   Jan 18 15:33   itlabel
+     1713   Jan 17 19:51   itstore
+     2238   Jan 18 17:13   itstore.dos
+      935   Jan 18 11:37   readlabel
+       20   Jan 15 16:51   tapelabel.c
+6389 Bytes
+
+The following scripts are to be used to implement this scheme:
+
+1)	itlabel -- This script labels a tape with a FAST label which
+indicates that the label was written for I&T. It takes, as a required
+argument, the sequential number to be included in the label. It may
+be run from anywhere on the machine on which the tape drive is mounted.
+Before writing a label, it looks for an existing label or for existing
+data at the beginning of the tape, and if either is found, the user is
+given the opportunity to abort. When a database is implemented, it is
+anticipated that the labeling will be recorded there as well and that
+some level of labeling consistency will be enforced.
+
+2)	readlabel  -- This script looks for a FAST label on a tape.
+It takes no arguments. It may be run from anywhere on the machine on
+which the tape drive is mounted. If no label is found, this is reported.
+If one is found, the label is displayed.
+
+3)	itputfiles -- This script writes an informational file and a
+"tar" file of a directory to a FAST archive tape. It takes no arguments.
+It must be run on the machine on which the tape drive is mounted and
+from the directory that is to be archived. Before writing the files,
+it first looks for a FAST tape label, displaying it if one is found
+and aborting otherwise. If one is found, it reads past the informational
+files, counting bytes as it goes, and skips the "tar" files until it
+reaches the end of the tape. It then reports the number of kilobytes
+on the tape and the number of kilobytes that the proposed archive would
+add. The user is then given the opportunity to abort the archive.
+
+4)	readindex -- This script reads and displays the label and the
+informational files on a FAST archive tape. It takes no arguments. It
+may be run from anywhere on the machine on which the tape drive is
+mounted. It first looks for a label, displaying it if one is found and
+aborting otherwise. It also reports the number of kilobytes on the tape.
+
+5)	getfile -- This script extracts an archive file from a FAST
+archive tape. It takes no arguments. It must be run on the machine on
+which the tape drive is mounted and from the directory to which the
+archived file is to be restored. It first looks for a label, displaying
+it if one is found and aborting otherwise. It then reads and displays
+each informational file and pauses to allow the user to select a
+file name to be restored. If none is selected, it skips to the next
+informational file. If one is selected, it restores that file to the
+current directory and quits.

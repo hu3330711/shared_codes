@@ -1,0 +1,47 @@
+Heppner-Maynard-Rich Electric Field Model	1990
+
+
+Authors: 
+J. P. Heppner, N. C. Maynard, F. J. Rich
+Space Physics Division
+Air Force Geophysics Laboratory
+Hanscom AFB
+Bedford, Massachusetts 01731
+E-mail: rich@plh.af.mil
+
+Parameter: 
+High-latitude electric potential and field, Pedersen and Hall
+conductances, field aligned currents, and Joule heating 
+
+Brief Description:
+This software package includes several electric convection field models, 
+and the AFGL Precipitation and Conductivity Model; the latter for obtaining 
+conductances, currents, and heating. The Heppner-Maynard models are based 
+on OGO 6 (Polar-Orbiting Geophysical Observatory 6) and DE 2 (Dynamics 
+Explorer 2) electric field measurements and provide the electric potential 
+and field poleward of 60 geomagnetic latitude. Seven different models
+were generated for different Interplanetary Magnetic Field (IMF) conditions.
+Spherical harmonics to order 11 in magnetic local time and latitude are used 
+in each case. For southward IMF, an explicit variability with geomagnetic 
+activity is included. The Heelis Electric Convection Field Model is included 
+in this package for comparative purposes. Rich and Maynard (1989) illustrate 
+the improvements of their model in relation to the Heelis model and point out 
+the differences to Foster et al. (1986) (cf. the Millstone Hill Electric
+Field Model) in the region of the Harang discontinuity and near the dayside
+cleft. 
+
+Availability: 
+FORTRAN code as provided by the model authors is included in NSSDC's
+models archive for anonymous ftp retrieval.
+
+References:
+J. P. Heppner, Empirical Models of High-Latitude Electric Fields, J. Geophys.
+Res. 82, 1115, 1977. 
+
+J. P. Heppner and N. C. Maynard, Empirical High-Latitude Electric Field 
+Models, J. Geophys. Res. 92, 4467, 1987. 
+
+F. J. Rich and N. C. Maynard, Consequences of Using Simple Analytical 
+Functions for the High- Latitude Convection Electric Field, J. Geophys. 
+Res. 94, 3687, 1989. 
+

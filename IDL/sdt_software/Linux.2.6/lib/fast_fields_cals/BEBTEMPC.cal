@@ -1,0 +1,24 @@
+#  SCCS Id
+#  @(#)BEBTEMPC.cal	1.1 04/15/96
+#
+# BEBTEMPC.cal
+# IS 8/3/95
+BEBTEMPC			Data name.
+6			Type: THERM.
+sec			x-axis units.
+Degrees (Celsius)	y-axis units.
+xx			z-axis units.
+0			Boomlength index.
+0			Gain state.
+0			History.
+# Calibration derived from data base with the coefficients.
+# Using the coefficients from the data base, the data is fit to a
+# degree five polynomial, with the coefficients a0-a5.
+# Data assumed identical to THERM data 
+0			Epoch time in seconds.
+1.4061e2		a0. Offset.
+-2.7065			a1. Linear.
+3.3489e-2		a2. 2nd order.
+-2.4559e-4		a3. Cubic.
+9.0448e-7		a4. Fourth order.
+-1.3300e-9		a5. Fifth order.

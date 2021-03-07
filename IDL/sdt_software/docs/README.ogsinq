@@ -1,0 +1,159 @@
+****************************************************************
+
+       README.ogsinq
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsinq procedure.
+
+****************************************************************
+
+       @(#)README.ogsinq	1.1    10/28/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsinq procedure is to find
+       out whether an ogs-type job with exclusive lock is
+       running currently or not.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsinq [-c proc-cfg-file] [prcd]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       prcd
+
+           is the name of the procedure for the job about which
+           one wants to inquire.
+
+           The default is
+               ogs
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful, and a job is
+           running currently.
+
+
+        1  means the procedure was successful, and no job is
+           running currently.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) This procedure checks whether an ogs-type job with
+           exclusive lock is running currently or not.
+
+
+           These are jobs that create lock files, so that no
+           more than one job of each kind can run on a machine
+           at any time.
+
+
+           An ogs-type job is a job that runs the ogs procedure
+           or one of a number of other procedures associated
+           with ogs.
+
+
+
+        2) The determination of whether a job is running
+           currently or not is made according to whether the
+           corresponding lock file exists or not.
+
+
+
+        3) If a job is not currently running, that does not in
+           itself constitute an error.
+
+
+
+        4) This procedure writes an appropriate message,
+           indicating whether a job is running currently or not.

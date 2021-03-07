@@ -1,0 +1,170 @@
+****************************************************************
+
+       README.ogsflmon
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsflmon procedure.
+
+****************************************************************
+
+       @(#)README.ogsflmon	1.1    11/10/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsflmon procedure is to
+       monitor the CMS/FDF file log.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsflmon [-c proc-cfg-file] [-t time-int] [-n nlines]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       time-int
+
+           is the time interval to wait between consecutive
+           monitor pollings (in seconds).
+
+           The default is
+               10
+
+
+
+       nlines
+
+           is the maximum number of lines to be output when the
+           display of a log begins.
+
+           The default is
+               100
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) The time interval must be an integer number.
+
+
+
+        2) If no CMS/FDF file log exists, the monitoring waits
+           for the appropriate time interval, and then polls
+           again; until it finds that a log exists.
+
+
+
+        3) If a CMS/FDF file log exists, then initially the file
+           is displayed (at most, the appropriate number of
+           lines at the end of the file).
+
+
+           After that, the display is extended by adding lines
+           as the log grows.
+
+
+
+        4) The monitoring will tie up a window, and must be
+           killed to terminate.
+
+
+
+        5) If the log grows to a very large size, the user can
+           edit the log to reduce its size.
+
+
+           In this case, the user may want to delete lines from
+           the beginning of the log (which are the oldest).
+
+
+           In any event, it is essential that the monitoring not
+           be running while editing is taking place.

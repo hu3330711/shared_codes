@@ -1,0 +1,1575 @@
+
+@2 { PlotQuantityDescription
+   'SBlock UCB_CRRES_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+* SCM.Plot.dat for CRRES Plots
+*
+* For SCCS:
+* @(#)SCM.Plot.UCB_CRRES_Sci_Mod.sparhawk.dat	1.9, 03/02/06
+*
+************************************************************************
+
+
+@2 { PlotQuantityDescription
+  'BECI_X' TIME_SERIES 1 1 2 1
+  'BField ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BECI_X' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BECI_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField ECI' 0 0 0
+  'BField ECI' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BECI_Y' TIME_SERIES 1 1 2 1
+  'BField ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BECI_Y' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BECI_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField ECI' 0 0 0
+  'BField ECI' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BECI_Z' TIME_SERIES 1 1 2 1
+  'BField ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BECI_Z' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BECI_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField ECI' 0 0 0
+  'BField ECI' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BGSE_X' TIME_SERIES 1 1 2 1
+  'BField GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BGSE_X' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BGSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField GSE' 0 0 0
+  'BField GSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BGSE_Y' TIME_SERIES 1 1 2 1
+  'BField GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BGSE_Y' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BGSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField GSE' 0 0 0
+  'BField GSE' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BGSE_Z' TIME_SERIES  1 1 2 1
+  'BField GSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BGSE_Z' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BGSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField GSE' 0 0 0
+  'BField GSE' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BMGSE_X' TIME_SERIES  1 1 2 1
+  'BField MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BMGSE_X' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BMGSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField MGSE' 0 0 0
+  'BField MGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BMGSE_Y' TIME_SERIES  1 1 2 1
+  'BField MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BMGSE_Y' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BMGSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField MGSE' 0 0 0
+  'BField MGSE' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BMGSE_Z' TIME_SERIES  1 1 2 1
+  'BField MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BMGSE_Z' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BMGSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'BField MGSE' 0 0 0
+  'BField MGSE' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BstBMGSE_X' TIME_SERIES  1 1 2 1
+  'Burst Mag-MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BstBMGSE_X' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BstBMGSE_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Burst Mag-MGSE' 0 0 0
+  'Burst Mag-MGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BstBMGSE_Y' TIME_SERIES  1 1 2 1
+  'Burst Mag-MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BstBMGSE_Y' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BstBMGSE_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Burst Mag-MGSE' 0 0 0
+  'Burst Mag-MGSE' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'BstBMGSE_Z' TIME_SERIES  1 1 2 1
+  'Burst Mag-MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'BstBMGSE_Z' 'nT' LINEAR TRUE -20000.0 20000.0
+  'BstBMGSE_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Burst Mag-MGSE' 0 0 0
+  'Burst Mag-MGSE' 3 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EY_Sph_SpinRes_ECI' TIME_SERIES  1 1 2 1
+  'EField_Spheres_SpinRes_ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ey_sph_eci' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ey_sph_eci' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Spheres_SpinRes_ECI' 0 0 0
+  'EField_Spheres_SpinRes_ECI' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZ_Sph_SpinRes_ECI' TIME_SERIES  1 1 2 1
+  'EField_Spheres_SpinRes_ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ez_sph_eci' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ez_sph_eci' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Spheres_SpinRes_ECI' 0 0 0
+  'EField_Spheres_SpinRes_ECI' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EY_Cyl_SpinRes_ECI' TIME_SERIES  1 1 2 1
+  'EField_Cylinders_SpinRes_ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ey_cyl_eci' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ey_cyl_eci' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Cylinders_SpinRes_ECI' 0 0 0
+  'EField_Cylinders_SpinRes_ECI' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZ_Cyl_SpinRes_ECI' TIME_SERIES  1 1 2 1
+  'EField_Cylinders_SpinRes_ECI' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ez_cyl_eci' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ez_cyl_eci' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Cylinders_SpinRes_ECI' 0 0 0
+  'EField_Cylinders_SpinRes_ECI' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EY_Sph_SpinRes_MGSE' TIME_SERIES  1 1 2 1
+  'EField_Spheres_SpinRes_MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ey_sph_mgse' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ey_sph_mgse' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Spheres_SpinRes_MGSE' 0 0 0
+  'EField_Spheres_SpinRes_MGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZ_Sph_SpinRes_MGSE' TIME_SERIES  1 1 2 1
+  'EField_Spheres_SpinRes_MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ez_sph_mgse' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ez_sph_mgse' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Spheres_SpinRes_MGSE' 0 0 0
+  'EField_Spheres_SpinRes_MGSE' 2 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EY_Cyl_SpinRes_MGSE' TIME_SERIES  1 1 2 1
+  'EField_Cylinders_SpinRes_MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ey_cyl_mgse' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ey_cyl_mgse' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Cylinders_SpinRes_MGSE' 0 0 0
+  'EField_Cylinders_SpinRes_MGSE' 1 0 0
+  }
+
+@2 { PlotQuantityDescription
+  'EZ_Cyl_SpinRes_MGSE' TIME_SERIES  1 1 2 1
+  'EField_Cylinders_SpinRes_MGSE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Ez_cyl_mgse' 'mV/m' LINEAR TRUE -2000.0 2000.0
+  'Ez_cyl_mgse' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField_Cylinders_SpinRes_MGSE' 0 0 0
+  'EField_Cylinders_SpinRes_MGSE' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Test XvsY Plot' X_VS_Y  1 1 2 1
+  'Test XvsY Qty' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'V3' 'mV/m' LINEAR TRUE -10.0 10.0
+  'V4' 'mV/m' LINEAR TRUE -10.0 10.0
+  'V3 vs. V4' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Test XvsY Qty' 0 0 0
+  'Test XvsY Qty' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'EF12 vs EF34 Plot' X_VS_Y  1 1 2 1
+  'EF12 vs EF34 Qty' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'EF12' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EF34' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EF12 vs. EF34' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EF12 vs EF34 Qty' 0 0 0
+  'EF12 vs EF34 Qty' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Null' TIME_SERIES  1 1 2 1
+  'Null' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Null' 'nT' LINEAR TRUE -10.0 10.0
+  'Null' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Null' 0 0 0
+  'Null' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'copy of E-Field12' TIME_SERIES  1 1 2 1
+  'copy of E-Field12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'copy( E-Field12)' 'mV/m' LINEAR TRUE -100.0 100.0
+  'copy( E-Field12)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'copy of E-Field12' 0 0 0
+  'copy of E-Field12' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Difference in EField' TIME_SERIES  1 1 2 1
+  'Difference in EField' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'V12-V34' 'mV/m' LINEAR TRUE -10.0 10.0
+  'V12-V34' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Difference in EField' 0 0 0
+  'Difference in EField' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Average EField' TIME_SERIES  1 1 2 1
+  'Average EField' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '(V12+V34)/2' 'mV/m' LINEAR TRUE -10.0 10.0
+  '(V12+V34)/2' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Average EField' 0 0 0
+  'Average EField' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Average Sphere EField' TIME_SERIES  1 1 2 1
+  'Average Sphere EField' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '(V1+V2)/2' 'mV/m' LINEAR TRUE -10.0 10.0
+  '(V1+V2)/2' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Average Sphere EField' 0 0 0
+  'Average Sphere EField' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'weighted average of EField12' TIME_SERIES  1 1 2 1
+  'weighted average of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'wgt ave( EField12)' 'mV/m' LINEAR TRUE -10.0 10.0
+  'wgt ave( EField12)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'weighted average of EField12' 0 0 0
+  'weighted average of EField12' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'EField12 - weighted average' TIME_SERIES  1 1 2 1
+  'EField12 - weighted average' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EField12 - wgt ave' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EField12 - wgt ave' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField12 - weighted average' 0 0 0
+  'EField12 - weighted average' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'weighted average of EField34' TIME_SERIES  1 1 2 1
+  'weighted average of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'wgt ave( EField34)' 'mV/m' LINEAR TRUE -10.0 10.0
+  'wgt ave( EField34)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'weighted average of EField34' 0 0 0
+  'weighted average of EField34' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'EField34 - weighted average' TIME_SERIES  1 1 2 1
+  'EField34 - weighted average' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'EField34 - wgt ave' 'mV/m' LINEAR TRUE -10.0 10.0
+  'EField34 - wgt ave' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'EField34 - weighted average' 0 0 0
+  'EField34 - weighted average' 1 0 0
+  }
+
+{
+*@2 { PlotQuantityDescription
+  'B (Earth Centered Inertial Ref. Frame), X' TIME_SERIES  1 1 2 1
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(ECI), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'B (Earth Centered Inertial Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (Earth Centered Inertial Ref. Frame), Y' TIME_SERIES  1 1 2 1
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(ECI), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'B (Earth Centered Inertial Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (Earth Centered Inertial Ref. Frame), Z' TIME_SERIES  1 1 2 1
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(ECI), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'B (Earth Centered Inertial Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B (GSE Ref. Frame), X' TIME_SERIES  1 1 2 1
+  'B (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (GSE Ref. Frame)' 0 0 0
+  'B (GSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (GSE Ref. Frame), Y' TIME_SERIES  1 1 2 1
+  'B (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (GSE Ref. Frame)' 0 0 0
+  'B (GSE Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (GSE Ref. Frame), Z' TIME_SERIES  1 1 2 1
+  'B (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (GSE Ref. Frame)' 0 0 0
+  'B (GSE Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B (MGSE Ref. Frame), X' TIME_SERIES  1 1 2 1
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MGSE Ref. Frame)' 0 0 0
+  'B (MGSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (MGSE Ref. Frame), Y' TIME_SERIES  1 1 2 1
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MGSE Ref. Frame)' 0 0 0
+  'B (MGSE Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (MGSE Ref. Frame), Z' TIME_SERIES  1 1 2 1
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B(GSE), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MGSE Ref. Frame)' 0 0 0
+  'B (MGSE Ref. Frame)' 3 0 0
+  }
+
+}
+
+*@2 { PlotQuantityDescription
+  '|B| (Space Craft Ref. Frame)' TIME_SERIES  1 1 2 1
+  '|B| (Space Craft Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '|B| (SC)' 'nT' LINEAR TRUE -10.0 10.0
+  '|B|' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  '|B| (Space Craft Ref. Frame)' 0 0 0
+  '|B| (Space Craft Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  '|B| (Earth Centered Inertial Ref. Frame)' TIME_SERIES 1 1 2 1
+  '|B| (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '|B| (ECI)' 'nT' LINEAR TRUE -10.0 10.0
+  '|B|' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  '|B| (Earth Centered Inertial Ref. Frame)' 0 0 0
+  '|B| (Earth Centered Inertial Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  '|B| (GSE Ref. Frame)' TIME_SERIES 1 1 2 1
+  '|B| (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '|B| (GSE)' 'nT' LINEAR TRUE -10.0 10.0
+  '|B|' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  '|B| (GSE Ref. Frame)' 0 0 0
+  '|B| (GSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  '|B| (MGSE Ref. Frame)' TIME_SERIES 1 1 2 1
+  '|B| (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  '|B| (MGSE)' 'nT' LINEAR TRUE -10.0 10.0
+  '|B|' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  '|B| (MGSE Ref. Frame)' 0 0 0
+  '|B| (MGSE Ref. Frame)' 1 0 0
+  }
+
+{
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, A' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Spin Fit( V12), A' 'mV/m' 0 1
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), A' 'mV/m' LINEAR TRUE -10.0 10.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, B' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), B' 'mV/m' LINEAR TRUE -10.0 10.0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, C' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), C' 'mV/m' LINEAR TRUE -10.0 10.0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, Sigma' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), Sigma' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 4 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, N' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), N' 'mV/m' LINEAR TRUE -10.0 10.0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 5 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField12, sqrt(B*B+C*C)' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), B*B+C*C' 'mV/m' LINEAR TRUE -10.0 10.0
+  'B*B+C*C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField12' 0 0 0
+  'Spin Fit of EField12' 6 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, A' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), A' 'mV/m' LINEAR TRUE -10.0 10.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, B' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), B' 'mV/m' LINEAR TRUE -10.0 10.0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, C' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), C' 'mV/m' LINEAR TRUE -10.0 10.0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, Sigma' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), Sigma' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 4 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, N' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), N' 'mV/m' LINEAR TRUE -10.0 10.0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 5 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of EField34, sqrt(B*B+C*C)' TIME_SERIES 1 1 2 1
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), sqrt(B*B+C*C)' 'mV/m' LINEAR TRUE -10.0 10.0
+  'sqrt(B*B+C*C)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of EField34' 0 0 0
+  'Spin Fit of EField34' 6 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, A' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), A' 'mV/m' LINEAR TRUE -10.0 10.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, B' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), B' 'mV/m' LINEAR TRUE -10.0 10.0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, C' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), C' 'mV/m' LINEAR TRUE -10.0 10.0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, Sigma' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), Sigma' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 4 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, N' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), N' 'mV/m' LINEAR TRUE -10.0 10.0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 5 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V1, sqrt(B*B+C*C)' TIME_SERIES 1 1 2 1
+  'Spin Fit of V1' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), sqrt(B*B+C*C)' 'mV/m' LINEAR TRUE -10.0 10.0
+  'sqrt(B*B+C*C)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V1' 0 0 0
+  'Spin Fit of V1' 6 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, A' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), A' 'mV/m' LINEAR TRUE -10.0 10.0
+  'A' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, B' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), B' 'mV/m' LINEAR TRUE -10.0 10.0
+  'B' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, C' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), C' 'mV/m' LINEAR TRUE -10.0 10.0
+  'C' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, Sigma' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), Sigma' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Sigma' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 4 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, N' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), N' 'mV/m' LINEAR TRUE -10.0 10.0
+  'N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 5 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'Spin Fit of V2, sqrt(B*B+C*C)' TIME_SERIES 1 1 2 1
+  'Spin Fit of V2' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'Spin Fit( V12), sqrt(B*B+C*C)' 'mV/m' LINEAR TRUE -10.0 10.0
+  'sqrt(B*B+C*C)' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'Spin Fit of V2' 0 0 0
+  'Spin Fit of V2' 6 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'VxB (Earth Centered Inertial Ref. Frame), X' TIME_SERIES 1 1 2 1
+  'VxB (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (ECI), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (Earth Centered Inertial Ref. Frame), Y' TIME_SERIES 1 1 2 1
+  'VxB (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (ECI), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (Earth Centered Inertial Ref. Frame), Z' TIME_SERIES 1 1 2 1
+  'VxB (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (ECI), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 0 0 0
+  'VxB (Earth Centered Inertial Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'VxB (GSE Ref. Frame), X' TIME_SERIES 1 1 2 1
+  'VxB (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (GSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (GSE Ref. Frame)' 0 0 0
+  'VxB (GSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (GSE Ref. Frame), Y' TIME_SERIES 1 1 2 1
+  'VxB (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (GSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (GSE Ref. Frame)' 0 0 0
+  'VxB (GSE Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (GSE Ref. Frame), Z' TIME_SERIES 1 1 2 1
+  'VxB (GSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (GSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (GSE Ref. Frame)' 0 0 0
+  'VxB (GSE Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'VxB (MGSE Ref. Frame), X' TIME_SERIES 1 1 2 1
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (MGSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (MGSE Ref. Frame)' 0 0 0
+  'VxB (MGSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (MGSE Ref. Frame), Y' TIME_SERIES 1 1 2 1
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (MGSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (MGSE Ref. Frame)' 0 0 0
+  'VxB (MGSE Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'VxB (MGSE Ref. Frame), Z' TIME_SERIES 1 1 2 1
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'VxB (MGSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'VxB (MGSE Ref. Frame)' 0 0 0
+  'VxB (MGSE Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'E.B Electric Field (MGSE Ref. Frame), X' TIME_SERIES 1 1 2 1
+  'E.B Electric Field (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B (MGSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field (MGSE Ref. Frame)' 0 0 0
+  'E.B Electric Field (MGSE Ref. Frame)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field (MGSE Ref. Frame), Y' TIME_SERIES 1 1 2 1
+  'E.B Electric Field (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B (MGSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field (MGSE Ref. Frame)' 0 0 0
+  'E.B Electric Field (MGSE Ref. Frame)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field (MGSE Ref. Frame), Z' TIME_SERIES 1 1 2 1
+  'E.B Electric Field (MGSE Ref. Frame)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B (MGSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field (MGSE Ref. Frame)' 0 0 0
+  'E.B Electric Field (MGSE Ref. Frame)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MGSE), X' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MGSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MGSE)' 0 0 0
+  'E.B Electric Field - VxB (MGSE)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MGSE), Y' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MGSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MGSE)' 0 0 0
+  'E.B Electric Field - VxB (MGSE)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MGSE), Z' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MGSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MGSE)' 0 0 0
+  'E.B Electric Field - VxB (MGSE)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (ECI), X' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (ECI), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (ECI)' 0 0 0
+  'E.B Electric Field - VxB (ECI)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (ECI), Y' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (ECI), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (ECI)' 0 0 0
+  'E.B Electric Field - VxB (ECI)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (ECI), Z' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (ECI), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (ECI)' 0 0 0
+  'E.B Electric Field - VxB (ECI)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MFA), X' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MFA), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MFA)' 0 0 0
+  'E.B Electric Field - VxB (MFA)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MFA), Y' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MFA), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MFA)' 0 0 0
+  'E.B Electric Field - VxB (MFA)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (MFA), Z' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (MFA), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (MFA)' 0 0 0
+  'E.B Electric Field - VxB (MFA)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B (MFA), X' TIME_SERIES 1 1 2 1
+  'B (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B (MFA), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MFA)' 0 0 0
+  'B (MFA)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (MFA), Y' TIME_SERIES 1 1 2 1
+  'B (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B (MFA), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MFA)' 0 0 0
+  'B (MFA)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B (MFA), Z' TIME_SERIES 1 1 2 1
+  'B (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B (MFA), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B (MFA)' 0 0 0
+  'B (MFA)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B - Model (ECI), X' TIME_SERIES 1 1 2 1
+  'B - Model (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (ECI), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (ECI)' 0 0 0
+  'B - Model (ECI)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (ECI), Y' TIME_SERIES 1 1 2 1
+  'B - Model (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (ECI), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (ECI)' 0 0 0
+  'B - Model (ECI)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (ECI), Z' TIME_SERIES 1 1 2 1
+  'B - Model (ECI)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (ECI), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (ECI)' 0 0 0
+  'B - Model (ECI)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B - Model (MFA), X' TIME_SERIES 1 1 2 1
+  'B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (MFA), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (MFA)' 0 0 0
+  'B - Model (MFA)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (MFA), Y' TIME_SERIES 1 1 2 1
+  'B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (MFA), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (MFA)' 0 0 0
+  'B - Model (MFA)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (MFA), Z' TIME_SERIES 1 1 2 1
+  'B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (MFA), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (MFA)' 0 0 0
+  'B - Model (MFA)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'weighted average of B - Model (MFA), X' TIME_SERIES 1 1 2 1
+  'weighted average of B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'wgt ave( B - Model (MFA)), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'weighted average of B - Model (MFA)' 0 0 0
+  'weighted average of B - Model (MFA)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'weighted average of B - Model (MFA), Y' TIME_SERIES 1 1 2 1
+  'weighted average of B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'wgt ave( B - Model (MFA)), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'weighted average of B - Model (MFA)' 0 0 0
+  'weighted average of B - Model (MFA)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'weighted average of B - Model (MFA), Z' TIME_SERIES 1 1 2 1
+  'weighted average of B - Model (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'wgt ave( B - Model (MFA)), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'weighted average of B - Model (MFA)' 0 0 0
+  'weighted average of B - Model (MFA)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'B - Model - weighted average (MFA), X' TIME_SERIES 1 1 2 1
+  'B - Model - weighted average (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model - wgt ave (MFA), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model - weighted average (MFA)' 0 0 0
+  'B - Model - weighted average (MFA)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model - weighted average (MFA), Y' TIME_SERIES 1 1 2 1
+  'B - Model - weighted average (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model - wgt ave (MFA), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model - weighted average (MFA)' 0 0 0
+  'B - Model - weighted average (MFA)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model - weighted average (MFA), Z' TIME_SERIES 1 1 2 1
+  'B - Model - weighted average (MFA)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model - wgt ave (MFA), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model - weighted average (MFA)' 0 0 0
+  'B - Model - weighted average (MFA)' 3 0 0
+  }
+
+}
+
+*@2 { PlotQuantityDescription
+  'In Eclipse' TIME_SERIES 1 1 2 1
+  'In Eclipse' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'In Eclipse' 'Y/N' LINEAR TRUE -10.0 10.0
+  'Y/N' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'In Eclipse' 0 0 0
+  'In Eclipse' 1 0 0
+  }
+
+{
+*@2 { PlotQuantityDescription
+  'B - Model (SSC), X' TIME_SERIES 1 1 2 1
+  'B - Model (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (SSC), X' 'nT' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (SSC)' 0 0 0
+  'B - Model (SSC)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (SSC), Y' TIME_SERIES 1 1 2 1
+  'B - Model (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (SSC), Y' 'nT' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (SSC)' 0 0 0
+  'B - Model (SSC)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'B - Model (SSC), Z' TIME_SERIES 1 1 2 1
+  'B - Model (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'B - Model (SSC), Z' 'nT' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'B - Model (SSC)' 0 0 0
+  'B - Model (SSC)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (SSC), X' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (SSC), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (SSC)' 0 0 0
+  'E.B Electric Field - VxB (SSC)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (SSC), Y' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (SSC), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (SSC)' 0 0 0
+  'E.B Electric Field - VxB (SSC)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'E.B Electric Field - VxB (SSC), Z' TIME_SERIES 1 1 2 1
+  'E.B Electric Field - VxB (SSC)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'E.B EField - VxB (SSC), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'E.B Electric Field - VxB (SSC)' 0 0 0
+  'E.B Electric Field - VxB (SSC)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'SphE, X' TIME_SERIES 1 1 2 1
+  'SphE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE, X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE' 0 0 0
+  'SphE' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'SphE, Y' TIME_SERIES 1 1 2 1
+  'SphE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE, Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE' 0 0 0
+  'SphE' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'SphE, Z' TIME_SERIES 1 1 2 1
+  'SphE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE, Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE' 0 0 0
+  'SphE' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'SphE - VxB (MGSE), X' TIME_SERIES 1 1 2 1
+  'SphE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE - VxB (MGSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE - VxB (MGSE)' 0 0 0
+  'SphE - VxB (MGSE)' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'SphE - VxB (MGSE), Y' TIME_SERIES 1 1 2 1
+  'SphE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE - VxB (MGSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE - VxB (MGSE)' 0 0 0
+  'SphE - VxB (MGSE)' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'SphE - VxB (MGSE), Z' TIME_SERIES 1 1 2 1
+  'SphE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'SphE - VxB (MGSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'SphE - VxB (MGSE)' 0 0 0
+  'SphE - VxB (MGSE)' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'CylE, X' TIME_SERIES 1 1 2 1
+  'CylE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE, X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE' 0 0 0
+  'CylE' 1 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'CylE, Y' TIME_SERIES 1 1 2 1
+  'CylE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE, Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE' 0 0 0
+  'CylE' 2 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'CylE, Z' TIME_SERIES 1 1 2 1
+  'CylE' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE, Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE' 0 0 0
+  'CylE' 3 0 0
+  }
+
+}
+
+{
+*@2 { PlotQuantityDescription
+  'CylE - VxB (MGSE), X' TIME_SERIES 1 1 2 1
+  'CylE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE - VxB (MGSE), X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE - VxB (MGSE)' 0 0 0
+  'CylE - VxB (MGSE)' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'CylE - VxB (MGSE), Y' TIME_SERIES 1 1 2 1
+  'CylE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE - VxB (MGSE), Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE - VxB (MGSE)' 0 0 0
+  'CylE - VxB (MGSE)' 3 0 0
+  }
+
+*@2 { PlotQuantityDescription
+  'CylE - VxB (MGSE), Z' TIME_SERIES 1 1 2 1
+  'CylE - VxB (MGSE)' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'Sec' LINEAR TRUE 0.0 1.0
+  'CylE - VxB (MGSE), Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 FALSE 0.0 SDT_EBAR_NONE 2 0
+  'CylE - VxB (MGSE)' 0 0 0
+  'CylE - VxB (MGSE)' 3 0 0
+  }
+
+}
+************************************************************************
+
+
+@2 { PlotQuantityDescription
+   'EBlock UCB_CRRES_Sci_Mod' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }

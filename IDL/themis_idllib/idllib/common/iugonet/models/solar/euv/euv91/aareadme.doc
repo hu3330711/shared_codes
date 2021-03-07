@@ -1,0 +1,98 @@
+=========================================================================
+National Space Science Data Center      Data set  MS-13D        June 1992 
+=========================================================================
+
+NAME:  	     Revised SERF2 Solar EUV Flux Model 
+
+SCIENTIFIC CONTACT:      W. Kent Tobiska 
+			 JPL, MS 264-723
+			 4800 Oak Grove Dr.
+			 Pasadena, CA 91109-8099
+			 Telephone: (818) 393-7742
+			 E-mail   : W.Kent.Tobiska@cc2mhb.jpl.nasa.gov
+			 Fax      : (818) 393-4530
+                            
+NSSDC CONTACT:		 D. Bilitza, GSFC/NSSDC code 633/STX, 
+			 Greenbelt, MD 20771, USA
+			 Telephone: (301) 286-0190
+			 NSSDCA:: BILITZA
+			 bilitza@nssdca.gsfc.nasa.gov     
+
+FILES:       (1) FORTRAN driver program                SERFD.FOR    7
+             (2) FORTRAN EUV91 subroutines          EUV91SUB.FOR   34
+             (3) input data file for (2)            EUV91IX2.DAT  587
+		   (from 68173 to 88366)
+             (4) model coefficients (ASCII)         EUV91COE.TXT    8
+             (5) output of test run                   F80183.DAT    4
+	     (6) data file from 47001 to 68172      EUV91IX1.DAT  613   
+	     (7) data file from 89001 to 90365      EUV91IX3.DAT   58   
+             (8) Log-file of recent updates           UPDATE.LOG    9
+	     (9) IDL version of EUV91                  EUV91.PRO   19
+            (10) This file                          AAREADME.DOC
+
+BRIEF DESCRIPTION:
+
+The Revised SERF2 model was developed by Kent Tobiska and colleagues.
+It describes the solar full-disk photon fluxes 
+at 1 AU for 39 EUV wavelength groups and discrete lines between 1.8 
+and 105.0 nm (18 - 1050 Angstrom) for a given date. It represents an 
+advance over the previous SERF1 and SERF2 models, (i) by its ability
+to incorporate new data sets as they become available, and (ii) by 
+extending beyond the SME Lyman-alpha timeframe. The Solar Electro-
+magnetic Radiation Flux (SERF) study group is part of the World 
+Ionosphere Thermosphere Study (WITS) project organized by the 
+Scientific Committee on Solar-Terrestrial Physics (SCOSTEP). Solar 
+EUV photon fluxes are fundamental input parameters in the study of 
+the terrestrial and planetary upper atmospheres. Earlier EUV models 
+were reviewed by Lean (1987, 1990). 
+
+The model is based on the time regression of the fluxes (in the 39
+wavelength groups) with four independent solar parameters: (1) H Lyman-
+alpha, 121.6 nm, (2) He I 1083 nm equivalent width, (3) 10.7 cm radio 
+flux, daily and (4) 81-day running mean. (1) and (2) are used as the 
+independent model parameters for the chromospheric irradiances while 
+(3) and (4) are the independent parameters for the coronal and 
+transition region irradiances. Regression coefficients are determined
+using EUV measurements of the OSO, AEROS, and AE satellites and of 
+five rocket flights. Using ground-based observations of the solar 
+radio flux (3,4) the model extends from 1947 to the present for coronal 
+EUV full-disk irradiances. Chromospheric EUV full-disk irradiances 
+can be obtained from 1976 to the present based on OSO, AE and SME 
+Lyman-alpha satellite data and ground-based He I 1083 nm equivalent
+width observations. 
+
+The software package was supplied by K. Tobiska and includes the main 
+program and subroutines [EUV91.FOR], the model data files containing 
+date (YYDDD), Lyman-alpha, He I 1083 (converted to units of Lyman-alpha), 
+10.7 cm solar radio flux (F10.7), and 81-day-mean F10.7 [EUV91INDEX1.DAT,
+..2.DAT, ..3.DAT], the model coefficients [EUV91COEF.TXT], and output 
+from a test run of EUV91 [80183.DAT]. Program EUV91 provides energy and 
+photonfluxes for given date between 68178 (178th day of 1968) and 88366. 
+The final flux tables are stored in ASCII files (FYYDDD.DAT, YYDDD is 
+chosen date). To obtain irradiances before 68178 and after 88366 the 
+model index file EUV91INDEX.DAT has to be extended to cover those times.
+An improved and corrected version of this code was released in April 
+1991, superseding the 1990 version. Recent updates of the model software 
+are explained in file UPDATE.LOG.
+
+REFERENCES
+
+H.E. Hinteregger, K. Fukui, and B.G. Gilson, Observational Reference
+and Model Data on Solar EUV, from Measurements on AE-E, Geophys. Res.
+Lett. 8, 1147-1150 (1981)                               [SERF1 model]
+
+J.L. Lean, Solar Ultraviolet Irradiance Variations: A Review, J.
+Geophys. Res. 92, 839-868 (1987)
+ 
+W.K. Tobiska and C.A. Barth, A Solar EUV Flux Model, J. Geophys. Res.
+95, 8243-8251 (1990)                                    [SERF2 model]
+
+J.L. Lean, A Comparison of Models of the Sun's Extreme Ultraviolet
+Irradiance Variations, J. Geophys. Res. 95, 11933-11944 (1990)
+
+K. Tobiska, Revised Solar Extreme Ultraviolet Flux Model, J. Atmos. 
+Terr. Phys. 53, 1005-1018 (1991)
+
+=========================================================================
+National Space Science Data Center      Data set  MS-13D         Jan 1992 
+=========================================================================

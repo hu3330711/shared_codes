@@ -1,0 +1,35 @@
+Chiu Ionospheric Model 1975
+
+Author:		Y. T. Chiu
+		Lockheed Research Laboratory
+		3251 Hanover St.
+		Palo Alto, California  94304
+		NSI-DECnet: LOCKHD::CHIU
+
+Parameter:	Electron density
+
+Brief Description:
+
+This global phenomenological model describes the large scale variations of
+ionospheric electron density with local time, latitude, and solar sunspot
+number. It is based on ionosonde data from 50 stations spanning the period 1957
+to 1970. The model profile is obtained as the sum of three Modified Chapman
+functions for E-, F1-, and F2-layers. The model was improved by Chiu (1975) and
+served as the starting point for the FAIM model. The model is  fairly simple,
+using less than 50 coefficients, which limits its application for equatorial
+and higher latitudes. It is, however, fast and easily manipulable and a good
+choice for first-order estimates. An extension for the polar cap ionosphere is
+being constructed.
+
+Availability:	retrievable from NSSDC's anonymous FTP site 
+
+NSSDC ID: #MI-91A
+
+References:
+
+B. K. Ching and Y. T. Chiu, A Phenomenological Model of Global Ionospheric
+Electron Density in the E-, F1-, and F2-Regions, J. Atmos. Terr. Phys. 
+35, 1615, 1973.
+
+Y. T. Chiu, An Improved Phenomenological Model of Ionospheric Density, 
+J. Atmos. Terr. Phys. 37, 1563, 1975.

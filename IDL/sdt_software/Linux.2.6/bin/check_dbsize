@@ -1,0 +1,23 @@
+#!/usr/bin/ksh
+#
+## check_dbsize - calls a perl script which queries the database
+##		  for the size of the fast_archive and online_files
+##		  databases
+##
+#
+#
+WORKSPACE=integration
+export WORKSPACE
+
+# Now execute the archive_config file which will set the 
+# environment variables
+#
+. /disks/fast/software/config/archive_config
+. /disks/fast/software/config/archive_config.hires
+
+## Now call perl script
+#
+db_size_check
+
+
+exit 0

@@ -1,0 +1,24 @@
+#  SCCS Id
+#  @(#)V1+V4-V5+V8_4k.cal	1.1 03/19/97
+#
+# V1+V4-V5+V8.cal - What a dumb name!
+# REE 03/06/97
+D8_4k			Data Name
+1			Linear Calibration
+sec			x-axis units
+mV/m			y-axis units
+xx			z-axis units
+13			Boomlength index
+0			No gain state
+0			History
+# data entered 6/27/95
+# all gains e-3
+# offset= (offset from lcal - 32768)
+# The following are identical to V14 so V158 can be constructed.
+#
+0			Time in seconds
+0.0			Offset
+-2.787			Gain
+
+			
+ 

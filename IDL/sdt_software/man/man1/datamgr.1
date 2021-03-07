@@ -1,0 +1,171 @@
+.\" @(#)datamgr.1	1.6 11/12/01
+'\"macro stdmacro
+.nr X
+.TH datamgr 1 11/12/01
+.SH NAME
+datamgr \- interface between the FAST data archive, database and data analysis tool (SDT) 
+.SH SYNOPSIS
+.B datamgr
+.SH DESCRIPTION
+.B datamgr
+is a GUI based tool which locates FAST data files.  Files are found
+according query criteria such as Timespan, Orbit Number, APID, etc.
+Datamgr queries the fast_archive database in the Sybase server
+to find the datafiles required by the user inputs, and then locates these
+files on line or in the Jukeboxes.  Currently, the fast_online database
+is used to record all files on line at all sites, and the
+JUKEBOX_VOL_LIST file is a list of all CDROM volumes available on the
+jukeboxes.
+See Datamgr.conf(4) for information about configuring datamgr.
+.LP
+.B datamgr
+is usually used in conjuction with 
+.B sdt
+to select FAST data for analysis, as a shortcut for finding needed data 
+files on line or on CDROM, downloading them, and then 
+selecting the lzp data directories directly with sdt "File Select".
+.SH STANDARD OPERATING PROCEDURE
+Normal useage of datamgr with SDT involves selecting 'Data Manager' from a SDT Plot Window, 
+which is configured with the desired plot quantities.  Selecting 'Data Manager' from the SDT Plot
+Window brings datamgr to the foreground (starting a new datamgr which will be associated
+with the SDT Plot Window, if one does not exist already) and sending datamgr a list of
+APIDs which are required by the current SDT Plot Window configuration.
+.LP
+The user usually then inputs an orbit number, or a timespan, and presses 'Submit Query'.
+The 'Query Result: Files' panel at the bottom of the datamgr main window will display
+the number of files found, and the number of files on line.  If all files are on line, 
+the 'Return To SDT' button will be green.  If enought files are on line to plot a subset
+of data from the files found by datamgr, then 'Return To SDT' will be yellow.  If not
+enought files are on line to plot any data, 'Return To SDT' will be red.  
+.LP
+If you 
+need to download files, press 'List Files...' to bring up the 'Query Result: File List' window,
+which displays all the files, and the locations from which they can be downloaded.
+Press 'Get Files' to initiate the download.
+You may want to select a subset of the files -- often there are duplicate files for the
+same contact, because of playback sessions.  Double click on a file to select all files 
+in that contact.  The counts files are automatically downloaded when any lzp file is selected, b
+default.
+.LP
+Once all files are on press 'Return To SDT' in the main datamgr window, and 
+the list of files found and the timespan to plot will be passed to SDT.
+ 
+.SH USAGE
+
+The datamgr main window is divided into panels. The 'Query Limits' panel
+is for setting time limits of the query.  The 'Criteria' panel allows you
+to select additional criteria to further limit your query.  The 'Query Result:
+Time Spans' can be set to query for a list of timespans for which the query
+criteria are satisfied.  The 'Query Result: File List' can be set to query for 
+a list of files for which the query criteria are satisfied.
+.TP
+Query Limits Panel.
+.RS
+This panel is used to restrict the time limits of the query.  
+Allows you to choose between 'Timespan', 'Orbit', 'Orbit Range', 'Timespan List', and 'SQL Select'.
+.RS
+\'Orbit' and 'Orbit Range' have a 'Specify Auroral Zone' option, which allows you to query for
+times when FAST is in the selected Auroral Zones of the specified orbits.
+.LP
+\'Timespan List' allows you to specify a list of timespans, which 
+can come from the 'Query Result: Time Spans' of a previous query.  
+It is possible to load a file into this widget by right clicking 
+on the list widget to get a pop-up menu.
+.LP
+\'SQL Select' lets you view and edit the SQL code underlying any of the other form entries in the 'Query Limits' panel, and allows you to create more comples time limits specifications.  The essence of the query is to select  start and finish time into 
+a temporary table, #timespan.
+.RE
+.RE
+.LP
+Criteria Panel and optional Sub-Panels
+.RS
+Apid
+.RS
+APIDs needed by the SDT plot configuration are shown in blue, and cannot be de-selected (without
+changing the SDT plot contents).  They are set when 'Data Manager' is selected from the SDT 
+plot panel.
+.RE
+.LP
+Orbit/Attitude
+.RS
+You can use the form interface, or choose to enter SQL criteria for columns in the events_data
+table into a text widget.
+.RE
+Mode
+.RS
+You can use the form interface, or choose to enter SQL criteria for columns in the mode_periods
+table into a text widget.
+.RE
+.LP
+.RE
+Query Result: Time Spans
+.RS
+If not selected, datamgr will not spend time querying for a time span result.
+.LP
+Lets you query for a list of timespans for which your query criteria are met.
+You can save the list by right clicking inside the list box.  You can 
+select a set of timespan and set the Timespan to the 
+Start time of the first selected timespan and the End Time of the last
+ selected timespan
+using 'Set Start/End Times'.  You can move the Result Time Spans to the  the Timespan List
+in the Query Limits panel by pressing 'Set Timespan List'.  Then you can select each timespan
+one-by-one to display them in SDT. 
+.RE
+.LP
+Query Result:  Files
+.RS
+If not selected, datamgr will not spend time querying for all the lzp files needed for 
+all the timespans listed in the Query Result: Time Spans list.
+.LP
+Select 'List Files...' to see a list of the LZP files needed.  You may want to select or de-select
+an entire set of lzp files in one contact by double-clicking on the row for one of the files 
+in that contact.  Datamgr will only download selected files, and only will pass the selected
+filenames onto SDT.
+.RE
+
+
+.SH FILES
+.TP
+.B $DBCONF (default: $FASTCONFIG/fast_archive.conf)
+Login information for the sybase server.
+.TP
+.B $FASTCONFIG/Sybase/interfaces
+This Sybase configuration file is required to locate the Sybase server.
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.RS
+These are the configuration files for datamgr.  See Datamgr.conf(4). 
+The FASTCONFIG file
+is read first, and then the file in the users home directory, if it exists.
+.LP
+E.g.: To configure datamgr to use ssh instead of rsh, add the following line:
+.RS
+set RSH /usr/local/bin/ssh
+.RE
+.RE
+.TP 
+$JUKEBOX_VOL_LIST (defined in Datamgr.conf(4))
+Listing of volumes in a jukebox system.  Maintained by local jukebox software or 
+downloaded through ftp from juneau's pub/dailies ftp directory.  This file is no
+longer mandatory (since the jukeboxes may disappear).
+.SH SEE ALSO
+whichfiles(1), Datamgr.conf(4), trimFileList(1), update_filelist(1), dmls(1), fileListToDB(1), update_vollist(1)
+.LP
+.SH BUGS
+.LP
+Sometimes datamgr will not start from SDT.  When this happens, start datamgr
+from the command line, and then select 'File':'Attach to SDT window...'
+to connect datamgr to the data window you are using in SDT. 
+Now, go back to SDT data window and select Datamgr again, and SDT should
+be able to talk to your new datamgr.
+.LP
+Sometimes datamgr will not find files on line when it should.  See trimFileList(1) and update_filelist(1).
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

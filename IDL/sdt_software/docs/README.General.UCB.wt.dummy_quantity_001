@@ -1,0 +1,190 @@
+************************************************************************
+
+   README.General.UCB.wt.dummy_quantity_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.dummy_quantity_001
+
+************************************************************************
+
+   Create dummy quantity.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.dummy_quantity_001	1.1    09/12/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module creates a dummy output SDT quantity.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+       None.
+
+
+
+
+
+    3) The format of the output SDT quantity (number and type of
+       components, etc.) must be specified by the Data Quantity
+       Description for this SDT quantity.
+
+
+
+
+
+    4) No output data points are written.
+
+
+
+
+
+    5) The Done flag is set.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Number of array elements.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Output SDT quantity is not an array type.
+
+                    >= 1  =  Number of array elements, for array type.
+
+
+
+            2) Number of unsigned characters for array descriptions.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Output SDT quantity is not an array type,
+                             or is an array without array descriptions.
+
+                    >= 1  =  Number of unsigned characters for array
+                             descriptions, for array type with
+                             descriptions.
+
+
+               If the number of array elements is 0, then the number of
+               unsigned characters for array descriptions must be 0 as
+               well.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+           None.
+
+
+
+
+
+    6) The SDT output data quantity is described by its corresponding
+       Data Quantity Description.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

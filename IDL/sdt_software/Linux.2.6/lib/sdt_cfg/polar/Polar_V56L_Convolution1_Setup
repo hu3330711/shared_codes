@@ -1,0 +1,16 @@
+# Defines the input FIRs for POLAR V56L
+#
+#  @(#)Polar_V56L_Convolution1_Setup	1.1, 03/25/02
+#
+Iteration1:
+     po_fir_20hz_6secspin_1nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+     po_fir_40hz_6secspin_1nu_wrapped_x1000.asc   40    Odd  Wrap  0
+Iteration2:
+     po_fir_20hz_6secspin_2nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+     po_fir_40hz_6secspin_2nu_wrapped_x1000.asc   40    Odd  Wrap  0
+Iteration3:
+     po_fir_20hz_6secspin_3nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+     po_fir_40hz_6secspin_3nu_wrapped_x1000.asc   40    Odd  Wrap  0
+Iteration4:
+     po_fir_20hz_6secspin_4nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+     po_fir_40hz_6secspin_4nu_wrapped_x1000.asc   40    Odd  Wrap  0

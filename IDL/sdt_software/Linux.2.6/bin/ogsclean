@@ -1,0 +1,427 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsclean.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Clean up files from ogs-type jobs.
+#
+# **************************************************************
+#
+#      @(#)ogsclean.shp	1.1    10/19/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsclean
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set opta   = $no                # clean up all work files
+
+   set optt   = $no                # clean up all cfg lock files
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-a")  then
+
+           set opta   = $yes
+
+
+         else  if  ("$aux001" == "-t")  then
+
+           set optt   = $yes
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Clean up the lock files for the configuration files.
+#
+#---------------------------------------------------------------
+
+   if  ($optt == $yes)  then
+
+       set aux001 = $lkcfgr:r
+
+       rm -f $aux001.* >&! /dev/null
+
+       rm -f $lkcfgw >&! /dev/null
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the name of the procedure for the job.
+#
+#---------------------------------------------------------------
+
+   set clwork = $yes               # indic clean up work files
+
+
+
+   if  ($opta == $no)  then        # not for all jobs
+
+       if  ($#argv >= 1)  then     # arg present
+
+           set aux001 = ($1)
+
+           if  ($#aux001 == 1)  then
+               set prcjob = $aux001
+             else
+               echo " $prcnam : " \
+                   "Procedure name must be single word"
+               goto l8000
+             endif
+
+         else                      # arg missing
+
+           set clwork = $no
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Clean up the work files.
+#
+#---------------------------------------------------------------
+
+   if  ($clwork == $yes)  then
+
+       if  ($opta == $yes)  then
+
+           rm -f $rdwork/*.*.aux.* >&! /dev/null
+
+           rm -f $rdwork/$lock.*.* >&! /dev/null
+
+         else
+
+           rm -f $rdwork/$prcjob.*.aux.* >&! /dev/null
+
+           rm -f $rdwork/$lock.$prcjob.* >&! /dev/null
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

@@ -1,0 +1,228 @@
+#
+#  @(#)PolarConvolutionReplacementQtys	1.2, 06/14/02
+#
+
+Convolution Replacement Quantities for Polar Voltage and EFields
+----------------------------------------------------------------
+
+As of March 2002, the "Replacement Quantity" feature of SDT was
+implemented and was first used to create "Replacement"'s of Polar
+EField (V12L, V34L, V56L) and Voltage (V1_EFI_LF, ..., V4_EFI_LF)
+quantities by convolving these quantities with Finite Impulse Response
+(FIR) filters created by Forrest Mozer.
+
+For a general discussion of the SDT "Replacement Quantity" feature,
+see the document:
+
+    $FASTHOME/docs/SDT_Replaceable_Quantities
+
+
+Two sets of ASCII files are required to support the POLAR convolution
+Replacement:
+
+
+   Convolution Control Files
+
+   Finite Impulse Response (FIR) Files
+
+
+These are described in the following sections.
+
+
+-------------------------------------------------------------------
+Convolution Science Module:
+
+The science module called by SDT to compute these convolutions, is:
+
+    $FASTLIB/SnapOns/General.UCB.sparhawk.convolution1
+
+whose workspace source file is:
+
+    General.UCB.sparhawk.convolution1.c
+
+which resides in workspace source directory:
+
+    src/sdt/FastSnapOns/UCB/sparhawk
+
+-------------------------------------------------------------------
+Convolution Control Files:
+
+These are the files named in the Parameter1 entries of the Convolution
+entries of the POLAR "Mission Replacement Quantity File", which is named:
+
+    UI_Rplc_Params.POLAR
+
+The files referred to by "UI_Rplc_Params.POLAR" are the following:
+
+     Polar_V1L_Convolution1_Setup
+     Polar_V2L_Convolution1_Setup
+     Polar_V3L_Convolution1_Setup
+     Polar_V4L_Convolution1_Setup
+     Polar_V12L_Convolution1_Setup
+     Polar_V34L_Convolution1_Setup
+     Polar_V56L_Convolution1_Setup
+
+and reside in directory "$FASTLIB/sdt_cfg/polar".  These define the
+sequence of convolutions, and corresponding FIR filter files that
+are required for data sampled at various frequencies.
+
+The format of the convolution control files follows:
+
+For each convolution in the sequence that the quantity passes through,
+there is one record of the following format:
+
+
+
+Iteration<n>:
+   fir_filter_filename1  Frequency1  Even/Odd  Wrap/NonWrap  RvrsFlag
+   fir_filter_filename2  Frequency2  Even/Odd  Wrap/NonWrap  RvrsFlag
+	   .
+	   .
+	   *
+   fir_filter_filename<m> Frequency<m>  Even/Odd  Wrap/NonWrap  RvrsFlag
+	   .
+	   .
+	   .
+   fir_filter_filenameM  FrequencyM  Even/Odd  Wrap/NonWrap  RvrsFlag
+
+
+
+where:
+
+    "<n>" is 1,2,3, ...,N  (N is the number of convolutions to perform)
+
+    "<m>" is 1,2,3, ...,M  (M is the number of frequencies supported)
+
+    "fir_filter_filename(m)" is the name of the file containing the FIR
+          filter.  This file is expected to be searched for in the
+	  following order of directories:
+
+	      ./
+	      $FASTCONFIG/sdt_cfg/polar
+	      $FASTLIB/sdt_cfg/polar
+
+	  The default version of the filters will be in
+	  "$FASTLIB/sdt_cfg/polar".
+
+	  See the section "Finite Impulse Response (FIR) File Format",
+	  following, for a description of the FIR filters.
+
+    "Frequency<m>" is a positive integer or floating point number which
+	  gives the frequency for which "fir_filter_filename" is
+	  to be used.
+
+    "Even/Odd" indicates whether the filter in "fir_filter_filename"
+          has an even or odd number of entries, disregarding any zero-
+          padding that the filter, as given in the file, may contain.
+          The creator of the filter will have that information.  So
+	  this field should be set either as "Even" or "Odd".
+
+    "Wrap/NonWrap" indicates whether the filter in "fir_filter_filename"
+	  has been put into "wrapped" order (as per "C-Recipes") or
+	  not.  The value of the field should be "Wrap" if the filter
+	  is wrapped, or "NonWrap" if not.
+
+    "RvrsFlag" is a flag indicating if the elements of the filter
+          are in reversed-order.   As of yet none have been so, so all
+	  of these values have been set to "0"
+
+
+In addition, a following field, the "Divisor" field can be used to
+indicate a non-trivial filter divisor.   That feature has not been
+used as of March 2002 and may never be used.
+
+It is expected that all "Iteration"'s will have the same number of FIR
+file references, with the same sequence of corresponding frequencies. 
+In other words, the "M" in each "Iteration<n>" record will be the same
+and, for each <m> in 1,...,M,  "Frequency<m>" will be the same for
+all "Interation"'s.  The Even/Odd, Wrap, ReversedOrder fields do not
+have to match in sequence although, in practice, they probably always
+will.
+
+SCCS control of these files is in "src/sdt/PolarDecom".
+
+Finally, lines beginning with "#" are considered comments and should
+be ignored by any parsing code.
+
+
+As an example, for "V12L", the contents of the control file:
+
+    Polar_V12L_Convolution1_Setup
+
+are as follows:
+
+
+
+Iteration1:
+    po_fir_20hz_6secspin_2nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+    po_fir_40hz_6secspin_2nu_wrapped_x1000.asc   40    Odd  Wrap  0
+Iteration2:
+    po_fir_20hz_6secspin_3nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+    po_fir_40hz_6secspin_3nu_wrapped_x1000.asc   40    Odd  Wrap  0
+Iteration3:
+    po_fir_20hz_6secspin_4nu_wrapped_x1000.asc   20.0  Odd  Wrap  0
+    po_fir_40hz_6secspin_4nu_wrapped_x1000.asc   40    Odd  Wrap  0
+
+
+Notice that there are 3 iterations (so "N", as used above, is "3") and
+each iteration has "M" == 2 supported frequencies.  The sequence of
+frequencies for each iteration is 20, 40.
+
+
+-------------------------------------------------------------------
+Finite Impulse Response (FIR) File Format:
+
+These are the FIR filter files and, for POLAR, have names beginning
+with "po_".  The current set of FIR files are:
+
+    po_fir_20hz_6secspin_1nu_wrapped_x1000.asc
+    po_fir_20hz_6secspin_2nu_wrapped_x1000.asc
+    po_fir_20hz_6secspin_3nu_wrapped_x1000.asc
+    po_fir_20hz_6secspin_4nu_wrapped_x1000.asc
+    po_fir_2_5hz_6secspin_1nu_wrapped_x1000.asc
+    po_fir_2_5hz_6secspin_2nu_wrapped_x1000.asc
+    po_fir_2_5hz_6secspin_3nu_wrapped_x1000.asc
+    po_fir_2_5hz_6secspin_4nu_wrapped_x1000.asc
+    po_fir_40hz_6secspin_1nu_wrapped_x1000.asc
+    po_fir_40hz_6secspin_2nu_wrapped_x1000.asc
+    po_fir_40hz_6secspin_3nu_wrapped_x1000.asc
+    po_fir_40hz_6secspin_4nu_wrapped_x1000.asc
+
+These were created by Forrest Mozer in March 2002.
+
+The FIR files are searched for, by the appropriate SDT science module
+(General.UCB.sparhawk.convolution1) in the following order of directories:
+
+    ./
+    $FASTCONFIG/sdt_cfg/polar
+    $FASTLIB/sdt_cfg/polar
+
+The format is very simple - one ASCII line per coefficient of the filter,
+containing the value of the coefficient.  Forrest's FIR filters are
+zero-padded so that there are 2**N coefficients and put into "wrapped"
+order (in the sense of the C-Recipes book), although the original number
+of coefficients in the filter was an odd number.  This is reflected in
+the Even/Odd and Wrap fields that are set in the convolution control
+files.
+
+Also note that the coefficients in Forrest's FIR files are multiplied
+by 1000 and, one might think, require a divisor of 1000.  IT IS NOT
+necessary to put that divisor into the control files because our
+algorithms already normalize the sum of the coefficients to 1.  In fact,
+you should NOT put a divisor in the control file when referring to
+Forrest's FIR files.
+
+Note that Forrest's files came from a PC and originally had, at the
+end of each line, a carriage-return (CTRL-M).  THESE MUST BE removed
+for the SDT software to be able to read these correctly.  It is also
+probably a good idea to delete any other white-space, including blanks,
+that follow the coefficient.  There is no need to delete white-space
+preceding the coefficient.
+
+SCCS control of these files is in "src/sdt/PolarDecom".
+
+Finally, lines beginning with "#" are considered comments and should
+be ignored by any parsing code.
+
+
+

@@ -1,0 +1,21 @@
+#!/bin/csh -fb
+# clean up system ipc stuff.  Death by fire!
+
+set shms = (`ipcs | sed '/Semaphores/q' | grep 0x | grep $user | awk '{print $2}' `)
+set sems =  (`ipcs | sed '1,/Semaphores/d' | grep 0x | grep $user | awk '{print $2}' `)
+
+
+foreach i($shms)
+	echo "Removing shared memory id: $i"
+	ipcrm -m $i
+end
+
+foreach i($sems)
+	echo "Removing semaphore id: $i"
+	ipcrm -s $i
+end
+
+echo "Semaphores and shared memory remaining:"
+ipcs
+
+# that's it.. god help us

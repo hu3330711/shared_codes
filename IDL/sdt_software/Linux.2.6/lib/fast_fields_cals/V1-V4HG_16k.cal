@@ -1,0 +1,24 @@
+#  SCCS Id
+#  @(#)V1-V4HG_16k.cal	1.3 08/12/97
+#
+# V1-V4HG_16k.cal
+# IS 6/29/95
+E1-4HG_16k			Data Name
+1			Linear Calibration
+sec			x-axis units
+mV/m			y-axis units
+xx			z-axis units
+13			Boomlength index
+1			Gain state
+0			History
+# data entered 6/26/95
+# all gains e-3
+# offset found in data calibration book
+# gain set to 16k value divided by 20
+0			Time in seconds
+-80.5			Offset
+0.1734			Gain
+# -0.1387			Gain
+# 
+# Changed by REE 4/07/97 to reflect positive polarity and 0.8 loss.
+#

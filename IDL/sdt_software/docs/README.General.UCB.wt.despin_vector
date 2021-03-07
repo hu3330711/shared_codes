@@ -1,0 +1,336 @@
+************************************************************************
+
+   README.General.UCB.wt.despin_vector
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.despin_vector
+
+************************************************************************
+
+   Despin vector.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.despin_vector	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module transforms a rotating vector, in Spacecraft
+       Coordinates (SCC), into a despun vector, in Despun Spacecraft
+       Coordinates (DSC); or vice-versa.
+
+
+
+
+
+    2) There must be one input, which is either a rotating vector in SCC
+       or a despun vector in DSC.
+
+
+
+
+
+    3) There must be one input, which gives the spin timing.
+
+
+
+       This input gives the time of each Sun pulse.
+
+
+
+
+
+    4) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+    5) If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle by which the SCC system has rotated with respect
+       to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+
+
+
+
+    6) An output data point is produced for each input vector.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input vector.
+
+
+
+
+
+    7) For an output data point to be produced, the input vector must be
+       in the time interval corresponding to a valid spin period.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for the direction of the transformation.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Transformation from SCC to DSC.
+
+                    2  =  Transformation from DSC to SCC.
+
+
+               The text above shows the coordinate system of the input
+               vector first, and the coordinate system of the output
+               vector second.
+
+
+
+            3) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            6) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the output vector.
+
+
+               Float.

@@ -1,0 +1,6 @@
+# Defines the input FIRs for Cluster E_0_DSC quantities
+#
+#  @(#)Cluster_E_0_Convolution1_Setup	1.1, 07/31/02
+#
+Iteration1:
+     cl_fir_1hz_e_0_dsc_x1000.asc   450.0  Odd  Wrap 0

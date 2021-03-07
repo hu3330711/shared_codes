@@ -1,0 +1,71 @@
+#!/usr/bin/ksh
+
+. /disks/fast/software/config/archive_config
+
+ARCHIVEMASTER='teq@ssl.berkeley.edu'
+
+doy=`date -u +%j'`
+year=`date -u +%Y'`
+
+if ((doy <= 8)); then
+    (( year = year - 1 ))
+    if (( (year % 4) == 0 )) && (( (year % 100) != 0 )) || (( (year % 400) == 0 )); then
+	(( doy = 366 + doy ))
+    else
+	(( doy = 365 + doy ))
+    fi
+fi
+
+((start = doy - 9))
+((finish = doy - 3))
+
+
+print "****Bad or missing orbits for the week starting:****"
+startdate=$(doy2date $year $start)
+print $startdate
+
+print "\n****And ending:****"
+enddate=$(doy2date $year $finish)
+print $enddate
+
+while ((start <= finish)); do
+
+    date_to_use="$year $start"
+    ((start = start + 1))
+
+    #searches for the orbits that correspond to those days
+    orbits=$(grep "$date_to_use" /disks/fast/almanac/orbit/predicted | awk '{print $2}')
+
+    #for each orbit number, looks to see if it is a bad orbit or is missing
+    set $orbits
+
+    for orbits in "$@"; do
+	newbadorbit=$(grep $orbits /disks/juneau/cdf1/cdf_status/bad_ees_gen)
+
+	if [[ $newbadorbit != "" ]]; then
+	    badorbits="$badorbits $newbadorbit"
+	fi
+
+	if [[ ! -a "/disks/juneau/cdf1/ees/fa_k0_ees_${orbits}_v03.cdf" ]]; then
+	missingorbits="$missingorbits $orbits"
+	fi 
+
+    done
+done
+
+#sends off an email if there are bad or missing orbits
+if [[ $badorbits = "" ]] && [[ $missingorbits = "" ]]; then
+    print "no bad or missing orbits"
+
+else
+    print "\n*******************\nThe bad orbits: $badorbits\n*******************\nThe missing orbits: $missingorbits"
+
+    printf "%s\n" "Subject: Bad and Missing Orbits  " \
+    "Bad and missing orbits for the week starting $startdate and ending $enddate....These orbits were missing: $missingorbits.  These orbits were bad: $badorbits" |
+        mail $ARCHIVEMASTER
+fi
+
+
+
+
+

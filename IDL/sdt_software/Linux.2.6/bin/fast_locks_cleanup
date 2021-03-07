@@ -1,0 +1,106 @@
+#!/usr/bin/ksh
+
+##fast_locks_cleanup
+
+##Created by: Tracy Wang
+##Created on: 4/23/04
+
+##this script will check for certain lock files, and if no process
+##corresponding to the lock file is running, the script will delete the lock files.
+##the lock files are danet_processlock, dbupdatelock, premasterlock, cutcd and sciplotlock. The variables used for these are going to be referenced from /disks/fast/software/config/archive_config file.
+##any lockfiles found without a corrosponding process is deleted, and the name and creation date is logged into /tmp/fastlocklog$$ where $$ turns into the pid.
+#check for login of the user; the user has to be logged onto juneau in order to view the correct processes and locks
+
+#set environment variables
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+day=$(date | awk '{print $2, $3, $4}');
+
+if [[ -z $(uname -a | grep $DANETHOST) ]];
+then
+    print "not logged onto $DANETHOST. first log on and then use this script"
+    exit 1;
+fi
+#check for locks, if found, test whether there is process, if no process, delete
+
+if [[ -a $DANETLOCK ]]
+then
+    echo "danet_processlock found"
+    process=$(ps -e | grep danet_process);
+    if [[ -z $process ]]
+    then
+      echo "no danet_process, removing lock file"
+      fileage=$(ls -l $DANETLOCK | awk '{print $6, $7, $8}') 
+      rm $DANETLOCK
+      echo "$DANETLOCK made $fileage, deleted on $day" >> /tmp/fastlocklog$$; 
+      echo "danetlock file info logged onto /tmp/fastlocklog$$";
+    fi
+fi
+
+if [[ -a $DBLOCK ]]
+then
+    process=$(ps -e | grep dbupdate);
+    echo "dblock found"
+    if [[ -z $process ]]
+    then
+      echo "no dbupdate, removing dblock"
+      fileage=$(ls -l $DBLOCK | awk '{print $6, $7, $8}')
+      echo "$DBLOCK made $fileage, deleted on $day" >> /tmp/fastlocklog$$;
+      rm $DBLOCK
+      echo "dblock file info logged onto /tmp/fastlocklog$$";
+    else
+      echo "process is running"
+    fi
+fi
+
+if [[ -a $PREMASTERLOCK ]]
+then
+    echo "premasterlock found"
+    process=$(ps -e | grep premaster);
+    if [[ -z $process ]]
+    then
+      echo "no premaster, removing lock file"
+      fileage=$(ls -l $PREMASTERLOCK | awk '{print $6, $7, $8}')
+      rm $PREMASTERLOCK
+      echo "$PREMASTERLOCK made $fileage, deleted on $day" >> /tmp/fastlocklog$$;
+      echo "premasterlock file info logged onto /tmp/fastlocklog$$";
+    else
+      echo "premaster is running"
+    fi
+fi
+
+if [[ -a $CUTCDLOCK ]]
+then
+    echo "cutcdlock found"
+    process=$(ps -e | grep cutcd);
+    process2=$(ps -e | grep romburn);
+    if [[ -z $process && -z $process2 ]]
+    then
+	echo "no cutcd, removing cdlockfile"
+	fileage=$(ls -l $CUTCDLOCK | awk '{print $6, $7, $8}')
+	rm $CUTCDLOCK
+	echo "$CUTCDLOCK made $fileage, deleted on $day" >> /tmp/fastlocklog$$;
+	echo "cutcdlock file info logged onto /tmp/fastlocklog$$";
+    else
+        echo "cutcd, or romburn running, no need to remove lock file"
+    fi
+fi
+
+if [[ -a $SCIPLOTLOCK ]]
+then
+    echo "sciplotlock found"
+    process=$(ps -e | grep sciplot);
+
+    if [[ -z $process ]]
+    then
+        echo "no sciplot, removing lock file"
+	fileage=$(ls -l $SCIPLOTLOCK | awk '{print $6, $7, $8}')
+        rm $SCIPLOTLOCK
+	echo "$SCIPLOTLOCK made $fileage, deleted on $day" >> /tmp/fastlocklog$$;
+	echo "sciplotlock file info logged onto /tmp/fastlocklog$$";
+    else
+	echo "sciplot running"
+    fi
+fi

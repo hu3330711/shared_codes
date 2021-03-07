@@ -1,0 +1,648 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogslatst.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Determine the latest Goddard input files.
+#
+# **************************************************************
+#
+#      @(#)ogslatst.shp	1.2    09/01/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogslatst
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the code for the file type.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set code   = $aux001
+         else
+           echo " $prcnam : " \
+               "Code must be single word"
+           goto l8000
+         endif
+
+       shift
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, code for file type"
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the subscript for the code for the file type.
+#
+#---------------------------------------------------------------
+
+   set fsub   = $no                # indic code subscript found
+
+
+   foreach i ($subcod)
+
+       if  (($i >= 1) && ($i <= $ncod))  then
+         else
+           echo " $prcnam : " \
+               "Invalid code subscript  $i"
+           goto l8000
+         endif
+
+       if  ($godcod[$i] == $code)  then
+           set fsub   = $yes
+           set icod   = $i
+           break
+         endif
+
+     end
+
+
+   if  ($fsub == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find subscript for code  $code"
+
+       goto l8000
+
+     endif
+
+
+
+   set type   = $fnmtyp[$icod]     # file name type
+
+   set nldat  = $nlatus[$icod]     # number of latest dates used
+
+
+
+   if  (($type >= 1) && ($type <= $ntyp))  then
+
+     else
+       echo " $prcnam : " \
+           "Invalid Goddard file name type" \
+           " $icod  =  $type"
+       goto l8000
+
+     endif
+
+
+
+   if  ($nldat >= 0)  then
+
+     else
+       echo " $prcnam : " \
+           "Invalid number of latest dates used" \
+           " $icod  =  $nldat"
+       goto l8000
+
+     endif
+
+
+
+   set parse  = $fnprse[$type]     # name parsing program
+
+   set compar = $fncmp[$type]      # name compare program
+
+   set latest = $fnlst[$type]      # latest name program
+
+   set wbver  = $fnbver[$type]     # parsed word Berk ver
+
+   set wcode  = $fncode[$type]     # parsed word code
+
+   set lwdup  = $fndup[$type]      # latest word dupl indic
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the file names and check the codes.
+#
+#---------------------------------------------------------------
+
+   set list1  = ( )                # curr list, with Berk ver
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           echo " $prcnam : " \
+               "File name arg must be 1 word"
+           goto l8000
+         endif
+
+
+       set fnam   = $aux001
+
+
+       set prsnam = `$parse $fnam`
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Invalid Goddard file name  $fnam"
+           goto l8000
+         endif
+
+
+       if  ($prsnam[$wcode] == $code)  then
+         else
+           echo " $prcnam : " \
+               "Invalid code for file  $fnam"
+           goto l8000
+         endif
+
+
+       set list1  = ($list1 $fnam)
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the latest files.
+#
+#---------------------------------------------------------------
+
+   set list0  = ( )                # output list
+
+
+   set nouf   = 0                  # counter of output files
+
+
+
+   while  ($nouf < $nldat)
+
+
+       @ nouf++
+
+
+       if  ($#list1 >= 1)  then    # there are file names left
+         else
+           break
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the latest file.
+#
+#---------------------------------------------------------------
+
+       set latfil = `$latest $list1`
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Error determining the latest file"
+           goto l8000
+         endif
+
+
+       set fnaml  = $latfil[1]
+
+
+       if  ($latfil[$lwdup] == 0)  then
+         else
+           echo " $prcnam : " \
+               "Latest file  $fnaml  is duplicated"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the latest file name in the output list.
+#
+#---------------------------------------------------------------
+
+       if  ($latfil[$wbver] >= 0)  then
+           set fnaml0 = $fnaml:r
+         else
+           set fnaml0 = $fnaml
+         endif
+
+
+       set list0  = ($list0 $fnaml $fnaml0)
+
+
+
+#---------------------------------------------------------------
+#
+#      Remove from the current list of file names all that have
+#      the same date as the latest.
+#
+#---------------------------------------------------------------
+
+       set list2  = ( )
+
+
+       foreach fnamy ($list1)
+
+
+           if  ($fnamy == $fnaml)  then
+               continue
+             endif
+
+
+           set compvl = `$compar $fnaml $fnamy`
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Error comparing  $fnaml  and  $fnamy"
+               goto l8000
+             endif
+
+
+           if  ($compvl[1] == 0)  then    # duplicate
+               echo " $prcnam : " \
+                   "Error comparing  $fnaml  and  $fnamy"
+               goto l8000
+             endif
+
+
+           if  ($compvl[2] == 0)  then    # different dates
+               set list2  = ($list2 $fnamy)
+             endif
+
+
+         end
+
+
+
+       set list1  = ($list2)
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the latest files.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Write the output list.
+#
+#---------------------------------------------------------------
+
+   echo "$list0"
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to write output list"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

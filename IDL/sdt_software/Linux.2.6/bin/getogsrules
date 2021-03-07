@@ -1,0 +1,116 @@
+#! /usr/bin/ksh
+#
+# SCRIPT:
+# getogsrules.ksh
+#
+# PURPOSE:
+# Copies some rules files from DANET to FINET.
+# If the resident OGS rules files differ then they are checked out 
+# for editing, copied over, and then checked back in using SCCS.
+# This script can also be used to copy files in the reverse sense.
+#
+# INPUTS:
+# With string argument "put", will put rules files from FINET to DANET.  
+#
+# NOTES:
+# This is meant to be run as an OGS cron job on the FINET machines.  
+# It should be called immediately before OGS runs (without any arguments).
+# It should also be called throughout the day to update rules files on
+# DANET in case they're changed on FINET.  In this latter case, "put"
+# should be supplied as an argument.  We should possibly think about
+# doing bringovers throughout the day instead of just before OGS runs.
+#
+
+if [[ -z "$FASTCONFIG" ]] ; then
+    print 'Must set FASTCONFIG variable'
+    exit 1
+fi
+
+# SETUP
+
+DANETHOST=juneau
+pid=$$
+sccs_loc='/usr/ccs/bin/'
+danetdir='/disks/plasma2/www/fast/soc/rules/'
+finetdir='/disks/fast/software/config/ATSConfig/'
+ed_lksearch='/fast_data/a/ogs/ogswork/ogslock.ogsedtcf.+([0-9])'
+rd_lksearch='/tmp/ogs.lock.cfg.read.+([0-9])'
+lockfile="/fast_data/a/ogs/ogswork/ogslock.ogsedtcf.$pid"
+putbatch="$FASTCONFIG/put_ogsrules.ftp"
+getbatch="$FASTCONFIG/get_ogsrules.ftp"
+set -A rulesfiles InstMode.rules FastSlowSurv.rules BurstTrig.rules
+
+# Option -v means verbose
+
+if [[ $1 = '-v' ]] ; then
+    out=1
+    shift 1
+else
+    out='-'
+fi
+
+# If "put" argument, put ogs rules files from finet to danet, exit
+# No need for lock in this case
+
+if [[ $1 = "put" ]]; then
+    if [[ $out = 1 ]] ; then
+	ftp -n $DANETHOST < "$putbatch"
+    else
+	ftp -n $DANETHOST < "$putbatch" 1>/dev/null 2>&1
+    fi
+    wait
+    exit 0
+fi
+    
+# Check for lockfiles and register one with ogs edit system.
+
+if [ -a $ed_lksearch ] ; then
+    print 'Edit already in progress.  Lock file: ' 1>&$out 2>&$out
+    print $ed_lksearch 1>&$out 2>&$out
+    exit 1
+fi
+if [ -a $rd_lksearch ] ; then
+    print 'There is a read lock by ogs. Lock file: ' 1>&$out 2>&$out
+    print $rd_lksearch 1>&$out 2>&$out
+    exit 1
+fi
+trap rm -f $lockfile EXIT
+print 'Lock to update rules files from web interface' > $lockfile
+
+# FTP FILES FROM DANET TO TEMPORARY LOCATION ON FINET
+
+if [[ $out = 1 ]] ; then
+    ftp -n $DANETHOST < "$getbatch"
+else
+    ftp -n $DANETHOST < "$getbatch" 1>/dev/null 2>&1
+fi
+wait
+
+# UPDATE OGS RULES FILES
+
+cd $finetdir # Remember where you are
+for file in ${rulesfiles[*]} ; do
+
+    # If the file differs from the resident one, update the resident.
+    # diff exits with code 0 if same, 1 if different, >1 if error.
+
+    diff $file ${file}.tmp 1>/dev/null 2>&1 ; diffexit=$?
+    if [[ $diffexit = 1 ]]; then
+	print "Updating $file with web edits" 1>&$out 2>&$out
+	$sccs_loc/sccs edit $file 1>&$out 2>&$out
+	mv ${file}.tmp $file
+	$sccs_loc/sccs delget $file 1>&$out 2>&$out |&
+	print -p "WWW rules update"
+	wait
+    elif [[ $diffexit = 0 ]] ; then
+	print "File $file not edited on web" 1>&$out 2>&$out
+	rm -f ${file}.tmp
+    else
+	print "Error comparing two versions of $file" 1>&$out 2>&$out
+	rm -f ${file}.tmp
+	exit 1
+    fi
+done
+
+rm -f $lockfile
+trap - EXIT

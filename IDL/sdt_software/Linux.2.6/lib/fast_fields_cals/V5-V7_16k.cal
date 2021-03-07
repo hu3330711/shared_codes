@@ -1,0 +1,22 @@
+#  SCCS Id
+#  @(#)V5-V7_16k.cal	1.1 04/15/96
+#
+# v5-v7_16.cal
+# IS 6/29/95
+E5-7_16k			Data Name
+1			Linear Calibration
+sec			x-axis units
+mV/m			y-axis units
+xx			z-axis units
+18			Boomlength index
+0			No gain state
+0			History
+# data entered 6/26/95
+# all gains e-3
+# offset= (offset from lcal - 32768)
+0			Time in seconds
+7.5			Offset
+-2.785			Gain
+
+			
+ 

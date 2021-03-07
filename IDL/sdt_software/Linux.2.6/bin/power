@@ -1,0 +1,253 @@
+#!/usr/local/bin/perl -w
+#
+# perl script: power.pl
+#
+# PURPOSE:
+#
+# To create a table contrasting Power Usage with Power Budget.
+#
+use warnings;
+use strict;
+
+### Setup paths command files containing information
+#
+my $path_1 = "/home/ogs/ogsfiles";
+#
+### Open lists of orbits
+#
+my @dir = `ls $path_1`;
+#
+### Kills program if no new data is found
+#
+my $count =$#dir+1;
+if ($count == 0) {
+ exit;
+}
+#
+### Keeps file names of directory intact for use later.
+my @dir_old = @dir;
+#
+### Selects latest version and ensures that an empty table is not made.
+#
+my $element_1 = shift(@dir);
+my $name_1 = substr($element_1, 1, 5);
+my $version_1 = substr($element_1, 13, 2);
+my @latest_version = ($element_1);
+my $last;
+my $name;
+my $version;
+my $element;
+
+foreach $element (@dir) {
+ $name = substr($element, 1, 5);
+ $version = substr($element, 13, 2);
+ if ($name == $name_1) {
+    if ($version > $version_1) {
+       $last = splice(@latest_version, $#latest_version, 1);
+       push(@latest_version, $element);
+    }
+ } else {
+    splice(@latest_version, $#latest_version+1, 0, $element);
+ }
+ $element_1 = $element;
+ $name_1 = $name;
+ $version_1 = $version;
+}
+#
+### Create list for html file
+#
+my @latest_version_html;
+my $version_html;
+
+foreach $version_html (@latest_version) {
+ push(@latest_version_html, "$path_1/$version_html");
+ push(@latest_version_html, "<BR>");
+}
+#
+### Open each document to find orbit number and power usage information.
+#
+my $power_path;
+my @orbit_time;
+my @orbit_all;
+my @power_budget;
+my @power_budget_all;
+my @power_usage;
+my @power_usage_all;
+my $new_element;
+
+foreach $new_element (@latest_version) {
+ $power_path = "$path_1/$new_element";
+ @orbit_time = `grep "ORBIT" $power_path`;
+ push(@orbit_all, @orbit_time);
+ @power_budget = `grep "Orbit Power Budget" $power_path`;
+ push(@power_budget_all, @power_budget);
+ @power_usage = `grep "Orbit Power Usage" $power_path`;
+ push(@power_usage_all, @power_usage);
+}
+#
+### Make arrays with orbit, orbit time, power usage, and power budget.
+#
+my $orb_no;
+my $orb_year;
+my $orb_yday;
+my $orb_hr_min_sec;
+my $orb_month_day;
+my $orb_yr_mon_day;
+my $orb_time;
+my @orb_list;
+my @time_list;
+my $use_amount;
+my $usage;
+my $budget;
+my $budget_amount;
+my @use_list;
+my @bud_list;
+my $use_amount_watt;
+my $use_watt_rounded;
+my $bud_amount_watt;
+my $bud_watt_rounded;
+my $orbit;
+
+foreach $orbit (@orbit_all) {
+ $orb_no = substr($orbit, 10, 5);
+ push(@orb_list, $orb_no);
+ push(@orb_list, "<BR>");
+ $orb_year = substr($orbit, 27, 4);
+ $orb_yday = substr($orbit, 32, 3);
+ $orb_hr_min_sec = substr($orbit, 35, 9);
+ $orb_month_day = `doy2date $orb_year $orb_yday`;
+ $orb_yr_mon_day = substr($orb_month_day, 0, 10);
+ $orb_time = "$orb_yr_mon_day$orb_hr_min_sec";
+ push(@time_list, $orb_time);
+ push(@time_list, "<BR>");
+}
+
+foreach $usage (@power_usage_all) {
+ $use_amount = substr($usage, 22, 6);
+ $use_amount_watt = $use_amount/7980;
+ $use_watt_rounded = sprintf("%.0f", $use_amount_watt);
+ push(@use_list, $use_watt_rounded);
+ push(@use_list, "<BR>");
+}
+
+foreach $budget (@power_budget_all) {
+ $budget_amount = substr($budget, 22, 6);
+ if ($budget_amount eq "- No P") {
+    push(@bud_list, "No Power Budget Available");
+ } else {
+    $bud_amount_watt = $budget_amount/7980;
+    $bud_watt_rounded = sprintf("%.0f", $bud_amount_watt);
+    push(@bud_list, $bud_watt_rounded);
+ }
+ push(@bud_list, "<BR>");
+}
+#
+### Find difference between Power Budget and Power Usage
+#
+my @difference;
+my $power_budget;
+my $subtract;
+my @bud_list_2 = @bud_list;
+my $power_use;
+
+foreach $power_use (@use_list) {
+ $power_budget = shift(@bud_list_2);
+     if ($power_budget eq "No Power Budget Available") {
+        push(@difference, "N/A");
+        push(@difference, "<BR>");
+     } elsif ($power_budget eq "<BR>") {
+        next;
+     } else {
+        $subtract = $power_budget - $power_use;
+        push(@difference, $subtract);
+        push(@difference, "<BR>");
+     }
+}
+#
+### Find current time for header
+my $time_cur = `date "+%Y/%m/%d/%H:%M:%S"`;
+#
+### Make HTML file from tables
+#
+open(DAT,">/disks/plasma2/www/fast/scienceops/power.html");
+print DAT "<HTML>\n";
+print DAT "<!----This html file was created by the program power at $time_cur----->\n";
+print DAT "<HEAD>\n";
+print DAT "<TITLE>Fast Auroral SnapshoT Explorer Introduction</TITLE>\n";
+print DAT "<link rel=stylesheet type='text/css' href='http://sprg.ssl.berkeley.edu/fast/faststyle2.css'>\n";
+print DAT "</HEAD>\n";
+print DAT "\n";
+print DAT "<BODY>\n";
+print DAT "<CENTER>\n";
+print DAT "<TABLE BORDER='0' CELLPADDING='0' CELLSPACING='0' WIDTH='100%'>\n";
+print DAT "\n";
+print DAT "<!----TITLE----->\n";
+print DAT "<TR><TD>&nbsp;</TD>\n";
+print DAT "<TD colspan='3'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/title.gif' alt='Fast Auroral SnapshoT Explorer'></TD></TR>\n";
+print DAT "\n";
+print DAT "<!----FRAME----->\n";
+print DAT "<TR><TD width='150' valign=top>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/home2.gif' border='none' alt='Home'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/intro.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/about2.gif' border='none' alt='Introduction'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/gallery.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/pictures.gif' border='none' alt='Pictures'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/scienceprod/papers/pub.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/pub.gif' border='none' alt='Publications'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/scienceprod/welcome.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/data.gif' border='none' alt='Data'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/scienceops/fastidl.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/software.gif' border='none' alt='Software'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/scienceops/welcome.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/science2.gif' border='none' alt='Science Operations'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/missionops/welcome.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/mission2.gif' border='none' alt='Mission Operations'></A><BR>\n";
+print DAT "<a href='http://cse.ssl.berkeley.edu/fast_epo/'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/education2.gif' border='none' alt='Education Site'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/links.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/links2.gif' border='none' alt='Links'></A><BR>\n";
+print DAT "<a href='http://sprg.ssl.berkeley.edu/fast/sitemap.html'><img src='http://sprg.ssl.berkeley.edu/fast/graphics/sitemap2.gif' border='none' alt='Sitemap'></a><BR>\n";
+print DAT "</TD>\n";
+print DAT "<TD valign='top' bgcolor='#99CCFF' width=2>&nbsp;</TD>\n";
+print DAT "<TD valign='top' bgcolor='#000000' width=10>&nbsp;</TD>\n";
+print DAT "<TD valign='top'>\n";
+print DAT "<BR><BR>\n";
+print DAT "<!----END HEADER----->\n";
+print DAT "\n";
+print DAT "<h1>Power Usage vs. Power Budget for each Orbit</h1>\n";
+print DAT "<h3><BR>\n";
+print DAT "This table was created at $time_cur</h3>\n";
+print DAT "<BR>\n";
+print DAT "<TABLE BORDER='5' CELLSPACING='5' CELLPADDING='10'>\n";
+print DAT "  <TR>\n";
+print DAT "      <TH BGCOLOR='#000000' ALIGN='CENTER'><B><FONT COLOR='#FFFFFF'>Orbit</FONT></B></TH>\n";
+print DAT "      <TH BGCOLOR='#000000' ALIGN='CENTER'><B><FONT COLOR='#CCCCFF'>Time</FONT></B></TH>\n";
+print DAT "      <TH BGCOLOR='#000000' ALIGN='CENTER'><B><FONT COLOR='#GGCCFF'>Power Usage (W)</FONT></B></TH>\n";
+print DAT "      <TH BGCOLOR='#000000' ALIGN='CENTER'><B><FONT COLOR='#66CCFF'>Power Budget (W)</FONT></B></TH>\n";
+print DAT "      <TH BGCOLOR='#000000' ALIGN='CENTER'><B><FONT COLOR='#6699FF'>Power Budget - Power Usage (W)</FONT></B></TH>\n";
+print DAT "  </TR>\n";
+print DAT "  <TR>\n";
+print DAT "      <TD ALIGN='CENTER' NOWRAP>@orb_list</TD>\n";
+print DAT "      <TD ALIGN='CENTER' NOWRAP>@time_list</TD>\n";
+print DAT "      <TD ALIGN='CENTER' NOWRAP>@use_list</TD>\n";
+print DAT "      <TD ALIGN='CENTER' NOWRAP>@bud_list</TD>\n";
+print DAT "      <TD ALIGN='CENTER' NOWRAP>@difference</TD>\n";
+print DAT "  </TR>\n";
+print DAT "</TABLE>\n";
+print DAT "<BR>\n";
+print DAT "<FONT SIZE=4><FONT COLOR='#FFFFFF'>This table was created by the following files:\n";
+print DAT "<BR>\n";
+print DAT "@latest_version_html</FONT SIZE></FONT COLOR>\n";
+print DAT "\n";
+print DAT "<!----FOOTER----->\n";
+print DAT "</TD></TR>\n";
+print DAT "</TABLE>\n";
+print DAT "\n";
+print DAT "</BODY>\n";
+print DAT "\n";
+print DAT "</HTML>\n";
+#print DAT "
+close(DAT);
+#
+### Copies files into new directory.
+#
+my $file_old;
+
+foreach $file_old (@dir_old) {
+ $file_old =~ s/\n//g;
+ use File::Copy;
+ move("${path_1}/$file_old", "/home/ogs/ogsfile_old/$file_old") or die "move failed: $!";
+}
+#
+exit;

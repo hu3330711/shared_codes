@@ -1,0 +1,613 @@
+
+  Polar-EFI Telemetry Decommutation ICD for Key Parameter Generation
+  --------- --------- ------------- --- --- --- --------- ----------
+
+  (Initial Version - April 11, 1991)
+
+  I.  Introduction:
+
+    This document describes the subroutine calls that the Polar-EFI
+    Key Parameter Generation software will use to gather specific
+    time-tagged data from the instrument's telemetry stream.
+
+    The subroutines defined in this document are to be Fortran-callable
+    but will be written in the "C" programming language and will exist
+    as a library on the ISTP Central Data Handling Facility (CDHF).
+    The name of this library on the CDHF will be:
+
+	efitelemetry.lib
+
+    The disk directory on the CDHF where this will exist has yet to
+    be defined.  Note that the CDHF runs the VMS operating system.
+
+    In order to facilitate EFI-KPGS software development, a version
+    of the same library will also reside on the Sun RDAF.  In this
+    environment, the library name will be:
+
+	efitelemetry.a
+
+    The disk directory on the RDAF where this will exist has yet to
+    be defined.  Note that the library suffix name of ".a" is the
+    standard library suffix name on UNIX.
+
+    This library, which will be referred to as the "efi-telemetry
+    library" in this document, will be written by the Mozer group
+    at SSL.  It will be used by the Pfaff group at GSFC in the con-
+    struction of the KPGS software and, later, in the construction
+    of the primary analysis tools for the EFI data.
+
+
+
+  II.  EFI-Telemetry and the CDHF and RDAF Environments:
+
+    As noted in the Introduction, the efi-telemetry library must be
+    usable on both VMS and UNIX.  Sufficient care in the use of C in
+    the library source code should insure that the library will work
+    as defined on both operating systems.  Another, perhaps larger,
+    concern is that the library will be working with different data
+    inputs in the CDHF and RDAF environments.
+
+    When used in the KPGS software on the CDHF, the EFI telemetry
+    library will be sitting above CDHF software which extracts the
+    EFI telemetry from other CDHF files.  It has not yet been deter-
+    mined what this CDHF software is and how the CDHF input data
+    files are to be formatted.  It can be expected that the CDHF
+    software and files formats will be described in a "CDHF Program-
+    mer's Manual" which may already exist.
+
+    For development on the Sun RDAF, it is expected that the test
+    input data to be read by the efi-telemetry library will be raw
+    EFI telemetry files containing just the Major and Minor frames
+    (EFI words only).  These files will be produced by the bench
+    version of the Polar-EFI instrument and GSE, which are soon to
+    be developed (summer 1991) by the Mozer group at SSL.
+
+    The efi-telemetry library must hide the differences in environ-
+    ment as much as possible from the KPGS software.  Therefore, the
+    library must be designed so that the two different input files
+    are handled in code isolated from the rest of the library.  The
+    interface subroutines which will be called by the KPGS software,
+    must have the same definitions and return the same types of data.
+    It may, however, not be possible to hide the different file-
+    naming and directory conventions between VMS and UNIX.  This
+    would effect, for instance, the initialization routines in the
+    library which open a telemetry file for processing.
+
+    It should also be noted that there will probably be no attitude/
+    ephemeris data available for testing during KPGS software devel-
+    opment (in both the RDAF and CDHF environments).  This should not
+    effect the efi-telemetry library, whose only role is to provide
+    instrument data.   It will, of course, effect total development
+    of the KPGS software which will need attitude/ephemeris data for
+    many of its internal algorithms.  It is expected that the CDHF
+    will provide the libraries and interface documentation to read
+    this data.
+
+
+
+  III.  Design Philosophy of the EFI-Telemetry Library
+
+    The efi-telemetry library will hide the internal format of Polar-
+    EFI telemetry from its calling applications.  Therefore, it is
+    not required that the writer of KPGS or primary analysis software
+    know the detailed, byte-by-byte description of the telemetry
+    stream.  This is advantageous in at least two ways:  first, the
+    telemetry stream definition will undoubtably be modified several
+    times before a final description is settled on, and second, the
+    instrument has many modes, making the telemetry stream extremely
+    flexible and complex.  It is important that applications do not
+    need to worry about these complications.
+
+    The kernal of the library will be designed as an "event-driver",
+    in a similar way to a display-window driver like X-windows.
+
+    First, the application calls an initialization routine which
+    indicates which data file will serve as input into the library. 
+
+    The application will then call routines that will select and
+    de-select the types of data that will be returned once the library
+    does return data.  This is analogous to selecting Mouse button
+    clicks, key strokes, and so on when writing an X-application. 
+
+    When the data "events" have been selected, a call is made to a
+    get-data-function which has at least three input arguments:
+
+       1.  starting time of the time interval of interest
+       2.  ending time of the time interval of interest
+       3.  a pointer to an event-function
+
+    Note that the event-function in argument 3 is analogous to the
+    "event-handler" in an X-application. 
+
+    The process now works as follows:
+
+	The get-data-function works it way through the data file
+	in chronological order from the starting time to the ending
+	time, picking out only those types of data that were selected
+	before the call was made.  Each time it finds a data article
+	that was selected, it creates a data event structure which
+	contains various fields:  the data value, the time-tag, the
+	type of data, etc.  It then calls the event-function with the
+	data structure as a "data-event" input argument.  The event-
+	function then works with the data (puts it in a buffer or
+	something) and returns control back to the get-data-function.
+
+	When the get-data-function reaches the end of the data file
+	or the ending time, it sends a special "data-event", called
+	the end-of-time event, to the event-function.  When the event-
+	function returns back to the get-data-function after the end-
+	of-time event, the get-data-function will finally return
+	control to its own caller.
+
+	At this point, the application can do what it wishes with the
+	data that the get-data-function buffered up with its own calls
+	to the event-function.
+
+    This process is to be hidden from the KPGS software by the efi-
+    telemetry library.  However, the KPGS software will have to call
+    certain routines in the right order to fit into the above scenario:
+
+
+
+        First, it will call a initiate-routine to initialize reading of
+        a particular EFI telemetry file.
+
+        Second, it will make one or more calls to selection-routines to
+        select or de-select the data that it will receive.
+
+        Third, it will call a get-data-function, which will then buffer
+        up the requested data.
+
+        Fourth, the application can manipulate the data as it needs to.
+
+        Fifth, it will call a close-routine to close the EFI telemetry
+        file.
+
+    The application can repeat the second, third, and fourth steps as
+    many times as it wishes.  For instance, it could repeated for every
+    single data type that the application wishes to process, in order to
+    share a single large buffer for all data types (this, of course,
+    would only make sense if the algorithm for each key parameter
+    required only a single data type).  To save array space, the
+    application may wish to partition the total time interval of interest
+    into smaller units.  This makes sense if the algorithms do not require
+    scanning through a "time-global" set of data.  In this case, the
+    application would only need to select and deselect data types once and
+    then would loop through steps three and four for each time partition.
+
+    Whatever usage of steps two, three, and four are chosen, it should be
+    noted that running though the "get-data-function" may be CPU intensive
+    so repeating time intervals for different data types should only be
+    done if buffer storage space in the application is at a premium.
+
+
+
+  IV.  Data Type List.
+
+    The following describes an indexed list of the Polar-EFI telemetry
+    data types (e.g. the voltage on sensor 3 in unfiltered mode).  These
+    numbers will be the "ITYPE" inputs in the subroutines SVREFI and DVREFI
+    in the next section.
+
+    /* Indices into the list of Realtime Quantities:
+     *
+     * Based on the table on page 16 of "ISTP Instrument Command and Telemetry
+     * Description fo the POLAR Spacecraft".
+     */
+    #define  IDX_M_STAT1    0
+    #define  IDX_M_STAT3    1
+    #define  IDX_M_STAT5    2
+    #define  IDX_M_V1M      3
+    #define  IDX_M_V3M      4
+    #define  IDX_M_V5M      5
+    #define  IDX_M_V1U      6
+    #define  IDX_M_V3U      7
+    #define  IDX_M_V5U      8
+    #define  IDX_M_V1H      9
+    #define  IDX_M_V3H      10
+    #define  IDX_M_V5H      11
+    #define  IDX_M_V12L     12
+    #define  IDX_M_V34L     13
+    #define  IDX_M_V56L     14
+    #define  IDX_M_V12U     15
+    #define  IDX_M_V34U     16
+    #define  IDX_M_V56U     17
+    #define  IDX_M_V12H     18
+    #define  IDX_M_V34H     19
+    #define  IDX_M_V56H     20
+    #define  IDX_M_V12AC    21
+    #define  IDX_M_V34AC    22
+    #define  IDX_M_V56AC    23
+    #define  IDX_M_STAT2    24
+    #define  IDX_M_STAT4    25
+    #define  IDX_M_STAT6    26
+    #define  IDX_M_V2M      27
+    #define  IDX_M_V4M      28
+    #define  IDX_M_V6M      29
+    #define  IDX_M_V2U      30
+    #define  IDX_M_V4U      31
+    #define  IDX_M_V6U      32
+    #define  IDX_M_V2H      33
+    #define  IDX_M_V4H      34
+    #define  IDX_M_V6H      35
+    #define  IDX_M_F32      36
+    #define  IDX_M_F256     37
+    #define  IDX_M_F2048    38
+    #define  IDX_M_SCX      39
+    #define  IDX_M_SCY      40
+    #define  IDX_M_SCZ      41
+    #define  IDX_M_MON28I   42
+    #define  IDX_M_MON5I    43
+    #define  IDX_M_PWRTEMP  44
+    #define  IDX_M_TEST1    45
+    #define  IDX_M_TEST2    46
+    #define  IDX_M_TEST3    47
+    #define  IDX_V12L_AVG   48
+    #define  IDX_V34L_AVG   49
+    #define  IDX_V56L_AVG   50
+    #define  IDX_I1LF_17    51
+    #define  IDX_V34LF_17   52
+    #define  IDX_V56LF_17   53
+    #define  IDX_V12LF_18   54
+    #define  IDX_I3LF_18    55
+    #define  IDX_V56LF_18   56
+    #define  IDX_MGF_X      57
+    #define  IDX_MGF_Y      58
+    #define  IDX_MGF_Z      59
+    
+    /*
+     * Indices into the list of Realtime Current quantities:
+     */
+    #define  IDX_M_I1L      148
+    #define  IDX_M_I3L      149
+    #define  IDX_M_I5L      150
+    #define  IDX_M_I1U      151
+    #define  IDX_M_I3U      152
+    #define  IDX_M_I5U      153
+    #define  IDX_M_I1H      154
+    #define  IDX_M_I3H      155
+    #define  IDX_M_I5H      156
+    #define  IDX_M_I12L     157
+    #define  IDX_M_I34L     158
+    #define  IDX_M_I56L     159
+    #define  IDX_M_I12U     160
+    #define  IDX_M_I34U     161
+    #define  IDX_M_I56U     162
+    #define  IDX_M_I12H     163
+    #define  IDX_M_I34H     164
+    #define  IDX_M_I56H     165
+    #define  IDX_M_I12AC    166
+    #define  IDX_M_I34AC    167
+    #define  IDX_M_I56AC    168
+    #define  IDX_M_I2L      172
+    #define  IDX_M_I4L      173
+    #define  IDX_M_I6L      174
+    #define  IDX_M_I2U      175
+    #define  IDX_M_I4U      176
+    #define  IDX_M_I6U      177
+    #define  IDX_M_I2H      178
+    #define  IDX_M_I4H      179
+    #define  IDX_M_I6H      180
+    #define  IDX_I12L_AVG   193
+    #define  IDX_I34L_AVG   194
+    #define  IDX_I56L_AVG   195
+
+    /*
+     * Indices into the list of Fast Digital Monitor and status information:
+     */
+    
+    #define  IDX_SPACECRAFT_MODE_CHANGE     50
+    #define  IDX_PLAYBACK                   51
+    #define  IDX_TEST_CALIBRATE             52
+    #define  IDX_BURST_MODE                 53
+    #define  IDX_PLAYBACK_TYPE              54
+    #define  IDX_BIAS_SWEEP                 55
+    #define  IDX_COMMAND_ERROR              56
+    #define  IDX_VOLTAGE_MODE               57
+    
+    /* Indices into the list of Burst Quantities:
+     *
+     * Based on the table on page 16 of "ISTP Instrument Command and Telemetry
+     * Description fo the POLAR Spacecraft".
+     */
+    #define  IDX_B_STAT1    100
+    #define  IDX_B_STAT3    101
+    #define  IDX_B_STAT5    102
+    #define  IDX_B_V1M      103
+    #define  IDX_B_V3M      104
+    #define  IDX_B_V5M      105
+    #define  IDX_B_V1U      106
+    #define  IDX_B_V3U      107
+    #define  IDX_B_V5U      108
+    #define  IDX_B_V1H      109
+    #define  IDX_B_V3H      110
+    #define  IDX_B_V5H      111
+    #define  IDX_B_V12L     112
+    #define  IDX_B_V34L     113
+    #define  IDX_B_V56L     114
+    #define  IDX_B_V12U     115
+    #define  IDX_B_V34U     116
+    #define  IDX_B_V56U     117
+    #define  IDX_B_V12H     118
+    #define  IDX_B_V34H     119
+    #define  IDX_B_V56H     120
+    #define  IDX_B_V12AC    121
+    #define  IDX_B_V34AC    122
+    #define  IDX_B_V56AC    123
+    #define  IDX_B_STAT2    124
+    #define  IDX_B_STAT4    125
+    #define  IDX_B_STAT6    126
+    #define  IDX_B_V2M      127
+    #define  IDX_B_V4M      128
+    #define  IDX_B_V6M      129
+    #define  IDX_B_V2U      130
+    #define  IDX_B_V4U      131
+    #define  IDX_B_V6U      132
+    #define  IDX_B_V2H      133
+    #define  IDX_B_V4H      134
+    #define  IDX_B_V6H      135
+    #define  IDX_B_F32      136
+    #define  IDX_B_F256     137
+    #define  IDX_B_F2048    138
+    #define  IDX_B_SCX      139
+    #define  IDX_B_SCY      140
+    #define  IDX_B_SCZ      141
+    #define  IDX_B_TEMP1    142
+    #define  IDX_B_TEMP2    143
+    #define  IDX_B_TEMP3    144
+    #define  IDX_B_TEST1    145
+    #define  IDX_B_TEST2    146
+    #define  IDX_B_TEST3    147
+
+
+
+   /* Indices which return Fast Digital Monitor (FDM) state information.
+    * In particular, the E/D (Efield/Density) modes of the various
+    * probes.  Note that the value returned for the "COMBINED" quantity
+    * is just a six-bit number where bit 0 represents the E/D state
+    * of probe 1, ..., bit 5 represents the E/D state of probe 6.  Note
+    * that the bit is OFF is the probe is in Efield mode and ON if it
+    * is in Density mode.
+    *
+    * The other 6 quantities take on the value of "0" if the probe has
+    * changed into Efield mode or a value of "1" if the probe has changed
+    * into Density Mode.
+    *
+    * All seven quantities only exhibit data points in the following
+    * conditions:
+    *
+    *   1.  The state at the start of the requested time-span.
+    *   2.  When the state changes.
+    *   3.  The state at the end of the requested time-span.
+    */
+   #define  IDX_FDM_ED_MODE_COMBINED    100
+   #define  IDX_FDM_ED_MODE_V1          101
+   #define  IDX_FDM_ED_MODE_V2          102
+   #define  IDX_FDM_ED_MODE_V3          103
+   #define  IDX_FDM_ED_MODE_V4          104
+   #define  IDX_FDM_ED_MODE_V5          105
+   #define  IDX_FDM_ED_MODE_V6          106
+
+   /* Indices which return Probes 1,2 on-board spin-fits.  Note that
+    * "A","B","C", and "Sigma" are really floating point values.  Thus
+    * the integers that are returned are in integral units of .00001
+    * In order to convert back into the floating point value, the
+    * return value should be converted from "int" to "double precision
+    * floating point" and then divided by 100000.0 (or multiplied by
+    * 0.00001).  Note that "NPts" is a legitimate integer and so
+    * nothing has to be done with this quantity.
+    */
+   #define  IDX_SPINFIT_12_A            110
+   #define  IDX_SPINFIT_12_B            111
+   #define  IDX_SPINFIT_12_C            112
+   #define  IDX_SPINFIT_12_Sigma        113
+   #define  IDX_SPINFIT_12_NPts         114
+
+   /* Indices which return Probes 3,4 on-board spin-fits.  Note that
+    * "A","B","C", and "Sigma" are really floating point values.  Thus
+    * the integers that are returned are in integral units of .00001
+    * In order to convert back into the floating point value, the
+    * return value should be converted from "int" to "double precision
+    * floating point" and then divided by 100000.0 (or multiplied by
+    * 0.00001).  Note that "NPts" is a legitimate integer and so
+    * nothing has to be done with this quantity.
+    */
+   #define  IDX_SPINFIT_34_A            115
+   #define  IDX_SPINFIT_34_B            116
+   #define  IDX_SPINFIT_34_C            117
+   #define  IDX_SPINFIT_34_Sigma        118
+   #define  IDX_SPINFIT_34_NPts         119
+
+   /* Indices of various DSC quantities, in particular the Bias, Stub,
+    * and Guard for all of the probes.
+    */
+   #define  IDX_DSC_BIAS1               122
+   #define  IDX_DSC_BIAS2               123
+   #define  IDX_DSC_BIAS3               124
+   #define  IDX_DSC_BIAS4               125
+   #define  IDX_DSC_BIAS5               126
+   #define  IDX_DSC_BIAS6               127
+   #define  IDX_DSC_STUB1               128
+   #define  IDX_DSC_STUB2               129
+   #define  IDX_DSC_STUB3               130
+   #define  IDX_DSC_STUB4               131
+   #define  IDX_DSC_STUB5               132
+   #define  IDX_DSC_STUB6               133
+   #define  IDX_DSC_GUARD1              134
+   #define  IDX_DSC_GUARD2              135
+   #define  IDX_DSC_GUARD3              136
+   #define  IDX_DSC_GUARD4              137
+   #define  IDX_DSC_GUARD5              138
+   #define  IDX_DSC_GUARD6              139
+
+   /* Index which returns SunPulses.  Note that the time-tag of
+    * each point is the exact time of a SunPulse and the data value
+    * is the current spin period in milliseconds.
+    */
+   #define  IDX_HK_SUNPULSE    200
+
+
+
+  V.  Subroutine Description.
+
+    The following section lists and describes the Fortran-C interface
+    subroutines.
+
+    OPNEFI(FILENAME, IUNIT, ISTATUS, KP_CDF_ID)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  FILENAME    character*80    The name of the EFI data file to
+				      open.
+	  IUNIT       int*4           Returns the Fortran unit number
+				      that was assigned to the file
+				      if it was successfully opened.
+	  ISTATUS     int*4           Returns 1 if the data file was
+				      successfully opened;  0 otherwise.
+	  KP_CDF_ID   int*4           Array of 20 int*4 types - returns
+				      CDF info for Key Parameter
+				      generation.
+
+        Results:
+	  The file is opened and prepared for usage.
+
+
+    CLSEFI(IUNIT, ISTATUS)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  IUNIT       int*4           The Fortran file unit number of the
+				      file to be closed as returned in
+				      OPNEFI.
+	  ISTATUS     int*4           Returns the ICSS status from the
+				      "kp_term_icss" call.
+
+
+
+
+    GETEFI(ISTART, IEND, IUNIT, IRESULT)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  ISTART      int*4           The starting time of the time
+				      interval to be scanned.  The time
+				      is expressed in integral milliseconds
+				      after midnight UT.
+	  IEND        int*4           The ending time of the time
+				      interval to be scanned.  The time
+				      is expressed in integral milliseconds
+				      after midnight UT.  This number must
+				      be larger than the value of ISTART.
+	  IUNIT       int*4           The Fortran file unit number of the
+				      file to be scanned.  This number was
+				      returned by a call to OPNEFI.
+	  IRESULT     int*4           Flag returning the last ICSS status
+				      return.   This will be $SS_NORMAL,
+				      the GAP ($ICSS_GAP_IN_FILE) status,
+				      or the EOF status ($ICSS_EOF_PR_LZ)
+
+        Notes:
+	  If either IEND or both ISTART and IEND occur after midnight (UT)
+	  of the day following the 24 hour period of the data file, they
+	  should be greater than 86400000 (the number of milliseconds in
+	  a 24 hour period).  For instance, 00:00:01 of the next day
+	  would be identified by 86401000.
+
+        Results:
+	  The telemetry file indicated by IUNIT is scanned from ISTART to
+	  IEND.  The previously selected data types are buffered in the
+	  appropriate arrays (see SVREFI).
+
+
+
+    SVREFI(ITYPE, IARR, ITIME, ISIZE, IRESULT)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  ITYPE       int*4           Indicates which variable to turn on.
+				      See the list in section IV for a
+				      description.
+	  IARR        int*4           The array in which data for the
+				      variable will be buffered.
+	  ITIME       int*4           The array for the variable where
+				      the corresponding time tags will
+				      be buffered.
+	  ISIZE       int*4           Indicates how many elements are in
+				      the arrays IARR and ITIME.
+	  IRESULT     int*4           Returns 1 if ITYPE was successfully
+				      added to the list, 0 otherwise.
+
+        Results:
+	  The data type is added to the list of variables to be returned
+	  to the application when GETEFI is called.
+
+
+
+
+    STTEFI(ITYPE, IRESULT, IARRSZ, NELTS, NOVERF)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  ITYPE       int*4           Indicates which variable to turn on.
+				      See the list in section IV for a
+				      description.
+	  IRESULT     int*4           Returns 1 if an array for "ITYPE"
+				      is currently even defined, and
+				      0 otherwise.
+	  IARRSZ      int*4           Returns the total number of array
+				      points available when "SVREFI"
+				      was called.  Note that "GETEFI"
+				      may not have filled all of these.
+				      If "IRESULT" was returned as 0,
+				      this return variable is undefined.
+	  NELTS       int*4           Returns the number of array elements
+				      actually filled by "GETEFI".  If
+				      "IRESULT" was returned as 0, this
+				      return variable is undefined.
+	  NOVERF      int*4           Returns the number of points
+				      skipped by "GETEFI" because the
+				      buffer size set by "SVREFI" was
+				      too small.  If "IRESULT" is 0, this
+				      return variable is undefined.
+
+        Results:
+	  This routine can be called, when GETEFI finishes, to find
+	  out how many points for the data type indicated by "ITYPE",
+	  were actually stored in the buffer "IARR" (and "ITIME"),
+	  which was set up by "SVREFI".  It also returns the number
+	  of points that were ignored, in case the buffers were too
+	  small, in "NOVERF".
+
+
+    DVREFI(ITYPE, IRESULT)
+
+        Arguments:
+
+	  name:       type:           description:
+	  ----        ----            -----------
+
+	  ITYPE       int*4           Indicates which variable to turn off.
+				      See the list in section IV for a
+				      description.
+	  IRESULT     int*4           Returns 1 if ITYPE was successfully
+				      deleted from the list, 0 otherwise.
+
+        Results:
+	  The data type is removed from the list of variables to be
+	  returned to the application when GETEFI is called.
+

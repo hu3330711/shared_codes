@@ -1,0 +1,631 @@
+************************************************************************
+
+   README.General.UCB.wt.despin_vector_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.despin_vector_002
+
+************************************************************************
+
+   Despin vector.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.despin_vector_002	1.1    07/13/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module transforms a vector, from rotating
+       coordinates attached to the spacecraft spin plane and spin axis,
+       to Despun Spacecraft Coordinates (DSC); or vice-versa.
+
+
+
+
+
+    2) There must be one input, which is either a vector in rotating
+       coordinates or a vector in DSC.
+
+
+
+
+
+    3) There must be one input, which gives the spin timing.
+
+
+
+       This input gives the time of each Sun pulse.
+
+
+
+
+
+    4) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+    5) If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle by which the SCC system has rotated with respect
+       to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+
+
+
+
+    6) The coordinate transformation in either direction does not change
+       the value of the spin axis component of the vector (except for
+       a possible change of sign).
+
+
+
+       Because of this, 2 options are permissible:
+
+
+        1) The input vector does have a spin axis component.
+
+           The spin axis component of the output vector will be
+           identical to the spin axis component of the input vector
+           (except possibly for the sign).
+
+
+        2) The input vector does not have a spin axis component (or it
+           is to be ignored).
+
+           The spin axis component of the output vector will be set to
+           zero.
+
+
+
+
+
+    7) An output data point is produced for each input vector.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input vector.
+
+
+
+
+
+    8) For an output data point to be produced, the input vector must be
+       in the time interval corresponding to a valid spin period.
+
+
+
+
+
+    9) The rotating coordinate system from or into which the vector is
+       transformed, is assumed to be defined by 3 axes of a measuring
+       instrument on board the spacecraft; and is referred to as Rot_I.
+
+
+
+       It is assumed that the instrument is rigidly attached to the
+       spacecraft, and therefore rotates with it.
+
+
+
+       It is assumed that 2 of the instrument axes are on the spin
+       plane.
+
+       These 2 axes are designated Rot_I_X and Rot_I_Y, and they are
+       assumed to be orthogonal to each other.
+
+
+
+       It is assumed that 1 of the instrument axes is on the spin axis.
+
+       This axis is designated Rot_I_Z.
+
+
+
+       It should be noted that the Rot_I_Y axis could be either leading
+       or following the Rot_I_X axis by 90 degrees (in the sense of the
+       rotation).
+
+       It should be noted that the Rot_I_Z axis could be either in the
+       same or in the opposite direction of the angular momentum vector.
+
+
+
+       The Rot_I coordinate system, then, is orthogonal; but it could be
+       either right-handed or left-handed.
+
+
+
+
+
+   10) We define another rotating coordinate system, the "normalized"
+       system, with coordinate axes Rot_N_X, Rot_N_Y, Rot_N_Z.
+
+
+
+       The Rot_N system is an orthogonal, right-handed system that
+       rotates with the spacecraft, and is defined as follows:
+
+
+           Rot_N_X = Rot_I_X.
+
+
+           Rot_N_Y = +Rot_I_Y or -Rot_I_Y, depending on the azimuth of
+                     Rot_I_Y relative to the azimuth of Rot_I_X.
+
+                     Rot_N_Y precedes Rot_N_X by 90 degrees in the
+                     direction of rotation; i.e., the azimuth of Rot_N_Y
+                     is equal to the azimuth of Rot_N_X plus 90 degrees.
+
+
+           Rot_N_Z = +Rot_I_Z or -Rot_I_Z, depending on whether Rot_I_Z
+                     is in the same direction as the angular momentum
+                     vector or in the opposite direction.
+
+                     Rot_N_Z is in the direction of the angular momentum
+                     vector.
+
+
+
+       It should be noted that the Rot_N coordinate system has the same
+       X axis as the system Rot_I; and the same Z axis as the system
+       SCC.
+
+
+       It should be noted that the transformation between Rot_I and
+       Rot_N involves multiplying each of the components Y and Z by a
+       separate constant factor; each of these factors is either +1 or
+       -1.
+
+
+       It should be noted that the transformation between Rot_N and SCC
+       involves a rotation on the spin plane (around the spin axis),
+       i.e., a rotation around the Z axis; and this rotation is by a
+       constant angle, determined by the azimuth of the X axis in SCC.
+
+
+
+
+
+   11) The user can specify a separate factor for each Rot_I axis, to
+       allow for the possibility that the value of the vector component
+       is in the opposite direction of the coordinate axis measurement.
+
+
+
+       Each factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a vector component is related to the value of a
+       measurement along the same axis as follows:
+
+
+           Vector component = (Direction factor) *
+                              (Measurement along axis)
+
+
+
+       For example, if the measured electric field instrument value V12
+       is positive, then the component of the electric field in the
+       direction from the center of the spacecraft to probe 1 is
+       negative.
+
+       If the input "vector" is in Rot_I, and one of its "components" is
+       V12; then, in order to obtain the electric field vector in DSC,
+       the direction factor -1 needs to be specified for the
+       corresponding axis of Rot_I.
+
+       Similarly, the direction factor -1 needs to be specified if the
+       input is the electric field vector in DSC; and if the desired
+       output is not the electric field in Rot_I, but rather the
+       measured "components" such as V12.
+
+
+
+
+
+   12) The user can specify an additional factor for the Rot_I_Z axis,
+       to indicate whether Rot_I_Z is in the same direction as the
+       angular momentum vector or in the opposite direction.
+
+
+
+       This factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+
+
+   13) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line, in the direction of the
+       rotation.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the Rot_I_X axis; and the
+       azimuth of the Sun pulse.
+
+
+
+       The azimuth of the Rot_I_Y axis must be either 90 degrees more or
+       90 degrees less than that for the Rot_I_X axis (modulo 360
+       degrees).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for the direction of the transformation.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Transformation from Rot_I to DSC.
+
+                    2  =  Transformation from DSC to Rot_I.
+
+
+               The text above shows the coordinate system of the input
+               vector first, and the coordinate system of the output
+               vector second.
+
+
+
+            3) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   It is permissible for the component index of the 3rd.
+                   input vector component (Z component) to be negative.
+
+                   A negative component index for the 3rd. input vector
+                   component indicates that the spin axis component is
+                   either absent or to be ignored.
+
+
+
+            6) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+            7) The group of parameters described here occurs once for
+               each axis of the Rot_I coordinate system.
+
+
+
+                1) Direction factor.
+
+
+                   Double.
+
+
+                   Must be  -1  or  +1.
+
+
+
+            8) Additional factor for Rot_I_Z.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+            9) Main part of the azimuth of the Rot_I_X coordinate axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           10) Additional part of the azimuth of the Rot_I_X coordinate
+               axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           11) Value to add to the azimuth of the Rot_I_X axis, to
+               obtain the azimuth of the Rot_I_Y axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  +90  or  -90.
+
+
+
+           12) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           13) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 2 or 3 vector
+                   components.
+
+                   Float.
+
+
+
+            2) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the output vector.
+
+
+               Float.

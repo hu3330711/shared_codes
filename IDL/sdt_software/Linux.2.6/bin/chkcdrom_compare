@@ -1,0 +1,38 @@
+#!/bin/ksh
+
+# filename: chkcdrom_compare.ksh 
+# created 4/10/02 KL
+
+# this script checks the size of a newly transfered cd.
+# to fully understand the chkcdrom command, look it up in the manpages.
+
+#$1 = disk drive number [ex: the 1 in FAST_JB_1]
+
+# set environment variables..
+. /disks/fast/software/config/archive_config  
+
+set -A cdlist $(ls -ld /disks/FAST_JB_$1/FAST* | awk '{print $9}')
+
+for cd in ${cdlist[*]}
+do 
+     diskchk $cd >>/var/tmp/FAST_JB_$1_checksum_$$
+     echo $$: >>/var/tmp/FAST_JB_$1_checksum_$$
+done
+
+result=$(grep -i diff /var/tmp/FAST_JB_$1_checksum_$$)
+if [[ -n $result ]]
+then 
+	printf "%s\n" "Subject: CheckSum Error Found" \
+		      "Please Check File
+		      /var/tmp/FAST_JB_$1_checksum_$$" \
+	| mail krlee@ssl.berkeley.edu
+else 
+   	rm /tmp/FAST_JB_$1_checksum_$$
+fi
+
+echo $$: CHECKSUM complete for FAST_JB_$1 at $(date) >>/var/tmp/FAST_JB_$1_checksum_$$
+
+
+
+exit 0
+

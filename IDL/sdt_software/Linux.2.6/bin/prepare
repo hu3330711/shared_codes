@@ -1,0 +1,369 @@
+#!/usr/bin/ksh
+# prepare - prepare a directory of files to fit on one CD (650 Mb)
+# The environment variables LZPSTORAGE and ARCHIVESTORAGE must be set to let
+#  us know where the LZP raw data can be found, and where to archive the data.
+#
+# The script works by first checking the SOURCE directory for at least 630 Mb of
+#  data.  If there is not enough data there, it will quit.  If there is enough
+#  data, then the script will attempt to move whole passes (ordered by number) 
+#  into the archive directory.  If it gets to a point where it cannot move an 
+#  entire orbit of data, it will move as many files as it can, ordered 
+#  alphabetically.
+# This version will only move one CD worth of data, and then quit
+# $1 contains the temporary file for passing information to subsequent scripts
+# $2 contains the intercept process ID
+
+# Update History
+#
+# 12/06/94 -	Abiad/Quinn updated procedure to check size of target
+#		directory only looking at fast_lzp subdirectories
+# 12/06/94 - 	Abiad/Quinn updated procedure to check to see if a data 
+#		session is still open
+# 12/09/94 - 	Quinn updated size check of $SOURCE
+#
+# 05/12/95 - 	Quinn changed CD directory structure from fdf and cms
+#		to ogsarch
+#
+# 01/23/96 -	Added line to copy the ogs orbstart file to a location on
+#		juneau where it can be accessed by the sciplot script
+#		$ORBSTART added to config file
+#
+# 03/05/96 - 	Updated line to copy ogs orbstart file over to juneau
+#
+# 03/11/96 -	Updated the data limit to be 640,000 kbytes.
+#		Created a new subdirectory, sumplots, on the CD.
+#
+# 04/23/96 - 	Updated the line to copy the orbstart file to juneau -
+#		takes into account there will be other directory names
+#		in the ogs archive directory
+#
+# 04/24/96 - 	Following the creation of the ogsarch directory, the 
+#		orbstart file is copied over to juneau, and the integrated
+#		print and contact schedule files are copied over to juneau
+#		for www site access
+#
+
+
+#
+# move function declaration
+#
+
+function move {
+	cd $1						# move to new directory
+	mv *.cnt $TARGET/$cdname/lzp/$1
+	ls -lrt | awk '{print $9 " " $5}' | tail +2 | sort > /tmp/prepare$$
+	used=`du -k $TARGET/$cdname | tail -1 | \
+		awk '{print $1}'`		# space used
+							# sort files by name
+	while [[ -s /tmp/prepare$$ ]]
+	do
+		top=`head -1 /tmp/prepare$$  | \
+			awk '{print $1}'`		# get top of queue
+		size=$(( `head -1 /tmp/prepare$$ | \
+			awk '{print $2}'` / 1024 ))	# size of file
+		space=$(($weaklimit-$used))		# space available for CD
+		if (( $size < $space ))
+		then					# plenty of space
+			echo $2: moving $1/$top to $TARGET/$cdname
+			mv $top $TARGET/$cdname/lzp/$1
+			used=$(( $used + $size ))
+		fi
+		sed '1d' /tmp/prepare$$ > /tmp/prepmid$$
+		mv /tmp/prepmid$$ /tmp/prepare$$
+	done
+	rm /tmp/prepare$$
+
+# mark the left directory as being split so that we can recombine to do a plot
+
+	echo $cdname > split
+	pwd
+	cd ../..
+
+}
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if script exits prematurely.
+
+function warn_exit {
+    {
+	printf "%s\n" "Subject: Archive System message" \
+	              "Prepare script exited prematurely at line $1" \
+		      "Process ID: $2"
+	if [[ -n $cdname ]] ; then
+	    printf "%s\n" "CD Volume: $cdname"
+	fi
+    } | mail $ARCHIVEMASTER
+}
+
+
+
+#
+# checksum $1 $2 - compute the checksum on all the files in archive directory
+#
+
+function checksum {
+	echo $2: Computing checksum...
+	cd $1						# move to target dir
+	rm -f CHECKSUMS
+	find . ! -type d ! -name CHECKSUMS -exec /usr/bin/sum {} \; |sort +2 > CHECKSUMS
+	echo $2: Done with $SOURCE
+}
+
+
+#
+# moveprevious $1 $2 $3 - move data from the current drive to the previous drive
+#  for storage later.  Move the earliest orbits.
+#
+function moveprevious {
+	echo $2: Moving files in $1 to $2
+	cd $1
+	ls -d * | sort | sort -t_ +3 | grep fast_lzp_[A-Z] > /tmp/movepre$$
+	used=`du -k $2 | tail -1 | awk '{print $1}'`
+	while (( $used < $limit ))
+	do
+		pass=`head -1 /tmp/movepre$$`		# entire pass dir name
+		cp -r $pass $2
+		rm -r $pass
+		sed '1d' /tmp/movepre$$ > /tmp/MOVEPRE$$
+		mv /tmp/MOVEPRE$$ /tmp/movepre$$
+		used=`du -k $2 | tail -1 | awk '{print $1}'`
+	done
+}
+
+#
+# beginning of script
+#
+
+echo $2: ---- prepare run on $(date) ----
+
+# load in the archive environment variables to tell us where to find and where
+# to put data
+
+. $CONFIGPATH/archive_config
+
+trap 'warn_exit $LINENO $2' EXIT
+
+if (( ${#LZPSTORAGE[*]} == 0 ))
+then
+	echo $2: Must set LZPSTORAGE variable - check archive_config file
+	exit 1
+elif (( ${#ARCHIVESTORAGE[*]} == 0 ))
+then
+	echo $2: Must set ARCHIVESTORAGE variable - check archive_config file
+	exit 1
+fi
+
+n=0
+limit=640000					# limit space availble
+weaklimit=651000				# a little slac
+LAST=$(( ${#LZPSTORAGE[*]} - 1 ))		# last element index
+PREVIOUS=${LZPSTORAGE[$LAST]}
+for SOURCE in ${LZPSTORAGE[*]}			# for each drive in array
+do
+# Aquire lock so that there are no preparation conflicts
+
+while [[ -a $PREPARELOCK ]]
+do
+	echo $2: prepare sleeping 60 for $(cat $PREPARELOCK)
+	sleep 60
+done	
+echo $2 > $PREPARELOCK
+
+lock=1
+
+TARGET=${ARCHIVESTORAGE[$n]}		# next target on the same disc
+n=$(( $n + 1 ))				
+
+echo $2: Source directory $SOURCE
+echo $2: Target directory $TARGET
+
+data=`du -ks $SOURCE/fast_lzp_@(GN|DSS)* | awk '{tot = tot + $1} END { print tot}'` 
+echo $2: $data kb in $SOURCE
+
+if (( $data > $limit ))
+then
+	cd $SOURCE
+
+	# Addition on 6 July 2000
+	# Prior to taking a snapshot of the data directory, check to see
+	# if any data sessions are open. If they are, grab the orbit number and use it
+	# to exclude that session from current CD processing
+
+	if [[ `ls /tmp | grep holdup` != "" ]] ; then
+		ls /tmp | grep holdup |awk -F_ '{print ($3)}' > /tmp/hold_orbits$$
+	else
+		echo NO_HOLD > /tmp/hold_orbits$$
+	fi
+
+	# Update made 6 July 2000 to include hold_orbits file
+	# Take a snapshot of the data directory, this is what will be used to move files
+	# this is done to avoid any data sessions that are in progress
+		
+	ls -1d fast_lzp_@(DSS|GN)* | sort -t_ -n -k 4.6,4 |egrep -v -f /tmp/hold_orbits$$ > /tmp/orbits$$
+	rm /tmp/hold_orbits$$
+
+	# Perform a second check on the data size excluding the hold_orbits
+
+	cp /tmp/orbits$$ /tmp/chk_orbits$$
+	while [[ -s /tmp/chk_orbits$$ ]]
+	do
+		session=$(head -1 /tmp/chk_orbits$$)
+		newsize=$(du -sk $session | awk '{print ($1)}')
+		newtotal=$(( $newtotal + $newsize ))
+		sed '1d' /tmp/chk_orbits$$ > /tmp/CHK_SIZE$$
+		mv /tmp/CHK_SIZE$$ /tmp/chk_orbits$$
+	done
+	rm /tmp/chk_orbits$$
+
+	if (( $newtotal < $limit ))
+	then
+		echo $2: 
+		echo $2: Session transfer in progress
+		echo $2: Not enough data in $SOURCE for a new CD
+		echo $2: 
+		rm $PREPARELOCK
+		break 2
+	fi
+			
+	passname=`head -1 /tmp/orbits$$`	# entire pass dir name
+	orbit=`echo $passname| \
+		awk -F_ '{print substr($4,6)}'`	# orbit number
+	cdnum=$(cat $CDNUM)
+	cdname=FAST${cdnum}_$DISCNAME$orbit # create name for CD
+	cdnum=$(( $cdnum + 1 ))
+	echo $cdnum > $CDNUM
+
+	mkdir $TARGET/$cdname			# create directories
+	mkdir $TARGET/$cdname/lzp
+	mkdir $TARGET/$cdname/ogsarch
+	mkdir $TARGET/$cdname/lzp/fast_lzp_acs
+	#mkdir $TARGET/$cdname/sumplots
+	if [[ $? != 0 ]]
+	then
+		echo $2: Cannot make directories
+		exit 1
+	fi
+
+	## Copy ogsarch directories onto the CD
+			
+	OGSDIR=$($BINPATH/archcmd)
+	if [[ -z $(ls $OGSDIR) ]] ; then
+		echo $2: No ogsarch files
+	else
+		echo $2: moving $OGSDIR/* to $TARGET/$cdname
+		cp -r $OGSDIR/* $TARGET/$cdname/ogsarch
+		rm -fr $OGSDIR/*
+
+		# Sciplot no longer uses orbstart file
+		#rcp `(ls -1rd $TARGET/$cdname/ogsarch/ogs.archive* |
+		#head -1)`/orbstart $DANETHOST:$ORBSTART
+
+		# Copy ogs Integrated Prints and Contact Schedules
+		# to the www access site.
+
+		ls -1rd $TARGET/$cdname/ogsarch/ogs* > /tmp/ogsdirs$$
+		while [[ -s /tmp/ogsdirs$$ ]] ; do
+			top=$(head -1 /tmp/ogsdirs$$)
+			# Integrated prints
+			if [ -f $top/*INTRPT* ] ; then
+		    print "$2: Copying integrated prints"
+		    rcp $top/*INTRPT* $DANETHOST:$INTRPT
+			fi
+			# Contact schedules
+			if [ -f $top/SMEX* ] ; then
+		    schedules=$(ls -1 $top/SMEX*)
+		    # Daylight savings
+		    if [[ $(date "+%Z") = "PDT" ]]; then
+					ds=1
+		    else
+					ds=0
+		    fi
+			else
+			    schedules=
+			fi
+			for sched in $schedules ; do
+		    schedname=$(basename $sched)
+		    print "$2: Formatting/copying $schedname"
+		    nawk -f ${FASTSW}/config/csched.awk \
+					 -v "ds=$ds" $sched > /tmp/${schedname}
+		    rcp /tmp/${schedname} $DANETHOST:$CONSCHED
+		    rm /tmp/${schedname}
+			done
+			# Attitude files
+			if [ -f $top/*ATT* ] ; then
+		    print "$2: Copying attitude files"
+		    rcp $top/*ATT* $DANETHOST:$ATTFORUCLA
+		    cp $top/*ATT* $FINETATT
+			fi
+			sed '1d' /tmp/ogsdirs$$ > /tmp/OGSDIRS$$
+			mv /tmp/OGSDIRS$$ /tmp/ogsdirs$$
+		done
+	fi
+
+	while [[ -s /tmp/orbits$$ ]]
+	do
+		size=`du -ks $SOURCE/$passname | awk '{print $1}'` \
+			# size of pass
+		if [[ -z $size ]]
+		then
+			sed '1d' /tmp/orbits$$ > /tmp/ORBITS$$
+			mv /tmp/ORBITS$$ /tmp/orbits$$
+			passname=`head -1 /tmp/orbits$$` # next pass 
+			continue
+		fi
+		if [[ ! -a ${passname}/${passname}.cnt && ! -a ${passname}/split ]]
+		then
+			echo $2: Alert: Session $passname NOT counted
+			printf "%s\n" "Subject: Archive System message" \
+	           "Session $passname NOT counted" \
+    				| mail $ARCHIVEMASTER
+			sed '1d' /tmp/orbits$$ > /tmp/ORBITS$$
+      mv /tmp/ORBITS$$ /tmp/orbits$$
+      passname=`head -1 /tmp/orbits$$` # next pass
+			continue
+		fi
+		used=`du -ks $TARGET/$cdname | awk '{print $1}'`
+		space=$(($weaklimit-$used))	# space available for CD
+		if (( $size < $space ))
+		then				# plenty of space
+			echo $2: moving $SOURCE/$passname to $TARGET/$cdname
+			mv $passname $TARGET/$cdname/lzp
+			if [[ ! -z "$(ls -1 $ACSDIR)" ]] ; then
+			  echo $2: moving $ACSDIR/* to $TARGET/$cdname
+			  mv $ACSDIR/* $TARGET/$cdname/lzp/fast_lzp_acs
+		  fi
+		else
+			mkdir $TARGET/$cdname/lzp/$passname
+			move $passname $2
+			echo $2: CD full
+			break
+		fi
+		sed '1d' /tmp/orbits$$ > /tmp/ORBITS$$
+		mv /tmp/ORBITS$$ /tmp/orbits$$
+		passname=`head -1 /tmp/orbits$$`	# next pass name
+		orbit=`echo $passname| \
+			awk -F_ '{print substr($4,6)}'` # orbit #
+	done
+	rm /tmp/orbits$$
+
+	# produce a checksum for all the files
+
+	rm $PREPARELOCK
+	lock=0
+	checksum $TARGET/$cdname $2
+	echo $TARGET/$cdname > $1
+	break
+else
+	echo $2: Not enough data in $SOURCE for a new CD
+	PREVIOUS=$SOURCE
+	touch $1
+	if (( $lock == 1 ))
+	then
+		rm $PREPARELOCK
+	fi
+fi
+done
+echo $2: prepare Done
+
+trap - EXIT
+exit 0

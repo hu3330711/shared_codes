@@ -1,0 +1,488 @@
+****************************************************************
+
+       README.ogs
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogs procedure.
+
+****************************************************************
+
+       @(#)README.ogs	1.3    01/26/95    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogs procedure is to run the
+       programs which start with the FAST input received from
+       Goddard, and produce the instrument commands and shadow
+       ephemeris; i.e., the following programs:
+
+           orbgen
+
+           genCommands
+
+           sunnadir
+
+
+
+               Additionally, the procedure can be used to edit
+       the instrument commands produced; i.e., it can run the
+       program
+
+           editCommands
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogs [-e] [-m] [-l] [-v] [-o] [-g] [-s] [-c proc-cfg-file]
+           [-p printer-auto] [-q printer-req] [-b orb-cfg-dir]
+           [-n norb1] [-r gen-cfg-dir] [-u sun-cfg-file]
+
+
+
+       where:
+
+
+
+       -e
+
+           is an option to display messages on the console.
+
+
+
+       -m
+
+           is an option to suppress mailing the job log.
+
+
+
+       -l
+
+           is an option to suppress printing the job log.
+
+
+
+       -v
+
+           is an option to make this a command edit job (i.e.,
+           run editCommands).
+
+
+
+       -o
+
+           is an option to force orbgen to run (even if no new
+           input from Goddard has arrived).
+
+
+
+       -g
+
+           is an option to force genCommands to run (even if no
+           new input from Goddard has arrived).
+
+
+
+       -s
+
+           is an option to force sunnadir to run (even if no new
+           input from Goddard has arrived).
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       printer-auto
+
+           is the printer to be used for printing automatically.
+
+           The default is specified in the procedure
+           configuration file.
+
+
+
+       printer-req
+
+           is the printer to be used for printing on request.
+
+           The default is specified in the procedure
+           configuration file.
+
+
+
+       orb-cfg-dir
+
+           is the directory for the configuration file for
+           orbgen.
+
+           The default is
+               $FASTCONFIG/Fastorb
+           or, if that is not found, then
+               $FASTLIB/Fastorb
+
+
+
+       norb1
+
+           is the number for the first orbit.
+
+
+
+       gen-cfg-dir
+
+           is the directory for the configuration files for
+           genCommands.
+
+           The default is
+               $FASTCONFIG/ATSConfig
+           or, if that is not found, then
+               $FASTLIB/ATSConfig
+
+
+
+       sun-cfg-file
+
+           is the configuration file for sunnadir.
+
+           The default is
+               $FASTCONFIG/sunnadirDAT/sunnadir.cfg
+           or, if that is not found, then
+               $FASTLIB/sunnadirDAT/sunnadir.cfg
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        1  means the procedure collided with another job.
+
+
+        2  means the job was killed.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) No more than one run of this procedure can occur on a
+           machine at any time.
+
+
+           Collisions are handled automatically, via lock files.
+
+
+
+        2) Each of the "force" options (-o -g -s) is
+           incompatible with the edit option (-v).
+
+
+           A run without the -v option is referred to as a
+           "regular run".
+
+
+           A run with the -v option is referred to as an "edit
+           run".
+
+
+
+        3) If any output directory does not exist, it is
+           created.
+
+           When any output directory is created, it has write
+           permission for the user and the group.
+
+
+           If any output directory does exist, it must indeed be
+           a directory, and not a "plain" file.
+
+           When any output directory does exist, its permissions
+           are left unchanged.
+
+
+
+        4) Each run creates some status files in the work area:
+           the process ID file, the job ID file, and the job log
+           file (previous status files are deleted).
+
+
+           The job ID is a string indicating the date and time
+           (UTC) when the job started, e.g., 1994.234.12.34.56
+           for a job that started on 1994-234 at 12:34:56
+           (leading zero(s) in the day of year, hour, minutes,
+           seconds, are significant).
+
+
+           The job log includes the main commands issued, along
+           with the corresponding times; and the main messages
+           from the procedure and the programs.
+
+
+
+        5) All final product output files are written to
+           temporary subdirectories.
+
+
+           Only at the end of the run, when everything has
+           worked successfully, are these temporary
+           subdirectories moved to their final destinations.
+
+
+           At the end of the run, if appropriate (i.e., a
+           regular run), the input files from Goddard are
+           deleted.
+
+
+
+        6) Automatic printing occurs when files are printed
+           without an interactive dialogue with the user.
+
+           For ogs, the job log can be printed automatically.
+
+
+           Printing on request occurs when files are printed
+           after the user is prompted and indicates that the
+           files are to be printed.
+
+           For ogs, ATS command files can be printed on request
+           on an edit run.
+
+
+
+        7) For a regular run, it is an error if the latest input
+           files from Goddard used by any program are
+           duplicated.
+
+
+           For a regular run, it is also an error if a new
+           latest file duplicates what was a latest file on the
+           previous run.
+
+
+           These errors could occur if Goddard were to send more
+           than 1 file with the exact same name.
+
+
+
+        8) A new orbit file may be created only if the run is a
+           regular run.
+
+
+           A new orbit file is created if there is the
+           appropriate new input from Goddard; or if the -o
+           option is being used to force orbgen to run.
+
+           A new orbit file would be created also if it is
+           needed in order to run the other programs, and an old
+           one does not exist; or the old one does not cover the
+           entire time interval needed.
+
+
+           Otherwise, no new orbit file is created.
+
+
+
+           For an edit run, a previous orbit file should exist,
+           which will be used.
+
+           If a previous orbit file does not exist, the run will
+           create a new orbit file; but such a run is in error,
+           for one of a number of reasons (there has been no
+           previous run, so there are no command files to be
+           edited; or the work directory area has been
+           corrupted; etc.).
+
+
+
+        9) When a new orbit file is created, 2 runs of orbgen
+           are made.
+
+
+           The first is a short run, and its purpose is to
+           create a short orbit file so as to check when the
+           orbit data begins; it is an error if the orbit data
+           begins later than the time when it will be needed by
+           the other programs.
+
+
+           The short orbit file is used also in order to match
+           orbit numbers.
+
+           The input from Goddard that is used by orbgen to
+           create the orbit file has no orbit numbers; if no
+           previous orbit file exists, and the -n option is not
+           used, then orbit numbers will start from 0; but if
+           correct orbit numbers are established, they can be
+           continued by matching the overlapping orbit start
+           times of the previous full orbit file and the new
+           short orbit file.
+
+
+           The second run of orbgen creates the new full-sized
+           orbit file.
+
+
+
+       10) Whenever a new orbit file is created in a regular
+           run, the programs that use the orbit file as input
+           (i.e., genCommands and sunnadir) are run, regardless
+           of whether new input from Goddard has arrived for
+           them or not.
+
+
+
+       11) Normally, the configuration file for sunnadir is set
+           to carry out the computations over a time interval of
+           24 hours; and, if output for several days is desired,
+           several runs of sunnadir are triggered, one for each
+           day.
+
+
+
+       12) For an edit run, the program configuration files used
+           are the same that were used in the previous run of
+           ogs (which, presumably, created the command files
+           about to be edited).
+
+
+           However, the procedure configuration file used is the
+           current one, and no attempt is made to retrieve and
+           use the procedure configuration file from the
+           previous run.
+
+
+           Therefore, special caution may be required on an edit
+           run that is performed after the procedure
+           configuration file has been changed.
+
+
+
+       13) For an edit run, the input files from Goddard are
+           ignored.
+
+
+
+       14) The first output date, i.e., the first date for which
+           output files are to be produced, is determined based
+           on the date and time when the run started (and using
+           scheduling parameters from the procedure
+           configuration  file).
+
+
+           Therefore, special caution may be required on an edit
+           run that is performed long after the original regular
+           run, as the first output date may be different.
+
+
+           If the first output date is different, the
+           consequence is that some existing output files may be
+           ignored, because they are no longer supposed to be
+           produced.
+
+
+
+       15) On an edit run, none of the programs orbgen,
+           genCommands, or sunnadir is run.
+
+
+           The exception is running orbgen, which can occur in
+           an erroneous edit run, as explained above.
+
+
+
+       16) On an edit run, any one or more of the command files
+           can be printed before editing starts, if desired.
+
+
+           Also, any one or more of the command files can be
+           printed after editing ends, if desired.
+
+           This includes command files created by editCommands.
+
+
+
+       17) The "run" area in the procedure work area is saved
+           for use in future runs.
+
+
+           In fact, the latest 2 versions of this directory are
+           saved at the end of each run; the one just used ("new
+           run") as "old"; and the one prior to that as
+           "previous old".

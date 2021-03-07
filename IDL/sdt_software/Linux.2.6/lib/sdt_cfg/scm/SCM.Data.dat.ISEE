@@ -1,0 +1,181 @@
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the ISEE SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.ISEE_Science.003_B_S_C.003_Spin_P.UCB.wt.dat	1.1    09/14/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*=======================================================================
+*
+*      Spacecraft: ISEE_1.
+*
+*=======================================================================
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'ISEE_1_B_A_DSC' ISEE_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Z' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B_Mag' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.vector_3D_from_comp_3D_001' FALSE 3 11
+  'BX' ISEE_SPACECRAFT
+  'BY' ISEE_SPACECRAFT
+  'BZ' ISEE_SPACECRAFT
+  'ISEE_1: Output dump freq for B_A_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'ISEE_1: Weight for output time for comp X for B_A_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'ISEE_1: Max time sep for spin period values (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.2
+  'ISEE_1: Comp for comp of B' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Weight for output time for comp Y for B_A_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'ISEE_1: Max time sep for spin period values (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 3.2
+  'ISEE_1: Comp for comp of B 2' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Weight for output time for comp Z for B_A_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'ISEE_1: Max time sep for spin period values (sec) 3' DQ_LITERAL DQ_STORE_DOUBLE 3.2
+  'ISEE_1: Comp for comp of B 3' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Tol factor for time match for spin period values' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the ISEE SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.ISEE_Science.004_E_S_C.003_Spin_P.UCB.wt.dat	1.1    09/14/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*=======================================================================
+*
+*      Spacecraft: ISEE_1.
+*
+*=======================================================================
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'ISEE_1_E_0_A_DSC' ISEE_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.vector_3D_from_comp_2D_001' FALSE 2 8
+  'EX' ISEE_SPACECRAFT
+  'EY' ISEE_SPACECRAFT
+  'ISEE_1: Output dump freq for E_0_A_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'ISEE_1: Weight for output time for comp X for E_0_A_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'ISEE_1: Max time sep for spin period values (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.2
+  'ISEE_1: Comp for comp of E' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Weight for output time for comp Y for E_0_A_DSC' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  'ISEE_1: Max time sep for spin period values (sec) 2' DQ_LITERAL DQ_STORE_DOUBLE 3.2
+  'ISEE_1: Comp for comp of E 2' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Tol factor for time match for spin period values' DQ_LITERAL DQ_STORE_DOUBLE 0.4999
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'ISEE_1_E_Dot0_A_DSC' ISEE_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_X' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Y' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Z' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E_Mag' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.E_0_to_E_Dot0' FALSE 2 22
+  'ISEE_1_E_0_A_DSC' ALL_SPACECRAFT
+  'ISEE_1_B_A_DSC' ALL_SPACECRAFT
+  'ISEE_1: Output dump freq for E_Dot0_A_DSC (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'ISEE_1: B in same coord system as E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Min for |spin axis B| for E_Dot0 (nT)' DQ_STORE_DOUBLE 2.0
+  'ISEE_1: Max for |BX/BZ|, |BY/BZ| for E_Dot0' DQ_STORE_DOUBLE 5.0
+  'ISEE_1: Comp for E_0_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Comp for E_0_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'ISEE_1: Comp for E_0_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'ISEE_1: Dropout time for spin period data (sec)' DQ_LITERAL DQ_STORE_DOUBLE 10.0
+  'ISEE_1: Comp for B_DSC_X' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Comp for B_DSC_Y' DQ_LITERAL DQ_STORE_INT32 2
+  'ISEE_1: Comp for B_DSC_Z' DQ_LITERAL DQ_STORE_INT32 3
+  'ISEE_1: Transpose matrix for B to coord of E? (1 = Yes / 0 = No)' DQ_LITERAL DQ_STORE_INT32 0
+  'ISEE_1: Dropout time for Rot_Mat_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 3.1
+  'ISEE_1: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'ISEE_1: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'ISEE_1: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'ISEE_1: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'ISEE_1: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'ISEE_1: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'ISEE_1: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'ISEE_1: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'ISEE_1: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }

@@ -1,0 +1,241 @@
+************************************************************************
+
+   README.General.UCB.wt.choose_scalar_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.choose_scalar_001
+
+************************************************************************
+
+   Choose from 2 scalar inputs.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.choose_scalar_001	1.1    12/18/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects one of 2 scalar inputs.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The first input scalar, v_1.
+
+
+
+            2) The second input scalar, v_2.
+
+
+
+
+
+    3) The user must choose one of the 2 inputs; all the output data
+       points come from the one chosen input.
+
+
+
+
+
+    4) An output data point is produced for each input point of the
+       chosen input scalar.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of the chosen input scalar.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for the choice of scalar input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Choose the scalar v_1.
+
+                    2  =  Choose the scalar v_2.
+
+
+
+            3) The group of parameters described here occurs once for
+               the scalar v_1, and once for the scalar v_2.
+
+
+
+                1) Input component index for the scalar value.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The first input scalar.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional components for the scalar value.
+
+                   Float.
+
+
+
+            2) The second input scalar.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional components for the scalar value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Scalar value.
+
+
+               Float.

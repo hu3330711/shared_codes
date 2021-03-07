@@ -1,0 +1,369 @@
+****************************************************************
+
+       README.ogs.interactive
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogs system.
+
+****************************************************************
+
+       @(#)README.ogs.interactive	1.5    01/27/95    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+        1. Introduction.
+
+        2. Resetting orbit numbers.
+
+        3. Editing ATS command files.
+
+        4. Forcing a run of genCommands.
+
+        5. Auxiliary procedures.
+
+        6. Canceling an ogs job.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        1. Introduction.
+
+
+
+
+               The purpose of the "ogs" system is to produce
+       instrument command files and shadow ephemeris files for
+       the FAST satellite.
+
+               These files are used to control instruments on
+       the spacecraft.  To accomplish this, the files need to be
+       sent to Goddard (CMS), to be uploaded to the spacecraft.
+
+
+
+               The main steps in the production of the
+       instrument command files and shadow ephemeris files can
+       be automated.
+
+
+
+               This documentation file gives an overview of the
+       more common situations that require the intervention of
+       an operator.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        2. Resetting orbit numbers.
+
+
+
+
+               After the first run of ogs, the orbit numbers
+       need to be set appropriately.
+
+               This is because the first run normally will set
+       the orbit numbers to start from 0.
+
+               The procedure outlined below needs to be used in
+       this case, or whenever it is determined that the orbit
+       numbers are incorrect and need to be reset (note that it
+       is expected that the orbit numbers will need to be set
+       only once, after the first run of ogs; and the system
+       will maintain the appropriate orbit numbers thereafter).
+
+
+
+               It is assumed that, after the last (or only) run
+       of ogs has taken place, no new input files from Goddard
+       have been collected.
+
+               A simple way to assure that this condition is met
+       is not to have automated processing active.
+
+               In fact, it is recommended that the automated
+       processing not be started until after the orbit numbers
+       have been reset.
+
+               This means that the first run must be started by
+       the operator.
+
+               The first run can take place once input from
+       Goddard has arrived, to enable the creation of an orbit
+       file (i.e., a predicted orbit vector file).
+
+               For the first run, the operator should enter the
+       command
+
+           ogscolgf
+
+       and, after the command completes execution, the operator
+       should enter the command
+
+           ogs &
+
+               The & in the command above, to put it in the
+       background, is very convenient but not required.
+
+
+
+               If the orbit numbers need to be reset again after
+       the automated processing has been active, the operator
+       should turn off the automated processing; then, proceed
+       with
+
+           ogscolgf
+
+       and
+
+           ogs &
+
+       as above.
+
+
+
+               Once the ogs command completes execution, the
+       orbit numbers can be reset as explained below.
+
+
+
+               First, it is necessary to establish what the
+       correct orbit numbers should be.
+
+               The user should examine a file in the latest
+       user subdirectory of the user area; the file is called
+
+           orbstart
+
+               This file shows what the current orbit numbers
+       are, and the start time for each orbit.
+
+               From information supplied by Goddard (e.g., in
+       the power report file), the user must determine what is
+       the orbit number that should correspond to the second
+       line of the file of orbit start times.
+
+               Note that the first line of the file of orbit
+       start times should not be used, as the time shown there
+       is the time when the data starts, not necessarily the
+       start of an orbit.
+
+
+
+               Once the orbit number corresponding to the second
+       line is determined (let's designate it "a"), then a run
+       of ogs must be made, forcing orbgen to run even though no
+       new input from Goddard is available, and setting the
+       first orbit number to 1 less than the value just
+       determined (i.e., (a - 1), which we will designate "b").
+
+
+               To accomplish this, the following command must be
+       issued:
+
+           ogs -o -n b &
+
+       where "b" designates the value for the first orbit
+       number.
+
+
+               The & in the command above, to put it in the
+       background, is very convenient but not required.
+
+
+
+               Suppose, for example, that it has been determined
+       that the orbit number corresponding to the second line
+       should be 34.
+
+               To reset the orbit numbers, then, the following
+       command must be issued:
+
+           ogs -o -n 33 &
+
+
+
+               After the run that resets the orbit numbers has
+       ended successfully, automated production can be started
+       (or resumed).
+
+
+
+       ---------------------------------------------------------
+
+
+
+        3. Editing ATS command files.
+
+
+
+
+               After a regular run of ogs has created ATS
+       command files, these files can be edited and changed if
+       desired.
+
+
+               To accomplish this, the following command must be
+       issued:
+
+           ogs -e -v
+
+
+
+               An edit run can be performed regardless of
+       whether the original files have been sent to Goddard or
+       not; as copies of the files are retained by the system
+       and are available for the edit run.
+
+
+
+               The documentation for the ogs procedure contains
+       cautions that pertain to edit runs.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        4. Forcing a run of genCommands.
+
+
+
+
+               If the configuration files for genCommands (rules
+       for generating ATS commands) are changed, it may be
+       desired to make a run of ogs where genCommands is forced
+       to run even if no new input files have arrived from
+       Goddard.
+
+
+
+               To accomplish this, the following command must be
+       issued:
+
+           ogs -g &
+
+
+               The & in the command above, to put it in the
+       background, is very convenient but not required.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        5. Auxiliary procedures.
+
+
+
+
+               The system overview document contains information
+       on auxiliary procedures that belong to the ogs system.
+
+
+
+               These procedures can be used for purposes such as
+       monitoring job status, editing configuration files, etc.
+
+
+
+               The system overview document contains a warning
+       regarding the use of auxiliary procedures.
+
+
+
+               The documentation for each individual procedure
+       contains more details.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        6. Canceling an ogs job.
+
+
+
+
+               Normally, ogs jobs that are running should not be
+       canceled.
+
+
+               If an ogs job is going to produce output files
+       unsuitable for sending to Goddard, the simplest remedy is
+       to let the run finish, not send the files, and then start
+       a new run that will produce correct output.
+
+
+
+               However, there may be occasions when canceling a
+       run is necessary, and here is shown how to do it; as well
+       as information on subsequent cleanup, which applies to
+       jobs that terminate prematurely for any cause (e.g.,
+       machine crash).
+
+
+
+               The documentation for each individual procedure
+       mentioned contains more details.
+
+
+
+               The procedure
+
+           ogsprcid
+
+       can be used to show the process ID's associated with an
+       ogs job that is running currently.
+
+
+               These processes need to be killed; and it is best
+       to kill first the process corresponding to the ogs
+       procedure itself, and then any child(ren) process(es).
+
+
+               Typically, there will be 1 child process,
+       corresponding to one of the main programs run by the ogs
+       procedure (orbgen, genCommands, sunnadir).
+
+
+
+               The procedure
+
+           ogsclean
+
+       can be used to perform the required cleanup after an ogs
+       job has terminated prematurely.
+
+
+               It is important to make sure that no procedures
+       in the ogs system are running when the cleanup takes
+       place; but the procedures that check for this may give
+       unreliable results after a cancellation or crash.
+
+
+               Furthermore, if lock files for access to the
+       configuration files have been left behind, it is possible
+       for any procedure (including ogsclean itself, if not used
+       adequately) to get into an endless wait state.
+
+
+               Before normal operations and production are
+       resumed, it is very important to kill any procedures that
+       got stuck; and to perform a successful cleanup.

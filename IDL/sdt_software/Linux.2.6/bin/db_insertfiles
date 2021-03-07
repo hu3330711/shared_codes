@@ -1,0 +1,97 @@
+#!/bin/ksh
+#
+#	db_insertfiles.sh
+#
+#	Insert a list of filenames and volume names into
+#	the 'files' table of the fAST database.
+#
+#	Usage:
+#
+#		db_insertfiles  [-c <config>] [-v <volname>] [<directory>]
+#
+#	Connects to Sybase and the FAST database, and inserts
+#	the volname, pathname, and filesize of all the files
+#	in the <directory> into the 'files' table.  Use <config>
+#	for configuration info.
+#
+#	Defaults:
+#	<directory>	Current directory
+#
+#	<volname>	Basename of <directory>
+#
+#	<config>	fast_dbupdate.conf in FASTCONFIG, then FASTLIB
+#
+# **************************************************************
+
+# Configuration file.  Look in current directory, then FASTCONFIG
+# then FASTLIB.
+
+# Command line processing
+MYNAME=$(basename $0)
+DIRECTORY=`pwd`
+VOLNAME=
+
+CONFIG=fast_dbupdate.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+	echo "${MYNAME}:  ${ARCH_ERROR}" 1>&2
+	exit ${ERR}
+fi
+
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		shift 2
+	elif [ "$1" = "-v" ] ; then
+		VOLNAME=$2
+		shift 2
+	elif [ "x${1}" != "x" ] ; then
+		DIRECTORY=$1
+		break
+	fi
+done
+
+if [ "x${VOLNAME}" = "x" ] ; then
+	VOLNAME=`basename ${DIRECTORY}`
+fi
+
+TEMPRES=/tmp/res$$
+finish() {
+	/bin/rm ${TEMPRES}
+	echo "Finished ${MYNAME}"
+}
+trap finish EXIT
+		
+# =============================================================
+
+echo "Inserting files for ${DIRECTORY}"
+
+cd $DIRECTORY
+find . -type f -ls | awk 'BEGIN {
+	print "create table #dupfiles (volname varchar(128),"
+	print " pathname varchar(255))"
+	print "go"
+	print "begin transaction ins_files";
+}
+{
+	print "insert files (pathname, volname, size)";
+	print "values (\"" $11 "\", \"'${VOLNAME}'\",", $7, ")"
+	print "if @@error != 0 begin insert #dupfiles";
+	print "values (\"'${VOLNAME}'\", \"" $11 "\")";
+	print "end";
+	print "go";
+}
+END {
+	print "if (select count(*) from #dupfiles) > 0 begin"
+	print "select * from #dupfiles";
+	print "rollback transaction ins_files";
+	print "end";
+	print "else commit transaction ins_files"
+	print "go"
+}' | (do_isql ; echo $? > ${TEMPRES}) | grep -v 'Password:'
+
+ERR=$(cat ${TEMPRES})
+if [ ${ERR} != 0 ] ; then
+	echo "${MYNAME}: isql error" 1>&2
+fi
+exit ${ERR}

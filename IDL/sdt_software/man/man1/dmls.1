@@ -1,0 +1,129 @@
+.\" @(#)dmls.1	1.2 11/12/01
+'\"macro stdmacro
+.nr X
+.TH dmls 1 11/12/01
+.SH NAME
+dmls \- list contents of datamgr's file list, recorded in the online_files database.
+.SH SYNOPSIS
+.B dmls
+[
+.B \-d | -b
+] [
+.B -pseudoraid
+] [
+.B -domain
+.I DomainHost
+] [
+.I pattern
+]
+.SH DESCRIPTION
+.B dmls
+lists the contents of the the fast_online database, which tells datamgr which FAST
+data files are available on line.  Its output is printed to standard output
+in the format of the now-obsolete datamgr_listing file.  With the -b option, 
+a datamgr_listing file 
+is created in the location specified by the $DATAFILE_LIST variable
+in the Datamgr.conf file, which is the location where 
+.B fileListToDB
+looks for a filelist.
+Thus 
+.B dmls 
+can be used to backup the filelist database for your domain, and 
+.B fileListToDB
+can be used to restore the backup.
+(However, regular Sybase dumps are performed on this database, so this
+should not normally be necessary).
+The 
+.B dmls
+output is in the format of Tcl code which sets two associative arrays.
+Each element of the DIRS_ONHOST array gives the value of the OnHost flag
+for a data directory.
+Each element of the LIST array is a list of the file contents of a 
+data directory, as recorded in the database.
+The element names of each array are the full pathnames of
+the data directories.  
+
+.SH OPTIONS
+
+.TP 21
+.B \-d
+Only list the setting of the OnHost flag for each data directory, 
+without listing the contents of each directory.  IE only output the DIRS_ONHOST
+array.
+.TP
+.B \-pseudoraid
+Allow to list directories in the pseudo-raid system.  Careful, unless 
+.B \-d
+option is set, this may produce more ouput than you want to sort through!
+.TP
+.B \-b
+Write the output to the '$DATAFILE_LIST' file, as configured by the standard
+datamgr configuration files.  
+Not compatible with
+.B \-d
+option.
+.TP 
+.BI \-domain\  DomainHost
+Give listing for domain defined by 
+.I DomainHost.
+
+.SH USAGE
+By default, 
+.I pattern
+is set to '*' in order to list all user data directories on the local domain.
+All data directories which correspond to on-line copies of 
+CDROMs which are stored in the DANETSTORAGE directories are 
+excluded by default.  I.E.
+.B dmls
+normally lists only user data directories on the local domain.
+The default pattern can be overridden
+by specifying
+.I pattern 
+on the command line.  
+.I pattern
+can be one or more glob patterns which will match the directories to be
+listed.  Files are matched from 
+.I pattern
+using the tcl glob command, which is similar to csh globing, except that
+the pattern is interpreted inside the tcl script, and must not be interpreted by
+the shell.
+Enclose your entire pattern (or list of patterns) in single
+quotes to combine them into a single argument and protect any
+wildcards in your patterns from the shell.
+
+
+.SH EXAMPLES
+
+To list files only in Chuck Carlson's data directories:
+.TP
+.B dmls '*cwc*'
+.LP
+
+.SH ENVIRONMENT
+.LP
+.B update_filelist
+looks in the $FASTCONFIG directory for the Datamgr/Datamgr.conf file
+and archive_conf file.
+
+.SH FILES
+These files ensure that 
+.B dmls 
+runs in the same environment as datamgr:
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.LP
+This file determines the setting of DANETSTORAGE:
+.TP
+.B $FASTCONFIG/archive_conf
+.SH SEE ALSO
+.BR datamgr (1), update_filelist(1), fileListToDB(1), fast_onlineAccess(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

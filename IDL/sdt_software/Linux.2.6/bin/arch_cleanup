@@ -1,0 +1,126 @@
+#!/usr/bin/ksh
+# arch_cleanup - This procedure will cleanup processes that have hung
+#		 up for one reason or another. Currently, there are three 
+#		 checks made:
+#				dbupate processes
+#				sciplot processes
+#				sdt_batch processes
+#
+#		The dbupdate and sciplot processes hang up due to firewall
+#		timeouts on the rsh connections to juneau. The sdt_batch
+#		process hangs for unknown reasons.
+#
+
+. /disks/fast/software/config/archive_config
+
+## Check for dbupdate processes and assign information to file
+
+# Grab dbupdate processes and pipe process id and CD name to a file
+ps -ef |grep dbupdate|grep -v "[0-9][0-9]:[0-9][0-9]:[0-9][0-9]" |awk '{print $2, substr($12,0,8)}' > /tmp/dbupdate_ps$$
+
+# Now parse through the file and check juneau to see if these processes are running
+while [[ -s /tmp/dbupdate_ps$$ ]]
+do
+	prs_id=$(head -1 /tmp/dbupdate_ps$$ | awk '{print $1}')
+	cd_name=$(head -1 /tmp/dbupdate_ps$$ | awk '{print $2}')
+	rsh -n juneau "ps -ef | egrep 'dbupdate $cd_name'" | grep -v grep > /tmp/juneau_prc$$
+
+	# If the file exists and has a size greater then zero, continue, otherwise
+	# no associated process was found on juneau and the manitou process will be killed
+
+	if [[ -s /tmp/juneau_prc$$ ]]; then
+		continue
+	else
+		echo $$: 						  >> $LOGFILE
+		echo $$: Cleaning up old processes			  >> $LOGFILE
+		echo $$: Killing dbupdate process $prs_id for CD $cd_name >> $LOGFILE
+		echo $$:						  >> $LOGFILE
+		printf "%s\n" "Subject: Cleaning Up LZP Processes" \
+			      "Killing dbupdate process $prs_id for CD $cd_name" \
+			       | mail $ARCHIVEMASTER
+
+		kill -9 $prs_id	
+	fi
+
+	rm /tmp/juneau_prc$$
+	
+	sed '1d' /tmp/dbupdate_ps$$ > /tmp/DB_PS$$
+	mv /tmp/DB_PS$$ /tmp/dbupdate_ps$$
+
+done
+rm /tmp/dbupdate_ps$$
+
+## Check for sciplot processes and assign information to file
+
+# Grab sciplot processes and pipe process id and CD name to a file
+ps -ef |grep sciplot|grep -v "[0-9][0-9]:[0-9][0-9]:[0-9][0-9]" |awk '{print $2, $12 }' > /tmp/sciplot_ps$$
+
+# Now parse through the file and check juneau to see if these processes are running
+while [[ -s /tmp/sciplot_ps$$ ]]
+do
+	ion_prs_id=$(head -1 /tmp/sciplot_ps$$ | awk '{print $1}')
+	open_prc_id=$(head -1 /tmp/sciplot_ps$$ | awk '{print $2}')
+	rsh -n juneau "ps -ef | egrep 'sciplot $open_prc_id'" | grep -v grep > /tmp/juneau_prc$$
+
+	# If the file exists and has a size greater then zero, continue, otherwise
+	# no associated process was found on juneau and the manitou process will be killed
+
+	if [[ -s /tmp/juneau_prc$$ ]]; then
+		continue
+	else
+		echo $$: 						  >> $LOGFILE
+		echo $$: Cleaning up old processes			  >> $LOGFILE
+		echo $$: Killing sciplot process $ion_prs_id              >> $LOGFILE
+		echo $$: 						  >> $LOGFILE
+		printf "%s\n" "Subject: Cleaning Up LZP Processes" \
+			      "Killing sciplot process $ion_prs_id" \
+			       | mail $ARCHIVEMASTER
+
+
+		kill -9 $ion_prs_id	
+	fi
+
+	rm /tmp/juneau_prc$$
+	
+	sed '1d' /tmp/sciplot_ps$$ > /tmp/SCIPLOT_PS$$
+	mv /tmp/SCIPLOT_PS$$ /tmp/sciplot_ps$$
+
+done
+rm /tmp/sciplot_ps$$
+
+
+## Check to see if an sdt_batch process has hung up, and if it has, kill
+## the process
+
+# First, search for sdt_batch processes and assign information returned
+# from ps to a variable
+#
+ps_string=$(ps -e -o user,pid,etime,args |grep sdt_batch| grep -v grep)
+
+# Check if the variable is non-null, and if so, begin the process of checking
+# how long the process has been running.
+#
+if [[ ! -z $ps_string ]]
+then
+	# The following variable will be non-null if the sdt_batch process has
+	# been running longer then 1 hour
+	#
+	etime=$(echo $ps_string | awk '{print $3}' |awk -F: '{print $3}')
+
+	# Now check if it's non-null, and if so, kill the process
+	#
+	if [[ ! -z $etime ]]
+	then
+		machine_name=$(uname -a |awk '{print $2}')
+		pid=$(echo $ps_string | awk '{print $2}')
+		printf "%s\n" "Subject: Archive System message" \
+		"script : $0" \
+		"An sdt_batch process has been running in access of 1 hour!!" \
+		"Check process $pid on $machine_name"|
+		mail $ARCHIVEMASTER 
+		kill $pid
+	fi
+fi
+
+
+exit 0

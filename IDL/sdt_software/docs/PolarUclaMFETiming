@@ -1,0 +1,122 @@
+#
+# For SCCS
+#  @(#)PolarUclaMFETiming	1.2, 08/07/99
+#
+
+------------------------------------------------------------------------
+
+Description of the SDT File Format Enabling Use of MFE Timing by UCLA:
+---------------------------------------------------------------------
+
+In July 1999, it was discovered that the method used by SDT to time-tag
+MFE data was generally different from that used by UCLA by 70 to 80
+milliseconds.   At one time, the MFE time-tagging method used by SSL was
+that used by UCLA, but, at some time during the project, UCLA changed to
+a slightly different algorithm.
+
+Use of UCLA timing requires the use of daily MFE time-tagging files,
+created and maintained by UCLA.  These files exist on a daily basis,
+in ASCII, about 750 KBytes per day, and are available on the web
+at address:
+
+    http://www-ssc.igpp.ucla.edu:80/polar/time/index.html
+
+It should be noted that UCLA is generally 4 to 6 months behind realtime
+in the creation of these files.  In August 1999, they had made available
+time-tagging data through the end of February 1999.   Because of this,
+SDT uses UCLA timing when it exists and the old Berkeley timing otherwise.
+If a use wishes to know which timing scheme has been used for a specific
+data request, that information is output in the SDT output file:
+
+    outpolar
+
+at the end of the data summary that the Polar decommutator prints when
+a data request is completed.  Recall that "outpolar" will be in the
+directory from which "sdt" was started.
+
+We found that the UCLA files, as now formatted, are bigger than we would
+have liked and contain much information that is not needed for time-
+tagging purposes.   To store three years of the UCLA files on-line would
+require nearly a GByte of disk.
+
+We therefore created a much smaller, binary file format (one per day),
+that, at about 95 KBytes per day, is about 1/8'th the size of the UCLA
+files and contain just the information needed for MFE time-tagging.
+Of course, it is unfortunate that, as binary files, they are not in
+themselves readable as ASCII files would be, but the disk saving is of
+primary importance.
+
+Berkeley will create these files, as the corresponding UCLA daily files
+become available, and will made available on the anonymous FTP site:
+
+    polar2.ssl.berkeley.edu
+
+Once logged into "polar2" as "anonymous", these files are stored in;
+
+    /pub/polar/ucla_mfe_timing
+
+and have names:
+
+    mfe_ttag_yyyymmdd_v01.dat
+
+where "yyyy" is the year, "mm" is the month (01 - 12) and "dd" is the
+day-of-month (01-31).  For instance, the file for February 18, 1999
+will have the name:
+
+    mfe_ttag_19990218_v01.dat
+
+-----------------------------------------------------------------------
+
+Here is a description of the (binary) format of these files:
+
+Header:
+
+    The header section of the file is 80 bytes with the following
+    format:
+
+	MFE_UCLA_TTAGS_BVERSION:  YYYYMMDD_v01  NR=num
+
+    where YYYY/MM/DD is the year/month/day represented by the data,
+    and "num" is the number of records in the file.  There will generally
+    be one record per record in the corresponding MFE_LZ file.
+
+    As an example, the header for 1999/02/25 is:
+
+	MFE_UCLA_TTAGS_BVERSION:  19990225_v01  NR=9391
+
+Records:
+
+    As noted above, the number of records in the file is in the header,
+    in the "NR" field.
+
+    Each record is 10-bytes long, in the following format:
+
+	bytes 0 - 1     unsigned 16-bit integer indicating the record
+			number in the corresponding MFE LZ file.  NOTE
+			that UCLA's convention seems to be that the
+			first data record in the LZ file (just after
+			the FLR) is record 1, even though the Data
+			Record Header field:  physical_record_number
+			is usually "2" for the first data record.
+			So it is usually this value + 1 that matches
+			the record number in the DRH of the corresponding
+			LZ record.
+
+			This value is big-endian - i.e. the MSB is byte
+			0 and the LSB is byte 1.
+
+	bytes 2 - 5     unsigned 32-bit integer indicating the time-tag
+			of the first vector in the record, in units of
+			.0001 seconds (i.e.  0.1  milliseconds) UT
+			of the day.
+
+			This value is big-endian - i.e. the MSB is byte
+			2 and the LSB is byte 5.
+
+	bytes 6 - 9     unsigned 32-bit integer indicating the deltaT
+			between consecutive timetags in the record
+			This value is in units of billion'ths of a second
+			(i.e  units of  .000000001  seconds)
+
+			This value is big-endian - i.e. the MSB is byte
+			6 and the LSB is byte 9.

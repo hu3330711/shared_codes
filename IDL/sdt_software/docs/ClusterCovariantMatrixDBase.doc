@@ -1,0 +1,494 @@
+#
+# For SCCS
+# @(#)ClusterCovariantMatrixDBase.doc	1.8, 12/19/02
+#
+
+------------------------------------------------------------------------
+
+Cluster Covariant Matrix DataBase (2002/12/11)"
+
+
+This document describes the Covariant Matrix Database that was created
+at SSL, Berkeley, to ease the programming and analysis usage of the
+Cluster covariant matrix data files that are part of the project's
+CD distribution.
+
+
+1.  Motivation:
+--------------
+
+    The project supplies the covariant matrix files on the daily CD's,
+    one file per spacecraft, per CD, with the naming convention:
+
+	  CD_NAME/clusterN/aux_N/yymmddva.CV1
+
+    where:
+    
+	"N"  is the spacecraft (1, 2, 3, or 4)
+	"yy" is the 2-digit year   ("00" == 2000, "01" == 2001, etc.)
+	"mm" is the 2-digit month  ("01" - "12")
+	"dd" is the 2-digit day-of-month  ("01" - "31")
+	"C"  is the 1-digit CD volume of the day ("1", "2", "3")
+	"V"  is the CD-version ("a", "b") 
+
+    An example name would be:
+
+	020327_1_2a/cluster1/aux_1/020327va.1a1
+
+    This file belongs to CD 1, version "a", of 2002/03/27 (there are
+    two CDs for that date), and Spacecraft 1.  The file for the second
+    CD of that date is:
+
+	020327_2_2a/cluster1/aux_1/020327va.2a1
+
+
+    The project also provides FORTRAN source code on the CDs:
+
+	 CD_NAME/software/covma.for
+	 CD_NAME/software/covtra.for
+	 CD_NAME/software/ellips.for
+	 CD_NAME/software/parder.for
+
+    to read the covariant matrix files and propagate.
+
+    Unfortunately, usage of the FORTRAN routines provided in the
+    CD "software" sub-directories requires pre-knowledge of the
+    location of the on-line CDs for any particular date.  This makes
+    it difficult for a program to use the project-supplied software
+    in a systematic way, particularly since the location of on-line
+    data may be changed at any time.  Use of this software might
+    also be slow, since reading data for a even a small number of
+    consecutive dates might require accessing several file systems
+    located on mulitple file servers.
+
+    SSL decided to consolidate all of the covariant matrix data files
+    from the CDs into one set of files, which will hereby be known as
+    the "Cluster Covariant Matrix Database" - "CCMD" for short.  This
+    set of files will, because of its known location and well-defined
+    format, allow for much easier software access.
+
+    Two pieces of software were written to suport the CCMD -
+
+	a)  A program, residing in $FASTBIN, to create the CCMD:
+
+		ClusterCovMat
+
+	b)  A shared-object library, and a corresponding standard
+	    C-library, both residing in $FASTLIB, which contain
+	    C-routines to access the CCMD.
+
+	    The shared-object is:
+
+		cluster_orbatt.so
+
+	    The standard C-library is:
+
+		libcluster_orbatt.a
+
+    These two pieces of software are described later, in the
+    sections entitled:
+
+	 "Program to Create the CCMD"
+
+	 "Library Functions to Access the CCMD"
+
+
+2.  Description of the CCMD:
+---------------------------
+
+    The CCMD consists of five files:
+
+
+	 One ASCII "index" file which contains two header lines and
+	 one line for each date of the mission between the first
+	 and last days of the mission which are at least partially
+	 covered by a covariant matrix files on the CDs.   The name
+	 of this file is:
+
+	     Covmat.index
+
+         and will, hereafter, be referred to as the "index" file.
+
+
+	 Four ASCII files (one per spacecraft) containing all of the
+	 records from each spacecraft's covariant matrix files on CD.
+	 The names of these four files are:
+
+	     CovMatData_SC1
+	     CovMatData_SC2
+	     CovMatData_SC3
+	     CovMatData_SC4
+
+	 These four files will be referred to as the "spacecraft" files.
+
+
+    a)  Description of "Covmat.index":
+
+	First note that, in order to improve I/O access, all lines of
+	this ASCII file consist of 56 characters, where the 56'th
+	and last character of each line is the NEW-LINE character.
+	In lines 1 and 2, this requires that padding blanks be used
+	to fill out the lines to 56 characters.
+
+        Line 1:
+
+	    The first line of the file indicates which days are covered
+	    by this version of the CCMD.   Its FORTRAN format is:
+
+	       I3, 2x, I5, 3x, A25
+
+	    The first integer is the "StartDay", in JD2000, covered
+	    by the CCMD.  This will usually be "393" (or 2001/01/28).
+	    Recall that a value in JD2000 is the number of days after
+	    Midnight GMT, of 2000/01/01.
+
+	    The second integer is the "EndDay", in JD2000, covered
+	    by the CCMD.
+
+	    The string is merely informational and shows, in YYYY/MM/DD
+	    format, the start and end dates represented.
+
+        Line 2:
+
+	    This line indicates how many records are contained in each
+	    of the four spacecraft files, and is of FORTRAN format:
+
+	       4I7, 2x, A16
+
+             where the four integers are the number of records in
+	     "CovMatData_SC1", ..., "CovMatData_SC4" respectively.
+	     The string is simply an informational label indicating
+	     what these integers are.
+
+        Lines 3 through "NDays + 2":
+
+	     where "NDays" == "EndDay - StartDay + 1"
+
+	     These are the indexing records, one line per day, and
+	     have FORTRAN format:
+
+	        I5, 2x, A8, 1x, 4(I6, 1x, I2) 
+
+	     The first integer (corresponding to the I5) is simply a
+	     zero-based record index. so the first day record has
+	     "index" 0, the second day record has "index" 1, and so
+	     on.  The last record should have "index":
+	     
+		 (EndDay - StartDay).
+
+	     The string (corresponding to "A8") is the date of the
+	     day in YYYYMMDD format and exists only for readability.
+
+	     The four cycles of:
+	     
+		 (I6, 1x, I2)
+
+	     correspond to the four spacecraft.   The I6 is the
+	     "starting record", for the corresponding day, within the
+	     corresponding "spacecraft" file.  Note that this record
+	     indexing scheme is zero-based, so that the first record
+	     in each of "CovMatData_SC1", ..., "CovMatData_SC4" is
+	     record 0.  The I2 represents the number of records in
+	     the corresponding spacecraft file, beginning with the
+	     "starting record", which cover at least part of the day.
+	     A value of "0" means that the day resides entirely in a
+	     gap in the data for that spacecraft, and so is not covered
+	     by any records.
+
+
+    b)  Description of the "Spacecraft" Files:
+
+	The four files:
+
+	     CovMatData_SC1
+	     CovMatData_SC2
+	     CovMatData_SC3
+	     CovMatData_SC4
+
+	referred to as the "spacecraft" files, are ASCII, and are such
+	that each "line" of the file is 75 characters long, including
+	the NEW-LINE character, to improve record-seeking access.
+	Each record is 9 lines long (which is also true of the records
+	in the CD covariant matrix files, from whence these records
+	came).  This is equivalent to 675 characters per record.
+
+	The format of each record is exactly as from the CD files,
+	EXCEPT:
+
+	    1) The 15-byte binary SCET headers, in the records from
+	       the CDs, are removed.
+
+	    2) Some lines require blank-padding to be 75 bytes long.
+
+	Here is the format of each record:
+
+	    Line 1:  2x, I1, 2x, A1, 2x, A20, 2x, A20, 2x, A20 
+
+		The I1 is the spacecraft (1, ..., 4)
+
+		The A1 is either "P" (predicted) or "R" (reconstituted)
+
+		The first A20 is the the Generation Date/Time
+
+		The second A20 is the the Date/Time of the Start time
+		   of the record's coverage.
+
+		The third A20 is the the Date/Time of the End time
+		   of the record's coverage.
+
+	    Line 2:  I3, F15.9
+
+		The I3 is a record number that is not used.
+
+		The F15.9 is the starting time of the record, in
+		    JD2000, which corresponds to the Start time in
+		    line 1.
+
+	    Line 3:  I3, 3(F11.3), 3(F11.7)
+
+		The I3 is a record number that is not used.
+
+		The six floating point numbers form a "state" vector -
+		the 3(F11.3) form the x,y,z position (km), and the
+		3(F11.7) form the x,y,z velocity (km/sec).  The
+		coordinate system is, apparently, Geocentric Inertial
+		(GCI), also known as Earth Centered Inertial (ECI).
+
+	    Lines 4-9:  I3, 6(D11.5)
+
+		The covariance matrix at the start of the timespan.
+		Note that the I3, is 1, 2, 3, 4, 5, 6 corresponding
+		to lines 4, 5, 6, 7, 8, 9 or the record.  So there
+		are 36 values to the matrix which are stored in
+		a 6x6 array.
+
+	When creating the CCMD, the program "ClusterCovMat" throws
+	out duplicate records and ensures that the records are in
+	monotonically increasing order, based on the "start" time.
+	
+
+3.  Program to Create the CCMD:
+------------------------------
+
+    The program used to create the CCMD is "ClusterCovMat" whose
+    source code is in:
+
+	$FASTHOME/src/sdt/Cluster/ClusterCovMat.cc
+
+    When executed, it creates a new CCMD from scratch - it does not
+    attempt to build upon older versions of the CCMD.
+
+    It is important to note that the location of the online CDs at
+    SSL is encoded into this source file in the routine:
+
+	GetDataDirectoryForDate
+
+    If for any reason, the names of the SSL directories containing
+    the CDs are changed, then this routine must be changed
+    appropriately.  As of 2002/12/11, the names of the CD directories
+    at SSL, and the dates covered by them, are:
+
+	/disks/cluster_2001_q1    (CDs for:  2001/01/01 - 2001/03/31)
+	/disks/cluster_2001_q2    (CDs for:  2001/04/01 - 2001/06/30)
+	/disks/cluster_2001_q3    (CDs for:  2001/07/01 - 2001/09/30)
+	/disks/cluster_2001_q4    (CDs for:  2001/10/01 - 2001/12/31)
+	/disks/cluster_2002_q1    (CDs for:  2002/01/01 - 2002/03/31)
+	/disks/cluster_2002_q2    (CDs for:  2002/04/01 - 2002/06/30)
+	/disks/cluster_2002_q3    (CDs for:  2002/07/01 - 2002/09/30)
+	/disks/cluster_2002_q4    (CDs for:  2002/10/01 - 2002/12/31)
+	       etc.
+
+    When the program executes, it determines the first and last dates
+    of the online CDs, finds the files for all of the dates in between
+    the first and last dates, and procedes accordingly.
+
+    NOTE:   It is important (and expected) that the CDs at SSL are
+            stored on disk without skipping any dates.   The SSL policy
+	    is to delay putting Cluster CDs on-line until all CDs from
+	    earlier dates are on-line.
+
+    To execute the program, simply type:
+
+	$FASTBIN/ClusterCovMat
+
+     The new CCMD will be created in the current working directory
+     and a report will be sent to "stdout".  It you wish to save this
+     report, instead enter:
+
+	$FASTBIN/ClusterCovMat > outfile
+
+     and "outfile" will receive the contents of the report.  This
+     report indicates how long it took to generate the CCMD and,
+     on a spacecraft-by-spacecraft basis, lists any gaps or overlaps
+     found by the program.
+
+
+4.  Library Functions to Access the CCMD:
+----------------------------------------
+
+    As with Cluster "orbit" and "attitude" data access, the routines
+    to access the CCMD are in either the C-library:
+
+	 $FASTLIB/libcluster_orbatt.a
+
+    or the C-shareable-object (for IDL access):
+
+	 $FASTLIB/cluster_orbatt.so
+
+    C-Software using the library should include the declarations file:
+
+	$FASTINCLUDE/ClusterOrbAtt.h
+
+    The .a and .so files can be linked into a program as required.
+
+
+5.  Library Access routines:
+----------------------------
+
+    -------------------------------------------------------------
+
+    int GetClusterDBCovarientCoeffs (double *itime, int ntimes,
+	    char *dbdir,
+	    ClusterCovariantCoeffs *coeff1,
+	    ClusterCovariantCoeffs *coeff2,
+	    ClusterCovariantCoeffs *coeff3,
+	    ClusterCovariantCoeffs *coeff4) ;
+
+    Input arguments:
+
+	 itime:      Pointer to an array of "ntimes" doubles, which
+		     contain the JD2000 values of the times of interest.
+		     The array does not have to be monotonic.  
+		     "itime" must not be NULL.
+
+	 ntimes:     Integer containing the number of times to loop
+		     over, the times (JD2000) being stored in "itime".
+		     "ntimes" must be greater than 0.
+
+	 dbdir:      Pointer to a character string, which contains
+		     the name of the directory containing the CCMD.
+		     If NULL, the default behavior will be to look
+		     for the CCMD in:
+		     
+			 $FASTCONFIG/sdt_cfg/cluster
+
+    Output arguments:
+
+	 coeff1:     Pointer to an array of "ClusterCovariantCoeffs"'s
+		     into which the results for the times in "itime"
+		     for SPACECRAFT 1 will be copied.  If NULL, then
+		     Spacecraft 1 will not be processed.  If not NULL,
+		     there should be "ntimes" elements in the array.
+
+	 coeff2:     Pointer to an array of "ClusterCovariantCoeffs"'s
+		     into which the results for the times in "itime"
+		     for SPACECRAFT 2 will be copied.  If NULL, then
+		     Spacecraft 2 will not be processed.  If not NULL,
+		     there should be "ntimes" elements in the array.
+		     
+	 coeff3:     Pointer to an array of "ClusterCovariantCoeffs"'s
+		     into which the results for the times in "itime"
+		     for SPACECRAFT 3 will be copied.  If NULL, then
+		     Spacecraft 3 will not be processed.  If not NULL,
+		     there should be "ntimes" elements in the array.
+		     
+	 coeff4:     Pointer to an array of "ClusterCovariantCoeffs"'s
+		     into which the results for the times in "itime"
+		     for SPACECRAFT 4 will be copied.  If NULL, then
+		     Spacecraft 4 will not be processed.  If not NULL,
+		     there should be "ntimes" elements in the array.
+		     
+
+    Function Return:
+
+	 0  -> Successful completion.
+
+        -1  -> "itime" was NULL or "ntimes" was less than or equal to 0.
+
+	-2  -> "dbdir" was NULL, AND the software was unable to find
+	       $FASTCONFIG/sdt_cfg/cluster.
+
+	-3  -> The directory-name for the database was of string
+	       length 0. 
+
+	-4  -> The software was unable to open the "index" file in
+	       the requested database directory.
+
+	-5  -> The software was unable to read the first record of the
+	       "index" file.
+
+	-6  -> The software found that the first record of the "index"
+	       file was too short.
+
+	-7  -> The start or end days in the first line of the "index"
+	       file did not make sense.
+
+	-8  -> The software was unable to read the second line of
+	       the "index" file.
+
+	-9  -> The software was unable to parse the contents of the
+	       second line.
+
+	-10 -> The software was unable to open one of the required
+	       "spacecraft" files in the CCMD.
+
+
+    Description of the Routine's Activity:
+
+	The routine will act only on the spacecraft whose output
+	argument pointers (coeff1, ..., coeff4) are NOT NULL.  For
+	each of the "ntimes" JD2000 timestamps in "itime", the
+	CCMD will be accessed to retrieve the appropriate record,
+
+	If a time falls into a gap, the "ClusterCovariantCoeffs"
+	element for that time will contain the nearest record, with
+	the "gap" flag ON.  However, no propagation will have been
+	performed.
+
+	If a time is covered by one of the records, then the
+	"ClusterCovariantCoeffs" element for that time will contain
+	a propagated coefficients matrix as well as a propagated
+	position, velocity, in GCI (aka ECI) coordinates.   The "gap"
+	flag will be OFF.
+
+	In either case, the "t1" field of the array element will be
+	set to the input time, not the original "t1" in the database
+	record.
+
+
+    Example(s) of Use:
+
+       See the source file:
+
+	   src/sdt/Cluster/CheckClusterCovMat.cc
+
+       for an example of a program which calls:
+       
+           GetClusterDBCovarientCoeffs
+
+       There are several cases, isolated by "ifdef" blocks.
+
+       Please note that "make install", from within the directory
+       which contains the source file, does not build this program.
+
+       To build the program, enter:
+
+	   cd  src/sdt/Cluster
+
+	   make CheckClusterCovMat
+
+
+
+    -------------------------------------------------------------
+
+    int GetUTClusterDBCovarientCoeffs (double *itime, int ntimes,
+	    char *dbdir,
+	    ClusterCovariantCoeffs *coeff1,
+	    ClusterCovariantCoeffs *coeff2,
+	    ClusterCovariantCoeffs *coeff3,
+	    ClusterCovariantCoeffs *coeff4) ;
+
+
+    This routine is exactly like "GetClusterDBCovarientCoeffs", with
+    the exception that values in "itime" are in UNIX time (instead
+    of JD2000).

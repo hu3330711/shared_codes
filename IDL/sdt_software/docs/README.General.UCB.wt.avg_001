@@ -1,0 +1,391 @@
+************************************************************************
+
+   README.General.UCB.wt.avg_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.avg_001
+
+************************************************************************
+
+   Running average for single component by spin period.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.avg_001	1.3    08/11/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the running average by spin period
+       for a single component of an input.
+
+
+
+
+
+    2) There must be one input, which is the input to be averaged.
+
+
+
+       What is averaged is one data component of this input.
+
+
+
+
+
+    3) There must be one input, which gives the spin timing.
+
+
+
+       This input gives the time of each "shifted" Sun pulse; i.e., the
+       time of each Sun pulse shifted according to some phase offset.
+
+
+
+
+
+    4) The input quantity is averaged over a number of spin periods "N"
+       chosen by the user.
+
+
+
+
+
+    5) For the input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+
+
+    6) A "shifted" spin period is considered valid provided that the
+       time lapse between its beginning and ending "shifted" Sun pulses
+       is within the limits prescribed for the spacecraft in question.
+
+
+
+       One requirement, then, is to have enough consecutive valid spin
+       periods.
+
+
+
+
+
+    7) A chosen minimum number of data values per spin period is
+       required; i. e., between every two consecutive "shifted" Sun
+       pulses there must be at least that many values.
+
+
+
+       Of course, if limits are used for the input values, only valid
+       input data points are counted.
+
+
+
+       If for a set of N consecutive "shifted" spin periods there are
+       any spin periods that have fewer than the specified minimum
+       number of valid input data points; no output data point is
+       written.
+
+
+
+
+
+    8) When a set of N of consecutive spin periods is available and
+       fulfills the requirements above, the output value is determined.
+
+
+
+       The output value is computed as the average of all the valid data
+       values within those N spin periods.
+
+
+
+       Note that this is an average of individual data point values (not
+       an average of spin averages).
+
+
+
+
+
+    9) The time tag for the output data point is determined as:
+
+           (Begin "shifted" time of the first of the N spin periods +
+
+            End "shifted" time of the last of the N spin periods) / 2
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of spin periods to be averaged.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            5) Flag for limits.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use limits for input values.
+
+                   WT_FALSE  =  Do not use limits for input values.
+
+
+
+            6) Lower limit.
+
+
+               Double.
+
+
+
+            7) Upper limit.
+
+
+               Double.
+
+
+
+           If the flag for limits is true, then  the lower limit  must
+           be  <=  the upper limit.
+
+
+
+            8) Minimum number of input data values for a spin period.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            9) Input component index for the value of the quantity to be
+               averaged.
+
+
+               Int.
+
+
+
+           10) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input to be averaged.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the quantity to be
+                   averaged.
+
+                   Float.
+
+
+
+            2) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the "shifted" Sun
+                   pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Running average of the input quantity.
+
+
+               Float.
+
+
+
+            3) Average number of data points.
+
+
+               Float.
+
+
+               This component gives the average number of data points
+               per spin period.

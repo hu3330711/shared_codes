@@ -1,0 +1,129 @@
+#!/usr/bin/ksh
+#
+# bkrecovery.ksh   -   	Run on FINETPRIMARY, calls backup to tar
+#			a cut CD onto magnetic tape.
+#
+# Created : 3 Sept 1996
+# Creator : J.Rauchleiba
+#
+
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+earlyexit () {
+	echo $$:-- bkrecovery ends before calling backup $(date) -- >> $LOGFILE
+	exitcode=$1
+	if [[ $exitcode = "" ]] ; then
+		exitcode=1
+	fi
+	exit $exitcode
+}
+
+#### set traps in case of exit before calling backup
+
+trap earlyexit INT QUIT HUP
+
+
+echo $$:---- bkrecovery run $(date) ---- >> $LOGFILE
+
+#### Display CD's that must be backed up.
+
+cd /$LOGDIR
+bkrecover=`ls -1rt backupfailed*`
+print
+print 'Failures in backup occurred for the following CD volumes '
+print 'in the order listed:'
+cat $bkrecover
+
+
+#### Prompt user to load a CD
+
+print
+print "Load CD into $FINETPRIMARY cdrom drive to be backed up."
+print "Type 'go' when ready"
+read ready
+while [[ $ready != 'go' ]]
+do
+	print "** Type 'go' to continue **"
+        read ready
+done
+
+
+#### Get CDNAME from FINETPRIMARY cdrom drive
+
+sleep 5
+CDNAME=$(ls -1 /cdrom | egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+')
+CDNAME=${CDNAME%/}
+
+if [[ $CDNAME = "" ]] ; then
+	print
+	print "*** Error in bkrecovery: CD volume name not found ***"
+	earlyexit 1
+fi
+
+
+#### Last chance to bail out
+
+print
+print "CD volume name is: $CDNAME "
+read correct?'Backup this CD? (y/n) '
+if [[ $correct != "y" ]] ; then
+	print "User bailed out"
+	earlyexit 0
+fi
+
+
+#### Get ID of process during which backup failed for this CD.
+
+for file in $bkrecover ; do
+	if [[ `cat $file` = $CDNAME ]] ; then
+		proc=`echo $file | awk -Fd '{print $2}'`
+	fi
+done
+
+if [[ $proc = "" ]] ; then
+	print
+	print '** Unable to get previous process ID for this CD	**'
+	print '** Make a backupfailed$$ file containing the CD volname **'
+	earlyexit 1
+fi
+
+
+echo $$:---- bkrecovery using $CDNAME to recover $proc ---- >> $LOGFILE
+
+
+#### unset traps
+
+trap - INT QUIT HUP
+
+#### Create file to give as argument to backup. This file argument
+#### replaces $LOGDIR/archive$$ and makes backup look in /cdrom.
+
+echo "/cdrom/$CDNAME" > /tmp/cdhere
+
+$BINPATH/backup /tmp/cdhere r$proc >> $LOGFILE 2>&1
+
+#### Check exit status of backup
+
+if [[ $? != 0 ]] ; then
+	print
+	echo r$proc:!!!!** backup failed **!!!!
+	echo r$proc:!!!!** backup failed **!!!! >> $LOGFILE
+	backupfailed=1
+fi
+
+rm /tmp/cdhere
+
+#### If backup successful for this CD, remove particular backupfailed$proc
+
+if [[ $backupfailed != 1 ]] ; then
+	print
+	print 'Backup exited without error'
+	print "Removing file: $LOGDIR/backupfailed$proc "
+	rm $LOGDIR/backupfailed$proc
+fi
+
+print
+echo $$:---- bkrecovery ends ----
+echo $$:---- bkrecovery ends $(date) ---- >> $LOGFILE

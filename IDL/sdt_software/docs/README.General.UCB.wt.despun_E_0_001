@@ -1,0 +1,686 @@
+************************************************************************
+
+   README.General.UCB.wt.despun_E_0_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.despun_E_0_001
+
+************************************************************************
+
+   Despun E_0.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.despun_E_0_001	1.7    08/12/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the corrected despun electric field
+       E_0 ("Burst" or "Instantaneous" time resolution).
+
+
+
+       Only components on the spin plane are processed; the spin axis
+       component is set to zero.
+
+
+
+
+
+    2) It is assumed that the instrument booms are perpendicular to one
+       another.
+
+
+
+
+
+    3) There must be the following inputs:
+
+
+
+            1) First spin plane component of the electric field.
+
+
+
+            2) Second spin plane component of the electric field.
+
+
+
+            3) Spin timing.
+
+               This input gives the time of each Sun pulse.
+
+
+
+
+
+    4) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+    5) If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle by which the SCC system has rotated with respect
+       to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+
+
+
+
+    6) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the boom that measures the
+       first spin plane component; and the azimuth of the Sun pulse.
+
+
+
+       The azimuth of the boom that measures the second spin plane
+       component must be either 90 degrees more or 90 degrees less than
+       that for the first component (modulo 360 degrees).
+
+
+
+
+
+    7) The user can specify a separate factor for each spin plane
+       component, to allow for the possibility that the measured value
+       is in the opposite direction of the vector component.
+
+
+
+       Each factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a vector component is related to the value of a
+       measured component in the same direction as follows:
+
+
+           Vector component = (Direction factor) * (Measured component)
+
+
+
+
+
+    8) An output data point is produced for each successful match
+       containing a data point of each of the following inputs:
+
+            1) The first spin plane component.
+
+            2) The second spin plane component.
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+
+
+    9) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+   10) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+   11) For an output data point to be produced, its time tag must be in
+       the time interval corresponding to a valid spin period.
+
+
+
+
+
+   12) There is the option of filtering the output; that is to say, a
+       process of convolution can be applied to each of the components X
+       and Y (DSC) of E_0.
+
+
+
+
+
+   13) The output magnitude of E_0 always corresponds to the output
+       components of the vector E_0.
+
+
+
+       Therefore, if filtering is performed for the X and Y components,
+       the magnitude of E_0 is recomputed using the final output
+       components.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            3) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            4) The group of parameters described here occurs once for
+               the first spin plane component, and once for the second
+               spin plane component.
+
+
+
+                1) Weight for output time tag.
+
+
+                   Double.
+
+
+                   Must be  >=  0.
+
+
+
+                2) Maximum time separation for consecutive input data
+                   points.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                3) Input component index.
+
+
+                   Int.
+
+
+
+                4) Direction factor.
+
+
+                   Double.
+
+
+                   Must be  -1  or  +1.
+
+
+
+               The sum of the weights for the output time tag must be
+               >  0  (not necessarily 1).
+
+
+
+            5) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+            6) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+            7) Main part of the azimuth of the first spin plane
+               component boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+            8) Additional part of the azimuth of the first spin plane
+               component boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+            9) Value to add to the azimuth of the first spin plane
+               component boom, to obtain the azimuth of the second spin
+               plane component boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  +90  or  -90.
+
+
+
+           10) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           11) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           12) Flag to perform the filtering for the X and Y components.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Perform the filtering.
+
+                   WT_FALSE  =  Do not perform the filtering.
+
+
+               If the filtering is to be performed, then
+               the user parameters for the sample rate that follow must
+               have appropriate, legal values.
+
+
+
+           13) ConvolutionTable.
+
+
+               Char.
+
+
+               Parameter for the sample rate.
+
+
+
+           14) method.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           15) clip.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           16) i_nskips.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           17) i_consist.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           18) i_srate_fuzz.
+
+
+               Double.
+
+
+               Parameter for the sample rate.
+
+
+
+           19) i_max_t_diff.
+
+
+               Double.
+
+
+               Parameter for the sample rate.
+
+
+
+           20) i_min_pts.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           21) i_show_only_consistent.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           22) i_hist_alg_code.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The first spin plane component.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin plane component
+                   value.
+
+                   Float.
+
+
+
+            2) The second spin plane component.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin plane component
+                   value.
+
+                   Float.
+
+
+
+            3) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component X of the vector in DSC.
+
+
+               Float.
+
+
+
+            3) Component Y of the vector in DSC.
+
+
+               Float.
+
+
+
+            4) Component Z of the vector in DSC.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.

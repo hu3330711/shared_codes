@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_termpt</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_termpt</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_TERMPT finds terminator points on a target body. The terminator
+   is the set of points of tangency on the target body of planes tangent
+   to both this body and to a light source. The caller specifies half-planes,
+   bounded by the illumination source center-target center vector, in
+   which to search for terminator points.
+
+   The terminator can be either umbral or penumbral. The umbral
+   terminator is the boundary of the region on the target surface
+   where no light from the source is visible. The penumbral
+   terminator is the boundary of the region on the target surface
+   where none of the light from the source is blocked by the target
+   itself.
+
+   The surface of the target body may be represented either by a
+   triaxial ellipsoid or by topographic data.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/termpt_c.html">termpt_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      method   is a short string providing parameters defining
+               the computation method to be used. In the syntax
+               descriptions below, items delimited by angle brackets
+               &quot;&lt;&gt;&quot; are to be replaced by actual values. Items
+               delimited by brackets &quot;[]&quot; are optional.
+
+               `method' may be assigned the following values:
+
+                  '&lt;shadow&gt;/&lt;curve type&gt;/&lt;shape specification&gt;'
+
+               An example of such a string is
+
+                  'UMBRAL/TANGENT/DSK/UNPRIORITIZED'
+
+               In the `method' string
+
+                  &lt;shadow&gt; may be either of the strings
+
+                     'UMBRAL'    indicates the terminator is the
+                                 boundary of the portion of the surface
+                                 that receives no light from the
+                                 illumination source. The shape of
+                                 the source is modeled as a sphere.
+
+                     'PENUMBRAL' indicates the terminator is the
+                                 boundary of the portion of the
+                                 surface that receives all possible
+                                 light from the illumination source.
+                                 The shape of the source is modeled as
+                                 a sphere.
+
+                                 The penumbral terminator bounds the
+                                 portion of the surface that is not
+                                 subject to self-occultation of light
+                                 from the illumination source. Given
+                                 that the light source is modeled as a
+                                 sphere, from any target surface point
+                                 nearer to the source than the
+                                 penumbral terminator, the source
+                                 appears to be a lit disc.
+
+
+                  &lt;curve type&gt; may be either of the strings
+
+                     'TANGENT'   for topographic (DSK) target models
+                                 indicates that a terminator point is
+                                 defined as the point of tangency, on
+                                 the surface represented by the
+                                 specified data, of a line also tangent
+                                 to the illumination source. For
+                                 ellipsoidal target models, a
+                                 terminator point is a point of
+                                 tangency of a plane that is also
+                                 tangent to the illumination source.
+                                 See the Particulars section below for
+                                 details.
+
+                                 Terminator points are generated within a
+                                 specified set of &quot;cutting&quot; half-planes
+                                 that have as an edge the line containing
+                                 the illumination source-target vector.
+                                 Multiple terminator points may be found
+                                 within a given half-plane, if the target
+                                 body shape allows for this.
+
+                                 This is the highest-accuracy method
+                                 supported by this subroutine. It
+                                 generally executes much more slowly
+                                 than the GUIDED method described
+                                 below.
+
+                     'GUIDED'    indicates that terminator points are
+                                 &quot;guided&quot; so as to lie on rays
+                                 emanating from the target body's
+                                 center and passing through the
+                                 terminator on the target body's
+                                 reference ellipsoid. The terminator
+                                 points are constrained to lie on the
+                                 target body's surface. As with the
+                                 'TANGENT' method (see above), cutting
+                                 half-planes are used to generate
+                                 terminator points.
+
+                                 The GUIDED method produces a unique
+                                 terminator point for each cutting
+                                 half-plane. If multiple terminator
+                                 point candidates lie in a given
+                                 cutting half-plane, the outermost one
+                                 is chosen.
+
+                                 This method may be used only with the
+                                 CENTER aberration correction locus
+                                 (see the description of REFLOC below).
+
+                                 Terminator points generated by this
+                                 method are approximations; they are
+                                 generally not true ray-surface tangent
+                                 points. However, these approximations
+                                 can be generated much more quickly
+                                 than tangent points.
+
+
+                  &lt;shape specification&gt; may be either of the strings
+
+                     'DSK/UNPRIORITIZED[/SURFACES = &lt;surface list&gt;]'
+
+                        The DSK option indicates that terminator point
+                        computation uses topographic data provided by
+                        DSK files (abbreviated as &quot;DSK data&quot; below) to
+                        model the surface of the target body.
+
+                        The surface list specification is optional. The
+                        syntax of the list is
+
+                           &lt;surface 1&gt; [, &lt;surface 2&gt;...]
+
+                        If present, it indicates that data only for the
+                        listed surfaces are to be used; however, data
+                        need not be available for all surfaces in the
+                        list. If the list is absent, loaded DSK data
+                        for any surface associated with the target body
+                        are used.
+
+                        The surface list may contain surface names or
+                        surface ID codes. Names containing blanks must
+                        be delimited by double quotes, for example
+
+                           'SURFACES = &quot;Mars MEGDR 128 PIXEL/DEG&quot;'
+
+                        If multiple surfaces are specified, their names
+                        or IDs must be separated by commas.
+
+                        See the Particulars section below for details
+                        concerning use of DSK data.
+
+
+                     'ELLIPSOID'
+
+                        The ELLIPSOID shape option generates terminator
+                        points on the target body's reference
+                        ellipsoid. When the ELLIPSOID shape is
+                        selected, The TANGENT curve option may be used
+                        with any aberration correction locus, while the
+                        GUIDED option may be used only with the CENTER
+                        locus (see the description of REFLOC below).
+
+                        When the locus is set to 'CENTER', the
+                        'TANGENT' and 'GUIDED' curve options produce
+                        the same results.
+
+                  Neither case nor white space are significant in
+                  `method', except within double-quoted strings. For
+                  example, the string ' eLLipsoid/tAnGenT ' is valid.
+
+                  Within double-quoted strings, blank characters are
+                  significant, but multiple consecutive blanks are
+                  considered equivalent to a single blank. Case is
+                  not significant. So
+
+                     &quot;Mars MEGDR 128 PIXEL/DEG&quot;
+
+                  is equivalent to
+
+                     &quot; mars megdr  128  pixel/deg &quot;
+
+                  but not to
+
+                     &quot;MARS MEGDR128PIXEL/DEG&quot;
+
+
+      ilusrc      is the name of the illumination source. This source
+                  may be any ephemeris object. Case, blanks, and
+                  numeric values are treated in the same way as for the
+                  input `target'.
+
+                  The shape of the illumination source is considered
+                  to be spherical. The radius of the sphere is the
+                  largest radius of the source's reference ellipsoid.
+
+
+      target      is the name of the target body. The target body is
+                  an extended ephemeris object.
+
+                  The string `target' is case-insensitive, and leading
+                  and trailing blanks in `target' are not significant.
+                  Optionally, you may supply a string containing the
+                  integer ID code for the object. For example both
+                  'MOON' and '301' are legitimate strings that indicate
+                  the Moon is the target body.
+
+                  When the target body's surface is represented by a
+                  tri-axial ellipsoid, this routine assumes that a
+                  kernel variable representing the ellipsoid's radii is
+                  present in the kernel pool. Normally the kernel
+                  variable would be defined by loading a PCK file.
+
+
+      et          is the epoch of participation of the observer,
+                  expressed as TDB seconds past J2000 TDB: `et' is
+                  the epoch at which the observer's state is computed.
+
+                  When aberration corrections are not used, `et' is also
+                  the epoch at which the position and orientation of
+                  the target body are computed.
+
+                  When aberration corrections are used, the position
+                  and orientation of the target body are computed at
+                  et-lt, where `lt' is the one-way light time between the
+                  aberration correction locus and the observer. The
+                  locus is specified by the input argument `corloc'.
+                  See the descriptions of `abcorr' and `corloc' below for
+                  details.
+
+
+      fixref      is the name of a body-fixed reference frame centered
+                  on the target body. `fixref' may be any such frame
+                  supported by the SPICE system, including built-in
+                  frames (documented in the Frames Required Reading)
+                  and frames defined by a loaded frame kernel (FK). The
+                  string `fixref' is case-insensitive, and leading and
+                  trailing blanks in `fixref' are not significant.
+
+                  The output terminator points in the array `points' and
+                  the output observer-terminator vectors in the array
+                  `tangts' are expressed relative to this reference frame.
+
+
+      abcorr      indicates the aberration corrections to be applied
+                  when computing the target's position and orientation.
+                  Corrections are applied at the location specified by
+                  the aberration correction locus argument `corloc',
+                  which is described below.
+
+                  For remote sensing applications, where apparent
+                  terminator points seen by the observer are desired,
+                  normally either of the corrections
+
+                     'LT+S'
+                     'CN+S'
+
+                  should be used. These and the other supported options
+                  are described below. `abcorr' may be any of the
+                  following:
+
+                     'NONE'     Apply no correction. Return the
+                                geometric terminator points on the
+                                target body.
+
+                  Let `lt' represent the one-way light time between the
+                  observer and the aberration correction locus. The
+                  following values of `abcorr' apply to the &quot;reception&quot;
+                  case in which photons depart from the locus at the
+                  light-time corrected epoch et-lt and *arrive* at the
+                  observer's location at `et':
+
+
+                     'LT'       Correct for one-way light time (also
+                                called &quot;planetary aberration&quot;) using a
+                                Newtonian formulation. This correction
+                                yields the locus at the moment it
+                                emitted photons arriving at the
+                                observer at `et'.
+
+                                The light time correction uses an
+                                iterative solution of the light time
+                                equation. The solution invoked by the
+                                'LT' option uses one iteration.
+
+                                Both the target position as seen by the
+                                observer, and rotation of the target
+                                body, are corrected for light time. The
+                                position of the illumination source as
+                                seen from the target is corrected as
+                                well.
+
+                     'LT+S'     Correct for one-way light time and
+                                stellar aberration using a Newtonian
+                                formulation. This option modifies the
+                                locus obtained with the 'LT' option to
+                                account for the observer's velocity
+                                relative to the solar system
+                                barycenter. These corrections yield
+                                points on the apparent terminator.
+
+                     'CN'       Converged Newtonian light time
+                                correction. In solving the light time
+                                equation, the 'CN' correction iterates
+                                until the solution converges. Both the
+                                position and rotation of the target
+                                body are corrected for light time. The
+                                position of the illumination source as
+                                seen from the target is corrected as
+                                well.
+
+                     'CN+S'     Converged Newtonian light time and
+                                stellar aberration corrections. This
+                                option produces a solution that is at
+                                least as accurate at that obtainable
+                                with the 'LT+S' option. Whether the
+                                'CN+S' solution is substantially more
+                                accurate depends on the geometry of the
+                                participating objects and on the
+                                accuracy of the input data. In all
+                                cases this routine will execute more
+                                slowly when a converged solution is
+                                computed.
+
+
+      corloc      is a string specifying the aberration correction
+                  locus: the point or set of points for which
+                  aberration corrections are performed.
+
+                  `corloc' may be assigned the values:
+
+                     'CENTER'
+
+                         Light time and stellar aberration corrections
+                         are applied to the vector from the observer to
+                         the center of the target body. The one way
+                         light time from the target center to the
+                         observer is used to determine the epoch at
+                         which the target body orientation is computed.
+
+                         This choice is appropriate for small target
+                         objects for which the light time from the
+                         surface to the observer varies little across
+                         the entire target. It may also be appropriate
+                         for large, nearly ellipsoidal targets when the
+                         observer is very far from the target.
+
+                         Computation speed for this option is faster
+                         than for the ELLIPSOID TERMINATOR option.
+
+                     'ELLIPSOID TERMINATOR'
+
+                         Light time and stellar aberration corrections
+                         are applied to individual terminator points on
+                         the reference ellipsoid. For a terminator
+                         point on the surface described by topographic
+                         data, lying in a specified cutting half-plane,
+                         the unique reference ellipsoid terminator
+                         point in the same half-plane is used as the
+                         locus of the aberration corrections.
+
+                         This choice is appropriate for large target
+                         objects for which the light time from the
+                         terminator to the observer is significantly
+                         different from the light time from the target
+                         center to the observer.
+
+                         Because aberration corrections are repeated
+                         for individual terminator points,
+                         computational speed for this option is
+                         relatively slow.
+
+
+      obsrvr      is the name of the observing body. The observing body
+                  is an ephemeris object: it typically is a spacecraft,
+                  the earth, or a surface point on the earth. `obsrvr' is
+                  case-insensitive, and leading and trailing blanks in
+                  `obsrvr' are not significant. Optionally, you may
+                  supply a string containing the integer ID code for
+                  the object. For example both 'MOON' and '301' are
+                  legitimate strings that indicate the Moon is the
+                  observer.
+
+      refvec,
+      rolstp,
+      ncuts       are, respectively, a reference vector, a roll step
+                  angle, and a count of cutting half-planes.
+
+                  `refvec' defines the first of a sequence of cutting
+                  half-planes in which terminator points are to be found.
+                  Each cutting half-plane has as its edge the line
+                  containing the target-illumination source vector; the
+                  first half-plane contains `refvec'.
+
+                  `refvec' is expressed in the body-fixed reference frame
+                  designated by `fixref'.
+
+                  `rolstp' is an angular step by which to roll the cutting
+                  half-planes about the target-illumination source vector,
+                  which we'll call the &quot;axis.&quot; The ith half-plane is
+                  rotated from `refvec' about the axis in the
+                  counter-clockwise direction by i*rolstp. Units are
+                  radians. `rolstp' should be set to
+
+                     2*pi/ncuts
+
+                  to generate an approximately uniform distribution of
+                  points along the terminator.
+
+                  `ncuts' is the number of cutting half-planes used to
+                  find terminator points; the angular positions of
+                  consecutive half-planes increase in the positive
+                  (counterclockwise) sense about the axis and are
+                  distributed roughly equally about that vector: each
+                  half-plane has angular separation of approximately
+
+                     `rolstp' radians
+
+                  from each of its neighbors. When the aberration
+                  correction locus is set to &quot;CENTER&quot;, the angular
+                  separation is the value above, up to round-off.
+                  When the locus is &quot;TANGENT&quot;, the separations are
+                  less uniform due to differences in the aberration
+                  corrections used for the respective terminator points.
+
+      schstp,
+      soltol      are used only for DSK-based surfaces. These inputs
+                  are, respectively, the search angular step size and
+                  solution convergence tolerance used to find tangent
+                  rays and associated terminator points within each cutting
+                  half plane.
+
+                  These values are used when the `method'
+                  argument includes the TANGENT option. In this case,
+                  terminator points are found by a two-step search
+                  process:
+
+                     1) Bracketing: starting with a direction
+                        having sufficiently small angular separation from
+                        the axis, rays emanating from the illumination
+                        source are generated within the half-plane at
+                        successively greater angular separations from the
+                        axis, where the increment of angular separation is
+                        `schstp'. The rays are tested for intersection
+                        with the target surface. When a transition from
+                        non-intersection to intersection is found, the
+                        angular separation of a tangent ray has been
+                        bracketed.
+
+                     2) Root finding: each time a tangent ray is
+                        bracketed, a search is done to find the angular
+                        separation from the axis at which a tangent ray
+                        exists. The search terminates when successive rays
+                        are separated by no more than `soltol'. When the
+                        search converges, the last ray-surface
+                        intersection point found in the convergence
+                        process is considered to be a terminator point.
+
+
+                   `schstp' and `soltol' have units of radians.
+
+                   Target bodies with simple surfaces---for example,
+                   convex shapes---will have a single terminator point
+                   within each cutting half-plane. For such surfaces,
+                   `schstp' can be set large enough so that only one
+                   bracketing step is taken. A value greater than pi,
+                   for example 4., is recommended.
+
+                   Target bodies with complex surfaces can have multiple
+                   terminator points within a given cutting half-plane. To
+                   find all terminator points, `schstp' must be set to a
+                   value smaller than the minimum angular separation of any two
+                   terminator points in any cutting half-plane, where the
+                   vertex of the angle is on the illumination source.
+                   `schstp' must not be too small, or the search will be
+                   excessively slow.
+
+                   For both kinds of surfaces, `soltol' must be chosen so
+                   that the results will have the desired precision.
+                   Note that the choice of `soltol' required to meet a
+                   specified bound on terminator point height errors
+                   depends on the illumination source-target distance.
+
+
+      maxn         is the maximum number of terminator points that can
+                   be stored in the output array `points'.
+
+   the call:
+
+      <b>cspice_termpt</b>, method, ilusrc, target, et, fixref,      $
+                     abcorr, corloc, obsrvr, refvec, rolstp,  $
+                     ncuts, schstp, soltol, maxn, npts,       $
+                     points, epochs, tangts
+
+   returns:
+
+      npts         is an array of counts of terminator points within
+                   the specified set of cutting half-planes. The Ith
+                   element of `npts' is the terminator point count in the
+                   Ith half-plane.
+
+      points       is an array containing the terminator points found
+                   by this routine.
+
+                   Terminator points are ordered by the
+                   indices of the half-planes in which they're found. The
+                   terminator points in a given half-plane are ordered by
+                   decreasing angular separation from the illumination
+                   source-target direction; the outermost terminator point
+                   in a given half-plane is the first of that set.
+
+                   The terminator points for the half-plane containing
+                   `refvec' occupy array elements
+
+                      points[1,1]                       through
+                      points[2, npts[0]-1 ]
+
+                   Terminator points for the second half plane occupy
+                   elements
+
+                      points[0, npts[0] ]               through
+                      points[2, npts[0]+npts[1]-1 ]
+
+                   and so on.
+
+                   Terminator points are expressed in the reference
+                   frame designated by `fixref'. For each terminator
+                   point, the orientation of the frame is evaluated at
+                   the epoch corresponding to the terminator point; the
+                   epoch is provided in the output array `epochs'
+                   (described below).
+
+                   Units of the terminator points are km.
+
+      epochs       is an array of epochs associated with the terminator
+                   points, accounting for light time if aberration
+                   corrections are used. `epochs' contains one element
+                   for each terminator point.
+
+                   [1,n] = size(epochs); double = class(epochs)
+                   with n&gt;= maxn
+
+                   The element
+
+                      epochs[i]
+
+                   is associated with the terminator point
+
+                      points[j,i], j = 0 to 2
+
+                   If `corloc' is set to 'CENTER', all values of `epochs'
+                   will be the epoch associated with the target body
+                   center. That is, if aberration corrections are used,
+                   and if `lt' is the one-way light time from the target
+                   center to the observer, the elements of `epochs' will
+                   all be set to
+
+                      et - lt
+
+                   If `corloc' is set to 'ELLIPSOID TERMINATOR', all
+                   values of `epochs' for the terminator points in a
+                   given half plane will be those for the reference
+                   ellipsoid terminator point in that half plane. That
+                   is, if aberration corrections are used, and if lt(i)
+                   is the one-way light time to the observer from the
+                   reference ellipsoid terminator point in the Ith half
+                   plane, the elements of `epochs' for that half plane
+                   will all be set to
+
+                      et - lt[i]
+
+      tangts       is an array of vectors connecting the observer to the
+                   terminator points. The terminator vectors are expressed
+                   in the frame designated by `fixref'. For the Ith
+                   vector, the orientation of the frame is evaluated at
+                   the Ith epoch provided in the output array `epochs'
+                   (described above).
+
+                   The elements
+
+                      tangts[j,i], j = 0 to 2
+
+                   are associated with the terminator point
+
+                      points[j,i], j = 0 to 2
+
+                   Units of the terminator vectors are km.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+      PRO TERMPT_T
+
+         MAXN = 10000
+
+         method = [ 'UMBRAL/TANGENT/ELLIPSOID', $
+                    'UMBRAL/TANGENT/DSK/UNPRIORITIZED' ]
+
+         z = [ 0.D, 0.0, 1.0 ]
+
+         ;;
+         ;; Load kernel files via the meta-kernel.
+         ;;
+         <a href="cspice_furnsh.html">cspice_furnsh</a>, 'termpt_t.tm'
+
+         ;;
+         ;; Set illumination source, target, observer,
+         ;; and target body-fixed, body-centered reference frame.
+         ;;
+         ilusrc = 'SUN'
+         obsrvr = 'MARS'
+         target = 'PHOBOS'
+         fixref = 'IAU_PHOBOS'
+
+         ;;
+         ;; Set aberration correction and correction locus.
+         ;;
+         abcorr = 'CN+S'
+         corloc = 'CENTER'
+
+         ;;
+         ;; Convert the UTC request time string to seconds past
+         ;; J2000, TDB.
+         ;;
+         <a href="cspice_str2et.html">cspice_str2et</a>, '2008 AUG 11 00:00:00', et
+
+         ;;
+         ;; Compute a set of terminator points using light
+         ;; time and stellar aberration corrections. Use
+         ;; both ellipsoid and DSK shape models. Use an
+         ;; angular step size corresponding to a height of
+         ;; about 100 meters to ensure we don't miss the
+         ;; terminator. Set the convergence tolerance to limit
+         ;; the height convergence error to about 1 meter.
+         ;; Compute 3 terminator points for each computation
+         ;; method.
+         ;;
+         ;; Get the approximate light source-target distance
+         ;; at ET. We'll ignore the observer-target light
+         ;; time for this approximation.
+         ;;
+
+         <a href="cspice_spkpos.html">cspice_spkpos</a>, ilusrc, et, 'J2000', abcorr, target, pos, ltime
+
+         dist   = norm( pos )
+
+         schstp = 1.0d-1 / dist
+         soltol = 1.0d-3 / dist
+         ncuts  = 3L
+
+         print
+         print, 'Light source:   ', ilusrc
+         print, 'Observer:       ', obsrvr
+         print, 'Target:         ', target
+         print, 'Frame:          ', fixref
+         print
+         print, 'Number of cuts: ', ncuts
+
+         delrol = <a href="cspice_twopi.html">cspice_twopi</a>()/ ncuts
+
+
+         for i = 0, n_elements(method)-1L do begin
+
+            <b>cspice_termpt</b>, method[i], ilusrc, target, et, fixref,   $
+                           abcorr, corloc, obsrvr, z,               $
+                           delrol, ncuts,  schstp,                  $
+                           soltol, MAXN, npts, points, trgeps, trmvcs
+
+            ;;
+            ;; Write the results.
+            ;;
+            print
+            print, 'Computation method = ', method[i]
+            print, 'Locus              = ', corloc
+            print
+
+            strt = 0
+
+            for j = 0, ncuts-1L do begin
+
+               roll = j * delrol
+
+               print
+               print, '  Roll angle (deg) = ', roll * <a href="cspice_dpr.html">cspice_dpr</a>()
+               print, '     Target epoch  = ', trgeps[j]
+               print, '     Number of terminator points at this roll angle: ', $
+                                                                       npts[j]
+
+               print, '      Terminator points:'
+
+               for k = 0, npts[j]-1L do begin
+                  print, format='(3(f20.9,A))', points[0:2, k+strt]
+                endfor
+
+                strt = npts[j] + strt
+
+            endfor
+
+          endfor
+
+         ;;
+         ;; It's always good form to unload kernels after use,
+         ;; particularly in IDL due to data persistence.
+         ;;
+         <a href="cspice_kclear.html">cspice_kclear</a>
+
+      END
+
+   IDL outputs:
+
+      Light source:   SUN
+      Observer:       MARS
+      Target:         PHOBOS
+      Frame:          IAU_PHOBOS
+
+      Number of cuts:            3
+
+      Computation method = UMBRAL/TANGENT/ELLIPSOID
+      Locus              = CENTER
+
+
+        Roll angle (deg) =        0.0000000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+               2.040498332       5.0127229         8.047281838
+
+        Roll angle (deg) =        120.00000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+             -11.058054707      0.16767209        -4.782740292
+
+        Roll angle (deg) =        240.00000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+               8.195238564      -6.0938894        -5.122310498
+
+      Computation method = UMBRAL/TANGENT/DSK/UNPRIORITIZED
+      Locus              = CENTER
+
+
+        Roll angle (deg) =        0.0000000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+               1.626396122       3.9954323         8.853689531
+
+        Roll angle (deg) =        120.00000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+             -11.186659739     -0.14236628        -4.646137201
+
+        Roll angle (deg) =        240.00000
+           Target epoch  =    2.7168487e+08
+           Number of terminator points at this roll angle:            1
+            Terminator points:
+               9.338447077      -6.0913525        -5.960849305
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   Using DSK data
+   ==============
+
+      DSK loading and unloading
+      -------------------------
+
+      DSK files providing data used by this routine are loaded by
+      calling <a href="cspice_furnsh.html">cspice_furnsh</a> and can be unloaded by calling <a href="cspice_unload.html">cspice_unload</a> or
+      <a href="cspice_kclear.html">cspice_kclear</a>. See the documentation of <a href="cspice_furnsh.html">cspice_furnsh</a> for limits on
+      numbers of loaded DSK files.
+
+      For run-time efficiency, it's desirable to avoid frequent
+      loading and unloading of DSK files. When there is a reason to
+      use multiple versions of data for a given target body---for
+      example, if topographic data at varying resolutions are to be
+      used---the surface list can be used to select DSK data to be
+      used for a given computation. It is not necessary to unload
+      the data that are not to be used. This recommendation presumes
+      that DSKs containing different versions of surface data for a
+      given body have different surface ID codes.
+
+
+      DSK data priority
+      -----------------
+
+      A DSK coverage overlap occurs when two segments in loaded DSK
+      files cover part or all of the same domain---for example, a
+      given longitude-latitude rectangle---and when the time
+      intervals of the segments overlap as well.
+
+      When DSK data selection is prioritized, in case of a coverage
+      overlap, if the two competing segments are in different DSK
+      files, the segment in the DSK file loaded last takes
+      precedence. If the two segments are in the same file, the
+      segment located closer to the end of the file takes
+      precedence.
+
+      When DSK data selection is unprioritized, data from competing
+      segments are combined. For example, if two competing segments
+      both represent a surface as sets of triangular plates, the
+      union of those sets of plates is considered to represent the
+      surface.
+
+      Currently only unprioritized data selection is supported.
+      Because prioritized data selection may be the default behavior
+      in a later version of the routine, the UNPRIORITIZED keyword is
+      required in the `method' argument.
+
+
+      Syntax of the `method' input argument
+      -------------------------------------
+
+      The keywords and surface list in the `method' argument
+      are called &quot;clauses.&quot; The clauses may appear in any
+      order, for example
+
+         UMBRAL/TANGENT/DSK/UNPRIORITIZED/&lt;surface list&gt;
+         DSK/UMBRAL/TANGENT/&lt;surface list&gt;/UNPRIORITIZED
+         UNPRIORITIZED/&lt;surface list&gt;/DSK/TANGENT/UMBRAL
+
+      The simplest form of the `method' argument specifying use of
+      DSK data is one that lacks a surface list, for example:
+
+         'PENUMBRAL/TANGENT/DSK/UNPRIORITIZED'
+         'UMBRAL/GUIDED/DSK/UNPRIORITIZED'
+
+      For applications in which all loaded DSK data for the target
+      body are for a single surface, and there are no competing
+      segments, the above strings suffice. This is expected to be
+      the usual case.
+
+      When, for the specified target body, there are loaded DSK
+      files providing data for multiple surfaces for that body, the
+      surfaces to be used by this routine for a given call must be
+      specified in a surface list, unless data from all of the
+      surfaces are to be used together.
+
+      The surface list consists of the string
+
+         SURFACES =
+
+      followed by a comma-separated list of one or more surface
+      identifiers. The identifiers may be names or integer codes in
+      string format. For example, suppose we have the surface
+      names and corresponding ID codes shown below:
+
+         Surface Name                              ID code
+         ------------                              -------
+         &quot;Mars MEGDR 128 PIXEL/DEG&quot;                1
+         &quot;Mars MEGDR 64 PIXEL/DEG&quot;                 2
+         &quot;Mars_MRO_HIRISE&quot;                         3
+
+      If data for all of the above surfaces are loaded, then
+      data for surface 1 can be specified by either
+
+         'SURFACES = 1'
+
+      or
+
+         'SURFACES = &quot;Mars MEGDR 128 PIXEL/DEG&quot;'
+
+      Double quotes are used to delimit the surface name because
+      it contains blank characters.
+
+      To use data for surfaces 2 and 3 together, any
+      of the following surface lists could be used:
+
+         'SURFACES = 2, 3'
+
+         'SURFACES = &quot;Mars MEGDR  64 PIXEL/DEG&quot;, 3'
+
+         'SURFACES = 2, Mars_MRO_HIRISE'
+
+         'SURFACES = &quot;Mars MEGDR 64 PIXEL/DEG&quot;, Mars_MRO_HIRISE'
+
+      An example of a `method' argument that could be constructed
+      using one of the surface lists above is
+
+      'NADIR/DSK/UNPRIORITIZED/SURFACES= &quot;Mars MEGDR 64 PIXEL/DEG&quot;,3'
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine termpt_c.
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/ck.html">CK.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+   <a href="../req/frames.html">FRAMES.REQ</a>
+   <a href="../req/naif_ids.html">NAIF_IDS.REQ</a>
+   <a href="../req/pck.html">PCK.REQ</a>
+   <a href="../req/spk.html">SPK.REQ</a>
+   <a href="../req/time.html">TIME.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 15-DEC-2016, EDW (JPL), ML (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   find terminator points on target body
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:04 2017</pre>
+
+</body>
+</html>
+

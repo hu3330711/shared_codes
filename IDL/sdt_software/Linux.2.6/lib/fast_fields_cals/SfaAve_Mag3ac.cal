@@ -1,0 +1,52 @@
+#  SCCS Id
+#  @(#)SfaAve_Mag3ac.cal	1.3 11/27/96
+#
+# SfaAve_Mag3ac.cal
+# REE 6/12/95
+# Major revision onf SFA calibration 11/06/96 REE.
+# 11/27/96 REE - Added min/max. Cleans up spectrograms.
+#
+SfaAve_Mag3ac		Data name.
+4    			SFA/SFAave calibration.
+sec			x-axis units.
+kHz			y-axis units.
+(nT)^2/Hz		z-axis units.
+0			Boomlength index.
+0			Gain state.
+0			History.
+#
+# Calibration table as of 11/13/96. REE.
+# since SfaAve is time avg. of SfaBurst, they calibrate identically
+#
+0			Time in seconds.
+0.5			Vzero.
+4.0e-2			Gain.
+0.012			Order_2 (second order).
+15000			Bandwidth in Hz.
+1.0001e-11		Minimum allowed value. (Cleams up spectrgrams.)
+0.9999e-3		Max allowed value.
+3			Word index.
+4			Cof type. SPECIAL VALUE FOR Mag3ac! REE 11/06/96
+6			Num_cof. Using polynomial coefficients.
+#
+# 			From IDL sfa_cal_fit.
+#			See fpa_mag_hf() in fastcal_utils.c
+#
+66.35			cof0 - gain to normalize amp_vs_freq to 1 at 1 kHz.
+65.0			cof1 - Frequency of peak in 21" search coil.
+1.2			cof2 - Controlls Q of peak.
+0.208			cof3 - High pass filter pole.
+20.0			cof4 - Begin freq. perm losses of core.
+30.0			cof5 - Reflects ~factor of 2.25 perm loss.
+#
+# 			Freq of zeroth point. Delta freq between points in kHz.
+#
+ -45.2    4.173437	BBFOFF=0, Stp=0, INC=0.
+-112.7    8.346874	BBFOFF=0, Stp=0, INC=1.
+ -49.4    8.346874	BBFOFF=0, Stp=1, INC=0.
+ -99.7   16.693748	BBFOFF=0, Stp=1, INC=1.
+ -45.2    2.086718	BBFOFF=1, Stp=0, INC=0.
+ -91.1    4.173437	BBFOFF=1, Stp=0, INC=1.
+ -49.4    4.173437	BBFOFF=1, Stp=1, INC=0.
+ -49.4    8.346874	BBFOFF=1, Stp=1, INC=1.
+# End of Cal table entry zero.

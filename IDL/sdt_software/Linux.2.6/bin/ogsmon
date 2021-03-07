@@ -1,0 +1,722 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsmon.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Monitor ogs jobs.
+#
+# **************************************************************
+#
+#      @(#)ogsmon.shp	1.3    10/28/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsmon
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crauxf = $no                # any auxiliary file created
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+                                   # display title separator
+   set titsep = \
+       " ************************************************"
+
+                                   # display title
+   set title  = " FAST OGS Job Monitor  -  Process ID  $pid"
+
+   set dtimin = 10                 # default time interval
+
+   set minlin = 1                  # min no. lines to displ file
+
+   set ldnone = 'n'                # last display none
+
+   set ldtitl = 't'                # last display title
+
+   set ldfile = 'f'                # last display file
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set optt   = $no                # time interval
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-t")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -t arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -t arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optt   = $yes
+           set timint = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $rdwork/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the time interval.
+#
+#---------------------------------------------------------------
+
+   if  ($optt == $no)  then
+       set timint = $dtimin
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for the job ID and job log files.
+#
+#---------------------------------------------------------------
+
+   set jobid  = $rdwork/$jbid
+
+   set joblog = $rdwork/$jblg
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop.
+#
+#---------------------------------------------------------------
+
+   set ldispl = $ldnone            # indic of last display
+
+   set prvjid = $no                # prev job ID, dummy value
+
+   set nlprev = 0                  # no. file lines displayed
+
+
+
+   while  (1)
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine if there should be a display.
+#
+#---------------------------------------------------------------
+
+       set dsptit = $no            # indic title to be displayed
+
+       set dspfil = $no            # indic file to be displayed
+
+
+
+       if  (-e $jobid)  then       # there is a job ID
+
+           set curjid = `cat $jobid`
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Error reading  $jobid"
+               goto l8000
+             endif
+
+         else                      # there is no job ID
+
+           goto l4000
+
+         endif
+
+
+
+       if  (-e $joblog)  then      # there is a job log
+
+
+           cp $joblog $auxf1       # copy of the job log
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Error copying  $joblog  to  $auxf1"
+               goto l8000
+             endif
+
+           set crauxf = $yes
+
+
+           set ntotx  = (`wc -l $auxf1`)    # tot no. of lines
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Error determining number of lines  $auxf1"
+               goto l8000
+             endif
+
+
+           set ntot   = $ntotx[1]  # tot no. of lines
+
+
+           if  ($ntot < $minlin)  then    # file is too short
+               goto l4000
+             endif
+
+
+           if  ($curjid == $prvjid)  then
+               set samjid = $yes
+             else
+               set samjid = $no
+               set prvjid = $curjid
+             endif
+
+
+           if  ($samjid == $yes)  then    # same job ID
+
+               if  ($ntot > $nlprev)  then    # more lines
+
+                   set dspfil = $yes
+
+                 endif
+
+             else                  # new job ID
+
+               set nlprev = 0
+
+               set dspfil = $yes
+
+             endif
+
+
+         else                      # there is no job log
+
+
+           set nlprev = 0
+
+           goto l4000
+
+
+         endif
+
+
+
+ l4000:
+
+
+
+                                   # no displ yet, or d new file
+       if  (($ldispl == $ldnone) || \
+            (($dspfil == $yes) && ($nlprev == 0)))  then
+
+           set dsptit = $yes
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Display title.
+#
+#---------------------------------------------------------------
+
+       if  ($dsptit == $yes)  then
+
+           if  ($ldispl != $ldtitl)  then
+
+               echo ""
+               echo ""
+               echo ""
+               echo "$titsep"
+               echo ""
+               echo "$title"
+               echo ""
+               echo "$titsep"
+               echo ""
+               echo ""
+
+               set ldispl = $ldtitl
+
+             endif
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Display job log as appropriate.
+#
+#---------------------------------------------------------------
+
+       if  ($dspfil == $yes)  then
+
+           if  ($nlprev == 0)  then
+
+               cat $auxf1
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Error displaying  $auxf1"
+                   goto l8000
+                 endif
+
+             else
+
+               @ newlin = $ntot - $nlprev
+
+               tail -$newlin $auxf1
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Error displaying end of  $auxf1"
+                   goto l8000
+                 endif
+
+             endif
+
+           set ldispl = $ldfile
+
+           set nlprev = $ntot
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Wait the time interval.
+#
+#---------------------------------------------------------------
+
+       sleep $timint
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

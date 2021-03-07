@@ -1,0 +1,48 @@
+#!/usr/bin/ksh
+#
+# statFileHdr  -Generates day headers for directing into a
+#		orbit-by-orbit status log.
+#
+#
+. $FASTCONFIG/archive_config
+if [[ ${#} != "4" ]] ; then
+	print 'Usage:	<orbinit> <doyinit> <no_days> <logfile>'
+	print '<ORBinit> is orbit from day before first day.'
+	print '<DOYinit> is the DOY of <ORBinit>.'
+	exit 1
+fi
+
+orbinit=$1
+doy=$2
+no_days=$3
+appendee=$4
+
+doy_mmdd=$FASTBIN/doy-mmdd		#The nawk script (nnn -> mmm dd, yy)
+
+let lastdoy=doy+no_days
+
+
+let n=orbinit+1
+until (( doy == lastdoy )) ; do
+
+	set -A epoch $(orbittime ${n})
+
+	dd_begin=$(print ${epoch[0]} | cut -d/ -f 3)
+        dd_end=$(print ${epoch[1]} | cut -d/ -f 3)
+	yy=$(print ${epoch[1]} | cut -c1-4)
+
+	if [[ $dd_begin != $dd_end ]] ; then #Must straddle today & tomorrow.
+		junk0=${epoch[0]##*/}
+		printf "%s\t%s\n" ${n} ${junk0%.*} >> $appendee
+		print >> $appendee
+                let doy=doy+1
+                date=$(print $doy $yy | nawk -f $doy_mmdd -)
+		printf "*****\tDATE: %s %3s %s\tDOY: %s\n" $date $doy >> $appendee
+		junk1=${epoch[1]##*/}
+		printf "%s\t%s\n" $((n+1)) ${junk1%.*} >> $appendee
+		let n=n+9	#Skip next nine during same day.
+	fi
+
+	let n=n+1
+done
+	

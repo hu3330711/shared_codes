@@ -1,0 +1,315 @@
+************************************************************************
+
+   README.General.UCB.wt.running_avg_scalar_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.running_avg_scalar_001
+
+************************************************************************
+
+   Running average for scalar.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.running_avg_scalar_001	1.2    02/05/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a running average for a single
+       scalar quantity.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The input for the scalar to be averaged.
+
+
+
+
+
+    3) The user can set a basic "unit" time interval; the input quantity
+       is averaged over a number "N" of basic time intervals chosen by
+       the user.
+
+
+
+       The basic time interval may be equal to the spin period of the
+       spacecraft; but this is not required.
+
+
+
+
+
+    4) For each input data point, an average is calculated.
+
+
+
+       For any given input data point, the averaging time interval has a
+       duration of N times the basic time interval; and is centered at
+       the time of the specified input data point.
+
+
+
+
+
+    5) The user can specify a minimum number of scalar data values; this
+       can be either the minimum number per basic time interval, or the
+       minimum number per averaging interval.
+
+
+
+       If the minimum specified is per basic time interval, then the
+       minimum number per averaging interval is equal to N times the
+       minimum number per basic time interval.
+
+
+
+       If an averaging interval has fewer than the minimum number of
+       input data values (per averaging time interval) in it; no output
+       data point is written.
+
+
+
+
+
+    6) When an averaging interval does contain a sufficient number of
+       input data values, the output value is determined.
+
+
+
+       The output value is computed as the average of all the input data
+       values within the averaging interval.
+
+
+
+       Note that this is an average of individual data point values (not
+       an average of basic time interval averages).
+
+
+
+
+
+    7) The time tag for the output data point is the same as that for
+       the input data point that is the center of the averaging
+       interval.
+
+
+
+
+
+    8) For an output data point to be produced, the entire averaging
+       interval must fit within the total time interval being processed.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Duration of the basic time interval.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            3) Number of basic time intervals in an averaging interval.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            4) Minimum number of input data values.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            5) Flag to multiply the minimum number of input data values
+               by the number of basic time intervals in an averaging
+               interval.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Multiply the minimum by N.
+
+                    WT_FALSE  =  Do not multiply the minimum by N.
+
+
+
+            6) Input component index for the scalar quantity.
+
+
+               Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input to be averaged.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional components for the scalar value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Running average of the scalar quantity.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

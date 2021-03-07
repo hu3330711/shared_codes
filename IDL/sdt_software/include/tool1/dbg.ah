@@ -1,0 +1,36 @@
+/* dbg.ah */
+
+/* For SCCS */
+#define SccsId_dbg_ah "@(#)dbg.ah	1.1, 11/14/92"
+
+#ifdef ANSI_STD_C
+
+static  void AddtoList(int value,char *module,int number);
+static  int ChkEqFlag(struct Flags_ *test,struct Flags_ *want_flag);
+static  int CheckFlag(char *module_name,int flag_number);
+static  void DbgOut(char *buffer);
+static  void DumpFlags(void);
+static  void SetGlobals(void);
+extern  void DBGinit(void);
+extern  void DBGexit(void);
+extern  int DBGcontrolTokn(int targc,char * *targv);
+extern  void DBGcontrol(char *s);
+extern  int DBGflag(char *module_name,int flag_number);
+extern  void DBGprint(char *message);
+
+#else
+
+static  void AddtoList();
+static  int ChkEqFlag();
+static  int CheckFlag();
+static  void DbgOut();
+static  void DumpFlags();
+static  void SetGlobals();
+extern  void DBGinit();
+extern  void DBGexit();
+extern  int DBGcontrolTokn();
+extern  void DBGcontrol();
+extern  int DBGflag();
+extern  void DBGprint();
+
+#endif /* ANSI_STD_C */

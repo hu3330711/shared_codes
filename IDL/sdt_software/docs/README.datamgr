@@ -1,0 +1,68 @@
+To configure datamgr to access Sybase 
+you need the following configuration files:
+
+
+$FASTCONFIG/Datamgr/Datamgr.conf
+$FASTCONFIG/fast_archive.conf
+$FASTCONFIG/Sybase/interfaces
+
+These files can be found at the FAST ftp site:
+"ftp://juneau.ssl.berkeley.edu/pub/fastconfig"
+
+If you will be accessing the jukeboxes at juneau.ssl.berkeley.edu
+remotely, you will also need the following config file:
+
+$FASTCONFIG/Datamgr/FastDmList
+
+The FastDmList is updated daily to include an up-to-date
+list of all CDROM volumes mounted in the jukeboxes,
+and can be found in the ftp site:
+"ftp://juneau.ssl.berkeley.edu/pub/dailies/FastDmList"
+
+
+These files should be copied into the locations given above 
+in the FASTCONFIG area of your system.  FASTCONFIG is
+usually installed at /disks/fast/software/config, but may
+be different at your site.
+
+The interfaces file, the fast_archive.conf
+file and the FastDmList file can all be used as-is, copied from our
+ftp site.
+
+A script is available which can 
+as a cron job every night automatically to ftp the latest 
+FastDmList file.  The same script also supplies you with the 
+lates almanac, cdf, and fields calibration files.  Perhaps it is
+already running on your system.
+
+
+The datamgr also uses a file called 
+$FASTCONFIG/Datamgr/datamgr_listing 
+If you currently have this file, delete it before you try running datamgr for 
+the first time.
+
+
+I have tried to prepare the Datamgr.conf for your site, but
+you may need to make some adjustments:
+
+You will need to edit the line which sets DATA_DIR.
+DATA_DIR should be set to a directory which is readable
+by all machines from which datamgr will be run at your site:
+
+set DATA_DIR /your/data/dir
+
+datamgr will copy data from the CDROMS into "/your/data/dir"
+by default.  Users can use their own directory to store
+data by setting the DATA_DIR variable in a personal 
+~/.datamgr.conf file.   
+PLEASE NOTE: When creating a new directory to be used as the
+DATA_DIR, you must create a subdirectory under it named lzp.
+
+Datamgr is generally started from SDT, but it can also be tested from the 
+command line by typing:
+
+datamgr
+
+If things are configured properly, the datamgr window will come up
+without any accompanying error message windows.
+

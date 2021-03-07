@@ -1,0 +1,1007 @@
+************************************************************************
+
+   README.General.UCB.wt.correct_spin_axis_V
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.correct_spin_axis_V
+
+************************************************************************
+
+   Corrected spin axis component V.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.correct_spin_axis_V	1.7    05/02/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the corrected spin axis component V
+       of the electric field ("Instantaneous" or "Burst" time
+       resolution): V56.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) Raw component V.
+
+
+
+            2) Spin timing.
+
+
+               This input gives the time of each Sun pulse.
+
+
+
+            3) Inputs for offset terms.
+
+
+
+            4) Spin fit for correction.
+
+
+               The spin fit coefficients B and C, and the number of
+               points N, are used.
+
+
+
+            5) Input for offset from a table.
+
+
+
+
+
+    3) First the values of V are corrected by subtracting the following
+       corrections:
+
+
+
+            1) Constant offset.
+
+
+
+            2) Offsets from the inputs for offset terms (e.g.,
+               voltages).
+
+
+
+            3) Correction from a spin fit.
+
+
+
+            4) Offset from a table, based on the value of an input
+               (e.g., a spacecraft potential).
+
+
+
+       The new value of V is related to the old value as follows:
+
+
+           New value = Old value - Corrections
+
+
+
+
+
+    4) Then the values of V are corrected by multiplying them by a
+       constant scale factor.
+
+
+
+       The new value of V is related to the old value as follows:
+
+
+           New value = Scale * Old value
+
+
+
+
+
+    5) The offsets from the inputs for offset terms are determined as
+       follows:
+
+
+
+       Each offset is the product of the corresponding input for offset
+       term, times a constant coefficient.
+
+
+
+
+
+    6) The correction from the spin fit is determined as follows:
+
+
+
+       The B coefficients of the spin fit are averaged over a time
+       interval; the C coefficients are averaged over the same interval.
+
+       The number of valid points per fit, N, is used as a weight for
+       the averaging.
+
+
+
+       The time interval for the averaging of B and C can be the whole
+       time interval being analyzed, or it can be a sub-interval.
+
+
+
+       If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle Alpha by which the SCC system has rotated with
+       respect to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+       (SCC = Spacecraft Coordinates).
+
+
+
+       The correction is:
+
+           B_avg * cos(Alpha) + C_avg * sin(Alpha)
+
+
+
+
+
+    7) The offset from a table, based on the value of an input, is
+       determined as follows:
+
+
+
+            1) The value of the input is used as a key to enter a table
+               containing an offset value for each key value.
+
+
+
+            2) If the value of the input is outside the range of the
+               table, then the offset is zero.
+
+
+
+            3) If the value of the input is within the range of the
+               table, then the offset is determined by linear
+               interpolation between the two closest table entries.
+
+
+
+
+
+    8) The user can specify 2 multiplicative factors; the scale factor
+       that is used for the correction is the product of these 2
+       factors.
+
+
+
+
+
+    9) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+   10) For each of the inputs for offset term, there is the option of
+       specifying limits and ignoring data values beyond the limits.
+
+
+
+
+
+   11) Provision is made for the possibility that each spin fit
+       coefficient may have its input value "reversed" (i.e., its sign
+       has been reversed).
+
+
+
+
+
+   12) For the input used as a key for the table, there is the option of
+       specifying limits and ignoring data values beyond the limits.
+
+
+
+
+
+   13) An output data point is produced for each input point of the raw
+       V.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+   14) For an output data point to be produced, it must be in the time
+       interval corresponding to a valid spin period.
+
+
+
+
+
+   15) For any input for offset term, for which the coefficient is not
+       zero; for an output data point to be produced, it must be in the
+       time interval defined by two input data points of that input for
+       offset term.
+
+
+
+       The value of each input for offset term, for the time of the
+       output data point, is obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   16) If the offset from a table is to be used, then for an output data
+       point to be produced, it must be in the time interval defined by
+       two input data points of the input used as the table key.
+
+
+
+       The key value for the time of the output data point is obtained
+       by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   0     =  Do not dump.
+
+                   >= 1  =  Dump output data points with indices of:
+                            0, n, 2n, 3n, ...  (where n is the chosen
+                            dump frequency).
+
+
+
+            2) Constant offset.
+
+
+               Double.
+
+
+
+            3) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            5) Number of offset terms.
+
+
+               Int.
+
+
+               Must be  >=  0.
+
+
+
+            6) The group of parameters described here occurs once for
+               each offset term.
+
+
+
+                1) Flag for the input for offset term.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  These input is     present.
+
+                       WT_FALSE  =  These input is not present.
+
+
+
+                2) Coefficient.
+
+
+                   Double.
+
+
+                   If the coefficient is not zero,
+                   the input must be present.
+
+
+
+            7) Flag for the spin fit input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+
+            8) Flag to use a correction from spin fit.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use this correction.
+
+                   WT_FALSE  =  Do not use this correction.
+
+
+               If the correction is used,
+               the input file for the spin fit must be present.
+
+
+
+            9) Code for the choice of interval for the averaging of the
+               spin fit coefficients.
+
+
+               Int.
+
+
+               If the correction from spin fit is to be used,
+               must be one of the following:
+
+
+                    1  =  Use the entire time interval.
+
+                    2  =  Use a sub-interval specified by the user.
+
+
+
+           10) Start date for the averaging of the spin fit
+               coefficients.
+
+
+               Char.
+
+
+               If the correction from spin fit is to be used,
+               with a time sub-interval specified by the user;
+               must be a valid date in the format YYYY/MM/DD (e.g.,
+               1996/05/29).
+
+
+
+           11) Start time for the averaging of the spin fit
+               coefficients.
+
+
+               Char.
+
+
+               If the correction from spin fit is to be used,
+               with a time sub-interval specified by the user;
+               must be a valid time in the format HH:MM:SS (e.g.,
+               04:00:20).
+
+
+               The format HH:MM is permissible too, and is understood to
+               indicate zero seconds (e.g., 04:18 which means the same
+               as 04:18:00).
+
+
+
+           12) Stop date for the averaging of the spin fit coefficients.
+
+
+               Char.
+
+
+               If the correction from spin fit is to be used,
+               with a time sub-interval specified by the user;
+               must be a valid date in the same format as the start
+               date.
+
+
+
+           13) Stop time for the averaging of the spin fit coefficients.
+
+
+               Char.
+
+
+               If the correction from spin fit is to be used,
+               with a time sub-interval specified by the user;
+               must be a valid time in the same format as the start
+               time.
+
+
+
+           14) Flag for the file of the offset table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+           15) Flag for the offset table key input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+
+           16) Flag to use a table of offsets.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use a table of offsets.
+
+                   WT_FALSE  =  Do not use a table of offsets.
+
+
+               If a table of offsets is used,
+               the input file for the table,
+               and the input for the table key; must be present.
+
+
+
+           17) File name for the table of offsets.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+           18) Input component index for the raw component V.
+
+
+               Int.
+
+
+
+           19) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+           20) The group of parameters described here occurs once for
+               each of the inputs for the offset terms.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If the coefficient for the input is not zero,
+                   must be  >  0.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   If the coefficient for the input is not zero,
+                   must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the coefficient for the input is not zero,
+               if the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                5) Input component index.
+
+
+                   Int.
+
+
+
+           21) The group of parameters described here occurs once for
+               the input for the table key.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If the corresponding correction will be performed,
+                   must be  >  0.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   If the corresponding correction will be performed,
+                   must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the corresponding correction will be performed,
+               if the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                5) Input component index.
+
+
+                   Int.
+
+
+
+           22) The group of parameters described here occurs once for
+               the input for the spin fit.
+
+
+
+                1) Input component index for the number of points N.
+
+
+                   Int.
+
+
+
+                2) Input component index for the B coefficient.
+
+
+                   Int.
+
+
+
+                3) Input component index for the C coefficient.
+
+
+                   Int.
+
+
+
+           23) The group of parameters described here occurs once for
+               the spin fit coefficient B, and once for the spin fit
+               coefficient C.
+
+
+
+                1) Flag for reversal of the coefficient.
+
+
+                   Int.
+
+
+                   If the spin fit offset will be used,
+                   must be one of the following:
+
+
+                       WT_TRUE   =  The value is     reversed.
+
+                       WT_FALSE  =  The value is not reversed.
+
+
+
+           24) 1st. multiplicative scale factor.
+
+
+               Double.
+
+
+
+           25) 2nd. multiplicative scale factor.
+
+
+               Double.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The table of offsets.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is "#".
+
+
+               Each line not a comment line contains one offset.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Table entry key.
+
+                   Real.
+
+
+                2) Offset.
+
+                   Real.
+
+
+               There should not be duplication of more than one table
+               entry with the same key.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The raw component V.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the component V.
+
+                   Float.
+
+
+
+            2) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+            3) The inputs for the offset terms.
+
+
+               Each input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the input.
+
+                   Float.
+
+
+
+            4) The spin fit for the correction.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the spin fit coefficient
+                   B.
+
+                   Float.
+
+
+                3) One additional component for the spin fit coefficient
+                   C.
+
+                   Float.
+
+
+                4) One additional component for the spin fit number of
+                   points N.
+
+                   Float.
+
+
+
+            5) The key to the offset table for V.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the key.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Corrected component V.
+
+
+               Float.

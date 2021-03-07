@@ -1,0 +1,175 @@
+#!/usr/bin/ksh
+# premaster  - take raw data and premaster it into CD images
+# $1 is the name of the directory to be premastered
+# $2 is the parent process number
+# $3 is the directory to use to hold the images if default is not desired.
+
+# 2002.07.02 - Ti Quinn
+# 	Commented out the trimFileList call
+# 2001.08.13 - Jeremy Huddleston
+#      Added third variable to select alternate image dir
+#      Premaster does no longer preload the cd images
+#
+# R. Abiad  16 Mar 1994
+# modified  21 Jun 1994
+# modified  5 December 1994  took out extra done at end
+#                            section looking for input files (old)
+
+echo $2: ---- premaster run on $(date) ----
+
+. /disks/fast/software/config/archive_config
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if script exits prematurely.
+
+function warn_exit {
+    {
+	printf "%s\n" "Subject: Archive System message" \
+		      "premaster script exited prematurely at line $3" \
+		      "Premastering CD Volume: $1" \
+		      "Process ID: $2" \
+		      "Image Dir: $IMAGEDIR"
+    } | mail $ARCHIVEMASTER
+}
+
+trap 'warn_exit $1 $2 $LINENO' EXIT
+
+if (( ${#DANETSTORAGE[*]} == 0 )) ; then
+	echo Must set DANETSTORAGE variable - check archive_config file
+	echo failed > premasterstat
+	exit 1
+elif (( ${#IMAGESTORAGE[*]} == 0 )) ; then
+	echo Must set IMAGESTORAGE variable - check archive_config file
+	echo failed > premasterstat
+	exit 1
+fi
+
+# 3 July 2002 No more premasterlock
+#while [[ -a $PREMASTERLOCK ]] ; do
+	#echo $2: premaster sleeping 60 for $(cat $PREMASTERLOCK)
+	#sleep 60
+#done 
+#echo $2 > $PREMASTERLOCK
+
+# Select target disk for image file
+n=0
+IMAGEDIR=${IMAGESTORAGE[$n]}
+
+if [ "a$3" != "a" ]; then
+  if [ -w $3 -a -d $3 ]; then
+    IMAGEDIR=$3
+  else
+    echo "Invalid IMAGEDIR."
+  fi
+fi
+
+# The next sequence will scan the disk drives for the CD 
+# and convert it into an image file for downloading into 
+# CDSTUDIO and CD production
+
+for SOURCE in ${DANETSTORAGE[*]} ; do
+
+	if [[ -z $(ls $SOURCE | grep $1) ]] ; then
+		echo $2: Nothing to premaster in $SOURCE
+		continue
+	fi
+
+	TARGET=$1
+	echo $2: Target is $TARGET
+
+	## Begin size Check ##
+
+	# The following section will check to see if there is space
+	# available on /disks/cdstudio. If space is not available, premaster
+	# will fail and will send mail to the user 
+
+	safe_size=651000 
+	size=`du -k $SOURCE/$TARGET | tail -1 | awk '{print $1}'`
+	space=`df -k $IMAGEDIR | tail -1 | awk '{print $4}'`
+	if (( $space < $safe_size )); then
+		echo "$2:"
+		echo "$2:!!!! Premastering failed !!!!"
+		echo "$2: Room is not available on $IMAGEDIR"
+		echo "$2: for CD image file. Please check status"
+		echo "$2:"
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+		              "Room is not available on $IMAGEDIR" \
+			      "!!!! Premastering failed !!!!" \
+			      "Process ID: $2" |
+		mail $ARCHIVEMASTER
+
+		rm $WORKDIR/*.*
+		rm -r $IMAGEDIR/$TARGET
+		echo failed > premasterstat
+		#rm $PREMASTERLOCK
+		exit 1
+	fi
+
+	## End size check ##
+
+	### Commented out on 2 July 2002 ###
+	### No longer necessary as CDs are not deleted from HD ###
+	# Update database filelist in case CDs deleted from DANET
+	#$DANETBIN/trimFileList -q
+
+	# Use template to create volume.inf
+
+	sed -e s/ORBITXX/$TARGET/ -e s/ABSTRACT/SUMMARY_FILE/ \
+		$WORKDIR/fast_volumeid > $WORKDIR/volume.inf
+
+	# premaster the image
+
+	echo $2: Beginning premastering...
+	$COMMBIN/makedisc/makedisc -R -b16 -s -t -g \
+	    $WORKDIR $SOURCE/$TARGET $IMAGEDIR/${TARGET}.iso 680 > /tmp/md.out$$ 2>&1
+	mdcode=$?
+	nawk -v "prcid=$2" '{printf "%s: %s\n", prcid, $0}' /tmp/md.out$$
+	rm /tmp/md.out$$
+	if [[ $mdcode = "0" ]] ; then
+		echo "$2: Done premastering $TARGET"
+		chmod a+r $IMAGEDIR/${TARGET}.iso
+	else
+		echo "$2:!!!! Premastering failed !!!!"
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+		              "Makedisc returns nonzero exit status." \
+			      "!!!! Premastering failed !!!!" \
+			      "Process ID: $2" |
+		mail $ARCHIVEMASTER
+
+		rm $WORKDIR/*.*
+		rm -r $IMAGEDIR/$TARGET
+		echo failed > premasterstat
+		#rm $PREMASTERLOCK
+		exit 1
+	fi
+
+	# remove all premastering temporary files
+
+	rm $WORKDIR/*.*
+
+# 2001.08.13 - No longer preloading
+#	# Check to see if ymi_loaded file exists telling us that the
+#	# CD Studio has already been loaded with an image waiting to
+#	# be dumped.  If not, preload one now.
+#
+#	if [[ -s $WORKDIR/ymi_images ]] ; then
+		echo $IMAGEDIR/$TARGET $size kb >> $WORKDIR/ymi_images
+#	else
+#		echo $2: Downloading image to CD Studio
+#		mt -f $CDSTUDIO rewind
+#		dd if=$IMAGEDIR/$TARGET of=$CDSTUDIO bs=32k 2>&1 |
+#		    nawk -v "prcid=$2" '{printf "%s: %s\n", prcid, $0}'
+#		echo $TARGET > $CDLABELNAME
+#		$LABELMAKER/printer.sh FAST 2>&1 |
+#		    nawk -v "prcid=$2" '{printf "%s: %s\n", prcid, $0}'
+#		echo preloaded $IMAGEDIR/$TARGET $size kb >>$WORKDIR/ymi_images
+#	fi
+	echo success > premasterstat
+        #rm -r $SOURCE/$TARGET
+done
+
+#rm $PREMASTERLOCK
+trap - EXIT
+exit 0

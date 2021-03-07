@@ -1,0 +1,137 @@
+#!/usr/bin/ksh 
+# cutcd - cut a disk from a premastered image queue
+#  $1 contains the parent process number
+# R. Abiad  05 Apr 1995
+#
+
+ 
+echo
+echo $1: ---- cutcd run on $(date) ----
+ 
+ 
+. /disks/fast/software/config/archive_config
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if script exits prematurely.
+
+function warn_exit {
+    {
+	printf "%s\n" "Subject: Archive System message" \
+		      "Cutcd script exited prematurely at line $2" \
+		      "Process ID: $1"
+	if [[ -n $next_image ]] ; then
+	    printf "%s\n" "Cutting CD: $next_image"
+	fi
+	if [[ -n $copies ]] ; then
+	    printf "%s\n" "Copy #: $((CDCOPIES - copies + 1))"
+	fi
+    } | mail $ARCHIVEMASTER
+}
+
+# Register lock file
+ 
+if [[ -a $CUTCDLOCK ]] ; then
+        echo $1: cutcd already running - see process $(cat $CUTCDLOCK)
+	exit 0
+fi
+echo $1 > $CUTCDLOCK 
+
+# Trap premature termination
+
+trap 'warn_exit $1 $LINENO' EXIT
+
+# function definitions
+# define a cutdisc function to cut a disc and sleep during the cutting
+cutdisc() {
+	if mt -f $CDSTUDIO fsf ; then
+		$DANETBIN/cdcutmon 2>&1 |
+		    nawk -v "prcid=$1" '{printf "%s: %s\n", prcid, $0}'
+	else
+		echo "$1: !!!! Error executing cut, aborting !!!!"
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+			      "Command mt -f $CDSTUDIO fsf returns nonzero" \
+			      "!!!! Error executing cut, aborting !!!!" \
+			      "Process ID: $1" |
+		mail $ARCHIVEMASTER
+		rm $CUTCDLOCK
+		exit 1
+	fi
+}
+# define a loadimage function to load the next image in the queue onto the YMI
+loadimage () {
+	mt -f $CDSTUDIO rew
+	echo $1: Downloading $next onto CD Studio
+	if [[ ! -a $next_image ]]
+	then
+		echo "$1:!!!! Cannot find image $next_image.  Trying next !!!!"
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+			      "Error downloading image to CD Studio" \
+		              "!!!! Cannot find image $next_image !!!!" \
+			      "Process ID: $1" |
+		mail $ARCHIVEMASTER
+		return 2
+	fi
+	if dd if=$next_image of=$CDSTUDIO bs=32k
+	then 
+		echo $(basename $next_image) > $CDLABELNAME
+		$LABELMAKER/printer.sh FAST 2>&1
+		
+		cp $WORKDIR/ymi_images /tmp/cut$$
+		rm $WORKDIR/ymi_images
+		sed '1s/^/preloaded /' /tmp/cut$$ > $WORKDIR/ymi_images
+		rm /tmp/cut$$
+		return 0
+	else
+		return 1
+	fi
+}
+
+next=`head -1 $WORKDIR/ymi_images`
+next_image=`echo $next | awk '{print $1}'`
+while [[ -s $WORKDIR/ymi_images ]]
+do
+	copies=$CDCOPIES
+	if [[ ! $next_image = "preloaded" ]]
+	then
+		loadimage $1
+		ret=$?
+		if (( $ret != 0 ))
+		then
+			if (( $ret == 1 )) 
+			then
+				echo $1: Cannot download images, quitting!
+				rm $CUTCDLOCK
+				exit 1
+			else
+				cp $WORKDIR/ymi_images /tmp/cut$$
+				sed '1d' /tmp/cut$$ > $WORKDIR/ymi_images
+				rm /tmp/cut$$
+				next=`head -1 $WORKDIR/ymi_images`
+				next_image=`echo $next | awk '{print $1}'`
+				continue
+			fi
+		fi
+	else
+		next=`echo $next | sed 's/preloaded//'`
+		next_image=`echo $next | awk '{print $1}'`
+	fi
+	while (( $copies > 0 ))		# make as many copies as CDCOPIES
+	do
+		cutdisc $1
+		echo $1: Cut of $next_image complete
+		copies=$(( $copies - 1 ))
+	done
+	cp $WORKDIR/ymi_images /tmp/cut$$
+	rm $next_image
+	sed '1d' /tmp/cut$$ > $WORKDIR/ymi_images
+	rm /tmp/cut$$
+	next=`head -1 $WORKDIR/ymi_images`
+	next_image=`echo $next | awk '{print $1}'`
+done
+echo $1: No more images to dump
+rm $CUTCDLOCK
+
+trap - EXIT
+exit 0

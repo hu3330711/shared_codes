@@ -1,0 +1,672 @@
+****************************************************************
+
+       README.sunnadir.SC.packet.file.format
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the sunnadir program.
+
+****************************************************************
+
+       @(#)README.sunnadir.SC.packet.file.format	1.3    10/04/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Introduction.
+
+       2. A Sample File.
+
+       3. Parts of a File.
+
+       4. The Sun-Nadir Data Packet.
+
+       5. The Packet Separator.
+
+       6. The "Null Packet".
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Introduction.
+
+
+
+
+               The purpose of the sunnadir program is to create
+       memory load files for the FAST satellite.
+
+               These files are uploaded to the satellite, where
+       they are used by software that controls instruments.
+
+               The information contained in these files concerns
+       the orientation of the spacecraft with respect to the
+       Earth and the Sun; this, plus horizon sensor data, makes
+       it possible to generate "pseudo Sun pulses" when the
+       spacecraft is in shadow.
+
+
+
+               This documentation file describes the format of
+       the Spacecraft Packet file, which is the output file from
+       the program containing the memory load.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. A Sample File.
+
+
+
+
+        1  # FAST IDPU Shadow Ephemeris Memory Load
+           for  1995/01/17 (017)
+        2  # 1995/017:01:03:22, 1995/017:02:12:50
+        3  # 1995/017:03:16:51, 1995/017:04:26:20
+        4  # 1995/017:05:30:21, 1995/017:06:39:49
+        5  # 1995/017:07:43:50, 1995/017:08:53:18
+        6  1995/017:01:03:22, 1995/017:02:12:50
+        7  # IDPU CCSDS packet number 1
+        8  1C 00 C0 00 00 67 00 01
+        9  00 00 92 00 36 08 21 32 49 1F A6 02 9D 0A 0B 13
+       10  C8 00 FC C5 0D 51 AB CA 00 00 2E D2 FD FF 24 D9
+       11  FB FF 9A DF F9 FF A1 E5 F7 FF 48 EB F5 FF 9C F0
+       12  F4 FF AB F5 F3 FF 81 FA F2 FF 26 FF F1 FF A6 03
+       13  F0 FF 06 08 F0 FF 51 0C EF FF 8B 10 EF FF BD 14
+       14  EF FF EC 18 EF FF 1F 1D EF FF 5D 21 EF FF AB 25
+       15  F0 FF 12 2A F0 FF
+       16
+       17  1C 00 C0 00 00 F1 00 00
+       18  00 00 00 E0 00 00 00 00 00 00 00 00 00 00 00 00
+       19  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       20  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       21  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       22  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       23  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       24  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       25  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       26  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       27  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       28  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       29  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       30  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       31  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       32  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+
+
+               The following should be noted:
+
+
+        1) The line numbers are not in the file, and are put
+           here to help in describing the file contents.
+
+           The actual first character of the first line is "#";
+           the actual first character of the last line is "0".
+
+
+        2) Lines may contain spaces (blanks), but no tabs or any
+           other non-printable characters.
+
+
+        3) Each line is terminated by an ASCII line feed
+           character (hex 0A).
+
+
+        4) The first line has been broken up or wrapped around
+           here; in the actual file, there is one space between
+           the words "Load" and "for".
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Parts of a File.
+
+
+
+
+               A Spacecraft Packet file consists of the
+       following parts, in this sequence:
+
+
+         -  The Sun-Nadir data packet.
+
+
+         -  A packet separator.
+
+
+         -  A "null packet".
+
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. The Sun-Nadir Data Packet.
+
+
+
+
+               The Sun-Nadir data packet contains the data
+       related to the spacecraft orientation.
+
+
+               In the sample file the Sun-Nadir data packet
+       covers lines 1 through 15.
+
+               However, the last line of the Sun-Nadir data
+       packet may be a line other than line 15, because the
+       length of the packet may vary, as described below.
+
+
+
+
+       4.1 Line 1.
+
+
+
+               The content of most of this line is fixed; the
+       variable part consists of the date for which the memory
+       load is, including year, month, day, and day of year.
+
+
+
+
+       4.2 Lines 2 through 5.
+
+
+
+               These lines contain all the time windows for
+       uploading the file, as comments.
+
+
+               An upload window has start and end times as year,
+       day of year, hour, minutes, integer seconds (UTC).
+
+
+               The number of upload windows may be different
+       from 4, in which case the line numbers for the upload
+       windows and for the items that follow will vary
+       accordingly.
+
+
+
+
+       4.3 Line 6.
+
+
+
+               This line contains the first time window for
+       uploading the file.
+
+
+
+
+       4.4 Line 7.
+
+
+
+               The content of this line is fixed.
+
+
+
+
+       4.5 Line 8.
+
+
+
+               Starting with this line, and through its end, the
+       packet consists of hex dumps of numbers, expressed as
+       dumps of single bytes separated by a space.
+
+
+
+       4.5.1 CCSDS Address.
+
+
+               These are the first 4 bytes:
+
+                   1C 00 C0 00
+
+
+               This part of the line is fixed.
+
+
+
+       4.5.2 Length of Table Load.
+
+
+               These are the next 2 bytes.
+
+
+               The Length of Table Load is the number of bytes
+       in the part of the packet that follows the Length of
+       Table Load, minus 1.
+
+
+               The number of bytes that corresponds to the
+       sample file is
+
+                   104
+
+
+               The Length of Table Load in the file is decoded
+       as follows:
+
+
+         -  Maintain the order of the bytes appearing in the
+            file, and form a 2-byte number in hex.
+
+            For the sample file, this gives  0067 .
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  103 .
+
+
+
+       4.5.3 Secondary Header.
+
+
+               These are the last 2 bytes:
+
+                   00 01
+
+
+               This part of the line is fixed.
+
+
+
+
+       4.6 Line 9.
+
+
+
+               Starting with this line, and through the end of
+       the packet, each line contains exactly 16 bytes; except
+       for the last line, which may contain fewer.
+
+
+
+       4.6.1 Memory Load Address.
+
+
+               These are the first 4 bytes:
+
+                   00 00 92 00
+
+
+               This part of the line is fixed.
+
+
+
+       4.6.2 Shadow Ephemeris Start Time, integer part.
+
+
+               These are the next 4 bytes.
+
+
+               The Shadow Ephemeris Start Time is expressed as a
+       time elapsed since the base epoch for FAST, which is
+
+                   1968/05/24 (145)  00:00:00  UTC
+
+
+               The Shadow Ephemeris Start Time that corresponds
+       to the sample file is
+
+                   841025590.773 sec
+
+
+               The integer part of the Shadow Ephemeris Start
+       Time in the file is decoded as follows:
+
+
+         -  Reverse the order of the bytes appearing in the
+            file, and form a 4-byte number in hex.
+
+            For the sample file, this gives  32210836 .
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  841025590 .
+
+
+
+       4.6.3 Orbital Period, integer part.
+
+
+               These are the next 2 bytes.
+
+
+               The Orbital Period that corresponds to the sample
+       file is
+
+                   8009.317 sec
+
+
+               The integer part of the Orbital Period in the
+       file is decoded as follows:
+
+
+         -  Reverse the order of the bytes appearing in the
+            file, and form a 2-byte number in hex.
+
+            For the sample file, this gives  1F49 .
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  8009 .
+
+
+
+       4.6.4 Shadow Start Time.
+
+
+               These are the next 2 bytes.
+
+
+               The Shadow Start Time that corresponds to the
+       sample file is
+
+                   678 sec
+
+
+               The Shadow Start Time in the file is decoded
+       analogously to 4.6.3.
+
+               For the sample file:  02A6 ---> 678 .
+
+
+
+       4.6.5 Shadow End Time.
+
+
+               These are the next 2 bytes.
+
+
+               The Shadow End Time that corresponds to the
+       sample file is
+
+                   2717 sec
+
+
+               The Shadow End Time in the file is decoded
+       analogously to 4.6.3.
+
+               For the sample file:  0A9D ---> 2717 .
+
+
+
+       4.6.6 Shadow Object.
+
+
+               These is the next 1 byte.
+
+
+               The Shadow Object that corresponds to the
+       sample file is
+
+                   0B
+
+
+
+       4.6.7 Shadow Table Length.
+
+
+               These is the last 1 byte.
+
+
+               The Shadow Table Length is the number of Shadow
+       Ephemeris table elements minus 1.
+
+
+               The number of table elements that corresponds to
+       the sample file is
+
+                   20
+
+
+               The Shadow Table Length in the file is decoded as
+       follows:
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  13 ---> 19 .
+
+
+
+
+       4.7 First Part of Line 10.
+
+
+
+       4.7.1 Shadow Table Step Time.
+
+
+               These are the first 2 bytes.
+
+
+               The Shadow Table Step Time that corresponds to
+       the sample file is
+
+                   200 sec
+
+
+               The Shadow Table Step Time in the file is decoded
+       analogously to 4.6.3.
+
+               For the sample file:  00C8 ---> 200 .
+
+
+
+       4.7.2 Shadow Ephemeris Start Time, fractional part.
+
+
+               These are the next 2 bytes.
+
+
+               The Shadow Ephemeris Start Time that corresponds
+       to the sample file is
+
+                   841025590.773 sec
+
+
+               The fractional part of the Shadow Ephemeris Start
+       Time in the file is decoded as follows:
+
+
+         -  Reverse the order of the bytes appearing in the
+            file, and form a 2-byte number in hex.
+
+            For the sample file, this gives  C5FC .
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  50684 .
+
+
+         -  Divide the number by 16 to the 4th. power, 65536.
+
+            For the sample file, this gives  0.773 .
+
+
+
+       4.7.3 Orbital Period, fractional part.
+
+
+               These are the next 2 bytes.
+
+
+               The Orbital Period that corresponds to the sample
+       file is
+
+                   8009.317 sec
+
+
+               The fractional part of the Orbital Period in the
+       file is decoded analogously to 4.7.2.
+
+               For the sample file:
+                       510D ---> 20749 ---> 0.317 .
+
+
+
+
+       4.8 Rest of the Packet.
+
+
+
+               From this point on, the packet contains encoded
+       table values.
+
+
+               The values come in pairs: one value of Gamma
+       followed by the corresponding value of Delta Gamma.
+
+
+               Each pair takes up 4 bytes.
+
+
+               The pairs follow one another, and the number of
+       pairs is equal to the number of Shadow Ephemeris table
+       elements.
+
+
+               The number of table elements that corresponds to
+       the sample file is
+
+                   20
+
+
+
+       4.8.1 Gamma.
+
+
+               These are the first 2 bytes of each pair.
+
+
+               The first Gamma that corresponds to the sample
+       file is
+
+                   285.000 deg
+
+
+               The Gamma in the file is decoded as follows:
+
+
+         -  Reverse the order of the bytes appearing in the
+            file, and form a 2-byte number in hex.
+
+            For the sample file, this gives  CAAB .
+
+
+         -  Convert the hex to decimal.
+
+            For the sample file, this gives  51883 .
+
+
+         -  Divide the number by 16 to the 4th. power, 65536;
+            and multiply the result by 360.
+
+            For the sample file, this gives  285.002  (which is
+            within the accuracy of the file).
+
+
+
+       4.8.2 Delta Gamma.
+
+
+               These are the last 2 bytes of each pair.
+
+
+               The first Delta Gamma that corresponds to the
+       sample file is
+
+                   0.000 deg
+
+
+               The Delta Gamma in the file is decoded
+       analogously to 4.8.1.
+
+               For the sample file:
+                       0000 ---> 0 ---> 0.000 .
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. The Packet Separator.
+
+
+
+
+               The purpose of the packet separator is to
+       separate the Sun-Nadir data packet from the "null
+       packet".
+
+
+               The packet separator is a single line, that
+       contains only the ASCII line feed character.
+
+
+               In the sample file the packet separator is line
+       16.
+
+               However, the packet separator may be a line other
+       than line 16, depending on the length of the Sun-Nadir
+       data packet.
+
+
+
+
+       ---------------------------------------------------------
+
+
+
+       6. The "Null Packet".
+
+
+
+
+               The "null packet" is included in the file in
+       order to work around a potential problem with memory
+       loads at Goddard.
+
+
+               The contents of the "null packet" is fixed.
+
+
+               In the sample file the "null packet" covers lines
+       17 through 32.
+
+               However, the first line of the "null packet" may
+       be a line other than line 17, depending on the length of
+       the Sun-Nadir data packet.
+
+               If the number of the first line of the "null
+       packet" changes, then the number of the last line will
+       also change accordingly.

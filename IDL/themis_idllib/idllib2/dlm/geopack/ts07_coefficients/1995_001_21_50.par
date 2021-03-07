@@ -1,0 +1,107 @@
+        1.00000  # dipole shielding field amp.
+       -6.17159  # n-1 eq. amp.
+       -18.0894  # n-2 eq. amp.
+       -35.5091  # n-3 eq. amp.
+       -57.2016  # n-4 eq. amp.
+       -83.9910  # n-5 eq. amp.
+        23.1833  # m-1 n-1 odd eq. amp.
+       -15.3399  # m-2 n-1 odd eq. amp.
+       -5.21593  # m-3 n-1 odd eq. amp.
+        6.10238  # m-4 n-1 odd eq. amp.
+       -1.61808  # m-1 n-2 odd eq. amp.
+       -5.01667  # m-2 n-2 odd eq. amp.
+       -7.34451  # m-3 n-2 odd eq. amp.
+        16.7520  # m-4 n-2 odd eq. amp.
+       -13.9645  # m-1 n-3 odd eq. amp.
+        3.20855  # m-2 n-3 odd eq. amp.
+       -4.38371  # m-3 n-3 odd eq. amp.
+       -11.8475  # m-4 n-3 odd eq. amp.
+       -20.4881  # m-1 n-4 odd eq. amp.
+        13.7113  # m-2 n-4 odd eq. amp.
+       -6.93251  # m-3 n-4 odd eq. amp.
+       -5.08408  # m-4 n-4 odd eq. amp.
+       -2.58864  # m-1 n-5 odd eq. amp.
+       -5.37823  # m-2 n-5 odd eq. amp.
+        7.96640  # m-3 n-5 odd eq. amp.
+       0.734251  # m-4 n-5 odd eq. amp.
+       -1.23088  # m-1 n-1 even eq. amp.
+        15.9250  # m-2 n-1 even eq. amp.
+       -17.1414  # m-3 n-1 even eq. amp.
+        6.36448  # m-4 n-1 even eq. amp.
+        10.7267  # m-1 n-2 even eq. amp.
+       -11.5860  # m-2 n-2 even eq. amp.
+        1.04264  # m-3 n-2 even eq. amp.
+        1.76353  # m-4 n-2 even eq. amp.
+       -12.2491  # m-1 n-3 even eq. amp.
+        12.5714  # m-2 n-3 even eq. amp.
+        25.1509  # m-3 n-3 even eq. amp.
+       -13.6912  # m-4 n-3 even eq. amp.
+       -13.7206  # m-1 n-4 even eq. amp.
+       -15.4457  # m-2 n-4 even eq. amp.
+       -9.43638  # m-3 n-4 even eq. amp.
+        28.4484  # m-4 n-4 even eq. amp.
+        27.8610  # m-1 n-5 even eq. amp.
+        6.33646  # m-2 n-5 even eq. amp.
+       -2.14416  # m-3 n-5 even eq. amp.
+       -12.8374  # m-4 n-5 even eq. amp.
+       -6.07586  # n-1 * sqrt(pdyn) eq. amp.
+       -13.3851  # n-2 * sqrt(pdyn) eq. amp.
+       -14.1530  # n-3 * sqrt(pdyn) eq. amp.
+       -7.40668  # n-4 * sqrt(pdyn) eq. amp.
+        6.12407  # n-5 * sqrt(pdyn) eq. amp.
+        31.8907  # m-1 n-1 odd * sqrt(pdyn) eq. amp.
+       -11.9879  # m-2 n-1 odd * sqrt(pdyn) eq. amp.
+       -12.8904  # m-3 n-1 odd * sqrt(pdyn) eq. amp.
+        5.21423  # m-4 n-1 odd * sqrt(pdyn) eq. amp.
+       -7.16447  # m-1 n-2 odd * sqrt(pdyn) eq. amp.
+        4.67685  # m-2 n-2 odd * sqrt(pdyn) eq. amp.
+       -18.4868  # m-3 n-2 odd * sqrt(pdyn) eq. amp.
+        3.43241  # m-4 n-2 odd * sqrt(pdyn) eq. amp.
+       -19.0685  # m-1 n-3 odd * sqrt(pdyn) eq. amp.
+        10.2198  # m-2 n-3 odd * sqrt(pdyn) eq. amp.
+       -16.4077  # m-3 n-3 odd * sqrt(pdyn) eq. amp.
+       -30.0944  # m-4 n-3 odd * sqrt(pdyn) eq. amp.
+       -16.3997  # m-1 n-4 odd * sqrt(pdyn) eq. amp.
+       -1.08348  # m-2 n-4 odd * sqrt(pdyn) eq. amp.
+       -17.4220  # m-3 n-4 odd * sqrt(pdyn) eq. amp.
+       -15.6002  # m-4 n-4 odd * sqrt(pdyn) eq. amp.
+       -10.8803  # m-1 n-5 odd * sqrt(pdyn) eq. amp.
+       -7.03528  # m-2 n-5 odd * sqrt(pdyn) eq. amp.
+        20.1881  # m-3 n-5 odd * sqrt(pdyn) eq. amp.
+        2.48076  # m-4 n-5 odd * sqrt(pdyn) eq. amp.
+       -17.2780  # m-1 n-1 even * sqrt(pdyn) eq. amp.
+       -26.9174  # m-2 n-1 even * sqrt(pdyn) eq. amp.
+        1.74728  # m-3 n-1 even * sqrt(pdyn) eq. amp.
+        3.77043  # m-4 n-1 even * sqrt(pdyn) eq. amp.
+       -13.6128  # m-1 n-2 even * sqrt(pdyn) eq. amp.
+       -19.8134  # m-2 n-2 even * sqrt(pdyn) eq. amp.
+        2.22889  # m-3 n-2 even * sqrt(pdyn) eq. amp.
+        10.9707  # m-4 n-2 even * sqrt(pdyn) eq. amp.
+      -0.945230  # m-1 n-3 even * sqrt(pdyn) eq. amp.
+        7.00550  # m-2 n-3 even * sqrt(pdyn) eq. amp.
+       -7.40594  # m-3 n-3 even * sqrt(pdyn) eq. amp.
+        7.76915  # m-4 n-3 even * sqrt(pdyn) eq. amp.
+        17.6569  # m-1 n-4 even * sqrt(pdyn) eq. amp.
+       -6.87705  # m-2 n-4 even * sqrt(pdyn) eq. amp.
+       -9.72309  # m-3 n-4 even * sqrt(pdyn) eq. amp.
+        1.34264  # m-4 n-4 even * sqrt(pdyn) eq. amp.
+        36.9522  # m-1 n-5 even * sqrt(pdyn) eq. amp.
+        25.8776  # m-2 n-5 even * sqrt(pdyn) eq. amp.
+        18.7644  # m-3 n-5 even * sqrt(pdyn) eq. amp.
+       -4.81420  # m-4 n-5 even * sqrt(pdyn) eq. amp.
+       0.180292  # reg-1 M-1 asym. amp.
+      0.0400218  # reg-1 M-2 asym. amp.
+      0.0427180  # reg-2 M-1 asym. amp.
+       0.160994  # reg-2 M-1 sym. amp.
+        2.05514  # current sheet thickness
+        9.06653  # hinge distance
+        33.5952  # warping parameter
+        1.06282  # reg-1 scaling
+        1.71608  # reg-2 scaling
+     0.00598134  # twist factor * 10
+     Q=        9.43556
+ B_rms=        16.8261
+     M=              4
+     N=              5
+  Pdyn=        6.30000
+  tilt=      -0.347005

@@ -1,0 +1,619 @@
+************************************************************************
+
+   README.General.UCB.wt.rot_mat_to_FAC_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.rot_mat_to_FAC_001
+
+************************************************************************
+
+   Rotation matrix to FAC, for any time resolution.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.rot_mat_to_FAC_001	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a rotation matrix from another
+       coordinate system to the FAC (Field-Aligned Coordinates) system.
+
+
+
+       The matrix can be produced at any time resolution.
+
+
+
+
+
+    2) The other coordinate system should be a system that does not
+       participate of the rotation of the spacecraft.
+
+
+
+
+
+    3) It is assumed that the plane of each magnetic field line contains
+       the center of the dipole of the Earth's magnetic field.
+
+
+
+
+
+    4) There must be one input, which is the magnetic field vector.
+
+
+       The matrix that is produced is for the rotation: from the
+       coordinate system to which the components of the magnetic field
+       are referred, into FAC.
+
+
+
+
+
+    5) There must be one input, which is the spacecraft position vector.
+
+
+       The position is referred to the center of the Earth.
+
+
+
+
+
+    6) If the components of the spacecraft position vector are not
+       referred to the GEI (Geocentric Equatorial Inertial) system, then
+       there must be an additional input, which is a rotation matrix
+       between GEI and the coordinate system of the spacecraft position
+       vector.
+
+
+
+
+
+    7) If the components of the magnetic field vector are not referred
+       to the GEI system, then there must be an additional input, which
+       is a rotation matrix between GEI and the coordinate system of the
+       magnetic field vector.
+
+
+
+       The requirement for this additional input will have been met
+       already if both the spacecraft position and the magnetic field
+       are referred to the same coordinate system, which is not GEI.
+
+
+       In that case, the rotation matrix between GEI and the coordinate
+       system of the spacecraft position vector is also the rotation
+       matrix between GEI and the coordinate system of the magnetic
+       field vector.
+
+
+
+
+
+    8) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    9) The matrix produced by this Science Module is for rotation in one
+       direction only.
+
+
+
+       The matrix for the rotation in the opposite direction is the
+       transpose of the matrix produced.
+
+
+
+
+
+   10) The time resolution can be specified.
+
+
+
+
+
+   11) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the magnetic field
+       vector.
+
+
+
+       The magnetic field vector for the time of the output data point
+       is obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   12) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the spacecraft
+       position vector.
+
+
+
+       The spacecraft position vector for the time of the output data
+       point is obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   13) If there are any input rotation matrices, then additionally for
+       an output data point to be produced, it must be in the time
+       interval defined by two input data points of each rotation
+       matrix.
+
+
+
+       For each input rotation matrix, the input rotation matrix for the
+       time of the output data point is the input rotation matrix at the
+       closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Time resolution for the output.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            3) Flag for the coordinate system of the spacecraft position
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in GEI.
+
+                    WT_FALSE  =  The vector is not in GEI.
+
+
+
+            4) Flag for the coordinate system of the magnetic field
+               vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The vector is     in GEI.
+
+                    WT_FALSE  =  The vector is not in GEI.
+
+
+
+            5) Flag for the same coordinate system for the spacecraft
+               position vector and the magnetic field vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The two coordinate systems are     the
+                                 same.
+
+                    WT_FALSE  =  The two coordinate systems are not the
+                                 same.
+
+
+               Must be consistent with the flags for the coordinate
+               systems of each of the two vectors.
+
+
+
+            6) Code for the units of the spacecraft position vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_UNITS_KM  =  The units are Km.
+
+                    WT_UNITS_RE  =  The units are Re.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the input vectors (magnetic field, and spacecraft
+               position, in that order).
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) The group of parameters described here occurs once
+                   for each of the 3 input vector components.
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the input rotation matrices (between GEI and the
+               coordinate system of the spacecraft position vector, and
+               between GEI and the coordinate system of the magnetic
+               field vector, in that order).
+
+
+
+                1) Flag for direction for the rotation matrix.
+
+
+                   Int.
+
+
+                   If this input rotation matrix is used,
+                   must be one of the following:
+
+
+                        WT_TRUE   =  Matrix rotates from GEI to the
+                                     other system.
+
+                        WT_FALSE  =  Matrix rotates from the other
+                                     system to GEI.
+
+
+
+                2) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If this input rotation matrix is used,
+                   must be  >  0.
+
+
+
+                3) The group of parameters described here occurs once
+                   for each of the 9 input matrix components.
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+                       If this input rotation matrix is used,
+                       the indices must correspond to the matrix
+                       elements in row-major order (column subscript
+                       varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The spacecraft position.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The rotation matrix between GEI and the coordinate system
+               of the spacecraft position vector.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+            4) The rotation matrix between GEI and the coordinate system
+               of the magnetic field vector.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) a(1,1).
+
+
+               Double.
+
+
+
+            3) a(1,2).
+
+
+               Double.
+
+
+
+            4) a(1,3).
+
+
+               Double.
+
+
+
+            5) a(2,1).
+
+
+               Double.
+
+
+
+            6) a(2,2).
+
+
+               Double.
+
+
+
+            7) a(2,3).
+
+
+               Double.
+
+
+
+            8) a(3,1).
+
+
+               Double.
+
+
+
+            9) a(3,2).
+
+
+               Double.
+
+
+
+           10) a(3,3).
+
+
+               Double.
+
+
+
+       Note: The matrix is designated "a", with rows and columns
+       numbered 1 to 3; the first subscript is the row number, the
+       second subscript is the column number.

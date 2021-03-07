@@ -1,0 +1,103 @@
+****************************************************************
+
+       README.sunnadir.config.file.changes
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the sunnadir program.
+
+****************************************************************
+
+       @(#)README.sunnadir.config.file.changes	1.1    04/06/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Introduction.
+
+       2. Making Changes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Introduction.
+
+
+
+
+               The purpose of the sunnadir program is to create
+       memory load files for the FAST satellite.
+
+               These files are uploaded to the satellite, where
+       they are used by software that controls instruments.
+
+               The information contained in these files concerns
+       the orientation of the spacecraft with respect to the
+       Earth and the Sun; this, plus horizon sensor data, makes
+       it possible to generate "pseudo Sun pulses" when the
+       spacecraft is in shadow.
+
+
+
+               This documentation file shows how to make changes
+       to the Configuration file, which is one of the inputs to
+       the program.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Making Changes.
+
+
+
+
+               The Configuration file itself contains
+       instructions on the format required and about changes.
+
+
+
+               It is possible to have one single Configuration
+       file, which includes a clear history of all the values
+       used previously; this is what is recommended.
+
+
+
+               A simple way to accomplish this requires
+       observing consistently the following rules:
+
+
+         - Look for blocks of lines at the end of the file,
+           where each block starts with a comment line that
+           says:
+
+               Values below effective ... (a date)
+
+
+         - Duplicate the last such block; i.e., reproduce the
+           lines starting with the last such comment line,
+           through the end of the file; appending the new block
+           after what was originally the end of the file (note:
+           the block to be duplicated includes some blank lines
+           at the end, which should be duplicated along with the
+           rest).
+
+
+         - The new block that has been appended can be edited
+           now, to change the values as required; the comment
+           line at the beginning of the block should be edited
+           to show the appropriate date.
+
+           No line in the new block should be deleted; so, if
+           any values are not being changed, the corresponding
+           lines in the new block should be left intact.

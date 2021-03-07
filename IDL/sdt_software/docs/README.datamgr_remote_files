@@ -1,0 +1,226 @@
+Here is the new version of datamgr which can access files
+residing on-line on remote machines.
+
+Installing this new datamgr will be advantageous to investigators
+at sites remote from Berkeley in 2 main ways:
+
+* You will be able to access the most recent data, which has not
+  been loaded into the jukeboxes at Berkeley, but is stored on
+  line on hard disks at UCSOC.  (This includes data collected since the 
+  end of May 2000.)  If you use local jukeboxes, this means you will
+  have the option of downloading recent data without loading the CDROM
+  into your local jukebox or CDROM drive.
+  If you use Berkeley's jukeboxes remotely, this means all FAST data
+  will once again be accessible to you through datamgr.
+
+* You will be able to access the disks at Berkeley which contain 
+  frequently used data -- this will allow you to 
+  bypass using jukeboxes or CDROMs to access important data.
+
+Also with some additional configuration, you can also
+
+* Access data on line at sites other than Berkeley (assuming
+  they are willing to set up a jbuser account on their file server
+  and give you access to it using ssh or rsh)
+
+
+This new version of datamgr uses the UCSOC Sybase SQL server to
+maintain a central database of all files which have been downloaded
+with datamgr.  A list of on-line files will no longer be stored
+at each individual site.  
+
+Be aware that if you use older versions of datamgr after beginning to
+use this new version, the new datamgr will not find files on line
+which were downloaded by the old version after the time the
+fileListToDB command is run (see step 4, below), and the old datamgr
+will not find files which have been downloaded by the new version.
+
+
+
+What you need to do in order get up and running with this new 
+version of datamgr:
+-------------------------------------------------------------
+
+1) The patch to the delivery software is available from the 
+   juneau.ssl.berkeley.edu ftp site at
+   pub/software_releases/
+
+   extract the tar file:
+
+   cd $FASTBIN
+   zcat datamgr.2.8.tar.Z | tar xpf -
+
+   the new versions of datamgr and cdromCopyTool have a .2.8 extention
+   so installing this patch will not overwrite your current version of 
+   datamgr.
+   Once at least steps (3) and (4) have been completed, you must rename
+   the new versions to complete the installation. See step (6).
+
+
+2) In order to download files which are on line at UCSOC, 
+   you need to be configured to log into our file server
+   juneau.ssl.berkeley.edu as user jbuser.
+
+   if you use rsh, then we must add your machine to the 
+   .rhosts file on for jbuser on juneau.
+
+   if you use ssh, then your public key in ~/.ssh/identity.pub needs to
+   be added to the ~/.ssh/known_hosts file for jbuser on juneau.
+
+   Contact Ken Bromund [kenb@ssl.berkeley.edu] 
+   or Wally Herrick [wherrick@ssl.berkeley.edu] to do this for you, 
+   if it has not been done alreay.  [The jukeboxes used to be on
+   juneau, so those of you who were set up to access the jukeboxes
+   remotely back in those days may still be properly configured
+   to log in.]
+
+3) Before you can begin using the new datamgr,
+   we need to configure our database to give datamgr users at
+   your site permission to update the Sybase database.
+
+   Files at your site will
+   be identified in the database by the internet and IP address of 
+   your file server.  For the purposes of datamgr, your file server
+   is defined to be the machine on which the $FASTCONFIG directory
+   actually resides.  
+
+   Send the internet address of your file server to the database 
+   administrator for UCSOC -  Ken Bromund [kenb@ssl.berkeley.edu] 
+   or Wally Herrick [wherrick@ssl.berkeley.edu].
+
+   If you are not sure which machine should be the 'file server',
+   proceed to step (4) and try running fileListToDB -- the error 
+   message will print the name of the file server datamgr will 
+   be using for your site.
+
+4) Once step (3) is has been completed by one of the database 
+   administrators, you must upload the list of files you currently 
+   have on line up to the Sybase database.  To do this, you must 
+   run the following command from the UNIX command line:
+  
+   fileListToDB
+
+5) add the following line to your $FASTCONFIG/Datamgr/Datamgr.conf file
+   
+   set REMOTE_DOMAIN_HOSTS {juneau.ssl.berkeley.edu}
+
+   This tells datamgr that you want to be given the option of downloading
+   files that are online at Berkeley.  
+
+   If there are other sites which you want to configure datamgr
+   to download files from, you can add them to the REMOTE_DOMAIN_HOSTS
+   list, within the {}'s.
+
+   You may remove the   "set DATAFILE_LIST ..." line, because it is
+   no longer needed, once fileListToDB has been run.
+
+6) Steps (3) and (4) are essential before you may begin to use the
+   new datamgr.  The other steps are necessary only for the new
+   feature of accessing remote files.  
+
+   To complete the installation of the new datamgr, first save the
+   executable files for the old version:
+
+   cd $FASTBIN
+   mv datamgr datamgr.2.7
+   mv cdromCopyTool cdromCopyTool.2.7
+
+   then rename the new version:
+
+   mv datamgr.2.8 datamgr
+   mv cdromCopyTool.2.8 cdromCopyTool
+
+
+
+Usage Notes for New Datamgr Features:
+-------------------------------------
+
+datamgr
+-------
+
+Files available on-line at a remote site are labeled in the
+File List with the letter 'R'.
+
+There is a new checkbox labeled "(R) Remote Internet Domain"
+which lets you control whether or not datamgr will try to
+locate the files you need online on remote machines.
+
+If a file is online on a remote machine and also
+on a CDROM loaded in the jukebox, datamgr will label the file as 'R'
+and will download it from the remote machine, unless you deselect the
+"(R) Remote Internet Domain" button.
+
+Users with local jukeboxes who have limited bandwidth for accessing
+UCSOC might prefer to give priority to finding files on their local
+jukebox before going out on the internet.  They also might want to be
+able to continue to use their local jukeboxes but also have the option
+to access the UCSOC jukeboxes.  This functionallity can be included in
+the upcoming release of datamgr -- send any comments to
+kenb@ssl.berkeley.edu...
+
+The functionality of datamgr's Update Filelist command has been
+changed.  It now only checks the files in the current query result
+file list, since checking all files in the entire database can take
+prohibitively long.
+
+
+fileListToDB
+------------
+This is a utility which must be run from the UNIX command line.
+
+This utility uploads the contents of your DATAFILE_LIST file up to the
+Sybase database at UCSOC.  [DATAFILE_LIST is the list of all files you
+have downloaded to any Data Directory.  The name and location of your
+DATAFILE_LIST file are defined in the $FASTCONFIG/Datamgr/Datamgr.conf
+file.]
+
+You should only have to use this utility once, when you install the
+new datamgr.  If for some reason you need to run it again, be 
+aware that you will lose all information in the database about
+files which you have downloaded with the new datamgr.
+
+
+
+The following utilities are intended for use at UCSOC
+-----------------------------------------------------
+
+trimFileList
+------------
+see man page for trimFileList.
+
+fast_onlineAccess
+-----------------
+
+Usage:
+fast_onlineAccess
+
+
+fast_onlineAccess is an interactive utility which
+allows the database administrator at UCSOC to manage permissions
+to update the Sybase database of online files.  
+
+To add a new machine, either the internet address or IP address
+is needed.  nslookup is used to find the IP address if you enter
+a machine's name, and vice versa.  You can also enter a
+fully qualified address and IP address by hand, if nslookup for
+some reason gives the wrong results.
+
+You can also remove a machine, which also will remove all record
+of any files stored on that machine's domain.  
+
+You can change the name of the fileserver for a domain, which
+leaves the database of files stored on the domain intact, but
+simply changes the name of the machine considered to be the 
+fileserver for that domain.
+
+
+
+
+
+
+
+
+
+
+
+

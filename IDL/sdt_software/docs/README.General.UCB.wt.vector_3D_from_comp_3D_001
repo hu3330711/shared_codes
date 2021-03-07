@@ -1,0 +1,341 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_3D_from_comp_3D_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_3D_from_comp_3D_001
+
+************************************************************************
+
+   Vector 3D from components 3D.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_3D_from_comp_3D_001	1.1    09/14/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a 3D vector from 3 separate
+       components.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) Vector component 1.
+
+
+
+            2) Vector component 2.
+
+
+
+            3) Vector component 3.
+
+
+
+
+
+    3) An output data point is produced for each successful match
+       containing a data point of each of the following inputs:
+
+            1) Vector component 1.
+
+            2) Vector component 2.
+
+            3) Vector component 3.
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+
+
+    4) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+    5) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0      =  Do not dump.
+
+                    >= 1   =  Dump output data points with indices of:
+                              0, n, 2n, 3n, ...  (where n is the chosen
+                              dump frequency); i.e., every n-th point.
+
+                    <= -1  =  Dump output data points with indices of:
+                              0, 1, 2, 3, ..., (n-1)  (where -n is the
+                              chosen dump frequency); i.e., the first n
+                              points.
+
+
+
+            2) The group of parameters described here occurs once for
+               each input vector component.
+
+
+
+                1) Weight for output time tag.
+
+
+                   Double.
+
+
+                   Must be  >=  0.
+
+
+
+                2) Maximum time separation for consecutive input data
+                   points.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                3) Input component index.
+
+
+                   Int.
+
+
+
+               The sum of the weights for the output time tag must be
+               >  0  (not necessarily 1).
+
+
+
+            3) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The vector component 1.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double or Float.
+
+                   Must be component 0.
+
+
+                2) One additional component for the vector component
+                   value.
+
+                   Float.
+
+
+
+            2) The vector component 2.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double or Float.
+
+                   Must be component 0.
+
+
+                2) One additional component for the vector component
+                   value.
+
+                   Float.
+
+
+
+            3) The vector component 3.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double or Float.
+
+                   Must be component 0.
+
+
+                2) One additional component for the vector component
+                   value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the vector.
+
+
+               Float.

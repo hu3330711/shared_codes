@@ -1,0 +1,984 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogscopgf.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Copy the Goddard input files for the programs to produce
+#      the FAST commands and shadow ephemeris.
+#
+# **************************************************************
+#
+#      @(#)ogscopgf.shp	1.6    09/23/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogscopgf
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crauxf = $no                # any auxiliary file created
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set ofmode = 664                # mode for output files.
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set opta   = $no                # copy all files
+
+   set optk   = $no                # keep "working" subdir
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-a")  then
+
+           set opta   = $yes
+
+
+         else  if  ("$aux001" == "-k")  then
+
+           set optk   = $yes
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the output directory, and create it if needed.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set outdir = $aux001
+         else
+           echo " $prcnam : " \
+               "Output directory must be single word"
+           goto l8000
+         endif
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, output directory"
+       goto l8000
+
+     endif
+
+
+
+   if  (-e $outdir)  then
+
+       if  (-d $outdir)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Output directory  $outdir  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $outdir
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create output directory  $outdir"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the base "working" subdirectory.
+#
+#---------------------------------------------------------------
+
+   set godcop = $outdir/$gdcp
+
+
+   if  (-e $godcop)  then
+
+       rm -r -f $godcop
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to delete  $godcop"
+           goto l8000
+         endif
+
+     endif
+
+
+   mkdir $godcop
+
+   if  ($status == 0)  then
+     else
+       echo " $prcnam : " \
+           "Unable to create subdir  $godcop"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $godcop/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+   set auxf2  = $auxf.2
+
+
+
+#---------------------------------------------------------------
+#
+#      Save a copy of the procedure configuration file.
+#
+#---------------------------------------------------------------
+
+   cp $cfgprc $auxf1
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to copy  $cfgprc  to  $auxf1"
+       goto l8000
+     endif
+
+   set crauxf = $yes
+
+
+
+   chmod -f $ofmode $auxf1
+
+   if  ($status == 0)  then
+     else
+       echo " $prcnam : " \
+           "Unable to change mode of file  $auxf1"
+       goto l8000
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subordinate subdirectories.
+#
+#---------------------------------------------------------------
+
+   set godnwi = $godcop/$gdnw
+
+   set godlat = $godcop/$gdlt
+
+
+   foreach subd ($godnwi $godlat)
+
+       mkdir $subd
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to create subdir  $subd"
+           goto l8000
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if the input directory is present.
+#
+#---------------------------------------------------------------
+
+   set godinp = $rdwork/$gdin
+
+
+   if  (-e $godinp)  then
+
+       if  (-d $godinp)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Directory  $godinp  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       goto l6000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the codes for the input from Goddard.
+#
+#---------------------------------------------------------------
+
+   set dupl   = $no                # indic of dupl files found
+
+
+
+   foreach icod ($subcod)
+
+
+       if  (($icod >= 1) && ($icod <= $ncod))  then
+         else
+           echo " $prcnam : " \
+               "Invalid subscript for code  $icod"
+           goto l8000
+         endif
+
+
+       set code   = $godcod[$icod]
+
+       set type   = $fnmtyp[$icod] # file name type
+
+       set nldat  = $nlatus[$icod] # number of latest dates used
+
+
+       if  (($type >= 1) && ($type <= $ntyp))  then
+         else
+           echo " $prcnam : " \
+               "Invalid Goddard file name type" \
+               " $icod  =  $type"
+           goto l8000
+         endif
+
+
+       if  ($nldat >= 0)  then
+         else
+           echo " $prcnam : " \
+               "Invalid number of latest dates used" \
+               " $icod  =  $nldat"
+           goto l8000
+         endif
+
+
+       set compar = $fncmp[$type]  # name compare program
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if there are any input files for this code.
+#
+#---------------------------------------------------------------
+
+       ls $godinp/*${code}* >&! $auxf2
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+       if  ($retcod != 0)  then    # no input files
+           continue
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectory for all the input files for this
+#      code.
+#
+#---------------------------------------------------------------
+
+       set subdnw = $godnwi/$code
+
+       mkdir $subdnw
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to create subdir  $subdnw"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the input files.
+#
+#---------------------------------------------------------------
+
+       set list1  = (`cat $auxf2`)
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to read file  $auxf2"
+           goto l8000
+         endif
+
+       set list2  = ( )            # file names with no path
+
+
+
+       foreach filx ($list1)
+
+           set fnam   = $filx:t
+
+           set file   = $godinp/$fnam
+
+           set list2  = ($list2 $fnam)
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the input file to the subdirectory for all the input
+#      files for this code.
+#
+#---------------------------------------------------------------
+
+           cp $file $subdnw
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Unable to copy  $file  to  $subdnw"
+               goto l8000
+             endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if this input file is duplicated.
+#
+#      Note that the check for duplicates involves a complete
+#      comparison of the file names, not just a check of the
+#      file names as character strings.
+#
+#---------------------------------------------------------------
+
+           foreach fily ($list1)
+
+
+               set fnamy  = $fily:t
+
+               if  ($fnamy == $fnam)  then
+                   continue
+                 endif
+
+
+               set compvl = `$compar $fnam $fnamy`
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Error comparing  $fnam  and  $fnamy"
+                   goto l8000
+                 endif
+
+
+               if  ($compvl[1] == 0)  then    # duplicate
+
+                   if  ($dupl == $no)  then
+
+                       echo ""
+                       echo " The following files are" \
+                           "duplicated:"
+                       echo ""
+
+                       set dupl   = $yes
+
+                     endif
+
+                   echo " $fnam"
+
+                   break
+
+                 endif
+
+
+             end
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the input files.
+#
+#---------------------------------------------------------------
+
+         end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectory for the latest input files for
+#      this code.
+#
+#---------------------------------------------------------------
+
+       if  ($nldat == 0)  then
+           goto l5000
+         endif
+
+
+       set subdlt = $godlat/$code
+
+       mkdir $subdlt
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to create subdir  $subdlt"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the latest input files for this code.
+#
+#---------------------------------------------------------------
+
+       ogslatst -c $auxf1 $code $list2 >&! $auxf2
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then
+         else
+           cat $auxf2
+           echo " $prcnam : " \
+               "Error determining latest files for code  $code"
+           goto l8000
+         endif
+
+
+       set list3  = (`cat $auxf2`)
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to read file  $auxf2"
+           goto l8000
+         endif
+
+
+       if  ($#list3 >= 2)  then
+         else
+           echo " $prcnam : " \
+               "List of latest files  $code  is too short"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the latest input files for this code to the
+#      subdirectory for the latest input files for this code.
+#
+#---------------------------------------------------------------
+
+       set i      = 0
+
+
+       while  ($#list3 >= 1)
+
+           @ i++
+           if  ($i > $nldat)  then
+               echo " $prcnam : " \
+                   "List of latest files  $code  is too long"
+               goto l8000
+             endif
+
+           if  ($#list3 >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "List of latest files  $code  is too short"
+               goto l8000
+             endif
+
+           cp $godinp/$list3[1] $subdlt/$list3[2]
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Unable to copy  $godinp/$list3[1]  to" \
+                   " $subdlt"
+               goto l8000
+             endif
+
+           shift list3
+
+           shift list3
+
+         end
+
+
+
+ l5000:
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy all or the latest input files to the output
+#      directory, as appropriate.
+#
+#---------------------------------------------------------------
+
+       if  ($opta == $yes)  then
+           set inpdir = $subdnw
+
+         else  if  ($nldat == 0)  then
+           continue
+
+         else
+           set inpdir = $subdlt
+
+         endif
+
+
+
+       cp $inpdir/* $outdir
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to copy  $inpdir  to  $outdir"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the codes for the input from Goddard.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Write duplicate file listing separator.
+#
+#---------------------------------------------------------------
+
+   if  ($dupl == $yes)  then
+       echo ""
+     endif
+
+
+
+ l6000:
+
+
+
+#---------------------------------------------------------------
+#
+#      Delete the base "working" subdirectory if appropriate.
+#
+#---------------------------------------------------------------
+
+   if  ($optk == $no)  then
+
+       rm -r -f $godcop
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to delete  $godcop"
+           goto l8000
+         endif
+
+       set crauxf = $no            # auxiliary files deleted
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

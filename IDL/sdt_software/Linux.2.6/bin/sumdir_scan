@@ -1,0 +1,37 @@
+#!/usr/local/perl/bin/perl
+# sumdir_scan
+# This script will scan the directory where the summary
+# plot subdirectories are stored and will update a text file
+# with the name of the most recent directory. This text
+# file is referenced by the FAST web page which displays 
+# the summary plots
+#
+# 11 October 2002
+# Tim Quinn <teq@ssl.berkeley.edu>
+#
+
+## Standard Pragmas
+#
+use warnings;
+use strict;
+
+opendir(DIR,'/disks/juneau/www/WWWSUM') or die "Can't open current directory: $!";
+our @files = grep( /^[0-9]/, readdir(DIR));
+closedir(DIR);
+@files = sort (@files);
+our $latest_dir = pop @files;
+#print "The latest directory is $latest_dir\n";
+print "$latest_dir\n";
+
+open(STOREDIR, ">/disks/juneau/www/WWWSUM/recentplot.log") || die "Can't open file,  $!";
+print STOREDIR $latest_dir, "\n";
+close (STOREDIR);
+
+#foreach(@files) {
+        #print "\n$_";
+#}
+#print STDOUT "\n\nDone\n";
+
+exit()
+
+__END__

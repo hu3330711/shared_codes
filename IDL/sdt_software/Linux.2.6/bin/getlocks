@@ -1,0 +1,86 @@
+#!/usr/bin/ksh
+# getlocks - Find the current archive lockfiles and prompt
+#	     to get rid of them (if possible).
+#	     Should probably run from FINET so it can check
+#	     for backuplock and sdtlock.
+#
+
+# J. Rauch-Leiba 6/18/96
+
+. /disks/fast/software/config/archive_config
+
+# This function makes a file with all pertinent info
+
+function makefile {
+	ls -l $TMPDIR | egrep '(holdup|lock)' |
+	awk '{print NR,"/var/tmp/"$9"			"$3"	"$6,$7,$8}' > /tmp/foundloks
+}
+
+# Prints table showing  all the locks on the host
+
+function table {
+	print
+	print "No.  Lockfile Name			Owner	Date"
+	print '*****************************************************'
+	cat /tmp/foundloks
+}
+
+# Make array that holds all the lockfile names on the host
+
+function makearray {
+	set -A lockname `cat /tmp/foundloks | awk '{print $2}'`
+
+	if [[ ${#lockname[*]} = 0 ]] ; then
+		print "No lockfiles found."
+		rm /tmp/foundloks
+		exit 0
+	fi
+}
+
+# For each element in array lockname, 
+# check write permission and prompt to remove
+
+function remover {
+	for lock in ${lockname[*]} ; do
+		if [[ `cat /tmp/foundloks | grep $lock | awk '{print $3}'` = ${USER} ]] ; then
+			print
+			print -n "You may remove lockfile "
+			print -n $lock"."
+			read remove?'  Remove it? (y/n) '
+			if [[ $remove = y ]] ; then
+				if [[ ${lock%%:*} = "juneau" ]] ; then
+					rsh juneau rm ${lock#*:}
+				else
+					rm $lock
+				fi	
+			fi
+		else
+			print
+			print "You may not remove ${lock}."
+		fi
+	done
+}
+
+# Begin this lengthy script
+
+makefile
+
+# If getlocks run from FINET, search juneau for locks, append to foundloks.
+
+if [[ $(/usr/ucb/hostname) = @(barrow|manitou) ]] ; then
+        print
+        print "Searching for locks on juneau also..."
+        rsh juneau ls -l $TMPDIR | grep 'lock' |
+	awk '{print NR,"juneau:/var/tmp/"$9"                    "$3"    "$6,$7,$8}' >> /tmp/foundloks 
+else
+	print
+	print Cannot test for lockfiles on FINET.
+fi
+
+table
+
+makearray
+
+remover
+
+rm /tmp/foundloks

@@ -1,0 +1,21 @@
+#!/bin/csh
+##############################################################################
+# run_bdps - This script runs the bdps software for processing the FAST VC
+#	     			files into packet files
+##############################################################################
+#	Creation date:		22-Nov-2004	TQuinn
+# Author:						Tim Quinn
+# Revision History:
+
+## Set the environment
+#
+	source /disks/opsware/toolchain/current/setup
+	source /disks/opsware/opstools/current/setup
+
+## Change to wmorking directory
+#
+	cd /disks/juneau/home/lzp/bdps
+
+## Now run bdps
+#
+	bdps -vv 

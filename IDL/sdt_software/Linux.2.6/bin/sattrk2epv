@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# This is a wrapper script to call the orbitfit and orbhdr2epv routines in order
+# generate FAST definitive and predicted EPV files.
+
+cleanup ()
+{
+    /bin/rm -f $orb_hdr
+    /bin/rm -f $tmp_log
+    if [ "_$1" = "_" ] ;then echo "Cleanup.. "; fi
+    exit $1
+} 
+
+trap cleanup 1 2 3 6 15
+
+USAGE="Usage: sttrk2epv run-year run-DOY sattrack-prod-dir output-dir fit-duration logfile"
+
+if [ $# -ne 6 ] ; then 
+    echo $USAGE
+    exit 1
+fi
+
+# Run orbitfit first
+
+fit_duration=$5
+
+year=$1
+if [ $year -ge 2000 ] ; then year=0`expr $year - 2000` ; fi
+doy=$2
+st_epv=${3}/20${year}_${doy}/FAST_${year}${doy}_EPVDEF
+st_eph=${3}/20${year}_${doy}/FAST_${year}${doy}_EPHEM_ECI
+log=$6
+orb_hdr=/tmp/orbitfit.hdr.$$
+tmp_log=/tmp/orbitfit.log.$$
+
+echo "" > $log
+echo "@(#)sattrk2epv.sh	1.3 04/24/06" >> $log
+echo "" >> $log
+
+echo "------------------------------------------------------------" >> $log
+echo "Running orbitfit:" >> $log
+echo "" >> $log
+
+(orbitfit $st_eph $st_epv $tmp_log $fit_duration $orb_hdr || cleanup 1) >> $tmp_log 2>&1
+cat $tmp_log >> $log
+
+echo "" >> $log
+echo "------------------------------------------------------------" >> $log
+echo "" >> $log
+
+# And convert header to EPV's
+
+epv1=${4}/F${year}${doy}EPVDEF.00
+# (handle doy/year rolling)
+date1=`doy2date 20$year $doy | awk -F/ '{printf "%s/%s/%s\n",$2,$3,$1}'`
+date2=`deltaDate $date1 2`
+year2=`echo $date2 | awk -F/ '{printf "%02d\n", $1-2000}'`
+doy2=`date2doy $date2 | awk '{printf "%03d\n", $1}`
+epv2=${4}/F${year2}${doy2}EPVPRE.00
+
+echo "Running orbhdr2epv:" >> $log
+echo "" >> $log
+echo "Definitive EPV file: $epv1" >> $log
+echo "Predicted EPV file : $epv2" >> $log
+echo "" >> $log
+(orbhdr2epv $orb_hdr $epv1 $epv2 || cleanup 1) >> $log 2>&1
+
+echo "Done" >> $log
+
+cleanup 0
+
+# done

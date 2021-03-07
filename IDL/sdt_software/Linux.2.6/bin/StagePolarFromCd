@@ -1,0 +1,366 @@
+#!/bin/csh
+#
+# For SCCS:
+# @(#)StagePolarFromCd	1.1, 06/14/96
+#
+# This shell tests to see whether an optical disk (created by the
+# optical drive on "polar2") is readable on "cluster1":
+#
+# Definitions:
+#
+set CDDIR = /cdrom/cdrom0
+# set CDDIR = /cdrom/cdrom0/data/po/mfe/lz
+
+echo " "
+echo "The script assumes the default CD mount point is:  $CDDIR"
+echo "Is this the actual mount point of your CD drive (y/n)?"
+set CDID = $<
+
+if ( $CDID != "y" ) then
+echo " "
+echo "Enter the mount point of your CD drive:"
+set CDDIR = $<
+endif
+
+if ( -d $CDDIR) then
+   echo " "
+   echo "We will use, for input, the CD directory:  $CDDIR"
+else
+   echo " "
+   echo "The CD directory:  $CDDIR"
+   echo "does NOT exist - exiting"
+   exit
+endif
+
+echo " "
+echo "What directory, on hard disk, do you want to copy the data to?"
+set OUTDIR = $<
+
+if ( -d $OUTDIR) then
+   echo " "
+   echo "We will stage the data in directory:  $OUTDIR"
+else
+   echo " "
+   echo "The data directory:  $OUTDIR"
+   echo "does NOT exist - exiting"
+   exit
+endif
+
+set DCDDIR = $CDDIR/data
+set UPPERCASE = 0
+
+if ( -d $DCDDIR) then
+   set PCDDIR = $CDDIR/data/po
+else
+   set DCDDIR = $CDDIR/DATA
+   if ( -d $DCDDIR) then
+       set PCDDIR = $CDDIR/DATA/PO
+       set UPPERCASE = 1
+   else
+       echo " "
+       echo "The data directories:"
+       echo "    $CDDIR/DATA"
+       echo "       or"
+       echo "    $CDDIR/data"
+       echo "do NOT exist - exiting"
+       exit 
+   endif
+endif
+
+echo " "
+echo "Enter the date of interest in YYMMDD format"
+echo "Example:  April 21, 1996  would be:   960421"
+set IDATE = $<
+
+echo " "
+echo "You have requested date:   $IDATE"
+echo " "
+
+set YEAR=`echo $IDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+if ( $YEAR > "90") then
+    set CENTURY = 19
+else
+    set CENTURY = 20
+endif
+
+
+
+# EFI LZ file:
+
+if ( $UPPERCASE ) then
+    set IDIR = $PCDDIR/EFI/LZ
+else
+    set IDIR = $PCDDIR/efi/lz
+endif
+
+if ( -d $IDIR) then
+
+    pushd $IDIR
+    if ( $UPPERCASE ) then
+        set DATEINFO = `ls *.DAT*`
+    else
+        set DATEINFO = `ls *.dat*`
+    endif
+
+    foreach i ( $DATEINFO )
+       set FDATE=`echo $i | awk ' { dv=substr($1,1,6); print dv } ' `
+       set VERS=`echo $i | awk ' { dv1=substr($1,7,2); print dv1 } ' `
+       set YEAR=`echo $FDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+
+       if ( $YEAR > "90") then
+	    set CENTURY = 19
+       else
+	    set CENTURY = 20
+       endif
+
+       if ( $FDATE == $IDATE) then
+           set FNAME = "po_lz_efi_"$CENTURY$FDATE"_v"$VERS".dat"
+           echo " "
+           echo "Copying $i to $OUTDIR/$FNAME"
+	   cp $i $OUTDIR/$FNAME
+	   break ;
+       endif
+
+    end
+
+    if ( $FDATE != $IDATE ) then
+       echo " "
+       echo "Efi LZ file not found for:   $IDATE)
+    endif
+
+    popd
+
+else
+
+   echo " "
+   echo "The data directory:  $IDIR"
+   echo "do NOT exist - exiting"
+   exit 
+
+endif
+
+
+
+
+# MFE LZ file:
+
+if ( $UPPERCASE ) then
+    set IDIR = $PCDDIR/MFE/LZ
+else
+    set IDIR = $PCDDIR/mfe/lz
+endif
+
+if ( -d $IDIR) then
+
+    pushd $IDIR
+    if ( $UPPERCASE ) then
+        set DATEINFO = `ls *.DAT*`
+    else
+        set DATEINFO = `ls *.dat*`
+    endif
+
+    foreach i ( $DATEINFO )
+       set FDATE=`echo $i | awk ' { dv=substr($1,1,6); print dv } ' `
+       set VERS=`echo $i | awk ' { dv1=substr($1,7,2); print dv1 } ' `
+       set YEAR=`echo $FDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+
+       if ( $YEAR > "90") then
+	    set CENTURY = 19
+       else
+	    set CENTURY = 20
+       endif
+
+       if ( $FDATE == $IDATE) then
+           set FNAME = "po_lz_mfe_"$CENTURY$FDATE"_v"$VERS".dat"
+           echo " "
+           echo "Copying $i to $OUTDIR/$FNAME"
+	   cp $i $OUTDIR/$FNAME
+	   break ;
+       endif
+
+    end
+
+    if ( $FDATE != $IDATE ) then
+       echo " "
+       echo "Mfe LZ file not found for:   $IDATE)
+    endif
+
+    popd
+
+else
+
+   echo " "
+   echo "The data directory:  $IDIR"
+   echo "do NOT exist - exiting"
+   exit 
+
+endif
+
+
+# ATT file
+
+if ( $UPPERCASE ) then
+    set IDIR = $PCDDIR/DEF/AT
+else
+    set IDIR = $PCDDIR/def/at
+endif
+
+if ( -d $IDIR) then
+
+    pushd $IDIR
+    if ( $UPPERCASE ) then
+        set DATEINFO = `ls *.CDF*`
+    else
+        set DATEINFO = `ls *.cdf*`
+    endif
+
+    foreach i ( $DATEINFO )
+       set FDATE=`echo $i | awk ' { dv=substr($1,1,6); print dv } ' `
+       set VERS=`echo $i | awk ' { dv1=substr($1,7,2); print dv1 } ' `
+       set YEAR=`echo $FDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+
+       if ( $YEAR > "90") then
+	    set CENTURY = 19
+       else
+	    set CENTURY = 20
+       endif
+
+       if ( $FDATE == $IDATE) then
+           set FNAME = "po_at_def_"$CENTURY$FDATE"_v"$VERS".cdf"
+           echo " "
+           echo "Copying $i to $OUTDIR/$FNAME"
+	   cp $i $OUTDIR/$FNAME
+	   break ;
+       endif
+
+    end
+
+    if ( $FDATE != $IDATE ) then
+       echo " "
+       echo "Attitude CDF file not found for:   $IDATE)
+    endif
+
+    popd
+
+else
+
+   echo " "
+   echo "The data directory:  $IDIR"
+   echo "do NOT exist - exiting"
+   exit 
+
+endif
+
+
+
+# ORB file
+
+if ( $UPPERCASE ) then
+    set IDIR = $PCDDIR/DEF/OR
+else
+    set IDIR = $PCDDIR/def/or
+endif
+
+if ( -d $IDIR) then
+
+    pushd $IDIR
+    if ( $UPPERCASE ) then
+        set DATEINFO = `ls *.CDF*`
+    else
+        set DATEINFO = `ls *.cdf*`
+    endif
+
+    foreach i ( $DATEINFO )
+       set FDATE=`echo $i | awk ' { dv=substr($1,1,6); print dv } ' `
+       set VERS=`echo $i | awk ' { dv1=substr($1,7,2); print dv1 } ' `
+       set YEAR=`echo $FDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+
+       if ( $YEAR > "90") then
+	    set CENTURY = 19
+       else
+	    set CENTURY = 20
+       endif
+
+       if ( $FDATE == $IDATE) then
+           set FNAME = "po_or_def_"$CENTURY$FDATE"_v"$VERS".cdf"
+           echo " "
+           echo "Copying $i to $OUTDIR/$FNAME"
+	   cp $i $OUTDIR/$FNAME
+	   break ;
+       endif
+
+    end
+
+    if ( $FDATE != $IDATE ) then
+       echo " "
+       echo "Orbit CDF file not found for:   $IDATE)
+    endif
+
+    popd
+
+else
+
+   echo " "
+   echo "The data directory:  $IDIR"
+   echo "do NOT exist - exiting"
+   exit 
+
+endif
+
+
+# SPHA file
+
+if ( $UPPERCASE ) then
+    set IDIR = $PCDDIR/SPHA/K0
+else
+    set IDIR = $PCDDIR/SPHA/k0
+endif
+
+if ( -d $IDIR) then
+
+    pushd $IDIR
+    if ( $UPPERCASE ) then
+        set DATEINFO = `ls *.CDF*`
+    else
+        set DATEINFO = `ls *.cdf*`
+    endif
+
+    foreach i ( $DATEINFO )
+       set FDATE=`echo $i | awk ' { dv=substr($1,1,6); print dv } ' `
+       set VERS=`echo $i | awk ' { dv1=substr($1,7,2); print dv1 } ' `
+       set YEAR=`echo $FDATE | awk ' { dv2=substr($1,1,2); print dv2 } ' `
+
+       if ( $YEAR > "90") then
+	    set CENTURY = 19
+       else
+	    set CENTURY = 20
+       endif
+
+       if ( $FDATE == $IDATE) then
+           set FNAME = "po_k0_spha_"$CENTURY$FDATE"_v"$VERS".cdf"
+           echo " "
+           echo "Copying $i to $OUTDIR/$FNAME"
+	   cp $i $OUTDIR/$FNAME
+	   break ;
+       endif
+
+    end
+
+    if ( $FDATE != $IDATE ) then
+       echo " "
+       echo "Spha K0 file not found for:   $IDATE)
+    endif
+
+    popd
+
+else
+
+   echo " "
+   echo "The data directory:  $IDIR"
+   echo "do NOT exist - exiting"
+   exit 
+
+endif
+
+
+exit

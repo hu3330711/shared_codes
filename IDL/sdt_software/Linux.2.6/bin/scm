@@ -1,0 +1,109 @@
+#!/bin/csh -f
+#
+# For SCCS:
+# @(#)scm	1.14, 12/12/06
+#
+
+#
+#  Use the local configuration files, if they exist:
+#
+
+if ( -f $FASTBIN/SCM ) then
+    set SCMMAIN = $FASTBIN/SCM
+else if( ${?SDTHOME}) then
+    if( -f $SDTHOME/SCM/SCM ) then
+        set SCMMAIN = $SDTHOME/SCM/SCM
+    endif
+endif
+
+#load default SDT files
+#
+#  The lines that follow commented out and changed 1999/12/07 by Winston
+#  Teitler, so that the default files always come only from $FASTLIB.
+#
+#  This refers to the files SCM.Data.dat and SCM.Plot.dat; and comes
+#  about as the result of a suggestion by Jack Vernetti.
+#
+#  If someone wants to use the local directory and/or $FASTCONFIG, they
+#  can always specify that in $SCMUSERDIR.
+#  However, while $SCMUSERDIR takes precedence, what is in $FASTLIB will
+#  still apply when $SCMUSERDIR has no overriding duplicates.
+#
+#  The reason for removing the local directory and $FASTCONFIG from the
+#  normal search path is that SCM.Data.dat and SCM.Plot.dat are very
+#  special (and complicated) files, different from ordinary
+#  configuration files; so doing away entirely with the standard default
+#  files that are in $FASTLIB normally should never happen; and
+#  overriding any of the contents of those files should occur only as
+#  the result of the user making a very careful, deliberate, and
+#  organized effort.
+#
+#  if ( -f SCM.Data.dat ) then
+#      set SCMDATA = -DSCM.Data.dat
+#  else
+#      if ( -f $FASTCONFIG/sdt_cfg/scm/SCM.Data.dat ) then
+#          set SCMDATA = -D$FASTCONFIG/sdt_cfg/scm/SCM.Data.dat
+#      else
+#          set SCMDATA = -D$FASTLIB/sdt_cfg/scm/SCM.Data.dat
+#      endif
+#  endif
+#  
+#  if ( -f SCM.Plot.dat ) then
+#      set SCMPLOT = -PSCM.Plot.dat
+#  else
+#      if ( -f $FASTCONFIG/sdt_cfg/scm/SCM.Plot.dat ) then
+#          set SCMPLOT = -P$FASTCONFIG/sdt_cfg/scm/SCM.Plot.dat
+#      else
+#          set SCMPLOT = -P$FASTLIB/sdt_cfg/scm/SCM.Plot.dat
+#      endif
+#  endif
+#
+
+set SCMDATA = -D$FASTLIB/sdt_cfg/scm/SCM.Data.dat
+
+set SCMPLOT = -P$FASTLIB/sdt_cfg/scm/SCM.Plot.dat
+
+#load user files
+set SCMUSER = " "
+if( ${?SCMUSERDIR}) then
+   foreach ONE ($SCMUSERDIR)
+      if ( -f $ONE/SCM.Data.dat ) then
+         set SCMUSER = `echo "$SCMUSER -D$ONE/SCM.Data.dat"`
+      endif
+      if ( -f $ONE/SCM.Plot.dat ) then
+         set SCMUSER = `echo "$SCMUSER -P$ONE/SCM.Plot.dat"`
+      endif
+   end
+endif
+
+#
+#  Get rid of any old stdout and stderr files:
+#
+
+if( ${?SCMUSER}) then
+#    echo "SCMUSER= $SCMUSER"
+
+#
+#  The line that follows commented out and changed 1996/07/09 by Winston
+#  Teitler, so that the data and plot descriptions in $SCMUSERDIR will
+#  take precedence over all others.
+#
+#  $SCMMAIN $SCMDATA $SCMPLOT $SCMUSER
+#
+
+  if ( $#argv > 0 ) then
+     $SCMMAIN $SCMUSER $SCMDATA $SCMPLOT $1
+  else
+     $SCMMAIN $SCMUSER $SCMDATA $SCMPLOT
+  endif
+
+else
+
+  if ( $#argv > 0 ) then
+     $SCMMAIN $SCMDATA $SCMPLOT $1
+  else
+     $SCMMAIN $SCMDATA $SCMPLOT
+  endif
+
+endif
+

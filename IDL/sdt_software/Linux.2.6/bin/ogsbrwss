@@ -1,0 +1,932 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsbrwss.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Browse the send ATS command files.
+#
+# **************************************************************
+#
+#      @(#)ogsbrwss.shp	1.3    01/16/97    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsbrwss
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Save initial directory.
+#
+#---------------------------------------------------------------
+
+   set initdr = `pwd`
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crauxf = $no                # any auxiliary file created
+
+   set expjid = $no                # indic explicit job ID
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+   set optu   = $no                # user directory
+
+   set optp   = $no                # printer
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-u")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optu   = $yes
+           set expjid = $yes
+           set jid    = $aux002
+
+
+         else  if  ("$aux001" == "-p")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optp   = $yes
+           set prntr  = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the job ID for the send directory, if present.
+#
+#---------------------------------------------------------------
+
+   if  ($optu == $no)  then        # not user directory
+
+       if  ($#argv >= 1)  then     # arg present
+
+           set aux001 = ($1)
+
+           if  ($#aux001 == 1)  then
+               set expjid = $yes
+               set jid    = $aux001
+             else
+               echo " $prcnam : " \
+                   "Job ID argument must be single word"
+               goto l8000
+             endif
+
+         else                      # arg missing
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $rdwork/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the printer.
+#
+#---------------------------------------------------------------
+
+   if  ($optp == $yes)  then
+       set printr = $prntr
+     else
+       set printr = $prtreq
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the directory.
+#
+#---------------------------------------------------------------
+
+   if  ($optu == $yes)  then
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Directory in user area"
+
+       set rootd  = $rduser
+
+     else
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Directory in send area"
+
+       set rootd  = $rdsend
+
+     endif
+
+
+
+   if  (-e $rootd)  then
+
+       if  (-d $rootd)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Directory  $rootd  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       echo " Directory area not found"
+       goto l7000
+
+     endif
+
+
+
+   cd $rootd
+
+
+
+   if  ($expjid == $yes)  then
+
+       set subd   = $spsend.$jid
+
+     else
+
+       set nn     = "[0-9][0-9]"
+       set nnn    = "[0-9][0-9][0-9]"
+       set nnnn   = "[0-9][0-9][0-9][0-9]"
+
+       ls -d -r $spsend.$nnnn.$nnn.$nn.$nn.$nn >&! $auxf1
+       set retcod = $status
+       set crauxf = $yes
+
+       if  ($retcod == 0)  then    # there are subdirectories
+           set aux001 = (`cat $auxf1`)
+           set subd   = $aux001[1]
+         else
+           echo " Subdirectory not found"
+           goto l7000
+         endif
+
+     endif
+
+
+
+   echo ""
+   echo ""
+   echo ""
+   echo " Directory name is  $subd"
+
+
+
+   if  (-e $subd)  then
+
+       if  (-d $subd)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Directory  $subd  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       echo " Directory  $subd  not found"
+       goto l7000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the list of command files.
+#
+#---------------------------------------------------------------
+
+   cd $subd
+
+
+
+   ls *${cdgnor}* >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then        # there are files
+       set list1  = (`cat $auxf1`)
+     else
+       echo " No command files found"
+       goto l7000
+     endif
+
+
+   set ncommf = $#list1
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the edit command.
+#
+#---------------------------------------------------------------
+
+   set nedcmd = $#edcmds
+
+
+   set setedt = $no
+
+
+
+   if  ($nedcmd > 1)  then       # more than 1 choice of editor
+
+
+
+       while  ($setedt == $no)
+
+
+           echo ""
+
+           echo " Please enter"
+
+           echo ""
+
+
+           set i      = 0
+
+           while ($i < $nedcmd)
+
+               @ i++
+
+               echo -n "    "
+
+               if  ($i < 10)  then
+                   echo -n " "
+                 endif
+
+               echo " $i  to edit (browse) with  $edcmds[$i]"
+
+             end
+
+
+           echo ""
+
+
+           set aux001 = ($<)
+
+           set kin    = ($aux001)
+
+           if  ($#kin != 1)  then
+               echo " Invalid value entered"
+               continue
+             endif
+
+
+           set i      = 0
+
+           while ($i < $nedcmd)
+
+               @ i++
+
+               if  ($kin == $i)  then
+                   set setedt = $yes
+                   set edcmd  = $edcmds[$kin]
+                   break
+                 endif
+
+             end
+
+
+         end
+
+
+
+     else                        # only 1 choice of editor
+
+
+
+       set setedt = $yes
+
+       set edcmd  = $edcmds[1]
+
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Print command files if requested.
+#
+#---------------------------------------------------------------
+
+   while  (1)
+
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Loop to PRINT the command files"
+
+
+       echo ""
+       echo " Please enter"
+       echo ""
+
+
+       set i      = 0
+
+       while ($i < $ncommf)
+
+           @ i++
+
+           echo -n "    "
+
+           if  ($i < 10)  then
+               echo -n " "
+             endif
+
+           echo " $i  to print  $list1[$i]"
+
+         end
+
+
+       echo ""
+
+       echo -n "    "
+       echo -n " "
+       echo " 0  to exit this menu"
+
+       echo ""
+
+
+       set aux001 = ($<)
+
+       set kin    = ($aux001)
+
+       if  ($#kin != 1)  then
+           echo " Invalid value entered"
+           continue
+         endif
+
+       if  ($kin == 0)  then
+           break
+         endif
+
+
+       set i      = 0
+
+       while ($i < $ncommf)
+
+           @ i++
+
+           if  ($kin == $i)  then
+               set cmndfl = $list1[$kin]
+               eval $prtcmd -d $printr $cmndfl
+               if  ($status == 0)  then
+                   echo  " Printed  $cmndfl  on  $printr"
+                 else
+                   echo  " Error prnt  $cmndfl  on  $printr"
+                 endif
+               break
+             endif
+
+         end
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      View command files if requested.
+#
+#---------------------------------------------------------------
+
+   while  (1)
+
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Loop to BROWSE the files"
+
+
+       echo ""
+       echo " File copies are edited, no changes are saved"
+
+
+       echo ""
+       echo " Please enter"
+       echo ""
+
+
+       set i      = 0
+
+       while ($i < $ncommf)
+
+           @ i++
+
+           echo -n "    "
+
+           if  ($i < 10)  then
+               echo -n " "
+             endif
+
+           echo " $i  to browse  $list1[$i]"
+
+         end
+
+
+       echo ""
+
+       echo -n "    "
+       echo -n " "
+       echo " 0  to exit this menu"
+
+       echo ""
+
+
+       set aux001 = ($<)
+
+       set kin    = ($aux001)
+
+       if  ($#kin != 1)  then
+           echo " Invalid value entered"
+           continue
+         endif
+
+       if  ($kin == 0)  then
+           break
+         endif
+
+
+       set i      = 0
+
+       while ($i < $ncommf)
+
+           @ i++
+
+           if  ($kin == $i)  then
+
+               cat $list1[$kin] >&! $auxf1
+               set crauxf = $yes
+
+               eval $edcmd $auxf1
+
+               break
+
+             endif
+
+         end
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   cd $initdr                      # return to initial directory
+
+
+
+   exit($xitcod)

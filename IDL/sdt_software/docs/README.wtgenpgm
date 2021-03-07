@@ -1,0 +1,45 @@
+************************************************************************
+
+   README.wtgenpgm
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the directory of general programs
+
+       wtgenpgm
+
+************************************************************************
+
+   @(#)README.wtgenpgm	1.3    08/06/01    UCB SSL
+
+************************************************************************
+
+
+
+   The directory wtgenpgm contains general-purpose C-shell scripts and C
+   programs.
+
+
+
+
+
+       Programs:
+
+
+
+       Command-line arguments:
+
+   *  wt_arg_to_char_001
+      Argument to characters.
+
+
+
+       Dates and times:
+
+   *  wtcurutc
+      Produce the current date and time UTC.
+
+   *  wtdtfrjd
+      Date from Julian Day Number.

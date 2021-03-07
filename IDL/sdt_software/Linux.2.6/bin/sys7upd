@@ -1,0 +1,193 @@
+#!/usr/bin/ksh
+#
+# Script: sys7upd
+#
+# Updates sys7 and temp .dats and creates .gifs for trending web page
+
+#. /disks/fast/software/integration/setup (this is csh)
+export FASTCONFIG="/disks/fast/software/config"
+
+# Other envars
+export PATH=/disks/fast/software/production.2/SunOS.5.6/bin:/usr/dt/bin:/usr/openwin/bin:/usr/bin:/usr/ucb:/usr/local/bin:/usr/ccs/bin:/usr/sbin:.:/disks/juneau/home/lzp/bin:/usr/local/java/bin:/disks/fast/sybase/bin:/disks/juneau/sybase/sybooks/unix/bin:/usr/local/idl_5/bin:${PATH}
+export IDL_PATH="+/usr/local/idl_5.2/lib:+/usr/local/idl_5.2/examples:+/home/rauch/idl/pro:+/home/rauch/idl/pro/temp_trend:+/home/subu/idl/plots:+/disks/fast/software/integration/idl"
+export IDL_DIR="/usr/local/idl_5.2"
+export DFS_BIN="/disks/fast/software/integration/SunOS.5.7/bin"
+export DFS_IDL="/disks/fast/software/integration/idl"
+export TREND_DIR="/disks/juneau/scratch/LZPfiles/trend"
+export SYS7CFG="/home/lzp/cfg/system7voltage/sys7p12.cfg"
+export GIF_DIR="/disks/plasma2/www/fast/trending"
+
+# Function: daysInYear
+#
+# Arguements: year in format 'YYYY'
+#
+# Results: sets variable DIY to number of days in that year
+
+function daysInYear {
+  # Usage
+  
+  if [[ ${#} != "1" ]]; then
+    print "daysInYear: Usage: daysInYear yyyy"
+    exit 1
+  fi
+  
+  typeset -i year=$1
+  
+  if (( (year % 4) == 0 )) && (( (year % 100) != 0 )) || (( (year % 400) == 0 )); then
+    DIY=366
+  else
+    DIY=365
+  fi
+  
+  return 0
+}
+
+# Function: createDats
+#
+# Arguements: year and days in 'YYYY DOY DOY' format
+#
+# Results: calls gts for system7 dats and temp_trend.ksh for temp dats
+
+function createDats {
+  # Usage
+
+  if [[ ${#} != "3" ]]; then
+    print "createDats: Usage: createDats yyyy doy doy"
+    exit 1
+  fi
+  
+  typeset -i year=$1
+  typeset -i doy1=$2
+  typeset -i doy2=$3
+  
+
+  # sys7 .dats
+  export GTS_OUTPUT_DIR=${TREND_DIR}/sys7/dat/${year} 
+  print "Creating sys7 dats for ${year} days ${doy1}-${doy2} in ${GTS_OUTPUT_DIR}."
+ 
+  if ! [[ -d $GTS_OUTPUT_DIR ]]; then
+    mkdir $GTS_OUTPUT_DIR
+  fi
+
+  ${DFS_BIN}/gts -c ${SYS7CFG} $year $doy1 $doy2
+
+  # temp trending .dats
+  export TT_OUTPUT_DIR=${TREND_DIR}/temps/dat/${year}
+  print "Creating temp dats for ${year} days ${doy1}-${doy2} in ${TT_OUTPUT_DIR}."
+
+  if ! [[ -d $TT_OUTPUT_DIR ]]; then
+    mkdir $TT_OUTPUT_DIR
+  fi
+
+  ${DFS_BIN}/temp_trend $year $doy1 $doy2
+
+  print "temp and sys7 .dats created."
+}
+
+# Function: createGifs
+#
+# Arguements: start and stop years and days in format 'YYYY DOY YYYY DOY' format
+#
+# Results: calls idl script to create gifs
+
+function createGifs {
+  # Usage
+
+  if [[ ${#} != "4" ]]; then
+    print "createGifs: Usage: createGifs yyyy doy yyyy doy"
+    exit 1
+  fi
+  
+  typeset -i year1=$1
+  typeset -i doy1=$2
+  typeset -i year2=$3
+  typeset -i doy2=$4
+  
+  export GIF_DIR
+  export YEAR1=$year1
+  export YEAR2=$year2
+  export DOY1=`printf "%03d" $doy1`
+  export DOY2=`printf "%03d" $doy2`
+  export DATE1=`${DFS_BIN}/doy2date $year1 $doy1 | sed 's/\//\-/g'`
+  export DATE2=`${DFS_BIN}/doy2date $year2 $doy2 | sed 's/\//\-/g'`
+
+  idl ${DFS_IDL}/sys7_temps_gifs_batch.pro
+
+}
+
+# Function: processDays
+#
+# Arguements: year and days in 'YYYY DOY DOY' format
+#
+# Results: calls createDats and idl routines to create gifs of the plots then moves the gifs to the web site
+#          and updates the web page.
+
+function processDays {
+  # Usage
+
+  if [[ ${#} != "3" ]]; then
+    print "processDays: Usage: processDays yyyy doy doy"
+    exit 1
+  fi
+  
+  typeset -i year=$1
+  typeset -i doy1=$2
+  typeset -i doy2=$3
+
+}
+
+
+# Environment variables
+
+DOYNOW=`date -u +%j`
+YEARNOW=`date -u +%Y`
+
+if [[ -d ${TREND_DIR}/sys7/dat/${YEARNOW} ]]; then
+  LAST=`ls -1 ${TREND_DIR}/sys7/dat/${YEARNOW}/sys7p12*.dat | tail -1`
+else
+  ((PREVYEAR = YEARNOW - 1))
+  LAST=`ls -1 ${TREND_DIR}/sys7/dat/${PREVYEAR}/sys7p12*.dat | tail -1`
+fi
+
+LASTDOY=`echo $LAST | cut -d'_' -f4 | cut -d'.' -f1`
+LASTYEAR=`echo $LAST | cut -d'_' -f2`
+
+((DOYSTART = LASTDOY + 1))
+((DOYSTOP = DOYNOW - 1))
+
+# Script start
+
+# Handle year roll over.
+# Finish off last year's data.
+
+if (( LASTYEAR < YEARNOW )); then
+  daysInYear $LASTYEAR
+
+  if (( LASTDOY < DIY )); then
+    createDats $LASTYEAR $DOYSTART $DIY
+  fi
+
+  # Setup to pick off with the start of the year
+  ((DOYSTART = 1))
+fi
+
+# Only create one up until yesterday, since we don't have all of today's data.
+# Only create if there is more than one full day to process.
+
+if (( DOYSTART < DOYSTOP )); then
+  createDats $YEARNOW $DOYSTART $DOYSTOP
+
+  # Now that the dats are up to date, greate the gifs.
+
+  (( START_DOY = LASTDOY + 1 ))
+
+  # Update LASTDOY for createGifs
+  LAST=`ls -1 ${TREND_DIR}/sys7/dat/${YEARNOW}/sys7p12*.dat | tail -1`
+  LASTDOY=`echo $LAST | cut -d'_' -f4 | cut -d'.' -f1`
+
+  createGifs $LASTYEAR $START_DOY $YEARNOW $LASTDOY
+fi
+
+export GIF_DIR=${GIF_DIR}/long_term
+rm -f $GIF_DIR/*.gif
+createGifs 1998 1 $YEARNOW $LASTDOY

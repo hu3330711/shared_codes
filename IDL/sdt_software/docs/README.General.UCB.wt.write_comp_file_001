@@ -1,0 +1,357 @@
+************************************************************************
+
+   README.General.UCB.wt.write_comp_file_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.write_comp_file_001
+
+************************************************************************
+
+   Write "computed" file.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.write_comp_file_001	1.2    08/11/03    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module writes a "computed file" if desired.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+       1) The quantity for the "computed" file.
+
+
+
+
+
+    3) The input quantity must correspond to the data for a "computed"
+       file.
+
+
+
+
+
+    4) Each data component value from the input quantity will be
+       multiplied by a factor chosen by the user.
+
+
+
+
+
+    5) An output data point is produced for each input data point;
+       provided that the time tag is zero or positive.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag of the corresponding input data point.
+
+
+
+
+
+    6) The quantity values for the output data point are: the quantity
+       values of the corresponding input data point, each multiplied by
+       the corresponding factor chosen by the user.
+
+
+
+       The quantity values written to the "computed" file are the same
+       values as for the output data point.
+
+
+
+
+
+    7) If a "computed" file is written, and if the number of float
+       components for the input is odd; then an additional dummy float
+       component (with all zero bit values) is written at the end of
+       each record, to make the number of float components even.
+
+
+
+       The additional dummy float component is written to the "computed"
+       file records; but is not added to the SDT output quantity.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Mission Id.
+
+
+               Int.
+
+
+
+            3) Mission Sub-Id.
+
+
+               Int.
+
+
+           The combination of Mission Id and Mission Sub-Id must
+           correspond to a spacecraft for which "computed" files are
+           defined.
+
+
+
+            4) Flag for computed file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Write a computed file.
+
+                   WT_FALSE  =  Do not write a computed file.
+
+
+
+            5) Computed file type.
+
+
+               Int.
+
+
+               This value must be a valid computed file type
+               (>=  0  and  <  the corresponding number of file types).
+
+
+
+            6) Computed file version number.
+
+
+               Int.
+
+
+               If the flag for writing the file is true, then this value
+               must be  >=  0.
+
+
+
+            7) Output directory for the computed file.
+
+
+               Char.
+
+
+
+            8) Number of double input components.
+
+
+               Int.
+
+
+               This includes the time tag.
+
+
+
+            9) Number of float input components.
+
+
+               Int.
+
+
+
+           10) The group of parameters described here occurs once for
+               each double input data component (i.e., excluding the
+               time tag).
+
+
+
+                1) Factor.
+
+
+                   Double.
+
+
+
+           11) The group of parameters described here occurs once for
+               each float input data component.
+
+
+
+                1) Factor.
+
+
+                   Double.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The quantity for the "computed" file.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   The time should be mid-point.
+
+
+                2) Zero or more additional components, for the values of
+                   the double data quantities.
+
+                   Double.
+
+
+                3) Zero or more additional components, for the values of
+                   the float data quantities.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for the value of each double quantity.
+
+
+               Double.
+
+
+
+            3) One component for the value of each float quantity.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+            1) "Computed" file.
+
+
+               This file is written if requested.

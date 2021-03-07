@@ -1,0 +1,204 @@
+****************************************************************
+
+       README.ogsnxtg1
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsnxtg1 procedure.
+
+****************************************************************
+
+       @(#)README.ogsnxtg1	1.1    09/01/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsnxtg1 procedure is to
+       determine what the name should be for the next
+       Goddard-type file name of type 1, for a given date and
+       file type code.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsnxtg1 [-c proc-cfg-file] yy ddd code dir
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       yy
+
+           is the year part of the file name.
+
+
+
+       ddd
+
+           is the day of year part of the file name.
+
+
+
+       code
+
+           is the file type code.
+
+
+
+       dir
+
+           is the directory to be searched for existing files.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       The result is written to the standard output.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) This procedure creates a new Goddard file name of
+           type 1, which is written to the standard output.
+
+
+
+        2) "yy" must have exactly 2 digits (last 2 digits of the
+           year).
+
+
+           "ddd" must have exactly 3 digits.
+
+
+           Leading zeros must be used if necessary to assure the
+           above.
+
+
+
+        3) "code" must consist entirely of letters.
+
+
+           Case (upper or lower) is significant.
+
+
+
+        4) The Goddard version number ("nn") is determined as
+           follows:
+
+
+            1) If the directory "dir" does not exist, or does
+               not contain any files with Goddard-type names of
+               type 1 for the date and code, then nn is 00.
+
+               Otherwise, the process is as described below.
+
+
+            2) The latest file in the directory is determined,
+               of those with Goddard-type names of type 1 for
+               the date and code.
+
+
+            3) If g represents the Goddard version number of the
+               latest file, then nn is set to
+
+                   nn = (g + 1) modulo 100
+
+
+            4) If nn is less than 10, a leading 0 is attached to
+               make sure that nn is exactly 2 digits long.
+
+
+
+        5) The resulting file name has year "yy", day "ddd",
+           code "code", and Goddard version number "nn";
+           it does not have a Berkeley duplicate version number.
+
+
+
+        6) If the resulting file name is not a valid
+           Goddard-type file name of type 1, this constitutes an
+           error.

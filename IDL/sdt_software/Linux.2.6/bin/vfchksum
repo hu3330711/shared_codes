@@ -1,0 +1,35 @@
+#!/usr/bin/sh
+#
+#	vrfchksum
+#	@(#)vfchksum	1.1 04/25/94
+#
+#	Compute checksums of all files in the a specified directory
+#	and compare to the CHECKSUMS file already present.  Error
+#	if CHECKSUMS is missing.  Run 'diff' on the two checksum
+#	files and display the results.
+#
+#	Usage:
+#		vfchksum <directory>
+#	(or)
+#		cd <directory>
+#		vfchksum
+#
+
+TMPSUMS=/tmp/chksm$$
+SUM=/usr/bin/sum
+
+TARGET=$1
+
+if [ "x$TARGET" != "x" ] ; then
+	cd $TARGET
+fi
+
+if [ ! -f CHECKSUMS ] ; then
+	echo "Missing CHECKSUMS file" 1>&2
+	exit 1
+fi
+
+find . ! -type d ! -name CHECKSUMS -exec $SUM {} \; |sort +2 > $TMPSUMS
+
+diff CHECKSUMS $TMPSUMS
+/bin/rm $TMPSUMS

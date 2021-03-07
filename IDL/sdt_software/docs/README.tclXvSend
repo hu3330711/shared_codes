@@ -1,0 +1,192 @@
+                       "send" for Xview User Manual
+                       ----------------------------
+
+Based On "send" for Xv by Jan Newmarch
+
+Introduction
+------------
+Applications in the X world can use a number of X based mechanisms to
+communicate with each other. The most common is to use ``selections'' and
+cut buffers. These are ultimately based on X Properties that can be
+attached to windows.
+
+In the Tk set of widgets, another communication protocol was introduced. In
+this, a Tk application can ``send'' commands to another Tk application. A
+Tk based application is generally built using the programming language tcl,
+and the messages actually consist of tcl commands from the first
+application to the second. This causes the second application to execute
+the command, possibly invoking communications with other applications.
+
+The use of Tk is not essential for this to work - any set of widgets in X
+world can use this mechanism. It is also implemented using the X Properties
+system. This package is an implementation of ``send'' for Xview based
+applications.
+
+
+Using ``send'' in tcl
+---------------------
+tcl is a type-free interpreted language that uses strings for everything.
+It is intended as a language that can be embedded into applications
+requiring a command language. The language supplies a syntax and a
+semantics, and this is realised by an interpreter that can be created by
+an application. New tcl commands can be defined by the application that
+will call application code when executed by the interpreter. Information
+can be examined and set in the interpreter.
+
+An extension introduced by the Tk toolkit allows one interpreter to execute
+commands in another one. Each interpreter is given a global name within the
+X world. One interpreter can send a command to another one using its name:
+
+send you_over_there do_this_command
+
+For example, a debugger could send a message to an editor
+
+send editor {display_line 42}
+
+The command will be attempted in the other interpreter. This is done
+synchronously, and any result is sent back to the first interpreter. If the
+application running the other interpreter has died before a reply is sent,
+send will return with an error.
+
+This allows small applications to co-operatively execute, much like small
+character based Unix applications do.
+
+``send'' and Xview
+------------------
+This package allows an Xview application to send tcl commands to any
+application that understands the ``send'' protocol, and in turn it will
+receive and execute tcl commands sent to it. Both the sending and the
+execution are performed through a tcl interpreter, so the Xview application
+first has to create such an interpreter. This is done by the function call
+
+#include <tcl.h>
+
+Tcl_Interp *Tcl_CreateInterp(void);
+
+This returns a pointer to a tcl interpreter which will be used in all
+successive calls to the tcl system.  
+
+More than one interpreter may be created, but most applications would only
+create one.
+
+
+Registering a tcl interpreter
+-----------------------------
+Before an interpreter can be used to send or receive commands, it must be
+registered so that its name is globally known. Any name can be used. A
+convention in Tk based applications is that this will be the name of the
+application, if possible. This allows the user of these applications to see
+the interpreter name as the name shown by the window manager.
+
+There can only be one name per interpreter because of the way ``send'' was
+implemented originally.
+
+A name exists on the server's root window, so interpreter names must be
+unique on a display. An attempt to register a name that is already in use
+will fail.
+
+Registering an interpreter is done by 
+
+#include <tcl.h>
+#include <TclXvSend.h>
+
+int TclXvSend_SetAppName(Tcl_Interp *interp, char *name, Frame toplevel);
+
+The toplevel argument should be the main window for the application.
+The return value of the function will either be TCL_OK or TCL_ERROR.
+
+[The rather gross name arise from trying to find a reasonable naming
+convention. Tcl_, Tk_, Xv, X, etc are all reserved by the various toolkits.
+TclXvSend_ shows the origins and does not clash with other names. You only
+have to type it once per application, anyway.]
+
+TclXvSend_SetAppName creates three tcl commands in the interpreter 'interp':
+  send - like tk's send command.
+  interps - returns names of interpreters on display. Like 'tk interps'
+  wait millisec - sleeps while processing incoming sends. returns after
+	'millisec' milliseconds, or after a send command has been received and
+	processed.
+
+Communicating with the interpreter from the application
+-------------------------------------------------------
+The simplest way to get the interpreter to execute a command from an
+application is to call Tcl_Eval with the command as the second argument.
+For example,
+
+Tcl_Eval(interp, "puts stdout {hello world}");
+
+This mechanism can be used unaltered to send a message: the command is now
+a ``send'' command:
+
+Tcl_Eval(interp, "send editor {display_line 42}");
+
+The function returns TCL_OK if it succeeds, and TCL_ERROR if it fails. If
+it fails, an error message will be in interp->result.
+
+Communicating with the interpreter via ``send''
+----------------------------------------------
+Once an interpreter has been registered, another application can use the
+send protocol to cause it to execute commands. Nothing extra has to be
+done.
+
+Interpreter state
+-----------------
+The tcl interpreter maintains the state of the tcl variables known to it.
+The value of one of these can be examined using Tcl_GetVar, and set using
+Tcl_SetVar.
+
+New commands can be defined purely internally to the tcl interpreter using
+the Tcl_Eval function, where the string to be executed defines a tcl
+procedure:
+
+Tcl_Eval(interp, "proc hello {} {puts stdout {hello world}}");
+
+Application commands
+--------------------
+The interpreter can be extended by new commands which call execution code
+by the Tcl_CreateCommand. This takes as arguments the interpreter, the
+command name, the C function to execute when the interpreter executes the
+command, client data that can be passed to the C function, and a destroy
+function if needed.
+
+Examples
+--------
+Supposing you want to send a message to another interpreter when a callback
+occurs. For example, a command panel listing all interpreters could send an
+``exit'' message to an interpreter when its button is pressed.
+
+xv_create(owner, PANEL_BUTTON,
+	PANEL_NOTIFY_PROC, KillCB,
+	NULL);
+
+Within the callback, extract the interpreter and send the message (say to
+interpreter ``abcd'')
+
+interp = (Tcl_Interp *) client_data;
+Tcl_Eval(interp, "send abcd exit");
+
+On the other hand, if you are the application that may be in receipt of
+such a message, you may want to handle this in a graceful way. So your
+application creates a new command to call your C code when this happens:
+
+Tcl_CreateCommand(interp, "exit", ExitGracefully, NULL, NULL);
+
+int ExitGracefully(ClientData *clientdata, Tcl_Interp *interp,
+	int argc, char **argv)
+{
+    /* tidy up the application */
+    /* .... */
+
+    Tcl_DeleteInterp(interp);
+    exit(0);
+}
+
+Implementation
+--------------
+The implementation is identical to Tk: create an unmapped window in each
+application known as ``_comm''. Properties are attached to this window to
+receive the message, while an event handler waits on this window for a
+PropertyNotify message.
+
+The root window maintains a list of interpreters and their corresponding
+windows in the property ``InterpRegistry''. This is updated on each change.

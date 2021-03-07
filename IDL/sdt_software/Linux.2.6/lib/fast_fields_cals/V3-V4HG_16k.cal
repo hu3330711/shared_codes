@@ -1,0 +1,23 @@
+#  SCCS Id
+#  @(#)V3-V4HG_16k.cal	1.1 04/15/96
+#
+# V3-V4HG_16k.cal
+# IS 6/29/95
+E3-4HG_16k		Data Name
+1			Linear Calibration
+sec			x-axis units
+mV/m			y-axis units
+xx			z-axis units
+16			Boomlength index
+0			No gain state
+0			History
+# data entered 6/26/95
+# all gains e-3
+# offset found in data calibration notebook
+# gain set to 16k value divided by 20
+0			Time in seconds
+30			Offset
+-0.1390			Gain
+
+			
+ 

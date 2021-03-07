@@ -1,0 +1,172 @@
+#
+#	setup
+#
+#	%W% %G%	UCB SSL
+#
+#	Set FASTHOME environ variable; add bin, library, and man
+#	directories to appropriate path variables.
+#
+#	Usage:  source <pathname>/setup [-v]
+#
+#		-v sets verbose mode
+#
+# ****************************************************************
+
+# ****************************************************************
+#  FASTHOME should be set to the root of Workspace.  This file is
+#  configured for the location at the time the software was compiled.
+#  If the run-time portions of the Workspace are installed in a different
+#  location, then this file can be edited to reflect the change.
+#
+#  FASTHOME is used during compilation, and to set PATH, LD_LIBRARY_PATH,
+#  and MANPATH.  It is not needed by any of the software at run-time.
+#
+#  FASTLIB is the location of runtime libraries and default configuration
+#  files.  Configuration files in FASTCONFIG will override configuration
+#  files in FASTLIB.  At a minimum, FASTLIB must be set at run-time, although
+#  all programs with configuration files check the FASTCONFIG variable
+#  first.
+
+#check for any previously set FASTHOME (used in idl path below)
+unset OLDFASTHOME
+if ( $?FASTHOME ) then
+    set OLDFASTHOME = $FASTHOME
+endif
+
+setenv FASTHOME /disks/fast/software/delivery
+
+set OS = `uname -s`
+set MAJOR_REL = `uname -r | awk -F. '{print $1}'`
+set MINOR_REL = `uname -r | awk -F. '{print $2}'`
+
+set REL = $MAJOR_REL.$MINOR_REL
+while ( ! -d $FASTHOME/$OS.$REL && $MAJOR_REL != 4 )
+	if ( $MINOR_REL == 0 ) then
+		@ MAJOR_REL --
+		set MINOR_REL = 9
+	else 
+		@ MINOR_REL --
+	endif
+	if ( $MAJOR_REL != 4 ) then
+		set REL = $MAJOR_REL.$MINOR_REL
+	else
+		if ( "_${1}_" == "_-v_" ) echo "No OS level >= 5 found\!"
+		if ( "_${1}_" == "_-v_" ) echo "Unable to setup for workspace $FASTHOME"
+		exit -1
+	endif
+end
+if ("_${1}_" == "_-v_" && $REL != `uname -r`) echo Using OS level $REL binaries.
+setenv FASTOS $FASTHOME/$OS.$REL
+setenv FASTBIN $FASTOS/bin
+setenv FASTLIB $FASTOS/lib
+setenv FASTSNAPONS $FASTLIB/SnapOns
+setenv FASTMAN $FASTHOME/man
+setenv FASTCONFIG /disks/fast/software/config
+setenv SYBASE $FASTLIB/Sybase
+
+set path = ($FASTBIN $path)
+if ( ! $?LD_LIBRARY_PATH ) then
+	setenv LD_LIBRARY_PATH ${FASTLIB}/openwin/lib:/usr/lib
+else
+	setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${FASTLIB}/openwin/lib
+endif
+setenv LD_LIBRARY_PATH ${FASTLIB}:${LD_LIBRARY_PATH}
+
+if ( ! $?MANPATH ) then
+	setenv MANPATH /usr/man
+endif
+setenv MANPATH ${FASTMAN}:${MANPATH}
+
+# ****************************************************************
+# CDF stuff
+
+setenv CDF_HOME $FASTHOME/src/cdf/cdfdist
+
+setenv CDF_SMPL $CDF_HOME/samples
+setenv CDF_HELP $CDF_HOME/help
+setenv CDF_BIN  $FASTOS/bin
+setenv CDF_LIB  $FASTOS/lib
+setenv CDF_INC  $CDF_BIN
+
+alias cdfconvert     cdfcvt
+alias cdfinquire     cdfinq
+alias cdfcompare     cdfcmp
+alias skeletontable  cdf2skt
+alias skeletoncdf    skt2cdf
+alias cdfbrowse      "cdfedit -prompt -browse"
+alias cdfskeleton    skt2cdf
+
+# ****************************************************************
+# FAST specific CDF stuff (Must be changed for remote sites)
+
+setenv FAST_CDF_HOME /disks/juneau/cdf1
+setenv CDF_INDEX_DIR ${FAST_CDF_HOME}/index
+
+# the next two will be obsolete soon
+setenv FAST_CDF_MAST_DIR /disks/juneau/cdf1/index/fast_mast
+setenv FAST_TPLOTFILE_HOME /disks/juneau/cdf1/tplotfile
+
+# ****************************************************************
+# POLAR specific CDF stuff (Must be changed for remote sites)
+
+setenv POLAR_CDF_MAST_DIR /disks/juneau/cdf1/index/polar_mast
+
+# ****************************************************************
+# IDL stuff
+
+# IDL_PATH:  keep the idl system stuff first, then put workspace
+# components next, with most recently sourced workspace first.
+
+if ( $?IDL_PATH ) then
+    if ( $?OLDFASTHOME ) then 
+	set found = false
+	set OLDIDLHOME = +${OLDFASTHOME}/idl
+
+	# Split up IDLPATH 
+	set TEMP_IDL_PATH = `echo $IDL_PATH | /usr/bin/tr ':' ' '`
+
+	# rebuild IDL_PATH putting new component between system 
+	# level IDL_PATH and old $FASTHOME/idl's
+	unsetenv IDL_PATH 
+	foreach c ( $TEMP_IDL_PATH )
+
+	    if ( ! $?IDL_PATH ) then
+		setenv IDL_PATH $c
+		continue
+	    endif
+
+	    if ( "$OLDIDLHOME" == "$c" ) then  
+	    # found OLDIDLHOME, insert new directory in front of it
+		setenv IDL_PATH  "${IDL_PATH}:+${FASTHOME}/idl:$c"
+		set found = true
+	    else
+		setenv IDL_PATH  "${IDL_PATH}:$c"
+	    endif
+	end
+
+	if ( "$found" == "false" ) then
+		setenv IDL_PATH  "${IDL_PATH}:+${FASTHOME}/idl"
+	endif 
+
+	# cleanup
+	unset OLDIDLHOME
+	unset OLDFASTHOME
+	unset TEMP_IDL_PATH
+	unset found
+	unset c
+    else
+	    setenv IDL_PATH  "${IDL_PATH}:+${FASTHOME}/idl"
+    endif
+
+    setenv IDL_CT_FILE "${FASTCONFIG}/idl_ctables/colors1.tbl"
+
+endif
+
+# ****************************************************************
+# Image directories
+
+setenv GIFDIR	$FASTHOME/images/gif
+setenv JPEGDIR	$FASTHOME/images/jpeg
+setenv TIFFDIR	$FASTHOME/images/tiff
+
+

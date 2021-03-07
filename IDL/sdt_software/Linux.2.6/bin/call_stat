@@ -1,0 +1,31 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	call_stat	
+#	
+# PURPOSE:	Call a archive status procedure, create the
+#		output file, and copy the file to DANET for
+#		WWW access
+#
+# INPUTS:       Status procedure name
+#
+#
+
+# Environment setup
+#
+. /disks/fast/software/config/archive_config
+
+# Remove existing status file
+#
+rm /var/tmp/$1.txt  
+
+# Run status procedure
+#
+$1 > /var/tmp/$1.txt
+
+# Copy file to DANET disk for WWW display
+#
+rcp /var/tmp/$1.txt $DANETHOST:$WWWDISK/WWW_STAT
+
+# End procedure
+#
+exit 0

@@ -1,0 +1,63 @@
+#! /usr/bin/ksh
+#
+# update_mode_list.ksh
+#
+# Update the FAST Instrument Mode Setting History
+# list in the web area.
+#
+
+. /disks/fast/software/config/archive_config
+
+updir="/disks/plasma2/www/fast/update"
+upfile="$updir/mode_list.txt"
+orbitAlmanac="/disks/fast/almanac/orbit/definitive"
+
+# Check disk space and file permissions
+
+typeset -i freeWeb=$(df -b $updir | tail -1 | awk '{print $2}')
+if (( freeWeb < 1000 )) ; then
+    echo "No space left on $updir"
+    exit 1
+fi
+if [[ ! -w $upfile ]] ; then
+    echo "No write permission on $upfile"
+    exit 1
+fi
+if [[ ! -r $orbitAlmanac ]] ; then
+    echo "Cannot read $orbitAlmanac"
+    exit 1
+fi
+
+# Last orbit in output file
+
+typeset -i lastorb=$(awk 'NF == 7 {orbit=$1} END {print (orbit)}' $upfile)
+typeset -i nextorb=$((lastorb + 1))
+
+# Current orbit
+
+typeset -i currorb=$(awk '$1 ~ /ORBIT:/ {orbit=$2} END {print orbit}' $orbitAlmanac)
+
+if (( lastorb >= currorb )) ; then
+    echo "Current orbit ($currorb) is not higher than the last updated urbit ($lastorb)"
+    exit 1
+fi
+
+# Generate listing in temporary file and then append to file in web area
+
+tmpfile="/tmp/modelist_${nextorb}_${currorb}"
+
+$FASTBIN/modelist $nextorb $currorb $tmpfile
+
+if [[ ! -s $tmpfile ]] ; then
+    echo "Instrument mode listing not generated"
+    exit 1
+fi
+
+if cat $tmpfile >> $upfile ; then
+    rm $tmpfile
+else
+    echo "Unable to append list $tmpfile to web file $upfile"
+    exit 1
+fi
+
+exit 0

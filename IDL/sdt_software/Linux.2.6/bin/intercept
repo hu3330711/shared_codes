@@ -1,0 +1,692 @@
+#!/usr/bin/ksh
+# intercept - intercept LZP's mail and read it
+# Update History:
+#		11/29/94 - Tim Quinn updated grep of subject line in mail
+#		           message for location of target words.
+#		11/29/94 - Tim Quinn added function (subject) and again
+#		           updated grep of lzp mail message subject line
+#                          to look for message id 2, which means a data
+#                          transmission has ended.
+#		12/2/94  - Tim Quinn updated line that calls premaster
+#			   (looks like line above it that call dbupdate)
+#		12/6/94  - Abiad/Quinn updated script to create a temporary
+#			   file while a data session is open.
+#               4/28/98  - Rauch added function warn_exit to mail ARCHIVEMASTER
+#                          of premature exit.
+#
+#		10/13/98 - Wittenbrock added lines that rename duplicate data
+#			   sessions.
+#
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+
+# Subject function declaration
+# Strips out information from the subject line of lzp mail messages.
+
+function Subject {
+	msg=$(grep 'Subject' $1)
+	msg1=${msg#Subject*}
+	msg2=${msg1##:*:}
+}
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if intercept exits prematurely.
+
+function warn_exit {
+    if [[ -s $LOGDIR/archive$$ ]] ; then
+	typeset cdname=$(basename $(cat $LOGDIR/archive$$))
+    fi	
+    {
+	# <word>: is interpreted as mail tag unless <word> contains whitespace
+	printf "%s\n" 'Subject: Archive System message' \
+	              "Intercept script exited prematurely at line $1" \
+	              'See archivelog and/or other Archive System messages.' \
+	              "Process ID: $$"
+	if [[ -n $cdname ]] ; then
+	    printf "%s\n" "CD Volume : $cdname"
+	fi
+    } | mail $ARCHIVEMASTER
+}
+
+# Set trap for premature EXIT
+
+trap 'warn_exit $LINENO' EXIT
+
+
+# Begin the real work
+
+echo >> $LOGFILE
+echo "$$:-----** intercept run on $(date) **-----" >> $LOGFILE
+
+tee -a ${MAILTMP}$$ | job=$(grep "Ground Station" | awk '{
+if ($4 == "2") 
+	print "end"
+else if ($4 == "1")
+	print "begin"
+else
+	print "nothing"
+}')
+
+cat ${MAILTMP}$$ >> $MAILLOG
+
+if [[ $job = "end" ]]; then
+
+	# Extract orbit number from mail message
+
+	num=$( grep 'orbit number' ${MAILTMP}$$ | awk '{ print $3}')
+	if [[ -z $num ]]; then
+		echo $$:!!!! Bad END mail message, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+			      "Orbit number not extracted from END message." \
+		              "!!!! Bad END mail message, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+
+		# Remove HOLD file if one exists
+		cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+			printf("holdup_%s_%s_%s",$8,$10,$12) }')
+		if [[ -n $temp  && -a /tmp/$temp ]]; then
+			rm /tmp/$temp
+		fi
+		rm ${MAILTMP}$$
+		trap - EXIT
+		exit 0
+	fi
+
+	var_size=${#num}
+	first_digit=$(print $num | awk '{print substr($1,0,1)}')
+	sec_digit=$(print $num | awk '{print substr($1,2,1)}')
+	if (( ($var_size == 5) && ($first_digit == 0) && ($sec_digit != 0) ))
+	then
+		num=${num#0}
+	elif (( ($var_size == 5) && ($first_digit == 0) && ($sec_digit == 0) ))
+	then
+		#lzpdir=$(grep lzp /etc/passwd | awk -F: '{ print $6}')
+		lzpdir=$(ypcat passwd | grep lzp | awk -F: '{ print $6}')
+        	cd $lzpdir	
+		oldnum=${num#0}
+		target=$(ls -d1rt fast_lzp*orbit${oldnum}_? | tail -1)
+		tmpnum=$(print $num | awk '{print substr($1,2)}')
+		num=1$tmpnum
+		echo $$: ATTENTION: Updating LZP orbit number >> $LOGFILE
+		change_orbit $target $num
+	fi
+	Subject ${MAILTMP}$$
+	echo $$:----- $msg2 for orbit $num >> $LOGFILE
+
+	## checking if Transmission Quality Report needs to be created
+	## Removed changedate from process. Hung up on 10 Feb 2004.
+	#$BINPATH/changedate $$ >> $LOGFILE 2>&1
+
+	# do quality check on the data
+
+	#lzpdir=$(grep lzp /etc/passwd | awk -F: '{ print $6}')
+	lzpdir=$(ypcat passwd | grep lzp | awk -F: '{ print $6}')
+	cd $lzpdir
+	$BINPATH/quality $num $$ >> $LOGFILE
+	if [[ $? != 0 ]] ; then
+		echo $$:!!!! Could not find data, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+		              "script : $0" \
+			      "Script quality returns error." \
+                              "!!!! Could not find data, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+
+		# Remove HOLD file if one exists
+		cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+			printf("holdup_%s_%s_%s",$8,$10,$12) }')
+		if [[ -n $temp  && -a /tmp/$temp ]]; then
+			rm /tmp/$temp
+		fi
+		rm ${MAILTMP}$$
+		trap - EXIT
+		exit 0
+	fi
+
+	# "Count" the FAST data
+
+	target=$(ls -d1rt fast_lzp*orbit${num}_? | tail -1)
+	export lzpdir target
+	echo $$: target = $target >> $LOGFILE
+	if [[ $target = "" ]] ; then
+		echo $$:!!!! Could not find data, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+		              "Could not find target data session." \
+		              "!!!! Could not find data, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+		# Remove HOLD file if one exists
+		cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+			printf("holdup_%s_%s_%s",$8,$10,$12) }')
+		if [[ -n $temp  && -a /tmp/$temp ]]; then
+			rm /tmp/$temp
+		fi
+		rm ${MAILTMP}$$
+		trap - EXIT
+		exit 0
+	fi
+
+	# First, check to see if this data session name has been used before
+	# Check holdfile for session name
+
+	HOLDFILE=$lzpdir/holdfile
+	checkhold=$(grep $target $HOLDFILE)
+	if [[ $checkhold != "" ]]
+	then
+		echo $$: Duplicate session name received  >> $LOGFILE
+		echo $$: $target will be renamed  >> $LOGFILE
+		# Create unique name for data session file
+		# First create search strings
+		pared=${target#*_*_}
+		station=${pared%%_*}
+		string=${station%-*}
+		change=${station#*-}
+		orb=${pared#*_}
+		orbit=${orb%_*}
+		# If antenna DSS-77 was used at Wallops, find a name
+		# that hasn't been used.
+		if [[ $change = 7[7-9] ]]; then
+		   ant=76
+		   while [[ -z $letter ]] && (( $ant <= 79 )) ; do
+		      let ant=$ant+1
+		      if [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_t) ]] ; then
+			 letter=t
+		      elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_r) ]] ; then
+			 letter=r
+		      elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_p) ]] ; then
+			 letter=p
+		      fi
+		   done
+		fi
+		# Find name for antennas other
+		# than 77 at Wallops.
+		# Initialize variables
+		links=0 
+		recht=0
+		ant=0
+		# Set the two key letters of the station for GN-??E types
+		if [[ $string = GN ]]; then
+		  twol=${change%?}
+		# Set the array for GN-??E types
+		  set -A alph Z Y X W V U T S R Q P O N M L K J I H G F E D C B A
+		fi  
+		# Set the range of names 
+		case $change in
+			2?) 	links=30
+				recht=21 ;;
+			7[5-6]) links=77
+				recht=76 ;;
+			7[0-4]) links=75
+				recht=31 ;;
+			8[0-2]) links=83
+				recht=81 ;;
+			9?) 	links=100
+				recht=89 ;;
+			[A-Z][A-Z]?)	links=22
+				recht=1 ;;
+		esac
+		if [[ -z $letter ]] && (( $links != 0 )) ; then
+		   while [[ -z $letter ]] && (( $links >= $recht )) ; do
+			 let links=$links-1
+			 # Allow for conversion to string
+			 if [[ $string = GN ]]; then
+			    ant=$twol${alph[$links]}
+			 elif [[ $string = DSS ]]; then
+			    ant=$links
+			 else
+			    echo $$:!!! Unknown station name!  !!! >> $LOGFILE
+			    let links=$recht-1
+			 fi
+	       		 if [[ -z $(grep $string-$ant $lzpdir/holdfile | grep $orbit\_t) ]] ; then
+				letter=t
+		         elif [[ -z $(grep $string-$ant $lzpdir/holdfile | grep $orbit\_r) ]] ; then
+			        letter=r
+			 elif [[ -z $(grep $string-$ant $lzpdir/holdfile | grep $orbit\_p) ]] ; then
+			        letter=p
+		         fi
+		   done
+	        fi
+	       # If no good name has been found, save the data
+	       # to hold and send an error message.
+	       if [[ -z $letter ]] ; then
+	          echo $$:!!!!! There are no available names!!!! >> $LOGFILE
+ 		  echo $$:!!!! Session $target copied to $lzpdir/hold !!!! >> $LOGFILE
+		  printf "%s\n" "Subject: Archive System message" \
+		  "script : $0" \
+		  "$target can't be renamed." \
+		  "!!!! Session $target copied to $lzpdir/hold !!!!" \
+		  "Process ID: $$" |
+		  mail $ARCHIVEMASTER
+		  mv $lzpdir/$target $lzpdir/hold
+	          rm -r $lzpdir/$target
+		
+		  # Remove HOLD file if one exists
+		  cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+			printf("holdup_%s_%s_%s",$8,$10,$12) }')
+		  if [[ -n $temp  && -a /tmp/$temp ]]; then
+			rm /tmp/$temp
+		  fi
+		  rm ${MAILTMP}$$
+		  trap - EXIT
+		  exit 0
+	       fi
+
+	       # Rename the data files and directory
+		mv $target fast_lzp_$string-$ant\_$orbit\_$letter
+        	target=fast_lzp_$string-$ant\_$orbit\_$letter
+		echo $$: Data session renamed to $target   >> $LOGFILE
+		cd $target
+		ls -1 fast* > /tmp/files$$
+		while [[ -s /tmp/files$$ ]]
+		do
+		    this=$(head -1 /tmp/files$$)
+		    new=$(echo $this | awk -F_ 'NF == 6 {printf "%s_%s_%s-%s_%s_%s_%s",$1,$2,string,ant,$4,letter,$6} NF == 5 {printf "%s_%s_%s-%s_%s_%s",$1,$2,string,ant,$4,letter}' string=$string ant=$ant letter=$letter)
+		#        echo $this to $new
+		    mv $this $new
+		    sed '1d' /tmp/files$$ > /tmp/FILES$$
+		    mv /tmp/FILES$$ /tmp/files$$
+       		done
+	     renamed=1
+	     export target
+	fi	
+
+	# Add session name to holdfile (here and on backup/DANET machines)
+
+	print $lzpdir/$target >> $HOLDFILE
+	host=$(uname -n)
+	if [[ $host = $FINETPRIMARY ]]
+	then
+	    other=$FINETBACKUP
+	else
+	    other=$FINETPRIMARY
+	fi
+	rcp $HOLDFILE $other:$HOLDFILE
+	rcp $HOLDFILE $DANETHOST:$LZPINFO/count
+
+	# Check if GS playback or LZP tape replay
+
+	type=$(echo $target | awk -F_ '{ print $5}')
+	if [[ $type = ["t","p"] || -n $renamed ]] ; then
+	    printf "%s\n" "Subject: Archive System message" \
+		"script : $0" \
+		"Received GS playback or LZP tape replay." \
+		"Will regenerate CDFs $((num - 1)) $num" \
+		"!!!! $target received !!!!" \
+		"Process ID: $$" |
+		mail $ARCHIVEMASTER
+	    # Schedule regeneration of replayed orbit (include previous)
+	    rsh $DANETHOST $DANETBIN/mal -g $((num - 1)) $num > /dev/null
+	fi
+
+	# Run FastCount and then check error status
+
+	echo $$: ---- FastCount run on $(date) ---- >> $LOGFILE
+	cd $LOGDIR
+	$FASTBIN/FastCount DA InDir=$lzpdir/$target OutDir=$lzpdir/$target \
+		>> $LOGFILE 2>&1
+	estatus=$?
+	if (( $estatus < 0 )) # Irrecoverable error
+	then
+		echo $$:!!!! FastCount failed, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+		              "script : $0" \
+			      "FastCount returns negative error status." \
+		              "!!!! FastCount failed, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+
+		mv errfastcnt errfastcnt.${target}
+		echo $$: See errfastcnt.${target} file  >> $LOGFILE
+		mv outfastcnt outfastcnt.${target}
+		echo $$: See outfastcnt.${target} file >> $LOGFILE
+		# Checking for the lines containing VC
+		totf=`grep -c VC $LOGDIR/errfastcnt.${target}`
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $DIRS
+		# Adding data to TQR file
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $QQFILE
+		print "\t Files of questionable quality listing:"  >> $DIRS
+		# Adding data to TQR file
+		print "\t Files of questionable quality listing:"  >> $QQFILE
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $DIRS
+		# Adding data to TQR file
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $QQFILE
+
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $DIRS
+
+		# Adding data to TQR file
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $QQFILE
+		# Remove HOLD file if one exists
+		cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+			printf("holdup_%s_%s_%s",$8,$10,$12) }')
+		if [[ -n $temp  && -a /tmp/$temp ]]; then
+			rm /tmp/$temp
+		fi
+		rm ${MAILTMP}$$
+		trap - EXIT
+		exit 0
+	elif (( $? > 0 )) # Recoverable error
+	then
+		echo "$$:!!!! FastCount: Discrepancy in LZP Directory! exitcode $estatus !!!!" >>$LOGFILE
+		mv errfastcnt errfastcnt.${target}
+		echo $$: ---- See errfastcnt.${target} file  >> $LOGFILE
+		mv outfastcnt outfastcnt.${target}
+		echo $$: See outfastcnt.${target} file >> $LOGFILE
+		# Checking for the lines containing VC
+		totf=`grep -c VC $LOGDIR/errfastcnt.${target}`
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $DIRS
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $QQFILE
+		print "\t Files of questionable quality listing:"  >> $DIRS
+		print "\t Files of questionable quality listing:"  >> $QQFILE
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $DIRS
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $QQFILE
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $DIRS
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $QQFILE
+	elif (( $(ls -go errfastcnt | awk '{print $3}') != 0 ))
+	then
+		mv errfastcnt errfastcnt.${target}
+		echo $$: ---- See errfastcnt.${target} file  >> $LOGFILE
+		mv outfastcnt outfastcnt.${target}
+		echo $$: See outfastcnt.${target} file >> $LOGFILE
+		# Checking for the lines containing VC
+		totf=`grep -c VC $LOGDIR/errfastcnt.${target}`
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $DIRS
+		print "\t Number of file(s) of questionable quality: $totf" \
+			>> $QQFILE
+		print "\t Files of questionable quality listing:"  >> $DIRS
+		print "\t Files of questionable quality listing:"  >> $QQFILE
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $DIRS
+		grep -i apid $LOGDIR/errfastcnt.${target} >> $QQFILE
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $DIRS
+		awk '{	if ($1 == "File:") {
+				n = split($2, a, "/");
+				printf "\t\t%s",a[n];
+			} }' errfastcnt.${target} >> $QQFILE
+	fi
+
+	host=$(hostname)
+	if [[ $host = $FINETPRIMARY ]]
+	then
+		if rcp $QQFILE $FINETBACKUP:$QQFILE
+		then
+			echo $$: $QQFILE copied from $FINETPRIMARY to $FINETBACKUP >> $LOGFILE
+		fi
+	fi
+		
+	# Copy count and status files to one of www directories
+
+	lzpinfomove $lzpdir/$target $$
+
+	# Temporary construct to copy sessions to juneau
+	# for timely access to data while sessions are small
+	# TQ - 26 October 2001
+	#
+	echo $$: 
+	echo $$: Copying session $target to juneau .......
+	echo $$:      
+	rcp -r $lzpdir/$target juneau:/disks/juneau/scratch/LZPfiles/sessions
+	echo $$:....session copy finished
+	echo $$:
+
+	# Produce Engineering Summary Plots on current data session
+	# First register SDT lockfile
+
+        while [[ -a $SDTLOCK ]]
+        do
+                echo $$: sdt sleeping 60 for $(cat $SDTLOCK) >>$LOGFILE
+                sleep 60
+        done
+        echo $$ > $SDTLOCK
+
+	# Construct name of PS file(s) to be created by sdt_batch
+
+	gndstn_junk=${target#*_*_}
+	gndstn=${gndstn_junk%_*_*}
+	orbit_junk=${target#*_*_*_orbit}
+	orbit=${orbit_junk%_*}
+	psname="${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}"
+	export psname
+	
+	echo $$: ---- sdt_batch run on $(date) ---- >> $LOGFILE
+	$FASTBIN/cleanup > /dev/null 2>&1
+	$FASTBIN/sdt_batch   $FASTSW/batchjobs/HKSurvey.batch 2>&1 |
+	    nawk -v "prcid=$$" '{printf "%s: %s\n", prcid, $0}' >> $LOGFILE
+	
+	# Do PS-->GIF and copy to juneau while altering filenames
+
+	if [ -a ${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}* ] ; then
+	    psfiles=`ls -1 ${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}*`
+	else
+	    echo $$:!!!! No Engineering plots generated !!!! >> $LOGFILE
+	    printf "%s\n" "Subject: Archive System message" \
+            "script : $0" \
+	    "!!!! No Engineering plots generated !!!!" \
+	    "Target Session: $target" \
+	    "Process ID: $$" |
+	    mail $ARCHIVEMASTER
+	fi
+	    
+	typeset -i made_eng_dir=0 # flag tells if remote eng. dir created
+        for ps in $psfiles ; do
+                page=${ps#*.page}
+                case $page in
+                        1 ) datastr='cvs' ;;
+                        2 ) datastr='tmp' ;;
+                        3 ) datastr='acs' ;;
+                        4 ) datastr='fld' ;;
+                        5 ) datastr='esa' ;;
+                        6 ) datastr='tms' ;;
+                esac
+		# Convert to GIF format and copy to DANET if successful
+                outgif=${ps%%.*}_${datastr}.gif
+                /usr/local/bin/ps2gif ${ps} ${outgif} > /dev/null 2>&1
+		if [[ -s ${outgif} ]] ; then
+		    if (( ! made_eng_dir )) ; then
+			rsh $DANETHOST mkdir ${WWWENGR}/${orbit} > /dev/null 2>&1
+			made_eng_dir=1
+		    fi
+		    rcp ${outgif} ${DANETHOST}:${WWWENGR}/${orbit}/$(basename $outgif)
+		else
+		    echo $$:!!!! Engineering GIF failed: ${outgif} !!!! >> $LOGFILE
+		fi	
+		rm -f ${ps} ${outgif}
+        done
+
+	# Execute the AttgenBatch program tp generate Attitude data files.
+	# Set $ATTSTAGEFORUCLA here or In the $FAST_CONFIG/archive_config file.
+	# Set $ATTRESFORUCLA here or In the $FAST_CONFIG/archive_config file.
+	#
+	#  ATTSTAGEFORUCLA="/disks/fast/almanac/attitude/stage" [Juneau Dirs]
+	#  ATTPREFORUCLA="/disks/cdstudio/att"	
+	#
+	#  ATTSTAGEFORUCLA="/fast_data/b/ucla/scratch" 		[FINET Dir]
+	#  ATTPREFORUCLA="/fast_data/b/ucla/att"	
+	#
+	ATTRESFORUCLA=1
+	ATTPREFORUCLA="/fast_data/b/ucla/att"
+        ATTSTAGEFORUCLA="/fast_data/b/ucla/scratch"
+
+        export ATTRESFORUCLA ATTPREFORUCLA ATTSTAGEFORUCLA
+	export lzpdir target
+
+	$FASTBIN/cleanup > /dev/null 2>&1
+        $FASTBIN/sdt_batch   $FASTSW/batchjobs/AttgenBatch.batch 2>&1 |
+	    nawk -v "prcid=$$" '{printf "%s: %s\n", prcid, $0}'  >> $LOGFILE
+
+	# Only run on isolated network for Automatic batch processing.
+
+	rcp $ATTSTAGEFORUCLA/$target juneau:/disks/fast/almanac/attitude/stage/$target
+
+        rm $SDTLOCK
+
+	# Now remove the holdup file for the data session that initiated this
+	# intercept process
+
+	cat ${MAILTMP}$$ | temp=$(grep "Ground Station" | awk '{ \
+		printf("holdup_%s_%s_%s",$8,$10,$12) }')
+	if [[ -n $temp  && -a /tmp/$temp ]]; then
+		rm /tmp/$temp
+	fi
+	rm ${MAILTMP}$$
+
+	# Prepare the data into a CD directory structure
+
+	$BINPATH/prepare $LOGDIR/archive$$ $$ >> $LOGFILE 2>&1
+	if [[ $? != 0 ]] ; then
+		echo $$:!!!! Prepare failed, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+		              "script : $0" \
+			      "Prepare returns nonzero exit status." \
+		              "!!!! Prepare failed, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+		trap - EXIT
+		exit 0
+	fi
+
+	# Update the CD number on the other machine
+
+	host=$(uname -n)
+	if [[ $host = $FINETPRIMARY ]]
+	then
+		other=$FINETBACKUP
+	else
+		other=$FINETPRIMARY
+	fi
+	rcp $CDNUM $other:$CDNUM
+
+
+	if [[ -z $(cat $LOGDIR/archive$$) ]]
+	then
+		rm $LOGDIR/archive$$
+                echo "$$:-----      Done! $(date)       -----" >> $LOGFILE
+		trap - EXIT
+		exit 0
+	fi
+
+	# Transfer the CD directory to DANET
+	#
+	echo transfer > $LOGDIR/failure$$
+	$BINPATH/transfer $LOGDIR/archive$$ $$ >> $LOGFILE 2>&1
+	if [[ $? != 0 ]];then
+		echo $$:!!!! Transfer failed, quitting !!!! >> $LOGFILE
+		printf "%s\n" "Subject: Archive System message" \
+			      "script : $0" \
+			      "Transfer returns nonzero exit status." \
+			      "!!!! Transfer failed, quitting !!!!" \
+			      "Process ID: $$" |
+		mail $ARCHIVEMASTER
+		trap - EXIT
+		exit 0
+	fi
+
+	# 29 Nov 01 - problems related to manitou performance
+	#
+	# Problems have occurred with env variables getting lost.
+	# The following section checks for this situation, and
+	# resets variables if it occurs
+	#
+	while [[ -z $DANETBIN ]] ; do
+		echo "$$:"					>> $LOGFILE
+		echo "$$: Time = $(date)"			>> $LOGFILE
+		echo "$$: env variable DANETBIN not set!!" 	>> $LOGFILE
+		echo "$$: Re-executing archive_config file...."	>> $LOGFILE
+		echo "$$:"                                      >> $LOGFILE
+		CONFIGPATH=/disks/fast/software/config
+		. $CONFIGPATH/archive_config
+	done
+
+	## Get CD name and create a file on DANET which
+	## will be used to run the CD processing on that system
+	#
+	CDNAME=$(basename $(cat $LOGDIR/archive$$))
+	echo $CDNAME > /tmp/$CDNAME
+	rcp /tmp/$CDNAME $DANETHOST:$FINET_TRANSFER
+	rm /tmp/$CDNAME
+
+	# Remove processing files and quit
+	#
+	rm -f $LOGDIR/failure$$
+        rm -f $LOGDIR/archive$$
+
+        echo "$$:-----      Done! $(date)       -----" >> $LOGFILE
+
+elif	[[ $job = "begin" ]]; then
+
+	cat  ${MAILTMP}$$ | temp=$(grep "Ground Station" |
+	    awk '{ printf("holdup_%s_%s_%s",$8,$10,$12) }')
+	touch /tmp/$temp
+
+	num=$( grep 'orbit number' ${MAILTMP}$$ | awk '{ print $3}')
+	if [[ -z $num ]]; then
+	    echo $$:!!!! No BEGIN mail message found, quitting !!!! >> $LOGFILE
+	    printf "%s\n" "Subject: Archive System message" \
+	                  "script : $0" \
+			  "Orbit number not extracted from BEGIN message." \
+	                  "!!!! No BEGIN mail message, quitting !!!!" \
+			  "Process ID: $$" |
+	    mail $ARCHIVEMASTER
+	    trap - EXIT
+	    exit 0
+	fi
+	var_size=${#num}
+	first_digit=$(print $num | awk '{print substr($1,0,1)}')
+	if (( ($var_size == 5) && ($first_digit == 0) )); then
+		num=${num#0}
+	fi
+
+	Subject ${MAILTMP}$$
+	echo $$:----- $msg2 for orbit $num >> $LOGFILE
+	rm ${MAILTMP}$$
+else
+	num=$( grep 'orbit number' ${MAILTMP}$$ | awk '{ print $3}')
+	if [[ -z $num ]] ; then
+	    echo $$:!!!! Bad mail message, quitting !!!! >> $LOGFILE
+	    printf "%s\n" "Subject: Archive System message" \
+			  "script : $0" \
+			  "Orbit number not extracted from message." \
+		          "!!!! Bad mail message, quitting !!!!" \
+			  "Process ID: $$" |
+	    mail $ARCHIVEMASTER
+	    trap - EXIT
+	    exit 0
+	fi
+
+	var_size=${#num}
+	first_digit=$(print $num | awk '{print substr($1,0,1)}')
+	if (( ($var_size == 5) && ($first_digit == 0) )); then
+		num=${num#0}
+	fi
+	Subject ${MAILTMP}$$
+	echo $$:----- $msg2 for orbit $num >> $LOGFILE
+	rm ${MAILTMP}$$
+fi	
+
+# Unset traps and exit
+
+trap - EXIT
+exit 0

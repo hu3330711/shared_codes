@@ -1,0 +1,234 @@
+#
+# For SCCS
+#  @(#)PolarBurstHistory	1.1, 08/06/99
+#
+
+------------------------------------------------------------------------
+
+Polar Burst History Data Base:
+-----------------------------
+
+In Spring 1999, an ASCII-based set of monthly EFI burst files was created at
+Berkeley for use of the Polar EFI community.  This document specifies the
+layout of these files.
+
+1.  There will be one ASCII file per month.  This file will contain a 28-line
+    record for each burst which began during the month, in terms of UT.
+    The name of the file will be of the form:
+
+       efi_burst_YYYY_MM_monthname_vNN
+
+    For instance, the first version of the file for October 1996 will be:
+
+       efi_burst_1996_10_october_v01
+
+2.  It is expected that all monthly efi burst files will be stored in the
+    same directory.  This is how SDT, for instance, will expect to find them.
+
+3.  The monthly file will have a 50-line header section, followed by the
+    N burst records of 28-lines each, where "N" is the number of readable
+    bursts found during the month.
+
+4.  File Header:
+
+    Line 1:
+    
+	Title line specifying the month and the date/time of creation.
+
+    Line 2:   
+
+	Line indicating the format type of the file.  It is hoped that
+	there will only be one format for these files.   The line will
+	look like:
+
+	    Format 1
+
+    Line 3:   
+
+	Line indicating the number of bursts found in the month
+	(equivalently, the number of burst records in this file).
+	The line will look like:
+
+	    NBursts  N
+
+	where "N" is the number of records in the file.
+
+    Line 4:   
+
+	Sub-title line
+
+    Lines 5-35:   
+
+	For each day, 1 through 31, this line will contain three integers:
+
+	    Day (1-31)   NDayBursts    FirstBurstIndex
+
+        where "NDayBursts" is the number of bursts which started during
+	the day and "FirstBurstIndex" is the record number (1 - "N") which
+	contains the first burst of the day.
+
+    Lines 36-50:   
+
+	These are not used as of 99/05/01.  They are listed as:
+
+	    Reserved
+
+5.  Burst Record Format:
+
+    There are 28 lines in each burst record.  These are described as follows: 
+
+    Line 1:
+
+	This line indicates the type of burst (CPU1 or CPU2),  and the
+	date/time stamp (UT) of the start of the burst.  As an example:
+
+	    CPU2 Burst at:  1998/10/23  01:56:01.68778
+
+        This is the only line in the record that is left-justified.
+
+    Line 2:
+
+	This line indicates the duration (seconds in 10E format) of
+	the burst.  There is a second field, labelled "Adj", which is
+	reserved for possible future use.  At present, "Adj" contains
+	zero in 10E format.  As an example:
+
+	    Duration(secs)/Adj:  3.299442E+01  0.000000E+00
+
+    Line 3:
+
+	This line indicates the sampling frequency (Hz), sampling mode,
+	trigger algorithm, and chirp mode of the burst.  The last three
+	fields are in hex.  As an example:
+
+	    SmpFreq(Hz)/mode/trigger/chirp:      1600  00  c1  00
+
+    Lines 4-6:
+
+	These lines contain the spacecraft position in GCI, GSE, and GSM
+	XYZ coordinates (in Km).  All values are in 10E format.  As an
+	example:
+
+	    PosGCI(km):  3.277485E+04 1.283819E+04 4.094465E+04
+	    PosGSE(km):  -4.234361E+04 -8.299559E+03 3.245935E+04
+	    PosGSM(km):  -4.234361E+04 -3.852991E+02 3.350140E+04
+
+    Lines 7-9:
+
+	These lines contain the spacecraft velocity in GCI, GSE, and GSM
+	XYZ coordinates (in Km/Sec).  All values are in 10E format.  As an
+	example:
+
+	    VelGCI(km/sec):  -7.247174E-01 -9.753477E-02 1.655577E+00
+	    VelGSE(km/sec):  3.491099E-01 -8.435370E-01 1.557762E+00
+	    VelGSM(km/sec):  3.491099E-01 -9.247801E-02 1.717221E+00
+
+    Line 10:
+
+	This line contains the SunVector (KM, GCI), in 3 by 15E format.
+	As an example:
+
+	    SunVector(km):     -1.295784E+08   -6.721919E+07   -2.914278E+07
+
+    Line 11:
+
+	This line contains the Latitude (deg), Longitude (deg) and altitude
+	(Km).  All values are in 8E format.  As an example:
+
+	    Lat/Long/Alt(km):  4.931479E+01 -3.890419E+01 4.761699E+04
+
+    Line 12:
+
+	This line contains the MLT, MagLat, and LShell values, in 8E format.
+	As an example:
+
+	   MLT/MagLat/LShell:  4.275016E-02 5.724927E+01 2.905204E+01
+
+    Line 13:
+
+	This line simply contains the header text:
+
+	    HdrBytes(44):
+
+    Lines 14,15:
+
+	These lines contain the 44 bytes (22 per line) of the telemetry
+	header for the burst.  Each byte is in hex.  As an example:
+
+	    b3 01 c1 00 1e 00 8c 20 00 ff 14 b8 a1 58 0b 64 b8 a1 58 0b 35 1f
+	    a2 58 0b 00 00 00 00 80 0e 00 80 0e 00 00 0d 01 09 3f 00 00 00 00
+
+    Line 16:
+
+	This line simply contains the header text:
+
+	    PlaybackTime:
+
+    Lines 17,18:
+
+	These lines contain the start and end data for the playback.
+	This includes the date/time stamp, as well as the major frame
+	and block.   As an example:
+
+	    Start:  1998/10/23  01:56:36.65300    majfr/block:    274    11
+	    End:    1998/10/23  04:08:43.85300    majfr/block:   1136     3
+
+    Line 19:
+
+	This line indicates how many quantities were in the burst.  As
+	an example:
+
+	    Quantities: 9
+
+    Lines 20-25:
+
+	These lines contain the names of the quantities and the corresponding
+	number of points for each quantity.   Since it is possible to have
+	a maximum of 24 different quantities in a burst, 3 groups of 2 lines
+	each are provided.  Each 2-line group can contain up to 9 quantity
+	names (in the first line) and the corresponding counts (in the second
+	line).   If a 2-line group is not needed, the two lines are labelled
+	"Unused".   As an example, in a burst with 9 quantities:
+
+	    SCoilX SCoilY SCoilZ V1L    V3L    V5L    V2L    V4L    V6L
+	    52792  52792  52792  52792  52792  52792  52792  52792  52792
+	    Unused
+	    Unused
+	    Unused
+	    Unused
+
+	The counts are integers with a maximum of 7 digits.
+
+    Lines 26-28:
+
+	These lines contain the ProbeMode information at the time of
+	the burst.  It encapsultes which mode (voltage or current)
+	each of the 6 probes are in when the burst occurred.
+
+	Line 26 tells how may different probe modes were in effect
+	during the burst.  This will almost always be "1".   In that
+	case, the line would be:
+
+	    PModes:  1
+
+	Lines 27 and 28 each contain an entry for the number of
+	PModes shown in line 26.   The corresponding line 27 entry
+	contains an integer representation of the combined modes of
+	the probes.  Bit 0 is the value of Probe 1, ... , Bit 5 is
+	the value of Probe 6.   A bit is OFF (0) if the probe is in
+	voltage mode, and is ON (1) if the probe is in current mode.
+	The line 28 entry is the time, in seconds after midnight UT,
+	at which the probe configuration became active.
+
+	For instance, a line 26-28 entry of:
+
+	    PModes:  2
+			 0         12
+		 60100.323  60102.825
+
+        indicates that there were two probe configurations during the
+	burst.  The first one, which began at 60100.323, had all probes
+	in voltage mode, the second one, beginning at 60102.825, had
+	probes 1,2,5,6 in voltage mode, probes 3 and 4 in current mode.
+
+

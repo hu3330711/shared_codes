@@ -1,0 +1,65 @@
+#!/usr/bin/ksh
+# new_dpsprocess - This new process will search for 
+# ground station VC files and move them to the open
+# side network for processing.
+#
+# Created on 11/18/05
+#
+#
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+# Function wrn_exitarn_exit declaration
+# Mails ARCHIVEMASTER if intercept exits prematurely.
+
+function warn_exit {
+	{
+        # <word>: is interpreted as mail tag unless <word> contains whitespace
+        printf "%s\n" 'Subject: Archive System message' \
+                      "Dpsprocess script exited prematurely at line $1" \
+                      'See archivelog and/or other Archive System messages.' \
+                      "Process ID: $$"
+    } | mail $ARCHIVEMASTER
+}
+
+## Set trap for premature EXIT
+#
+trap 'warn_exit $LINENO' EXIT
+
+## Adding this brief echo to make sure the log file shared
+## by dps and lzp will be created with the correct permissions
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: Starting new_ogscopy at $(date)" >> $IONLOGFILE
+	echo "$$:" >> $IONLOGFILE
+	if [[ -O $IONLOGFILE ]]
+	then
+		chmod g+w $IONLOGFILE
+	fi
+
+## Start by making a listing of the VC files
+## in the directory where ground stations 
+## deliver them
+#
+	ogsarchdirs=$(ls -1d $OGSARCHION/ogs.archive*)
+
+## Now process each file
+#
+	for ogsarchdir in $ogsarchdirs
+	do
+		echo "$$:" >> $IONLOGFILE
+		scp -r $ogsarchdir juneau:$OGSARCHOPEN
+		scp $ogsarchdir/*ATTPRE* juneau:$ATTPREFORUCLA
+		scp $ogsarchdir/*ATTPRE* juneau:$ATTFORUCLA
+		rm -r  $ogsarchdir
+		echo "$$: Copying directory $ogsarchdir to:" >> $IONLOGFILE
+		echo "$$: juneau:$OGSARCHOPEN" >> $IONLOGFILE
+	done
+		
+## This script is complete
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: ........new_ogscopy ends at $(date)" >> $IONLOGFILE
+	trap - EXIT
+	exit 0

@@ -1,0 +1,3634 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogs.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Produce the FAST commands and shadow ephemeris.
+#
+# **************************************************************
+#
+#      @(#)ogs.shp	1.16    01/03/00    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogs
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Save initial directory.
+#
+#---------------------------------------------------------------
+
+   set initdr = `pwd`
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xcoll  = 1                  # collision with another job
+
+   set xkill  = 2                  # the job was killed
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+   set quote  = '"'
+
+   set colon  = ':'
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crlock = $no                # lock for other jobs set
+
+   set crauxf = $no                # any auxiliary file created
+
+   set xistjl = $no                # there is a job log
+
+   set nflgen = $no                # run generated new files
+
+   set runpgm = $no                # need to run main program(s)
+
+   set nwsend = $no                # new files to be sent
+
+   set nwarch = $no                # new files to be archived
+
+   set nworbs = $no                # new orbit files
+
+   set nwuser = $no                # new files for the users
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+   set wait2  = 3                  # make sure no other job
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set ofmode = 664                # mode for output files.
+
+
+
+#---------------------------------------------------------------
+#
+#      Save the command line for message.
+#
+#---------------------------------------------------------------
+
+   set cmdlin = ($0 $argv)
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set opte   = $no                # echo job log messages
+
+   set optm   = $no                # suppress mailing job log
+
+   set optl   = $no                # suppress printing job log
+
+   set optv   = $no                # editCommands run
+
+   set opto   = $no                # force orbgen to run
+
+   set optg   = $no                # force genCommands to run
+
+   set opts   = $no                # force sunnadir to run
+
+   set optc   = $no                # procedure config file
+
+   set optp   = $no                # printer - automatically
+
+   set optq   = $no                # printer - on request
+
+   set optb   = $no                # config dir for orbgen
+
+   set optn   = $no                # orbit number for orbgen
+
+   set optr   = $no                # config dir for genCommands
+
+   set optu   = $no                # config file for sunnadir
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-e")  then
+
+           set opte   = $yes
+
+
+         else  if  ("$aux001" == "-m")  then
+
+           set optm   = $yes
+
+
+         else  if  ("$aux001" == "-l")  then
+
+           set optl   = $yes
+
+
+         else  if  ("$aux001" == "-v")  then
+
+           set optv   = $yes
+
+
+         else  if  ("$aux001" == "-o")  then
+
+           set opto   = $yes
+
+
+         else  if  ("$aux001" == "-g")  then
+
+           set optg   = $yes
+
+
+         else  if  ("$aux001" == "-s")  then
+
+           set opts   = $yes
+
+
+         else  if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "-p")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optp   = $yes
+           set prntau = $aux002
+
+
+         else  if  ("$aux001" == "-q")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -q arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -q arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optq   = $yes
+           set prntrq = $aux002
+
+
+         else  if  ("$aux001" == "-b")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -b arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -b arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optb   = $yes
+           set cfgdo  = $aux002
+
+
+         else  if  ("$aux001" == "-n")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -n arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -n arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optn   = $yes
+           set norb1  = $aux002
+
+
+         else  if  ("$aux001" == "-r")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -r arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -r arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optr   = $yes
+           set cfgdg  = $aux002
+
+
+         else  if  ("$aux001" == "-u")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -u arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optu   = $yes
+           set cfgfs  = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create a read lock file for configuration files if
+#      needed.
+#
+#---------------------------------------------------------------
+
+   if  (($optc == $no) || \
+        ($optb == $no) || \
+        ($optr == $no) || \
+        ($optu == $no))  then      # some default cfg
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#      Note that this is what is used whatever this run does
+#      (in particular, for an editCommands run, there is no
+#      attempt to retrieve and use the procedure configuration
+#      file from the original run).
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for lock file for simultaneous jobs.
+#
+#---------------------------------------------------------------
+
+   set lkjob0 = $rdwork/$lock.$prcnam    # common part of name
+
+   set lkjob  = $lkjob0.$pid             # full name
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if another job is currently running or about to
+#      run.
+#
+#      If not, lock out other jobs.
+#
+#---------------------------------------------------------------
+
+   ls $lkjob0.* >&! /dev/null
+
+   if  ($status == 0)  then        # there is a prior job
+       goto l7200
+     endif
+
+
+   touch $lkjob                    # this job about to run
+
+   if  ($status == 0)  then
+       set crlock = $yes
+     else
+       echo  " $prcnam : " \
+           "Unable to create lock file  $lkjob"
+       goto l8000
+     endif
+
+
+   sleep $wait2                    # wait for possible other job
+
+
+   set aux001 = (`ls $lkjob0.*`)
+
+   if  ($#aux001 != 1)  then       # there is another job
+       goto l7200
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set up procedure action when job is killed (interrupt).
+#
+#---------------------------------------------------------------
+
+   onintr l7400
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Error setting job kill action"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the printers.
+#
+#---------------------------------------------------------------
+
+   if  ($optp == $yes)  then
+       set printa = $prntau
+     else
+       set printa = $prtaut
+     endif
+
+
+   if  ($optq == $yes)  then
+       set printr = $prntrq
+     else
+       set printr = $prtreq
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Clear any old process ID, job ID and job log files.
+#
+#---------------------------------------------------------------
+
+   set prcsid = $rdwork/$prid
+
+   set jobid  = $rdwork/$jbid
+
+   set joblog = $rdwork/$jblg
+
+
+   if  (-e $prcsid)  then
+
+       rm -f $prcsid
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete old process ID file  $prcsid"
+           goto l8000
+         endif
+
+     endif
+
+
+   if  (-e $jobid)  then
+
+       rm -f $jobid
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete old job ID file  $jobid"
+           goto l8000
+         endif
+
+     endif
+
+
+   if  (-e $joblog)  then
+
+       rm -f $joblog
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete old job log file  $joblog"
+           goto l8000
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the process ID file.
+#
+#---------------------------------------------------------------
+
+   echo $pid > $prcsid
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Error creating process ID file  $prcsid"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Save the job start time.
+#
+#---------------------------------------------------------------
+
+   set jobbeg = `date`
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to determine the job start time"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the job start date and time UTC, and the job
+#      ID.
+#
+#---------------------------------------------------------------
+
+   set jbegut = `wtcurutc`
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to determine current date and time UTC"
+       goto l8000
+     endif
+
+
+   set jbuyr  = $jbegut[1]
+   set jbuday = $jbegut[2]
+   set jbuhr  = $jbegut[3]
+   set jbumin = $jbegut[4]
+   set jbusec = $jbegut[5]
+   set jbujdn = $jbegut[6]
+
+   set jid    = $jbuyr.$jbuday.$jbuhr.$jbumin.$jbusec
+
+
+
+#---------------------------------------------------------------
+#
+#      Prepare the script to write messages.
+#
+#---------------------------------------------------------------
+
+   set wrmssg = $rdwork/ogs.wrmssg
+
+
+   if  (-e $wrmssg)  then
+
+       rm -f $wrmssg
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete script file  $wrmssg"
+           goto l8000
+         endif
+
+     endif
+
+
+   cat << "ENDTEXT" > $wrmssg
+#!/bin/csh -f
+
+   if  ($#argv >= 3)  then
+       echo " $1"
+     endif
+
+   echo " $1" >> $2
+
+   exit(0)
+"ENDTEXT"
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to create script file  $wrmssg"
+       goto l8000
+     endif
+
+
+   chmod -f +x $wrmssg
+
+
+
+#---------------------------------------------------------------
+#
+#      Initialize the job log file.
+#
+#---------------------------------------------------------------
+
+   touch $joblog
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to create job log file  $joblog"
+       goto l8000
+     endif
+
+
+   if  ($opte == $yes)  then
+       set echarg = $yes
+     else
+       set echarg = ""
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Put message of job start.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "$jobbeg : $prcnam job started" $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Put message of job ID, and create the job ID file.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "Job ID = $jid" $joblog $echarg
+
+   set xistjl = $yes
+
+
+   echo $jid > $jobid
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error creating job ID file $jobid" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Put message of job command line.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "Command line = $cmdlin" $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Put message of job mailing list.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "Job mailing list = $mlist" $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $rdwork/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+   set auxf2  = $auxf.2
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the "new run" subdirectory.
+#
+#---------------------------------------------------------------
+
+   set polrun = $rdwork/ogs.polrun # prev "old run" subdirectory
+
+   set oldrun = $rdwork/ogs.oldrun # "old run" subdirectory
+
+   set newrun = $rdwork/ogs.newrun # "new run" subdirectory
+
+
+   if  (-e $newrun)  then
+
+       rm -r -f $newrun
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error deleting $newrun" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     endif
+
+
+   mkdir $newrun
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error creating subdir $newrun" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Save a copy of the procedure configuration file.
+#
+#---------------------------------------------------------------
+
+   set cfgpnm = $cfgprc:t          # file name without path
+
+   cp $cfgprc $newrun
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error copying $cfgprc to $newrun" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   chmod -f $ofmode $newrun/$cfgpnm
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error change mode $newrun/$cfgpnm" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Check the keyword options.
+#
+#---------------------------------------------------------------
+
+   if  (($optv == $yes) && \
+        (($opto == $yes) || \
+         ($optg == $yes) || \
+         ($opts == $yes)))  then
+
+       $wrmssg "$prcnam : Incompatible keyword options" \
+           $joblog $echarg
+
+       set xistjl = $yes
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the program configuration files.
+#
+#---------------------------------------------------------------
+
+   set aux001 = ogs.config
+
+   set opgmcf = $oldrun/$aux001    # old subd for pgm cfg files
+
+   set npgmcf = $newrun/$aux001    # new subd for pgm cfg files
+
+
+
+   if  ($optv == $yes)  then       # skip for editCommands run
+       goto l3000
+     endif
+
+
+
+   set args   = ( )
+
+   set args   = ($args -c $newrun/$cfgpnm)
+
+   if  ($optb == $yes)  then
+       set args   = ($args -b $cfgdo)
+     endif
+
+   if  ($optr == $yes)  then
+       set args   = ($args -r $cfgdg)
+     endif
+
+   if  ($optu == $yes)  then
+       set args   = ($args -u $cfgfs)
+     endif
+
+   set args   = ($args $npgmcf)
+
+
+   eval ogscopcf $args >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error getting the program cfg files" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+ l3000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error deleting file $lkcfgr" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($optv == $yes)  then       # editCommands run
+       if  (-e $opgmcf)  then      # copy files from the old run
+           cp -r $opgmcf $newrun
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Error copying subd $opgmcf" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+         endif
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the other root directories if needed.
+#
+#---------------------------------------------------------------
+
+   foreach rd ($rdsend $rdarch $rdorbs $rduser)
+
+       if  (-e $rd)  then
+
+           if  (-d $rd)  then
+
+             else
+
+               $wrmssg "$prcnam : Dir  $rd  is a plain file" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+
+             endif
+
+         else
+
+           mkdir $rd
+
+           if  ($status == 0)  then
+
+             else
+
+               $wrmssg "$prcnam : Err creating root dir  $rd" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+
+             endif
+
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the temporary subdirectories for final products.
+#
+#---------------------------------------------------------------
+
+   set snsend = $spsend.$jid       # files to be sent
+
+   set snarch = $sparch.$jid       # files to be archived
+
+   set snorbs = $sporbs.$jid       # orbit files
+
+   set snuser = $spuser.$jid       # files for the users
+
+
+   set tmsend = $newrun/$snsend    # files to be sent
+
+   set tmarch = $newrun/$snarch    # files to be archived
+
+   set tmorbs = $newrun/$snorbs    # orbit files
+
+   set tmuser = $newrun/$snuser    # files for the users
+
+
+
+   foreach subd ($tmsend $tmarch $tmorbs $tmuser)
+
+       mkdir $subd
+
+       if  ($status == 0)  then
+
+         else
+
+           $wrmssg "$prcnam : Error creating subdir  $subd" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the configuration files to the output directories.
+#
+#---------------------------------------------------------------
+
+   foreach subd ($tmarch $tmuser)
+
+
+       cp $newrun/$cfgpnm $subd
+
+       if  ($status == 0)  then
+
+         else
+
+           $wrmssg "$prcnam : Err copying  $cfgpnm  to  $subd" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+
+         endif
+
+
+       if  (-e $npgmcf)  then
+
+           cp $npgmcf/* $subd
+
+           if  ($status == 0)  then
+
+             else
+
+               $wrmssg "$prcnam : Err cop  $npgmcf  to  $subd" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+
+             endif
+
+         endif
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the new input files from Goddard.
+#
+#---------------------------------------------------------------
+
+   set aux001 = ogs.godfls
+
+   set ogoddf = $oldrun/$aux001    # old subd for Goddard files
+
+   set ngoddf = $newrun/$aux001    # new subd for Goddard files
+
+
+
+   if  ($optv == $yes)  then       # skip for editCommands run
+       goto l3200
+     endif
+
+
+
+   ogscopgf -c $newrun/$cfgpnm -k $ngoddf >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  (!(-z $auxf1))  then
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+     endif
+
+
+   if  ($retcod == 0)  then
+     else
+       $wrmssg "$prcnam : Error getting Goddard input files" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      List all the new input files from Goddard, and copy them
+#      to the output directories.
+#
+#---------------------------------------------------------------
+
+   set godfil = $no                # there are fls from Goddard
+
+
+   foreach icod ($subcod)
+
+
+       if  (($icod >= 1) && ($icod <= $ncod))  then
+         else
+           $wrmssg "$prcnam : Invalid sub for code $icod" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+       set code   = $godcod[$icod]
+
+
+       set aux001 = $ngoddf/$gdcp/$gdnw/$code
+
+
+       if  (-e $aux001)  then
+
+           set nflgen = $yes
+
+           if  ($godfil == $no)  then
+               $wrmssg "" $joblog $echarg
+               $wrmssg "New input files from Goddard:" \
+                   $joblog $echarg
+               $wrmssg "" $joblog $echarg
+               set xistjl = $yes
+               set godfil = $yes
+             endif
+
+           foreach filx (`ls $aux001`)
+               $wrmssg "$filx:t" $joblog $echarg
+               set xistjl = $yes
+             end
+
+           foreach subd ($tmarch $tmuser)
+               cp $aux001/* $subd
+               if  ($status == 0)  then
+                 else
+                   $wrmssg "$prcnam : Err cp $aux001 to $subd" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                   goto l8000
+                 endif
+             end
+
+           set nwarch = $yes
+           set nwuser = $yes
+
+         endif
+
+
+     end
+
+
+
+   if  ($godfil == $yes)  then
+
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+
+     else
+
+       $wrmssg "" $joblog $echarg
+       $wrmssg "No new input files from Goddard" $joblog $echarg
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+
+     endif
+
+
+
+ l3200:
+
+
+
+   if  ($optv == $yes)  then       # editCommands run
+       if  (-e $ogoddf)  then      # copy files from the old run
+           cp -r $ogoddf $newrun
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Error copying subd $ogoddf" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+         endif
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the latest input files from Goddard.
+#
+#      This refers to the files that are used by the programs.
+#
+#---------------------------------------------------------------
+
+   set aux001 = ogs.latest
+
+   set olatst = $oldrun/$aux001    # old subd for latest files
+
+   set nlatst = $newrun/$aux001    # new subd for latest files
+
+
+
+   if  ($optv == $yes)  then       # skip for editCommands run
+       goto l3400
+     endif
+
+
+
+   mkdir $nlatst
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error creating subdir $nlatst" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   set newlto = $no                # new lat fil for orbgen
+
+   set newltg = $no                # new lat fil for genCommands
+
+   set newlts = $no                # new lat fil for sunnadir
+
+
+
+
+   foreach icod ($subcod)
+
+
+
+       set code   = $godcod[$icod]
+
+
+       set list1  = ( )            # file names without path
+
+
+
+       set aux001 = $ngoddf/$gdcp/$gdlt/$code
+                                   # latest files new run
+
+       if  (-e $aux001)  then
+
+           foreach filx (`ls $aux001`)
+               set list1  = ($list1 $filx:t)
+             end
+
+         endif
+
+
+       set aux002 = $olatst/$code  # latest files old run
+
+       if  (-e $aux002)  then
+
+           foreach filx (`ls $aux002`)
+               set list1  = ($list1 $filx:t)
+             end
+
+         endif
+
+
+
+       if  ($#list1 == 0)  then    # no lat files for this code
+           continue
+         endif
+
+
+
+       set subdlt = $nlatst/$code  # subdir lat files this code
+
+       mkdir $subdlt
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error creating subdir $subdlt" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+
+       ogslatst -c $newrun/$cfgpnm $code $list1 >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then
+         else
+           cat $auxf1 >> $joblog
+           set xistjl = $yes
+           if  ($opte == $yes)  then
+               more $auxf1
+             endif
+           $wrmssg "$prcnam : Error det latest files $code" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+
+       set list2  = (`cat $auxf1`)
+
+
+       while  ($#list2 >= 1)
+
+           set fnam1  = $list2[1]
+           set fnam2  = $list2[2]
+
+           if  (-e $aux001/$fnam1)  then
+               if  ($code == $codatp)  then
+                   set newlts = $yes
+                 else  if  ($code == $codpov)  then
+                   set newlto = $yes
+                 else
+                   set newltg = $yes
+                 endif
+               cp $aux001/$fnam1 $subdlt/$fnam2
+             else
+               cp $aux002/$fnam1 $subdlt/$fnam2
+               if  (-e $aux001)  then
+                   $wrmssg "$prcnam : Old  $code  file(s)" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                 endif
+             endif
+
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Err copy $fnam1 to $subdlt" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+           shift list2
+
+           shift list2
+
+         end
+
+
+
+     end
+
+
+
+ l3400:
+
+
+
+   if  ($optv == $yes)  then       # editCommands run
+       if  (-e $olatst)  then      # copy files from the old run
+           cp -r $olatst $newrun
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Error copying subd $olatst" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+         endif
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine which main programs need to be run.
+#
+#      Determine if a complete orbit file is needed.
+#
+#      Terminate if this run does not have anything to do.
+#
+#---------------------------------------------------------------
+
+   set runorb = $no                # need to run orbgen
+
+   set rungen = $no                # need to run genCommands
+
+   set runsun = $no                # need to run sunnadir
+
+   set runedt = $no                # need to run editCommands
+
+
+   set needco = $no                # need a complete orbit file
+
+
+
+   if  ($optv == $no)  then        # regular run
+
+       if  (($newlto == $yes) || ($opto == $yes))  then
+           set runorb = $yes
+           set runpgm = $yes
+           set needco = $yes
+         endif
+
+       if  ($runorb == $yes)  then
+           set runpgm = $yes
+           set needco = $yes
+           set rungen = $yes
+           set runsun = $yes
+         endif
+
+       if  (($newltg == $yes) || ($optg == $yes))  then
+           set rungen = $yes
+           set runpgm = $yes
+           set needco = $yes
+         endif
+
+       if  (($newlts == $yes) || ($opts == $yes))  then
+           set runsun = $yes
+           set runpgm = $yes
+           set needco = $yes
+         endif
+
+     else                          # editCommands run
+
+       set runedt = $yes
+       set runpgm = $yes
+
+     endif
+
+
+
+   if  (($runpgm == $yes)  || \
+        ($nflgen == $yes))  then
+     else
+       goto l7000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the first output date.
+#
+#---------------------------------------------------------------
+
+   ogsfstdt $jbujdn $jbuhr $jbumin $jbusec $cutofh $cutofm \
+            $offst1 $offst2 >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error determining first output date" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set fstdat = (`cat $auxf1`)
+
+   set fdtyr  = $fstdat[1]
+   set fdtday = $fstdat[2]
+   set fdtjdn = $fstdat[3]
+
+
+   $wrmssg "First output date = $fdtyr/$fdtday" $joblog $echarg
+   set xistjl = $yes
+
+
+   @ fdtmn1 = $fdtjdn - 1          # JDN of day bef 1st out date
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the desired start times for output data files.
+#
+#---------------------------------------------------------------
+
+   @ outsg  = (3600 * $outsgh) + (60 * $outsgm) + $outsgs
+
+   @ outss  = (3600 * $outssh) + (60 * $outssm) + $outsss
+
+
+
+   if  ($outsg <= $outss)  then
+
+       set outs1 = $outsg
+
+       set outs2 = $outss
+
+     else
+
+       set outs1 = $outss
+
+       set outs2 = $outsg
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectory to run main programs.
+#
+#---------------------------------------------------------------
+
+   set aux001 = ogs.runpgm
+
+   set ornpgm = $oldrun/$aux001    # old subd for running pgms
+
+   set nrnpgm = $newrun/$aux001    # new subd for running pgms
+
+
+   mkdir $nrnpgm
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error creating subdirectory $nrnpgm" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy into the subdirectory to run main programs the
+#      configuration files for the programs.
+#
+#---------------------------------------------------------------
+
+   cp $npgmcf/* $nrnpgm
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error copying $npgmcf to $nrnpgm" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy into the subdirectory to run main programs the
+#      latest input files from Goddard.
+#
+#---------------------------------------------------------------
+
+   foreach icod ($subcod)
+
+       set code   = $godcod[$icod]
+
+       set aux001 = $nlatst/$code
+
+       if  (-e $aux001)  then
+
+           cp $aux001/* $nrnpgm
+
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Err copy $aux001 to $nrnpgm" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy into the subdirectory to run main programs the
+#      output files with standard Goddard-type names from the
+#      old run (except for the orbit file).
+#
+#      Only those files for the day before the first output date
+#      and later (genCommands starts with the day before the
+#      first output date).
+#
+#---------------------------------------------------------------
+
+   set parse1 = $fnprse[1]         # file name parsing program
+
+
+
+   foreach codout ($ofiles $gfiles $sfiles)
+
+
+       if  ($codout == $cdorbt)  then    # skip orbit file
+           continue
+         endif
+
+
+       ls $ornpgm/*${codout}* >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then    # there are files
+         else
+           continue
+         endif
+
+
+       foreach filx (`cat $auxf1`)
+
+           set fnam   = $filx:t
+
+           $parse1 $fnam >&! $auxf1
+           set retcod = $status
+           set crauxf = $yes
+
+           if  ($retcod == 0)  then
+             else
+               cat $auxf1 >> $joblog
+               set xistjl = $yes
+               if  ($opte == $yes)  then
+                   more $auxf1
+                 endif
+               $wrmssg "$prcnam : Error parsing $fnam" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+           set prsnam = (`cat $auxf1`)
+
+           if  ($prsnam[$fn1jdn] >= $fdtmn1)  then
+               cp $ornpgm/$fnam $nrnpgm
+               if  ($status == 0)  then
+                 else
+                   $wrmssg "$prcnam : Error copying $fnam" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                   goto l8000
+                 endif
+             endif
+
+         end
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the end time for the orbit data needed.
+#
+#---------------------------------------------------------------
+
+   ogseorbd $fdtjdn $outs2 $ndayou $extrah >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Err determ end time orb data needed" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set endodn = (`cat $auxf1`)
+
+   set ednjdn = $endodn[1]
+   set edntim = $endodn[2]
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the orbit file.
+#
+#      Could be created now, or copied from the old run,
+#      depending on the situation.
+#
+#---------------------------------------------------------------
+
+   if  ($runorb == $yes)  then     # skip if need to run orbgen
+       goto l4200
+     endif
+
+
+
+   ls $ornpgm/*${cdorbt}* >&! $auxf1    # list old orbit file(s)
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then        # an old orbit file exists
+     else
+       goto l4200
+     endif
+
+
+   set aux001 = (`cat $auxf1`)
+
+   if  ($#aux001 == 1)  then
+     else
+       $wrmssg "$prcnam : More than 1 old orbit file found" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+   set fnmorb = $aux001:t          # file name without path
+
+   if  (-e $ornpgm/$newost)  then
+     else
+       $wrmssg "$prcnam : File  $ornpgm/$newost  missing" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+   if  (-e $ornpgm/$orbfet)  then
+     else
+       $wrmssg "$prcnam : File  $ornpgm/$orbfet  missing" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Check the start and end times of the old orbit file.
+#
+#---------------------------------------------------------------
+
+   if  ($needco == $no)  then      # skip if don't need a
+       goto l4000                  # complete orbit file
+     endif
+
+
+
+                                   # det old file start time
+   ogsborbf $ornpgm/$newost $fdtjdn $outs1 >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Err determ start of old orbit file" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set begoof = (`cat $auxf1`)
+
+   if  ($begoof[3] <= 0)  then     # start time <= data needed
+     else
+       goto l4200
+     endif
+
+
+
+                                   # det old file end time
+   ogseorbf $ornpgm/$orbfet $ednjdn $edntim >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Err determ end of old orbit file" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set endoof = (`cat $auxf1`)
+
+   if  ($endoof[3] >= 0)  then     # end time >= data needed
+     else
+       goto l4200
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the old orbit file.
+#
+#---------------------------------------------------------------
+
+ l4000:
+
+
+   foreach fnam ($fnmorb $newost $orbfet)
+
+       cp $ornpgm/$fnam $nrnpgm
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error copying $fnam" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     end
+
+
+
+   goto l4500
+
+
+
+#---------------------------------------------------------------
+#
+#      Create a new orbit file.
+#
+#---------------------------------------------------------------
+
+ l4200:
+
+
+   cd $nrnpgm
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the Goddard input.
+#
+#---------------------------------------------------------------
+
+   if  (-e $nlatst/$codpov)  then
+
+       set aux001 = `ls $nlatst/$codpov`
+
+       set fnmpov = $aux001:t      # file name without path
+
+     else
+
+       $wrmssg "$prcnam : No  $codpov  file" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Run the short run of orbgen.
+#
+#---------------------------------------------------------------
+
+   set shorbf = ogs.short.orbfile  # short orbit file
+
+
+   set args   = ( )
+
+   set args   = ($args -f)
+
+   set args   = ($args -d $odursh)
+
+   set args   = ($args -c $ocpint)
+
+   set args   = ($args -o $oouint)
+
+   set args   = ($args $fnmpov)
+
+   set args   = ($args $shorbf)
+
+
+   eval orbgen $args >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error in short run of orbgen" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the file of orbit start times for the short run.
+#
+#---------------------------------------------------------------
+
+   ogsorbtm $shorbf $auxf1 >&! $auxf2
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf2 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf2
+         endif
+       $wrmssg "$prcnam : Error det orb start times short run" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the arguments for the full run of orbgen.
+#
+#---------------------------------------------------------------
+
+   set args   = ( )
+
+   set args   = ($args -f)
+
+
+   if  ($optn == $yes)  then       # first orb number is arg
+       set args   = ($args -n $norb1)
+       goto l4220
+     endif
+
+
+   if  (-e $ornpgm/$newost)  then  # can match orbit numbers
+       cp $ornpgm/$newost $oldost
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error copying $newost" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+     else
+       goto l4220
+     endif
+
+
+
+                                   # determine first orb number
+   ogsfston $auxf1 $oldost $tolmon >&! $auxf2
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf2 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf2
+         endif
+       $wrmssg "$prcnam : Error det first orbit number" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set args   = ($args -n `cat $auxf2`)
+
+   goto l4220
+
+
+
+ l4220:
+
+
+
+                                   # det short file start time
+   ogsborbf $auxf1 $fdtjdn $outs1 >&! $auxf2
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf2 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf2
+         endif
+       $wrmssg "$prcnam : Error det short file start time" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set begsof = (`cat $auxf2`)
+
+   if  ($begsof[3] <= 0)  then     # start time <= data needed
+     else
+       $wrmssg "$prcnam : Orbit starts later than needed" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   ogsorbfd $begsof[1] $begsof[2] $ednjdn $edntim $oouint \
+           >&! $auxf1              # determine duration
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error determining orbgen duration" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set args   = ($args -d `cat $auxf1`)
+
+   set args   = ($args -c $ocpint)
+
+   set args   = ($args -o $oouint)
+
+   set args   = ($args $fnmpov)
+
+
+
+   $parse1 $fnmpov >&! $auxf1      # parse name of vector file
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error parsing file name  $fnmpov" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+   set prsnam = (`cat $auxf1`)
+
+
+
+                                   # det name for new orbit file
+   ogsnxtg1 -c $newrun/$cfgpnm $prsnam[$fn1yy] \
+           $prsnam[$fn1ddd] $cdorbt $ornpgm >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error det name for new orbit file" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+   set fnmorb = (`cat $auxf1`)
+
+
+   set args   = ($args $fnmorb)
+
+
+
+#---------------------------------------------------------------
+#
+#      Run the full run of orbgen.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "" $joblog $echarg
+   set xistjl = $yes
+
+
+   $wrmssg "`date` : orbgen $args" $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+   eval orbgen $args >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error in full run of orbgen" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   set nflgen = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the file of orbit start times and the file of end
+#      time for the full run.
+#
+#---------------------------------------------------------------
+
+   ogsorbtm $fnmorb $newost $orbfet >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error det orb start times full run" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   set nflgen = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the orbit files to the output directories.
+#
+#---------------------------------------------------------------
+
+   foreach fnam ($fnmorb $newost $orbfet)
+
+       foreach subd ($tmarch $tmorbs $tmuser)
+
+           if  (($fnam == $fnmorb) && ($subd != $tmorbs)) then
+               continue
+             endif
+
+           cp $fnam $subd
+
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Err copy  $fnam  to  $subd" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+         end
+
+     end
+
+
+   set nwarch = $yes
+
+   set nworbs = $yes
+
+   set nwuser = $yes
+
+
+
+   goto l4500
+
+
+
+ l4500:
+
+
+
+#---------------------------------------------------------------
+#
+#      Run genCommands.
+#
+#---------------------------------------------------------------
+
+   if  ($rungen == $yes)  then     # skip if no need to run
+     else
+       goto l5000
+     endif
+
+
+
+   cd $nrnpgm
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the arguments for the run.
+#
+#---------------------------------------------------------------
+
+   set args   = ( )
+
+
+                                   # determine the start orbit
+   ogsgencs $newost $fdtjdn $outsg >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  ($retcod == 0)  then
+     else
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "$prcnam : Error det first orbit number" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+   set args   = ($args -s `cat $auxf1`)
+
+
+   set args   = ($args -c .)
+
+   set args   = ($args -l $outsg)
+
+   set args   = ($args $fnmorb)
+
+   set args   = ($args .)
+
+   set args   = ($args .)
+
+   set args   = ($args .)
+
+
+
+#---------------------------------------------------------------
+#
+#      Run the program.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "" $joblog $echarg
+   set xistjl = $yes
+
+
+   $wrmssg "`date` : genCommands $args" $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+   eval genCommands $args >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+   if  (!(-z $auxf1))  then
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+       cat $auxf1 >> $joblog
+       set xistjl = $yes
+       if  ($opte == $yes)  then
+           more $auxf1
+         endif
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+     endif
+
+
+   if  ($retcod == 0)  then
+     else
+       $wrmssg "$prcnam : Error in run of genCommands" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+   set nflgen = $yes
+
+
+
+   goto l5800
+
+
+
+ l5000:
+
+
+
+#---------------------------------------------------------------
+#
+#      Run editCommands.
+#
+#---------------------------------------------------------------
+
+   if  ($runedt == $yes)  then     # skip if no need to run
+     else
+       goto l5500
+     endif
+
+
+
+   cd $nrnpgm
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the editCommands interaction.
+#
+#---------------------------------------------------------------
+
+   set editcm = $no                # ind that pgm has been run
+
+
+   while  (1)
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the list of command files for the first output date
+#      or later.
+#
+#---------------------------------------------------------------
+
+       set list1  = ( )
+
+
+       ls *${cdgnor}* >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then    # there are files
+         else
+           $wrmssg "$prcnam : No command files found" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+       foreach fnam (`cat $auxf1`)
+
+           $parse1 $fnam >&! $auxf1
+           set retcod = $status
+           set crauxf = $yes
+
+           if  ($retcod == 0)  then
+             else
+               cat $auxf1 >> $joblog
+               set xistjl = $yes
+               if  ($opte == $yes)  then
+                   more $auxf1
+                 endif
+               $wrmssg "$prcnam : Error parsing $fnam" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+           set prsnam = (`cat $auxf1`)
+
+           if  ($prsnam[$fn1jdn] >= $fdtjdn)  then
+               set list1  = ($list1 $fnam)
+             endif
+
+         end
+
+
+       set ncommf = $#list1
+
+
+       if  ($ncommf >= 1)  then    # there are files
+         else
+           $wrmssg "$prcnam : No command files found" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Print command files if requested.
+#
+#---------------------------------------------------------------
+
+       while  (1)
+
+
+           echo ""
+
+           echo " Please enter"
+
+           echo ""
+
+
+           set i      = 0
+
+           while ($i < $ncommf)
+
+               @ i++
+
+               echo -n "    "
+
+               if  ($i < 10)  then
+                   echo -n " "
+                 endif
+
+               echo " $i  to print  $list1[$i]"
+
+             end
+
+
+           echo ""
+
+           echo -n "    "
+           echo -n " "
+           echo " 0  to exit this menu"
+
+           echo ""
+
+
+           set aux001 = ($<)
+
+           set kin    = ($aux001)
+
+           if  ($#kin != 1)  then
+               echo " Invalid value entered"
+               continue
+             endif
+
+           if  ($kin == 0)  then
+               break
+             endif
+
+
+           set i      = 0
+
+           while ($i < $ncommf)
+
+               @ i++
+
+               if  ($kin == $i)  then
+                   set cmndfl = $list1[$kin]
+                   eval $prtcmd -d $printr $cmndfl
+                   if  ($status == 0)  then
+                       echo  " Printed  $cmndfl  on  $printr"
+                     else
+                       echo  " Error prnt  $cmndfl  on  $printr"
+                     endif
+                   break
+                 endif
+
+             end
+
+
+         end
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the arguments for the run.
+#
+#---------------------------------------------------------------
+
+       set args   = ( )
+
+
+       set args   = ($args -c .)
+
+       set args   = ($args -l $outsg)
+
+       set args   = ($args $fnmorb)
+
+       set args   = ($args .)
+
+       set args   = ($args .)
+
+       set args   = ($args .)
+
+       set args   = ($args $fdtyr/$fdtday)
+
+
+
+#---------------------------------------------------------------
+#
+#      Run the program.
+#
+#---------------------------------------------------------------
+
+       if  ($editcm == $yes)  then # the program has been run
+           break
+         endif
+
+
+
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+
+
+       $wrmssg "`date` : editCommands $args" $joblog $echarg
+
+       set xistjl = $yes
+
+
+
+###       eval editCommands $args >&! $auxf1
+       eval editCommands $args
+
+       set retcod = $status
+
+###       set crauxf = $yes
+
+       set editcm = $yes
+
+
+###       if  (!(-z $auxf1))  then
+###           $wrmssg "" $joblog $echarg
+###           set xistjl = $yes
+###           cat $auxf1 >> $joblog
+###           set xistjl = $yes
+###           if  ($opte == $yes)  then
+###               more $auxf1
+###             endif
+###           $wrmssg "" $joblog $echarg
+###           set xistjl = $yes
+###         endif
+
+
+
+       if  ($retcod == 0)  then
+
+           set nflgen = $yes
+
+         else  if  ($retcod > 0)  then
+
+           $wrmssg "$prcnam : No changes to any files" \
+               $joblog $echarg
+           set xistjl = $yes
+           break
+
+         else
+
+           $wrmssg "$prcnam : Error in run of editCommands" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the editCommands interaction.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+ l5500:
+
+
+
+   goto l5800
+
+
+
+ l5800:
+
+
+
+#---------------------------------------------------------------
+#
+#      Run sunnadir.
+#
+#---------------------------------------------------------------
+
+   if  ($runsun == $yes)  then     # skip if no need to run
+     else
+       goto l6400
+     endif
+
+
+
+   cd $nrnpgm
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the configuration file and the Goddard input.
+#
+#---------------------------------------------------------------
+
+   if  ($optu == $yes)  then
+       set fnmcfs = $cfgfs:t       # file name without path
+     else
+       set fnmcfs = $suncf
+     endif
+
+
+
+   if  (-e $nlatst/$codatp)  then
+
+       set aux001 = `ls $nlatst/$codatp`
+
+       set fnmatp = $aux001:t      # file name without path
+
+     else
+
+       $wrmssg "$prcnam : No  $codatp  file" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the subscripts and option keys for the output files.
+#
+#      The order is defined in the procedure configuration file.
+#
+#---------------------------------------------------------------
+
+   set list1  = (1 2 3)            # subscripts
+
+   set list2  = (-p -r -l)         # option keys
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the days of output.
+#
+#---------------------------------------------------------------
+
+   set kday   = 0
+
+
+   while  ($kday < $ndayou)
+
+       @ kday++
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the output date.
+#
+#---------------------------------------------------------------
+
+       if  ($kday == 1)  then
+
+           set jdn    = $fdtjdn
+
+         else
+
+           @ jdn++
+
+         endif
+
+
+
+       wtdtfrjd $jdn >&! $auxf1
+
+       set retcod = $status
+       set crauxf = $yes
+
+       if  ($retcod == 0)  then
+         else
+           cat $auxf1 >> $joblog
+           set xistjl = $yes
+           if  ($opte == $yes)  then
+               more $auxf1
+             endif
+           $wrmssg "$prcnam : Error det output date" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+       set aux001 = (`cat $auxf1`)
+
+       set year   = $aux001[1]
+
+       set day    = $aux001[4]
+
+       set yy     = $aux001[7]
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the arguments for the run.
+#
+#---------------------------------------------------------------
+
+       set args   = ( )
+
+
+       set args   = ($args -s ${quote}${year} $day \
+           ${outssh}${colon}${outssm}${colon}${outsss}${quote})
+
+       set args   = ($args -o $fnmorb)
+
+       set args   = ($args -a $fnmatp)
+
+       set args   = ($args -c $fnmcfs)
+
+
+
+       foreach i ($list1)          # det name for output files
+
+
+           ogsnxtg1 -c $newrun/$cfgpnm $yy $day $sfiles[$i] . \
+               >&! $auxf1
+
+           set retcod = $status
+
+           set crauxf = $yes
+
+
+           if  ($retcod == 0)  then
+             else
+               cat $auxf1 >> $joblog
+               set xistjl = $yes
+               if  ($opte == $yes)  then
+                   more $auxf1
+                 endif
+               $wrmssg "$prcnam : Error det output file name" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+
+           set args   = ($args $list2[$i] `cat $auxf1`)
+
+
+         end
+
+
+
+#---------------------------------------------------------------
+#
+#      Run the program.
+#
+#---------------------------------------------------------------
+
+       $wrmssg "" $joblog $echarg
+       set xistjl = $yes
+
+
+       $wrmssg "`date` : sunnadir $args" $joblog $echarg
+
+       set xistjl = $yes
+
+
+
+       eval sunnadir $args >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then
+         else
+           cat $auxf1 >> $joblog
+           set xistjl = $yes
+           if  ($opte == $yes)  then
+               more $auxf1
+             endif
+           $wrmssg "$prcnam : Error in run of sunnadir" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+
+
+       set nflgen = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the days of output.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+ l6400:
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the output files to be sent to Goddard to the output
+#      directory.
+#
+#      Only those files for the first output date and later.
+#
+#---------------------------------------------------------------
+
+   foreach code ($ofsend $gfsend $sfsend)
+
+
+       ls $nrnpgm/*${code}* >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then    # there are files
+         else
+           continue
+         endif
+
+
+       foreach filx (`cat $auxf1`)
+
+           set fnam   = $filx:t
+
+           if  (-e $ornpgm/$fnam)  then    # an old file
+               continue
+             endif
+
+           $parse1 $fnam >&! $auxf2
+           set retcod = $status
+           set crauxf = $yes
+
+           if  ($retcod == 0)  then
+             else
+               cat $auxf2 >> $joblog
+               set xistjl = $yes
+               if  ($opte == $yes)  then
+                   more $auxf2
+                 endif
+               $wrmssg "$prcnam : Error parsing $fnam" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+           set prsnam = (`cat $auxf2`)
+
+           if  ($prsnam[$fn1jdn] >= $fdtjdn)  then
+               cp $fnam $tmsend
+               if  ($status == 0)  then
+                 else
+                   $wrmssg "$prcnam : Err cp $fnam to $tmsend" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                   goto l8000
+                 endif
+               set nwsend = $yes
+             endif
+
+         end
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Copy the output files from genCommands, editCommands,
+#      and/or sunnadir, to the other output directories.
+#
+#---------------------------------------------------------------
+
+   foreach code ($gfiles $sfiles)
+
+
+       ls $nrnpgm/*${code}* >&! $auxf1
+
+       set retcod = $status
+
+       set crauxf = $yes
+
+
+       if  ($retcod == 0)  then    # there are files
+         else
+           continue
+         endif
+
+
+       foreach filx (`cat $auxf1`)
+
+           set fnam   = $filx:t
+
+           if  (-e $ornpgm/$fnam)  then    # an old file
+               continue
+             endif
+
+           foreach subd ($tmarch $tmuser)
+
+               cp $fnam $subd
+
+               if  ($status == 0)  then
+                 else
+                   $wrmssg "$prcnam : Err copy $fnam to $subd" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                   goto l8000
+                 endif
+
+             end
+
+           set nwarch = $yes
+
+           set nwuser = $yes
+
+         end
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Put message of job end, and copy the log file to the
+#      output directories.
+#
+#---------------------------------------------------------------
+
+   $wrmssg "" $joblog $echarg
+   set xistjl = $yes
+
+
+   $wrmssg "`date` : $prcnam job $jid ended successfully" \
+       $joblog $echarg
+
+   set xistjl = $yes
+
+
+
+   foreach subd ($tmarch $tmuser)
+
+       cp $joblog $subd
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Err copy $joblog to $subd" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     end
+
+   set nwarch = $yes
+
+   set nwuser = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      Move the output directories to their destinations.
+#
+#---------------------------------------------------------------
+
+   set indic  = ($nwsend $nwarch $nworbs $nwuser)
+
+   set tmpdir = ($tmsend $tmarch $tmorbs $tmuser)
+
+   set rootdr = ($rdsend $rdarch $rdorbs $rduser)
+
+
+
+   set i      = 0
+
+
+   while  ($i < $#indic)
+
+       @ i++
+
+       if  ($indic[$i] == $yes)  then    # there are files
+
+           mv -f $tmpdir[$i] $rootdr[$i]
+
+           if  ($status == 0)  then
+             else
+               $wrmssg "$prcnam : Err $tmpdir[$i] $rootdr[$i]" \
+                   $joblog $echarg
+               set xistjl = $yes
+               goto l8000
+             endif
+
+           if  ($rootdr[$i] == $rduser)  then
+               $wrmssg "" $joblog $echarg
+               set xistjl = $yes
+               $wrmssg "User directory = $rduser/$snuser" \
+                   $joblog $echarg
+               set xistjl = $yes
+             endif
+
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Delete the input files from Goddard.
+#
+#---------------------------------------------------------------
+
+   if  ($optv == $yes)  then       # skip for editCommands run
+       goto l6600
+     endif
+
+
+
+   foreach code ($godcod)
+
+
+       set aux001 = $ngoddf/$gdcp/$gdnw/$code
+
+
+       if  (-e $aux001)  then
+
+           foreach filx (`ls $aux001`)
+
+               set fnam   = $filx:t
+
+               rm -f $rdwork/$gdin/$fnam
+
+               if  ($status == 0)  then
+                 else
+                   $wrmssg "$prcnam : Error deleting $fnam" \
+                       $joblog $echarg
+                   set xistjl = $yes
+                   goto l8000
+                 endif
+
+             end
+
+         endif
+
+
+     end
+
+
+
+ l6600:
+
+
+
+#---------------------------------------------------------------
+#
+#      Update the "run" subdirectories.
+#
+#---------------------------------------------------------------
+
+   if  (-e $polrun)  then
+
+       rm -r -f $polrun
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error deleting $polrun" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  (-e $oldrun)  then
+
+       mv -f $oldrun $polrun
+
+       if  ($status == 0)  then
+         else
+           $wrmssg "$prcnam : Error moving $oldrun to $polrun" \
+               $joblog $echarg
+           set xistjl = $yes
+           goto l8000
+         endif
+
+     endif
+
+
+
+   mv -f $newrun $oldrun
+
+   if  ($status == 0)  then
+     else
+       $wrmssg "$prcnam : Error moving $newrun to $oldrun" \
+           $joblog $echarg
+       set xistjl = $yes
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Another job is running.
+#
+#---------------------------------------------------------------
+
+ l7200:
+
+
+   set xitcod = $xcoll
+
+
+   if  ($opte == $yes)  then
+       echo  " $prcnam : " \
+           "Another job is running"
+     endif
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      The job has been killed.
+#
+#---------------------------------------------------------------
+
+ l7400:
+
+
+   set xitcod = $xkill
+
+
+   if  ($xistjl == $yes)  then
+       $wrmssg "`date` : $prcnam job $jid has been killed" \
+           $joblog $echarg
+     endif
+
+
+   if  ($opte == $yes)  then
+       echo  " $prcnam : " \
+           "Job killed, process ID =  $pid"
+     endif
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   if  (($optm   == $no    ) && \
+        ($xistjl == $yes   ) && \
+        ($#mlist >=       1) && \
+        ($crlock == $yes   ))  then    # mail job log file
+
+       mailx -s "Log $prcnam $jid" $mlist < $joblog
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to mail job log file  $joblog"
+         endif
+
+     endif
+
+
+
+   if  (($optl   == $no    ) && \
+        ($xistjl == $yes   ) && \
+        ($crlock == $yes   ))  then    # print job log file
+
+       $prtcmd -d $printa $joblog >&! /dev/null
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to print job log file  $joblog" \
+               " on  $printa"
+         endif
+
+     endif
+
+
+
+   if  ($crlock == $yes)  then     # job has locked out others
+
+
+       rm -f $lkjob                # rem job lock
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete job lock file  $lkjob"
+         endif
+
+
+     endif
+
+
+
+   cd $initdr                      # return to initial directory
+
+
+
+   exit($xitcod)

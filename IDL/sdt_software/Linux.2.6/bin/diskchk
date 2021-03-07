@@ -1,0 +1,128 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#   chkcdrom
+#
+# PURPOSE:
+#
+#   Interactive; calls vfchksum to run a checksum on CD's.
+#
+# INPUTS
+#
+#   CD_DIR      This should be the full path to the CD to be checked
+#               ONLY if it is not in the CDROM drive.
+#
+# Creator:	J.Rauchleiba
+# Created:	Jun 1996
+#
+
+. /disks/fast/software/config/archive_config
+tempfile=/tmp/chkcdrom_log$$
+startdir=$PWD
+
+function cleanup {
+	print 'chkcdrom interrupted. Cleaning up and exiting...'
+	rm -f $tempfile /tmp/chksm*
+	exit 0
+}
+
+# CD is either in CDROM drive or given as argument
+
+if [[ ${#} = "1" ]] ; then
+    if [[ ! -r $1 ]] ; then
+	print "Could not read $1"
+	exit 1
+    fi
+    cdname=$(basename $1)
+    cd $(dirname $1)
+else    
+    cd /cdrom
+    print
+    print "Load CDROM in drive and type 'go' when ready"
+    
+    read ready
+    while [[ $ready != 'go' ]]; do
+	print "**Type 'go' to continue**"
+	read ready
+    done
+    
+    print
+    print "Looking in CDROM drive..."
+    print
+    
+    # Search for CD volume name in drive and call it cdname
+    # This name is needed as an argument to script vfchksum
+    cdoptions=$(ls -1 | egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+')
+    cdname=$(ls -1 | egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+' | tail -1)
+    
+    print "CD Name Options:"
+    print "$cdoptions"
+    
+    typeset -l correct=n
+    while [[ $correct != "y" ]] ; do
+    print "CD name: $cdname"
+    read correct?"Is this correct? (y/n) "
+    if [[ $correct != "y" ]] ;then
+	read cdname?'Enter CD name: '
+    fi
+    done
+    
+    print 
+    print "Running checksum now... "
+fi
+
+# Set trap so tempfile removed in case of interrupt
+
+trap 'cleanup' INT QUIT HUP TERM
+
+# Run checksum at low priority, in background
+
+/usr/bin/nice -n 19 $BINPATH/vfchksum $cdname > $tempfile 2>&1 &
+#errstat=$?
+
+# Monitor system messages for read errors
+
+echo
+echo Monitoring system messages for read errors:
+echo
+tail -1f /var/adm/messages &
+
+# Set trap for premature exit
+
+trap 'kill %1 %2' EXIT  # Interpreted at EXIT, not here
+
+# Wait until bg checksum finishes before killing monitor
+
+wait %1
+kill %2
+
+# Reset trap for EXIT (not other interrupts)
+
+trap - EXIT
+
+## Test exit status of vfchksum for error
+#
+#if [[ $errstat != 0 ]]
+#then
+#	 print
+#	 print "*** checksum subprocedure terminated with an error ***"
+#	 print
+
+rm $tempfile
+trap - INT QUIT HUP TERM
+
+# Eject
+
+print
+print "Checksum verification complete."
+eject cdrom
+
+# Return to original directory and exit
+
+cd - > /dev/null
+print
+print "**chkcdrom finished**"
+
+exit 0
+

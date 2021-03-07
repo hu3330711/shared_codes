@@ -1,0 +1,40 @@
+function printdate(da, yr)
+{
+	mos[1] = "JAN"
+	mos[2] = "FEB"
+	mos[3] = "MAR"
+	mos[4] = "APR"
+	mos[5] = "MAY"
+	mos[6] = "JUN"
+	mos[7] = "JUL"
+	mos[8] = "AUG"
+	mos[9] = "SEP"
+	mos[10] = "OCT"
+	mos[11] = "NOV"
+	mos[12] = "DEC"
+	
+	mdays[1]  = 31
+	mdays[2]  = 28 + mdays[1]
+        lyr = yr % 4
+        if (lyr == 0) mdays[2]++
+	mdays[3]  = 31 + mdays[2]
+	mdays[4]  = 30 + mdays[3]
+	mdays[5]  = 31 + mdays[4]
+	mdays[6]  = 30 + mdays[5]
+	mdays[7]  = 31 + mdays[6]
+	mdays[8]  = 31 + mdays[7]
+	mdays[9]  = 30 + mdays[8]
+	mdays[10] = 31 + mdays[9]
+	mdays[11] = 30 + mdays[10]
+	mdays[12] = 31 + mdays[11]
+	
+	for (i = 1; mdays[i] < da; i++); 
+	printf "%s %2d, %d",  mos[i], da - mdays[i - 1], yr
+}
+
+/^[0-9]+/ \
+{
+	doy = $1;
+	yer = $2;
+	printdate(doy, yer)
+}

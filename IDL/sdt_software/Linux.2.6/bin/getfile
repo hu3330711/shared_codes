@@ -1,0 +1,112 @@
+#! /usr/bin/sh
+#
+# @(#)getfile	1.5 07/27/96 UCB SSL
+#
+# Read index files of a FAST data archive tape, stopping after each
+# index file to give the user an opportunity to select files to be
+# extracted from the following archive to the current directory.
+# First checks for a FAST label.
+#
+# - modified July 27 '96 by J.M.Loran to extract multiple files from 
+#   a file group
+
+if [ $# -gt 1 ]
+then
+	echo "Usage: $0 [tape-device]"
+	exit 1
+fi
+
+TAPE=/dev/rmt/0cn
+ITNDXFILE=/tmp/itndx.$$
+RECSIZE=80
+
+# Check for a command line argument.  If it exists, use it as the tape device
+
+if [ $# -eq 1 ]
+then
+	TAPE=$1
+fi
+
+if [ ! -h $TAPE ]
+then
+	echo "$0: $TAPE: device not found on this system"
+	exit 1
+fi
+
+# function to rewind the tape and quit with error message on error
+# Usage:rewind_tape progname sequence_count return_code
+rewind_tape() {
+mt -f ${TAPE} rewind
+if [ $? -ne 0 ]
+then
+	echo "$1: Tape rewind ($2) failed"
+	if [ $3 -ne 0 ]
+	then
+		exit $3
+	fi
+fi
+}
+
+# Start at the beginning
+rewind_tape $0 1 1
+
+# Look for the label file and quit if not found
+tapeLabel=`dd if=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=unblock 2> /dev/null`
+if [ $? -eq 0 -a \
+	"--${tapeLabel}--" != "----"  -a \
+	"`echo ${tapeLabel} | awk -F":" '{print $1}'`" = 'FAST LABEL' ]
+then
+	echo ""
+	echo "The tape has the following FAST label:"
+	echo ${tapeLabel}
+	echo ""
+else
+	echo ""
+	echo "The tape has no recognizable FAST label."
+	rewind_tape $0 2 1
+	exit 1
+fi
+
+# Read and report the index files, stopping after each for the user
+# to select a file(s) for extraction. When selected, the files are extracted
+# into the current directory.
+while [ true ]
+do
+	dd if=${TAPE} of=${ITNDXFILE} bs=${RECSIZE} cbs=${RECSIZE} conv=unblock 2> /dev/null
+	if [ $? -ne 0  -o ! -s ${ITNDXFILE} ]
+	then
+		rm -f ${ITNDXFILE}
+		break
+	fi
+
+	cat ${ITNDXFILE}
+	echo ""
+	rm -f ${ITNDXFILE}
+
+	echo "Do you want any files from this group? (y/n) [n] \c"
+	read resp
+        if [ "x${resp}" = "xY" -o "x${resp}" = "xy" ]
+        then
+		echo "Enter filenames: \c"
+		read resp
+		# put leading ./ on each filename.  (Note tab in sed line)
+		resp=./`echo "$resp" | sed 's#[ 	,]# \./#'`
+
+		tar -xvf ${TAPE} $resp
+                break
+        fi
+
+	mt -f ${TAPE} fsf 1
+	if [ $? -ne 0 ]
+	then
+		echo "Inconsistent number of files on tape"
+		echo ""
+		rm -f ${ITNDXFILE}
+		break
+	fi
+done
+
+# And return to the beginning
+rewind_tape $0 6 1
+
+exit 0

@@ -1,0 +1,75 @@
+#! /usr/bin/sh
+#
+# @(#)readlabel	1.2 06/04/96 UCB SSL
+#
+# Reads the beginning of a tape and looks for a FAST label. Reports
+# what it finds.
+#
+# A FAST label is one 80 byte record at the beginning of the tape which
+# starts with:
+#
+# FAST LABEL:
+#
+# It should have a number and a date.
+#
+
+if [ $# -gt 1 ]
+then
+	echo "Usage: $0 [tape-device]"
+	exit 1
+fi
+
+TAPE=/dev/rmt/0cn
+ITNDXFILE=/tmp/itndx.$$
+RECSIZE=80
+
+# Check for a command line argument.  If it exists, use it as the tape device
+
+if [ $# -eq 1 ]
+then
+	TAPE=$1
+fi
+
+if [ ! -h $TAPE ]
+then
+	echo "$0: $TAPE: device not found on this system"
+	exit 1
+fi
+
+# function to rewind the tape and quit with error message on error
+# Usage:rewind_tape progname sequence_count return_code
+rewind_tape() {
+mt -f ${TAPE} rewind
+if [ $? -ne 0 ]
+then
+	echo "$1: Tape rewind ($2) failed"
+	if [ $3 -ne 0 ]
+	then
+		exit $3
+	fi
+fi
+}
+
+# Now lets start at the beginning
+rewind_tape $0 1 1
+
+# See if there is anything currently on the tape
+tapeLabel=`dd if=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=unblock 2> /dev/null`
+if [ $? -eq 0 -a \
+	"--${tapeLabel}--" != "----"  -a \
+	"`echo ${tapeLabel} | awk -F":" '{print $1}'`" = 'FAST LABEL' ]
+then
+	echo ""
+	echo "The tape has the following FAST label:"
+	echo ${tapeLabel}
+	echo ""
+else
+	echo ""
+	echo "The tape has no recognizable FAST label."
+	echo ""
+fi
+
+# And return to where we started
+rewind_tape $0 2 1
+
+exit 0

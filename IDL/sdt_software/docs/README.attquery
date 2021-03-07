@@ -1,0 +1,100 @@
+README.attquery
+# VERSION: @(#)README.attquery	1.6 11/25/96 UCLA
+--------------------------------------------------------------------
+
+Basic usage guidelines and compilation guidelines for the 'AttQuery'
+function call are given below:
+
+--------------------------------------------------------------------
+AttQuery() COMPILATION:
+--------------------------------------------------------------------
+
+To use AttQuery in a program you must first add the 'attlib.h'
+include file to your program and link in the 'Attlib' library
+at the compilation link phase.
+
+	program.c: 
+		...
+		#include "attlib.h"
+		...
+		main(...)
+		{
+		    ...
+		    AttQuery(...);
+		    ...
+		}
+
+	compile: cc program.c -o program -lAttlib -lm
+
+
+--------------------------------------------------------------------
+AttQuery() USAGE:
+--------------------------------------------------------------------
+
+	int AttQuery
+		( attEpoch  *att_time,
+		  int 	    tocoord,
+		  int       *attlevel,
+   		  double    matrix[DIM][DIM], /* DIM = 3 */
+                  attAngles *angles
+		);
+	return values: 	= 0	ERROR: DATA IS NOT FOUND
+                        > 0  	NO ERROR: DATA FOUND
+                        < 0 	FOUND THROUGH EXTRAPOLATION
+
+	For successful return: attlevel_found = [abs(returnvalue)-1]
+
+
+--------------------------------------------------------------------
+AttQuery() PARAMETERS:
+--------------------------------------------------------------------
+
+	att_time: (input)
+		Pointer to attEpoch which contains date & time input.
+		typedef struct {
+		        int    year;     /* [1950 - 2049] */
+		        int    doy;      /* [1 - 365] (Jan 1 == 1) */
+		        int    hour;     /* [0 - 23] */
+		        int    minute;   /* [0 - 59] */
+		        double seconds;  /* [0.0 - 59.999999] micro-sec resolution */
+		} attEpoch;
+
+	tocoord: (input)
+		The type of coordinate system wanted for the matrix.
+		Options are below:
+			"Spinning Spacecraft[FASTSPIN]" FASTSPIN
+		        "Despun[DESPUN]"                DESPUN
+      		       	"Spacecraft[FASTMAG]"           FASTMAG
+      		        "Equatorial Inertial[GEI]"      GEI
+      		        "Geographic[GEO]"               GEO
+      		        "Solar Ecliptic[GSE]"           GSE
+      		        "Solar Magnetospheric[GSM]"     GSM
+      		        "Geomagnetic[MAG]"              MAG
+      		        "Ecliptic Inertial[GECI]"       GECI
+      		        "Solar Equatorial [GSEQ]"       GSEO
+      		        "Solar Magnetic [SM]"           SM
+
+	attlevel: (input & output)
+		Pointer to integer value. Set to the level of output
+		the users would like. The range is 0, 1, 2.
+		If the user just wants the best available output
+		then the user can set attlevel to "BEST_ATT".
+
+		On return, attlevel is set the level of data returned.
+		If there is an error, then attlevel is set to BAD_ATT. 
+
+	matrix: (output)
+		Double of array of dimension DIM. Returns with the rotation
+		matrix from FASTSPIN to the selected coordinate system.
+
+	angles: (output)
+		Pointer to attAngles which contains angle data.
+		typedef struct {
+			double spin_ra;    /* Spin right ascension (deg) - GEI coords */
+		        double spin_dec;   /* Spin declination (deg) - GEI coords */
+		        double spin_phase; /* Phase about spin axis(deg) - zero phase
+		                              when spacecraft x-axis is in the sun */
+ 		        double spin_freq;  /* Spin frequency (deg/sec) */
+		} attAngles;
+
+--------------------------------------------------------------------

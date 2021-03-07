@@ -1,0 +1,953 @@
+************************************************************************
+
+   README.General.UCB.wt.correct_rotating_vector
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.correct_rotating_vector
+
+************************************************************************
+
+   Corrected rotating vector.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.correct_rotating_vector	1.7    01/17/07    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a corrected rotating vector.
+
+
+
+       It can be used for any vector measured by an instrument fixed to
+       a spacecraft, with 2 axes on the spin plane and 1 on the spin
+       axis.
+
+
+
+       A specific and very important instance is the rotating magnetic
+       field B ("Instantaneous" time resolution).
+
+
+
+       In this document, the vector is referred to as the magnetic
+       field.
+
+
+
+
+
+    2) It is assumed that the 3 instrument axes are perpendicular to one
+       another.
+
+
+
+       The spin plane instrument axes are referred to as Mag_X and
+       Mag_Y; the instrument axis along the spin axis is referred to as
+       Mag_Z.
+
+
+
+
+
+    3) There must be the following SDT inputs:
+
+
+
+            1) Raw magnetic field.
+
+
+
+            2) Spin period average offset for the Mag_X component.
+
+
+
+            3) Spin period average offset for the Mag_Y component.
+
+
+
+
+
+    4) The values of all 3 components are corrected for calibration:
+       scale and offset values are applied.
+
+
+
+       The scale and offset values are specified by the user separately
+       for each of the 3 vector components.
+
+
+
+       The new value of a component is related to the old value as
+       follows:
+
+
+           New value = Scale * (Old value - Offset)
+
+
+
+
+
+    5) The user can specify a separate factor for each axis, to allow
+       for the possibility that the measured value is in the opposite
+       direction of the magnetometer axis.
+
+
+
+       Each factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+       The value of a component of B is related to the value of a
+       measured component along the same axis as follows:
+
+
+           Component of B = (Direction factor) * (Measured component)
+
+
+
+
+
+    6) The user can specify an additional factor for the Mag_Z axis, to
+       indicate whether Mag_Z is in the same direction as the angular
+       momentum vector or in the opposite direction.
+
+
+
+       This factor must be either +1 (same direction) or -1 (opposite
+       direction).
+
+
+
+
+
+    7) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line, in the direction of the
+       rotation.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the Mag_X axis; and the
+       azimuth of the Sun pulse.
+
+
+
+       The azimuth of the Mag_Y axis must be either 90 degrees more or
+       90 degrees less than that for the Mag_X axis (modulo 360
+       degrees).
+
+
+
+
+
+    8) Except for the instrument "wobble", we can obtain from the
+       information above the components of B along "righted" instrument
+       axes Mag_R_X, Mag_R_Y, Mag_R_Z.
+
+
+
+       These are axes that form an orthogonal, right-handed system that
+       rotates with the spacecraft, as follows:
+
+
+           Mag_R_X = Mag_X.
+
+
+           Mag_R_Y = +Mag_Y or -Mag_Y, depending on the azimuth of Mag_Y
+                     relative to the azimuth of Mag_X.
+
+                     Mag_R_Y precedes Mag_R_X by 90 degrees in the
+                     direction of rotation; i.e., the azimuth of Mag_R_Y
+                     is equal to the azimuth of Mag_R_X plus 90 degrees.
+
+
+           Mag_R_Z = +Mag_Z or -Mag_Z, depending on whether Mag_Z is in
+                     the same direction as the angular momentum vector
+                     or in the opposite direction.
+
+                     Mag_R_Z is in the direction of the angular momentum
+                     vector.
+
+
+
+
+
+    9) The B vector is rotated to bring the Mag_R_X and Mag_R_Y
+       components onto the spin plane, i.e., to correct for the
+       instrument "wobble".
+
+
+
+       The rotation angles Phi and Theta can be specified by the user.
+
+
+
+       Optionally, the rotation angles can be read from an external
+       table instead.
+
+       If this option is chosen, there must be an input file containing
+       the table of rotation angles.
+
+
+
+       With the coordinate axes left unchanged, the vector is rotated
+       first
+
+           around the X axis by an angle -Theta
+
+       and the resulting vector is then rotated
+
+           around the Y axis by an angle +Phi
+
+       (see below for the definition of the coordinate axes).
+
+
+
+
+
+   10) At the user's choice, the spin plane components can be corrected
+       for offsets which are spin period averages.
+
+
+
+       The offset values are subtracted from the corresponding component
+       values.
+
+
+
+
+
+   11) For each spin period average offset, there is the option of
+       specifying limits and ignoring data values beyond the limits.
+
+
+
+
+
+   12) At this point the 3 components of B have their final corrected
+       values.
+
+
+
+       They are expressed in a rotating coordinate system with the X and
+       Y axes on the spin plane and the Z axis on the spin axis.
+
+
+
+       The X axis has the same azimuthal orientation on the spin plane
+       as the magnetometer's Mag_X axis.
+
+       The Y axis has an azimuth that is 90 degrees ahead of the X axis
+       (in the sense of the rotation).
+
+       The Z axis points in the direction of the angular momentum
+       vector.
+
+
+
+
+
+   13) The specification of the azimuth makes it possible to express B
+       in the rotating SCC system.
+
+
+
+
+
+   14) An output data point is produced for each input point of the raw
+       magnetic field.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+   15) If the rotation angles Phi and Theta are to be obtained from an
+       external table, then for an output data point to be produced, it
+       must be in the time interval defined by two table entries for the
+       rotation angles.
+
+
+
+       If an external table is used, then the values of Phi and Theta
+       for the time of the output data point are the values from the
+       table entry for the closest time available.
+
+
+
+       However, if the time interval between the two table entries is
+       larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   16) If correction by spin period average offsets is to be performed,
+       then for an output data point to be produced, it must be in the
+       time interval defined by two input data points of the offset for
+       the Mag_X component of the magnetic field; and also in the time
+       interval defined by two input data points of the offset for the
+       Mag_Y component of the magnetic field.
+
+
+
+       Each offset for the time of the output data point is obtained by
+       linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Flag for the spin period average offset inputs.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The inputs are     present.
+
+                    WT_FALSE  =  The inputs are not present.
+
+
+
+            3) Flag to subtract the spin period average offsets from the
+               spin plane components.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Subtract these offsets.
+
+                    WT_FALSE  =  Do not subtract these offsets.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 3 input raw magnetic field vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            5) The group of parameters described here occurs once for
+               the spin period average offset for MFE_X, and once for
+               the spin period average offset for MFE_Y.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If the spin period average offsets are to be used,
+                   must be  >  0.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   If the spin period average offsets are to be used,
+                   must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the spin period average offsets are to be used,
+               if the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                5) Input component index.
+
+
+                   Int.
+
+
+
+            6) The group of parameters described here occurs once for
+               each component of the magnetic field.
+
+
+
+                1) Scale factor for component calibration.
+
+
+                   Double.
+
+
+
+                2) Offset for component calibration.
+
+
+                   Double.
+
+
+
+            7) Code for the choice of rotation angles.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Use the rotation angles specified by the user.
+
+                    2  =  Use the rotation angles from an external
+                          table.
+
+
+
+            8) Rotation angle Phi.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               If the user's values are to be used,
+               must be  >=  -360  and  <=  +360.
+
+
+
+            9) Rotation angle Theta.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               If the user's values are to be used,
+               must be  >=  -360  and  <=  +360.
+
+
+
+           10) Flag for the file of the table of rotation angles.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The file is     present.
+
+                    WT_FALSE  =  The file is not present.
+
+
+
+           11) Directory for the table of rotation angles.
+
+
+               Char.
+
+
+               If there is a file, then
+               must be a valid directory (not blank).
+
+
+
+           12) File name for the table of rotation angles.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is a file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+           13) Dropout time for the table entries for the rotation
+               angles.
+
+
+               Double.
+
+
+               Units are hours.
+
+
+               If a table of rotation angles is used,
+               must be  >  0.
+
+
+
+           14) The group of parameters described here occurs once for
+               each component of the magnetic field.
+
+
+
+                1) Direction factor.
+
+
+                   Double.
+
+
+                   Must be  -1  or  +1.
+
+
+
+           15) Additional factor for Mag_Z.
+
+
+               Double.
+
+
+               Must be  -1  or  +1.
+
+
+
+           16) Main part of the azimuth of the Mag_X magnetometer axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           17) Additional part of the azimuth of the Mag_X magnetometer
+               axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           18) Value to add to the azimuth of the Mag_X axis, to obtain
+               the azimuth of the Mag_Y axis.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  +90  or  -90.
+
+
+
+           19) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           20) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The table of rotation angles Phi and Theta.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is "#".
+
+
+               Each line not a comment line contains one set of angles.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Year.
+
+                   Integer.
+
+                   Must be the full year (e.g., 1996).
+
+
+                2) Month.
+
+                   Integer.
+
+
+                3) Day of month.
+
+                   Integer.
+
+
+                4) Hours.
+
+                   Integer.
+
+
+                5) Minutes.
+
+                   Integer.
+
+
+                6) Seconds.
+
+                   Real.
+
+
+                7) Phi.
+
+                   Real.
+
+                   Units are degrees.
+
+
+                8) Theta.
+
+                   Real.
+
+                   Units are degrees.
+
+
+               Each date must be a valid date.
+
+               Times (hours, minutes, seconds) are not restricted, and
+               in particular can go beyond 24 hours.
+
+
+               Phi must be  >=  -360  and  <=  +360.
+
+               Theta must be  >=  -360  and  <=  +360.
+
+
+               The lines should be in chronological sequence.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The raw magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The offset for the X component of the magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the offset.
+
+                   Float.
+
+
+
+            3) The offset for the Y component of the magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the offset.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Corrected component X of B.
+
+
+               Float.
+
+
+
+            3) Corrected component Y of B.
+
+
+               Float.
+
+
+
+            4) Corrected component Z of B.
+
+
+               Float.
+
+
+
+            5) Component X of B in SCC.
+
+
+               Float.
+
+
+
+            6) Component Y of B in SCC.
+
+
+               Float.
+
+
+
+            7) Component Z of B in SCC.
+
+
+               Float.
+
+
+
+            8) Magnitude of B.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

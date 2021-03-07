@@ -1,0 +1,1039 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogscolgf.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Collect the Goddard input files for the programs to
+#      produce the FAST commands and shadow ephemeris.
+#
+# **************************************************************
+#
+#      @(#)ogscolgf.shp	1.16    03/31/99    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogscolgf
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xcoll  = 1                  # collision with another job
+
+   set xkill  = 2                  # the job was killed
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crlock = $no                # lock for other jobs set
+
+   set crauxf = $no                # any auxiliary file created
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+   set wait2  = 3                  # make sure no other job
+
+   set wait3  = 5                  # in case file just arriving
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set ofmode = 664                # mode for output files.
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for lock file for simultaneous jobs.
+#
+#---------------------------------------------------------------
+
+   set lkjob0 = $rdwork/$lock.$prcnam    # common part of name
+
+   set lkjob  = $lkjob0.$pid             # full name
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if another job is currently running or about to
+#      run.
+#
+#      If not, lock out other jobs.
+#
+#---------------------------------------------------------------
+
+   ls $lkjob0.* >&! /dev/null
+
+   if  ($status == 0)  then        # there is a prior job
+       goto l7200
+     endif
+
+
+   touch $lkjob                    # this job about to run
+
+   if  ($status == 0)  then
+       set crlock = $yes
+     else
+       echo  " $prcnam : " \
+           "Unable to create lock file  $lkjob"
+       goto l8000
+     endif
+
+
+   sleep $wait2                    # wait for possible other job
+
+
+   set aux001 = (`ls $lkjob0.*`)
+
+   if  ($#aux001 != 1)  then       # there is another job
+       goto l7200
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set up procedure action when job is killed (interrupt).
+#
+#---------------------------------------------------------------
+
+   onintr l7400
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Error setting job kill action"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Save the job start time.
+#
+#---------------------------------------------------------------
+
+   set jobbeg = `date`
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to determine the job start time"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $rdwork/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectory to collect the input if needed.
+#
+#---------------------------------------------------------------
+
+   set godinp = $rdwork/$gdin
+
+
+   if  (-e $godinp)  then
+
+       if  (-d $godinp)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Subdir  $godinp  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $godinp
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create subdir  $godinp"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the user directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rduser)  then
+
+       if  (-d $rduser)  then
+
+         else
+
+           echo " $prcnam : " \
+               "User directory  $rduser  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rduser
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create user directory  $rduser"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectory for special user files if needed.
+#
+#---------------------------------------------------------------
+
+   set spcusr = $rduser/$sduspc
+
+
+   if  (-e $spcusr)  then
+
+       if  (-d $spcusr)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Subdir  $spcusr  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $spcusr
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create subdir  $spcusr"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Collect the files.
+#
+#---------------------------------------------------------------
+#
+#      Start of loop for the directories for the input from
+#      Goddard.
+#
+#---------------------------------------------------------------
+
+   foreach godd ($goddin)
+
+
+       if  (-e $godd)  then
+
+           if  (-d $godd)  then
+             else
+               echo " $prcnam : " \
+                   "Goddard directory  $godd  is a plain file"
+               goto l8000
+             endif
+
+         else                      # directory not found
+
+           continue
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the codes for the input from Goddard.
+#
+#---------------------------------------------------------------
+
+       foreach icod ($subcod)
+
+
+           if  (($icod >= 1) && ($icod <= $ncod))  then
+             else
+               echo " $prcnam : " \
+                   "Invalid subscript for code  $icod"
+               goto l8000
+             endif
+
+
+           set code   = $godcod[$icod]
+
+           set type   = $fnmtyp[$icod]    # file name type
+
+
+           if  ($type == 1)  then
+               set wildnm = \
+                 "${fnm1a}${fnm1b}${fnm1c}$code.$fnm1d"
+
+             else  if  ($type == 2)  then
+               set wildnm = \
+                 "$code.${fnm2a}${fnm2b}.$fnm2c"
+
+             else
+               echo " $prcnam : " \
+                   "Invalid Goddard file name type" \
+                   " $icod  =  $type"
+               goto l8000
+
+             endif
+
+
+           set parse  = $fnprse[$type]    # name parsing program
+
+           set wbver  = $fnbver[$type]    # parsed word Berk ver
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if there are any input files for this code.
+#
+#---------------------------------------------------------------
+
+           ls $godd/$wildnm >&! $auxf1
+
+           set retcod = $status
+
+           set crauxf = $yes
+
+           if  ($retcod != 0)  then    # no input files
+               continue
+             endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Wait in case any of the files was just arriving.
+#
+#---------------------------------------------------------------
+
+           sleep $wait3
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the input files.
+#
+#---------------------------------------------------------------
+
+           set list1  = (`cat $auxf1`)
+
+           if  ($status == 0)  then
+             else
+               echo " $prcnam : " \
+                   "Unable to read file  $auxf1"
+               goto l8000
+             endif
+
+
+           foreach filx ($list1)
+
+               set fnam   = $filx:t
+
+               set file   = $godd/$fnam
+
+
+
+#---------------------------------------------------------------
+#
+#      Parse the file name.
+#
+#---------------------------------------------------------------
+
+               $parse $fnam >&! $auxf1
+
+               set retcod = $status
+
+               set crauxf = $yes
+
+
+               if  ($retcod != 0)  then    # invalid file name
+                   echo " $prcnam : " \
+                       "Invalid Goddard file name  $file"
+                   continue
+                 endif
+
+
+               set prsnam = (`cat $auxf1`)
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Unable to read file  $auxf1"
+                   goto l8000
+                 endif
+
+
+               if  ($prsnam[$wbver] >= 0)  then    # Berk ver
+                   echo " $prcnam : " \
+                       "Invalid Goddard file name  $file"
+                   continue
+                 endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the name under which the file is to be
+#      collected, except for the Berkeley duplicate version
+#      number part.
+#
+#---------------------------------------------------------------
+
+               if  ($type == 1)  then
+                   set fnamc0 = $fnam
+
+                 else  if  ($type == 2)  then
+                   set fnamc0 = \
+                       $prsnam[2].${prsnam[3]}${prsnam[4]}
+                   set fnamc0 = $fnamc0.$prsnam[5]
+
+                 else
+                   echo " $prcnam : " \
+                       "Invalid Goddard file name type" \
+                       " $icod  =  $type"
+                   goto l8000
+
+                 endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Check for duplicates, and determine the full name under
+#      which the file is to be collected.
+#
+#---------------------------------------------------------------
+
+               ls $godinp/${fnamc0}* >&! $auxf1
+
+               set retcod = $status
+
+               set crauxf = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      There are duplicates for this file in the directory where
+#      the files are collected.
+#
+#---------------------------------------------------------------
+
+               if  ($retcod == 0)  then
+
+
+                   set list2  = (`cat $auxf1`)
+
+                   if  ($status == 0)  then
+                     else
+                       echo " $prcnam : " \
+                           "Unable to read file  $auxf1"
+                       goto l8000
+                     endif
+
+
+                   set m      = $mfirst
+
+                   foreach filedp ($list2)
+
+                       set fnamdp = $filedp:t
+
+                       if  ($fnamdp != $fnamc0)  then
+
+                           set mdp    = $fnamdp:e
+
+                           if  ($mdp >= $m)  then
+                               @ m      = $mdp + 1
+                             endif
+
+                         endif
+
+                     end
+
+
+                   set fnamc  = $fnamc0.$m
+
+
+
+#---------------------------------------------------------------
+#
+#      There are no duplicates for this file in the directory
+#      where the files are collected.
+#
+#---------------------------------------------------------------
+
+                 else
+
+
+                   set fnamc  = $fnamc0
+
+
+                 endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Collect the file.
+#
+#---------------------------------------------------------------
+
+               mv -f $file $godinp/$fnamc
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Unable to move  $file  to  $godinp"
+                   goto l8000
+                 endif
+
+
+               chmod -f $ofmode $godinp/$fnamc
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Unable to change mode of file" \
+                       " $godinp/fnamc"
+                   goto l8000
+                 endif
+
+
+
+#---------------------------------------------------------------
+#
+#      List the file in the CMS/FDF file log.
+#
+#---------------------------------------------------------------
+
+               echo " $jobbeg    $fnamc" >>! $spcusr/$cflg
+
+               if  ($status == 0)  then
+                 else
+                   echo " $prcnam : " \
+                       "Unable to append  $fnamc  to file" \
+                       " $spcusr/cflg"
+                   goto l8000
+                 endif
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the input files.
+#
+#---------------------------------------------------------------
+
+             end
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the codes for the input from Goddard.
+#
+#---------------------------------------------------------------
+
+         end
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the directories for the input from
+#      Goddard.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Another job is running.
+#
+#---------------------------------------------------------------
+
+ l7200:
+
+
+   set xitcod = $xcoll
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      The job has been killed.
+#
+#---------------------------------------------------------------
+
+ l7400:
+
+
+   set xitcod = $xkill
+
+
+   echo  " $prcnam : " \
+       "Job killed, process ID =  $pid"
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   if  ($crlock == $yes)  then     # job has locked out others
+
+
+       rm -f $lkjob                # rem job lock
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete job lock file  $lkjob"
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

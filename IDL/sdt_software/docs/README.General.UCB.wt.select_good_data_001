@@ -1,0 +1,369 @@
+************************************************************************
+
+   README.General.UCB.wt.select_good_data_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.select_good_data_001
+
+************************************************************************
+
+   Select good data using multiple quality flags.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.select_good_data_001	1.2    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects data points for a data input, based
+       on the values of any number of quality flags.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The data input, with the input data points to be
+               selected.
+
+
+               Each data point carries 1 or more data quantities.
+
+
+
+            2) 1 or more quality flag inputs, each of which gives the
+               values of one of the quality flags.
+
+
+
+
+
+    3) The values for "good" and "bad" (e.g., 0 and 1) need not be the
+       same for all the quality flags.
+
+
+
+
+
+    4) For one input data point, and for one quality flag, the value of
+       the flag for that data point is determined as follows:
+
+
+
+        1) If the time tag for the data point D is the same as that for
+           an input point F for the quality flag, then the value of the
+           flag for point D is its value at point F.
+
+
+        2) If the time tag for the data point D is not the same as that
+           for an input point for the quality flag, and
+           if the time tag for the data point D is between the times for
+           input points F1 and F2 for the quality flag, and the times
+           for input points F1 and F2 are "close enough"; then:
+
+
+            1) If the value of the quality flag at point F1 is "good",
+               and the value of the quality flag at point F2 is "good";
+               then the value of the flag for point D is "good".
+
+
+            2) Otherwise (i.e., if at least one value of the quality
+               flag is "bad"),
+               the value of the flag for point D is "bad".
+
+
+        3) If the time tag for the data point D is not the same as that
+           for an input point for the quality flag, and
+           if the time tag for the data point D is not between the times
+           for input points for the quality flag that are "close
+           enough"; then:
+
+
+           The value of the flag for point D is undetermined.
+
+
+
+       Two input points F1 and F2 for a quality flag are "close enough"
+       if the time interval between them does not exceed a chosen value;
+       if the time interval between the two input points is larger than
+       the chosen value, this is considered to be a data dropout.
+
+
+
+
+
+    5) An input data point is selected if the number of "good" quality
+       flags is greater than or equal to a minimum number specified by
+       the user.
+
+
+
+       Note, however, that for an input data point to be selected, it is
+       required that all the quality flags must have well-determined
+       values; if the value of any quality flag is undetermined, then
+       the input data point will not be selected (regardless of the
+       values of the quality flags that are well-determined).
+
+
+
+
+
+    6) The user can select using a number of quality flags and logical
+       AND, by specifying the minimum number of "good" flags as equal to
+       the number of flags.
+
+
+
+       The user can select using a number of quality flags and logical
+       (inclusive) OR, by specifying the minimum number of "good" flags
+       as equal to 1.
+
+
+
+
+
+    7) An output data point is produced for each input data point that
+       is selected.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag for the corresponding input data point.
+
+
+
+       The data quantity values for the output data point are the same
+       as the values for the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of quality flags.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Minimum number of "good" flags required to select a data
+               point.
+
+
+               Int.
+
+
+               Must be  >=  1  and  <=  the number of quality flags.
+
+
+
+            4) The group of parameters described here occurs once for
+               each quality flag input.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) Input value component index.
+
+
+                   Int.
+
+
+
+                3) Value for "good" flag.
+
+
+                   Int.
+
+
+
+                4) Value for "bad" flag.
+
+
+                   Int.
+
+
+
+               If the quality flag will be used, the value for "good"
+               flag must be different from the value for "bad" flag.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The data input, for the data points to be selected.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components, one for the value
+                   of each data quantity.
+
+                   Float.
+
+
+
+            2) The inputs for the quality flags.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the quality
+                   flag.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each input data quantity value.
+
+
+               Float.

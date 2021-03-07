@@ -1,0 +1,177 @@
+****************************************************************
+
+       README.ogsmon
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsmon procedure.
+
+****************************************************************
+
+       @(#)README.ogsmon	1.1    11/10/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsmon procedure is to monitor
+       the status of ogs jobs.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsmon [-c proc-cfg-file] [-t time-int]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       time-int
+
+           is the time interval to wait between consecutive
+           monitor pollings (in seconds).
+
+           The default is
+               10
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) The time interval must be an integer number.
+
+
+
+        2) The procedure displays on the standard output the
+           process ID of ogsmon itself, and the job log that is
+           created by and ogs job as it runs.
+
+
+
+        3) If there is no ogs job running currently, the job log
+           displayed is that of the latest job that was run.
+
+
+
+        4) If an ogs job is running currently, the job log that
+           is displayed is that of the current job.
+
+
+           The display is extended by adding lines as the job
+           log grows.
+
+
+
+        5) The monitoring follows a cycle in an endless loop,
+           where the appropriate time interval elapses between
+           consecutive polling for job log material to display.
+
+
+           Therefore, the monitoring will tie up a window, and
+           must be killed to terminate.
+
+
+
+        6) The monitoring handles the transition from no ogs job
+           running to an ogs job running and back, and the fact
+           that a new job deletes the job log of the previous
+           job; no special user intervention is required.
+
+
+
+        7) The monitoring creates an auxiliary file in the work
+           directory area, which is used while the monitoring is
+           running.
+
+           Since termination is achieved by killing the
+           monitoring, this auxiliary file will remain.
+
+           While this is not a problem in itself, and will not
+           interfere with a later monitoring job; it is possible
+           to delete the auxiliary file by means of the
+           procedure ogsclean.

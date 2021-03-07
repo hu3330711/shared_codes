@@ -1,0 +1,31 @@
+#!/usr/bin/ksh
+#
+# gen_ats_intervals
+#
+# Calls "gen_int" to append instrument turnon intervals
+# for the current day to a file on DANET.
+#
+
+CONFIGPATH=/disks/fast/software/config
+export CONFIGPATH
+. $CONFIGPATH/archive_config
+
+finetdir='/tmp'
+danetdir="$FAST_CDF_HOME"/cdf_status/timespans
+doy=`date -u '+%j'`
+yr=`date -u '+%y'`
+mo=`date -u '+%m'`
+outfname="int${yr}_${mo}"
+finet_tmpfile=${finetdir}/update.tmp
+danet_tmpfile=${danetdir}/update.tmp
+danetfile=${danetdir}/${outfname}
+
+trap "rm -f $finet_tmpfile" EXIT
+
+$FASTBIN/gen_int $doy > $finet_tmpfile 2>/dev/null
+
+rcp $finet_tmpfile $DANETHOST:$danet_tmpfile
+rsh $DANETHOST touch $danetfile
+rsh $DANETHOST "cat $danet_tmpfile >> $danetfile ; rm -f $danet_tmpfile"
+
+

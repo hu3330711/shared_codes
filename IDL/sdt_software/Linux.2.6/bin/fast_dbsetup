@@ -1,0 +1,229 @@
+#!/bin/ksh
+#
+#  	fast_dbsetup.sh
+#
+#	Set up fast archive database tables, triggers, etc.
+#
+#	@(#)fast_dbsetup.sh	1.10 08/28/97	UCB SSL
+#
+#	Usage:
+#		fast_dbsetup [-c <config>] [filename ...]
+#
+#	This script creates the fast_archive database on the
+#	Sybase SQL server.  The config file specifies global
+#	database parameters, such as database name, owner, devices
+#	and sizes. 
+#
+#	If one or more 'filename' parameters are given, then those
+#	sql files are processed in the database specified in the
+#	config file.  It's assumed that these files will drop and 
+#	redefine database objects.  NOTE:  Dropping and redefining
+#	a table will cause any data contained in the table to be
+#	lost.
+#
+#	If no 'filename' parameters are given, the entire database
+#	is dropped and rebuilt.  The sql files used to create the 
+#	database are listed below the "Database setup" line.  (I never 
+#	claimed this was general-purpose script).  Output from 'isql' 
+#	is directed to stderr.
+#
+#	Parameters:
+#	-c <config>	The name of the configuration file.  Default:
+#			fast_archive.conf
+#
+#	filename...	SQL files to process instead of the full
+#			database setup.  
+#
+#	You must know the sybase 'sa' password to run this script.
+#
+#	WARNING:  ANY EXISTING DATABASE WITH THE SAME NAME AS THE
+#		ONE BEING CREATED IS DROPPED FROM THE 
+#		SQL SERVER ALONG WITH ANY DATA IT CONTAINS.
+#
+
+# *** Temporary files
+TEMPSQL=/tmp/sql$$
+
+# *** Exit processing
+finish () {
+	/bin/rm -f ${TEMPSQL}
+}
+trap finish EXIT
+
+# Configuration file.  Look in current directory, then FASTCONFIG
+# then FASTLIB.
+
+# Command line processing
+CONFIG=fast_archive.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+	echo ${ARCH_ERROR} > /dev/tty
+	echo ${ARCH_ERROR} 
+	exit ${ERR}
+fi
+
+FILES=
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		shift 2
+	else
+		FILES="${FILES} $1"
+		shift
+	fi
+done
+
+echo ${FILES}
+
+# ==================================================
+
+# *** Make sure DB setup parameters are present
+
+if [ "x${ARCH_DB}" = "x" -o "x${ARCH_DATADEV}" = "x" -o \
+	"x${ARCH_DATASIZE}" = "x" -o "x${ARCH_INDEXDEV}" = "x" -o \
+	"x${ARCH_INDEXSIZE}" = "x" -o "x${ARCH_LOGDEV}" = "x" -o \
+	"x${ARCH_LOGSIZE}" = "x" ] ; then
+	echo "Missing database setup parameters" > /dev/tty
+	echo "Missing database setup parameters" 
+	echo ARCH_DB = ${ARCH_DB} 
+	echo ARCH_DATADEV = ${ARCH_DATADEV} 
+	echo ARCH_DATASIZE = ${ARCH_DATASIZE} 
+	echo ARCH_INDEXDEV = ${ARCH_INDEXDEV}
+	echo ARCH_INDEXSIZE = ${ARCH_INDEXSIZE}
+	echo ARCH_LOGDEV = ${ARCH_LOGDEV}
+	echo ARCH_LOGSIZE = ${ARCH_LOGSIZE}
+	exit 1
+fi
+
+echo "" > /dev/tty
+echo "FAST Archive database setup" > /dev/tty
+echo "FAST Archive database setup" 
+echo "" > /dev/tty
+
+	
+# ==================================================
+# *** Database setup
+
+TYPES="fast_archive_types.sql"
+
+TABLES="events_data ephemeris_events operational_events files \
+	orbits contacts contact_APID mode_periods mode_APID \
+	engineering_periods burst_data burst_APID HSBM_data \
+	fast_query_help"
+
+TRIGGERS="events files orbits contacts modes engineering \
+	HSBM burst"
+
+PROCEDURES="ephemeris_events operational_events orbits contacts \
+	mode_period mode_update queries"
+
+# *** SQL processing, if filenames given on command line
+if [ "x${FILES}" != "x" ] ; then
+	echo "" > /dev/tty
+	echo 'Processing SQL files' > /dev/tty
+	echo 'Processing SQL files'
+	for f in ${FILES} ; do
+		echo ${f}
+		if [ "$(echo ${f} | grep -c '_table.sql')" = "1" ] ; then
+			echo "*** ${f} may destroy data" > /dev/tty
+			echo "" > /dev/tty
+			read yorn?"Proceed? (yes or no): " > /dev/tty 2>&1
+			echo "" > /dev/tty
+			if [[ "$yorn" != "yes" ]] ; then
+				echo "SQL processing aborted" > /dev/tty
+				echo "SQL processing aborted"
+				exit 2
+			fi
+		fi
+		do_isql ${f}
+	done
+	
+	exit 0
+fi
+
+# *** Database setup, if no filenames specified
+echo "" > /dev/tty
+echo '******* WARNING! ******* WARNING! *******' > /dev/tty
+echo "" > /dev/tty
+echo "This will delete the ${ARCH_DB} database!" > /dev/tty
+echo "" > /dev/tty
+read yorn?"Are you sure you want to continue? (yes or no): " > /dev/tty 2>&1
+echo "" > /dev/tty
+if [[ "$yorn" != "yes" ]] ; then
+	echo "Database setup aborted" > /dev/tty
+	echo "Database setup aborted" 
+	exit 2
+fi
+
+# *** Tailor SQL setup template with our parameters
+/bin/rm -f ${TEMPSQL}
+touch ${TEMPSQL}
+chmod 600 ${TEMPSQL}
+
+stty -echo
+read SAPASSWD?"Please enter the password of the database owner to continue: " > /dev/tty 2>&1
+echo "" > /dev/tty
+stty echo
+echo ${SAPASSWD} >> ${TEMPSQL}
+
+DBTEMPLATE=${ARCH_DBTEMPLATE}
+
+sed -e 's/xxARCH_DBxx/'${ARCH_DB}'/g' \
+	-e 's/xxARCH_DATADEVxx/'${ARCH_DATADEV}'/g' \
+	-e 's/xxARCH_DATASIZExx/'${ARCH_DATASIZE}'/g' \
+	-e 's/xxARCH_INDEXDEVxx/'${ARCH_INDEXDEV}'/g' \
+	-e 's/xxARCH_INDEXSIZExx/'${ARCH_INDEXSIZE}'/g' \
+	-e 's/xxARCH_LOGDEVxx/'${ARCH_LOGDEV}'/g' \
+	-e 's/xxARCH_LOGSIZExx/'${ARCH_LOGSIZE}'/g' \
+	-e 's/xxARCH_LOGINxx/'${ARCH_LOGIN}'/g' \
+	${DBTEMPLATE} >> ${TEMPSQL}
+
+echo "Creating the ${ARCH_DB} database..." > /dev/tty
+echo "Creating the ${ARCH_DB} database..."
+echo "" > /dev/tty
+
+if isql -U${ARCH_LOGIN} < ${TEMPSQL} ; then
+	continue
+else
+	exit 1 ;
+fi
+
+# *** Data types, messages, etc
+echo "...Data types, messages, etc"
+for f in ${TYPES} ; do
+	do_isql ${f}
+done
+
+# *** Database tables
+#   Filename convention:  '<tablename>_table.sql'
+echo "...Tables..."
+for f in ${TABLES} ; do
+	echo ${f}_table.sql
+	do_isql ${f}_table.sql
+done
+
+# *** Procedures
+#   filename convention:  '<tablename>_proc.sql'
+echo "...Stored Procedures..."
+for f in ${PROCEDURES} ; do
+	echo ${f}_proc.sql
+	do_isql ${f}_proc.sql
+done
+
+# *** Triggers
+#   filename convention:  '<tablename>_trig.sql'
+echo "...Triggers..."
+for f in ${TRIGGERS} ; do
+	echo ${f}_trig.sql
+	do_isql ${f}_trig.sql
+done
+
+exit 0
+# test data
+do_isql test_data.sql 
+do_isql F95020ORBIT.sql 
+do_isql test_data2.sql 
+
+
+# ==================================================
+

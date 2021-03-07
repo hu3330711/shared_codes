@@ -1,0 +1,200 @@
+#!/usr/bin/ksh
+#
+# transfer - transfer the archive directories from FINET to DANET
+#
+# Will check for archive directories in ARCHIVESTORAGE.  If it finds any, it
+# will transfer the data to DANET.  When all is transfered, the data is
+# deleted.
+#
+# ARGUMENTS:
+#   $1    archive file containing CD directory name
+#   $2    process ID
+#
+
+echo
+echo $2: ---- transfer run on $(date) ----
+
+. $CONFIGPATH/archive_config
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if script exits prematurely.
+
+function warn_exit {
+    {
+	printf "%s\n" "Subject: Archive System message" \
+	              "Transfer script exited prematurely at line $1" \
+		      "See archivelog and/or other Archive System messages." \
+		      "Process ID: $2"
+	if [[ -n $PASS ]] ; then
+	    printf "%s\n" "CD Volume: $PASS"
+	fi
+    } | mail $ARCHIVEMASTER
+}
+
+
+if (( ${#DANETSTORAGE[*]} == 0 )) ; then
+	echo $2: Must set DANETSTORAGE variable - check archive_config file
+	exit 1
+fi
+
+while [[ -a $TRANSFERLOCK ]] ; do
+	echo $2: transfer sleeping 60 for $(cat $TRANSFERLOCK)
+	sleep 60
+done
+echo $2 > $TRANSFERLOCK
+
+
+# Now find out if there is anything we need to transfer
+
+if [[ -z $(cat $1) ]] ; then
+	echo $2: Nothing to transfer
+	rm $TRANSFERLOCK
+	exit 0
+fi
+
+
+# Establish first target for data transfer
+
+n=0
+TARGET=${DANETSTORAGE[$n]}
+
+
+# Set trap for premature termination
+
+trap 'warn_exit $LINENO $2' EXIT
+
+# Get listing of the orbit directory
+
+PASS=$(basename $(cat $1))
+DIR=$(dirname $(cat $1))
+answer=$(/usr/sbin/ping $DANETHOST | awk '{print $3}')
+if [[ $answer != "alive" ]] ; then
+	echo "$2:!!!! Cannot ping DANET host $DANETHOST !!!!"
+	printf "%s\n" "Subject: Archive System message" \
+	              "script : $0" \
+		      "!!!! Cannot ping $DANETHOST !!!!" \
+		      "Process ID: $2" |
+	mail $ARCHIVEMASTER
+	rm $TRANSFERLOCK
+	exit 1
+fi
+test=$(rsh $DANETHOST cd $TARGET |awk -F: '{print $1}')
+if [[ $test = $TARGET ]] ; then
+	echo "$2:!!!! Cannot find target directory $TARGET on $DANETHOST !!!!"
+	printf "%s\n" "Subject: Archive System message" \
+	              "script : $0" \
+		      "Cannot find target directory $TARGET on $DANETHOST" \
+		      "Process ID: $2" |
+	mail $ARCHIVEMASTER
+        rm $TRANSFERLOCK
+        exit 1
+fi
+
+### Commented out on 2 July 2002 ###
+### section appears outdated
+#pl=$(rsh $DANETHOST find $(dirname $PREMASTERLOCK) -name \
+#	$(basename $PREMASTERLOCK) -print )
+#while [[ $pl != "" ]] ; do
+#	echo $2: transfer sleeping 70 for premaster
+#	sleep 70
+#	pl=$(rsh $DANETHOST find $(dirname $PREMASTERLOCK) -name \
+#		$(basename $PREMASTERLOCK) -print )
+#done
+#
+# Create PREMASTERLOCK to avoid collisions where
+# premaster begins after transfer
+#
+#trap 'warn_exit $LINENO $2; rsh $DANETHOST rm -f $PREMASTERLOCK' EXIT
+#rsh $DANETHOST "echo transfer $2 > $PREMASTERLOCK"
+
+# Commence the transfer
+
+echo $2: Transferring $PASS to $DANETHOST
+
+## Begin disk space check ##
+
+# The following section will check to see if there is space
+# available on the selected DANET disk, and if room is not available
+# the script will move to the next empty disk 
+#
+# First make sure the automounter has mounted the disk
+#
+rsh $DANETHOST ls $TARGET > /dev/null
+
+# Now begin the size check
+#
+safe_size=651000
+space=$(rsh $DANETHOST df -k $TARGET | tail -1 | awk '{print $4}')
+
+# Added this part due to problems with rsh timing out
+#
+while [[ -z $space ]] ; do
+	echo $2:
+        echo $2: $TARGET size check returned null
+	echo $2: Trying again....................
+	rsh $DANETHOST ls $TARGET > /dev/null
+	space=$(rsh $DANETHOST df -k $TARGET | tail -1 | awk '{print $4}')
+done
+	
+# As a last check, make sure the space value is not zero, which
+# sometimes slips through
+#
+while (( $space == 0 ))
+do
+	echo $2: 
+	echo $2: $TARGET size check is returning zero
+	echo $2: Trying to mount disk again..........
+	rsh $DANETHOST ls $TARGET > /dev/null
+	space=$(rsh $DANETHOST df -k $TARGET | tail -1 | awk '{print $4}')
+done
+
+# OK, now do size check
+#
+while (( $safe_size > $space ))
+do
+	echo $2:
+	echo $2: Transfer Check:
+	echo $2:   Juneau disk $TARGET has reached capacity
+	echo $2:   Please remove $TARGET from archive_config file
+	
+	n=$(( $n + 1 ))
+	TARGET=${DANETSTORAGE[$n]}
+
+	if [[ -z $TARGET ]] ; then
+	echo $2:
+	echo $2: No more disks available
+	echo $2:
+	exit 1
+	fi
+
+	echo $2:   Now using juneau disk $TARGET
+	echo $2:
+
+	space=$(rsh $DANETHOST df -k $TARGET |tail -1|awk '{print $4}')
+
+done
+	
+## End disk space check ##
+
+rsh $DANETHOST mkdir $TARGET/$PASS
+if rcp -r $DIR/$PASS $DANETHOST:$TARGET ; then
+	rm -r $DIR/$PASS
+	rm $TRANSFERLOCK			# release lock
+	#rsh $DANETHOST rm $PREMASTERLOCK
+else
+	echo $2:!!!! rcp failure !!!!
+	printf "%s\n" "Subject: Archive System message" \
+		      "script : $0" \
+		      "!!!! Error copying $DIR/$PASS $DANETHOST:$TARGET !!!!" \
+		      "Process ID: $2" |
+	mail $ARCHIVEMASTER
+	rm $TRANSFERLOCK
+	#rsh $DANETHOST rm $PREMASTERLOCK
+	exit 1
+fi
+
+echo $2: ---- transfer completed on $(date) ----
+
+trap - EXIT
+exit 0
+

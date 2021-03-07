@@ -1,0 +1,2683 @@
+
+*@2 { DataQuantityDescription
+  'EF12 vs EF34 Qty' CRRES_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E-Field12' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E-Field34' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.CrresEF12vsEF34' FALSE 2 0
+  'E-Field12' CRRES_SPACECRAFT
+  'E-Field34' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Null' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E-Field12' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Null' FALSE 1 0
+  'E-Field12' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'copy of E-Field12' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'E-Field12' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Raw 1' TRUE 1 1
+  'E-Field12' CRRES_SPACECRAFT
+  'Shade copy?' DQ_STORE_INT32 0
+  }
+
+*@2 { DataQuantityDescription
+  'Difference in EField' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V12-V34' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Sub' FALSE 2 0
+  'E-Field12' CRRES_SPACECRAFT
+  'E-Field34' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Average EField' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sumover2' FALSE 2 0
+  'E-Field12' CRRES_SPACECRAFT
+  'E-Field34' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Average Sphere EField' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Avg' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sumover2' FALSE 2 0
+  'V1' CRRES_SPACECRAFT
+  'V2' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'weighted average of EField12' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'WgtAve' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.WgtAve' FALSE 1 0
+  'E-Field12' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'EField12 - weighted average' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V12-WgtAve' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Sub' FALSE 2 0
+  'E-Field12' CRRES_SPACECRAFT
+  'weighted average of EField12' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'weighted average of EField34' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'WgtAve' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.WgtAve' FALSE 1 0
+  'E-Field34' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'EField34 - weighted average' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V34-WgtAve' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Sub' FALSE 2 0
+  'E-Field34' CRRES_SPACECRAFT
+  'weighted average of EField34' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B (Earth Centered Inertial Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.scTeci' FALSE 1 0
+  'magnetometer' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B (GSE Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTgse' FALSE 1 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B (MGSE Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTmgse' FALSE 1 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  '|B| (Space Craft Ref. Frame)' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '|B|' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.magnitude' FALSE 1 0
+  'magnetometer' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  '|B| (Earth Centered Inertial Ref. Frame)' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '|B|' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.magnitude' FALSE 1 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  '|B| (GSE Ref. Frame)' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '|B|' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.magnitude' FALSE 1 0
+  'B (GSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  '|B| (MGSE Ref. Frame)' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '|B|' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.magnitude' FALSE 1 0
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Spin Fit of EField12' CRRES_SPACECRAFT 0 7
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B^2+C^2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.spin_fit 1' FALSE 2 0
+  'E-Field12' CRRES_SPACECRAFT
+  'CRRES_Sun_Pulse_data' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Spin Fit of EField34' CRRES_SPACECRAFT 0 7
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B^2+C^2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.spin_fit 3' FALSE 2 0
+  'E-Field34' CRRES_SPACECRAFT
+  'CRRES_Sun_Pulse_data' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Spin Fit of V1' CRRES_SPACECRAFT 0 7
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B^2+C^2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.spin_fit 1' FALSE 2 0
+  'V1' CRRES_SPACECRAFT
+  'CRRES_Sun_Pulse_data' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'Spin Fit of V2' CRRES_SPACECRAFT 0 7
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B^2+C^2' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.spin_fit 2' FALSE 2 0
+  'V2' CRRES_SPACECRAFT
+  'CRRES_Sun_Pulse_data' CRRES_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'VxB (Earth Centered Inertial Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.vXxeci' FALSE 1 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'VxB (GSE Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTgse' FALSE 1 0
+  'VxB (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'VxB (MGSE Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTmgse' FALSE 1 0
+  'VxB (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'E.B Electric Field (MGSE Ref. Frame)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.EField 0' FALSE 3 0
+  'EField12 - weighted average' ALL_SPACECRAFT
+  'EField34 - weighted average' ALL_SPACECRAFT
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'E.B Electric Field - VxB (MGSE)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sub3' FALSE 2 0
+  'E.B Electric Field (MGSE Ref. Frame)' ALL_SPACECRAFT
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'E.B Electric Field - VxB (ECI)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.mgseTeci' FALSE 1 0
+  'E.B Electric Field - VxB (MGSE)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'E.B Electric Field - VxB (MFA)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTmfa' FALSE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  'E.B Electric Field - VxB (ECI)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B (MFA)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTmfa' FALSE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B - Model (ECI)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.subModelB' FALSE 1 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B - Model (MFA)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eciTmfa' FALSE 2 0
+  'B (Earth Centered Inertial Ref. Frame)' ALL_SPACECRAFT
+  'B - Model (ECI)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'weighted average of B - Model (MFA)' CRRES_SPACECRAFT 0 STORE_AS_SEPARATE_ARRAYS 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.wgtave3' FALSE 1 0
+  'B - Model (MFA)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'B - Model - weighted average (MFA)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sub3' FALSE 2 0
+  'B - Model (MFA)' ALL_SPACECRAFT
+  'weighted average of B - Model (MFA)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'In Eclipse' CRRES_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT
+  FALSE 'T/F' '0/1'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.eclipse' FALSE 0 0
+  }
+
+*@2 { DataQuantityDescription
+  'B - Model (SSC)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.rotarb $FASTSNAPONS/CRRES.UCB.sparhawk.rotarb.pert.dat' FALSE 1 0
+  'B - Model (MFA)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'E.B Electric Field - VxB (SSC)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.rotarb $FASTSNAPONS/CRRES.UCB.sparhawk.rotarb.pert.dat' FALSE 1 0
+  'E.B Electric Field - VxB (MFA)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'SphE' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.EField.SF 0 1' FALSE 2 0
+  'Spin Fit of EField12' ALL_SPACECRAFT
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'SphE - VxB (MGSE)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sub3int' FALSE 2 0
+  'SphE' ALL_SPACECRAFT
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'CylE' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.EField.SF 1 1' FALSE 2 0
+  'Spin Fit of EField34' ALL_SPACECRAFT
+  'B (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+
+*@2 { DataQuantityDescription
+  'CylE - VxB (MGSE)' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.sub3int' FALSE 2 0
+  'CylE' ALL_SPACECRAFT
+  'VxB (MGSE Ref. Frame)' ALL_SPACECRAFT
+  }
+************************************************************************
+
+
+# @(#)SCM.Data.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.BinAndTable.dat	1.26, 03/22/06
+
+
+@2 { DataQuantityDescription
+  'BinAndTable' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Done' 'Y/N'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.BinAndTable' FALSE 5 93
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'Base FileName' DQ_STORE_CHAR BinTab
+  'CriteriaCount' DQ_LITERAL DQ_STORE_INT32 2
+  'B' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'B ValueComp' DQ_LITERAL DQ_STORE_INT32 5
+  'B Name' DQ_LITERAL DQ_STORE_CHAR BAngleToX
+  'B Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'B Range Start' DQ_STORE_DOUBLE 20.0
+  'B Range Inc' DQ_STORE_DOUBLE 0.0
+  'B Range Count' DQ_STORE_INT32 0
+  'BZ' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZ ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZ Name' DQ_LITERAL DQ_STORE_CHAR BZ
+  'BZ Offset' DQ_STORE_DOUBLE 0.491518
+  'BZ Bin Start' DQ_STORE_DOUBLE -5.5
+  'BZ Bin Inc' DQ_STORE_DOUBLE 1.0
+  'BZ Bin Count' DQ_STORE_INT32 11
+  'OutputCount' DQ_LITERAL DQ_STORE_INT32 19
+  'XGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 24
+  'XGSE Name' DQ_LITERAL DQ_STORE_CHAR XGSE
+  'XGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 25
+  'YGSE Name' DQ_LITERAL DQ_STORE_CHAR YGSE
+  'YGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 26
+  'ZGSE Name' DQ_LITERAL DQ_STORE_CHAR ZGSE
+  'ZGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'XGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 27
+  'XGSM Name' DQ_LITERAL DQ_STORE_CHAR XGSM
+  'XGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 28
+  'YGSM Name' DQ_LITERAL DQ_STORE_CHAR YGSM
+  'YGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 29
+  'ZGSM Name' DQ_LITERAL DQ_STORE_CHAR ZGSM
+  'ZGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'PROBE_A DataName' DQ_LITERAL DQ_STORE_CHAR Probe_A_B_SBias
+  'PROBE_A ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'PROBE_A Name' DQ_LITERAL DQ_STORE_CHAR PROBE_A
+  'PROBE_A Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'EXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EXGSE(C)
+  'EXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'EYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EYGSE(C)
+  'EY Offset' DQ_STORE_DOUBLE -0.225388
+  'EZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'EZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EZGSE(C)
+  'EZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BXGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BXGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'BXGSE Name' DQ_LITERAL DQ_STORE_CHAR BXGSE(C)
+  'BXGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BYGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BYGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'BYGSE Name' DQ_LITERAL DQ_STORE_CHAR BYGSE(C)
+  'BYGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BZGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZGSE Name' DQ_LITERAL DQ_STORE_CHAR BZGSE(C)
+  'BZGSE Offset' DQ_STORE_DOUBLE 0.491518
+  'BTOTGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BTOTGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'BTOTGSE Name' DQ_LITERAL DQ_STORE_CHAR BTOTGSE
+  'BTOTGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'VXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VXGSE(C)
+  'VXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 5
+  'VYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VYGSE(C)
+  'VYGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 6
+  'VZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VZGSE(C)
+  'VZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '-1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '-1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  '-1000 Name' DQ_LITERAL DQ_STORE_CHAR -1000*EXGSE(C)/BZGSE
+  '-1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  '1000 Name' DQ_LITERAL DQ_STORE_CHAR 1000*EYGSE(C)/BZGSE
+  '1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+@2 { DataQuantityDescription
+  'Regions' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'RegionValue' '0-?, 1-PS, 2-LB, 3-BL, 4-MS, 5-SW'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.Regions' FALSE 0 7
+  'FileName' DQ_LITERAL DQ_STORE_CHAR $FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.Regions.dat
+  'RegionCount' DQ_LITERAL DQ_STORE_INT32 5
+  'PS' DQ_LITERAL DQ_STORE_CHAR PS
+  'LB' DQ_LITERAL DQ_STORE_CHAR LB
+  'BL' DQ_LITERAL DQ_STORE_CHAR BL
+  'MS' DQ_LITERAL DQ_STORE_CHAR MS
+  'SW' DQ_LITERAL DQ_STORE_CHAR SW
+  }
+
+@2 { DataQuantityDescription
+  'BinAndTable Regions (Part I)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Done' 'Y/N'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.BinAndTable' FALSE 6 93
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'Regions' ALL_SPACECRAFT
+  'Base FileName' DQ_STORE_CHAR BinTabIIRegions
+  'CriteriaCount' DQ_LITERAL DQ_STORE_INT32 2
+  'Region' DQ_LITERAL DQ_STORE_CHAR Regions
+  'Region ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'Region Name' DQ_LITERAL DQ_STORE_CHAR Region
+  'Region Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'Region Range Start (Part I)' DQ_STORE_DOUBLE 0.5
+  'Region Range Inc' DQ_STORE_DOUBLE 1.0
+  'Region Range Count (Part I)' DQ_STORE_INT32 2
+  'BZ' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZ ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZ Name' DQ_LITERAL DQ_STORE_CHAR BZ
+  'BZ Offset' DQ_STORE_DOUBLE 0.491518
+  'BZ Bin Start' DQ_STORE_DOUBLE -5.5
+  'BZ Bin Inc' DQ_STORE_DOUBLE 1.0
+  'BZ Bin Count' DQ_STORE_INT32 11
+  'OutputCount' DQ_LITERAL DQ_STORE_INT32 19
+  'XGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 24
+  'XGSE Name' DQ_LITERAL DQ_STORE_CHAR XGSE
+  'XGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 25
+  'YGSE Name' DQ_LITERAL DQ_STORE_CHAR YGSE
+  'YGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 26
+  'ZGSE Name' DQ_LITERAL DQ_STORE_CHAR ZGSE
+  'ZGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'XGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 27
+  'XGSM Name' DQ_LITERAL DQ_STORE_CHAR XGSM
+  'XGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 28
+  'YGSM Name' DQ_LITERAL DQ_STORE_CHAR YGSM
+  'YGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 29
+  'ZGSM Name' DQ_LITERAL DQ_STORE_CHAR ZGSM
+  'ZGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'PROBE_A DataName' DQ_LITERAL DQ_STORE_CHAR Probe_A_B_SBias
+  'PROBE_A ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'PROBE_A Name' DQ_LITERAL DQ_STORE_CHAR PROBE_A
+  'PROBE_A Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'EXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EXGSE(C)
+  'EXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'EYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EYGSE(C)
+  'EY Offset' DQ_STORE_DOUBLE 0.0
+  'EZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'EZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EZGSE(C)
+  'EZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BXGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BXGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'BXGSE Name' DQ_LITERAL DQ_STORE_CHAR BXGSE(C)
+  'BXGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BYGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BYGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'BYGSE Name' DQ_LITERAL DQ_STORE_CHAR BYGSE(C)
+  'BYGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BZGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZGSE Name' DQ_LITERAL DQ_STORE_CHAR BZGSE(C)
+  'BZGSE Offset' DQ_STORE_DOUBLE 0.491518
+  'BTOTGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BTOTGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'BTOTGSE Name' DQ_LITERAL DQ_STORE_CHAR BTOTGSE
+  'BTOTGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'VXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VXGSE(C)
+  'VXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 5
+  'VYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VYGSE(C)
+  'VYGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 6
+  'VZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VZGSE(C)
+  'VZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '-1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '-1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  '-1000 Name' DQ_LITERAL DQ_STORE_CHAR -1000*EXGSE(C)/BZGSE
+  '-1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  '1000 Name' DQ_LITERAL DQ_STORE_CHAR 1000*EYGSE(C)/BZGSE
+  '1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+
+@2 { DataQuantityDescription
+  'BinAndTable Regions (Part II)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Done' 'Y/N'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.BinAndTable' FALSE 6 93
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'Regions' ALL_SPACECRAFT
+  'Base FileName' DQ_STORE_CHAR BinTabIIRegions
+  'CriteriaCount' DQ_LITERAL DQ_STORE_INT32 2
+  'Region' DQ_LITERAL DQ_STORE_CHAR Regions
+  'Region ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'Region Name' DQ_LITERAL DQ_STORE_CHAR Region
+  'Region Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'Region Range Start (Part II)' DQ_STORE_DOUBLE 2.5
+  'Region Range Inc' DQ_STORE_DOUBLE 1.0
+  'Region Range Count (Part II)' DQ_STORE_INT32 3
+  'BZ' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZ ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZ Name' DQ_LITERAL DQ_STORE_CHAR BZ
+  'BZ Offset' DQ_STORE_DOUBLE 0.491518
+  'BZ Bin Start' DQ_STORE_DOUBLE -5.5
+  'BZ Bin Inc' DQ_STORE_DOUBLE 1.0
+  'BZ Bin Count' DQ_STORE_INT32 11
+  'OutputCount' DQ_LITERAL DQ_STORE_INT32 19
+  'XGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 24
+  'XGSE Name' DQ_LITERAL DQ_STORE_CHAR XGSE
+  'XGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 25
+  'YGSE Name' DQ_LITERAL DQ_STORE_CHAR YGSE
+  'YGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 26
+  'ZGSE Name' DQ_LITERAL DQ_STORE_CHAR ZGSE
+  'ZGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'XGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 27
+  'XGSM Name' DQ_LITERAL DQ_STORE_CHAR XGSM
+  'XGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 28
+  'YGSM Name' DQ_LITERAL DQ_STORE_CHAR YGSM
+  'YGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 29
+  'ZGSM Name' DQ_LITERAL DQ_STORE_CHAR ZGSM
+  'ZGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'PROBE_A DataName' DQ_LITERAL DQ_STORE_CHAR Probe_A_B_SBias
+  'PROBE_A ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'PROBE_A Name' DQ_LITERAL DQ_STORE_CHAR PROBE_A
+  'PROBE_A Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'EXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EXGSE(C)
+  'EXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'EYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EYGSE(C)
+  'EY Offset' DQ_STORE_DOUBLE 0.0
+  'EZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'EZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EZGSE(C)
+  'EZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BXGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BXGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'BXGSE Name' DQ_LITERAL DQ_STORE_CHAR BXGSE(C)
+  'BXGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BYGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BYGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'BYGSE Name' DQ_LITERAL DQ_STORE_CHAR BYGSE(C)
+  'BYGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BZGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZGSE Name' DQ_LITERAL DQ_STORE_CHAR BZGSE(C)
+  'BZGSE Offset' DQ_STORE_DOUBLE 0.491518
+  'BTOTGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BTOTGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'BTOTGSE Name' DQ_LITERAL DQ_STORE_CHAR BTOTGSE
+  'BTOTGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'VXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VXGSE(C)
+  'VXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 5
+  'VYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VYGSE(C)
+  'VYGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 6
+  'VZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VZGSE(C)
+  'VZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '-1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '-1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  '-1000 Name' DQ_LITERAL DQ_STORE_CHAR -1000*EXGSE(C)/BZGSE
+  '-1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  '1000 Name' DQ_LITERAL DQ_STORE_CHAR 1000*EYGSE(C)/BZGSE
+  '1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+************************************************************************
+
+
+# @(#)SCM.Data.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.Imp8.dat	1.5, 03/22/06
+
+@2 { DataQuantityDescription
+  'Imp8 - BZgsm' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Imp8 - BZgsm' 'nT'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.decomImp8' FALSE 0 3
+  'Imp8 FileName' DQ_LITERAL DQ_STORE_CHAR /disks/cluster1/disk2/somoza/Workspace/i8delayeddatabase
+  'Component Count' DQ_LITERAL DQ_STORE_INT32 1
+  'Component' DQ_STORE_INT32 2
+  }
+
+@2 { DataQuantityDescription
+  'Imp8 BinAndTable' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Done' 'Y/N'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.BinAndTable' FALSE 7 93
+  'Imp8 - BZgsm' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'Regions' ALL_SPACECRAFT
+  'Base FileName' DQ_STORE_CHAR BinTabIIRegions
+  'CriteriaCount' DQ_LITERAL DQ_STORE_INT32 2
+  'Region' DQ_LITERAL DQ_STORE_CHAR Regions
+  'Region ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'Region Name' DQ_LITERAL DQ_STORE_CHAR Region
+  'Region Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'Region Range Start (Part I)' DQ_STORE_DOUBLE 0.5
+  'Region Range Inc' DQ_STORE_DOUBLE 1.0
+  'Region Range Count (Part I)' DQ_STORE_INT32 2
+  'Imp8 BZ' DQ_STORE_CHAR Imp8 - BZgsm
+  'Imp8 BZ ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'Imp8 BZ Name' DQ_LITERAL DQ_STORE_CHAR BZgsm
+  'Imp8 BZ Offset' DQ_STORE_DOUBLE 0.0
+  'Imp8 BZ Bin Start' DQ_STORE_DOUBLE -5.5
+  'Imp8 BZ Bin Inc' DQ_STORE_DOUBLE 1.0
+  'Imp8 BZ Bin Count' DQ_STORE_INT32 11
+  'OutputCount' DQ_LITERAL DQ_STORE_INT32 19
+  'XGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 24
+  'XGSE Name' DQ_LITERAL DQ_STORE_CHAR XGSE
+  'XGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 25
+  'YGSE Name' DQ_LITERAL DQ_STORE_CHAR YGSE
+  'YGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSE DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 26
+  'ZGSE Name' DQ_LITERAL DQ_STORE_CHAR ZGSE
+  'ZGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'XGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'XGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 27
+  'XGSM Name' DQ_LITERAL DQ_STORE_CHAR XGSM
+  'XGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'YGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'YGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 28
+  'YGSM Name' DQ_LITERAL DQ_STORE_CHAR YGSM
+  'YGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'ZGSM DataName' DQ_LITERAL DQ_STORE_CHAR SfrEphAttQtys
+  'ZGSM ValueComp' DQ_LITERAL DQ_STORE_INT32 29
+  'ZGSM Name' DQ_LITERAL DQ_STORE_CHAR ZGSM
+  'ZGSM Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'PROBE_A DataName' DQ_LITERAL DQ_STORE_CHAR Probe_A_B_SBias
+  'PROBE_A ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'PROBE_A Name' DQ_LITERAL DQ_STORE_CHAR PROBE_A
+  'PROBE_A Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'EXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EXGSE(C)
+  'EXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'EYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'EYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EYGSE(C)
+  'EY Offset' DQ_STORE_DOUBLE 0.0
+  'EZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'EZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'EZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR EZGSE(C)
+  'EZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BXGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BXGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  'BXGSE Name' DQ_LITERAL DQ_STORE_CHAR BXGSE(C)
+  'BXGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BYGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BYGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  'BYGSE Name' DQ_LITERAL DQ_STORE_CHAR BYGSE(C)
+  'BYGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'BZGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BZGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 3
+  'BZGSE Name' DQ_LITERAL DQ_STORE_CHAR BZGSE(C)
+  'BZGSE Offset' DQ_STORE_DOUBLE 0.491518
+  'BTOTGSE DataName' DQ_LITERAL DQ_STORE_CHAR BMag_Angles
+  'BTOTGSE ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'BTOTGSE Name' DQ_LITERAL DQ_STORE_CHAR BTOTGSE
+  'BTOTGSE Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VXGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VXGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 4
+  'VXGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VXGSE(C)
+  'VXGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VYGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VYGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 5
+  'VYGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VYGSE(C)
+  'VYGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  'VZGSE(C) DataName' DQ_LITERAL DQ_STORE_CHAR CorrEBV.Survey
+  'VZGSE(C) ValueComp' DQ_LITERAL DQ_STORE_INT32 6
+  'VZGSE(C) Name' DQ_LITERAL DQ_STORE_CHAR VZGSE(C)
+  'VZGSE(C) Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '-1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '-1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 1
+  '-1000 Name' DQ_LITERAL DQ_STORE_CHAR -1000*EXGSE(C)/BZGSE
+  '-1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  '1000 DataName' DQ_LITERAL DQ_STORE_CHAR ECoverBZ.Survey
+  '1000 ValueComp' DQ_LITERAL DQ_STORE_INT32 2
+  '1000 Name' DQ_LITERAL DQ_STORE_CHAR 1000*EYGSE(C)/BZGSE
+  '1000 Offset' DQ_LITERAL DQ_STORE_DOUBLE 0.0
+  }
+************************************************************************
+
+************************************************************************
+* SCM.Data.dat for GEOTAIL_SURVEY Science Algorithms
+*
+* For SCCS:
+* @(#)SCM.Data.UCB_GEOTAIL_SURVEY_Sci_Mod.sparhawk.dat	1.9, 03/22/06
+************************************************************************
+
+
+@2 { DataQuantityDescription
+  'b (10)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.b 10.0 0.0' FALSE 2 0
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.b 20.0 0.0' FALSE 2 0
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (>20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (>20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.b 160.0 20.0' FALSE 2 0
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+{
+@2 { DataQuantityDescription
+  'b (10) (5 > Probe_A > 0)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (5 > Probe_A > 0)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 5.0 0.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (0 > Probe_A > -5)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (0 > Probe_A > -5)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 0.0 -5.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-5 > Probe_A > -10)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-5 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -5.0 -10.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-10 > Probe_A > -15)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-10 > Probe_A > -15)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -10.0 -15.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-15 > Probe_A > -20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-15 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -15.0 -20.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-20 > Probe_A > -25)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-20 > Probe_A > -25)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -20.0 -25.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-25 > Probe_A > -30)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-25 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -25.0 -30.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-30 > Probe_A > -35)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-30 > Probe_A > -35)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -30.0 -35.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-35 > Probe_A > -40)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-35 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -35.0 -40.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-40 > Probe_A > -45)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-40 > Probe_A > -45)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -40.0 -45.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-45 > Probe_A > -50)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-45 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -45.0 -50.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-50 > Probe_A > -55)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-50 > Probe_A > -55)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -50.0 -55.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+}
+
+{
+@2 { DataQuantityDescription
+  'b (20) (5 > Probe_A > 0)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (5 > Probe_A > 0)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 5.0 0.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (0 > Probe_A > -5)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (0 > Probe_A > -5)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 0.0 -5.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-5 > Probe_A > -10)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-5 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -5.0 -10.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-10 > Probe_A > -15)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-10 > Probe_A > -15)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -10.0 -15.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-15 > Probe_A > -20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-15 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -15.0 -20.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-20 > Probe_A > -25)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-20 > Probe_A > -25)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -20.0 -25.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-25 > Probe_A > -30)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-25 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -25.0 -30.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-30 > Probe_A > -35)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-30 > Probe_A > -35)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -30.0 -35.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-35 > Probe_A > -40)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-35 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -35.0 -40.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-40 > Probe_A > -45)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-40 > Probe_A > -45)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -40.0 -45.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-45 > Probe_A > -50)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-45 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -45.0 -50.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-50 > Probe_A > -55)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-50 > Probe_A > -55)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -50.0 -55.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+}
+
+{
+@2 { DataQuantityDescription
+  'b (10) (5 > Probe_A > 0) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (5 > Probe_A > 0)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (5 > Probe_A > 0)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (0 > Probe_A > -5) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (0 > Probe_A > -5)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (0 > Probe_A > -5)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-5 > Probe_A > -10) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-5 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-5 > Probe_A > -10)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-10 > Probe_A > -15) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-10 > Probe_A > -15)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-10 > Probe_A > -15)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-15 > Probe_A > -20) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-15 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-15 > Probe_A > -20)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-20 > Probe_A > -25) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-20 > Probe_A > -25)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-20 > Probe_A > -25)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-25 > Probe_A > -30) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-25 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-25 > Probe_A > -30)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-30 > Probe_A > -35) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-30 > Probe_A > -35)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-30 > Probe_A > -35)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-35 > Probe_A > -40) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-35 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-35 > Probe_A > -40)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-40 > Probe_A > -45) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-40 > Probe_A > -45)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-40 > Probe_A > -45)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-45 > Probe_A > -50) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-45 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-45 > Probe_A > -50)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-50 > Probe_A > -55) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-50 > Probe_A > -55)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-50 > Probe_A > -55)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+}
+
+{
+@2 { DataQuantityDescription
+  'b (20) (5 > Probe_A > 0) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (5 > Probe_A > 0)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-5 > Probe_A > 0)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (0 > Probe_A > -5) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (0 > Probe_A > -5)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (0 > Probe_A > -5)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-5 > Probe_A > -10) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-5 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-5 > Probe_A > -10)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-10 > Probe_A > -15) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-10 > Probe_A > -15)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-10 > Probe_A > -15)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-15 > Probe_A > -20) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-15 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-15 > Probe_A > -20)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-20 > Probe_A > -25) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-20 > Probe_A > -25)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-20 > Probe_A > -25)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-25 > Probe_A > -30) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-25 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-25 > Probe_A > -30)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-30 > Probe_A > -35) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-30 > Probe_A > -35)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-30 > Probe_A > -35)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-35 > Probe_A > -40) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-35 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-35 > Probe_A > -40)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-40 > Probe_A > -45) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-40 > Probe_A > -45)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-40 > Probe_A > -45)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-45 > Probe_A > -50) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-45 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-45 > Probe_A > -50)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-50 > Probe_A > -55) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-50 > Probe_A > -55)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-50 > Probe_A > -55)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+}
+
+{
+@2 { DataQuantityDescription
+  'b (10) (0 > Probe_A > -10)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (0 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 0.0 -10.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-10 > Probe_A > -20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-10 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 10.0 -20.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-20 > Probe_A > -30)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-20 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -20.0 -30.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-30 > Probe_A > -40)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-30 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -30.0 -40.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-40 > Probe_A > -50)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-40 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -40.0 -50.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-50 > Probe_A)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-50 > Probe_A)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -50.0 -100.0' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+}
+
+{
+@2 { DataQuantityDescription
+  'b (20) (0 > Probe_A > -10)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (0 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA 0.0 -10.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-10 > Probe_A > -20)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-10 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -10.0 -20.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-20 > Probe_A > -30)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-20 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -20.0 -30.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-30 > Probe_A > -40)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-30 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -30.0 -40.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-40 > Probe_A > -50)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-40 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -40.0 -50.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-50 > Probe_A)' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-50 > Probe_A)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.bRangeProbeA -50.0 -100.0' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+}
+
+{
+@2 { DataQuantityDescription
+  'b (10) (0 > Probe_A > -10) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (0 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (0 > Probe_A > -10)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-10 > Probe_A > -20) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-10 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-10 > Probe_A > -20)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-20 > Probe_A > -30) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-20 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-20 > Probe_A > -30)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-30 > Probe_A > -40) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-30 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-30 > Probe_A > -40)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-40 > Probe_A > -50) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-40 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-40 > Probe_A > -50)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (10) (-50 > Probe_A) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10) (-50 > Probe_A)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (10) (-50 > Probe_A)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+}
+
+{
+@2 { DataQuantityDescription
+  'b (20) (0 > Probe_A > -10) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (0 > Probe_A > -10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (0 > Probe_A > -10)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-10 > Probe_A > -20) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-10 > Probe_A > -20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-10 > Probe_A > -20)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-20 > Probe_A > -30) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-20 > Probe_A > -30)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-20 > Probe_A > -30)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-30 > Probe_A > -40) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-30 > Probe_A > -40)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-30 > Probe_A > -40)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-40 > Probe_A > -50) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-40 > Probe_A > -50)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-40 > Probe_A > -50)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) (-50 > Probe_A) vs X' GEOTAIL_SURVEY_SPACECRAFT 0  2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'SCX' 'km'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20) (-50 > Probe_A)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 24 0 0 1' FALSE 2 0
+  'b (20) (-50 > Probe_A)' ALL_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+}
+
+@2 { DataQuantityDescription
+  'b (10) vs Probe_A' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Probe_A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (10)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 1 0 0 1' FALSE 2 0
+  'b (10)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'b (20) vs Probe_A' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Probe_A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'b (20)' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.XvsY 1 0 1 0 0 1' FALSE 2 0
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'CorrEBV.Survey' GEOTAIL_SURVEY_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EXGSE(C)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EYGSE(C)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZGSE(C)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VXGSE(C)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VYGSE(C)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZGSE(C)' 'km/sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV 0 2 3 0 7 8 0 16 1 3 1 1 $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F1.EX.dat $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F1.EY.dat $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F2.dat' TRUE 2 8
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'Ez, Bx/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  'Ez, By/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  'EX Offset' DQ_STORE_DOUBLE 0.0
+  'EY Offset' DQ_STORE_DOUBLE 0.0
+  'E Scaling' DQ_STORE_DOUBLE 1.0
+  'Alpha Correction' DQ_STORE_DOUBLE 1.0
+  'Beta Correction' DQ_STORE_DOUBLE 1.0
+  'SumThreshold' DQ_STORE_DOUBLE 25
+  }
+
+@2 { DataQuantityDescription
+  'RotEBV.Survey' GEOTAIL_SURVEY_SPACECRAFT 0 11
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EXGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EYGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VXGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VYGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'FlowAngle' 'deg'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.RotEBV 0 1 2 3' TRUE 2 2
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey'
+  'Theta' DQ_STORE_DOUBLE 45.5
+  'Phi' DQ_STORE_DOUBLE 5.0
+  }
+
+@2 { DataQuantityDescription
+  'ECoverBZ.Survey' GEOTAIL_SURVEY_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-1000*EXGSE(C)/BZGSE' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '1000*EYGSE(C)/BZGSE' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ECoverBZ 0 1 2 1 1 2 3' TRUE 2 3
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'E/B, Bz Threshold' DQ_STORE_DOUBLE 1.0
+  'E/B, Bx/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  'E/B, By/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  }
+
+@2 { DataQuantityDescription
+  'ECPoverBZP.Survey' GEOTAIL_SURVEY_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-1000*EXGSE(CP)/BZGSE(P)' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '1000*EYGSE(CP)/BZGSE(P)' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ECPoverBZP' TRUE 1 3
+  'RotEBV.Survey' ALL_SPACECRAFT
+  'E/B, Bz Threshold' DQ_STORE_DOUBLE 1.0
+  'E/B, Bx/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  'E/B, By/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  }
+
+@2 { DataQuantityDescription
+  'SurveyStats' GEOTAIL_SURVEY_SPACECRAFT 0 37
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyStats ./SurveyStats.dat' FALSE 5 3
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'ProbeA Upper Limit' DQ_STORE_DOUBLE 0.0
+  'ProbeA Lower Limit' DQ_STORE_DOUBLE -5.0
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  }
+
+@2 { DataQuantityDescription
+  'SurveyStats.GT20' GEOTAIL_SURVEY_SPACECRAFT 0 37
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyStats ./SurveyStats.GT20.dat' FALSE 5 3
+  'b (>20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'ProbeA Upper Limit' DQ_STORE_DOUBLE 0.0
+  'ProbeA Lower Limit' DQ_STORE_DOUBLE -5.0
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  }
+
+@2 { DataQuantityDescription
+  'SurveyBiggest EYC' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'SurveyBiggest EYCGSE' 'n'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyBiggestGeneral EYCGSE 0 2' FALSE 4 3
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'Maximums To Keep' DQ_STORE_INT32 5
+  'EYC FileName' DQ_STORE_CHAR Biggest.EYC.out
+  'GT20' DQ_STORE_INT32 1
+  }
+
+@2 { DataQuantityDescription
+  'Survey5Biggest.GT20' GEOTAIL_SURVEY_SPACECRAFT 0 1
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyBiggest ./Survey5Biggest.GT20.dat' FALSE 5 2
+  'b (>20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  'Maximums To Keep' DQ_STORE_INT32 5
+  }
+
+@2 { DataQuantityDescription
+  'Survey5Biggest.LT20' GEOTAIL_SURVEY_SPACECRAFT 0 1
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyBiggest ./Survey5Biggest.LT20.dat' FALSE 5 2
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  'Maximums To Keep' DQ_STORE_INT32 5
+  }
+
+@2 { DataQuantityDescription
+  'FlowEval' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Count' 'n'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.FlowEval' FALSE 5 6
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'b (20)' ALL_SPACECRAFT
+  'X' DQ_STORE_DOUBLE 2.0
+  'Y' DQ_STORE_DOUBLE 2.0
+  'W' DQ_STORE_DOUBLE 200.0
+  'P' DQ_STORE_DOUBLE -1500.0
+  'Q' DQ_STORE_DOUBLE 1000.0
+  'OutputFileName' DQ_STORE_CHAR ./FlowEval.dat 
+  }
+
+@2 { DataQuantityDescription
+  'Correlate' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.Correlate' FALSE 6 6
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'ECoverBZ.Survey' ALL_SPACECRAFT
+  'b (20)' ALL_SPACECRAFT
+  'N (data points)' DQ_STORE_INT32 15
+  'T (minutes)' DQ_STORE_DOUBLE 20.0
+  'S (1000*EYC/BZ threshold)' DQ_STORE_DOUBLE 2000.0
+  'X (B>=degrees)' DQ_STORE_DOUBLE 0.0
+  'Y (B<=degrees)' DQ_STORE_DOUBLE 20.0
+  'TheFileName' DQ_STORE_CHAR ./r.dat
+  }
+
+@2 { DataQuantityDescription
+  'EYC binned over XGSE' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 2 0 2 1 0 24' FALSE 3 10 
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 1
+  'XGSE Bin Start Value' DQ_STORE_DOUBLE -20.0
+  'XGSE Bin Inc Value' DQ_STORE_DOUBLE 20.0
+  'XGSE Bin Count' DQ_STORE_INT32 9 
+  'EYC/XGSE TheFileName' DQ_STORE_CHAR ./Sums.dat.EYC.XGSE
+  'Offset' DQ_STORE_DOUBLE 0.0
+  'Bin Offset' DQ_STORE_DOUBLE 0.0
+  'XGSEPOS Start Value' DQ_STORE_INT32 -40
+  'XGSEPOS End Value' DQ_STORE_INT32 -20
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+
+@2 { DataQuantityDescription
+  'BZ binned over XGSE' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 0 0 3 1 0 24' FALSE 3 10 
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 1
+  'XGSE Bin Start Value' DQ_STORE_DOUBLE -20.0
+  'XGSE Bin Inc Value' DQ_STORE_DOUBLE 20.0
+  'XGSE Bin Count' DQ_STORE_INT32 9 
+  'BZ/XGSE TheFileName' DQ_STORE_CHAR ./Sums.dat.BZ.XGSE
+  'Offset' DQ_STORE_DOUBLE 0.0
+  'XGSEPOS Start Value' DQ_STORE_INT32 -40
+  'XGSEPOS End Value' DQ_STORE_INT32 -20
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+@2 { DataQuantityDescription
+  'BTOT binned over XGSE' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 0 0 4 1 0 24' FALSE 3 10
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 1
+  'XGSE Bin Start Value' DQ_STORE_DOUBLE -20.0
+  'XGSE Bin Inc Value' DQ_STORE_DOUBLE 20.0
+  'XGSE Bin Count' DQ_STORE_INT32 9 
+  'BTOT/XGSE TheFileName' DQ_STORE_CHAR ./Sums.dat.BTOT.XGSE
+  'Offset' DQ_STORE_DOUBLE 0.0
+  'Bin Offset' DQ_STORE_DOUBLE 0.0
+  'XGSEPOS Start Value' DQ_STORE_INT32 -40
+  'XGSEPOS End Value' DQ_STORE_INT32 -20
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+@2 { DataQuantityDescription
+  'EYC binned over BX' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 2 0 2 0 0 1' FALSE 3 10 
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 0
+  'BX Bin Start Value' DQ_STORE_DOUBLE -12.0
+  'BX Bin Inc Value' DQ_STORE_DOUBLE 3.0
+  'BX Bin Count' DQ_STORE_INT32 8 
+  'EYC/BX TheFileName' DQ_STORE_CHAR ./Sums.dat.EYC.BX
+  'Offset' DQ_STORE_DOUBLE -0.225388
+  'Bin Offset' DQ_STORE_DOUBLE 0.0
+  'XGSEPOS Start Value' DQ_STORE_INT32 -300
+  'XGSEPOS End Value' DQ_STORE_INT32 300
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+@2 { DataQuantityDescription
+  'EYC binned over BY' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 2 0 2 0 0 2' FALSE 3 10 
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 0
+  'BY Bin Start Value' DQ_STORE_DOUBLE -2.0
+  'BY Bin Inc Value' DQ_STORE_DOUBLE 0.5
+  'BY Bin Count' DQ_STORE_INT32 8 
+  'EYC/BY TheFileName' DQ_STORE_CHAR ./Sums.dat.EYC.BY
+  'Offset' DQ_STORE_DOUBLE -0.225388
+  'Bin Offset' DQ_STORE_DOUBLE 0.0
+  'XGSEPOS Start Value' DQ_STORE_INT32 -300
+  'XGSEPOS End Value' DQ_STORE_INT32 300
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+@2 { DataQuantityDescription
+  'EYC binned over BZ' GEOTAIL_SURVEY_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sums' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.OneTime 0 0 5 1 0 24 2 0 2 0 0 3' FALSE 3 10 
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'GT20 (1=GT20, 0=LT20)' DQ_STORE_INT32 0
+  'BZ Bin Start Value' DQ_STORE_DOUBLE -4.0
+  'BZ Bin Inc Value' DQ_STORE_DOUBLE 1.0
+  'BZ Bin Count' DQ_STORE_INT32 8 
+  'EYC/BZ TheFileName' DQ_STORE_CHAR ./Sums.dat.EYC.BZ
+  'Offset' DQ_STORE_DOUBLE -0.225388
+  'Bin Offset' DQ_STORE_DOUBLE 0.491518
+  'XGSEPOS Start Value' DQ_STORE_INT32 -300
+  'XGSEPOS End Value' DQ_STORE_INT32 300
+  'SumThreshold' DQ_STORE_DOUBLE 25.0
+  }
+
+@2 { DataQuantityDescription
+  'SurveyBigSimple.GT20' GEOTAIL_SURVEY_SPACECRAFT 0 1
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyBigSimple ./SurveyBigSimple.GT20.dat' FALSE 5 2
+  'b (>20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  'Maximums To Keep' DQ_STORE_INT32 5
+  }
+
+@2 { DataQuantityDescription
+  'SurveyBigSimple.LT20' GEOTAIL_SURVEY_SPACECRAFT 0 1
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL_SURVEY.UCB.sparhawk.SurveyBigSimple ./SurveyBigSimple.LT20.dat' FALSE 5 2
+  'b (20)' ALL_SPACECRAFT
+  'Probe_A_B_SBias' GEOTAIL_SURVEY_SPACECRAFT
+  'CorrEBV.Survey' ALL_SPACECRAFT
+  'BMag_Angles' GEOTAIL_SURVEY_SPACECRAFT
+  'SfrEphAttQtys' GEOTAIL_SURVEY_SPACECRAFT
+  'Xgse Distance Threshold' DQ_STORE_DOUBLE 20.0
+  'Maximums To Keep' DQ_STORE_INT32 5
+  }

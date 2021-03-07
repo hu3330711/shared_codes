@@ -1,0 +1,227 @@
+****************************************************************
+
+       README.ogsedtcf
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsedtcf procedure.
+
+****************************************************************
+
+       @(#)README.ogsedtcf	1.2    07/07/95    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsedtcf procedure is to allow
+       editing of the ogs configuration files.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsedtcf [-c] [-p printer]
+
+
+
+       where:
+
+
+
+       -c
+
+           is an option to edit the procedure configuration
+           file.
+
+
+
+       printer
+
+           is the printer to be used to print any files.
+
+           The default is specified in the procedure
+           configuration file (print on request).
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        1  means the procedure collided with another job.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) No more than one run of this procedure can occur on a
+           machine at any time.
+
+
+           Collisions are handled automatically, via lock files.
+
+
+
+        2) The files that can be edited by this procedure all
+           reside in $FASTCONFIG or in subdirectories under
+           $FASTCONFIG.
+
+
+           These files are not changed automatically when
+           workspaces are updated.
+
+
+
+        3) The configuration file that is used to control this
+           procedure itself is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+
+
+
+        4) The edited files are written into their respective
+           subdirectories of $FASTCONFIG; therefore, it is
+           required that these subdirectories must exist.
+
+           The names of the subdirectories for the configuration
+           files for the programs are listed in the procedure
+           configuration file.
+
+           If the -c option is used, then the edited procedure
+           configuration file is written into the directory
+               $FASTCONFIG/ogsDAT
+           and, therefore, it is required that this subdirectory
+           must exist.
+
+
+           Within each subdirectory of $FASTCONFIG that contains
+           the configuration files, there must be an SCCS
+           subdirectory with those files.
+
+           The editing is done using the SCCS facility.
+
+
+           The names for all the configuration files are the
+           standard or default names.
+
+           For the configuration files for the programs, these
+           file names are listed in the procedure configuration
+           file.
+
+           The name for the procedure configuration file is
+               ogs.cfg
+
+
+
+        5) Note that if the -c option is used, the whole run is
+           still under the control of the original procedure
+           configuration file; the changes do not become
+           effective until the run is finished.
+
+
+
+        6) A choice of text editors is offered.
+
+
+
+        7) Any one or more configuration files may be printed.
+
+
+
+        8) Any one or more configuration files may be edited and
+           changed.
+
+
+
+        9) After any file has been edited, it may be printed.
+
+
+
+       10) When it is shown that a file has been changed, this
+           means that the contents is not the same as it was
+           when the procedure began running.
+
+
+
+       11) It is recommended that the -c option be used only
+           when strictly necessary.
+
+
+           This is because the procedure configuration file is
+           such a crucial file, that affects the behavior of so
+           many procedures in very important ways.
+
+
+           This file should be changed very seldom, if at all,
+           and very carefully.
+
+
+           Changes involving file names, directories, etc., may
+           have very drastic consequences; and may require other
+           actions beyond editing the configuration file.

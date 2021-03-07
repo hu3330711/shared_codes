@@ -1,0 +1,147 @@
+#!/usr/local/bin/perl
+
+#this script can do one of a few things:
+#-u constantly check the contact schedule directory for updated schedules and update the database with the information
+#or, when it's manually called from another script with the flag -s means that the contact was made and file retrieved, to update the status of the certain line to success
+#or, when it's called with the flag -c it means check the database for any expired non-successful contacts
+
+use Getopt::Std;
+use DBI;
+use Date::Manip;
+
+#needs to change later:
+$host="dbi:mysql:testdb2:juneau";
+$user="dbuser2";
+$pwd="enter2";
+$table="testschedule";
+$contact_expire=24; #number of hours of nonretrieval considered "expiration"
+
+$dbh=DBI->connect($host, $user, $pwd)|| die "could not connect: $!\n";
+
+#goes with the flag -s
+($succesfulorbit, $successfulstation)=();
+$date=();
+
+sub chk_contact_schedule{
+	$contactdir="/home/hessiops/scheds/";
+
+	#i will assume that this script is run daily, at the LEAST
+	#the following variables may change with THEMIS
+	$timediff=-7;
+	$name_pat="\?\?\?\?_\?\?\?_to_\?\?\?_sched";
+	#print "$name_pat\n";
+
+	@recentfiles=`find $contactdir -mtime $timediff -name $name_pat`;
+	#for testing sake DELETE LATER:
+	##########################
+#	@recentfiles="2005_227_to_233_sched";
+	print "@recentfiles\n";
+
+	foreach $recent (@recentfiles){
+		@fileview=split("/", $recent);
+		$file=$fileview[$#fileview];
+		@filename=split(/_/, $file);
+		my $year=$filename[0];
+
+		#this might also change with THEMIS
+		$schedpattern="(\\d+)\\s+(\\d+)\\s+(\\d\\d:\\d\\d)\\s+(\\d\\d:\\d\\d)\\s+([^\\s]+)\\s+";
+		($orbit, $doy, $aos, $los, $sta)=();
+		open(RECENT, "$recent") || die "could not open file: $!\n";
+#		print "$schedpattern\n";
+	
+		while(<RECENT>){
+			if(/^$schedpattern/){
+				($orbit, $doy, $aos, $los, $sta)=($1, $2, $3, $4, $5);
+				#insert the actual date of contact
+				$date=`doy2date $year $doy`;
+				@new_sched=($recent, $orbit, $date, $aos, $los, $sta);
+				&update_db(@new_sched);
+			}
+		}
+	}
+}
+	
+############################################## -u
+sub update_db{
+	print "updating db for one reason or another: @_ ";
+	my ($schedfile, $orbit, $date, $aos, $los, $sta)=@_;
+	#print "$schedfile, $orbit, $date, $aos, $los, $sta\n";
+	#if there's a db entry with $orbit, then this is a POSSIBLY modified entry
+	my $sth=$dbh->prepare(qq{
+		select count(*) from $table WHERE orbit=$orbit AND station="$sta"
+		}) or die "could not prepare: $!\n";
+
+	$sth->execute() or die "could not execute: $!\n";
+
+	my $r;
+	while(@result=$sth->fetchrow_array()){
+		$r=$result[0];
+	};
+
+	#now we update the database
+	my $update;
+	if($r>0){
+		my $stat="updated";
+		$update=$dbh->prepare(qq{
+			update $table set orbit=$orbit, file="$schedfile", AOS="$aos", LOS="$los", status="$stat", date="$date", duration=sec_to_time(time_to_sec(LOS)-time_to_sec(AOS)) where orbit=$orbit
+			}) or die "could not prepare update: $!\n";
+		#update old entry
+	}else{
+		my $stat="new";
+		$update=$dbh->prepare(qq{
+			insert into $table (orbit, station, file,date, AOS, LOS,duration, status) values ($orbit, "$sta", "$schedfile","$date", "$aos", "$los", sec_to_time(time_to_sec(LOS)-time_to_sec(AOS)), "$stat")
+		}) or die "could not prepare insert: $!\n";
+	}
+
+	$update->execute() or die "could not execute update: $!\n";
+}
+
+################################################## -c
+#for option -c query database to see any contact that has not been made in contact_expire hours
+sub chk_expired_contact{
+	my $sth=$dbh->prepare(qq{
+		SELECT * from testschedule WHERE (SELECT NOW() > DATE_ADD(CONCAT(date, ' ', LOS), INTERVAL $contact_expire HOUR))
+	}) || die "$!\n";
+
+	$sth->execute() || die "$!\n";
+	my $orbit;
+	while(@expired=$sth->fetchrow_array()){
+		$orbit=$expired[0];
+		print "$orbit\n";
+		#next email someone about this row of expired contacts
+	}
+}
+
+################################################## -s -t
+#update the status of a certain orbit from a certain station to be successful, as the contact has been made
+sub successful{
+	print "$successfulorbit, $successfulstation";
+	my $status="successful";
+	my $sth=$dbh->prepare(
+		qq{
+		update $table set status="$status"
+		where orbit=$successfulorbit
+		and station="$successfulstation"
+		}) or die "could not prepare update: $!\n";
+	$sth->execute()|| die "could not execute: $!\n";
+}
+
+#the t flag has to accompany the s flag or else error
+print "running update_contact_schedule\n";
+getopts('ucs:t:');
+
+if($opt_u){
+	&chk_contact_schedule;
+}elsif($opt_c){
+	&chk_expired_contact;
+}elsif($opt_s ne ""){
+	$successfulorbit=$opt_s;
+	if($opt_t ne ""){
+		$successfulstation=$opt_t;
+	}else{
+		print "bad option, -t has to accompany the -s flag!";
+		exit(1);
+	}
+	&successful;
+}
+

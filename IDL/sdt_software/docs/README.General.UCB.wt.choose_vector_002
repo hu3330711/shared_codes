@@ -1,0 +1,698 @@
+************************************************************************
+
+   README.General.UCB.wt.choose_vector_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.choose_vector_002
+
+************************************************************************
+
+   Choose vector from multiple inputs.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.choose_vector_002	1.1    01/31/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects a vector quantity from multiple
+       vector inputs.
+
+
+
+       The choice depends on the date and time of the data.
+
+
+
+
+
+    2) There can be any number of SDT inputs from which to choose the
+       vector; the minimum is 1.
+
+       Each input may contain 1 or more vector quantities that can be
+       chosen.
+
+
+
+       There can be any number of time intervals that are used in
+       determining the choice of the vector; the minimum is 2.
+
+       These time intervals are referred to as "selection intervals".
+
+
+
+       For each selection interval, the user can specify the input from
+       which the chosen vector is to be obtained (as well as which
+       vector from that input is to be chosen).
+
+       Since different selection intervals may result in choosing the
+       same input (with the same or different vector from that input);
+       the number of data inputs may be smaller than the number of
+       selection intervals.
+
+
+
+       For each selection interval, the user also has the choice of
+       specifying that no data points be written out.
+
+
+
+
+
+    3) This Science Module does not perform any rotations; therefore,
+       all the input vectors should have their components referred to
+       the same coordinate system.
+
+
+
+
+
+    4) Each selection interval (except the first one and the last one)
+       has a start date and time, and an end date and time; with the
+       start date and time less than the end date and time; and with the
+       end date and time of each interval being equal to the start date
+       and time of the next interval.
+
+       The first selection interval has no start date and time (so it
+       goes indefinitely far back), but has an end date and time, which
+       is equal to the start date and time of the second selection
+       interval.
+
+       The last selection interval has no end date and time (so it goes
+       indefinitely far forward), but has a start date and time, which
+       is equal to the end date and time of the next to last selection
+       interval.
+
+
+
+
+
+    5) Each instant of time within the time interval that is being
+       processed by SDT, falls within one (and only one) of the
+       selection intervals; but different instants may fall within
+       different selection intervals.
+
+
+
+       Let the date/time for some point of the SDT time interval be
+       represented by t.
+
+       Let "n" be the number of selection intervals; let the selection
+       intervals be labeled 1, 2, ..., n; and let the end date/time of
+       selection intervals 1, 2, ..., (n-1), be represented by:
+
+         T(1) < T(2) < ... < T(n-1)
+
+
+
+       Then t will always be assigned to 1 unique selection interval, as
+       follows:
+
+         If  t < T(1), then t is within selection interval 1.
+
+         If  T(i-1) <= t < T(i),  for 1 < i < n,
+                                  then t is within selection interval i.
+
+         If  t >= T(n-1), then t is within selection interval n.
+
+
+
+
+
+    6) For each selection interval 1, 2, ..., n, then, the output
+       data points come from the corresponding input and vector.
+
+
+
+       This means that if the time interval being processed by SDT spans
+       2 or more of the selection intervals; then the output may contain
+       data points that come from different inputs and vectors.
+
+
+
+
+
+    7) For each input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+       If limits are used for a quantity, then all the components of the
+       vector that make up the quantity must have values within the
+       limits, or else the entire vector is considered invalid.
+
+
+
+
+
+    8) The user can designate values A, B, C, D, E; and values a(i),
+       b(i), c(i), for each selection interval ("i" represents a
+       selection interval index).
+
+       A is a scalar; B, C, D, E, are vectors referred to the same
+       coordinate system as the input quantities.
+
+       a(i) is a scalar; b(i), c(i), are vectors referred to the same
+       coordinate system as the input quantities.
+
+
+
+       If the value of the input quantity for some instant of time
+       within the selection interval "i" is represented by
+
+           v
+
+       where of course v is a vector,
+
+       then the output value for that instant of time is
+
+           Output vector =
+               A * {[a(i) * (v - b(i) - B) - c(i) - C] - D} - E
+
+
+
+       A, B, C, D, E, are referred to as "numeric parameters for all the
+       selection intervals".
+
+
+       a(i), b(i), c(i), are referred to as "numeric parameters for each
+       selection interval".
+
+
+
+
+
+    9) For each selection interval, an output data point is produced for
+       each input data point of the corresponding input, which falls
+       within the selection interval; provided that the user has
+       specified that output data points be produced for that selection
+       interval; and provided that the input vector has a valid value
+       (if limits are specified).
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of the chosen input.
+
+
+
+       The data value for the output data point is as shown above, for
+       the corresponding input data point of the chosen input, for the
+       chosen input vector quantity.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0      =  Do not dump.
+
+                    >= 1   =  Dump output data points with indices of:
+                              0, n, 2n, 3n, ...  (where n is the chosen
+                              dump frequency); i.e., every n-th point.
+
+                    <= -1  =  Dump output data points with indices of:
+                              0, 1, 2, 3, ..., (n-1)  (where -n is the
+                              chosen dump frequency); i.e., the first n
+                              points.
+
+
+
+            2) Number of data inputs.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Number of selection intervals.
+
+
+               Int.
+
+
+               Must be  >=  2.
+
+               Must be  >=  the number of data inputs, as each data
+               input must be used for at least 1 selection interval but
+               can be used for more than 1.
+
+
+
+            4) The group of parameters described here occurs once
+               for each of the following values, in succession (numeric
+               parameters for all the selection intervals, scalar):
+
+               Parameter A.
+
+
+
+                1) Parameter value.
+
+
+                   Double.
+
+
+
+            5) The group of parameters described here occurs once
+               for each of the following values, in succession (numeric
+               parameters for all the selection intervals, vector):
+
+               Parameter B.
+
+               Parameter C.
+
+               Parameter D.
+
+               Parameter E.
+
+
+
+                1) The group of parameters described here occurs once
+                   for each of the components of the vector parameter.
+
+
+
+                    1) Component value.
+
+
+                       Double.
+
+
+
+            6) The group of parameters described here occurs once for
+               each selection interval.
+
+
+
+                1) End date for the selection interval.
+
+
+                   Char.
+
+
+                   Must be a valid date in the format YYYY/MM/DD.
+
+
+                   This parameter should not be present for the last
+                   selection interval.
+
+
+
+                2) End time for the selection interval.
+
+
+                   Char.
+
+
+                   Must be in the format HH:MM:SS or HH:MM:SS.sss (i.e.,
+                   either only integer seconds; or integer seconds,
+                   followed by a decimal point, and 0 or more decimal
+                   places).
+
+                   Note that it is permissible to have a time that is
+                   not necessarily "normalized"; i.e., there can be
+                   HH >= 24, MM >= 60, SS >= 60.
+
+
+                   This parameter should not be present for the last
+                   selection interval.
+
+
+
+
+               Each end date/time must be a valid date/time; and the
+               date/times must refer to instants of time that are in
+               strictly ascending chronological sequence.
+
+
+
+                3) Flag to write output data points.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Write output data points.
+
+                       WT_FALSE  =  Do not write output data points.
+
+
+
+                4) Input index.
+
+
+                   Int.
+
+
+                   If output data points will be written, then
+                   must be  >= 0  and  < number of inputs.
+
+
+
+                5) The group of parameters described here occurs once
+                   for each of the vector components of the quantity.
+
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+                       If output data points will be written, then
+                       must be a valid index for a data component for
+                       the chosen input.
+
+
+
+                6) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                7) The group of parameters described here occurs once
+                   for each of the vector components of the quantity.
+
+
+
+                    1) Lower limit.
+
+
+                       Double.
+
+
+
+                    2) Upper limit.
+
+
+                       Double.
+
+
+
+                   If the flag for limits is true, then  the lower limit
+                   must be  <=  the upper limit.
+
+
+
+                8) The group of parameters described here occurs once
+                   for each of the following values, in succession
+                   (numeric parameters for each selection interval,
+                   scalar):
+
+                   Parameter a.
+
+
+
+                    1) "Fill code" for the parameter.
+
+
+                       Int.
+
+
+                       This code indicates how to fill the "final" value
+                       for the parameter (i.e., the value that will be
+                       actually used).
+
+
+                       Must be one of the following:
+
+
+                           WT_SM_PARM_USR       =
+                               Set the final value from the "user" value
+                               for this parameter for this selection
+                               interval (i.e., the value entered by the
+                               user).
+
+
+                           WT_SM_PARM_COPY_USR  =
+                               Set the final value by copying the user
+                               value from another selection interval.
+
+
+                           WT_SM_PARM_COPY_VAL  =
+                               Set the final value by copying the final
+                               value from another selection interval.
+
+
+                       If the final parameter value is copied from a
+                       value for a different selection interval, then
+                       the user value for the current selection interval
+                       (entered below) is ignored.
+
+                       The copy is made from the appropriate value for
+                       the corresponding parameter for the other
+                       selection interval (e.g., the value for "a" for
+                       the current selection interval is copied from a
+                       value for "a" from the other selection interval).
+
+
+
+                    2) "Copy" index for the parameter.
+
+
+                       Int.
+
+
+                       This is the index of the selection interval from
+                       which to copy a value, for the final value of the
+                       present selection interval.
+
+
+                       If the "fill code" is to copy the final parameter
+                       value, from a value for a different selection
+                       interval, then
+                       must be  >=  0  and  <  the index for the
+                       "current selection interval" (the selection
+                       interval for which the parameter values are to be
+                       set).
+
+                       The first selection interval has index 0.
+
+
+
+                    3) Parameter value.
+
+
+                       Double.
+
+
+                       This is the "user" value for the parameter.
+
+
+
+                9) The group of parameters described here occurs once
+                   for each of the following values, in succession
+                   (numeric parameters for each selection interval,
+                   vector):
+
+                   Parameter b.
+
+                   Parameter c.
+
+
+
+                    1) "Fill code" for the parameter.
+
+
+                       Int.
+
+
+                       Similar to the above.
+
+
+
+                    2) "Copy" index for the parameter.
+
+
+                       Int.
+
+
+                       Similar to the above.
+
+
+
+                    3) The group of parameters described here occurs
+                       once for each of the components of the vector
+                       parameter.
+
+
+
+                        1) Component value.
+
+
+                           Double.
+
+
+                           This is the "user" value for the component.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more sets of 3 additional components, one set
+                   for the values of the vector components of each data
+                   quantity.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.
+
+
+
+            5) Magnitude of the output vector.
+
+
+               Float.

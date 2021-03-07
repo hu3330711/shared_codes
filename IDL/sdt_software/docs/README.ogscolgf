@@ -1,0 +1,557 @@
+****************************************************************
+
+       README.ogscolgf
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogscolgf procedure.
+
+****************************************************************
+
+       @(#)README.ogscolgf	1.9    03/31/99    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. File names.
+
+       6. File types.
+
+       7. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogscolgf procedure is to
+       collect into one single directory the files from Goddard
+       that are used by the programs which start with the FAST
+       input received from Goddard, and produce the instrument
+       commands and shadow ephemeris; i.e., the following
+       programs:
+
+           orbgen
+
+           genCommands
+
+           sunnadir
+
+
+
+               Additionally, some files from Goddard are also
+       collected that are not used by these programs in the ogs
+       procedures, but are to be archived along with the others.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogscolgf [-c proc-cfg-file]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        1  means the procedure collided with another job.
+
+
+        2  means the job was killed.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. File names.
+
+
+
+
+               The files from Goddard have names that conform to
+       one of two possible patterns.
+
+
+
+               For file names of "type 1", the name is as
+       follows:
+
+
+           FyydddCODE.nn
+
+
+       where:
+
+
+       yy
+
+           represents the last 2 digits of the year.
+
+
+       ddd
+
+           represents the 3-digit day of year.
+
+
+       CODE
+
+           represents a code that identifies the particular type
+           of file.
+
+
+       nn
+
+           represents a 2-digit file version number.
+
+
+
+               For file names of "type 2", the name was as
+       follows:
+
+
+           SMEXSS.Ww_#v
+
+
+       but then Goddard changed to:
+
+
+           SMEXSS.Ww.v
+
+
+       where:
+
+
+       w
+
+           represents the week number within the year.
+
+
+       v
+
+           represents a file version number.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       6. File types.
+
+
+
+
+               The table below shows the types of input files
+       from Goddard that are of interest to this procedure, and
+       that have file names of type 1.
+
+
+               For each file type, the table shows the code for
+       the file name, and also which program in the ogs
+       procedures uses the file.
+
+
+
+       File type                File name code      Used by
+       ---------                --------------      -------
+
+       Attitude prediction          ATTPRE          sunnadir
+
+       Predicted orbit vector       EPVPRE          orbgen
+
+       Definitive orbit vector      EPVDEF          (none)
+
+       Predicted orbit precession   ORBPRE          (none)
+
+       Attitude sensor calibration  ACSCAL          (none)
+
+       Integrated print report      INTRPT          (none)
+
+       Power report                 PWRRPT          genCommands
+
+
+
+               The only type of input files from Goddard that
+       are of interest to this procedure, and that have file
+       names of type 2, corresponds to the Contact schedule,
+       which is used by genCommands.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       7. Notes.
+
+
+
+
+        1) No more than one run of this procedure can occur on a
+           machine at any time.
+
+
+           Collisions are handled automatically, via lock files.
+
+
+
+        2) The files are collected from the directories into
+           which they arrive from Goddard originally.
+
+
+
+        3) The files are collected in a single directory, which
+           is a subdirectory of the work directory for the ogs
+           procedures.
+
+
+
+        4) For each file collected, a line is appended to a file
+           log, showing the time when the job started, and the
+           name of the file.
+
+
+           The file log is located in the user directory, in the
+           subdirectory for special user files.
+
+
+
+        5) It is permissible for the work directory either to
+           exist or not to exist prior to the execution of this
+           procedure.
+
+
+           If the work directory does exist, it is permissible
+           for the subdirectory where the files will be
+           collected either to exist or not to exist prior to
+           the execution of this procedure.
+
+
+           It is permissible for the user directory either to
+           exist or not to exist prior to the execution of this
+           procedure.
+
+
+           If the user directory does exist, it is permissible
+           for the subdirectory for special user files either to
+           exist or not to exist prior to the execution of this
+           procedure.
+
+
+           If any output directory does not exist, it is
+           created.
+
+           When any output directory is created, it has write
+           permission for the user and the group.
+
+
+           If any output directory does exist, it must indeed be
+           a directory, and not a "plain" file.
+
+           When any output directory does exist, its permissions
+           are left unchanged.
+
+
+
+        6) In the file names of type 1, day of year starts at 1
+           for January 1.
+
+
+
+        7) In the file names of type 1, the version number is
+           normally 00, and is incremented by Goddard when an
+           updated file is sent.
+
+
+           The version number will also be called the "Goddard
+           version number".
+
+
+
+        8) In the file names of type 2, the version number is
+           normally 1, and is incremented by Goddard when an
+           updated file is sent.
+
+
+           The version number will also be called the "Goddard
+           version number".
+
+
+
+        9) Examples of possible file names of type 1 are:
+
+               F94365EPVPRE.00
+
+               F94365EPVPRE.01
+
+               F95001EPVPRE.00
+
+
+
+       10) Examples of possible file names of type 2 are:
+
+               SMEXSS.W23_#7
+
+               SMEXSS.W23_#12
+
+               SMEXSS.W4_#1
+
+
+
+       11) The configuration file for this procedure includes a
+           list of the directories to be searched for Goddard
+           input files.
+
+
+           The directories are searched in the order in which
+           they appear on this list.
+
+
+
+       12) Files that are collected are deleted from their
+           original directories.
+
+
+           The collected files have write permission for the
+           user and the group, if possible.
+
+
+
+       13) When a file of name type 2 is collected, the "_#" in
+           the original name is changed to a period (".").
+
+
+
+       14) When a file is collected, a suffix may or may not be
+           added to the name.
+
+
+           A suffix of 2 or 3 or 4 etc. is added to a file name
+           if necessary, to distinguish it from other files in
+           the output subdirectory.
+
+
+           The suffix is appended to the file name, separated
+           from the rest of the name by a period.
+
+
+           The suffix will also be called the "Berkeley
+           duplicate version number".
+
+
+           If, when a file is about to be collected, there is
+           no file in the output subdirectory, whose name was
+           originally the same as that of the new file; then no
+           suffix is added to the file name.
+
+           If, when a file is about to be collected, the only
+           file in the output subdirectory, whose name was
+           originally the same as that of the new file, has no
+           suffix added; then the new file is collected with a
+           suffix of 2 added to the name.
+
+           If, when a file is about to be collected, there are
+           one or more files in the output subdirectory, whose
+           name was originally the same as that of the new file,
+           and that have a suffix added to their file name; then
+           the new file is collected with a suffix which is 1
+           more than the highest suffix present for that file
+           name.
+
+
+           Examples:
+
+
+               - If file F94365EPVPRE.01 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     F94365EPVPRE.00
+
+                     F95001EPVPRE.00
+
+                     F95001EPVPRE.00.2
+
+                 then the new file is collected with the name:
+
+                     F94365EPVPRE.01
+
+
+               - If file SMEXSS.W6_#4 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     SMEXSS.W4.1
+
+                     SMEXSS.W5.2.7
+
+                     SMEXSS.W5.3
+
+                 then the new file is collected with the name:
+
+                     SMEXSS.W6.4
+
+
+               - If file F94365EPVPRE.01 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     F94365EPVPRE.00
+
+                     F94365EPVPRE.01
+
+                     F95001EPVPRE.00
+
+                     F95001EPVPRE.00.2
+
+                 then the new file is collected with the name:
+
+                     F94365EPVPRE.01.2
+
+
+               - If file SMEXSS.W6_#4 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     SMEXSS.W5.3
+
+                     SMEXSS.W6.4
+
+                     SMEXSS.W7.1
+
+                     SMEXSS.W7.1.2
+
+                 then the new file is collected with the name:
+
+                     SMEXSS.W6.4.2
+
+
+               - If file F94365EPVPRE.01 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     F94365EPVPRE.00
+
+                     F94365EPVPRE.01
+
+                     F94365EPVPRE.01.2
+
+                     F94365EPVPRE.01.3
+
+                     F94365EPVPRE.01.4
+
+                     F94365EPVPRE.01.5
+
+                     F94365EPVPRE.01.6
+
+                     F94365EPVPRE.01.7
+
+                     F94365EPVPRE.01.8
+
+                     F94365EPVPRE.01.9
+
+                     F95001EPVPRE.00
+
+                     F95001EPVPRE.00.2
+
+                 then the new file is collected with the name:
+
+                     F94365EPVPRE.01.10
+
+
+               - If file SMEXSS.W6_#4 is about to be
+                 collected, and the output subdirectory contains
+                 the following files:
+
+                     SMEXSS.W5.3
+
+                     SMEXSS.W6.4.6
+
+                     SMEXSS.W6.4.8
+
+                     SMEXSS.W6.4.10
+
+                     SMEXSS.W7.1
+
+                     SMEXSS.W7.1.2
+
+                 then the new file is collected with the name:
+
+                     SMEXSS.W6.4.11
+
+
+
+       15) If the output subdirectory exists prior to the
+           execution of this procedure, any preexisting contents
+           in it are left undisturbed.

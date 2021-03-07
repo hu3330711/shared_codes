@@ -1,0 +1,588 @@
+************************************************************************
+
+   README.General.UCB.wt.combine_components_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.combine_components_002
+
+************************************************************************
+
+   Combine input components with functions of 2 variables.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.combine_components_002	1.2    02/23/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module combines components of 2 input quantities,
+       using functions of 2 variables.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+        1) The primary input.
+
+
+
+        2) The secondary input.
+
+
+
+
+
+    3) 1 or more input data components of the primary input can be
+       selected to be used, as the 1st. argument to the functions of 2
+       variables.
+
+
+
+       1 input data component of the secondary input can be selected to
+       be used, as the 2nd. argument to the functions of 2 variables.
+
+
+
+
+
+    4) Each output data quantity is a combination of a selected data
+       component from the primary input, and the selected data component
+       from the secondary input.
+
+
+
+
+
+    5) Each data component from the primary input that is selected must
+       be used to generate at least 1 output data quantity.
+
+
+
+
+
+    6) There can be any number of output data quantities; the minimum is
+       1.
+
+
+
+
+
+    7) The functions that can be used are contained in the
+       general-purpose function Gen_F_2_Var_001.
+
+
+
+
+
+    8) Each combination of 2 input components is used to create
+       ultimately an output quantity.
+
+
+
+       Different output quantities can use different function codes.
+
+
+
+
+
+    9) For each output quantity, the output value from Gen_F_2_Var_001
+       is used as input to the general-purpose function Gen_F_1_Var_001.
+
+
+
+       Different output quantities can use different function codes.
+
+
+
+       The value of the output quantity is the output value from
+       Gen_F_1_Var_001.
+
+
+
+
+
+   10) For each selected data component of the primary input, there is
+       the option of specifying limits and ignoring data values beyond
+       the limits.
+
+
+
+       An input data point of the primary input is considered only if
+       all the selected data components have valid values.
+
+
+
+
+
+   11) For the selected data component of the secondary input, there is
+       the option of specifying limits and ignoring data values beyond
+       the limits.
+
+
+
+       An input data point of the secondary input is considered only if
+       the selected data component has valid values.
+
+
+
+
+
+   12) An output data point is produced for each input data point of the
+       primary input; provided that all of the output quantities can be
+       produced.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point of the primary input.
+
+
+
+
+
+   13) For an output data point to be produced, the primary input data
+       point must be in the time interval defined by two input data
+       points of the secondary input.
+
+
+
+       The user can specify whether the value of the selected data
+       component of the secondary input, for the time of the primary
+       input data point, is obtained by linear interpolation or by
+       replication.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0      =  Do not dump.
+
+                    >= 1   =  Dump output data points with indices of:
+                              0, n, 2n, 3n, ...  (where n is the chosen
+                              dump frequency); i.e., every n-th point.
+
+                    <= -1  =  Dump output data points with indices of:
+                              0, 1, 2, 3, ..., (n-1)  (where -n is the
+                              chosen dump frequency); i.e., the first n
+                              points.
+
+
+
+            2) Number of output data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Number of primary input data quantities used.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the primary input data quantities used.
+
+
+
+                1) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                2) Lower limit.
+
+
+                   Double.
+
+
+
+                3) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then
+               the lower limit  must be  <=  the upper limit.
+
+
+
+                4) Input component index.
+
+
+                   Int.
+
+
+
+            5) The group of parameters described here occurs once for
+               the secondary input data quantity used.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then
+               the lower limit  must be  <=  the upper limit.
+
+
+
+                5) Flag to interpolate.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                        WT_TRUE   =  Interpolate.
+
+                        WT_FALSE  =  Do not interpolate (replicate).
+
+
+
+                6) Input component index.
+
+
+                   Int.
+
+
+
+            6) The group of parameters described here occurs once for
+               each of the output data quantities.
+
+
+
+                1) Input component index for input variable 1.
+
+
+                   Int.
+
+
+
+                2) Flag for the same functions and auxiliary parameters
+                   as the first output data quantity.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use the same.
+
+                       WT_FALSE  =  Do not use the same.
+
+
+
+                   This flag occurs only for the 2nd. and for each
+                   subsequent output data quantity, not for the 1st.
+
+                   If the flag for an output data quantity is true, then
+                   the rest of the parameters in this group does not
+                   occur for that output data quantity.
+
+
+
+                3) Code for the function of 2 variables.
+
+
+                   Int.
+
+
+                   Must be a valid function code for compute mode.
+
+
+
+                4) Auxiliary int parameters for the function of 2
+                   variables.
+
+
+                   Int.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+                5) Auxiliary double parameters for the function of 2
+                   variables.
+
+
+                   Double.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+                6) Code for the function of 1 variable.
+
+
+                   Int.
+
+
+                   Must be a valid function code for compute mode.
+
+
+
+                7) Auxiliary int parameters for the function of 1
+                   variable.
+
+
+                   Int.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+                8) Auxiliary double parameters for the function of 1
+                   variable.
+
+
+                   Double.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The primary data input for the quantities to be combined.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components for quantities to
+                   be combined.
+
+                   Float.
+
+
+
+            2) The secondary data input for the quantities to be
+               combined.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for a quantity to be
+                   combined.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for each output quantity.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

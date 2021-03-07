@@ -1,0 +1,284 @@
+
+Description of the SDT Software, for Multiple Sessions on a Single System:
+-------------------------------------------------------------------------
+
+In response to requests from a number of SDT users, the SDT software
+was upgraded in early 2004 to allow for more than one SDT session on
+a single machine at one time.   This document describes the details
+of the implementation of this feature.
+
+
+Why was this not done earlier?
+-----------------------------
+
+SDT was originally written, in the early 1990's, to provide realtime
+access to science data from the FAST mission.  This was just before
+multi-threading became widely available in the software industry and,
+in particular, a year or two before it became available on SOLARIS,
+the chosen platform for FAST data analysis.  Without multi-threading,
+the only reliable way to support realtime data acquistion and display
+is to provide separate programs to collect data and to display it.
+
+Since SDT was composed of separate programs, data had to be shared
+between the programs, which required the use of system Shared-Memory.
+It was also necessary to pass messages/requests between the SDT programs
+and this required another Interprocess Communication feature, called
+"RPC" (Remote Procedure Calls).
+
+The fact that Shared-Memory and RPC are used in SDT, and have system-
+wide identities, makes resource management in SDT very complicated.
+It was much simpler to insure that SHM and RPC were managed correctly
+on exit from SDT, if only one SDT were allowed to operate at a time.
+It was also envisioned that SDT would, in practice, be executed only
+by a single user per system.  The combination of the difficulty in
+managing the system resources of SDT in a multi-session way, with the
+assumption that it would not be very useful, resulted in this issue
+being very low priority.
+
+It is now the case that some SDT sites have very large, powerful
+servers that would benefit much from being able to run multiple SDT
+sessions.
+
+
+
+The SDT "Run Index":
+-------------------
+
+In order to isolate the Shared-Memory segments and RPC assignments
+from several active SDTs, each SDT run is assigned an index between
+0 and 9 (inclusive) (so a maximum of 10 SDTs can be run on a machine).
+This index is UNIQUE to its associated SDT and will be referred to in
+this document as the:
+
+   SDT_Run_Index
+
+Once an SDT is assigned its unique index, all SHM segments and RPC
+assignments that are created by this instantiation of SDT will be
+limited to the following ranges:
+
+
+  SHM segments:
+
+    7830 + ((SDT_Run_Index * 1000000) + 20000000)   to:
+    7830 + (((SDT_Run_Index + 1) * 1000000) + 20000000) - 1
+
+
+  RPC assignments:
+
+    (SDT_Run_Index * 0x100000)  to  (((SDT_Run_Index+1) * 0x100000) - 1)
+
+
+These ranges are far more than any SDT run should ever need and,
+just as importantly, these ranges are disjoint.  This makes SHM and
+RPC resource managment possible for multi-run SDT.
+
+
+NOTE:  If SDT is invoked interactively, the assigned SDT_Run_Index
+is shown in the title of the SDT main menu as "idx=<Index>".  There
+is also a program:
+
+   listsdt
+
+described below, which outputs information on all of the current
+SDT sessions.
+
+
+
+Assigning SDT_Run_Index:
+-----------------------
+
+How is it that a unique index is assigned to an SDT session?  At one
+stage early in testing, SDT made use of a file:
+
+    /tmp/.sdt_index_file
+
+which kept track of which of the ten indices are in use.  It was
+later decided, to keep the mechanism more hidden and, hopefully,
+more secure, to use a Shared-Memory segment (key = 7888).
+
+If no SDTs are running, this SHM (earlier:  file) will not exist.
+The last SDT to exit will delete it and the first SDT to start up
+will create it, so it exists only as long as at least one SDT is
+active.   When this SHM (earlier:  file)  exists, it has public RW
+permissions to allow SDT run by any user to access it.  When
+accessed by SDT, file-locking is used to insure that only one SDT
+at a time is using it.  Since the permissions of the SHM (earlier:
+file) are Public RW, it is hoped that it will never be accessed
+externally from SDT.  It is also assumed that "/tmp" will have full
+public permissions.  If it does not, SDT will attempt to run in the
+old single-only mode.
+
+The format of the SDT_Run_Index SHM (earlier: file= /tmp/.sdt_index_file) is:
+
+10 ASCII records, each of the format:
+
+   idx  flag  Type  TimeStamp  parent_pid  username  run_dir
+
+where:
+
+    idx         is:  0  through  9
+
+                        Note that:
+                          idx of the first record is 0
+                          idx of the second record is 1
+                                 ...
+                          idx of the last record is 9
+
+    flag        is:   0 -> run index is NOT currently in use by SDT.
+                      1 -> run index IS currently in use by SDT.
+
+    Type        is:   U -> this is a UserInterface invocation of SDT.
+                      B -> this is a Batch invocation of SDT.
+
+    TimeStamp   is:   a date/time stamp when the SDT run was invoked,
+                      in local time.  The format is:
+                            YYYYMMDD_HHMMSS
+
+    parent_pid  is:   the PID of the parent program (i.e. the script).
+
+    username    is:   the user currently running the associated SDT.
+                      If "flag" is "0", then this is set to "nouser".
+                      It is enclosed in double-quotes to ease
+                      parsing if there are any embedded blanks.
+
+    run_dir     is:   the directory from which the user invoked
+                      this SDT run.  If "flag" is "0", then this
+                      is set to "nodir".  It is enclosed in
+                      double-quotes to ease parsing if there are
+                      any embedded blanks.
+
+The index SHM (earlier:  file) is accessed by the "dqh" program,
+which is also the program which manages SDT shared-memory usage.
+The scripts:
+
+    sdt
+    sdt_batch
+
+now call  "dqh -i" to get an "SDT_Run_Index", which is then set
+into the shell variable "RUN_IDX_VAL" in the scripts.  Once this
+shell variable is set, all of the other SDT programs query it to
+determine their "SDT_Run_Index".
+
+Note that the code in "dqh.cc" which retrieves an SDT_Run_Index is
+the function:
+
+    ReturnAvailableSdtRunIndex()
+
+If the index SHM (earlier:  file) does not exist (i.e. no other SDTs
+are running), this function will create it first.
+
+
+When SDT exits, the scripts call "dqh -d Index" to free the index.
+The code in "dqh.cc" that does this is in function:
+
+    FreeSdtRunIndex()
+
+If this call to "dqh" determines that no other SDTs are running,
+it deletes the SHM (earlier:  file).
+
+
+   
+The SDT-IDL interface:
+---------------------
+
+It should be noted that multi-run SDT also complicated the SDT-IDL
+interface.  This interface was upgraded to almost seemlessly be
+able to handle multiple sessions.  The only difference now is that
+when a user explicitly brings up IDL to import SDT data, the first
+request for SDT data will check to see if the user has more than one
+SDT session in progress.  If so, the user will be shown a list of
+the their current SDT sessions and will be prompted to indicate
+which session he/she wishes to extract from.   In the Batch case,
+the software is able, on its own, to determine which SDT session to
+utilize, even if multiple sessions are active.  That is because IDL
+is called from SDT and therefore knows which process and SDT index
+it is to be assigned to.
+
+
+
+The "sdt_clear" scripts:
+-----------------------
+
+Each SDT session keeps track of its SHM, RPC's and processes in
+the two files;
+
+   run_dir/sdt_clear_proc.<Index> 
+   run_dir/sdt_clear_memory.<Index> 
+
+where:
+
+    <Index>  is the SDT_Run_Index for the SDT session.
+
+    run_dir  is the directory from which this SDT session was
+	     started.  Note that "run_dir" is stored in the SDT
+	     index file.
+
+These files are ASCII scripts and are deleted when SDT exists
+normally, and are used if and when SDT exits abnormally (and are
+also deleted in this case as well).
+
+If an SDT was started by user:
+
+    george
+
+from directory:
+
+    /home/george/sdt
+
+and was given an index of "2", then the temporary "sdt_clear"
+files will be:
+
+    /home/george/sdt/sdt_clear_proc.2
+    /home/george/sdt/sdt_clear_memory.2
+
+
+
+
+killsdt:
+-------
+
+In the past, a script named:
+
+   cleanup
+
+was always provided in the SDT software to help cleanup up SDT's
+SHM and RPC's if SDT aborted abnornally or required external
+termination for any reason. This script worked only because just
+one SDT at a time could run.
+
+To replace "cleanup", there is now a program:
+
+    killsdt
+
+which will allow a user to "kill" one or more of their current
+SDT sessions.
+
+When executed, "killsdt" reports which SDT sessions the user has
+active and prompts for the following actions:
+
+    Index   to terminate one of the user's SDTs.
+    a       to terminate all of the user's above SDTs.
+    x       to exit, with no action taken.
+
+For instance, to terminate the SDT session with SDT_Run_Index=1,
+enter:  1
+
+If "killsdt" is run by "root", it allows termination of any SDTs,
+regardless of the user.  Use by "root" is something of a last resort,
+to get rid of SDT's that are known to be stalled, but for which the
+user of the session can't be reached to effect the SDT session's
+termination.
+
+
+
+
+listsdt:
+-------
+
+This program simply lists all of the current SDTs on the machine -
+it is purely informative.
+
+Also, as mentioned above, when SDT is invoked interactively, the
+assigned SDT_Run_Index is shown in the title of the SDT main menu
+as "idx=<Index>".
+

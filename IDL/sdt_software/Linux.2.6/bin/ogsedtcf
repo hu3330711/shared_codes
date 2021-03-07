@@ -1,0 +1,1351 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsedtcf.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Edit the ogs configuration files.
+#
+# **************************************************************
+#
+#      @(#)ogsedtcf.shp	1.7    01/16/97    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsedtcf
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Save initial directory.
+#
+#---------------------------------------------------------------
+
+   set initdr = `pwd`
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xcoll  = 1                  # collision with another job
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crlock = $no                # lock for other jobs set
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfr0 = /tmp/ogs.lock.cfg.read       # lock for read cfg
+                                   # common part of name
+
+   set lkcfgr = $lkcfr0.$pid       # lock for read cfg
+                                   # full name
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # read/write config files
+
+   set wait2  = 3                  # make sure no other job
+
+
+
+#---------------------------------------------------------------
+#
+#      Set other constants.
+#
+#---------------------------------------------------------------
+
+   set ofmode = 664                # mode for output files.
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # edit procedure config file
+
+   set optp   = $no                # printer
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           set optc   = $yes
+
+
+         else  if  ("$aux001" == "-p")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -p arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optp   = $yes
+           set prntr  = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create a read lock file for configuration files.
+#
+#---------------------------------------------------------------
+
+   while  (-e $lkcfgw)             # wait if write cfg lock
+       sleep $wait1
+     end
+
+
+   touch $lkcfgr                   # create read cfg lock file
+
+   if  ($status == 0)  then
+     else
+       echo  " $prcnam : " \
+           "Unable to create read cfg lock file  $lkcfgr"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+   if  ($?FASTCONFIG)  then
+     else
+       echo  " $prcnam : " \
+           "Variable  FASTCONFIG  is undefined"
+       goto l8000
+     endif
+
+
+   set cfgprc = $FASTCONFIG/ogsDAT/ogs.cfg
+
+
+   if  (-e $cfgprc)  then
+       source $cfgprc
+       if  ($status == 0)  then
+           set fcfg   = $yes
+         else
+           echo " $prcnam : " \
+               "Unable to source  $cfgprc"
+           goto l8000
+         endif
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+   set cfgpnm = $cfgprc:t          # file name without path
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set name for lock file for simultaneous jobs.
+#
+#---------------------------------------------------------------
+
+   set lkjob0 = $rdwork/$lock.$prcnam    # common part of name
+
+   set lkjob  = $lkjob0.$pid             # full name
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if another job is currently running or about to
+#      run.
+#
+#      If not, lock out other jobs.
+#
+#---------------------------------------------------------------
+
+   ls $lkjob0.* >&! /dev/null
+
+   if  ($status == 0)  then        # there is a prior job
+       goto l7200
+     endif
+
+
+   touch $lkjob                    # this job about to run
+
+   if  ($status == 0)  then
+       set crlock = $yes
+     else
+       echo  " $prcnam : " \
+           "Unable to create lock file  $lkjob"
+       goto l8000
+     endif
+
+
+   sleep $wait2                    # wait for possible other job
+
+
+   set aux001 = (`ls $lkjob0.*`)
+
+   if  ($#aux001 != 1)  then       # there is another job
+       goto l7200
+     endif
+
+
+   echo  ""
+   echo  " You have now exclusive right to run  $prcnam"
+   echo  " (other users are locked out)"
+   echo  ""
+   echo  " Please terminate this job promptly"
+   echo  ""
+
+
+   echo ""
+   echo " Please press  RETURN  when ready to continue"
+   set aux001 = ($<)
+   echo ""
+
+
+
+#---------------------------------------------------------------
+#
+#      Make sure that the subdirectories for the files exist.
+#
+#---------------------------------------------------------------
+
+   set list1  = ( )                # list of subdirectories
+
+   set list1  = ($list1 $orbcd $gencd $suncd)
+
+   if  ($optc == $yes)  then
+       set list1  = ($list1 ogsDAT)
+     endif
+
+
+
+   foreach subd ($list1)
+
+
+       set s1     = $FASTCONFIG/$subd
+
+
+       if  (-e $s1)  then
+
+           if  (-d $s1)  then
+             else
+               echo  " $prcnam : " \
+                   "Subdirectory  $s1  is a plain file"
+               goto l8000
+             endif
+
+         else
+
+           echo  " $prcnam : " \
+               "Subdirectory  $s1  not found"
+           goto l8000
+
+         endif
+
+
+       set s2     = $s1/SCCS
+
+
+       if  (-e $s2)  then
+
+           if  (-d $s2)  then
+             else
+               echo  " $prcnam : " \
+                   "Subdirectory  $s2  is a plain file"
+               goto l8000
+             endif
+
+         else
+
+           echo  " $prcnam : " \
+               "Subdirectory  $s2  not found"
+           goto l8000
+
+         endif
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the subdirectories for the copies of the files.
+#
+#      Establish the links to the SCCS subdirectories.
+#
+#---------------------------------------------------------------
+
+   set subcp  = $rdwork/$prcnam.subdcp
+
+   set subcp0 = $subcp.0           # links to SCCS subdir
+
+   set subcp1 = $subcp.1           # file copies for comparison
+
+
+
+   foreach subd ($subcp0 $subcp1)
+
+
+       if  (-e $subd)  then
+
+           rm -r -f $subd
+
+           if  ($status == 0)  then
+             else
+               echo  " $prcnam : " \
+                   "Error deleting  $subd"
+               goto l8000
+             endif
+
+         endif
+
+
+       mkdir $subd
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error creating subdir  $subd"
+           goto l8000
+         endif
+
+
+     end
+
+
+
+   cd $subcp0
+
+
+   foreach subd ($list1)
+
+       mkdir $subd
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error creating subdir  $subd"
+           goto l8000
+         endif
+
+     end
+
+
+   foreach subd ($list1)
+
+       cd $subcp0/$subd
+
+       ln -s $FASTCONFIG/$subd/SCCS SCCS
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error creating link to subdir  $subd/SCCS"
+           goto l8000
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the list of configuration files.
+#
+#---------------------------------------------------------------
+
+   set list2  = ( )                # list of configuration files
+
+   set list3  = ( )                # list of subdir for files
+
+
+   set list2  = ($list2 $orbcf)    # cfg file for orbgen
+   set list3  = ($list3 $orbcd)
+
+
+   foreach cf ($gencf)             # cfg files for genCommands
+       set list2  = ($list2 $cf)
+       set list3  = ($list3 $gencd)
+     end
+
+
+   set list2  = ($list2 $suncf)    # cfg file for sunnadir
+   set list3  = ($list3 $suncd)
+
+
+   if  ($optc == $yes)  then       # can edit procedure cfg file
+       set list2  = ($list2 $cfgpnm)
+       set list3  = ($list3 ogsDAT)
+     endif
+
+
+
+   set ncfg   = $#list2            # number of config files
+
+
+
+   set list4  = ( )                # codes for changed files
+
+   set i      = 0
+   while ($i < $ncfg)
+       @ i++
+       set list4  = ($list4 $no)
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the configuration files.
+#
+#      Make the comparison copy of each file.
+#
+#---------------------------------------------------------------
+
+   set i      = 0
+
+
+   while ($i < $ncfg)
+
+
+       @ i++
+
+
+       cd $subcp0/$list3[$i]
+
+
+       set cfgfl  = $list2[$i]
+
+
+       sccs edit $cfgfl >&! /dev/null
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error in sccs edit for file  $cfgfl"
+           goto l8000
+         endif
+
+
+       chmod -f $ofmode $cfgfl
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error change mode  $subcp0/$list3[$i]/$cfgfl"
+           goto l8000
+         endif
+
+
+       cp $cfgfl $subcp1
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error copying  $cfgfl  to  $subcp1"
+           goto l8000
+         endif
+
+
+     end
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error deleting file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the printer.
+#
+#---------------------------------------------------------------
+
+   if  ($optp == $yes)  then
+       set printr = $prntr
+     else
+       set printr = $prtreq
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the edit command.
+#
+#---------------------------------------------------------------
+
+   set nedcmd = $#edcmds
+
+
+   set setedt = $no
+
+
+
+   if  ($nedcmd > 1)  then       # more than 1 choice of editor
+
+
+
+       while  ($setedt == $no)
+
+
+           echo ""
+
+           echo " Please enter"
+
+           echo ""
+
+
+           set i      = 0
+
+           while ($i < $nedcmd)
+
+               @ i++
+
+               echo -n "    "
+
+               if  ($i < 10)  then
+                   echo -n " "
+                 endif
+
+               echo " $i  to edit with  $edcmds[$i]"
+
+             end
+
+
+           echo ""
+
+
+           set aux001 = ($<)
+
+           set kin    = ($aux001)
+
+           if  ($#kin != 1)  then
+               echo " Invalid value entered"
+               continue
+             endif
+
+
+           set i      = 0
+
+           while ($i < $nedcmd)
+
+               @ i++
+
+               if  ($kin == $i)  then
+                   set setedt = $yes
+                   set edcmd  = $edcmds[$kin]
+                   break
+                 endif
+
+             end
+
+
+         end
+
+
+
+     else                        # only 1 choice of editor
+
+
+
+       set setedt = $yes
+
+       set edcmd  = $edcmds[1]
+
+
+
+     endif
+
+
+
+   cd $subcp1                      # subdirectory for all work
+
+
+
+#---------------------------------------------------------------
+#
+#      Print configuration files if requested.
+#
+#---------------------------------------------------------------
+
+   while  (1)
+
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Loop to PRINT the original files"
+
+
+       echo ""
+       echo " Please enter"
+       echo ""
+
+
+       set i      = 0
+
+       while ($i < $ncfg)
+
+           @ i++
+
+           echo -n "    "
+
+           if  ($i < 10)  then
+               echo -n " "
+             endif
+
+           echo " $i  to print  $list2[$i]"
+
+         end
+
+
+       echo ""
+
+       echo -n "    "
+       echo -n " "
+       echo " 0  to exit this menu"
+
+       echo ""
+
+
+       set aux001 = ($<)
+
+       set kin    = ($aux001)
+
+       if  ($#kin != 1)  then
+           echo " Invalid value entered"
+           continue
+         endif
+
+       if  ($kin == 0)  then
+           break
+         endif
+
+
+       set i      = 0
+
+       while ($i < $ncfg)
+
+           @ i++
+
+           if  ($kin == $i)  then
+               cd $subcp0/$list3[$kin]
+               set cfgfl  = $list2[$kin]
+               eval $prtcmd -d $printr $cfgfl
+               if  ($status == 0)  then
+                   echo  " Printed  $cfgfl  on  $printr"
+                 else
+                   echo  " Error prnt  $cfgfl  on  $printr"
+                 endif
+               break
+             endif
+
+         end
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Start of loop for the edit interaction.
+#
+#---------------------------------------------------------------
+
+   while  (1)
+
+
+
+#---------------------------------------------------------------
+#
+#      Choose the configuration file.
+#
+#---------------------------------------------------------------
+
+       set filchs = $no            # indic of file chosen
+
+
+       echo ""
+       echo ""
+       echo ""
+       echo " Loop to EDIT the files"
+
+
+       echo ""
+       echo " An  *  denotes a file that has been changed"
+
+
+       echo ""
+       echo " Please enter"
+       echo ""
+
+
+       set i      = 0
+
+       while ($i < $ncfg)
+
+           @ i++
+
+           echo -n "    "
+
+           if  ($i < 10)  then
+               echo -n " "
+             endif
+
+           echo -n " $i  "
+
+           if  ($list4[$i] == $yes)  then
+               echo -n "*"
+             else
+               echo -n " "
+             endif
+
+           echo "  to edit  $list2[$i]"
+
+         end
+
+
+       echo ""
+
+       echo -n "    "
+       echo -n " "
+       echo " 0  to exit this menu"
+
+       echo ""
+
+
+       set aux001 = ($<)
+
+       set kin    = ($aux001)
+
+       if  ($#kin != 1)  then
+           echo " Invalid value entered"
+           continue
+         endif
+
+       if  ($kin == 0)  then
+           break
+         endif
+
+
+       set i      = 0
+
+       while ($i < $ncfg)
+
+           @ i++
+
+           if  ($kin == $i)  then
+               set filchs = $yes
+               cd $subcp0/$list3[$kin]
+               set cfgfl  = $list2[$kin]
+               break
+             endif
+
+         end
+
+
+       if  ($filchs != $yes)  then
+           echo " Invalid value entered"
+           continue
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Edit the configuration file.
+#
+#---------------------------------------------------------------
+
+       eval $edcmd $cfgfl
+
+
+
+       cmp $cfgfl $subcp1/$cfgfl >&! /dev/null
+
+
+       if  ($status == 0)  then
+
+           set list4[$kin] = $no
+
+           echo ""
+           echo " The file has not been changed"
+           echo ""
+
+         else
+
+           set list4[$kin] = $yes
+
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Print the configuration file.
+#
+#---------------------------------------------------------------
+
+       echo ""
+       echo " Please enter"
+       echo ""
+
+       echo "      $yes  to print  $cfgfl"
+       echo "      $no  (or just RETURN)  not to print  $cfgfl"
+
+       echo ""
+
+
+       set aux001 = ($<)
+
+       set answer = ($aux001)
+
+
+       if  ($#answer != 1)  then
+           continue
+         endif
+
+
+       if  ($answer == $yes)  then
+           eval $prtcmd -d $printr $cfgfl
+           if  ($status == 0)  then
+               echo  " Printed  $cfgfl  on  $printr"
+             else
+               echo  " Error printing  $cfgfl  on  $printr"
+             endif
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      End of loop for the edit interaction.
+#
+#---------------------------------------------------------------
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if any files were changed.
+#
+#---------------------------------------------------------------
+
+   set change = $no
+
+   foreach code ($list4)
+       if  ($code == $yes)  then
+           set change = $yes
+           break
+         endif
+     end
+
+
+
+   if  ($change == $no)  then
+
+       echo ""
+       echo " No changes to any files"
+       echo ""
+
+     endif
+
+
+
+   if  ($change == $yes)  then
+
+
+       while  (1)
+
+
+           echo ""
+           echo " Please enter"
+           echo ""
+
+           echo "      $yes  to make all the changes effective"
+           echo "      $no  to discard all the changes"
+
+           echo ""
+
+
+           set aux001 = ($<)
+
+           set answer = ($aux001)
+
+
+           if  ($#answer != 1)  then
+               continue
+             endif
+
+
+           if  ($answer == $yes)  then
+               break
+             else  if  ($answer == $no)  then
+               set change = $no
+               echo ""
+               echo " All changes discarded"
+               echo ""
+               break
+             else
+             endif
+
+
+         end
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the configuration files.
+#
+#---------------------------------------------------------------
+
+   set i      = 0
+
+
+   while ($i < $ncfg)
+
+       @ i++
+
+       cd $subcp0/$list3[$i]
+
+       set cfgfl  = $list2[$i]
+
+       if  (($change == $yes) && ($list4[$i] == $yes))  then
+
+           echo  ""
+           echo  " Please enter comments"
+           echo  " for the changes to file"
+           echo  " $cfgfl"
+           echo  ""
+
+           sccs delta $cfgfl >&! /dev/null
+
+           if  ($status == 0)  then
+             else
+               echo  " $prcnam : " \
+                   "Error in sccs delta for file  $cfgfl"
+               goto l8000
+             endif
+
+         else
+
+           sccs unedit $cfgfl >&! /dev/null
+
+           if  ($status == 0)  then
+             else
+               echo  " $prcnam : " \
+                   "Error in sccs unedit for file  $cfgfl"
+               goto l8000
+             endif
+
+         endif
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Set the changed files for subsequent use.
+#
+#---------------------------------------------------------------
+
+   if  ($change == $yes)  then
+
+
+
+       set aux001 = $yes
+
+       while  ($aux001 == $yes)    # wait if read cfg lock
+
+           ls $lkcfr0.* >&! /dev/null
+
+           if  ($status == 0)  then  # there is a read cfg lock
+               sleep $wait1
+             else
+               set aux001 = $no
+             endif
+
+         end
+
+
+       touch $lkcfgw               # create write cfg lock file
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create write cfg lock file  $lkcfgw"
+           goto l8000
+         endif
+
+
+
+       set i      = 0
+
+       while ($i < $ncfg)
+
+           @ i++
+
+           if  ($list4[$i] == $yes)  then  # the file is changed
+
+               cd $FASTCONFIG/$list3[$i]
+
+               set cfgfl  = $list2[$i]
+
+               sccs get $cfgfl >&! /dev/null
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Error in sccs get for file  $cfgfl"
+                   goto l8000
+                 endif
+
+             endif
+
+         end
+
+
+
+       rm -f $lkcfgw               # rem write cfg lock file
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Error deleting file  $lkcfgw"
+           goto l8000
+         endif
+
+
+
+       echo ""
+       echo " All changes are now effective"
+       echo ""
+
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Another job is running.
+#
+#---------------------------------------------------------------
+
+ l7200:
+
+
+   set xitcod = $xcoll
+
+
+   echo  " $prcnam : " \
+       "Another editing job is running"
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crlock == $yes)  then     # job has locked out others
+
+
+       if  (-e $lkcfgw)  then      # rem write cfg lock if there
+
+           rm -f $lkcfgw
+
+           if  ($status == 0)  then
+             else
+               echo  " $prcnam : " \
+                   "Unable to delete write cfg lock file" \
+                   " $lkcfgw"
+             endif
+
+         endif
+
+
+       rm -f $lkjob                # rem job lock
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete job lock file  $lkjob"
+         endif
+
+
+     endif
+
+
+
+   cd $initdr                      # return to initial directory
+
+
+
+   exit($xitcod)

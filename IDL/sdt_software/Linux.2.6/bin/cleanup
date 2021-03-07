@@ -1,0 +1,189 @@
+#!/bin/csh -f
+# For SCCS:
+# @(#)cleanup.sh	1.24, 05/23/00
+#
+# cleanup program to clean up after the sdt core program
+# john c. sparhawk - January 21, 1994
+#
+
+#
+# 2006/12/17:  If this is multi-user SDT, do NOT allow cleanup
+# to operate.  It will kill all SDTs that are currently running,
+# which is not acceptible.  Call "dqh" with the "-m" option to
+# determine whether or not this SDT is single or multi user.
+# The result will be set into "MRUN_SDT" (0 -> single,  1 -> multi).
+set MRUN_SDT = 0
+$FASTBIN/dqh -m
+set MRUN_SDT = $status
+
+if ( $MRUN_SDT == 1) then
+    $FASTBIN/killsdt -k
+    exit (1)
+endif
+
+set OS = `uname -s`
+if ( $OS == "SunOS" ) then
+    set CUR_MAJOR_REL = 5
+else
+    if ( $OS == "Linux" ) then
+        set CUR_MAJOR_REL = 2
+    else
+        set CUR_MAJOR_REL = 1
+    endif
+endif
+
+set TOO_EARLY_REL = $CUR_MAJOR_REL
+@ TOO_EARLY_REL --
+
+setenv OS_VERSION `uname -r`
+if (( $OS == "SunOS") && ( `echo $OS_VERSION | sed 's/\..*//'` < 5)) then
+   setenv CORE_MAIN "UI"
+
+   setenv CRRES_DECOMS "Crres|Survey|survey|srvmin"
+   setenv GEOTAIL_DECOMS "Efd|Survey|survey|srvmin"
+   setenv ISEE_DECOMS "Isee"
+   setenv FAST_DECOMS "FastDec"
+   setenv WIND_DECOMS "WindDco"
+   setenv POLAR_DECOMS "PolarEFI"
+   setenv CLUSTER_DECOMS "ClusterD"
+   setenv THEMIS_DECOMS "ThemisD"
+   setenv SCM_DECOMS "scm|SCM|Snap"
+
+   setenv EXECS "dqh"
+else
+   setenv CORE_MAIN "UI"
+
+   setenv CRRES_DECOMS "CrresDco|CrresSur"
+   setenv GEOTAIL_DECOMS "EfdDcom|EfdSurve"
+   setenv ISEE_DECOMS "IseeDcom"
+   setenv FAST_DECOMS "FastDeco"
+   setenv WIND_DECOMS "WindDcom"
+   setenv POLAR_DECOMS "PolarEFI"
+   setenv CLUSTER_DECOMS "ClusterD"
+   setenv THEMIS_DECOMS "ThemisD"
+
+   if ( $OS == "SunOS") then
+       setenv SCM_DECOMS "scm|SCM|SnapOns"
+   else
+       setenv SCM_SCRIPT "bin/scm"
+       setenv SCM_DECOMS "bin/SCM"
+       setenv SNAP_ONS "SnapOns"
+   endif
+
+   setenv EXECS "dqh"
+endif
+
+
+if ( $OS == "SunOS") then
+    setenv SOURCES "$CRRES_DECOMS|$GEOTAIL_DECOMS|$ISEE_DECOMS|$FAST_DECOMS|$WIND_DECOMS|$POLAR_DECOMS|$CLUSTER_DECOMS|$THEMIS_DECOMS|$SCM_DECOMS"
+    setenv THECORE "$CORE_MAIN|$SOURCES|$EXECS"
+else
+    setenv SOURCES "$CRRES_DECOMS|$GEOTAIL_DECOMS|$ISEE_DECOMS|$FAST_DECOMS|$WIND_DECOMS|$POLAR_DECOMS|$CLUSTER_DECOMS|$THEMIS_DECOMS"
+    setenv THECORE "$SOURCES"
+endif
+
+
+if (( $OS == "SunOS") && ( `echo $OS_VERSION | sed 's/\..*//'` < 5)) then
+   echo "cleanup for `uname -sr`"
+
+   # kill Core Program
+   /bin/ps -ax | egrep $THECORE | awk '$5!="egrep"&&$5!="vi"{ print "kill -9 ", $1}' > cleanupprocesses
+   source cleanupprocesses
+   rm cleanupprocesses
+
+   # clean up shared memory
+   ipcs | awk '$1=="m"{ print "ipcrm -m ", $2}' > cleanupsharedmemory
+   source cleanupsharedmemory
+   rm cleanupsharedmemory
+
+   # clean up mapped memory
+   if ( -d ../sdt_libs ) then
+      rm ../sdt_libs/mmap*
+   endif
+   rm  mmap*
+
+   # clean up old print files
+   rm  plt*.plt
+
+   # deal with core
+   ls | grep core | awk '{ print "deal with core however you want..."}'
+
+else
+
+   echo "cleanup for `uname -sr`"
+
+   if ( $OS == "SunOS") then
+
+       # kill Core Program
+       /bin/ps -e | egrep $THECORE | awk '$4!="egrep"&&$4!="vi"&&$4!="COMD"{ print "kill -9 ", $1}' > cleanupprocesses
+       source cleanupprocesses
+       rm cleanupprocesses
+       # need this to cleanup all SnapOns; ps -e does not include pathname
+       /bin/ps -ef | egrep $SCM_DECOMS | awk '$8!="egrep"&&$8!="vi"&&$8!="COMD"{ print "kill -9 ", $2}' > cleanupprocesses
+       source cleanupprocesses
+       rm cleanupprocesses
+
+       # clean up shared memory (except for FAST real-time shared memory)
+       ipcs | egrep '(0x[0]?131[4-8])' | awk '$1=="m"{ print "ipcrm -m ", $2}' > cleanupsharedmemory
+       source cleanupsharedmemory
+       rm cleanupsharedmemory
+   
+       # clean up RPC assignments:
+       rpcinfo | awk ' { if ( substr($1,1,4) == "5368") { print " rpcinfo -d ", $1, " 1" } } ' > cleanuprpc
+
+       source cleanuprpc
+       rm cleanuprpc
+
+       # clean up mapped memory
+       dqh -d
+
+       # clean up old print files
+       rm  plt*.plt
+
+       # deal with core
+       ls | grep core | awk '{ print "deal with core however you want..."}'
+
+   else
+
+       # need this to cleanup all SnapOns; ps -e does not include pathname
+       /bin/ps -ef | egrep $SNAP_ONS | awk '$8!="egrep"&&$8!="grep"&&$8!="vi"&&$8!="COMD"{ print "kill -9 ", $2}' > cleanupprocesses
+       /bin/ps -ef | grep "SCM" | awk '$8!="egrep"&&$8!="grep"&&$8!="vi"&&$8!="COMD"{ print "kill -9 ", $2}' >> cleanupprocesses
+       /bin/ps -ef | grep $SCM_SCRIPT | awk '$8!="egrep"&&$8!="grep"&&$8!="vi"&&$8!="COMD"{ print "kill -9 ", $2}' >> cleanupprocesses
+       source cleanupprocesses
+       rm cleanupprocesses
+
+       # kill Core Program
+       /bin/ps -e | egrep $CORE_MAIN | awk '$4!="egrep"&&$4!="vi"&&$4!="COMD"{ print "kill -9 ", $1}' > cleanupprocesses1
+       source cleanupprocesses1
+       rm cleanupprocesses1
+
+       # kill Any remaining Programs:
+       /bin/ps -e | egrep $THECORE | awk '$4!="egrep"&&$4!="vi"&&$4!="COMD"{ print "kill -9 ", $1}' > cleanupprocesses2
+       /bin/ps -e | grep $EXECS | awk '$4!="egrep"&&$4!="vi"&&$4!="COMD"{ print "kill -9 ", $1}' >> cleanupprocesses2
+       source cleanupprocesses2
+       rm cleanupprocesses2
+
+       # clean up shared memory (except for FAST real-time shared memory)
+       ipcs | egrep '(0x[0]?131[4-8])' | awk 'substr($1,0,2)=="0x"{ print "ipcrm -m ", $2}' > cleanupsharedmemory
+       source cleanupsharedmemory
+       rm cleanupsharedmemory
+
+       # clean up RPC assignments:
+       rpcinfo -p | awk ' { if ( substr($1,1,4) == "5368") { print "rpc_clear ", $1 } } ' > cleanuprpc
+
+       source cleanuprpc
+       rm cleanuprpc
+
+       # clean up mapped memory
+       dqh -d
+
+       # clean up old print files
+       rm  plt*.plt >& /dev/null
+
+       # deal with core
+       ls | grep core | awk '{ print "deal with core however you want..."}'
+
+   endif
+
+endif
+

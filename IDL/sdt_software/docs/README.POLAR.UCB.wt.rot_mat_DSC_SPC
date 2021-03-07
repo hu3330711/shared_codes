@@ -1,0 +1,438 @@
+************************************************************************
+
+   README.POLAR.UCB.wt.rot_mat_DSC_SPC
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       POLAR.UCB.wt.rot_mat_DSC_SPC
+
+************************************************************************
+
+   Rotation matrix from DSC to SPC.
+
+************************************************************************
+
+   @(#)README.POLAR.UCB.wt.rot_mat_DSC_SPC	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a rotation matrix from the DSC
+       (Despun Spacecraft Coordinates) system to the SPC (Spin Plane
+       Coordinates) system.
+
+
+
+
+
+    2) There must be one input, which is the spacecraft attitude vector.
+
+
+
+
+
+    3) If the components of the attitude vector are not referred to the
+       GSE system, then there must be an additional input, which is a
+       rotation matrix that rotates vector components, from the
+       coordinate system of the attitude vector into GSE.
+
+
+
+
+
+    4) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    5) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    6) The matrix produced by this Science Module is for rotation in
+       either direction.
+
+
+
+       The matrix is symmetric, and thus is its own inverse.
+
+
+
+
+
+    7) The time resolution can be specified.
+
+
+
+
+
+    8) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the attitude vector.
+
+
+
+       The spacecraft attitude vector for the time of the output data
+       point is the attitude vector at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+    9) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The input rotation matrix for the time of the output data point
+       is the input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Time resolution for the output.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            3) Flag for the coordinate system of the attitude vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  The attitude vector is     in GSE.
+
+                    WT_FALSE  =  The attitude vector is not in GSE.
+
+
+
+            4) Dropout time for the attitude.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the 3 input attitude vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            6) Flag to transpose the input matrix.
+
+
+               Int.
+
+
+               If there is an input rotation matrix,
+               must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            7) Dropout time for the input matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If there is an input rotation matrix,
+               must be  >  0.
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If there is an input rotation matrix,
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The attitude.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The input rotation matrix.
+
+
+               This input should be present only if required.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) a(1,1).
+
+
+               Double.
+
+
+
+            3) a(1,2).
+
+
+               Double.
+
+
+
+            4) a(1,3).
+
+
+               Double.
+
+
+
+            5) a(2,1).
+
+
+               Double.
+
+
+
+            6) a(2,2).
+
+
+               Double.
+
+
+
+            7) a(2,3).
+
+
+               Double.
+
+
+
+            8) a(3,1).
+
+
+               Double.
+
+
+
+            9) a(3,2).
+
+
+               Double.
+
+
+
+           10) a(3,3).
+
+
+               Double.
+
+
+
+       Note: The matrix is designated "a", with rows and columns
+       numbered 1 to 3; the first subscript is the row number, the
+       second subscript is the column number.

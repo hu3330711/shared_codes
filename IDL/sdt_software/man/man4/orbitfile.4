@@ -1,0 +1,203 @@
+'\" t
+.\" @(#)orbitfile.4	1.2 01/23/95
+.TH ORBITFILE 4 "01/23/95"
+.SH NAME
+orbitfile \- FAST orbit ephemeris data file format
+.SH DESCRIPTION
+.LP
+There are two major components: \fIHeaders\fR and \fIVector sets\fR.  
+Headers contain an orbit number, date, time, and Keplerian orbit elements.
+A vector set contains a list of quatities such as position and velocity,
+computed at periodic intervals and listed in columns, one line per 
+interval.
+
+The files are standard Unix text files.  Fields are separated by a specified
+delimiter or white space
+(blanks or tabs) and each line ends with a newline.
+Comment lines have a "#" as the first non-blank character on the line, and
+are ignored by any programs processing the data.  Other line formats
+are defined in the next two sections.
+
+Each file has one or more headers; as many as one per orbit.  Each file
+has zero or more vector sets.  The "TIME" data in each vector set is
+relative to the epoch given in the preceding header.
+.SS
+Headers
+.LP
+Headers are formatted as follows:
+.TS
+tab(/);
+l s s s s s
+l l s s s s
+l l l l s s
+l l l l l l
+l l l l l l.
+FAST Orbit Data version 1.0
+SATELLITE:/<string>
+ORBIT:/<integer>/EPOCH:/yyyy doy hh:mm:ss.sss
+AXIS =/<float>/ECC =/<float>/INC =/<float>
+NODE =/<float>/APERIGEE =/<float>/MANOMALY =/<float>
+APOGEE =/<float>/APMLT =/<float>/APILAT =/<float>
+.TE
+.IP "Version:  \fBFAST Orbit Data version 1.0\fR"
+This identifies the file format (useful for the 'file' command) and allows
+us to add features to the file format without making old programs obsolete,
+as long as they use the I/O library.
+.IP "\fBSATELLITE:  <string>\fR  "
+A string, up to 39 characters long, identifying the satellite.  This is
+present because we may be dealing with other satellites in addition to
+FAST.
+.IP "Orbit Number:  \fBORBIT:  <integer>\fR  "
+An integer identifier.  This is somewhat arbitrary until we actually get
+a satellite in orbit, at which point we'll have to be careful to maintain
+this against a master database.  The only restriction as far as the orbit 
+file format goes is that the orbit numbers must be monotonically increasing
+within a given orbit data file.  Each orbit begins at the ascending
+node.
+.IP "\fBEPOCH:  yyyy doy hh:mm:ss.sss\fR"
+The date and time UTC of the start of this orbit.  Year ("yyyy") is
+four digits, 
+"doy" (Day of Year) one, two, or three digits.  Hours are 2 digits (00 - 23), minutes are 2 digits (00 - 59),
+seconds are given to as many as TBD (3? 4? 5?) decimal places.
+.IP "Keplerian Elements:  "
+Orbital elements at the given epoch.
+.TS
+l l.
+\fBAXIS = <float>\fR	Semi-major axis, Kilometers.
+\fBECC = <float>\fR	Eccentricity.
+\fBINC = <float>\fR	Inclination to equator, degrees.
+\fBNODE = <float>\fR	RA (Right Ascension) of the ascending node, degrees.
+\fBAPERIGEE = <float>\fR	Argument of perigee, degrees.
+\fBMANOMALY = <float>\fR	Mean anomaly at the epoch, degrees.
+.TE
+.IP "Other Header Quantities"
+The following header quantities are optional.
+.TS
+l l.
+\fBAPOGEE = <float>\fR	Apogee altitude, Kilometers.
+\fBAPMLT = <float>\fR	Magnetic Local Time (MLT) of apogee, hours.
+\fBAPILAT = <float>\fR	Invariant latitude of apogee, degrees.
+.TE
+
+.SS
+Vector Sets
+.LP
+The first line of each vector set is a list of column labels.  Subsequent
+lines contain values for each of the labelled quantities.  (Obviously,
+all the lines in a given vector set contain the same number of fields).
+Fields are separated by white space (blanks or tabs).
+.LP
+A few words about
+coordinate systems are in order.
+Three geocentric coordinate systems are
+used, in cartesian (x, y, z) or spherical (longitude, latitude)
+form.  They are defined in Russel, C. T. \fIGeophysical Coordinate
+Transformations\fR.  In all cases, the X-axis corresponds to longitude
+and latitude 0, the Z-axis is at latitude of 90 degrees, and the Y-axis
+completes the right-handed coordinate system.
+.IP "Geocentric Equatorial Inertial (GEI)"
+The standard epoch J2000 
+celestial equatorial coordinates (right ascension and
+declination) or the corresponding cartesian coordinates.  
+.IP "Geographic (GEO)"
+The standard geographic latitude and longitude or the corresponding
+cartesian system.
+.IP "Geomagnetic (MAG)"
+A system in which the Z-axis is parallel to the magnetic dipole axis.
+The X and Y axes are determined by the offset of the true dipole axis
+from the Z-axis.
+.LP
+Note that GEI coordinates are inertial, while GEO and MAG coordinates
+rotate with the Earth.
+.LP
+The allowable column labels are defined below.  The TIME must be the first
+column, but the columns are optional as long as those that are present
+occur in the order listed below.
+.IP "\fBTIME\fR  "
+Time in seconds after the epoch given in the previous header.
+.IP "\fBX  Y  Z\fR  "
+X, y, and z coordinates of satellite position
+in Geocentric Equatorial Inertial (GEI) coordinates.  Kilometers.
+.IP "\fBVX  VY  VZ\fR  "
+X, y and z components of satellite velocity vector in GEI coordinates.
+Kilometers/second.
+.IP "\fBLAT  LNG\fR  "
+Geographic latitude and longitude (GEO) of the satellite.  Degrees.
+.IP "\fBALT\fR  "
+Satellite altitude above sphere of radius equal to Earth's equatorial
+radius.
+Kilometers.
+.IP "\fBMLAT  MLNG\fR  "
+Geographic latitude and longitude (GEO) of magnetic footpoint of the
+satellite.
+Degrees.
+.IP "\fBMLT  \fR  "
+Magnetic local time, computed using an eccentric dipole model of the
+Earth's magnetic field.
+Hours.
+.IP "\fBILAT  ILNG\fR  "
+Invariant latitude and longitude (MAG) using an eccentric dipole model of
+the Earth's magnetic field.
+Degrees.
+.IP "\fBBX  BY  BZ\fR  "
+Magnetic field components, in GEI (yes, GEI) coordinates.  nanoTesla.
+.SS
+Discussion
+.LP
+Despite the arcane language of the "Structure" section, the normal 
+case will be to have one header and one vector set per orbit, or
+simply a sequence of headers with no vectors.  
+However, you could also have vector sets extending over
+several orbits (or with high time resolution) with extra column labels
+thrown in periodically for readability.
+.LP
+A set of library functions (see
+.B
+orbitlib(3)
+and
+.B
+orbitprop(3)
+provide a programming interface to read and write orbit files.
+The fact that columns are optional in the vector sets complicates the
+design
+of software to process orbit files.  Using the orbit I/O libraries,
+it's easy to write programs that only need a subset
+such that they'll accept any orbit file that contains the relevant
+columns.
+.SH EXAMPLE
+.LP
+The following brief example only has 7 columns in order to fit on the
+page.
+.LP
+.TS
+tab(/);
+l s s s
+l l s s
+l l l l
+l l l s
+l s s s.
+FAST Orbit Data version 1.0
+SATELLITE:/FAST
+ORBIT:/17/EPOCH:/1995 305 19:00:0.000000
+AXIS = 8653.14/ECC = 0.22/INC = 83
+NODE = 0/APERIGEE = 0/MANOMALY = 0
+#  orbgen orbit data generator
+#  @(#)orbgen.c  1.11 13 Jan 1995  UCB SSL
+#  Computation step: 1.000000
+.TE
+.TS
+tab(/);
+l l l l l l l.
+TIME/X/Y/Z/LAT/LNG/ALT           
+0/6749.45/0/0/0/33.9298/371.309
+10/6749.01/10.3443/84.2473/0.71518/33.9758/371.405
+20/6747.7/20.6872/168.484/1.43032/34.0219/371.692
+30/6745.51/31.0274/252.698/2.14537/34.068/372.17
+.TE
+.SH "SEE ALSO"
+orbitlib(3), orbitprop(4), orbgen(1)
+.SH "BUGS"
+Definitions for MLT and ILAT are still under review, as are the
+magnetic field models to be used to compute them.
+.SH AUTHOR
+George Kaplan

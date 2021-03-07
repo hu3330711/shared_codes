@@ -1,0 +1,320 @@
+#!/usr/local/perl-5.6.1/bin/perl -w
+#
+# perl script: almanac_orbit.pl by Jenna Kloosterman 10/4/02
+#
+# PURPOSE:
+#
+# To e-mail Archivemaster when problem with predicted and/or definitive data
+# occurs.  
+#
+use warnings;
+use strict;
+
+### Source archive_config script
+#
+my $archive_config="/disks/fast/software/config/archive_config";
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config";
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  exit($stat);
+}
+
+my $email=`cat $archive_config | grep 'ARCHIVEMASTER='`; $email =~ m/^ARCHIVEMASTER=\'([^\']*)\'$/; $email = $1;
+
+### Sets up current doy and year
+my $date =`date +%Y/%m/%d`;
+my $day = substr($date, -3, 2);
+my $month = substr($date, 5, 2);
+my $year = substr($date, 0, 4);
+my $doy = `date +%j`;
+my @date = ($year, $month, $day);
+
+### Setup paths command files containing information
+
+my $path_1 = "/disks/fast/almanac/orbit";
+
+### Open lists of orbits
+
+my @dir = `ls -1 $path_1 | sort -n -t_ -k 4`;
+#print "@dir\n";
+
+### Finds orbits only - eliminates the irrelevant files in this
+# directory.
+
+my $orb;
+my $orb_only;
+my @orb_list;
+
+foreach $orb (@dir) {
+ $orb_only = substr($orb, 0, 4);
+ if ($orb_only eq "orb_") {
+   push(@orb_list, $orb);
+ }
+}
+#print "@orb_list\n";
+
+### Seperates predicted orbits and definitive orbits.
+my $element;
+my $orb_day;
+my $pred_or_def;
+my @pred_list;
+my @def_list;
+
+foreach $element (@orb_list) {
+ $pred_or_def = substr($element, -5, 4);
+ #print "$pred_or_def\n";
+ if ($pred_or_def eq "pred") {
+   push(@pred_list, $element);
+ } elsif ($pred_or_def eq "_def") {
+   push(@def_list, $element);
+ }
+}
+
+#print "@pred_list\n";
+#print "@def_list\n";
+
+### Finds last 8 days of predicted orbits
+
+my $pred_doy;
+my $pred;
+my $pred_year;
+my @pred_date;
+my $pred_diff;
+my $pred_date;
+my $pred_day;
+my $pred_month;
+my $pred_doy_check_1;
+my $pred_doy_check_2;
+my @pred_orb_wk;
+
+foreach $element (@pred_list) {
+ $pred = pop(@pred_list);
+ $pred_doy_check_1 = substr($pred, 10, 1);
+ $pred_doy_check_2 = substr($pred, 11, 1);
+ $pred_year = substr($pred, 4, 4);
+ if ($pred_doy_check_1 eq "_") {
+   $pred_doy = substr($pred, 9, 1);
+ } elsif ($pred_doy_check_2 eq "_") {
+   $pred_doy = substr($pred, 9, 2);
+ } else {
+   $pred_doy = substr($pred, 9, 3);
+ }
+ #print "$pred_doy\n";
+ $pred_date = `doy2date $pred_year $pred_doy`;
+ $pred_day = substr ($pred_date, -3, 2);
+ $pred_month = substr ($pred_date, 5, 2);
+ use Date::Calc qw(Delta_Days);
+ @pred_date = ($pred_year, $pred_month, $pred_day);
+ $pred_diff = Delta_Days(@pred_date, @date);
+ if ($pred_diff <= 8) {
+   push (@pred_orb_wk, $pred);
+ } else {
+   last;
+ }
+ #print "$pred_diff\n";
+}
+#print "@pred_orb_wk\n";
+
+### Find any gaps for the predicted orbits
+
+my @pred_gaps;
+my $i;
+my $pred_count =$#pred_orb_wk;
+my $pred_old;
+my @pred_date_old;
+my $pred_diff_gaps;
+
+foreach $i (0..$pred_count) {
+ $pred = pop(@pred_orb_wk);
+ $pred_doy_check_1 = substr($pred, 10, 1);
+ $pred_doy_check_2 = substr($pred, 11, 1);
+ $pred_year = substr($pred, 4, 4);
+ if ($pred_doy_check_1 eq "_") {
+   $pred_doy = substr($pred, 9, 1);
+ } elsif ($pred_doy_check_2 eq "_") {
+   $pred_doy = substr($pred, 9, 2);
+ } else {
+   $pred_doy = substr($pred, 9, 3);
+ }
+ $pred_date = `doy2date $pred_year $pred_doy`;
+ $pred_day = substr ($pred_date, -3, 2);
+ $pred_month = substr ($pred_date, 5, 2);
+ $pred =~ s/\n//g;
+ if ($i == 0) {
+   @pred_date_old = ($pred_year, $pred_month, $pred_day);
+   $pred_old = $pred;
+   next;
+ }
+ use Date::Calc qw(Delta_Days);
+ @pred_date = ($pred_year, $pred_month, $pred_day);
+ $pred_diff_gaps = Delta_Days(@pred_date_old, @pred_date);
+ #print "$pred_diff_gaps\n";
+ if ($pred_diff_gaps > 1) {
+   push(@pred_gaps, "There are gaps between $pred_old and $pred.\n");
+ }
+ @pred_date_old = @pred_date;
+ $pred_old = $pred;
+}
+
+#print "@pred_gaps\n";
+
+### Finds last 8 days of definitive orbits
+
+my $def_doy;
+my $def;
+my $def_year;
+my @def_date;
+my $def_diff;
+my $def_date;
+my $def_day;
+my $def_month;
+my $def_doy_check_1;
+my $def_doy_check_2;
+my @def_orb_wk;
+
+foreach $element (@def_list) {
+ $def = pop(@def_list);
+ $def_doy_check_1 = substr($def, 10, 1);
+ $def_doy_check_2 = substr($def, 11, 1);
+ $def_year = substr($def, 4, 4);
+ if ($def_doy_check_1 eq "_") {
+   $def_doy = substr($def, 9, 1);
+ } elsif ($def_doy_check_2 eq "_") {
+   $def_doy = substr($def, 9, 2);
+ } else {
+   $def_doy = substr($def, 9, 3);
+ }
+ #print "$def_doy\n";
+ $def_date = `doy2date $def_year $def_doy`;
+ $def_day = substr ($def_date, -3, 2);
+ $def_month = substr ($def_date, 5, 2);
+ use Date::Calc qw(Delta_Days);
+ @def_date = ($def_year, $def_month, $def_day);
+ $def_diff = Delta_Days(@def_date, @date);
+ if ($def_diff <= 8) {
+   push (@def_orb_wk, $def);
+ } else {
+   last;
+ }
+ #print "$def_diff\n";
+}
+#print "@def_orb_wk\n";
+
+### Find any gaps for the definitive orbits
+
+my @def_gaps;
+my $def_count =$#def_orb_wk;
+my $def_old;
+my @def_date_old;
+my $def_diff_gaps;
+
+foreach $i (0..$def_count) {
+ $def = pop(@def_orb_wk);
+ $def_doy_check_1 = substr($def, 10, 1);
+ $def_doy_check_2 = substr($def, 11, 1);
+ $def_year = substr($def, 4, 4);
+ if ($def_doy_check_1 eq "_") {
+   $def_doy = substr($def, 9, 1);
+ } elsif ($def_doy_check_2 eq "_") {
+   $def_doy = substr($def, 9, 2);
+ } else {
+   $def_doy = substr($def, 9, 3);
+ }
+ $def_date = `doy2date $def_year $def_doy`;
+ $def_day = substr ($def_date, -3, 2);
+ $def_month = substr ($def_date, 5, 2);
+ $def =~ s/\n//g;
+ if ($i == 0) {
+   @def_date_old = ($def_year, $def_month, $def_day);
+   $def_old = $def;
+   next;
+ }
+ use Date::Calc qw(Delta_Days);
+ @def_date = ($def_year, $def_month, $def_day);
+ $def_diff_gaps = Delta_Days(@def_date_old, @def_date);
+ #print "$def_diff_gaps\n";
+ if ($def_diff_gaps > 1) {
+   push(@def_gaps, "There are gaps between $def_old and $def.\n");
+ }
+ @def_date_old = @def_date;
+ $def_old = $def;
+}
+
+#print "@def_gaps\n";
+
+### Check to make sure predicted orbit is up to date
+
+use Date::Calc qw(Delta_Days);
+$pred_diff = Delta_Days(@pred_date, @date);
+#print "@pred_date\n";
+#print "$pred_diff\n";
+my @pred_error;
+if ($pred_diff > 0) {
+  @pred_error = "The almanac has fallen behind.  The last predicted orbit was \
+$pred. That orbit occurred on $pred_year/$pred_month/$pred_day.";
+}
+#print "@pred_error\n";
+
+### Check to make sure definitive orbit is not too far behind
+use Date::Calc qw(Delta_Days);
+$def_diff = Delta_Days(@def_date, @date);
+#print "@def_date\n";
+#print "$def_diff\n";
+my @def_error;
+if ($def_diff > 2) {
+  @def_error = "The almanac has fallen behind.  The last definitive orbit was \
+$def. That orbit occurred on $def_year/$def_month/$def_day.";
+}
+#print "@def_error\n";
+
+### Put it all together and e-mail archive master if there is a problem
+
+my $count_pred_gaps = $#pred_gaps+1;
+my $count_def_gaps = $#def_gaps+1;
+my $count_pred_error = $#pred_error+1;
+my $count_def_error = $#def_error+1;
+
+my @email_contents;
+
+if ($count_pred_error >= 1) {
+  push(@email_contents, "Predicted Orbit:\n@pred_error\n\n");
+}
+
+if ($count_pred_gaps >= 1) {
+  push(@email_contents, "Predicted Orbit:\n @pred_gaps\n");
+}
+
+if ($count_def_error >= 1) {
+  push(@email_contents, "Definitive Orbit:\n @def_error\n");
+}
+
+if ($count_def_gaps >= 1) {
+  push(@email_contents, "Definitive Orbit:\n @def_gaps\n");
+}
+#print "@email_contents\n";
+
+my $count_email_contents = $#email_contents+1;
+
+if ($count_email_contents >= 1) {
+  open(SENDMAIL, "|/usr/lib/sendmail -oi -t")
+   	or die "Can't open sendmail: $!\n";
+  print SENDMAIL "From: Almanac <noreply\@sunspot.ssl.berkeley.edu>\n";
+  print SENDMAIL "To: $email\n";
+  print SENDMAIL "Subject: Almanac Errors\n";
+  print SENDMAIL "Predicted Orbit:\n";
+  print SENDMAIL "@pred_error\n";
+  print SENDMAIL "@pred_gaps\n";
+  print SENDMAIL "Definitive Orbit:\n";
+  print SENDMAIL "@def_error\n";
+  print SENDMAIL "@def_gaps\n";
+  close (SENDMAIL)	or warn "SENDMAIL did not close properly";
+}

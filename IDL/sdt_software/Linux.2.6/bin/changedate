@@ -1,0 +1,116 @@
+#!/usr/bin/ksh
+
+# changedate
+# $1 is intercept's proccess number
+
+# check and if needed create a Transmission Quality Report (TQR)
+
+while [[ -a $TQRLOCK ]]
+do
+	echo $1: changedate sleeping 60 for $(cat $TQRLOCK)
+	sleep 60
+done
+
+# create lock file before running changedate and tqrcreate
+
+echo $1 > $TQRLOCK
+
+host=$(hostname)
+if [[ $host = $FINETPRIMARY ]]
+then
+	hostfilecontent=$(rsh $DANETHOST cat $HOSTDOWN)
+	if [[ $hostfilecontent != "" ]]
+	then
+		rsh $DANETHOST echo > $HOSTDOWN
+		if rcp $FINETBACKUP:$CURRENTREPORT $CURRENTREPORT
+		then
+			echo $1: $CURRENTREPORT copied from $FINETBACKUP to $FINETPRIMARY
+		fi
+		if rcp $FINETBACKUP:$NEWWEEK $NEWWEEK
+		then
+			echo $1: $NEWWEEK copied from $FINETBACKUP to $FINETPRIMARY
+		fi
+		if rcp $FINETBACKUP:$DATEFILE $DATEFILE
+		then
+			echo $1: $DATEFILE copied from $FINETBACKUP to $FINETPRIMARY
+		fi
+		if rcp $FINETBACKUP:$RECFILES $RECFILES
+		then
+			echo $1: $RECFILES copied from $FINETBACKUP to $FINETPRIMARY
+		fi
+		if rcp $FINETBACKUP:$QQFILE $QQFILE
+		then
+			echo $1: $QQFILE copied from $FINETBACKUP to $FINETPRIMARY
+		fi
+	fi
+else
+	echo $1: !!!! $FINETPRIMARY might be down !!!!!
+	echo $1: Running on $host
+	rsh $DANETHOST echo $FINETPRIMARY is down > $HOSTDOWN
+fi
+
+#newweek=$LOGDIR/newweek
+WeekDay=$(date | awk '{print $1}')
+Month=$(date | awk '{print $2}')
+Day=$(date | awk '{print $3}')
+if [[ $Day < 10 ]]
+then
+	Day=0$Day
+fi
+Year=$(date | awk '{print $6}')
+new=$(cat $NEWWEEK)
+
+if [[ $new = "Old week" ]]
+then
+	if [[ $WeekDay = "Mon" ]]
+	then
+		echo $1: Time to crete new TQR report. Creating...>> $LOGFILE
+		CurrentReportFile=$(cat $CURRENTREPORT)
+		$BINPATH/tqrcreate $1 >> $LOGFILE 2>&1
+		date | awk '{print $2, $3 ",", $6}' > $DATEFILE
+#		mv $LOGDIR/$CurrentReportFile $WORKDIR/$CurrentReportFile
+		echo tqr$Month$Day$Year > $CURRENTREPORT
+		echo New week > $NEWWEEK
+		rm $QQFILE
+		echo 0 > $RECFILES
+		echo $1: -- TQR report created -- >> $LOGFILE
+		if [[ $host = $FINETPRIMARY ]]
+		then
+			if rcp $CURRENTREPORT $FINETBACKUP:$CURRENTREPORT
+			then
+				echo $1: $CURRENTREPORT copied from $FINETPRIMARY to $FINETBACKUP
+			fi
+			if rcp $NEWWEEK $FINETBACKUP:$NEWWEEK
+			then
+				echo $1: $NEWWEEK copied from $FINETPRIMARY to $FINETBACKUP
+			fi
+			if rcp $DATEFILE $FINETBACKUP:$DATEFILE
+			then
+				echo $1: $DATEFILE copied from $FINETPRIMARY to $FINETBACKUP
+			fi
+			if rcp $RECFILES $FINETBACKUP:$RECFILES
+			then
+				echo $1: $RECFILES copied from $FINETPRIMARY to $FINETBACKUP
+			fi
+			if rsh  $FINETBACKUP rm $QQFILE
+			then
+				echo $1: $QQFILE removed from $FINETBACKUP -normal-
+			fi
+		fi
+	fi
+elif [[ $WeekDay != "Mon" ]]
+then
+	echo Old week > $NEWWEEK
+	if [[ $host = $FINETPRIMARY ]]
+	then
+		if rcp $NEWWEEK $FINETBACKUP:$NEWWEEK
+		then
+			echo $1: $NEWWEEK copied from $FINETPRIMARY to $FINETBACKUP
+		fi
+	fi
+fi 
+
+rm $TQRLOCK
+
+
+

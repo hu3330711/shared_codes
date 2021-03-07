@@ -1,0 +1,368 @@
+************************************************************************
+
+   README.General.UCB.wt.running_avg_scalar_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.running_avg_scalar_002
+
+************************************************************************
+
+   Running average for scalar.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.running_avg_scalar_002	1.2    08/12/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a running average for a single
+       scalar quantity.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The input for the scalar to be averaged.
+
+
+
+
+
+    3) The user can choose the number N of input data points to be
+       averaged.
+
+
+
+
+
+    4) For an output data point to be produced, it is required that
+       there be N consecutive input data points, with no time gaps.
+
+
+
+
+
+    5) Absence of data gaps means that the time between consecutive
+       input data points is close to a constant time separation.
+
+
+
+       In other words, the N input data points to be averaged must all
+       be consecutive input data points of the same time series skein,
+       within a time series regime with consistent sampling rate.
+
+
+
+
+
+    6) For the scalar input to be averaged, there is the option of
+       specifying limits and ignoring data values beyond the limits.
+
+
+
+
+
+    7) When there are N consecutive input data points with no time gaps,
+       the output value is determined.
+
+
+
+       The output value is computed as the average of the N input data
+       values.
+
+
+
+
+
+    8) The time tag for the output data point is the average of the time
+       tags of the first and the last input data points in the average.
+
+
+
+
+
+    9) For an output data point to be produced, the entire set of N
+       input data points must fit within the total time interval being
+       processed.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of input data points per average.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) The group of parameters described here occurs once for
+               the input scalar value.
+
+
+
+                1) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                2) Lower limit.
+
+
+                   Double.
+
+
+
+                3) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then
+               the lower limit  must be  <=  the upper limit.
+
+
+
+                4) Input component index.
+
+
+                   Int.
+
+
+
+            4) i_nskips.
+
+
+               Int.
+
+
+               Parameter for sampling history.
+
+
+
+            5) i_consist.
+
+
+               Int.
+
+
+               Parameter for sampling history.
+
+
+
+            6) i_srate_fuzz.
+
+
+               Double.
+
+
+               Parameter for sampling history.
+
+
+
+            7) i_max_t_diff.
+
+
+               Double.
+
+
+               Parameter for sampling history.
+
+
+
+            8) i_min_pts.
+
+
+               Int.
+
+
+               Parameter for sampling history.
+
+
+
+            9) i_show_only_consistent.
+
+
+               Int.
+
+
+               Parameter for sampling history.
+
+
+
+           10) i_hist_alg_code.
+
+
+               Int.
+
+
+               Parameter for sampling history.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input to be averaged.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional component for the value of the scalar.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Value of the output scalar.
+
+
+               Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+           None.

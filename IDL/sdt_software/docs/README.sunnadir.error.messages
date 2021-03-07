@@ -1,0 +1,745 @@
+****************************************************************
+
+       README.sunnadir.error.messages
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the sunnadir program.
+
+****************************************************************
+
+       @(#)README.sunnadir.error.messages	1.3    08/22/97    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Introduction.
+
+       2. General Remarks.
+
+       3. List of Error Messages.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Introduction.
+
+
+
+
+               The purpose of the sunnadir program is to create
+       memory load files for the FAST satellite.
+
+               These files are uploaded to the satellite, where
+       they are used by software that controls instruments.
+
+               The information contained in these files concerns
+       the orientation of the spacecraft with respect to the
+       Earth and the Sun; this, plus horizon sensor data, makes
+       it possible to generate "pseudo Sun pulses" when the
+       spacecraft is in shadow.
+
+
+
+               This documentation file describes the more
+       probable error messages that can arise during a run.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. General Remarks.
+
+
+
+
+               Each error message consists of 3 parts:
+
+
+        1) The name of the source code file containing the
+           function or module issuing the message.
+
+        2) A source code line number.
+
+        3) A description of the error.
+
+
+
+               Sometimes an error message may be accompanied by
+       one or more other error messages.
+
+
+
+               When several courses of action are suggested for
+       an error, they can be tried one at a time.
+
+
+
+               Note that the list of error messages that follows
+       does not include source code line numbers.
+
+               Also, the list shows function name, rather than
+       source code file name.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. List of Error Messages.
+
+
+
+
+       Function:    SnDetAtt
+
+       Description: Error loading predicted attitude file
+
+       Comment:     An error occurred while trying to load into
+                    memory the data from the Attitude Prediction
+                    file.
+
+       What to do:  Make sure the Attitude Prediction file
+                    exists, and has valid contents.
+
+                    Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+
+
+
+       Function:    SnDetAtt
+
+       Description: Not enough attitude data
+
+       Comment:     The attitude needs to be determined for a
+                    time outside the range of the Attitude
+                    Prediction file.
+
+       What to do:  Make sure the Attitude Prediction file
+                    covers the time interval, defined by: the
+                    User Start Time specified on the program
+                    command line, and the Duration for
+                    calculations specified in the Configuration
+                    file.
+
+
+
+
+       Function:    SnDetPeriod
+
+       Description: Not enough orbit data
+
+       Comment:     The initial ephemeris angle Gamma0 is not
+                    found in the Orbit Data Table; or the number
+                    of orbit periods and/or ephemeris table
+                    elements that can be set is too small for
+                    calculations.
+
+       What to do:  Make sure the Orbit file covers the correct
+                    time interval, defined by: the User Start
+                    Time specified on the program command line,
+                    and the Duration for calculations specified
+                    in the Configuration file.
+
+                    Change in the Configuration file: the time
+                    resolution for the ephemeris, to a smaller
+                    value.
+
+
+
+
+       Function:    SnDetShTime
+
+       Description: Offset for Shadow End Time is too large
+
+       Comment:     The Shadow End Time must be smaller than the
+                    time span for an orbit period.
+
+       What to do:  Change in the Configuration file: the offset
+                    for the Shadow End Time, to a value of
+                    smaller absolute magnitude.
+
+                    Change in the Configuration file: the number
+                    of elements for the ephemeris table, to a
+                    larger value.
+
+
+
+
+       Function:    SnDetShTime
+
+       Description: Offset for Shadow Start Time is too large
+
+       Comment:     The Shadow Start Time must be positive.
+
+       What to do:  Change in the Configuration file: the offset
+                    for the Shadow Start Time, to a value of
+                    smaller absolute magnitude.
+
+                    Change in the Configuration file: the value
+                    of Gamma0, to an angle farther from zero
+                    degrees.
+
+
+
+
+       Function:    SnDetShTime
+
+       Description: Offsets for Shadow Time cause inconsistency
+
+       Comment:     The Shadow End Time must be larger than the
+                    Shadow Start Time.
+
+       What to do:  Check if the program has been changed to
+                    allow offsets for the Shadow Times of the
+                    wrong signs.
+
+                    Change in the Configuration file: the
+                    offsets for the Shadow Times, to values of
+                    smaller absolute magnitude.
+
+
+
+
+       Function:    SnDetShTime
+
+       Description: Spacecraft enters shadow but does not exit
+
+       Comment:     The spacecraft remains in shadow at the end
+                    of the span of an orbit period.
+
+       What to do:  Change in the Configuration file: the number
+                    of elements for the ephemeris table, to a
+                    larger value.
+
+
+
+
+       Function:    SnDetShTime
+
+       Description: Time for initial ephemeris angle is in
+                    shadow
+
+       Comment:     The spacecraft is in shadow at a time when
+                    the angle Gamma is equal to the initial
+                    ephemeris angle Gamma0 specified in the
+                    Configuration file.
+
+       What to do:  Change in the Configuration file: the value
+                    of Gamma0, to an angle farther from zero
+                    degrees.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Duration for ephemeris
+                    computation
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Effective Earth radius
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Initial ephemeris angle
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Number of Upload Windows
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Number of table elements
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Offset for Shadow End Time
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Offset for Shadow Start Time
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Offset for Upload Window End
+                    Time
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Offset for Upload Window Start
+                    Time
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Shadow Object if there is no
+                    shadow
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Shadow Object if there is
+                    shadow
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Time resolution for ephemeris
+                    table
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Bad input for Time resolution for orbit data
+
+       Comment:     The Configuration file contains an invalid
+                    value.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Error closing configuration file
+
+       Comment:     The Configuration file could not be closed.
+
+       What to do:  Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Error opening configuration file
+
+       Comment:     The Configuration file could not be opened.
+
+       What to do:  Make sure the Configuration file exists.
+
+
+
+
+       Function:    SnPrdCfgVals
+
+       Description: Unrecognized label in configuration file
+
+       Comment:     The Configuration file contains an invalid
+                    label.
+
+       What to do:  Correct the contents of the Configuration
+                    file.
+
+
+
+
+       Function:    SnPrdEphTab
+
+       Description: Delta gamma values are too large
+
+       Comment:     The difference between values of the angle
+                    Gamma for the same table element for
+                    successive periods is too large for
+                    calculations.
+
+       What to do:  Make sure the spacecraft spin vector is not
+                    pointing directly at either the Sun or the
+                    Earth (or pointing directly away from either
+                    one).
+
+
+
+
+       Function:    SnPrdEphTab
+
+       Description: Error allocating ephemeris data table
+
+       Comment:     The Ephemeris Data Table could not be
+                    allocated.
+
+       What to do:  Make sure the system has enough memory
+                    available.
+
+
+
+
+       Function:    SnPrdOrbTab
+
+       Description: Error accessing orbit data file
+
+       Comment:     The Orbit file could not be found, or could
+                    not be opened, or could not be closed, or
+                    has invalid contents.
+
+       What to do:  Make sure the Orbit file exists, and has
+                    valid contents.
+
+
+
+
+       Function:    SnPrdOrbTab
+
+       Description: Error allocating orbit data table
+
+       Comment:     The Orbit Data Table could not be allocated.
+
+       What to do:  Make sure the system has enough memory
+                    available.
+
+
+
+
+       Function:    SnPrdOrbTab
+
+       Description: Not enough orbit data
+
+       Comment:     The number of elements set in the Orbit Data
+                    Table is insufficient for calculations.
+
+       What to do:  Make sure the Orbit file covers the correct
+                    time interval, defined by: the User Start
+                    Time specified on the program command line,
+                    and the Duration for calculations specified
+                    in the Configuration file.
+
+
+
+
+       Function:    SnPrdOrbTab
+
+       Description: Time resolution for orbit data too large
+
+       Comment:     The difference between successive values of
+                    the angle Gamma in the Orbit Data Table is
+                    too large for interpolation.
+
+       What to do:  Change in the Configuration file: the time
+                    resolution for the orbit data, to a smaller
+                    value.
+
+
+
+
+       Function:    SnPrdScpFile
+
+       Description: Error closing Spacecraft Packet file
+
+       Comment:     The Spacecraft Packet file could not be
+                    closed.
+
+       What to do:  Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+
+
+
+       Function:    SnPrdScpFile
+
+       Description: Error opening Spacecraft Packet file
+
+       Comment:     The Spacecraft Packet file could not be
+                    opened.
+
+       What to do:  Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+                    Check if an attempt is being made to create
+                    a file, whose name is specified on the
+                    program command line, in a directory where
+                    there is no "write" permission.
+
+
+
+
+       Function:    SnPutUplWin
+
+       Description: Upload time offsets cause inconsistency
+
+       Comment:     For all Upload Windows, the End Time must be
+                    at least a set value larger than the Start
+                    Time.
+
+       What to do:  Change in the Configuration file: the
+                    offsets for the Upload Window Times, to
+                    values of smaller absolute magnitude.
+
+
+
+
+       Function:    SnWriteLine
+
+       Description: Error writing Spacecraft Packet file
+
+       Comment:     An error occurred when writing a line to the
+                    Spacecraft Packet file.
+
+       What to do:  Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error determining the orbital period
+
+       Comment:     An error occurred while determining the
+                    Orbital Period.
+
+       What to do:  Check accompanying messages.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error determining the shadow times
+
+       Comment:     An error occurred while determining the
+                    Shadow Times.
+
+       What to do:  Check accompanying messages.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error freeing the allocated memory
+
+       Comment:     An error occurred while freeing memory that
+                    had been allocated for tables.
+                    The Spacecraft Packet file produced is valid
+                    despite this error.
+
+       What to do:  Check if the program has been changed.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error opening report file
+
+       Comment:     The Archive file, Log file, or User Messages
+                    file could not be opened.
+
+       What to do:  Find out if the system is working properly,
+                    and if there is any problem with the disk.
+
+                    Check if an attempt is being made to create
+                    a file, whose name is specified on the
+                    program command line, in a directory where
+                    there is no "write" permission.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error processing User Start Time
+
+       Comment:     The User Start Time could not be converted
+                    to a normalized form, or formatted for
+                    output.
+
+       What to do:  Use a valid date and time for the User Start
+                    Time.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error processing command line arguments
+
+       Comment:     The command line for the run does not
+                    conform to all the program usage
+                    requirements.
+
+       What to do:  Use a correct command line.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error processing configuration file values
+
+       Comment:     The Configuration file could not be found,
+                    or could not be opened, or could not be
+                    closed, or has invalid contents.
+
+       What to do:  Make sure the Configuration file exists, and
+                    has valid contents.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error producing the Spacecraft Packet file
+
+       Comment:     An error occurred while creating the
+                    Spacecraft Packet file.
+
+       What to do:  Check accompanying messages.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error producing the ephemeris data table
+
+       Comment:     An error occurred while creating the
+                    Ephemeris Data Table.
+
+       What to do:  Check accompanying messages.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error producing the orbit data table
+
+       Comment:     An error occurred while creating the Orbit
+                    Data Table.
+
+       What to do:  Check accompanying messages.
+
+
+
+
+       Function:    sunnadir
+
+       Description: Error reporting the ephemeris table values
+
+       Comment:     An error occurred while reporting the
+                    Ephemeris Data Table values in the Archive
+                    file.
+
+       What to do:  Check if the program has been changed.

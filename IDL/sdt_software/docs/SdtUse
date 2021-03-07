@@ -1,0 +1,1475 @@
+
+Use of SDT:
+----------
+
+This file is called:   SdtUse
+and is available in the "docs" sub-directory of your local SDT
+installation.
+
+
+Basic Information:
+-----------------
+
+The program operates in one of three modes:
+
+    Data Analysis
+    Realtime
+    Batch
+
+and currently supports data from the following sources:
+
+    CRRES          (Data Analysis, Batch only)
+    GEOTAIL-EFD    (Data Analysis, Batch only)
+    ISEE           (Data Analysis, Batch only)
+    POLAR-EFI      (Data Analysis, Batch only)
+    FAST           (Data Analysis, Batch and Realtime)
+
+
+
+In "Realtime" mode, the program currently selects one of three sources:
+
+   a.  The local network (via UDP packets)
+   b.  TCP-Internet
+   c.  FAST PDU-format file on disk
+
+Note that a) and b) are only useful during FAST campaign or spacecraft
+testing.
+
+The main difference between "Realtime" and "Data Analysis" modes is
+that Realtime uses circular data buffers for storing data.  This, of
+course, is necessary because of the amounts of data involved.  However,
+it's disadvantage is that there is no "history" in the data buffers -
+when the buffers wrap, old data is lost.
+
+Another difference between "Realtime" and "Data Analysis" is that
+Realtime automatically pans as data comes in.  For instance, if
+you are currently viewing on a 10 second time span, the first time
+that one of your plots crosses the next 10 second time boundary, the
+time scale shown will pan to the next 10 second interval.  Currently
+Realtime mode displays in "wrap" mode, where the data just starts
+plotting over the old data (with a small blank ahead to avoid
+confusion).  Some scientists prefer scroll mode where the whole
+frame is moved to the left by some percentage of the screen when
+a plot reaches the right edge.  This will be implemented later.
+
+
+
+Data Analysis mode uses linear buffers and stores everything for
+a given time period.  However, some care must be taken so that the
+combination of requested quantities and time span does not require
+more memory than the OS can handle.  The advantage of this mode
+is that you can zoom and pan around at will, inside the initial time
+period that was requested.
+
+
+
+Batch use of SDT is described in the document:
+
+    BatchUse
+
+which is available in the "docs" sub-directory of your local SDT
+installation.  Note that "Batch" use of SDT is only sensible in
+the "Data Analysis" sense.
+
+
+
+Another concept in the program is that of "Configurations".  These
+are, in fact, nothing more than ASCII disk files which store the
+names of plots and time period that the user has utilized before.
+In this way, the user can call up a "configuration" without having
+to create it every time from the beginning.  Currently, SDT
+configurations are stored in files named:
+
+   UIcfg.cname
+
+where "cname" is the name chosen by the user for this configuration.
+
+NOTE:  There are occasions in this document when reference is made to
+       you local SDT configuration and/or installation.  There are
+       a number of files that are needed to "configure" SDT for
+       general use.  Do not confuse these files with the "Configuration"'s
+       mentioned in the immediately preceding paragraphs.  Hopefully,
+       in the various places where configuration files are mentioned,
+       it is clear whether reference is to the above configurations
+       (sometimes called "plot configurations") or to files that are
+       used directly by SDT and its various decommutators for general
+       setup.
+   
+
+
+Some Configuration Notes:
+-------------------------
+
+SDT requires shared-memory to run efficiently and in order to successfully
+run the program on a machine, that machine must be configured to support
+shared-memory.   On Solaris (Sparc and PC), the system file:
+
+    /etc/system
+
+must be edited (by "root") to append the following lines:
+
+    set shmsys:shminfo_shmmax=80000000
+    set shmsys:shminfo_shmmni=200
+    set shmsys:shminfo_shmseg=200
+
+This allows the machine to support up to 200 shared-memory segments at
+any one time, the machine size of a segment being 80 MBytes.   For
+those of you with large memory (256 MBytes or greater) and and should
+probably allow a maximum of 150 MBytes for large FAST quantities.  To
+do that, you should replace the first line above with:
+
+    set shmsys:shminfo_shmmax=150000000
+
+After editing "/etc/system", the machine must be rebooted in order
+to enable shared-memory.
+
+
+Certain aspects of "sdt" can be modified, from their default values,
+via ASCII configuration files.  Following is a list of some of the
+more important configuration issues:
+
+   sdt:   The main user interface (and batch version) can be configured
+	  by use of these two files:
+
+	       UI.Config.dat
+	       UI.Source.dat
+
+          The program chooses which directory to read these files from
+	  in the following order:
+
+	      1.   ./    (i.e. the directory from which you started sdt)
+
+	      2.   $FASTCONFIG/sdt_cfg
+
+	      3.   $FASTLIB/sdt_cfg
+
+          For instance, if 
+	  
+	      $FASTCONFIG/sdt_cfg/UI.Config.dat
+
+	  exists (and not ./UI.Config.dat) but neither
+
+	      ./UI.Source.dat  or  $FASTCONFIG/sdt_cfg/UI.Source.dat
+
+	  exists, then these files will be used:
+
+	       $FASTCONFIG/sdt_cfg/UI.Config.dat
+
+	       $FASTLIB/sdt_cfg/UI.Source.dat
+
+
+	  Here is what you can set in these files:
+
+	      UI.Config.dat:  
+	      
+		  The first non-blank line of this file, except for 
+		  comments (lines with * in the first column) has
+		  the text:
+
+		      @ { ConfigDescription
+
+                  You should never edit this line.
+
+
+		  The second line usually starts like:
+
+		      'PLT_REMOTE' 'PLT_POSTSCRIPT' 'PLT_SIZE_A' ...
+
+		  This line contains default printer, and other
+		  hardcopy attributes.  Here are the fields that
+		  you may want to change:
+
+
+
+                    field   default:
+		      2       PLT_POSTSCRIPT
+
+		       This indicates the type of output that you want
+		       SDT to default to for hardcopy output.  Since
+		       most sites have PostScript printers, the default
+		       is set to PostScript.   The other types of
+		       supported hardcopy are:
+
+			   PLT_COLOR_POSTSCRIPT
+			   PLT_COLOR_POSTSCRIPT_L2
+			   PLT_GIF
+			   PLT_COLOR_GIF
+
+                       The difference between PLT_COLOR_POSTSCRIPT
+		       and PLT_COLOR_POSTSCRIPT_L2 is that Level 2
+		       PostScript allows for compact Color images
+		       which allows generation of much smaller and
+		       fast output files for color than PostScript
+		       Level 1.   Unfortunately, not all PostScript
+		       Color printers support Level 2, so both
+		       types are available.  If your Color PostScript
+		       printer supports Level 2, your are strongly
+		       urged to use PLT_COLOR_POSTSCRIPT_L2.
+
+		       You can also print color to PLT_POSTSCRIPT,
+		       but the results are not very useful.
+
+
+
+                    field   default:
+		      3       PLT_SIZE_A
+
+		       The paper size of your default printer. The
+		       other options are:
+
+			   PLT_SIZE_B
+			   PLT_SIZE_C
+			   PLT_SIZE_D
+			   PLT_SIZE_E
+			   PLT_SIZE_A4
+			   PLT_SIZE_A3
+			   PLT_SIZE_A2
+			   PLT_SIZE_A1
+			   PLT_SIZE_A0
+
+		       A-E are US paper sizes, A4-A0 are European
+		       paper sizes.
+
+		       Note that:
+			   8.5 X 11 is PLT_SIZE_A.
+			   11 X 17  is PLT_SIZE_B
+
+
+
+                    field   default:
+		      4       PLT_PORTRAIT
+
+		       The default orientation for your hardcopy
+		       output.  The other options are:
+
+			   PLT_LANDSCAPE
+
+
+
+                    field   default:
+		      5       lp
+
+		       The name of your default printer.  If "lp" is
+		       not the name of the printer that you wish to
+		       use, change this field to the name of the
+		       printer of choice.
+
+
+
+                    field   default:
+		      6       Plot.out
+
+		       The default name of hardcopy output files, when
+		       you decide to send hardcopy to a file instead
+		       of a printer.  You can change this to any
+		       reasonable filename (don't use embedded blanks).
+
+
+
+                    Field "8" should also be mentioned as it indicates
+		    the number of lines following line 2 which contain
+		    the list of directories from which sdt plot
+		    "configurations" can be used.  See the very next
+		    paragraph.
+
+
+		  The third line begins the list of directories from which
+		  sdt "configurations" can be read.   The number of these
+		  is the last field in the first line of
+		  "ConfigDescription" (with value, say, of "n"), followed
+		  by "n" directories, one per line.
+
+
+                  Other lines:
+
+		  You can indicate that all science modules should use
+		  mmapped-memory instead of shared-memory by placing the
+		  line:
+
+		      SCM_Use_MMapped
+
+                  somewhere after the line containing the "5000000" entry,
+		  before the closing brace for "ConfigDescription".
+
+
+		  As of September 1997, SDT will, when possible, save
+		  pixel images of fully-zoomed plots and use these for
+		  fast redraws whenever appropriate.  If for some reason
+		  (XTerminal??) you do not want this feature, it can
+		  be turned OFF by including the line:
+
+		      NoPlotImages
+
+                  somewhere after the line containing the "5000000" entry,
+		  but before the closing brace for "ConfigDescription".
+
+
+		  As of September 2000, SDT will not allow the user to
+		  create a new FAST Realtime Window, UNLESS the following
+		  line:
+
+		      EnableFastRealtimeWindows
+
+                  is included somewhere after the line containing the
+		  "5000000" entry, before the closing brace for
+		  "ConfigDescription".
+
+
+	      UI.Source.dat:  
+
+		  You probably don't want to touch this - the only thing
+		  that you can do is turn off various decommutors by
+		  "commenting-out" certain lines.  For instance, if
+		  "Geotail" has an entry in the file, and you want
+		  it to be ignored, then change the entry:
+
+		      @ { SourceDescription
+			 'GEOTAIL Decommutator' 'GEOTAIL_RPC_PROG' 1
+			 '$(FASTBIN)/EfdDcom'
+			 'GEOTAIL_SPACECRAFT'
+			 }
+
+		  to:
+
+		      * @ { SourceDescription
+			 'GEOTAIL Decommutator' 'GEOTAIL_RPC_PROG' 1
+			 '$(FASTBIN)/EfdDcom'
+			 'GEOTAIL_SPACECRAFT'
+			 }
+	 
+
+   dqh:   The Data Quantity Handler (DQH) has the configuration file:
+
+	      dqh.cfg
+
+          The program chooses the directory from which to read this
+	  file in the following order:
+
+	      1.   Your current working directory when you invoked
+		   sdt (that is "./").
+
+	      2.   $FASTCONFIG/sdt_cfg
+
+	      3.   $FASTLIB/sdt_cfg
+
+          If    ./dqh.cfg    exists, then it will be used.
+	  
+	  Otherwise, if    $FASTCONFIG/sdt_cfg/dqh.cfg    exists,
+	  it will be used.
+
+	  As a last resort,   $FASTLIB/sdt_cfg/dqh.cfg  will be used.
+
+	  The only parameter of interest in this file is the
+
+	     MMAP_DIRECTORY_LIST:
+
+           entry.   This lists the directories (one per line) where
+	   mmapped-memory (if used at all), will be generated.  The
+	   first entry in the list will always be used until the file
+	   system it resides in runs out of space.  Then the next
+	   entry will be used, etc.  It is very important that
+	   directories in this list belong to file systems that have
+	   significant amounts of free space.  A rough guess is that
+	   200 MBytes would be a minimum amount of available disk
+	   space.
+
+
+
+   Decommutators: 
+
+       Polar: 
+
+          Will use one of:
+
+	      1.  ./polar.cfg
+	      2.  $FASTCONFIG/sdt_cfg/polar/polar.cfg
+	      3.  $FASTLIB/sdt_cfg/polar/polar.cfg
+
+          in that order.
+
+          These are the most important sections of "polar.cfg":
+
+	      1.   MEMORY_TYPE
+
+		     0 -> shared-memory for sdt data usage
+		     1 -> mmapped-memory for sdt data usage
+
+                     If "mmapped-memory" is to be used, it will be
+		     created in the location specifed in the "dqh.cfg"
+		     file.
+
+	      2.   As of July 1999, the Polar Decommutator will use
+		   the UCLA MFE timing tables to time-tag the Mag data.
+		   If UCLA timing information does not exist for a
+		   requested day, the Berkeley timing of Mag data will
+		   be used.   If you want to always use the Berkeley
+		   timing, you should include the line:
+
+		       UseSslMfeTiming
+
+                   inside "polar.cfg"
+
+	      2.   DATA_DIRECTORY_LIST
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find data
+		     for the "File Select" button.
+
+	      3.   CountDirectories
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find "count"
+		     files.  To be decoded properly each data set
+		     should have a corresponding count file.
+
+	      4.   ComputedDataDirectories
+
+		     This lists all of the directories where the
+		     pre-computed data files for Polar EFI can be
+		     found.
+
+	      5.   BurstHistoryDataDirectories
+
+		     This lists all of the directories where the
+		     Polar EFI Burst History files will be stored.
+		     As of July 1999, the Polar Decommutator uses
+		     this information, if available, to determine
+		     where to get playbacks for all bursts that
+		     occur in specific timespans.  SDT will also
+		     look in the "CountDirectories" list for these
+		     files.
+
+	      6.   UclaMfeTimingDirectories
+
+		     This lists all of the directories where the
+		     UCLA MFE time-tagging data files are stored.
+		     As of August 1999, the Polar Decommutator uses,
+		     when available, the UCLA MFE timing tables, instead
+		     of the Berkeley time-tags.  If the UCLA tables
+		     are not found, the Berkeley time-tags are used.
+		     SDT will also look in the "CountDirectories" list
+		     for the UCLA files.
+
+          Polar will also read its calibrations from one of:
+
+	      1.  ./PolarEfi.dat
+	      2.  $FASTCONFIG/sdt_cfg/polar/PolarEfi.dat
+	      3.  $FASTLIB/sdt_cfg/polar/PolarEfi.dat
+
+          in that order.
+
+       Fast: 
+
+          Will use one of:
+
+	      1.  ./Fast.cfg  ("./" is your current working directory)
+	      2.  $FASTCONFIG/sdt_cfg/Fast.cfg
+	      3.  $FASTLIB/sdt_cfg/Fast.cfg
+
+          in that order.
+
+          These are the most important fields:
+
+	      1.   MEMORY_TYPE
+
+		     0 -> shared-memory for sdt data usage
+		     1 -> mmapped-memory for sdt data usage
+
+                     If "mmapped-memory" is to be used, it will be
+		     created in the location specifed in the "dqh.cfg"
+		     file.
+
+	      2.   DATA_DIRECTORY_LIST
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find data
+		     for the "File Select" button.
+
+	      3.   By default, packets with CRC errors are not
+		   processed.  You can choose to process packets
+		   without regard to their CRC flags by including,
+		   in the file, the line:
+
+		       IgnoreCRCErrors
+
+		   However, it is NOT recommended for any site except
+		   Berkeley to do so, and then only for debugging
+		   purposes.
+
+	      4.   In addition there are a number of flags indicating
+	           whether or not certain types of data are to be
+	           decompressed or not.  These are (and are self-
+		   expanatory):
+
+		       SesaBurstDecompressData     (default:  1)
+		       SesaSurveyDecompressData    (default:  1)
+		       EiesaBurstDecompressData    (default:  1)
+		       EiesaSurveyDecompressData   (default:  1)
+		       TeamsSurveyDecompressData   (default:  0)
+		       TeamsHMSDecompressData      (default:  0)
+		       TeamsBurstDecompressData    (default:  0)
+		       TeamsPoleDecompressData     (default:  0)
+		       TeamsMRatesDecompressData   (default:  1)
+
+		   As an example:  to have the FAST decommutator
+		   decompress the Teams POLE data, include the line:
+
+		       TeamsPoleDecompressData:   1
+
+                   int the "Fast.cfg" file.
+
+	      5.   There is a flag which indicates where to get the
+		   FAST ephemeris data:
+
+		       UseSybaseForOrbDataIfAvailable   (default:  1)
+
+                   If this flag is set to "1", then the decommutator
+		   will attempt to call the central FAST Data Base
+		   (which uses Sybase) to get ephemeris data.  Note that
+		   this is the default as of 98/05/01.
+
+		   If set to "0", the decommutator will read the local
+		   ephemeris data files, as defined from the file:
+
+		       fast_archive.conf
+
+                   which is looked for in the order of:
+
+	              1.  ./fast_archive.conf
+	              2.  $FASTCONFIG/fast_archive.conf
+	              3.  $FASTLIB/fast_archive.conf
+
+                   Once the version of "fast_archive.conf" is selected
+		   by the decommutator, the line in it beginning with:
+
+		       FAST_ALMANAC
+
+		   defines the name of the directory containing the
+		   attitude and orbit data.  The appropriate files are
+		   used.
+
+		   In order to set up the Fast decommutator NOT to
+		   attempt to use the Fast Data Base, include the line:
+
+		       UseSybaseForOrbDataIfAvailable:   0
+
+		   in the "Fast.cfg" file.
+
+		   One final note - if the Fast Data Base is selected
+		   to be used, the decommutator will, when attempts to
+		   get orbit data from Sybase fail, attempt to get
+		   the data from the local ephemeris data files as
+		   defined in the preceding paragraphs.  This does NOT
+		   work the other way.  If the flag is turned OFF (i.e.
+		   the default is to use the local orbit files), then
+		   a failure to get orbit data locally will not induce
+		   the decommutator to try to use Sybase.
+
+       Geotail: 
+
+          Will use one of:
+
+	      1.  $FASTCONFIG/sdt_cfg/geotail/geotail.cfg
+	      2.  $FASTLIB/sdt_cfg/geotail/geotail.cfg
+
+          in that order.
+
+          These are the most important fields:
+
+	      1.   MEMORY_TYPE
+
+		     0 -> shared-memory for sdt data usage
+		     1 -> mmapped-memory for sdt data usage
+
+                     If "mmapped-memory" is to be used, it will be
+		     created in the location specifed in the "dqh.cfg"
+		     file.
+
+	      2.   DATA_DIRECTORY_LIST
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find data
+		     for the "File Select" button.
+
+
+       Geotail_Minute_Survey: 
+
+          Will use one of:
+
+	      1.  $FASTCONFIG/sdt_cfg/geo_srvmin/geo_srvmin.cfg
+	      2.  $FASTLIB/sdt_cfg/geo_srvmin/geo_srvmin.cfg
+
+          in that order.
+
+          These are the most important fields:
+
+	      1.   MEMORY_TYPE
+
+		     0 -> shared-memory for sdt data usage
+		     1 -> mmapped-memory for sdt data usage
+
+                     If "mmapped-memory" is to be used, it will be
+		     created in the location specifed in the "dqh.cfg"
+		     file.
+
+	      2.   DATA_DIRECTORY_LIST
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find data
+		     for the "File Select" button.
+
+
+       Crres: 
+
+          Will use one of:
+
+	      1.  $FASTCONFIG/sdt_cfg/crres/crres.cfg
+	      2.  $FASTLIB/sdt_cfg/crres/crres.cfg
+
+          in that order.
+
+          These are the most important fields:
+
+	      1.   MEMORY_TYPE
+
+		     0 -> shared-memory for sdt data usage
+		     1 -> mmapped-memory for sdt data usage
+
+                     If "mmapped-memory" is to be used, it will be
+		     created in the location specifed in the "dqh.cfg"
+		     file.
+
+	      2.   DATA_DIRECTORY_LIST
+
+		     This lists all of the directories where the
+		     Polar decommutator will expect to find data
+		     for the "File Select" button.
+
+
+Basic Instructions for SDT use:
+-------------------------------
+
+
+1.  Logon to your machine and bring up "OpenWindows".  Then move to
+    the (or a) directory where you store your "plot configurations".
+
+2.  You invoke the program by entering:
+
+       sdt
+
+    After a wait of between 5 seconds and a minute (depending on
+    the speed of your machine and the number of decommutators
+    that your site is configured to support), a small SDT menu
+    will appear, usually in the upper left corner of the screen.
+
+3.  At this point you will want to do one of two things:
+
+    a.  Select an existing configuration.  This is describe in
+	step 4.
+    b.  Bring up an empty window by clicking on the "Add Window"
+	button.  This is described in step 5.
+
+4.  In selecting an existing configuration, it should first be
+    noted that ONLY those configurations (files starting with:
+    "UIcfg.") in the directory which you were in when you started
+    "SDT" will be made available.
+
+    First, click (LEFT or RIGHT button) on the "Configuration" button
+    on the main menu.  This will bring up a list of the configurations
+    in the current working directory (which may be none).
+
+    Then move the mouse over the configuration name of interest, and
+    click (LEFT or RIGHT).  After a couple of seconds, the window(s)
+    and their associated plot panels should display.  In "Realtime"
+    mode, you should NOT yet see data.  In "Data Analysis" mode,
+    you may immediately start seeing data plotting - but only if
+    the configuration included a specified time span and if that
+    time span is currently on-line.
+
+5.  Move the mouse over the "Add Window" button and click (LEFT or
+    RIGHT).  You will now see a second menu with tow choices:
+
+	add standard
+	add realtime
+
+    For spacecraft other than FAST, you should select "Add Standard".
+    This is the type of window used for SDT's "Data Analysis" mode.
+    For FAST, you can select either "Add Standard" or "Add Realtime".
+    Move the mouse over the proper selection and click (LEFT or RIGHT).
+    If you clicked on "Add Realtime" an empty plot window will appear,
+    probably with the label:  "Plot Window #1".  Add plots by following
+    the instructions in the section labeled:  "Adding Plots to a Window".
+					       ------------------------
+
+7.  If you are in "Realtime" mode for FAST, follow the instructions
+    in "Starting Realtime Data Flow" to begin viewing data.
+	---------------------------
+
+8.  To exit the program, read the section entitled:
+
+        Exiting the Program
+	-------------------
+
+
+
+Starting FAST Realtime Data Flow:
+--------------------------------
+
+1.  Once you have built your configuration, you now have to bring
+    up the "RTInput" program to commence data flow from a file.
+    You do this as follows:
+
+       a. Move the mouse to a neutral area of the plot-window and
+	  press the RIGHT mouse button.
+
+       b. A popup menu will apear.  The second menu item is labelled:
+
+	     Timespan
+
+	  Move the mouse over this item and press the RIGHT mouse
+	  button.
+
+       c. RTInput will fire up - and one of TWO things will
+	  happen:
+
+	     1.  You will see the RTInput control box.
+	     2.  You will see the RTInput control box and a yellow error
+		 box.
+
+	  If 2) occurs (it's very random from my experience), the
+	  yellow message box is harmless and you should get rid of
+	  it now as follows:
+
+	      Move the yellow box to the front (if it's not already
+	      there) by moving the mouse over its gray border region
+	      and clicking the LEFT mouse button.
+
+	      Then move the mouse over its PushPin in the upper-left
+	      corner and hit the LEFT mouse button.
+
+	      The yellow box should disappear.
+
+       d. Now move the mouse over the "Disk" button in the RTInput
+	  control box (it's on the top row) and click with the LEFT
+	  mouse button.   Note that you could also select "NETWORK UDP"
+	  or "NETWORK TCP", if these are appropriate.  You should NOT
+	  follow the following steps when gathering data over the
+	  network.  See the appropriate documentation to utilize network
+	  FAST data services.
+
+       e. You will now see a modified version of the RTInput control box.
+	  Move the mouse over the button labelled:
+
+	     Select Input File
+
+	  (Second row, right hand side) and click with the LEFT mouse
+	  button.
+
+       f. You will now a selection box, entitled:
+
+	      diskinputSelect
+
+	  with a list of files and directories from a current source
+	  directory.  Note that the current source directory for this
+	  list is indicated in the line entitle:  "Current directory"
+	  near the top.  It is now set to:
+
+	      /disks/sitka/disk2/gsedata
+
+          at Berkeley, (something else at GFSC).
+
+       g. If you want to change the current source directory, you
+	  just type the name.  You will see it in the top line (as
+	  you type it) in the box entitled:
+
+	      Enter a pathname or directory and press Return:
+
+	  Once you've typed in the name of choice, hit RETURN.
+
+	  NOTE:  The best area for data, at Berkeley, is currently in:
+
+	      /disks/cdstudio1
+
+          At your site, someone should know where it is.  Find out
+	  and use it if it contains the data of interest.
+
+       h. Once your in the source directory you wish to be in, you
+          select a name by double-clicking with the LEFT mouse button
+	  on an item.  One of two things can happen:
+
+	     1.  If the item is a directory, the "diskInputSelect" will
+		 show the contents of this new directory.  This is how
+		 you maneuver through the data directories underneath
+		 the source directory.
+
+	     2.  If the item is a data file, you will get the box
+		 mentioned in step e) (this control box is labelled:
+		 Real Time Input).  You will see (about a third of
+		 the way down the box) the name of the selected file
+		 in the box labelled:
+
+		     Current Input File
+
+                 The full pathname you selected should be in this box.
+
+       i. Once you've selected the data file to look at, you can
+	  throttle the data rate (the default is 1.2 MBits).  You
+	  do this by moveing the mouse into the box labelled:
+
+	     Throttle Rate:
+
+          and just to the right of the value.  Then click the LEFT
+	  mouse button and back space over the old value.  Then enter
+	  the new value (you can, but do not have to hit the RETURN
+	  key when you've finished typing in the value).
+
+       j. Once you've selected the data file and you have the data
+	  rate you wish, you start the data flow by moving the mouse
+	  over the button at the bottom entitled:
+
+	     Start Now
+
+          and click the LEFT mouse button.
+
+	  The RTInput control box will iconify and disappear and you
+	  should start seeing data.
+
+
+Exiting the Program:
+-------------------
+
+    You exit the program by moving the cursor over the button in the
+    upper left hand corner of the initial (main) SDT menu and clicking on
+    the LEFT mouse button.  If you have a new configuration in SDT
+    or have changes pending of any kind, you will then see a confirmation
+    box.  You exit the program by hitting the "Quit" button on this
+    box.  Otherwise, you can cancel the request to quit the program.
+
+
+Managing Plot Configurations:
+----------------------------
+
+    This refers to "Plot Configurations":
+
+    Move the mouse over the "Configuration" button on the main SDT menu
+    and RIGHT click.  You will get a popup work panel labelled:
+
+	Configuration Manager
+    
+    It consists of 3 main parts:
+
+       a. "Directory"  choice box in the upper left of the panel. 
+
+	    This box allows you to navigate to different directories
+	    where you may have usable SDT plot configuration files.
+	    Note that the entry:
+
+	       local-configs
+
+	    means the directory in which you were in when you started
+	    up SDT.
+
+       b. "Configuration"  choice box in the lower left of the panel. 
+
+	    This box allows you to select a configuration to bring
+	    into an SDT session.  You simply LEFT click on the
+	    configuration of choice, which then becomes highlighted.
+	    The scroll bar at the right allows you to move up and
+	    down a long list.
+
+       c.  The right side of the panel consists of an information
+	   box which describes information on the plots in the
+	   currently selected configuration, a Description box,
+	   containing comments within the selected configuration
+	   file, and a series of buttons and text entry boxes in
+	   the upper right corner.
+
+
+    You can do the following tasks:
+
+    a.  By LEFT clicking on the "Select" button, your current set
+	of plot windows will disappear and be replaced by the window
+	or windows in the selected configuration.
+
+    b.  By LEFT clicking on the "Remove" button, the selected configuration
+	file will be removed (if you as a user have appropriate permissions)
+	from the disk.
+
+    c.   You LEFT click on the "Save" button when you want to preserve
+	 changes in your currently active configuration (if you've added
+	 plots, deleted plots, etc.).
+
+    d.   If you have created a new window and want to save it as a new
+	 configuration, you should, in the text entry box labelled:
+
+	     Configuration
+
+	 in the upper right area of the "Configuration Manager" box,
+	 enter the name that you wish to give to the new configuration,
+	 then LEFT click on the "Save" button.
+
+	 A file, in the selected directory, will be created with
+	 the name:
+
+	    UIcfg.typed_in_name
+
+	 where "typed_in_name" was the text that you entered in the
+	 "Configuration" text entry box.
+
+
+Adding Plots to a Window:
+------------------------
+
+1.  To add a plot to a window, move the mouse into a neutral area of
+    the window (i.e. any area not on top of an existing plot panel)
+    and RIGHT click.  You will get a menu labeled something like:
+    
+	Current:1-DA
+
+2.  Move the mouse of the button labelled:  "Add Plot" and click the
+    RIGHT mouse button.
+
+3.  You will now get a choice box with one or more Spacecraft choices,
+    (the ones your site is configured to use with SDT).  Move the mouse
+    over the spacecraft of choice and RIGHT click.
+
+4.  You will get another choice box with a listing of the sub-groups
+    of plots for the chosen spacecraft.   You now select and navigate
+    these choice boxes by using the LEFT mouse button.
+
+5.  You may have to repeat steps 3 and/or several times to get all of the
+    plots of interest.  There is no limit to the number of plots you add
+    to a window, but beware that adding many windows adds to the data
+    overhead (required memory, etc.).
+
+6.  If the window already has a time span associated with it, the new
+    plots will immediately be decommutated and plotted in the window.
+    If this is a new window, the next step would be to select data
+    (i.e. a "TimeSpan") to be plotted.  See the next section, entitled:
+
+	"Selecting Data To Plot:"
+
+    for a description of selecting data to plot.
+
+
+Deleting Plots from a Window:
+----------------------------
+
+To delete a plot from a window, move the mouse cursor over the plot to
+be deleted and RIGHT click.  This will bring up a sub-menu (usually
+labelled with the name of the plot).  RIGHT click on the "Delete"
+button.  The window will then be redrawn with the plot removed.
+
+
+Selecting Data to Plot:
+----------------------
+
+After setting up the plots you wish to view as in the section:
+
+    "Adding Plots to a Window"
+
+you will want to select the TimeSpan to view.  As of December 1995,
+in all cases except FAST, use step 1.  For FAST, you can use step 1
+or step 5.
+
+1.  You can select a TimeSpan on the basis of knowing where a data
+    set is on your system or local NFS network.  The first step is
+    to move the mouse into a neutral area of the window (i.e. any
+    area not on top of an existing plot panel) and RIGHT click.  You
+    will get a menu labeled something like:
+
+	Current:1-DA
+
+2.  Move the mouse of the button labelled:  "File Select" and click the
+    RIGHT mouse button.
+
+3.  You will now see two choice boxes, labelled, from top to bottom:
+
+       Directory
+
+    and
+
+       File Select
+
+    The top choice box, "Directory", allows you to look for data in
+    different directories on your local NFS system.  If you wish to
+    search a directory that is not listed in the box, enter it in
+    the:
+
+	 "Enter Directory"
+
+    text entry box and LEFT click on the "Add" button next to it.
+
+    NOTE:  The initial list of directories in the "Directory"
+           choice box are determined by your local SDT configuration.
+           In the case of Polar, for instance, the directory:
+
+	       $FASTCONFIG/sdt_cfg/polar
+
+           is examined for the existence of the file:  "polar.cfg"
+
+           If this file exists, and in this directory, then the list
+           of Polar data directories in "polar.cfg" is used.  If the
+	   directory or the file do not exist, then the directories
+	   listed in the file:
+
+	       $FASTLIB/sdt_cfg/polar/polar.cfg
+
+           are used.  This file must exist in any legitimate SDT setup.
+
+    The bottom box, "File Select", shows the available data sets
+    in the directory that is highlighted in the "Directory" box.
+    The entries in this list vary in format by spacecraft, but
+    generally give you the name of the data file and a notion
+    of the date/time (UT) covered by the file.
+
+    Once you've decided which data file to view, move the mouse
+    over the entry and LEFT click.
+
+4.  The two initial choice boxes will disappear and a TimeSpan
+    adjustment box, labelled something like:
+
+       TimeSpan:Current1-DA
+
+    will appear.  The purpose of this box is to adjust the
+    Timespan to a smaller amount of time (and data).  It consists
+    of text entry boxes for:
+
+       Start Date
+       Start Time
+       End Date
+       End Time
+
+    The initial values are the full TimeSpan covered by the selected
+    file.  You can adjust these to a subset that is the exact time of
+    interest.  Once you've adjusted the TimeSpan to that which you are
+    interested in, move the mouse of the "Set" button and LEFT click.
+    At this time, the box will disappear and data will begin to be
+    plotted in your window (perhaps you will see a delay of a few
+    seconds, depending on the spacecraft).
+
+    The "multiple" button on the TimeSpan adjustment box is for
+    use in multiple window configurations.
+
+    NOTE:  ONLY the data that resides in the adjusted TimeSpan will
+    be decoded.  If you want to increase the length of the TimeSpan
+    that you can view, you will have to rerun steps 2, 3, and 4 and
+    re-adjust to the TimeSpan you want.
+
+5.  For spacecraft that make use of formal data bases (FAST is
+    the only one as of December 1995 - it uses SyBase), you can
+    also select the "Data Manager" button instead of "File Select".
+    This brings up the FAST "Data Manager" program which then allows
+    you to select FAST data based on a number of criteria.
+
+
+Vertical Control of Plots Within a Window:
+-----------------------------------------
+
+1.  If your current plot configuration contains more plots than you have
+    currently allowed to be shown in the window at any one time, the scroll
+    bar at the right of the window allows you to move up and down one plot
+    at a time.
+
+2.  You can increase or decrease the number of plots that a window will
+    display at one time by moving the mouse onto a neutral spot in the
+    window and RIGHT clicking.  You will then see a menu pop up with
+    a label something like:
+
+	Current:1-DA
+
+    Move the mouse over the button with the label:
+
+	Plots/Page
+
+    and RIGHT click.  A panel will appear, usually near the upper left
+    corner of the screen.  It allows you to reset the number of plots
+    per page by either textually changing the value at the left side
+    of the panel, or by clicking on the increment/decrement buttons
+    on the right side of the panel.  When you have changed to the
+    number you want, LEFT click on the "Set" button on the panel.
+
+3.  You can move plots UP or DOWN by:
+
+     a.  RIGHT click on the plot to be moved.
+
+     b.  A sub-menu will pop up.  One of its buttons is labelled:
+
+	    Move
+
+         Move the mouse over this button and RIGHT click again.
+
+     c.  Another sub-menu will pop up.  RIGHT click on either UP
+	 or DOWN.
+
+
+Zooming and Panning on Data:
+---------------------------
+
+Once you've brought data into SDT, you can zoom and pan INSIDE the data
+that you already have (if you wish to look at a larger TimeSpan than the
+data you selected in the section labelled:   "Selecting Data to Plot",
+you will have to reselect data).
+
+1.  You are allowed to zoom either by use of fiducial lines in the window
+    (see step 2) or by explicitly entering a Zoom TimeSpan by text entry
+    (see step 3).   Steps 2 and 3 indicate how you use the graphical
+    interface to perform these zooms.  Note that as of early 1998, these
+    zoom functions are available through key strokes (see step 2b).  You
+    can also Pan left (see step 4) or Pan Right (see step 5).
+
+2.  To Zoom by graphically setting the left and right limit fiducials:
+
+     a. Set the left fiducial by moving the mouse to a neutral area of
+	the window on the vertical pixel that you want as your left
+	(lower) limit.  Then LEFT click.  Set the right (upper) fiducial
+	by moving the mouse to a neutral area of the window that is on
+	the desired vertical pixel and MIDDLE click.
+
+     b. You can complete the Zoom functions either by using the standard
+	window menu (see steps c and d) or by just using the keyboard
+	as follows:
+
+	   ALT-i   performs a ZoomIn - see (d) for a description:
+
+	   ALT-o   performs a ZoomOut - see (d) for a description
+
+	   ALT-a   performs a ZoomAll - see (d) for a description
+
+	   ALT-t   performs a ZoomText - see (3b) for a description
+
+     c. To use the standard window menu, move the mouse to a neutral
+        area of the window and RIGHT click.  The standard window menu,
+	will come up.  The top button is labelled:
+
+	    Zoom
+
+	RIGHT click on this button.  The "Zoom" sub-menu will pop up.
+
+     d. There are four selections in the Zoom sub-menu:
+
+	   In
+	   Out
+	   All
+	   Text
+
+        If you LEFT or RIGHT click on the "In" button, the time axis
+	will be rescaled so that the time corresponding to the left
+	fiducial will become the left edge of the plot panels and the
+	time corresponding to the right fiducial will become the right
+	edge of the plot panels in the window.
+
+        If you LEFT or RIGHT click on the "Out" button, the time axis
+	will be rescaled so that the time corresponding to the left
+	edge of the plot panels in the window will become the time
+	corresponding to that at the left fiducial and the time
+	corresponding to the right edge of the plot panels in the
+	window will become the time corresponding to the right fiducial.
+	Note that use of the "Out" button allows you to gradually
+	increase the range of the time axis.  However, the Zoom never
+	allows you to zoom out past the initial full range of the data.
+
+        If you LEFT or RIGHT click on the "All" button, the time axis
+	is rescaled so the the entire selected TimeSpan exactly fits on
+	the window's time axis.
+
+        If you LEFT or RIGHT click on the "Text" button, see step 3.
+
+3.  To Zoom to an exact sub-TimeSpan, 
+
+     a. Move the mouse to a neutral area of the window and RIGHT click.
+	The standard window menu, will come up.  The top button is
+	labelled:
+
+	    Zoom
+
+	RIGHT click on this button.  The "Zoom" sub-menu will pop up.
+
+     b. Move the mouse over the "Text" button on the Zoom sub-menu and
+	LEFT or RIGHT click.  An entry box labelled something like:
+
+	    Zoom Text:Current1-DA
+
+	will appear.  Fill in the sub-TimeSpan of interest and LEFT
+	click on the "Zoom" button at the bottom of the menu.  The
+	"Multiple" button is for use in multiple-window configurations.
+
+4.  To Pan Left (towards the beginning of the full selected TimeSpan),
+    you can either just press the LEFT ARROW key that is in the arrow 
+    sub-keypad OR you can use the standard window menu as follows:
+
+    Move the mouse to a neutral area of the window and RIGHT click.
+    The standard window menu, will come up.  The second button is
+    labelled:
+
+	Pan
+
+    RIGHT click on this button.  The "Pan" sub-menu will pop up.
+    Move the mouse over the "Left" button and either LEFT or RIGHT
+    click.  The time axis will shift to the left by the length of
+    the sub-TimeSpan current shown in the window.  If this shift
+    would move you past the left end of the selected full TimeSpan,
+    the left edge of the plot panels is set to the beginning of
+    the full selected TimeSpan.
+
+    For more control of the amount of pan:
+
+    Earlier versions of SDT only allowed the user to pan by the full
+    time span of the current window.  The user can pan left by an
+    arbitrary smaller amount via use of the LEFT mouse button and the
+    LEFT ARROW key as follows:
+
+	Move the mouse to the time on the X-axis of the window
+	to where you wish the Left-End of the time span to be
+	repositioned.  Press the LEFT mouse button and the LEFT ARROW
+	key.  The data window will be moved, to the left, by the time
+	delta between the original window's start time and the time at
+	the location of the mouse cursor.
+
+5.  To Pan Right (towards the end of the full selected TimeSpan),
+    you can either just press the RIGHT ARROW key that is in the arrow 
+    sub-keypad OR you can use the standard window menu as follows:
+
+    Move the mouse to a neutral area of the window and RIGHT click.
+    The standard window menu, will come up.  The second button is
+    labelled:
+
+	Pan
+
+    RIGHT click on this button.  The "Pan" sub-menu will pop up.
+    Move the mouse over the "Right" button and either LEFT or RIGHT
+    click.  The time axis will shift to the right by the length of
+    the sub-TimeSpan current shown in the window.  If this shift
+    would move you past the right end of the selected full TimeSpan,
+    the right edge of the plot panels is set to the end of the full
+    selected TimeSpan.
+
+    For more control of the amount of pan:
+
+    Earlier versions of SDT only allowed the user to pan by the full
+    time span of the current window.  The user can pan right by an
+    arbitrary smaller amount via use of the LEFT mouse button and the
+    RIGHT ARROW key as follows:
+
+	Move the mouse to the time on the X-axis of the window
+	to where you wish the Right-End of the time span to be
+	repositioned.  Press the LEFT mouse button and the RIGHT ARROW
+	key.  The data window will be moved, to the right, by the time
+	delta between the original window's end time and the time at
+	the location of the mouse cursor.
+
+
+Other Window Manipulations:
+--------------------------
+
+You can perform a number of different things on a window by RIGHT
+clicking the mouse in the neutral area of the window.  The Zoom, Pan,
+Add Plot, and File Select and Data Manager functions have already been
+described.  The best thing to do is to try some of them and see what
+they do.
+
+
+Plot Panel Manipulations:
+------------------------
+
+By moving the mouse into a plot and RIGHT clicking, you will bring up
+a sub-menu that allows you to change various attributes of that plot.
+For instance, by RIGHT clicking on the:
+
+   Setup(Limits)
+
+button, you can change whether or not the plot is output as a series
+of connected lines or as just separate data points.  You can also
+adjust the vertical limits or, in the case of multi-dimensional data,
+change the integration limits.
+
+Note that RIGHT clicking on the "Delete" button will remove this plot
+from the window.
+
+
+Cleanup By Hand:
+---------------
+
+There may be cases when shared-memory buffers or RPC sockets are NOT
+cleaned up correctly by the previous usage of SDT, particularly if
+there is a program crash.  In this case, you should perform the following:
+
+1.  Remove shared-memory buffers:
+
+    Enter:
+
+       ipcs
+
+    This command lists the shared-memory segments and other UNIX inter-
+    process communications structures that are currently being used by
+    the system.   You will see 3 lists:
+
+	Message Queues:
+	Shared Memory:
+	Semaphores:
+
+    The only one of interest here is the Shared Memory list.  If this
+    list is empty, then there is nothing to worry about just before
+    starting SDT.
+
+    If the Shared Memory list is not empty before starting SDT, this
+    could be a problem.  First note that each shared-memory buffer
+    is display on the screen something like the following:
+
+        m 1110000 0x00002712 --rw-rw-rw-    username  801 
+
+    The owner of the buffer is "username" in the next-to-last field.
+
+    If any of these shared-memory buffers are owned by another user,
+    then that user, or "root" will have to log on to get rid of them.
+    You should remove all of those belonging to you EXCEPT for the
+    following case:
+
+       If the FAST GSE is running, then any buffer whose third field 
+       is of the form:
+
+	     0x000027xx
+
+       (where xx is a two digit number) should be left alone.  The
+       example line above would be one such case.
+
+    Shared-memory segments may be explicitly removed as follows:
+
+        ipcrm -m number
+
+    where "number" is the value in the second field.  For instance,
+    if the line reads:
+
+	m 205201 0x00001ed2 --rw-rw-rw-      username      700
+
+    then "username" can explicitly remove the buffer by entering:
+
+       ipcrm -m 205201
+
+2.  Remove old RPC socket assignments:
+
+    Enter:
+
+       rpcinfo
+
+    This will scroll a fairly long list.  That's okay because the
+    RPC's were interested are at the very end.
+
+    The list consists of lines like:
+
+       100083        1    tcp       0.0.0.0.3.107       -   superuser
+       1342177279    2    tcp       0.0.0.0.167.252     -   714
+
+    Now, at the end of the list, look for lines whose first field
+    is a number starting with
+
+       536
+
+    For example:
+
+       536871175    1    tcp       0.0.0.0.168.151     -          7616
+
+    These should be removed by their owners (represented in the
+    last field which might be the user number instead of the username -
+    sorry, no help here).
+
+    You remove an RPC by entering (using the above 536 line as an
+    example):
+
+       rpcinfo  -d  536871175  1
+
+    If you can't remove these yourself, then "root" will have to
+    do it.
+
+3.  This is relevent only if "mmapped-memory" files were used, in place
+    of shared-memory, for data storage.  If any data was created using
+    "mmapped-memory" files, those files will have to be deleted.  How to
+    do this is indicated in the following list of instructions:
+
+    a.  First, figure out where the mmapped files are located.
+
+	Enter:   ls  $FASTCONFIG/sdt_cfg/dqh.cfg
+
+	If this command returns:
+
+		No such file or directory
+
+	go to step (b).  Otherwise:
+
+	Enter:  cd $FASTCONFIG/sdt_cfg
+
+	then go to (c)
+
+    b.  If (a) failed - that is, "dqh.cfg" was NOT in
+
+	    $FASTCONFIG/sdt_cfg
+
+        then the "dqh.cfg" file was in:   $FASTLIB/sdt_cfg
+
+	Enter:   cd  $FASTLIB/sdt_cfg
+
+    c.  Look at "dqh.cfg"  (via "cat", or "more"):
+	You should see a line:
+
+	   MMAP_DIRECTORY_LIST:
+
+        Followed by a list of directories, one per line.
+
+    d.  For each directory in the list shown in (c), enter:
+
+	   rm  directory/mmap*
+
+         where "directory" is the directory from the (c) list.
+
+
+Freeing a Frozen Screen:
+-----------------------
+
+Bugs can cause SDT to freeze the display on which it is running
+(thankfully, this does not happen very often now).  Follow this
+procedure to unfreeze the display:
+
+1.  Logon to the machine with the frozen display, using the same
+    username which started SDT, from another terminal or machine.
+    If you login from another machine, you should use "rlogin"
+    as follows:
+
+       rlogin frozenmachine -l username
+
+    where "frozenmachine" is the name of the machine with the
+    frozen display, and "username" is the name of the user who
+    was running SDT when the display froze.
+
+2.  If you can't login, then you will probably have reboot the machine.
+    Since the display is frozen, you will probably have to do this
+    by hitting the "Stop" key (upper left of the keyboard) and the "A"
+    key at the same time.  If this fails you will then have to reboot
+    by powering the system down then up.  This should be avoided if
+    at all possible.  Always try for the most graceful reboot as
+    possible.
+
+3.  If you have logged in, enter the following:
+
+	ps -e | grep UI
+
+    You should get a line on your terminal that looks like:
+
+	22151 pts/10   0:03 UI
+
+    Note that the "22151" is the UNIX process ID of the "UI" program
+    (the SDT User Interface).
+
+    Now perform the following:
+
+	kill -9  22151
+
+    This should kill the SDT software and unfreeze the display.
+    If it does not, then you will have to resort to rebooting as
+    described in step 2.
+
+    If it does unfreeze the display, then you should check the
+    Shared-Memory and RPC situation as described in:
+
+        Cleanup By Hand:
+
+

@@ -1,0 +1,726 @@
+****************************************************************
+
+       README.ogs.overview
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogs system.
+
+****************************************************************
+
+       @(#)README.ogs.overview	1.2    12/05/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+        1. Introduction.
+
+        2. Input data files.
+
+        3. Output data files.
+
+        4. The procedure configuration file.
+
+        5. The ogs procedure.
+
+        6. Output directory structure.
+
+        7. Lock files.
+
+        8. Other procedures and programs.
+
+        9. Automated production.
+
+       10. A warning.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        1. Introduction.
+
+
+
+
+               The purpose of the "ogs" system is to produce
+       instrument command files and shadow ephemeris files for
+       the FAST satellite.
+
+               These files are used to control instruments on
+       the spacecraft.  To accomplish this, the files need to be
+       sent to Goddard (CMS), to be uploaded to the spacecraft.
+
+
+
+               This documentation file gives a general overview
+       of the "ogs" system and its parts.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        2. Input data files.
+
+
+
+
+               The input data files are received from Goddard.
+
+
+
+               The following input data files are received from
+       FDF:
+
+           *  attitude prediction
+
+           *  predicted orbit vector
+
+           *  definitive orbit vector
+
+           *  predicted orbit precession
+
+           *  attitude sensor calibration
+
+
+
+               The following input data files are received from
+       CMS:
+
+           *  integrated print report
+
+           *  power report
+
+           *  contact schedule
+
+
+
+               The files are sent from Goddard via "ftp" over
+       the FINET network, and arrive at different disk
+       directories depending on their origin.
+
+
+
+               Each file has a distinctive file name that
+       indicates the type of file, the date of the data, and the
+       file's revision version number.
+
+
+
+               Both the attitude prediction file and the
+       predicted orbit vector file are used by programs in the
+       ogs system; and, if several such files are available, the
+       latest file of each type is used (most recent version for
+       the latest date).
+
+               Both the power report file and the contact
+       schedule file are used by programs in the ogs system;
+       and, if several such files are available, the latest 2
+       files of each type are used (most recent version for each
+       of the latest 2 dates).
+               The reason for using more than 1 date is that, as
+       shall be explained later on, output files are created for
+       more than 1 day; and this requires input for more than 1
+       day, which can cross week boundaries (the power report
+       and the contact schedule each contain data for 1 week).
+               The attitude prediction file contains data for
+       4 weeks, far beyond what is going to be calculated; and
+       the predicted orbit vector file contains data for one
+       instant of time (rather than for an interval), to be
+       propagated to whatever time interval is needed.  So, for
+       these types of input it is sufficient to have 1 file for
+       the latest date.
+
+               None of the other types of input files are used
+       by programs in the ogs system; still, these files can be
+       saved in an archive, along with the input files that are
+       used by programs in the ogs system.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        3. Output data files.
+
+
+
+
+               The main output data files are the ones to be
+       sent to Goddard.
+
+
+
+               These files are:
+
+           *  normal ATS command file (instrument commands)
+
+           *  Sun-Nadir packet file (shadow ephemeris)
+
+
+
+               The files are sent to Goddard via "ftp" over the
+       FINET network.
+
+
+
+               Each file has a distinctive file name that
+       indicates the type of file, the date of the data, and the
+       file's revision version number.
+
+
+
+               Calculations can be carried out, and output files
+       generated, for more than 1 day.
+
+               The reason for generating output files for more
+       than 1 day is that these files can be sent to Goddard,
+       and this provides a fallback in case of computer or
+       communication failure on subsequent days.
+               The files sent ahead of time will be superseded
+       by files generated and sent on subsequent days.  These
+       later files will be more accurate, as predictions of the
+       satellite's orbit will be based on more up-to-date data.
+
+
+
+               There are other output files that are created by
+       the ogs system, but which are not intended to be sent to
+       Goddard.  Some of these are intermediate files, and some
+       can be used for diagnostic or analysis purposes.
+
+
+
+               Some of these other output files are:
+
+           *  orbit file
+
+           *  file of orbit start times
+
+           *  command rules file
+
+           *  Sun-Nadir archive file
+
+
+
+       ---------------------------------------------------------
+
+
+
+        4. The procedure configuration file.
+
+
+
+
+               As will be seen later on, there are several
+       procedures that belong to the ogs system.
+
+
+
+               There exists one configuration file that plays a
+       key role in controlling the behavior of these procedures.
+
+
+               The name of this configuration file is:
+
+           ogs.cfg
+
+
+
+               The procedures referred to are C-shell scripts,
+       and they incorporate the contents of the procedure
+       configuration file by means of the "source" command.
+
+
+
+               Some of the items contained in the procedure
+       configuration file are:
+
+           *  mailing list for ogs job messages
+
+           *  list of directories where input from Goddard
+              arrives
+
+           *  information on where to send output to Goddard
+
+           *  names of printers to print files
+
+           *  scheduling data for ogs jobs
+
+           *  number of days for which output data files are to
+              be produced
+
+           *  directory structure for output files
+
+           *  information on names of input and output files
+
+           *  information on other configuration files needed
+
+
+
+               While there may be occasions when it is necessary
+       to change the contents of the procedure configuration
+       file, it is hoped that they will be very rare, and that
+       changes will be made very carefully; as this is such a
+       crucial file.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        5. The ogs procedure.
+
+
+
+
+               The main procedure of the ogs system is also
+       called ogs.
+
+
+
+               This is the procedure that is in charge of
+       creating all the required output files.
+
+
+
+               There are 3 main programs that are run as part of
+       this procedure:
+
+           *  orbgen
+
+           *  genCommands
+
+           *  sunnadir
+
+       (hence the name ogs).
+
+
+
+               The program orbgen produces an orbit file, by
+       propagating the predicted orbit vector.
+
+               The orbit file is used by the other 2 main
+       programs.
+
+
+               The program genCommands produces the instrument
+       command files.
+
+
+               The program sunnadir produces the shadow
+       ephemeris file.
+
+
+
+               There are separate configuration files that are
+       required by each of the main programs; these
+       configuration files and their locations are listed in the
+       procedure configuration file.
+
+
+
+               The ogs procedure can run also another main
+       program:
+
+           editCommands
+
+
+               The program editCommands allows the user to edit
+       previously created instrument command files.
+
+
+
+               The operation of the ogs procedure, as well as
+       that of other procedures that belong to the system, can
+       be controlled by means of command line arguments.
+
+               The documentation for each procedure contains
+       more details.
+
+               For almost all these procedures, the usual UNIX
+       convention that allows option arguments to be
+       concatenated does not apply.
+
+               Thus, for example, it is correct to enter
+
+           ogs -e -v ...    or    ogs -v -e ...
+
+       but not
+
+           ogs -ev ...    or     ogs -ve ....
+
+               This restriction is in order to avoid the use of
+       software that is not standard, and that SUN may not
+       support in future releases.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        6. Output directory structure.
+
+
+
+
+               Each run of the ogs procedure has a Job ID, which
+       indicates the date and time of the run.
+
+
+               For example, a Job ID
+
+           1994.234.12.34.56
+
+       would correspond to a job that started on 1994-234 at
+       12:34:56 (UTC).
+
+               Day of year, hours, minutes, seconds, each can
+       have leading zero(s), which are significant.
+
+
+
+               The output directory structure consists of the
+       following main directory areas:
+
+           *  "work" area: ogswork
+
+           *  "send" area: ogssend
+
+           *  "archive" area: ogsarch
+
+           *  "orbits" area: ogsorbs
+
+           *  "user" area: ogsuser
+
+               All these main directory areas are subdirectories
+       of one single directory.
+
+
+
+               The work area contains files that are created by
+       ogs, and which need to be available for future runs.
+
+               Normally, users should not use directly anything
+       in the work area.
+
+
+
+               The send area contains files that are ready to be
+       sent to Goddard.
+
+               Each ogs job creates a subdirectory in the send
+       area, with all the corresponding files; for the example
+       above, the subdirectory name would be
+
+           ogs.send.1994.234.12.34.56
+
+               Separate software is required in order to dispose
+       of the data in the send area.
+               This is accomplished by the procedure ogssend,
+       which sends the files from one subdirectory in the send
+       area to Goddard, and also creates a copy of that
+       subdirectory (with the same subdirectory name) in the
+       archive area and a copy in the user area.
+
+
+
+               The archive area contains files that are ready to
+       be saved for future reference.
+
+               Each ogs job creates a subdirectory in the
+       archive area, with all the corresponding files; for the
+       example above, the subdirectory name would be
+
+           ogs.archive.1994.234.12.34.56
+
+               The files in the archive area include: copies of
+       input file from Goddard, copies of procedure and program
+       configuration files, and copies of output files; the
+       orbit files are not included, as these are very large
+       files, are not definitive, and can be recreated if
+       necessary.
+
+               Separate software is required in order to dispose
+       of the data in the archive area.
+
+
+
+               The orbits area contains orbit files and
+       associated files, to be used until definitive orbit files
+       become available.
+
+               Each ogs job creates a subdirectory in the
+       orbits area, with all the corresponding files; for the
+       example above, the subdirectory name would be
+
+           ogs.orbit.1994.234.12.34.56
+
+               Separate software is required in order to dispose
+       of the data in the orbits area.
+
+
+
+               The user area contains similar files than the
+       archive area, to be available for users to analyze or
+       utilize as desired.
+
+               Each ogs job creates a subdirectory in the
+       user area, with all the corresponding files; for the
+       example above, the subdirectory name would be
+
+           ogs.user.1994.234.12.34.56
+
+
+               There is also a subdirectory of the user area for
+       special files; the name of this subdirectory is
+
+           ogs.user.special
+
+               In the subdirectory for special files there is a
+       file called
+
+           ogs.cfflog
+
+               This file is the CMS/FDF file log (a log of the
+       files received from Goddard).
+
+
+
+       ---------------------------------------------------------
+
+
+
+        7. Lock files.
+
+
+
+
+               Some of the procedures that belong to the ogs
+       system are exclusive; i.e., no 2 "copies" of the same
+       procedure are allowed to run simultaneously.
+
+               This is accomplished by means of appropriate lock
+       files.
+
+
+               These lock files reside in the work directory,
+       and their names are of the form
+
+           ogslock.prcnam.pid
+
+       where prcnam is the name of the procedure, and pid is the
+       process ID.
+
+
+
+               Another type of lock files is used to assure
+       integrity of the set of configuration files for the
+       procedures and programs; i.e., to make sure that none of
+       these files are written while any of them are being read.
+
+
+               These lock files reside in the directory /tmp,
+       and their names are of the form
+
+           ogs.lock.cfg.read.pid
+
+           ogs.lock.cfg.write
+
+       where pid is the process ID.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        8. Other procedures and programs.
+
+
+
+
+               A number of other procedures are part of the ogs
+       system.
+
+
+
+               Some of these are called by the ogs procedure, to
+       accomplish some part of the tasks in an ogs job:
+
+           *  ogscopcf
+               Copies the program configuration files.
+
+           *  ogscopgf
+               Copies the input files from Goddard.
+
+           *  ogslatst
+               Determines the latest files.
+
+           *  ogsnxtg1
+               Determines the next file name.
+
+               While these procedures could be called
+       independently, normally this is not expected to happen.
+
+
+
+               Other procedures are used independently:
+
+           *  ogsbrwss
+               Allows browsing the command files in the send and
+               user areas.
+
+           *  ogsclean
+               Deletes lock files and other auxiliary files that
+               may have been left over after a job is
+               interrupted by canceling or by a machine crash.
+
+           *  ogscolgf
+               Collects the input files from Goddard into a
+               single directory, for input to the ogs procedure.
+
+           *  ogsedtcf
+               Allows editing the configuration files.
+
+           *  ogsflmon
+               Monitors the collection of input files from
+               Goddard.
+
+           *  ogsgdirs
+               Used to list the contents of the directories
+               where the input files from Goddard arrive.
+
+           *  ogsidir
+               Used to list the contents of the directory that
+               is used as the input for the ogs procedure (where
+               the input files from Goddard are collected).
+
+           *  ogsinq
+               Used to find out whether an exclusive procedure
+               (as explained under lock files) is running
+               currently or not.
+
+           *  ogsmon
+               Monitors the status of ogs jobs.
+
+           *  ogsprcid
+               Displays the process ID's associated with an ogs
+               job that is running currently.
+
+           *  ogssdirs
+               Lists the names of the send subdirectories in the
+               send and user areas.
+
+           *  ogsstat
+               Displays the status of a currently running ogs
+               job.
+
+
+
+               Of the procedures in the ogs system, the
+       following are exclusive (as explained under lock files):
+
+           *  ogs
+
+           *  ogscolgf
+
+           *  ogsedtcf
+
+
+
+               A number of programs, apart from the main ones in
+       the ogs procedure, are used by ogs and other procedures
+       of the ogs system, for a variety of tasks, such as date
+       manipulations, parsing file names, etc.
+
+
+
+       ---------------------------------------------------------
+
+
+
+        9. Automated production.
+
+
+
+
+               The production of output files from the ogs
+       system requires running 2 procedures:
+
+           *  ogscolgf
+               to collect the input files from Goddard
+
+           *  ogs
+               to create the output files
+
+
+
+               The production can be automated by using the cron
+       feature of the UNIX operating system.
+
+               This allows scheduling the running of each of the
+       procedures as desired.
+
+
+
+               It is recommended that the ogscolgf procedure be
+       scheduled to run as often as permitted by cron (once
+       every minute).
+
+               This gives a better chance of detecting errors in
+       the form of 2 or more files being sent by Goddard under
+       the same name: if nothing is done, later arrivals
+       overwrite earlier ones; but ogscolgf moves arrivals to
+       the input directory for ogs, and can extend file names to
+       distinguish among duplicate file names if necessary.
+
+
+
+               It is recommended that the ogs procedure be
+       scheduled to run once every day, at a time such that all
+       the input files from Goddard should have arrived before
+       the run begins.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       10. A warning.
+
+
+
+
+               Users of the ogs system must exercise reasonable
+       care, and respect some restrictions.
+
+
+               Otherwise, the integrity of important files and
+       directories may be compromised, with bad consequences for
+       currently running and even future jobs.
+
+
+
+               Users should not access files directly, except in
+       the user output area.
+
+               Users should not edit directly any configuration
+       files or ATS command files.
+
+               In general, if some action is to be performed,
+       and a procedure to perform it exists; then the correct
+       way is to use the procedure (and the incorrect way is to
+       perform the action directly, bypassing the procedure).

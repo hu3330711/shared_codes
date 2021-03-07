@@ -1,0 +1,166 @@
+#!/usr/bin/ksh
+# arecovery - recover from a failed archive
+#
+# Arguments are process numbers to recover, in the order desired.
+# If no args, recovers all processes for which a failure file exists.
+#
+
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+####    This script is for failures in transfer, premaster, cutcd.
+####	All other failures handled by separate scripts.
+####
+####            19 Aug 96   -   J.Rauchleiba deleted parts dealing
+####                            with deaths in backup,orbupdate,dbupdate. 
+####			    -	Made CD cut despite dbupdate failure.
+####            10 Apr 98   -   Sciplot called in background BEFORE premaster.
+####
+
+#
+# callpremaster function declaration
+#	this function calls premaster
+#	
+# now do premaster on the DANET machine
+ 
+function callpremaster {
+	#### Put "premaster" into failure file in case this process fails.
+	#### Only necessary if premaster wasn't the original failure.
+	if [[ $1 != "failed" ]] ; then
+		echo premaster > $LOGDIR/failure$proc
+	fi
+
+	#### Call sciplot (in background)
+
+	rsh -n $DANETHOST $DANETBIN/sciplot r$proc >> $LOGFILE 2>&1 &
+
+	#### Call premaster
+
+	rsh $DANETHOST $DANETBIN/premaster `basename $(cat \
+		$LOGDIR/archive$proc)` r$proc >> $LOGFILE 2>&1
+	if [[ $(rsh $DANETHOST cat premasterstat) = "failed" ]]; then
+		echo r$proc: premaster failed, quitting!
+		echo r$proc:!!!!!** premaster recovery failed, quitting **!!!!! >> $LOGFILE
+		rsh $DANETHOST rm premasterstat
+		return 1
+	fi
+
+	#### Remove following files if CD for this $proc was 
+	#### premastered successfully.
+
+	rm $LOGDIR/archive$proc
+	rm $LOGDIR/failure$proc
+
+}
+
+#
+# calldbupdate function declaration
+#
+# Update FAST database on DANET with newly arrived data
+#
+
+function calldbupdate {
+                TMPDBLOG=/tmp/dblog$proc
+                /bin/rm -f $TMPDBLOG
+
+		#### Following file created for dbrecovery
+		echo `basename $(cat $LOGDIR/archive$proc)` > \
+			$LOGDIR/dbfailed$proc
+
+                rsh $DANETHOST $DANETBIN/dbupdate `basename $(cat \
+			$LOGDIR/archive$proc)` r$proc > $TMPDBLOG 2>&1
+                cat $TMPDBLOG >> $LOGFILE
+ 
+                if [[ `grep -c 'FAILED' $TMPDBLOG` -ne 0 ]] ; then
+                        echo r$proc: dbupdate failed, quitting! 
+                        echo r$proc:!!!!!** dbupdate recovery failed, quitting **!!!!! >> $LOGFILE
+			failed=1
+                        return 1
+                fi
+                if [[ `grep -c 'INTERRUPT' $TMPDBLOG` -ne 0 ]] ; then
+                        echo r$proc: dbupdate interrupted, quitting!
+                        echo r$proc:!!!!!** dbupdate recovery interrupted, quitting **!!!!! >>$LOGFILE
+			failed=1
+                        return 1
+                fi
+		if [[ $failed != 1 ]] ; then
+			rm $LOGDIR/dbfailed$proc
+		fi
+}
+
+################################################################
+################# BEGIN THE REAL WORK ##########################
+################################################################
+
+echo $$:---- arecovery run $(date) ---- >> $LOGFILE
+
+#### Define 'where' to be last script to have begun
+#### and 'proc' to be that script's process id.
+
+cd /$LOGDIR
+
+if [[ -n ${*} ]] ; then
+    for rec_proc in ${*} ; do
+	ls -1 failure${rec_proc} >> recover$$
+    done
+else
+    ls -1rt failure* >recover$$
+fi
+
+cat recover$$
+
+while [[ -s recover$$ ]]
+do 
+	fail=`head -1 recover$$`
+	sed '1d' recover$$ > RECOVER$$
+	mv RECOVER$$ recover$$
+	proc=`echo $fail | awk -Fe '{ print $2}'`
+	echo proc $proc
+	where=`cat $fail`
+	echo where $where
+
+
+	###### death in transfer ##########################
+
+	if [[ $where = "transfer" ]]
+	then 
+		$BINPATH/transfer $LOGDIR/archive$proc r$proc >> $LOGFILE 2>&1
+		if [[ $? != 0 ]]
+		then
+			echo r$proc: transfer failed, quitting!
+			echo r$proc:!!!!!** transfer recovery failed, quitting **!!!!! >> $LOGFILE
+			continue
+		fi
+
+		calldbupdate
+		if (( $? == 1 ))
+		then
+			echo "r$proc: !! dbupdate failed, premastering anyway !!" >> $LOGFILE
+		fi
+
+		callpremaster
+		if (( $? == 1 ))
+		then
+			continue
+		fi
+
+	###### death in premaster ###########################
+
+	elif [[ $where = "premaster" ]]
+	then
+		callpremaster failed
+		if (( $? == 1 ))
+		then
+			continue
+		fi
+	fi
+done
+
+
+############# Cut the CD's ################################
+
+rsh $DANETHOST $DANETBIN/cutcd r$$ >> $LOGFILE 2>&1
+rm recover$$
+wait
+echo $$:---- arecovery Done! $(date) ---- >> $LOGFILE

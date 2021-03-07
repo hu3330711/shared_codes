@@ -1,0 +1,20 @@
+#  SCCS Id
+#  @(#)FreqV9-V10.cal	1.1 04/15/96
+#
+# FreqV9-V10.cal
+# IS 8/11/95
+FreqV9-V10		Data name.
+1			Linear calibration.
+sec			x-axis units.
+freq. (kHz)		y-axis units
+xx			z-axis units
+0			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration file made 8/11/95
+# Time is well-known quantity, so all of the Freq files are identical in
+# their linear calibration:  offset is set to zero, and the gain is set
+# to 0.25621 kHz/bit.
+0			Time in seconds.
+0			Offset.
+0.25621			Gain.

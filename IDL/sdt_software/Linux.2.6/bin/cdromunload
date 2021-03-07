@@ -1,0 +1,84 @@
+#!/usr/bin/ksh
+#
+# cdromunload
+# created by T. Quinn/J.Rauch
+# 6/7/96
+#
+# This script will be used to interrupt Disc Transporter
+# to allow cdrom to be removed and reloaded 
+# It must be run only from barrow so echoes goto $LOGFILE
+#
+
+. /disks/fast/software/config/archive_config
+
+# Checks for cutcdlock on juneau. Returns true of lock not found.
+
+function ruthere {
+	found=`rsh juneau ls $CUTCDLOCK 2>&-`
+	if [[ $found = "" ]] ; then
+		return 1
+	else
+		return 0
+	fi
+}
+
+function interrupt {
+	printf "\7"
+	printf "\7"
+	response='n'
+	while [[ $response != "y" ]] ; do
+		print 'To quit, bring transporter online. Then enter "y".'
+		read response
+	done
+	print "Removing $CUTCDLOCK ..."
+	rsh juneau rm $CUTCDLOCK
+	exit 0
+}
+
+function hangup {
+	rsh juneau rm $CUTCDLOCK
+	exit 0
+}
+	
+echo $$: ---- cdromunload run on $(date) ---- >> $LOGFILE
+
+# Check for cutcdlock ON JUNEAU
+
+ruthere
+while [[ $? != 1 ]] ; do
+	print
+        print -n "$$: cdunload sleeping 60 for " ; rsh juneau cat $CUTCDLOCK
+        sleep 60
+	ruthere
+done
+
+rsh juneau echo $$ ">" $CUTCDLOCK
+
+trap interrupt INT TERM QUIT
+trap hangup HUP
+
+echo "**		PLEASE END THIS JOB PROMPTLY			**"
+echo "** A.  Take the Transporter offline by pressing RESET.		**"
+echo "** B.  Unload output spindle as outlined in document.		**"
+echo "** C.  If required, refill input spindle as outlined in document.	**"
+echo "** D.  Bring Transporter back online by pressing RESET.		**"
+echo "** E.  Type 'go' when Transporter READY light goes on.		**"
+
+read ready
+while [[ $ready != 'go' ]] ; do
+	echo " **Type 'go' to continue **"
+	read ready
+done
+
+# Here should check explicitly for status of Transporter
+# through serial port (/dev/cua/b) messages.
+
+print
+print ": ** cdromunload finished **"
+
+rsh juneau rm $CUTCDLOCK
+
+trap - INT TERM QUIT HUP
+
+
+ 

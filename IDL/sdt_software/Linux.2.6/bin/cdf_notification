@@ -1,0 +1,87 @@
+#!/usr/local/bin/perl -w
+#
+# perl script: cdf_notification.pl
+#
+# PURPOSE:
+#
+# To send notification to Tim Quinn
+# when summary plot production has fallen behind the current orbit by
+# more than 36 hours.
+#
+### Setup paths to orbit lists
+#
+my $path_ees = "/disks/juneau/cdf1/ees";
+#
+### Open lists of orbits
+#
+my @list_ees = `ls $path_ees`;
+#
+### Grabs last orbit made
+#
+my $latest_ees = pop(@list_ees);
+#
+### Grabs orbit number from string
+#
+my $orbit = substr($latest_ees, 10, 5);
+#
+### Finds numeric time corresponding to orbit
+#
+my @orbit_time = `orbittime $orbit`;
+my $orb_end_time = pop(@orbit_time);
+#print "$orb_end_time\n";
+#
+### Finds current time
+#
+my $current_time = `date +%Y/%m/%d/%H:%M:%S`;
+#print "$current_time\n";
+#
+### Seperate years, months, days, and hours, minutes, and seconds.
+#
+my $orb_year = substr($orb_end_time, 0, 4);
+my $orb_month = substr($orb_end_time, 5, 2);
+my $orb_day = substr($orb_end_time, 8, 2);
+my $orb_hour = substr($orb_end_time, 11, 2);
+my $orb_min = substr($orb_end_time, 14, 2);
+my $orb_sec = substr($orb_end_time, 17, 2);
+
+my $cur_year = substr($current_time, 0, 4);
+my $cur_month = substr($current_time, 5, 2);
+my $cur_day = substr($current_time, 8, 2);
+my $cur_hour = substr($current_time, 11, 2);
+my $cur_min = substr($current_time, 14, 2);
+my $cur_sec = substr($current_time, 17, 2);
+#
+### Adjusts month and year for Epoch seconds - Time::Local uses months in
+# the form 0-11 and years 0-138 (1901 to 2038)
+#
+my $orb_year_adj = $orb_year - 1900;
+my $orb_month_adj = $orb_month - 1;
+my $cur_year_adj = $cur_year - 1900;
+my $cur_month_adj = $cur_month - 1;
+#
+### Declare variables
+#
+my $cur_time_sec;
+my $orb_time_sec;
+#
+### Convert times into seconds
+#
+use Time::Local;
+	$cur_time_sec = timelocal($cur_sec,$cur_min,$cur_hour,$cur_day,$cur_month_adj,$cur_year_adj);
+	$orb_time_sec = timelocal($orb_sec,$orb_min,$orb_hour,$orb_day,$orb_month_adj,$orb_year_adj);
+#
+#print "$cur_time_sec\n";
+#print "$orb_time_sec\n";
+### If the two times are more than 48 hours (172,800 seconds) apart
+#   e-mail Tim Quinn.
+#
+if ($orb_time_sec+172800 <= $cur_time_sec) {
+ open(SENDMAIL, "|/usr/lib/sendmail -oi -t")
+ 	or die "Can't open sendmail: $!\n";
+ print SENDMAIL "From: CDF Failure <lzp\@sunspot.ssl.berkeley.edu>\n";
+ print SENDMAIL "To: Tim Quinn <teq\@ssl.berkeley.edu>\n";
+ print SENDMAIL "Subject: WARNING: CDF Production has halted\n\n";
+ print SENDMAIL "No summary plots have been produced for orbits in occurring during the last 48 hours or more.\n";
+ close (SENDMAIL)	or warn "SENDMAIL did not close properly";
+}
+exit;

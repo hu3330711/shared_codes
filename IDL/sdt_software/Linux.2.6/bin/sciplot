@@ -1,0 +1,527 @@
+#!/usr/bin/ksh
+# sciplot - This script will perform a series of science summary plots
+#	    on a CD's worth of data, on an orbit by orbit basis
+#	    The first thing it does though is recombine split orbits.
+#
+#	$1 is the parent process ID
+#
+#
+# Updates:
+#
+# 	01/23/96	Added section to determine approximate orbit 
+#			location for use in naming the summary plot file
+#
+#	03/11/96	Now passing 2 file naming strings to the sdt_batch
+#			programs, destinos1 and destinos2. The first will
+#			apply to the gif files and the second to the cdf files.
+#
+#	03/14/96	Added checksum function. This will perform checksums
+#			on the summary plot files crested by this procedure
+#			and archived on the CD. The checksum data will be 
+#			appended to the CD checksum file.
+#
+#	03/14/96	After summary plots are created, a section was added 
+#			to copy the data over to the CD and then do a checksum
+#			on the files.
+#
+# 05/31/06 Now using results of get_cd_path to guide processing.
+# Also, the last orbit processed is decremented by 5 as the 
+# starting point for the next processing round.
+
+. /disks/fast/software/config/archive_config
+# Removed use of following config file on 06/29/04
+#. /disks/fast/software/config/archive_config.hires.production
+
+# Date/Time conversion function
+
+function ConvertFromDatehrmmss {
+	
+	Time=${1##*/}
+	Date=${1%/*}
+	
+	#Parse out the hours, minutes and seconds from $Time
+	
+	Hours=${Time%%:*}
+	Minutes=${Time#*:}
+	Minutes=${Minutes%:*}
+	Seconds=${Time##*:}
+	Seconds=${Seconds%.*}
+
+	#Get time in total seconds
+
+	HourSeconds=$(( $Hours * 3600 ))
+	MinuteSeconds=$(( $Minutes * 60 ))
+	TotalSeconds=$(( $HourSeconds + $MinuteSeconds + $Seconds ))
+}
+
+
+function RenameDiagnosticFiles {
+	co=$CurrentOrbit
+	mv $LZPJUNEAUHOME/errUI $LZPJUNEAUHOME/errUI_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/errdqh $LZPJUNEAUHOME/errdqh_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/errfast $LZPJUNEAUHOME/errfast_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outUI $LZPJUNEAUHOME/outUI_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outdqh $LZPJUNEAUHOME/outdqh_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outfast $LZPJUNEAUHOME/outfast_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outIDL.fast_ie_batch.pro \
+	    $LZPJUNEAUHOME/outIDL.fast_ie_batch.pro_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outIDL.fast_t_batch.pro \
+	    $LZPJUNEAUHOME/outIDL.fast_t_batch.pro_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/outIDL.fast_fields_batch.pro \
+	    $LZPJUNEAUHOME/outIDL.fast_fields_patch.pro_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/errIDL.fast_ie_batch.pro \
+	    $LZPJUNEAUHOME/errIDL.fast_ie_batch.pro_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/errIDL.fast_t_batch.pro \
+	    $LZPJUNEAUHOME/errIDL.fast_t_batch.pro_${LogNumber}_$co
+	mv $LZPJUNEAUHOME/errIDL.fast_fields_batch.pro \
+	    $LZPJUNEAUHOME/errIDL.fast_fields_patch.pro_${LogNumber}_$co
+	LogNumber=$(( $LogNumber + 1 ))
+}
+
+# Function warn_exit declaration
+# Mails ARCHIVEMASTER if sciplot exits prematurely.
+
+function warn_exit {
+    if [[ -s $TEMPLOGS/templog_$$ ]] ; then
+	typeset logfile=$TEMPLOGS/templog_$$
+    fi
+    {
+	printf "%s\n" 'Subject: Archive System message' \
+		      "Sciplot script exited prematurely at line $2" \
+		      "Process ID: $1"
+	if [[ -n $CurrentOrbit ]] ; then
+	    printf "%s\n" "Orbit Number: $CurrentOrbit"
+	fi
+	if [[ -n $logfile ]] ; then
+	    printf "%s\n" "See logfile $logfile"
+	fi
+    } | mail $ARCHIVEMASTER
+}
+
+
+echo $1: ---- sciplot run on $(date) ---- | tee -a $TEMPLOGS/templog_$$
+
+# Check to see if sciplot already running - quit if so.
+
+if [[ -a $SCIPLOTLOCK  ]] ; then
+	echo $1: sciplot already running - see process $(cat $SCIPLOTLOCK)
+	exit 0
+elif [[ -a $SDTLOCK  ]] ; then
+	echo $1: sdt is running - see process $(cat $SDTLOCK)
+	exit 0
+fi
+echo $1 > $SCIPLOTLOCK
+
+# Set trap for premature termination
+
+trap 'warn_exit $1 $LINENO' EXIT
+
+# Get the first orbit to work on
+
+CurrentOrbit=$(cat $PLOTORBIT)
+echo $1: Current orbit: $CurrentOrbit >> $TEMPLOGS/templog_$$
+
+# Temporary counter for renaming sdt_batch output files
+
+LogNumber=$$
+
+# Number of orbits processed completely
+
+typeset -i completed=0
+
+## Check Data Base to see if data for that orbit exists
+## and start processing if data is available
+#
+files=$(get_cd_path -o $CurrentOrbit)
+while [[ -n $files ]]
+do
+
+	echo $1: ALL orbit $CurrentOrbit available >> $TEMPLOGS/templog_$$
+
+	# If data exists for that orbit get Highest Invarient Latitude
+	# for that orbit (Note: On occassion, two invariant latitudes
+	# could be passed back by gethilat).  Also, if gethilat is deadlock
+	# victim, there will be no output and command must be rerun.
+
+	typeset -i g=0
+	set -A InLatitudeTimes \
+	    $($DANETBIN/gethilat $CurrentOrbit 2>> $TEMPLOGS/templog_$$)
+	InLatitudeNumber=${#InLatitudeTimes[*]}
+	while [[ $InLatitudeNumber == "0" ]] ; do
+	    # Rerun gethilat query max 5 times before incrementing orbit
+	    if ((g >= 5)) ; then
+		echo $1:!!!! DB query gethilat outputs nothing !!!! >> \
+		    $TEMPLOGS/templog_$$
+		printf "%s\n" "Subject: Archive System message" \
+                              "script : $0" \
+			      "Process ID: $1" \
+			      "Orbit  : $CurrentOrbit" \
+			      "Logfile : $TEMPLOGS/templog_$$" \
+			      "DB query gethilat outputs nothing." \
+			      "Trying next orbit." |
+		mail $ARCHIVEMASTER
+		break
+	    fi
+	    set -A InLatitudeTimes \
+		$($DANETBIN/gethilat $CurrentOrbit 2>> $TEMPLOGS/templog_$$)
+	    InLatitudeNumber=${#InLatitudeTimes[*]}
+	    let 'g=g+1'
+	done
+	if ((g >= 5)) ; then
+	    echo $1:  !! Trying next orbit >> $TEMPLOGS/templog_$$
+	    CurrentOrbit=$(( $CurrentOrbit + 1 ))
+			files=$(get_cd_path -o $CurrentOrbit)
+	    continue
+	fi
+
+	echo $1: InLatitudeNumber = $InLatitudeNumber >> $TEMPLOGS/templog_$$
+	
+	if [[ $InLatitudeNumber == 2 ]] ; then
+	    echo $1: Two ILATs for $CurrentOrbit >> $TEMPLOGS/templog_$$
+	    echo $1: ILAT 1 = ${InLatitudeTimes[0]} >> $TEMPLOGS/templog_$$
+	    echo $1: ILAT 2 = ${InLatitudeTimes[1]} >> $TEMPLOGS/templog_$$
+	else
+	    Year=$(echo ${InLatitudeTimes[0]}| awk -F/ '{print $1}')
+	    if [[ $Year == "0000" ]] ; then
+				echo $1:  !! gethilat returned no ILAT >> $TEMPLOGS/templog_$$
+				echo $1:  !! Trying next orbit >> $TEMPLOGS/templog_$$
+				CurrentOrbit=$(( $CurrentOrbit + 1 ))
+				files=$(get_cd_path -o $CurrentOrbit)
+				continue
+	    else
+				echo $1: Orbit $CurrentOrbit ILAT: ${InLatitudeTimes[0]} >> \
+				$TEMPLOGS/templog_$$
+	    fi
+	fi
+
+	## FIND ORBIT START & STOP: This next section will use a database
+	## procedure called orbittime to find the orbit start and stop
+	## time. These times will be passed to the sdt_batch program
+
+	set -A OrbitTimes $($DANETBIN/orbittime $CurrentOrbit)
+	OrbitTimesNumber=${#OrbitTimes[*]}
+	
+	if (( $OrbitTimesNumber == 1 )) ; then
+	    echo $1: !! orbittime fails for orbit $CurrentOrbit !! >> \
+	    $TEMPLOGS/templog_$$
+	    echo $1: !! Trying next orbit.                      !! >> \
+	    $TEMPLOGS/templog_$$
+	    CurrentOrbit=$(( $CurrentOrbit + 1 ))
+			files=$(get_cd_path -o $CurrentOrbit)
+	    continue
+	fi
+
+	OrbitStart=$(echo ${OrbitTimes[0]})
+	ConvertFromDatehrmmss $OrbitStart
+
+	sdtStartDate=$Date
+	sdtStartTime=$Time
+
+	OrbitEnd=$(echo ${OrbitTimes[1]})
+	ConvertFromDatehrmmss $OrbitEnd
+	sdtStopTime=$Time
+	
+	# Export sdt_batch start date, start time, and end time
+
+	export sdtStartDate
+	export sdtStartTime
+	export sdtStopTime 
+	echo $1: sdt_batch will use date=$sdtStartDate >> $TEMPLOGS/templog_$$
+        echo $1: sdt_batch will use stime=$sdtStartTime >> $TEMPLOGS/templog_$$
+        echo $1: sdt_batch will use etime=$sdtStopTime >> $TEMPLOGS/templog_$$
+
+	# Perl script get_cd_path replaces whichfiles in order to speed up
+	# process.
+			
+	
+	echo files=$files >> $TEMPLOGS/templog_$$
+	export files
+
+	# Create Summary Plot Directory using orbit start date and number
+
+	export SORBNUM=$(printf "%05s" "$CurrentOrbit")
+	echo "Orbit: $SORBNUM"	>> $TEMPLOGS/templog_$$
+
+	ConvertFromDatehrmmss $OrbitStart
+	sumdiryear=$(echo $Date | awk -F/ '{print $1}')
+	sumdirdate=$(echo $Date | awk -F/ '{print $1 "_" $2 "_" $3}')
+	sumdirorb=$(echo ${sumdirdate}_${SORBNUM})
+	if [[ ! -a $SUMPLOTS/$sumdiryear/$sumdirorb ]] ; then
+	    print Creating dir: $SUMPLOTS/$sumdiryear/$sumdirorb >> $TEMPLOGS/templog_$$
+	    mkdir -p $SUMPLOTS/$sumdiryear/$sumdirorb
+
+	    # Make softlink directories using the orbit number and pointing
+	    # to the main directory
+	    #ln -s ../$sumdirorb $SUMORBLINK/$SORBNUM
+	    mkdir -p $SUMORBLINK/$sumdiryear/$SORBNUM
+	    ln -s ../../../$sumdiryear/$sumdirorb $SUMORBLINK/$sumdiryear/$SORBNUM/$sumdirdate
+	    mkdir -p $SUMDIRLINK/$sumdiryear/$sumdirdate
+	    ln -s ../../../$sumdiryear/$sumdirorb $SUMDIRLINK/$sumdiryear/$sumdirdate/$SORBNUM 
+
+	    echo $sumdirorb >| $SUMPLOTS/recentplot.log
+	fi
+
+	# Run sdt_batch
+
+	cd $LZPJUNEAUHOME	
+	export IDLORBIT=$CurrentOrbit
+	$FASTBIN/cleanup >> $TEMPLOGS/templog_$$ 2>&1
+	echo $1: ---- sdt_batch job BEGINS for orbit ${IDLORBIT} at $(date) |
+	tee -a $TEMPLOGS/templog_$$
+
+	$FASTBIN/sdt_batch $FASTSW/batchjobs/idlarchive.batch >> \
+	    $TEMPLOGS/templog_$$
+
+	echo $1: ---- sdt_batch job ENDS for orbit ${IDLORBIT} at $(date) |
+	tee -a $TEMPLOGS/templog_$$
+
+	# Rename the sdt_batch out and err output files
+
+	RenameDiagnosticFiles
+
+	# Move/Rename files created by IDL summary plot procedures.
+	# Establish loop for occasion when more than one ILAT used.
+
+	n=0
+	CurrentLatitudeTime=${InLatitudeTimes[$n]}
+	echo CurrentLatitudeTime = $CurrentLatitudeTime >> $TEMPLOGS/templog_$$
+	while [[ -n $CurrentLatitudeTime ]] ; do
+
+		# Determine orbit location portion of summary plot
+		# file name.
+		#
+		# If using first ILAT time, then $lo will be either
+		# "IN" or "ON" for "Incoming Northern" or "Outgoing
+		# Northern".  Otherwise, $lo will be designated
+		# "Incoming Southern" or "Outgoing Southern".
+		#
+		# Gethilat returned two invariant latitude times.
+		# The first is always the northern latitude.
+
+		if (($n == 0)) ; then
+			lo=in           # Northern Latitude
+		else
+			lo=is           # Southern Latitude
+		fi
+		echo ILAT time index: $n >> $TEMPLOGS/templog_$$
+		echo Orbit Region: $lo >> $TEMPLOGS/templog_$$
+		
+		#### Move IDL Incoming ILAT Sumplots         ####
+		#### Note: Move CDFs on first iteration only ####
+
+		## EES CDF ##
+		
+		if (( $n == 0 )) ; then
+			if [[ -n $(ls $IDLOUTDIR | grep ees.${CurrentOrbit}.cdf) ]] ; then
+				eescdfname=${FAST_CDF_HOME}/ees/fa_k0_ees_${SORBNUM}_v${EESVERSION}.cdf
+				echo eescdfname=$eescdfname >> $TEMPLOGS/templog_$$
+				mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep ees.${CurrentOrbit}.cdf) $eescdfname
+			else
+				echo $1: !No IDL EES CDF file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+			fi
+		fi
+
+
+		## IES CDF ##
+
+		if (( $n == 0 )) ; then
+                	if [[ -n $(ls $IDLOUTDIR | grep ies.${CurrentOrbit}.cdf) ]] ; then
+                        	iescdfname=${FAST_CDF_HOME}/ies/fa_k0_ies_${SORBNUM}_v${IESVERSION}.cdf
+                        	mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep ies.${CurrentOrbit}.cdf) $iescdfname     
+                	else
+                        	echo $1: !No IDL IES CDF file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                	fi
+		fi
+
+
+		## TMS CDF ##
+
+		if (( $n == 0 )) ; then
+                	if [[ -n $(ls $IDLOUTDIR | grep tms.${CurrentOrbit}.cdf) ]] ; then
+                        	tmscdfname=${FAST_CDF_HOME}/tms/fa_k0_tms_${SORBNUM}_v${TMSVERSION}.cdf
+
+                        	mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep tms.${CurrentOrbit}.cdf) $tmscdfname     
+                	else
+                        	echo $1: !No IDL TMS CDF file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                	fi
+		fi
+
+
+		## DCFIELDS CDF ##
+
+		if (( $n == 0 )) ; then
+                	if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.cdf) ]] ; then
+                        	dfldcdfname=${FAST_CDF_HOME}/dcf/fa_k0_dcf_${SORBNUM}_v${DCFVERSION}.cdf
+                        	mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.cdf) $dfldcdfname
+                	else
+                        	echo $1: !No IDL DCFIELD CDF file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                	fi
+		fi
+
+		## DCFIELDS GIF ##
+
+                if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) ]] ; then
+                        dfldingif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.gif
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) $dfldingif
+                else
+                        echo $1: !No IDL DCFIELD gif file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+		## DCFIELDS PS ##
+
+                if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) ]] ; then
+                        dfldinps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.ps
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) $dfldinps
+                else
+                        echo $1: !No IDL DCFIELD ps file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+                ## ACFIELDS CDF ##
+ 
+		if (( $n == 0 )) ; then
+                	if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.cdf) ]] ; then
+                        	afldcdfname=${FAST_CDF_HOME}/acf/fa_k0_acf_${SORBNUM}_v${ACFVERSION}.cdf
+                        	mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.cdf) $afldcdfname
+                	else
+                        	echo $1: !No IDL ACFIELD CDF file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                	fi
+		fi 
+
+                ## ACFIELDS GIF ##
+ 
+                if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) ]] ; then
+                        afldingif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.gif
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) $afldingif
+                else
+                        echo $1: !No IDL ACFIELD gif file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+ 
+                ## ACFIELDS PS ##
+ 
+                if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) ]] ; then
+                        afldinps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.ps
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) $afldinps
+                else
+                        echo $1: !No IDL ACFIELD ps file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+
+		#### Outgoing ILAT Sumplots ####	
+
+		# Determine orbit location
+		# Same Hemisphere as last section, only now outgoing
+
+		if [[ $lo = in ]] ; then
+			lo=on
+		else
+			lo=os
+		fi
+
+		#### Convert IDL Outgoing Invariant Sumplots ####
+
+		## DCFIELDS GIF ##
+
+                if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) ]] ; then
+                        dfldoutgif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.gif
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) $dfldoutgif
+                else
+                        echo $1: !No IDL DCFIELD gif file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+		## DCFIELDS PS ##
+
+                if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) ]] ; then
+                        dfldoutps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.ps
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) $dfldoutps
+                else
+                        echo $1: !No IDL DCFIELD ps file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+                ## ACFIELDS GIF ##
+ 
+                if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) ]] ; then
+                        afldoutgif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.gif
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) $afldoutgif
+                else
+                        echo $1: !No IDL ACFIELD gif file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+ 
+                ## ACFIELDS PS ##
+ 
+                if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) ]] ; then
+                        afldoutps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.ps
+                        mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) $afldoutps
+                else
+                        echo $1: !No IDL ACFIELD ps file found for orbit $SORBNUM >> $TEMPLOGS/templog_$$
+                        echo $1: location = $lo >> $TEMPLOGS/templog_$$
+                fi
+
+		# Increment to the next ILAT time
+
+		n=$(( $n + 1 ))
+		CurrentLatitudeTime=$(echo ${InLatitudeTimes[$n]})
+	done
+
+	## Increment to the next orbit
+	#
+	CurrentOrbit=$(( $CurrentOrbit + 1 ))
+	files=$(get_cd_path -o $CurrentOrbit)
+
+	## Initially, if no files are found, try
+	## the next 10 orbits for data befor quitting
+	#
+	tempOrbit=$CurrentOrbit
+	if [[ -z $files ]]
+	then
+		i=1
+		CurrentOrbit=$(( $CurrentOrbit + 1 ))
+		files=$(get_cd_path -o $CurrentOrbit)
+		while [[ -z $files ]] && (( $i <= 10 ))
+		do
+			i=$(( $i + 1 ))
+			CurrentOrbit=$(( $CurrentOrbit + 1 ))
+			files=$(get_cd_path -o $CurrentOrbit)
+		done
+		if [[ -z $files ]] && (( $i == 10 ))
+		then 
+			CurrentOrbit=$tempOrbit
+		fi
+	fi
+
+	# Flag to tell how many orbits processed completely
+
+	let 'completed=completed+1'
+
+done
+
+# Warn if no orbits processed completely
+
+if (( ! (completed >= 1) )); then
+    echo $1:!!!! Zero orbits processed !!!! >> $TEMPLOGS/templog_$$
+    printf "%s\n" "Subject: Archive System message" \
+	"script : $0" \
+	"Process ID: $1" \
+	"Orbit  : $CurrentOrbit" \
+	"Logfile : $TEMPLOGS/templog_$$" \
+	"Sciplot processed zero orbits to completion." |
+    mail $ARCHIVEMASTER
+fi
+
+# Place CurrentOrbit in plotorbit file so sciplot will start there next time
+
+#CurrentOrbit=$(( $CurrentOrbit - 5 ))
+echo $CurrentOrbit > $PLOTORBIT
+
+# Remove the lockfile, unset traps, exit
+
+echo $1: ---- sciplot finished at $(date) ---- | tee -a $TEMPLOGS/templog_$$
+rm $SCIPLOTLOCK
+trap - EXIT
+exit 0

@@ -1,0 +1,27 @@
+# FAST Attitude code version = 1.0
+# Space craft ID = FAST
+# Sequence number = 50
+# Start time = 95 114  05:00:0.000
+# Stop time = 95 114  05:15:0.000
+# Attitude data level = 0
+# Data Resolution = 60
+# Attitude Spin Freq Func Ver = 1
+# Attitude Spin Freq Func Desc = [ PHI = SPIN_PHASE + DT*(SPIN_FREQ + DT*(SPIN_PARM
+# Attitude Spin Freq Func Desc = B + DT*(SPIN_PARMC + DT*SPIN_PARMD))) ]
+TIME          SPIN_RA       SPIN_DEC      SPIN_PHAS     SPIN_FREQ     SPIN_PARMB    SPIN_PARMC    SPIN_PARMD    SC_PITCH      SC_ROLL       
+0             90            -7            -98.4         72            0             0             0             0             0             
+60            89.9987       -6.99995      -98.4         72            0             0             0             0             0             
+120           89.9975       -6.99981      -98.4         72            0             0             0             0             0             
+180           89.9963       -6.99959      -98.4         72            0             0             0             0             0             
+240           89.9952       -6.99928      -98.4         72            0             0             0             0             0             
+300           89.9941       -6.9989       -98.4         72            0             0             0             0             0             
+360           89.9931       -6.99847      -98.4         72            0             0             0             0             0             
+420           89.9921       -6.99798      -98.4         72            0             0             0             0             0             
+480           89.9913       -6.99747      -98.4         72            0             0             0             0             0             
+540           89.9906       -6.99694      -98.4         72            0             0             0             0             0             
+600           89.9899       -6.9964       -98.4         72            0             0             0             0             0             
+660           89.9893       -6.99586      -98.4         72            0             0             0             0             0             
+720           89.9889       -6.99534      -98.4         72            0             0             0             0             0             
+780           89.9885       -6.99485      -98.4         72            0             0             0             0             0             
+840           89.9882       -6.99439      -98.4         72            0             0             0             0             0             
+900           89.9879       -6.99397      -98.4         72            0             0             0             0             0             

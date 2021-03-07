@@ -1,0 +1,138 @@
+#!/usr/bin/ksh
+## danet_process - FAST archive DANET processes will now be initiated
+## from the open side. This procedure will be called from a cronjob
+## and scan for new CDs to process
+#
+## Created by: Tim Quinn
+## Date: 14 October 2002
+
+## Environment setup 
+#
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config.danet
+#. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+## Check for lock. Exit if found, or create lock and proceed
+#
+if [[ -a $DANETLOCK ]] ;
+then
+	echo "$$: danet_process is already running - see process $(cat $DANETLOCK)" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+	echo "$$: --* danet_process finished at $(date) *--" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+	exit 0
+fi
+echo $$ > $DANETLOCK
+
+## Get name of current online disk and check that it exists
+#
+last_element=$(( ${#DANETSTORAGE[*]} - 1 ))
+JDIR=${DANETSTORAGE[$last_element]}
+if [[ ! -d $JDIR ]]
+then
+	echo "$$: The directory JDIR=${JDIR} does not exists. Exiting script" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+	rm $DANETLOCK
+	exit 0
+fi
+	
+
+## Take a snapshot of the CD transfer queue directory
+#
+ls -1 $FINET_TRANSFER/FAST* 2>/dev/null > $TMPDIR/dir_snapshot$$	
+
+## Now process any CDs recovered in the snapshot
+#
+while [[ -s $TMPDIR/dir_snapshot$$ ]]
+do
+	#
+	## Update the FAST database
+	#
+	cd_name=$(basename $(head -1 $TMPDIR/dir_snapshot$$))
+	echo "$$: Starting a danet_process for $cd_name at $(date)" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+	TMPDBLOG=/tmp/dblog$$
+	/bin/rm -f $TMPDBLOG
+	echo $cd_name > $TMPDIR/dbfailed$$
+	echo "$$: ---- Starting dbupdate $(date) ----" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+	$DANETBIN/dbupdate $cd_name $$ > $TMPDBLOG 2>&1
+	cat $TMPDBLOG >> $DANET_LOGFILE
+	failed=0
+	if [[ `grep -c 'FAILED' $TMPDBLOG` -ne 0 ]] ; then
+                echo $$:!!!! dbupdate failed !!!! >> $DANET_LOGFILE
+                printf "%s\n" "Subject: Archive System message" \
+                              "script : $0" \
+                              "$TMPDBLOG reports dbupdate FAILED" \
+                              "!!!! dbupdate failed !!!!" \
+                              "Process ID: $$" |
+                mail $ARCHIVEMASTER
+                failed=1
+        fi
+        if [[ `grep -c 'INTERRUPT' $TMPDBLOG` -ne 0 ]] ; then
+                echo $$:!!!! dbupdate interrupted !!!! >> $DANET_LOGFILE
+                printf "%s\n" "Subject: Archive System message" \
+                              "script : $0" \
+                              "$TMPDBLOG reports dbupdate INTERRUPT" \
+                              "!!!! dbupdate interrupted !!!!" \
+                              "Process ID: $$" |
+                mail $ARCHIVEMASTER
+                failed=1
+        fi
+        if [[ $failed != 1 ]]
+        then
+                rm $TMPDIR/dbfailed$$
+		echo "$$: ---- Starting update_vollist at $(date)" >> $DANET_LOGFILE
+		echo "$$:" >> $DANET_LOGFILE
+		$DANETBIN/update_vollist $JDIR/$cd_name >> $DANET_LOGFILE 2>&1
+		echo "$$: ---- ........update_vollist complete at $(date)" >> $DANET_LOGFILE
+		echo "$$:" >> $DANET_LOGFILE
+		rm $TMPDBLOG
+        fi
+
+	#
+	## Now that db_update is done, do a size check on the database
+	#
+	$DANETBIN/check_dbsize >> $DANET_LOGFILE
+
+	#
+	## Create Summary Plots (in the background)
+	#
+	#$DANETBIN/sciplot $$ >> $DANET_LOGFILE 2>&1 &
+	
+	#Commented out premaster on 20071005
+	## Premaster the CD
+	#
+	#$DANETBIN/premaster $cd_name $$ >> $DANET_LOGFILE 2>&1
+	#if [[ $(cat $LZPJUNEAUHOME/premasterstat) = "failed" ]]
+	#then
+		#echo $$:!!!! premaster failed, quitting !!!! >> $DANET_LOGFILE
+		#printf "%s\n" "Subject: Archive System message" \
+			#"script : $0" \
+			#"premasterstat file reports premaster failed" \
+			#"!!!! premaster failed, quitting !!!!" \
+			#"Process ID: $$" |
+		#mail $ARCHIVEMASTER
+		#rm $LZPJUNEAUHOME/premasterstat
+	#fi
+	#
+	## Cut the CDs
+	#
+	#$DANETBIN/cutcd $$ & >> $DANET_LOGFILE 2>&1
+	#
+	## Now remove current CD from snapshot and move on
+	#
+	cd_filename=$(head -1 $TMPDIR/dir_snapshot$$)
+	rm $cd_filename
+	sed '1d' $TMPDIR/dir_snapshot$$ > $TMPDIR/DIR_SNAPSHOT$$
+	mv $TMPDIR/DIR_SNAPSHOT$$ $TMPDIR/dir_snapshot$$
+	echo "$$: --* danet_process for $cd_name ends at $(date) *--" >> $DANET_LOGFILE
+	echo "$$:" >> $DANET_LOGFILE
+done
+rm $TMPDIR/dir_snapshot$$
+
+
+rm $DANETLOCK
+	
+exit 0

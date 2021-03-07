@@ -1,0 +1,420 @@
+****************************************************************
+
+       README.sunnadir.usage
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the sunnadir program.
+
+****************************************************************
+
+       @(#)README.sunnadir.usage	1.5    10/04/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Introduction.
+
+       2. Input Files.
+
+       3. Output Files.
+
+       4. Program Usage.
+
+       5. Return Status.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Introduction.
+
+
+
+
+               The purpose of the sunnadir program is to create
+       memory load files for the FAST satellite.
+
+               These files are uploaded to the satellite, where
+       they are used by software that controls instruments.
+
+               The information contained in these files concerns
+       the orientation of the spacecraft with respect to the
+       Earth and the Sun; this, plus horizon sensor data, makes
+       it possible to generate "pseudo Sun pulses" when the
+       spacecraft is in shadow.
+
+
+
+               This documentation file explains how to run the
+       program: input and output files, program run command
+       line, program return status, etc.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Input Files.
+
+
+
+
+       2.1 Orbit File.
+
+
+               The Orbit file is an ASCII file containing
+       predicted orbit vectors.
+
+
+               Typically, this file will be generated at SSL
+       from predicted orbit elements that are sent daily from
+       Goddard.
+
+
+               Usually, the Orbit file will cover several days,
+       with a typical time resolution of 10 sec.
+
+
+
+
+       2.2 Attitude Prediction File.
+
+
+               The Attitude Prediction file is an ASCII file
+       containing predicted attitude vectors.
+
+
+               Typically, this file will be sent weekly from
+       Goddard.
+
+
+               Usually, the Attitude Prediction file will cover
+       about 4 weeks, with a typical time resolution of 1 day.
+
+
+
+
+       2.3 Configuration File.
+
+
+               The Configuration file is an ASCII file
+       containing parameters to control the program run.
+
+
+               Typically, this file will be created or modified
+       at SSL using parameter values specified by scientists.
+
+
+               It is expected that, after an initial trial
+       period, the values in the Configuration file will not be
+       changed, or changed very seldom.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Output Files.
+
+
+
+
+       3.1 Spacecraft Packet File.
+
+
+               The Spacecraft Packet file is an ASCII file
+       containing the memory load for the spacecraft.
+
+
+
+
+       3.2 Archive File.
+
+
+               The archive file is an ASCII file containing
+       results from the program run that can be reviewed by
+       scientists.
+
+
+
+
+       3.3 Log File.
+
+
+               The Log file is an ASCII file containing error
+       trace information from the program run that can be
+       reviewed by programmers.
+
+
+
+
+       3.4 User Messages File.
+
+
+               The User Messages file is an ASCII file
+       containing error messages to the operator running the
+       program.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Program Usage.
+
+
+
+
+       4.1 Program Command Line.
+
+
+
+               The program usage is as follows:
+
+
+
+       sunnadir -s start [-o orbit] [-a att] [-c config]
+                -p packet [-r archive] [-l log] [-u usrm]
+
+
+
+       where:
+
+
+
+       start     is the Start Time, in the form
+       -----     "1994 365 12:34:56.789"
+                 (year    day of year    time of day).
+
+
+
+       orbit     is the name of the Orbit file.
+       -----
+
+       If the argument is absent, then the standard input is
+       used.
+
+
+
+       att       is the name of the Attitude Prediction file.
+       ---
+
+       If the argument is absent, then the standard input is
+       used.
+
+
+
+       config    is the name of the Configuration file.
+       ------
+
+
+        1) If the value is a hyphen (i.e.,  -c - ), then the
+           standard input is used.
+
+
+        2) If the argument is present, but the value is not a
+           hyphen, the value is the file name.
+
+
+        3) If the argument is absent, the program searches for a
+           file named   sunnadir.cfg
+
+           The order of precedence of the directories to be
+           searched if the argument is absent consists of the
+           following stages:
+
+                     $FASTCONFIG/sunnadirDAT
+
+                     $FASTLIB/sunnadirDAT
+
+
+
+       packet    is the name of the Spacecraft Packet file.
+       ------
+
+
+
+       archive   is the name of the Archive file.
+       -------
+
+       If the argument is absent, then the standard output is
+       used.
+
+
+
+       log       is the name of the Log file.
+       ---
+
+       If the argument is absent, then the standard error is
+       used.
+
+
+
+       usrm      is the name of the User Messages file.
+       ----
+
+       If the argument is absent, then the standard error is
+       used.
+
+
+
+
+       4.2 Notes on the Program Command Line.
+
+
+
+        1) Each argument consists of a -x keyword followed by
+           its corresponding argument value.
+
+           There should be at least one space between each -x
+           keyword and its corresponding argument value (even
+           when it says below that one should come immediately
+           after the other).
+
+
+
+        2) The brackets indicate optional arguments.
+
+           The brackets must not appear on an actual command
+           line.
+
+           The only required arguments are
+
+                     -s start    and
+
+                     -p packet
+
+
+
+        3) Each argument value must be immediately preceded by
+           its corresponding -x keyword.
+
+           Other than this, the order is arbitrary.
+
+
+
+        4) If a -x keyword appears more than once, each
+           appearance must be immediately followed by its
+           corresponding value, and the last one on the command
+           line will be used.
+
+
+
+        5) The Start Time argument value must be between quotes,
+           in order to keep it as a single argument value
+           despite the spaces separating its 3 parts (year, day
+           of year, time of day).
+
+
+           Day of year starts at 1 for January 1, time is UTC.
+
+
+           The date must be a legal date; the day number must be
+           between 1 and 365 for non-leap year, and between 1
+           and 366 for leap year.
+
+
+           Seconds can be integer, without decimal point or
+           fraction.
+
+
+           The whole time of day, or parts, can be omitted, and
+           default to zero; but the year and day of year must
+           always be present.
+
+
+           If parts of the time are omitted, this must be done
+           starting from the right end (i.e., seconds), and
+           working back towards the left; one can omit just the
+           seconds; or seconds and minutes; or seconds, minutes,
+           and hours.
+
+                     "1994 365 0:0:0.0"   all these are
+                     "1994 365 0:0:0"     legal and all
+                     "1994 365 0:0"       refer to the
+                     "1994 365 0"         same date and
+                     "1994 365"           time
+
+                     "1994 365 12:34:56"  time 12:34:56
+                     "1994 365 12:34"     time 12:34:00
+                     "1994 365 12"        time 12:00:00
+                     "1994 365"           time 00:00:00
+                     "1994 365  :34:00"   illegal
+                     "1994 365 12::00"    illegal
+
+
+           No minus signs are allowed anywhere in the Start
+           Time.
+
+
+
+        6) All file names must include whatever directory path
+           information may be needed to locate the file.
+
+
+
+        7) For any given run, at most one input file can be
+           standard input.
+
+
+
+        8) Every output file overwrites a preexisting file with
+           the same name.
+
+
+
+        9) In the search for the Configuration file (if the
+           argument is absent), it is not an error if the
+           FASTCONFIG  environment variable is not set (the
+           search moves on to the next stage).
+
+
+           If the search reaches the last stage, then the
+           corresponding environment variable (FASTLIB) must be
+           set (and the file must exist).
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Return Status.
+
+
+
+
+       There are 3 possible values:
+
+
+        0  means the program succeeded in creating the
+           Spacecraft Packet file without any error occurring,
+           and also succeeded in final clean-up operations
+           without error.
+
+
+        1  means the program succeeded in creating the
+           Spacecraft Packet file without any error occurring,
+           but an error occurred during final clean-up
+           operations.
+
+           Note that the Spacecraft Packet file that was created
+           should be valid in this case.
+
+
+        2  means an error occurred before the Spacecraft Packet
+           file was created or finalized.
+
+           Note that there may be a Spacecraft Packet file, but
+           it should not be used in this case.

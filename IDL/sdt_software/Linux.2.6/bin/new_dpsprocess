@@ -1,0 +1,197 @@
+#!/usr/bin/ksh
+# new_dpsprocess - This new process will search for 
+# ground station VC files and move them to the open
+# side network for processing.
+#
+#	This script is handling (3) separate file conditions:
+#	
+#		1 - LEO-T files must be renamed
+#		2 - Correct naming convention
+#		3 - BGS files
+#
+# Created on 11/18/05
+#
+#
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+# Function wrn_exitarn_exit declaration
+# Mails ARCHIVEMASTER if intercept exits prematurely.
+
+function warn_exit {
+	{
+        # <word>: is interpreted as mail tag unless <word> contains whitespace
+        printf "%s\n" 'Subject: Archive System message' \
+                      "Dpsprocess script exited prematurely at line $1" \
+                      'See archivelog and/or other Archive System messages.' \
+                      "Process ID: $$"
+    } | mail $ARCHIVEMASTER
+}
+
+# Set trap for premature EXIT
+
+trap 'warn_exit $LINENO' EXIT
+
+## Adding this brief echo to make sure the log file shared
+## by dps and lzp will be created with the correct permissions
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: Starting new_dpsprocess at $(date)" >> $IONLOGFILE
+	echo "$$:" >> $IONLOGFILE
+	if [[ -O $IONLOGFILE ]]
+	then
+		chmod g+w $IONLOGFILE
+	fi
+
+## Check for existing dps processes and sleep until complete.
+## Otherwise, create lock file and continue
+#
+	DPSLOCK=/var/tmp/dpsprocess
+	if [[ -a $DPSLOCK ]]
+	then
+		echo "$$:" >> $IONLOGFILE
+		echo "$$: Active dpsprocess $(cat $DPSLOCK)" >> $IONLOGFILE
+		echo "$$: Quitting........." >> $IONLOGFILE
+		exit 0
+	fi
+	echo $$ > $DPSLOCK
+
+## First, make a listing of the LEO-T files which
+## will have to be renamed. The LEO-T file naming
+## convention is yydddhhmmss_main.vcN.
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: Checking for LEO-T files.........." >> $IONLOGFILE
+	leotfiles=$(ls -1 $DPSDATADROP/*.vc[0-9])
+	for leotfile in $leotfiles
+	do
+		echo "$$:" >> $IONLOGFILE
+		echo "$$: ....Processing LEO-T file $leotfile" >> $IONLOGFILE
+		## Check to see if file size is static
+		#
+		file_size1=$(ls -l $leotfile | awk '{print $5}')
+		sleep 15
+		file_size2=$(ls -l $leotfile | awk '{print $5}')
+		while (( $file_size2 > $file_size1 ))
+		do
+			file_size1=$file_size2
+			sleep 15
+			file_size2=$(ls -l $leotfile | awk '{print $5}')
+		done
+
+		## Create new name and move file
+		#
+		base_leotfile=$(basename $leotfile)
+		dir_path=$(dirname $leotfile)
+		year=$(echo $base_leotfile | awk '{print substr($1,0,2)}')
+		year=$(( $year + 2000 ))
+		doy=$(echo $base_leotfile | awk '{print substr($1,3,3)}')
+		hhmm=$(echo $base_leotfile | awk '{print substr($1,6,4)}')
+		vc=$(echo $base_leotfile | awk -F. '{print substr($2,3,1)}')	
+		new_name=fast_${year}_${doy}_${hhmm}_vc0${vc}
+		mv $leotfile $dir_path/$new_name
+		echo "$$: ....File moved to $dir_path/$new_name" >> $IONLOGFILE
+
+	done
+
+## Now make a listing of the VC files
+## in the directory where ground stations 
+## deliver them
+#
+	vcfiles=$(ls -1 $DPSDATADROP/fast*)
+
+## Now process each file
+#
+	for vcfile in $vcfiles
+	do
+		echo "$$:" >> $IONLOGFILE
+		echo "$$: Copying $vcfile to:" >> $IONLOGFILE
+		echo "$$: juneau:$BDPSRAWINCOMING....." >> $IONLOGFILE
+		scp $vcfile juneau:$BDPSRAWINCOMING
+		echo "$$: ...copy complete" >> $IONLOGFILE
+
+		jvcfile=$(basename $vcfile)
+		echo "$$: Moving $jvcfile to:" >> $IONLOGFILE
+		echo "$$: juneau:$BDPSRAWTBP....." >> $IONLOGFILE
+		ssh juneau mv $BDPSRAWINCOMING/$jvcfile $BDPSRAWTBP
+		echo "$$: ...move complete" >> $IONLOGFILE
+		mv $vcfile $DPSHOLD
+		echo "$$: Moving $vcfile to $DPSHOLD"  >> $IONLOGFILE
+	done
+
+## Check for BGS files and deliver if found
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: Checking for BGS files.........." >> $IONLOGFILE
+	bgs_vcfiles=$(ls -1 $BGSDIR/BGS*)
+	
+	for bgs_vcfile in $bgs_vcfiles
+	do
+		echo "$$:" >> $IONLOGFILE
+		echo "$$: ....Processing BGS file $bgs_vcfile" >> $IONLOGFILE
+		base_bgs_vcfile=$(basename $bgs_vcfile)
+		dir_path=$(dirname $bgs_vcfile)
+		year=$(echo $base_bgs_vcfile | awk -F. '{print substr($4,1,4)}')
+		doy=$(echo $base_bgs_vcfile | awk -F. '{print substr($4,6,3)}')
+		hh=$(echo $base_bgs_vcfile | awk -F. '{print substr($4,10,2)}')
+		mm=$(echo $base_bgs_vcfile | awk -F. '{print substr($4,12,2)}')
+		losmm=$(( $mm + 15 )) 
+		loshh=$hh
+		## Check if los time has rolled over the minute and hour
+		## settings
+		#
+		if (( $losmm >= 60 ))
+		then
+				losmm=$(( $losmm - 60 ))
+				loshh=$(( $hh + 1 ))
+				if (( $loshh >= 24 ))
+				then
+					loshh=$(( $loshh - 24 ))
+				fi
+				loshh=$(printf "%02d" $loshh)
+		fi
+		losmm=$(printf "%02d" $losmm)
+		ss=$(echo $base_bgs_vcfile | awk -F. '{print substr($4,14,2)}')
+		the_date=$(doy2date $year $doy)
+		the_time=${hh}:${mm}:${ss}
+		orbit_num=$(ssh $DANETHOST "timeorbit '$the_date $the_time'")
+		new_sched_line="${year}${doy}${hh}${mm}	${hh}${mm}	${loshh}${losmm}	$orbit_num	DSS-98"
+		rcv_chk=$(ssh juneau "grep ${year}${doy}${hh}${mm} $BDPSSCHEDS/bgs_sched_fast")
+
+		## Insert line into quasi-BGS schedule so BDPS can process
+		#
+		if [[ -z $rcv_chk ]]
+		then
+			ssh juneau "echo $new_sched_line >> $BDPSSCHEDS/bgs_sched_fast"
+		fi
+
+		## Check to see if file size is static
+		#
+		file_size1=$(ls -l $bgs_vcfile | awk '{print $5}')
+		sleep 15
+		file_size2=$(ls -l $bgs_vcfile | awk '{print $5}')
+		while (( $file_size2 > $file_size1 ))
+		do
+			file_size1=$file_size2
+			sleep 15
+			file_size2=$(ls -l $bgs_vcfile | awk '{print $5}')
+		done
+
+		## Now copy file 
+		#
+		scp $bgs_vcfile juneau:$BDPSRAWINCOMING
+		ssh juneau "gunzip $BDPSRAWINCOMING/$base_bgs_vcfile"
+		base_bgs_vcfile_unzipped=${base_bgs_vcfile%.*}
+		ssh juneau "mv $BDPSRAWINCOMING/$base_bgs_vcfile_unzipped $BDPSRAWTBP"
+		echo "$$: ....File copied to juneau:$BDPSRAWTBP" >> $IONLOGFILE
+		mv $bgs_vcfile $DPSHOLD
+	done
+		
+## This script is complete
+#
+	echo "$$:" >> $IONLOGFILE
+	echo "$$: ........new_dpsprocess ends at $(date)" >> $IONLOGFILE
+	rm $DPSLOCK
+	trap - EXIT
+	exit 0

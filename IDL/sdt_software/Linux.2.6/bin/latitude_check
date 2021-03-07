@@ -1,0 +1,109 @@
+#!/usr/local/bin/perl -w
+#
+# perl script: latitude_check.pl
+#
+# PURPOSE:
+#
+# This script will return the latest latitude of the FAST
+# spacecraft and email Tim Quinn when the orbit goes below
+# 20 or above -20.
+
+### Source archive_config script
+#
+my $archive_config="/disks/fast/software/config/archive_config";
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config";
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  exit($stat);
+}
+
+my $email=`cat $archive_config | grep 'ARCHIVEMASTER='`; $email =~ m/^ARCHIVEMASTER=\'([^\']*)\'$/; $email = $1;
+
+### Load the DBI Module 
+#
+use DBI;	
+
+### Create the database handle
+#
+my $dbh = DBI->connect( "dbi:Sybase:FAST_DB", "fastquery", "slowburn" );
+
+### Select the appropriate database
+#
+$dbh->do("use fast_archive");
+
+### Prepare statement
+#
+	my $sth = $dbh->prepare(qq(
+		select lat from ephemeris_events, events_data 
+		where time = (select max(time) from ephemeris_events
+		where apogee = 1)
+		and apogee = 1 and data = ident 
+		));
+
+### Declare an array to put latitude in
+#
+my @lat_array;
+
+### Really want latitude in a scalar, so delcare a scalar for latitude
+#
+my $lat;
+
+## Execute statement handle
+#
+	$sth->execute;
+	@lat_array = $sth->fetchrow_array;
+	$sth->finish;
+	$lat = splice(@lat_array, 0, 1);
+	#print "$lat\n";
+
+### Now disconnect from the database
+#
+$dbh->disconnect
+	or warn "Disconnection failed: $DBI::errstr\n";
+
+### Round latitude to nearest tenth (one decimal place)
+#
+$lat_rounded = sprintf("%.1f", $lat);
+
+### Take absolute value
+#
+$lat_rounded_abs = abs($lat_rounded);
+
+### Find yesterday's value
+#
+my $lat_old = "/disks/cdwork/workdir/lat_old";
+my $lat_yesterday = `cat $lat_old`;
+$lat_yesterday_abs = abs($lat_yesterday);
+
+### If latitude rises from either below negative twenty to above negative
+# twenty or falls from above twenty to below twenty e-mail Tim Quinn.
+#
+if ($lat_yesterday_abs >= 20.0) {
+ if ($lat_rounded_abs <= 20.0) {
+  open(SENDMAIL, "|/usr/lib/sendmail -oi -t")
+	or die "Can't open sendmail: $!\n";
+  print SENDMAIL "From: LZP data archiving <lzp\@sunspot.ssl.berkeley.edu>\n";
+  print SENDMAIL "To: $email\n";
+  print SENDMAIL "Subject: Latitude of FAST\n\n";
+  print SENDMAIL "Yesterday the FAST spacecraft was orbitting at ${lat_yesterday} degrees latitude.  Today it is orbitting at ${lat_rounded} degrees latitude. This alert has been sent to inform you that the FAST spacecraft is orbitting within -20.0 to 20.0 degrees latitude.\n";
+  close(SENDMAIL)	or warn "SENDMAIL did not close properly";
+ }
+}
+
+### Make today's value yesterday's value for tomorrow.
+#
+
+open(DAT,">$lat_old") || die("Cannot open file");
+print DAT "$lat_rounded\n";
+close(DAT);
+
+exit;

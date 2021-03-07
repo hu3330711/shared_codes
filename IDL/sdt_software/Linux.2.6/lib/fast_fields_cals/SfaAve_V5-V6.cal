@@ -1,0 +1,56 @@
+#  SCCS Id
+#  @(#)SfaAve_V5-V6.cal	1.2 11/27/96
+#
+# SfaAve_V5-V6.cal
+# REE 11/14/96
+# 11/27/96 REE - Added min/max. Cleans up spectrograms.
+#
+SfaAve_V5-V6		Data name.
+4    			SFA/SFAave calibration.
+sec			x-axis units.
+kHz			y-axis units.
+(V/m)^2/Hz		z-axis units.
+17			Boomlength index.
+0			Gain state.
+0			History.
+#
+# Calibration table as of 11/13/96. REE.
+# Short wave length calibrations only. Common mode rejection 
+# at frequencies >500 kHz is less than 20 dB. Long wave not valid.
+#
+0			Time in seconds.
+0.5			Vzero.
+4.18e-2			Gain.
+0.0123			Order_2 (second order).
+15000			Bandwidth in Hz.
+1.001e-13		Minimum allowed value. (Cleams up spectrgrams.)
+0.999e-5		Max allowed value.
+3			Word index.
+0			Cof type. MUST BE ZERO FOR NOW! REE 11/06/96
+10			Num_cof. Using polynomial coefficients.
+#
+# 			Copied from IDL sfa_cal_fit.
+       7.0096951
+    0.0010694130
+  -6.8321217e-06
+  -2.0092166e-08
+   4.4994536e-11
+  -3.6489871e-14
+   1.5513708e-17
+  -3.6895698e-21
+   4.6578689e-25
+  -2.4370866e-29
+#
+# 			Freq of zeroth point. Delta freq between points in kHz.
+#
+ -45.2    4.173437	BBFOFF=0, Stp=0, INC=0.
+-112.7    8.346874	BBFOFF=0, Stp=0, INC=1.
+ -49.4    8.346874	BBFOFF=0, Stp=1, INC=0.
+ -99.7   16.693748	BBFOFF=0, Stp=1, INC=1.
+ -45.2    2.086718	BBFOFF=1, Stp=0, INC=0.
+ -91.1    4.173437	BBFOFF=1, Stp=0, INC=1.
+ -49.4    4.173437	BBFOFF=1, Stp=1, INC=0.
+ -49.4    8.346874	BBFOFF=1, Stp=1, INC=1.
+#
+# End of Cal table entry zero.
+#

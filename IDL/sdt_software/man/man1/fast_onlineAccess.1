@@ -1,0 +1,116 @@
+.\" @(#)fast_onlineAccess.1	1.2 11/12/01
+'\"macro stdmacro
+.nr X
+.TH fast_onlineAccess 1 11/12/01
+.SH NAME
+fast_onlineAccess \- give/revoke permission for a remote domain to maintain
+its datamgr filelist in the fast_online database.
+.SH SYNOPSIS
+.B fast_onlineAccess
+
+.SH DESCRIPTION
+.B fast_onlineAccess
+is a Tcl script which is intended to be run only at UCSOC.  It is a menu-driven program
+which allows the database administrator to add a host to the access list, remove a host
+from the access list (thereby ir-reversably removing all filelist information in the database for
+that domain), or to chage the name or IP address of the 
+.I DomainHost
+already defined for a domain, so that the filelist contents of the database remain unchanged.
+
+.SH USAGE
+.B fast_onlineAccess
+prompts the user for the Sybase sa password.
+It then presents a menu with options to [A]dd, [R]emove, [C]hange a host entry in 
+the access list, or to [Exit].  Enter the command: A, R, C or Exit.  The commands are not case
+sensitive.
+To add a host, you may enter the IP address or the host name.  The host name must be 
+a fully-qualified host name.  When adding a host, 
+.B fast_onlineAccess
+uses 
+.B nslookup
+to help insure that you are entering a valid fully qualified host name and the
+correct corresponding IP address.  However, it is possible to add both values by hand
+(and thereby potentially enter a completely bogus address) in case nslookup is
+not working for the hostname or IP address you need to add.
+
+.LP
+.B datamgr
+defines the
+.I DomainHost
+to be the file server machine on which the $FASTCONFIG directory 
+physically resides.
+Any machine on the domain which shares the same $FASTCONFIG directory
+can have access to the fast_online database once
+the
+.I DomainHost
+is added to the OnlineAccess table using the
+.B fast_onlineAccess
+program at UCSOC.  
+If you are not sure which machine is the
+.I DomainHost
+at a given site, then run
+.B fileListToDB(1)
+at the remote site.
+Assuming that site has not yet been given access to the fast_online database,
+.B fileListToDB
+will print out an error 
+message giving the name of the file server which 
+.B datamgr
+considers to be the 
+.I DomainHost
+for that site.
+
+.LP
+Note: The definition of the
+.I DomainHost
+is an attempt to mimic the behavior of the old datamgr, in which all machines
+on a domain accessed a single filelist, the $DATAFILE_LIST file, which by default
+lived in the $FASTCONFIG directory.  It was possible in the old version for
+users to have private filelists by editing the setting of $DATAFILE_LIST in their
+.B ~/.datamgr.conf 
+file.  In the new version of datamgr, it is only possible to have a private
+filelist (although it physically resides in the database) by pointing $FASTCONFIG
+to a copy of the configuration directory tree which lives on your local host. 
+Private filelists should be discouraged, since they don't allow for 
+sharing of data, and moreover, the current version of 
+.B datamgr
+has enough bells and whistles that there is no longer any compelling need to 
+have a private list.
+
+.SH ENVIRONMENT
+.LP
+.B fast_onlineAccess
+uses the $FASTCONFIG variable to find the directory for the Datamgr/Datamgr.conf file,
+which points to files which contain Sybase connection configurations.
+
+
+.SH FILES
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+These files define the DBCONF variable
+.TP
+.B $DBCONF
+This file configures the Sybase connection  (e.g. the DSQUERY variable)
+.TP
+.B $FASTCONFIG/Sybase/interfaces
+This file is required to connect to Sybase
+.TP
+.B /usr/local/bin/sybtclx7.4
+This is the executable for the required version of
+Tcl with TclX and sybtcl extentions. By design, this is file is only availabe at Berkeley.
+
+
+.SH SEE ALSO
+.BR datamgr(1), fileListToDB(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+This script is intended to be runnable only from Berkeley.
+.LP
+.\".Ee

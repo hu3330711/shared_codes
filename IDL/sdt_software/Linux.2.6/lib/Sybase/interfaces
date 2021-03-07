@@ -1,0 +1,24 @@
+FAST_DB 5 5
+	query tcp ether juneau.ssl.berkeley.edu 2201
+	master tcp ether juneau.ssl.berkeley.edu 2201
+
+FAST_DB_BAK 5 5
+	query tcp ether juneau.ssl.berkeley.edu 2206
+	master tcp ether juneau.ssl.berkeley.edu 2206
+
+new_fastdb 5 5
+	query tcp ether juneau.ssl.berkeley.edu 4100
+	master tcp ether juneau.ssl.berkeley.edu 4100
+
+new_fastdb_back 5 5
+	query tcp ether juneau.ssl.berkeley.edu 4200
+	master tcp ether juneau.ssl.berkeley.edu 4200
+
+new_fastdb_mon 5 5
+	query tcp ether juneau.ssl.berkeley.edu 4300
+	master tcp ether juneau.ssl.berkeley.edu 4300
+
+NEW_FASTDB_XP 5 5
+	query tcp ether juneau.ssl.berkeley.edu 4400
+	master tcp ether juneau.ssl.berkeley.edu 4400
+

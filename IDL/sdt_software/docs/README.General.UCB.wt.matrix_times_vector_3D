@@ -1,0 +1,311 @@
+************************************************************************
+
+   README.General.UCB.wt.matrix_times_vector_3D
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.matrix_times_vector_3D
+
+************************************************************************
+
+   Matrix times vector in 3D.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.matrix_times_vector_3D	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the product of a matrix times a
+       vector in 3D.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The input vector.
+
+
+
+            2) The matrix.
+
+
+
+
+
+    3) The output vector is calculated as follows:
+
+
+           Matrix * [Input vector]
+
+
+
+
+
+    4) At the user's option, the transpose of the input matrix can be
+       used in the calculation instead of the input matrix itself.
+
+
+
+
+
+    5) An output data point is produced for each input vector.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input vector.
+
+
+
+
+
+    6) For an output data point to be produced, the input vector must be
+       in the time interval defined by two input matrix data points.
+
+
+
+       The matrix for the time of the input vector is the input matrix
+       at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       for the matrix is larger than a chosen value, this is considered
+       to be a data dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+            3) Flag to transpose the matrix.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            4) Dropout time for the matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            5) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            2) The matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.

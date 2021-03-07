@@ -1,0 +1,166 @@
+; Fast IDL Demo		created by Mcfadden 	96-7-11
+
+; Run the following after starting idl to set up the defaults
+
+@startup
+
+; Teams demo - use sdt configuration : mcfadden-fastda/Teams_da1
+
+	tplot_options,trange=[0,0]				; zero time range
+	t = '1994-8-10/11:45:00'				; set a time 
+	dat = get_fa_tsp(t)					; get a 3D structure
+	help,dat,/st 						; show dat structure
+; Spectra plots
+	spec3d,dat						; spectra plot
+	for a=0,9 do dat = sum3d(dat,get_fa_tsp(t,/ad))		; average data
+	spec3d,dat						; spectra plot
+; Note: sdt needs to change energy array to "eV" not "keV"
+; 3-D plots
+	plot3d_options,log=0,smooth=0,map='ait'			; use ait map
+	plot3d,dat,ebins=[15]
+	plot3d_options,log=0,smooth=0,map='cyl'			; use cyl map
+	plot3d,dat,ebins=[15]
+	plot3d,dat,ebins=[10,11,12,13,14,15,16,17,18]
+
+; Time Series plots 
+	get_2dt,'n_3d','fa_tsp',gap_time=25			; get density
+	tplot,['n_3d_fa_tsp']
+	get_2dt,'t_3d','fa_tsp',gap_time=25			; get temperature
+	tplot,['n_3d_fa_tsp','t_3d_fa_tsp']
+	get_2dt,'v_3d','fa_tsp',gap_time=25			; get velocity vector
+	tplot,['n_3d_fa_tsp','t_3d_fa_tsp','v_3d_fa_tsp']
+	get_2dt,'j_3d','fa_tsp',gap_time=25			; get flux vector
+	get_2dt,'p_3d','fa_tsp',gap_time=25			; get pressure tensor
+	get_2dt,'c_3d','fa_tsp',gap_time=25			; get counts
+	get_2dt,'vth_3d','fa_tsp',gap_time=25			; get thermal velocity
+	tplot,['j_3d_fa_tsp','p_3d_fa_tsp','c_3d_fa_tsp','vth_3d_fa_tsp']
+
+
+; Spectrograms
+	get_en_spec,"fa_tsp",units='eflux',name='teams',gap_time=20
+								; get spin avg energy spectrogram
+		options,'teams','spec',1			; set for spectrogram
+		zlim,'teams',0,0,1				; set log color scale
+		options,'teams','x_no_interp',1			; don't interpolate
+		options,'teams','y_no_interp',1			; don't interpolate
+	tplot,['teams']						; plot spectrogram
+
+; plot3d test of the 3-D map	
+	dat2=dat
+	dat2.data(*,*)=0					; zero counts
+	dat2.data(0,*)=findgen(dat2.nbins)			; counts = bin #
+	dat2.geom(*)=1.						; equal geometric factor bins
+	plot3d_options,log=0,smooth=0,map='cyl'
+	plot_map,dat2						; check solid angle mapping
+	edit3dbins,dat2,bins					; check bin labeling
+
+; Other Teams get routines that can be used but require different sdt configurations
+
+	dat = get_fa_tsp(t)			; teams survey proton
+	dat = get_fa_tso(t)			; teams survey oxygen
+	dat = get_fa_tsa(t)			; teams survey alpha 
+	dat = get_fa_tsh(t)			; teams survey helium
+
+	dat = get_fa_tbp(t)			; teams burst proton
+	dat = get_fa_tbo(t)			; teams burst oxygen
+	dat = get_fa_tba(t)			; teams burst alpha 
+	dat = get_fa_tbh(t)			; teams burst helium
+
+	dat = get_fa_tpp(t)			; teams pole proton
+	dat = get_fa_tpo(t)			; teams pole oxygen
+	dat = get_fa_tpa(t)			; teams pole alpha 
+	dat = get_fa_tph(t)			; teams pole helium
+
+	dat = get_fa_th(t)			; teams high mass
+
+	dat = get_fa_tsop_hdr(t)		; teams survey oxygen/proton header
+
+; End Teams demo
+
+
+
+; Fast EESA Survey Demo	- use sdt configuration : mcfadden-fastda/Eesa_hv_noise_2 
+
+	tplot_options,trange=[0,0]				; zero time range
+	t = '1994-8-10/10:43:10'
+	dat = get_fa_ees(t)					; get electron esa survey
+	help,dat,/st						; show structure
+	spec3d,dat						; spectra plot
+
+	dat = get_fa_ees(t,/ad)					; advance
+	spec3d,dat
+	dat = get_fa_ees(t,/re)					; retreat
+	spec3d,dat
+	dat = get_fa_ees(t,/st)					; start
+	spec3d,dat
+	dat = get_fa_ees(t,/en)					; end
+	spec3d,dat
+	t = '1994-8-10/10:43:10'
+	dat = sum3d(dat,get_fa_ees(t,/ad))
+	spec3d,dat
+	for a=0,9 do dat = sum3d(dat,get_fa_ees(t,/ad)) 
+	spec3d,dat
+
+; Time Series plots - these take a few minutes to run
+
+	get_2dt,'n_2d','fa_ees',name='n_ees'			; get density
+	tplot,['n_ees']						; plot density
+	get_2dt,'n_2d','fa_ees_sp',name='n_ess_sp'		; get density, spin averaged
+	tplot,['n_ees','n_ees_sp']				; plot density
+	get_2dt,'j_2d','fa_ees_sp',name='j_ess_sp'		; get density, spin averaged
+	tplot,['n_ees_sp','j_ees_sp']				; plot density
+	get_2dt,'je_2d','fa_ees_sp',name='je_ess_sp'		; get density, spin averaged
+	tplot,['n_ees_sp','j_ees_sp','je_ees_sp']		; plot density
+
+; Spectrograms
+
+	get_en_spec,"fa_ees_sp",units='eflux',name='eesa_en'	; get spin avg energy spectrogram
+		options,'eesa_en','spec',1			; set for spectrogram
+		zlim,'eesa_en',0,0,1				; set log color scale
+	tplot,['eesa_en']					; plot energy spectrogram
+		options,'eesa_en','x_no_interp',1		; turn off x-axis interpolation
+		options,'eesa_en','y_no_interp',1		; turn off y-axis interpolation
+	tplot,['eesa_en']					; plot energy spectrogram
+
+	get_pa_spec,"fa_ees_sp",units='eflux',name='eesa_pa'	; get spin avg pitch angle spectrogram
+		options,'eesa_pa','spec',1			; set for spectrogram
+		ylim,'eesa_pa',-20,380,0			; set y-axis limits, linear
+		zlim,'eesa_pa',0,0,1				; set log color scale
+	tplot,['eesa_pa']					; plot pitch angle spectrogram
+		options,'eesa_pa','x_no_interp',1		; turn off x-axis interpolation
+		options,'eesa_pa','y_no_interp',1		; turn off y-axis interpolation
+	tplot,['eesa_pa']					; plot pitch angle spectrogram
+	
+
+; End EESA Survey demo
+
+
+
+; Other ESA get routines that can be used but require different sdt configurations
+
+	dat = get_fa_ies(t)
+	dat = get_fa_ses(t)
+
+	dat = get_fa_eeb(t)
+	dat = get_fa_ieb(t)
+	dat = get_fa_seb1(t)
+	dat = get_fa_seb2(t)
+	dat = get_fa_seb3(t)
+	dat = get_fa_seb4(t)
+	dat = get_fa_seb5(t)
+	dat = get_fa_seb6(t)
+;
+; New esa get routines that average over a spin
+
+	dat = get_fa_ees_sp(t)		; spin average of eesa survey data
+	dat = get_fa_ies_sp(t)		; spin average of iesa survey data
+	
+
+; For hard copies use
+
+	popen
+	pclose
+
+; End demo
+
+

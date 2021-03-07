@@ -1,0 +1,61 @@
+#-----------------------------------------------------------------------
+#
+#  @(#)POLAR_V12_Offset_By_S_C_Pot12_002	1.1    05/06/03    UCB SSL
+#
+#-----------------------------------------------------------------------
+
+
+
+#  This file contains an offset for the POLAR V12, based on the value of
+#  the spacecraft potential S_C_Pot12.
+
+
+
+#  The table should cover the whole range of permitted values of the S/C
+#  potential, or more.
+
+
+
+#  IMPORTANT:
+#
+#  If this file contains several alternative tables, all except one must
+#  be commented out.
+
+
+
+# S_C_Pot12        Offset to subtract
+#                       from V12
+#   (Volt)               (mV/m)
+
+
+
+#  Table for:   Offset = (-1.0) + (-0.48) * S_C_Pot12
+
+#   40.000             -20.20000
+#  -80.000              37.40000
+
+
+
+#  Table for:   Offset = (-0.95084) + (-0.47053) * S_C_Pot12
+
+#   40.000             -19.77204
+#  -80.000              36.69156
+
+
+
+#  Table for:   Offset = (-1.47004) + (-0.51172) * S_C_Pot12
+
+#  40.000             -21.93884
+# -80.000              39.46756
+
+
+#  Table for:   Offset = (-1.3074) + (-0.3993) * S_C_Pot12  From 4/1/1 data
+
+#  40.000             -17.28
+# -80.000              30.64
+
+#  Table for:   Offset = (-1.4913) + (-0.5326) * S_C_Pot12  From 3/27/1 data
+
+   40.000             -22.79
+  -80.000              41.12
+

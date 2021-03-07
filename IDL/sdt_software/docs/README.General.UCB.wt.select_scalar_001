@@ -1,0 +1,462 @@
+************************************************************************
+
+   README.General.UCB.wt.select_scalar_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.select_scalar_001
+
+************************************************************************
+
+   Select scalar for time intervals.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.select_scalar_001	1.1    08/18/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects data points for a scalar, based on
+       time intervals.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) Input scalar.
+
+
+
+
+
+    3) At the user's choice, there is the option of writing out only
+       data points that are in time intervals specified in an external
+       table of inclusion intervals.
+
+
+
+       If this option is chosen, there must be an input file containing
+       the table of inclusion intervals.
+
+
+
+       An output data point is written if its time tag is t, and if
+       there is some inclusion interval, t1 to t2, such that
+
+           t1 <= t <= t2
+
+
+
+
+
+    4) At the user's choice, there is the option of writing out only
+       data points that are not in time intervals specified in an
+       external table of exclusion intervals.
+
+
+
+       If this option is chosen, there must be an input file containing
+       the table of exclusion intervals.
+
+
+
+       An output data point is not written if its time tag is t, and if
+       there is some exclusion interval, t1 to t2, such that
+
+           t1 <= t <= t2
+
+
+
+       Note that this option can be chosen together with the option to
+       use inclusion intervals.
+
+       In this case, a data point is written only if it is in an
+       inclusion interval and it is not in any exclusion interval.
+
+
+
+
+
+    5) An output data point is produced for each input point of the
+       scalar, subject to the selection described above.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+    6) Any input file present is searched for using the standard search
+       sequence for special configuration files for Science Modules in a
+       "workspace".
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Flag for the file of inclusion time intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            3) Flag to use a table of inclusion intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Use a table of inclusion intervals.
+
+                    WT_FALSE  =  Do not use a table of inclusion
+                                 intervals.
+
+
+               If a table of inclusion intervals is used,
+               the corresponding input file must be present.
+
+
+
+            4) File name for the table of inclusion intervals.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            5) Flag for the file of exclusion time intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            6) Flag to use a table of exclusion intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Use a table of exclusion intervals.
+
+                    WT_FALSE  =  Do not use a table of exclusion
+                                 intervals.
+
+
+               If a table of exclusion intervals is used,
+               the corresponding input file must be present.
+
+
+
+            7) File name for the table of exclusion intervals.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            8) Input component index for the scalar value.
+
+
+               Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The table of inclusion intervals.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is "#".
+
+
+               Each line not a comment line contains one time interval.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Start time, year.
+
+                   Integer.
+
+                   Must be the full year (e.g., 1996).
+
+
+                2) Start time, month.
+
+                   Integer.
+
+
+                3) Start time, day of month.
+
+                   Integer.
+
+
+                4) Start time, hours.
+
+                   Integer.
+
+
+                5) Start time, minutes.
+
+                   Integer.
+
+
+                6) Start time, seconds.
+
+                   Real.
+
+
+                7) End time, year.
+
+                   Integer.
+
+                   Must be the full year (e.g., 1996).
+
+
+                8) End time, month.
+
+                   Integer.
+
+
+                9) End time, day of month.
+
+                   Integer.
+
+
+               10) End time, hours.
+
+                   Integer.
+
+
+               11) End time, minutes.
+
+                   Integer.
+
+
+               12) End time, seconds.
+
+                   Real.
+
+
+               Each date must be a valid date.
+
+               Times (hours, minutes, seconds) are not restricted, and
+               in particular can go beyond 24 hours.
+
+
+               For each line, the start time should precede or be equal
+               to the end time.
+
+
+               It is not required that different intervals not overlap.
+
+
+               The lines should be in sequence of increasing start time.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+
+            2) The table of exclusion intervals.
+
+
+               This file is an ASCII file.
+
+               Its format is similar to that of the table of inclusion
+               intervals.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input scalar.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional components for the scalar value.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Scalar value.
+
+
+               Float.

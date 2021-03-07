@@ -1,0 +1,293 @@
+#! /usr/bin/ksh
+#
+# master_cdf_regen
+#
+# Regenerates CDFs using list of flakey ones as input.
+# Checks latest CDFs for integrity.
+# Meant to be run as a nightly cron job.
+# Calls step-child script cdf_regen on remote machines
+#
+# OPTIONS
+#
+# -c  Specify configuration file.  See next two comments.
+# -b  Start at the beginning of the regen file instead of the end.
+#     This will do the oldest orbits first and work forward.
+#
+
+# Environment Setup
+
+PATH=/bin:${PATH}
+. /disks/fast/software/config/archive_config
+
+# Any of the following variables may be overridden
+# by assigning them in a config file and using the -c option.
+# CAUTION: export same variables within config file as below.
+
+host=$(uname -n)
+proc=$$
+workdir=$FAST_CDF_HOME/cdf_status
+machines=$workdir/machines
+evelimfile=$workdir/evelimit
+juke=/jb/fast
+tmpdir=/tmp
+inst_turnons=$tmpdir/inst_turnons$proc # format_mode_output -> compare_cdf_db
+compare_out=$tmpdir/compare_out$proc   # compare_cdf_db output
+bad_orbits=$tmpdir/bad_orbits$proc     # Bad orbit array from compare_cdf_db
+
+export workdir logfile tmpdir inst_turnons compare_out bad_orbits
+set -A quantities 'ees' 'ies' 'tms' 'acf' 'dcf'
+
+# Option Handling
+
+while getopts ":bc:" opt ; do
+    case $opt in
+	b) head_or_tail='head' ;;
+	c) . $OPTARG ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [[ -z $head_or_tail ]] ; then head_or_tail='tail' ; fi
+logfile=$workdir/master_cdf_regen_logs/master.$(date '+%y-%m-%d').$head_or_tail
+
+# Function early_exit handles premature program termination
+
+function early_exit {
+    typeset line=$1
+    rm -f $inst_turnons $compare_out $bad_orbits
+    print "!!!!!!!!!! $proc $0 ENDS prematurely at line $line on $host $(date '+%y-%m-%d/%H:%M:%S') !!!!!!!!!!" >> $logfile
+}
+
+# Function machine_available gets the next available machine
+
+function machine_available {
+    last_mach=''
+    found_mach=0
+    machno=0
+    skip_mach=0
+    while ((! $found_mach)) ; do
+	# Get next machine name from file and check if valid choice
+	mach=$(head -$((machno+1)) $machines | tail -1)
+	if [[ -z $mach ]] ; then
+	    print "Did not try any machines." >> $logfile
+	    return 1
+	fi
+	if [[ $mach = $last_mach ]] ; then
+	    print "No more machines to try." >> $logfile
+	    return 1
+	fi
+	### Continue to next machine if already using this one
+	##for used_mach in ${used_machines[*]} ; do
+	##    if [[ $mach = $used_mach ]] ; then
+	##	  print "Already using $mach" >> $logfile
+	##	  let machno=$machno+1
+	##	  last_mach=$mach
+	##	  skip_mach=1
+	##	  break
+	##    else
+	##	  skip_mach=0
+	##    fi
+	##done
+	##if ((skip_mach)) ; then continue ; fi
+	# Search for SDT processes on machine
+	if [[ $mach != $host ]] ; then
+	    sdtproc=$(rsh $mach ps -ef |
+	    egrep 'cdf_regen|sumplot|scm|SCM|UI|FastDecom|sdt$' |
+	    egrep -vc 'egrep|PID')
+	else
+	    sdtproc=$(ps -ef |
+	    egrep 'cdf_regen|sumplot|scm|SCM|UI|FastDecom|sdt$' |
+	    egrep -vc 'egrep|PID')
+	fi
+	if (( $sdtproc > 0 )) ; then
+	    print "SDT already running on $mach" >> $logfile
+	    let machno=$machno+1
+	    last_mach=$mach
+	    continue
+	fi
+	found_mach=1
+    done
+    ##set -A used_machines ${used_machines[*]} $mach
+    return 0
+}    
+    
+
+# MAIN
+
+date=$(date '+%y-%m-%d')
+print "========== $proc $0 BEGINS on $host $(date '+%y-%m-%d/%H:%M:%S') ==========" >> $logfile
+trap 'early_exit $LINENO' EXIT
+
+# Get jukebox host from Datamgr.conf file
+
+datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+if [[ ! -r $datamgr_conf ]] ; then
+    print "Unable to read data manager config:
+    $FASTCONFIG/Datamgr/Datamgr.conf" >> $logfile
+    trap - EXIT
+    exit 1
+fi
+jb_host=$(nawk '
+          NF == 3 {
+                if ($1 == "set" && $2 == "JUKEBOX_HOST") print $3;
+          }' $datamgr_conf | tail -1)
+if [[ -z "$jb_host" ]] ; then
+    print "Unable to determine jukebox host" >> $logfile
+    trap - EXIT
+    exit 1
+fi
+
+# Loop through each of the 5 quantities
+
+old_first_orbit=0
+old_last_orbit=0
+for qty in ${quantities[*]} ; do
+
+    # Regenerate CDFs indicated in regen files
+
+    print "~--------- Quantity: $qty ---------~" >> $logfile
+    qty_opt=${qty%??}
+    # Get evening regen limit for this quantity
+    evelimit=$(awk '$1 ~ /'"$qty"'/ {print $2}' $evelimfile)
+    set -A redos $(eval $head_or_tail -$evelimit $workdir/bad_${qty}_gen)
+    # Correct the redo list: discard orbits not in jukebox.
+    dissoc=''
+    #postpone=''
+    set -A correct_redos
+    for redo in ${redos[*]} ; do
+	# Get highest order data session relevant to this orbit
+	set -A cdsessions $($DANETBIN/whichfiles $redo)
+	cdseshorb=0000
+	hisesh=''
+	for cdsesh in ${cdsessions[*]} ; do
+	    s_name=${cdsesh##*/}
+	    s_orb_junk=${s_name#*_*_*_orbit}
+	    s_orb=${s_orb_junk%_?}
+	    if ((s_orb > cdseshorb)) ; then
+		hisesh=$juke/$cdsesh
+		cdseshorb=$s_orb
+	    fi
+	done
+	# If db says no files associated with orbit, put in mystery file
+	if [[ $hisesh = $juke/ ]] || [[ $hisesh = '' ]] ; then
+	    dissoc="$dissoc $redo"
+	    continue
+	fi
+
+	# 18 July 2000 - Commenting out most of the following section as the 
+	# jukeboxes are no longer the only source for data (hard disks now 
+	# being used also
+	
+	# See if session is in the jukebox (do not pass a null string)
+	#sesh_in_jb=$(rsh $jb_host ksh -c \
+	#\'"if [[ -a $hisesh ]] ; then print 1 ; else print 0 ; fi"\')
+	#if ((sesh_in_jb)) ; then
+	set -A correct_redos ${correct_redos[*]} $redo
+	#else
+	    #postpone="$postpone $redo"
+	#fi
+    done
+    #if ((${#postpone})) ; then
+	#print "Postponing regeneration of $qty $postpone" >> $logfile
+    #fi
+
+    if ((${#dissoc})) ; then
+	print "No files associated with $qty $dissoc" >> $logfile
+	print "mal -rg$qty_opt $dissoc" >> $logfile
+	print "mal -m$qty_opt $dissoc" >> $logfile
+	mal -rg$qty_opt $dissoc 1>/dev/null 2>&1
+	mal -m$qty_opt $dissoc 1>/dev/null 2>&1
+    fi
+    set -A redos ${correct_redos[*]}
+
+    # Regen at least 4 orbits or none at all
+
+    if (( ${#redos[*]} >= 4 )) ; then
+	if machine_available ; then
+	    print "Regenerating $qty on $mach, orbits ${redos[*]}" >> $logfile
+	    if [[ $mach = $host ]] ; then 
+		$FASTBIN/idlerun $DANETBIN/cdf_regen -$qty_opt ${redos[*]} &
+	    else
+		# Propagate necessary variables to remote shell
+		rsh -n $mach   "setenv tmpdir $tmpdir;
+				setenv logfile $logfile;
+			        setenv workdir $workdir;
+				$FASTBIN/idlerun $DANETBIN/cdf_regen -$qty_opt ${redos[*]};" &
+	    fi
+	else
+	    print "Unable to regenerate more CDFs." >> $logfile
+	fi
+    fi
+    
+    # Find the last orbit checked and most recent CDF for this quantity
+
+    first_orbit=$(tail -1 $workdir/last_${qty})
+    if [[ -z $first_orbit ]] ; then
+	print "Unable to determine last orbit checked for $qty"
+	continue
+    fi
+    latest_cdf=$(ls -1 $FAST_CDF_HOME/$qty | tail -1)
+    last_orbit_junk=${latest_cdf#*_*_*_}
+    last_orbit=$(( ${last_orbit_junk%_*} - 1))
+
+    # Create file containing instrument turn-on schedule
+    # Use output from previous iteration if possible
+
+    print "Getting instrument ON times from DB." >> $logfile
+    if ((!old_first_orbit)) && ((!old_last_orbit)) ; then
+	$DANETBIN/format_mode_output -f $inst_turnons -i $first_orbit $last_orbit
+    else
+	if ((first_orbit < old_first_orbit)) ; then
+	    $DANETBIN/format_mode_output -f $inst_turnons \
+					-i $first_orbit $((old_first_orbit - 1))
+	fi
+	if ((last_orbit > old_last_orbit)) ; then
+	    $DANETBIN/format_mode_output -f $inst_turnons \
+					-i $((old_last_orbit + 1)) $last_orbit
+	fi
+    fi
+    old_first_orbit=$first_orbit
+    old_last_orbit=$last_orbit
+
+    # Prepare environment and diagnose latest CDFs
+
+    orbit_list=
+    export qty first_orbit last_orbit orbit_list
+    print "Diagnosing CDFs ${first_orbit}-${last_orbit}" >> $logfile
+    $IDL_DIR/bin/idl call_compare_cdf_db.pro 1>/dev/null 2>&1
+
+    # Insert bad orbits into regen file
+
+    set -A gen_orbits $(cat $bad_orbits 2>> $logfile)
+    rm $bad_orbits 2>> $logfile
+    print 'Imperfect CDFs: ' ${gen_orbits[*]} >> $logfile
+    if [[ ${gen_orbits[*]} != '0' ]] ; then
+	print "mal -g -$qty_opt ${gen_orbits[*]}" >> $logfile
+	mal -g -$qty_opt ${gen_orbits[*]} 1>/dev/null 2>&1
+    fi
+
+    # Remove known bad orbits from regen file
+
+    # Update file to keep track of last CDF checked
+
+    print $last_orbit > $workdir/last_${qty}
+
+    # Add an entry to the status file for each of this quantity's bad orbits
+
+    for gen_orb in ${gen_orbits[*]} ; do
+	cdf_info=$(egrep "^$gen_orb" $compare_out)
+	printf "%s %s %s\n" "$cdf_info" "$date" "1" >> $workdir/stat_$qty
+    done
+    rm $compare_out 2>> $logfile
+
+done
+
+# Cleanup and Exit
+
+rm $inst_turnons 2>> $logfile
+
+trap - EXIT
+print "========== $proc $0 ENDS on $host $(date '+%y-%m-%d/%H:%M:%S') ==========" >> $logfile
+
+exit 0
+

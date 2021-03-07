@@ -1,0 +1,141 @@
+#! /usr/bin/sh
+#
+# @(#)scputfiles	1.3 06/04/96 UCB SSL
+#
+# Write a tar file of the current directory at the end of the tape
+# preceded by file of 80 byte records containing an ASCII listing of
+# the date and source of the archive, a listing of the archive directory
+# and the size of the archive. It first checks for a FAST label, then
+# reports the amount of data already on the tape and the amount to be
+# added, and then give the user an opportunity to bail out.
+#
+
+if [ $# -gt 1 ]
+then
+	echo "Usage: $0 [tape-device]"
+	exit 1
+fi
+
+TAPE=/dev/rmt/0cn
+LSFILE=/tmp/scls.$$
+RECSIZE=80
+
+# Check for a command line argument.  If it exists, use it as the tape device
+
+if [ $# -eq 1 ]
+then
+	TAPE=$1
+fi
+
+if [ ! -h $TAPE ]
+then
+	echo "$0: $TAPE: device not found on this system"
+	exit 1
+fi
+
+# function to rewind the tape and quit with error message on error
+# Usage:rewind_tape progname sequence_count return_code
+rewind_tape() {
+mt -f ${TAPE} rewind
+if [ $? -ne 0 ]
+then
+	echo "$1: Tape rewind ($2) failed"
+	if [ $3 -ne 0 ]
+	then
+		exit $3
+	fi
+fi
+}
+
+# Start at the beginning
+rewind_tape $0 1 1
+
+# Look for a tape label. Report one if found and quit otherwise
+tapeLabel=`dd if=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=unblock 2> /dev/null`
+if [ $? -ne 0 -o "--${tapeLabel}--" = "----" ]
+then
+	echo "$0: Tape has no data. It needs a label"
+	rewind_tape $0 2 1
+	exit 1
+fi
+
+if [ "`echo ${tapeLabel} | awk -F":" '{print $1}'`" = 'FAST LABEL' ]
+then
+	echo ""
+	echo "The tape has the following FAST label:"
+	echo $tapeLabel
+	echo ""
+else
+	echo "The tape is not properly labelled."
+	echo ""
+	rewind_tape $0 3 1
+	exit 1
+fi
+
+# Read index files and skip other tar files until the end of the tape.
+# Count bytes on tape as you go.
+kBytesOnTape=0
+
+while [ true ]
+do
+	byteCnt=\
+`(dd if=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=unblock 2> /dev/null) | \
+awk '{byteVal = $1} END {print byteVal}'`
+	if [ $? -ne 0  -o "--${byteCnt}--" = "----" ]
+	then
+		break
+	fi
+	kBytesOnTape=`expr ${kBytesOnTape} + ${byteCnt} / 1024`
+
+	mt -f ${TAPE} fsf 1
+	if [ $? -ne 0 ]
+	then
+		echo "Inconsistent number of files on tape"
+		echo ""
+		rewind_tape $0 3 1
+		exit 1
+	fi
+done
+
+# Get listing of the current directory
+ls -l | awk 'NR > 1 {printf "%9s   %s %s %s   %s\n", $5, $6, $7, $8, $9}' > ${LSFILE}
+
+# Figure out the number of bytes in the current directory
+newBytes=`awk 'BEGIN {cnt = 0} {cnt = cnt + $1} END {print cnt}' ${LSFILE}`
+
+# Convert to KB
+newKBytes=`expr ${newBytes} / 1024`
+
+# Report current and proposed bytes and give quit option
+echo "The tape has ${kBytesOnTape} KB. We propose to add ${newKBytes} KB."
+echo "Continue? (y/n) [n] \c"
+read resp
+if [ "x${resp}" != "xY" -a "x${resp}" != "xy" ]
+then
+	rm -f ${LSFILE}
+	rewind_tape $0 4 1
+	exit 0
+fi
+
+# Write index file
+(echo "Saved on `date -u`"; echo "`uname -n`:`pwd`"; \
+	cat ${LSFILE}; \
+	echo "${newBytes} Bytes") | \
+	dd of=${TAPE} bs=${RECSIZE} cbs=${RECSIZE} conv=block 2> /dev/null
+if [ $? -ne 0 ]
+then
+	rm -f ${LSFILE}
+	rewind_tape $0 5 1
+	exit 1
+fi
+
+# Clean up
+rm -f ${LSFILE}
+
+# Archive the current directory
+tar -cf ${TAPE} .
+
+# Return to the beginning of the tape
+rewind_tape $0 6 1
+
+exit 0

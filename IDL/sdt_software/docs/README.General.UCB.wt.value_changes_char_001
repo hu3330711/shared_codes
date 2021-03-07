@@ -1,0 +1,552 @@
+************************************************************************
+
+   README.General.UCB.wt.value_changes_char_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.value_changes_char_001
+
+************************************************************************
+
+   Value changes for char.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.value_changes_char_001	1.1    06/26/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module finds changes in the value of a quantity of
+       type char.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The quantity whose value is to be examined.
+
+
+
+
+
+    3) A "sequence of level 1" is a sequence of 1 or more consecutive
+       input data points, all of which have the same value.
+
+
+
+       Only the value of the quantity for consecutive input data points
+       matters; the time separation between the points is not of
+       significance.
+
+
+
+       For example, if the input values can be "x", "y", and "z", then
+       the set of consecutive input data points
+
+           x x x y y x x x x x x z x x x z z z z y y x x x x x
+
+       contains the following sequences of level 1:
+
+           x    3 points
+
+           y    2 points
+
+           x    6 points
+
+           z    1 point
+
+           x    3 points
+
+           z    4 points
+
+           y    2 points
+
+           x    5 points
+
+
+
+
+
+    4) A "sequence of level 2" is a concatenation of 1 or more sequences
+       of level 1, all of which have the same value.
+
+
+
+       Only the value of the quantity for consecutive input data points
+       matters; the time separation between the points is not of
+       significance.
+
+
+
+       The user can specify a minimum number of consecutive data points
+       M; any sequence of level 1 with fewer than M points total, is
+       ignored; any sequence of level 1 with at least M points total, is
+       considered.
+
+
+
+       2 or more sequences of level 1 can be concatenated to form a
+       sequence of level 2 if and only if all of the following are true:
+
+            1) Each of them has at least M points.
+
+            2) All of them have the same value.
+
+            3) Any intervening sequences of level 1 have fewer than M
+               points (there can be any number of these short
+               intervening sequences).
+
+
+
+       For example, if M = 5, and if the input values can be "x", "y",
+       and "z", then the set of consecutive input data points
+
+           x x x y y x x x x x x z x x x z z z z y y x x x x x
+
+       contains the following sequences of level 2:
+
+           one sequence of 11 points of value "x"; all the "y" and "z"
+           are ignored, as are the 2 level-1 sequences of 3 "x" each.
+
+
+
+
+
+    5) At the user's option, an "already existing initial quantity
+       value" can be specified, along with its starting time.
+
+
+
+
+       If this option is chosen, then only input data points with time
+       tags greater than or equal to the specified starting time plus a
+       time offset (specified by the user) are considered.
+
+
+       Furthermore, if the first level-2 sequence has the same value as
+       the one specified; then this sequence will be ignored.
+
+
+       The purpose of these restrictions is to enable the creation of a
+       cumulative history file that contains information on the level-2
+       sequences; but without unnecessary repetition from one run to the
+       next.
+
+
+
+       The second and later level-2 sequences are treated normally.
+
+
+
+
+
+    6) An output data point is produced for each new sequence of level
+       2.
+
+
+
+       The time tag for the output data point is the same as that for
+       the first input data point of the corresponding sequence.
+
+
+
+
+
+    7) At the user's option, a record is written to a history file for
+       each new output data point.
+
+
+
+       The records written are appended to the end of the file, if it
+       exists already.
+
+
+
+       The history file is an ASCII (text) file.  Each record is a line,
+       containing the following:
+
+            1) The date and time of the point.
+
+            2) The value of the point.
+
+
+
+
+
+    8) The user can specify parameters that are used by the functions
+       that format the date and time; in order to control the format of
+       the date and time part of the lines in the history file.
+
+
+
+       The formatting functions should be inspected for further details.
+
+
+
+       The user can specify how many blank lines (if any) should
+       precede each data line in the history file.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   0     =  Do not dump.
+
+                   >= 1  =  Dump output data points with indices of:
+                            0, n, 2n, 3n, ...  (where n is the chosen
+                            dump frequency).
+
+
+
+            2) Minimum number of input data points for a level-1
+               sequence to be considered.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Flag for a previously existing value.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is a previous value.
+
+                   WT_FALSE  =  There is no previous value.
+
+
+
+            4) Start date for the previously existing value.
+
+
+               Char.
+
+
+               If there is a previously existing value,
+               must be a valid date in the format YYYY/MM/DD (e.g.,
+               2001/05/29).
+
+
+
+            5) Start time for the previously existing value.
+
+
+               Char.
+
+
+               If there is a previously existing value,
+               must be a valid time in the format HH:MM:SS (e.g.,
+               04:00:20).
+
+
+               The format HH:MM is permissible too, and is understood to
+               indicate zero seconds (e.g., 04:18 which means the same
+               as 04:18:00).
+
+
+
+            6) Time offset for the previously existing value.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If there is a previously existing value,
+               must be  >=  0.
+
+
+
+            7) Value for the previously existing value.
+
+
+               Int.
+
+
+
+            8) Input component index for the quantity.
+
+
+               Int.
+
+
+
+            9) Flag for the history file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Write the history file.
+
+                   WT_FALSE  =  Do not write the history file.
+
+
+
+           10) Directory name for the history file.
+
+
+               Char.
+
+
+               This is the directory name with path.
+
+
+               If a history file is to be written, then
+               must be a valid directory name (not blank), and
+               the directory must exist, with appropriate permission.
+
+
+
+           11) File name for the history file.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If a history file is to be written, then
+               must be a valid file name (not blank), and
+               if the file exists already, it must have the appropriate
+               permission.
+
+
+
+           12) Number of blank lines before each history data line.
+
+
+               Int.
+
+
+               If a history file is to be written, then
+               must be  >=  0.
+
+
+
+           13) Parameter "code" for formatting the date and time.
+
+
+               Int.
+
+
+               If a history file is to be written, then
+               must be a valid value.
+
+
+
+           14) Parameter "nsp1" for formatting the date and time.
+
+
+               Int.
+
+
+               If a history file is to be written, then
+               must be a valid value.
+
+
+
+           15) Parameter "nsp2" for formatting the date and time.
+
+
+               Int.
+
+
+               If a history file is to be written, then
+               must be a valid value.
+
+
+
+           16) Parameter "ndec" for formatting the date and time.
+
+
+               Int.
+
+
+               If a history file is to be written, then
+               must be a valid value.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input for the quantity whose value is to be examined.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the input.
+
+                   Char.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Quantity value.
+
+
+               Int.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+            1) The table of quantity values.
+
+
+               This file is written if requested.
+
+
+               This file is an ASCII file.
+
+
+               Each line contains an entry for an output data point, and
+               includes the following:
+
+
+                1) Date and time for the output point.
+
+
+                2) Value for the output point.
+
+                   Integer.
+
+
+               Date and time are normalized (i.e., the date varies so
+               that the time will be between 0 and 24 hours).
+
+
+               The exact format of the date and time depend on the
+               parameters chosen by the user.

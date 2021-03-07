@@ -1,0 +1,31 @@
+************************************************************************
+
+   README.libwtgen
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the general library
+
+       libwtgen
+
+************************************************************************
+
+   @(#)README.libwtgen	1.2    09/06/95    UCB SSL
+
+************************************************************************
+
+
+
+   The library libwtgen is a library of general-purpose C functions.
+
+
+
+   There are functions to manipulate angles, functions to manipulate
+   dates and times, etc.
+
+
+
+   The header file wtgen001.h contains the prototypes of all the
+   functions; and they are arranged by subject.

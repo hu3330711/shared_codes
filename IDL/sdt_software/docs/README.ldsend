@@ -1,0 +1,40 @@
+README for ldsend
+Version: @(#)README.ldsend	1.2 08/25/94 UCB SSL
+
+purpose:
+
+  Get a PC-GSE format load file, convert it to CMS format, archive it along 
+with log file and a descriptive file (.cmd file), and send it to CMS.  
+
+usage:
+
+  ldsend [-P printer] [-c config] -f [xxxyyyvv] ;sends & archives loadfile from
+                                                ;floppy
+  ldsend [options] xxxyyyvv                     ;sends & archives loadfile
+  ldsend [options] -u xxxyyyvv                  ;re-sends file from user dir
+    Name for PC-GSE version of loadfile has format xxxyyyvv.log
+    You may specify a full path for xxxyyyvv (e.g. subdirectory/xxxyyyvv)
+
+summary:
+
+*  Checks the user's .netrc file against the correct .netrc file.  This file
+is used by ftp to log the user in automatically, change to the proper
+directory, and set the mode for file creation on the remote machine.  Clearly,
+this file must be correct for the send to work properly.
+*  If floppy: 
+	Prompts for user to insert floppy and runs volcheck to mount it.
+	Asks for load filename, unless specified on command line.
+*  Insists that there be both a .log and .cmd file
+*  Runs ldcmd on the PC-GSE file to create file in proper format for CMS.  Bail
+out if there were problems.
+*  Prepares log file (includes date/time sent, user name).
+*  Prints out the .cmd file and log file.  Default printer is set by prtaut 
+variable in ogs.cfg file.  (printer configurable by -P option)
+*  Places the .cmd, .log files as well as the file actually sent into a 
+directory called ld.send.xxxyyyvv in both the "user" and "archive" directories
+of the ogs directory structure.
+*  Sends the file to CMS
+*  Ejects the floppy
+
+
+

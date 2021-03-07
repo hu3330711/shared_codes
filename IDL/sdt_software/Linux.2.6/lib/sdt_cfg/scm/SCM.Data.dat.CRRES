@@ -1,0 +1,156 @@
+
+
+************************************************************************
+
+
+************************************************************************
+* SCM.Data.dat for CRRES Science Algorithms
+*
+* For SCCS:
+* @(#)SCM.Data.UCB_CRRES_Sci_Mod.sparhawk.dat	1.10, 03/22/06
+************************************************************************
+
+@2 { DataQuantityDescription
+  'BField ECI' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.CrresMagECI' FALSE 2 0
+  'magnetometer' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'BField GSE' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.CrresMagGSE' FALSE 2 0
+  'magnetometer' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'BField MGSE' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.CrresMagMGSE' FALSE 2 0
+  'magnetometer' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Burst Mag-MGSE' CRRES_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.CrresBurstMagMGSE' FALSE 2 0
+  'burst_magnetometer' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'EField_Spheres_SpinRes_ECI' CRRES_SPACECRAFT 0 3
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ey_ECI' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ez_ECI' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Crres_EField_SpinRes' FALSE 2 1
+  'crres sphere spin fits' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  'CrresEFieldCrdSys' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'EField_Cylinders_SpinRes_ECI' CRRES_SPACECRAFT 0 3
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ey_ECI' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ez_ECI' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Crres_EField_SpinRes' FALSE 2 1
+  'crres cylinder spin fits' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  'CrresEFieldCrdSys' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'EField_Spheres_SpinRes_MGSE' CRRES_SPACECRAFT 0 3
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ey_MGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ez_MGSE' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Crres_EField_SpinRes' FALSE 2 1
+  'crres sphere spin fits' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  'CrresEFieldCrdSys' DQ_LITERAL DQ_STORE_INT32 2
+  }
+
+@2 { DataQuantityDescription
+  'EField_Cylinders_SpinRes_MGSE' CRRES_SPACECRAFT 0 3
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ey_MGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Ez_MGSE' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.Crres_EField_SpinRes' FALSE 2 1
+  'crres cylinder spin fits' CRRES_SPACECRAFT
+  'CRRES_attitude_data' CRRES_SPACECRAFT
+  'CrresEFieldCrdSys' DQ_LITERAL DQ_STORE_INT32 2
+  }
+
+@2 { DataQuantityDescription
+  'Test XvsY Qty' CRRES_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V3' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'V4' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/CRRES.UCB.sparhawk.TestXvsYQty' FALSE 2 0
+  'V3' CRRES_SPACECRAFT
+  'V4' CRRES_SPACECRAFT
+  }

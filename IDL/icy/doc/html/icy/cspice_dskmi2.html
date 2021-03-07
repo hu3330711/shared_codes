@@ -1,0 +1,597 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dskmi2</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dskmi2</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DSKMI2 makes a spatial index for type 2 DSK segment.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dskmi2_c.html">dskmi2_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      vrtces      is an array of coordinates of the vertices. The Ith
+                  vertex occupies elements [0:2,I-1] of this array.
+
+      plates      is an array representing the triangular plates of a
+                  shape model. The elements of `plates' are vertex
+                  indices; vertex indices, as well as plate indices, are
+                  1-based in all languages supported by SPICE. The vertex
+                  indices of the Ith plate occupy elements [0:2,I-1] of
+                  this array.
+
+      finscl      is the fine voxel scale.
+
+                  This scale determines the edge length of the cubical
+                  voxels comprising the fine voxel grid: the edge length
+                  `voxsiz' is approximately
+
+                      finscl * {average plate extent}
+
+                  where the extents of a plate are the respective
+                  differences between the maximum and minimum
+                  coordinate values of the plate's vertices.
+
+                  The relationship between `voxsiz' and the average plate
+                  extent is approximate because the `voxsiz' is adjusted
+                  so that each dimension of the fine voxel grid is an
+                  integer multiple of the coarse voxel scale.
+
+                  See the Particulars section below for further
+                  information on voxel scales.
+
+      corscl      is the coarse voxel scale. This integer scale is the
+                  ratio of the edge length of coarse voxels to that of
+                  fine voxels. The coarse scale must be large enough so
+                  that the total number of coarse voxels does not exceed
+                  SPICE_DSK02_MAXCGR (see DSKIcy02.pro).
+
+      worksz      is the second dimension of the workspace array `work'.
+
+                  `worksz' must be at least as large as the greater of
+
+                     - the number of fine voxel-plate associations
+
+                       This number is equal to
+
+                          np * {average number of fine voxels
+                                intersected by each plate}
+
+                     - the number of vertex-plate associations, if
+                       the vertex-plate mapping is constructed.
+
+                       This number is equal to
+
+                          nv + ( 3 * np )
+
+      voxpsz      is the size of the fine voxel-plate pointer array.
+
+                  This array maps fine voxels to lists of plates that
+                  intersect those voxels. `voxpsz' must be at least as
+                  large as
+
+                           3
+                     corscl  * {number of non-empty coarse voxels}
+
+      voxlsz      is the size of the fine voxel-plate list array.
+
+                  This array contains, for each non-empty fine voxel, the
+                  count of plates that intersect that voxel and the
+                  IDs of those plates. `voxlsz' must be at least as large
+                  as
+
+                          `np' * {average number of fine voxels
+                                intersected by each plate}
+
+                      +   {number of non-empty fine voxels}
+
+      makvtl      is a logical flag that, when set to SPICETRUE, indicates
+                  that a  vertex-plate association list is to be
+                  constructed.
+
+                  The amount of workspace that is needed may depend on
+                  whether a vertex-plate association list is
+                  constructed. When this list is constructed, the size
+                  of the integer component of the spatial index is
+                  increased by the size of the list and the size of a
+                  vertex-plate pointer array; the total of these sizes
+                  is
+
+                     ( 2 * nv ) + ( 3 * np )
+
+      spxisz      is the declared size of the output array SPAIXI.
+
+                   This size must be at least as large as the sum of
+
+                     - the fixed-size part of the integer component of
+                       the index, which includes the coarse voxel grid;
+                       this value is
+
+                          SPICE_DSK02_IDXFIX
+
+                     - the size `voxpsz' of the voxel-plate pointer array
+
+                     - the size `voxlsz' of the voxel-plate association
+                       list
+
+                  plus, if the vertex-plate association list is
+                  constructed,
+
+                     - the size `nv' of the vertex-plate pointer array
+
+                     - the size of the vertex-plate association list;
+                       this size is
+
+                          nv + ( 3 * np )
+
+   the call:
+
+      <b>cspice_dskmi2</b>, vrtces, plates, finscl, $
+                     corscl, worksz, voxpsz, voxlsz, $
+                     makvtl, spaisz, spaixd, spaixi
+
+   returns:
+
+      spaixd,
+      spaixi      are, respectively, the double precision and integer
+                  components of the spatial index of the segment.
+
+                  `spaixd' must be declared with size at least
+                  SPICE_DSK02_IXDFIX.
+
+                  `spaixi' must be declared with size at least `spxisz'.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Create a three-segment DSK file using plate model data for
+   Phobos. Use latitudinal, rectangular, and planetodetic
+   coordinates in the respective segments. This is not a
+   realistic example, but it serves to demonstrate use of
+   the supported coordinate systems.
+
+   For simplicity, use an existing DSK file to provide the
+   input plate and vertex data. The selected input file has one
+   segment.
+
+      PRO DSKW02_T
+         ;;
+         ;; IcyUser globally defines DSK parameters.
+         ;; For more information, please see DSKIcyUser.m and
+         ;; DSKIcyUser02.m.
+         ;;
+         @IcyUser
+
+         SPICETRUE = 1L
+         NSEG = 3
+
+         cornam = [ 'radius', 'Z-coordinate', 'Z-coordinate', 'altitude']
+
+         ;;
+         ;; Assign names of input and output DSK files.
+         ;;
+         indsk = 'phobos_3_3.bds'
+         dsk   = 'phobos_3_3_3seg.bds'
+
+         if ( <a href="cspice_exists.html">cspice_exists</a>(dsk) ) then begin
+            file_delete, dsk
+         endif
+
+
+         ;;
+         ;; Open input DSK for read access; find first segment.
+         ;;
+         <a href="cspice_dasopr.html">cspice_dasopr</a>, indsk, inhan
+         <a href="cspice_dlabfs.html">cspice_dlabfs</a>, inhan, dladsc, found
+
+
+         ;;
+         ;; Fetch vertices and plates from input DSK file.
+         ;;
+         ;; Note that vertex and plate indices are 1-based.
+         ;;
+         print, 'Reading input data...'
+
+         <a href="cspice_dskv02.html">cspice_dskv02</a>, inhan, dladsc, 1, SPICE_DSK02_MAXVRT, vrtces
+         <a href="cspice_dskp02.html">cspice_dskp02</a>, inhan, dladsc, 1, SPICE_DSK02_MAXPLT, plates
+
+         print, 'Done.'
+
+
+         ;;
+         ;; Set input array sizes required by <b>cspice_dskmi2</b>.
+         ;;
+         voxpsz = SPICE_DSK02_MAXVXP
+         voxlsz = SPICE_DSK02_MXNVLS
+         worksz = SPICE_DSK02_MAXCEL
+         spaisz = SPICE_DSK02_SPAISZ
+         makvtl = SPICETRUE
+
+         ;;
+         ;; Set fine and coarse voxel scales. (These usually
+         ;; need to determined by experimentation.)
+         ;;
+         finscl = 5.D
+         corscl = 4
+
+         ;;
+         ;; Open a new DSK file.
+         ;;
+         <a href="cspice_dskopn.html">cspice_dskopn</a>, dsk, dsk, 0, handle
+
+         for segno=1, NSEG do begin
+
+            ;;
+            ;; Create spatial index. We won't generate a
+            ;; vertex-plate mapping, so we set the flag
+            ;; for creating this map to &quot;false.&quot;
+            ;;
+            print, 'Creating segment ', segno
+            print, 'Creating spatial index...'
+
+            <b>cspice_dskmi2</b>, vrtces, plates, finscl, corscl, $
+                           worksz, voxpsz, voxlsz, makvtl, $
+                           spaisz, spaixd, spaixi
+
+
+            print, 'Done.'
+
+            ;;
+            ;; Set up inputs describing segment attributes:
+            ;;
+            ;; - Central body: Phobos
+            ;; - Surface ID code: user's choice.
+            ;;   We use the segment number here.
+            ;; - Data class: general (arbitrary) shape
+            ;; - Body-fixed reference frame
+            ;; - Time coverage bounds (TBD)
+            ;;
+            center = 401
+            surfid = segno
+            dclass = SPICE_DSK_GENCLS
+            frame  = 'IAU_PHOBOS'
+
+            first = -50.D * <a href="cspice_jyear.html">cspice_jyear</a>()
+            last  =  50.D * <a href="cspice_jyear.html">cspice_jyear</a>()
+
+
+            ;;
+            ;; Set the coordinate system and coordinate system
+            ;; bounds based on the segment index.
+            ;;
+            ;; Zero out the coordinate parameters to start.
+            ;;
+            corpar = dblarr(SPICE_DSK_NSYPAR)
+
+            case segno of
+
+               1 : begin
+
+                  ;;
+                  ;; Use planetocentric latitudinal coordinates. Set
+                  ;; the longitude and latitude bounds.
+                  ;;
+                  corsys = SPICE_DSK_LATSYS
+
+                  mncor1 = -<a href="cspice_pi.html">cspice_pi</a>()
+                  mxcor1 =  <a href="cspice_pi.html">cspice_pi</a>()
+                  mncor2 = -<a href="cspice_halfpi.html">cspice_halfpi</a>()
+                  mxcor2 =  <a href="cspice_halfpi.html">cspice_halfpi</a>()
+
+                  end
+
+               2 : begin
+
+                  ;;
+                  ;; Use rectangular coordinates. Set the
+                  ;; X and Y bounds.
+                  ;;
+                  ;; The bounds shown here were derived from
+                  ;; the plate data. They lie slightly outside
+                  ;; of the range spanned by the plates.
+                  ;;
+                  corsys = SPICE_DSK_RECSYS
+
+                  mncor1 = -1.3D
+                  mxcor1 =  1.31D
+                  mncor2 = -1.21D
+                  mxcor2 =  1.2D
+
+                  end
+
+               3 : begin
+
+                  ;;
+                  ;; Set the coordinate system to planetodetic.
+                  ;;
+                  corsys    = SPICE_DSK_PDTSYS
+
+                  mncor1    = -<a href="cspice_pi.html">cspice_pi</a>()
+                  mxcor1    =  <a href="cspice_pi.html">cspice_pi</a>()
+                  mncor2    = -<a href="cspice_halfpi.html">cspice_halfpi</a>()
+                  mxcor2    =  <a href="cspice_halfpi.html">cspice_halfpi</a>()
+
+                  ;;
+                  ;; We'll use equatorial and polar radii from
+                  ;; pck00010.tpc. These normally would be fetched
+                  ;; at run time, but for simplicity, we'll use
+                  ;; hard-coded values.
+                  ;;
+                  re        = 13.D0
+                  rp        =  9.1D
+                  f         = ( re - rp ) / re
+
+                  corpar = [ re, f ]
+
+                  end
+
+               else: message, 'Icy(BUG)'
+
+            endcase
+
+           ;;
+           ;; Compute plate model radius bounds.
+           ;;
+           print, 'Computing ' + cornam[corsys-1] +' bounds of plate set...'
+
+           <a href="cspice_dskrb2.html">cspice_dskrb2</a>, vrtces, plates, corsys, corpar, mncor3, mxcor3
+
+           print, 'Done.'
+
+           ;;
+           ;; Write the segment to the file.
+           ;;
+           print, 'Writing segment...'
+
+           <a href="cspice_dskw02.html">cspice_dskw02</a>, handle, $
+                          center, $
+                          surfid, $
+                          dclass, $
+                          frame,  $
+                          corsys, $
+                          corpar, $
+                          mncor1, $
+                          mxcor1, $
+                          mncor2, $
+                          mxcor2, $
+                          mncor3, $
+                          mxcor3, $
+                          first,  $
+                          last,   $
+                          vrtces, $
+                          plates, $
+                          spaixd, $
+                          spaixi
+
+         end
+
+         ;;
+         ;; Close the input DSK.
+         ;;
+         <a href="cspice_dskcls.html">cspice_dskcls</a>, handle, SPICETRUE
+         <a href="cspice_dascls.html">cspice_dascls</a>, inhan
+
+      END
+
+   IDL outputs:
+
+      Reading input data...
+      Done.
+      Creating segment        1
+      Creating spatial index...
+      Done.
+      Computing radius bounds of plate set...
+      Done.
+      Writing segment...
+      Creating segment        2
+      Creating spatial index...
+      Done.
+      Computing Z-coordinate bounds of plate set...
+      Done.
+      Writing segment...
+      Creating segment        3
+      Creating spatial index...
+      Done.
+      Computing altitude bounds of plate set...
+      Done.
+      Writing segment...
+
+      After run completion, A DSK exists in the output directory.
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   Users planning to create DSK files should consider whether the
+   SPICE DSK creation utility MKDSK may be suitable for their needs.
+
+   This routine supports use of the DSK type 2 segment writer <a href="cspice_dskw02.html">cspice_dskw02</a>
+   by creating the &quot;spatial index&quot; arrays required as inputs to that
+   routine.
+
+   A spatial index is a group of data structures that facilitates
+   rapid high-level computations involving sets of plates. The data
+   structures created by this routine are aggregated into arrays
+   of type SpiceInt and type SpiceDouble.
+
+
+   Voxel grids
+   ===========
+
+   A key geometric computation---probably the most important, as it
+   serves as a foundation for other high-level computations---is
+   finding the intersection of a ray with the plate set. DSK type 2
+   segments use data structures called &quot;voxel grids&quot; as part of
+   their indexing mechanism. There is a &quot;coarse grid&quot;: a box that
+   completely encloses a DSK type 2 segment's plate set, and which
+   is composed of identically-sized cubes called &quot;coarse voxels.&quot;
+   Each coarse voxel in composed of smaller cubes called &quot;fine
+   voxels.&quot; When the term &quot;voxel&quot; is used without qualification, it
+   refers to fine voxels.
+
+   Type 2 DSK segments contain data structures that associate plates
+   with the fine voxels intersected by those plates. These
+   structures enable the type 2 DSK software to rapidly find plates
+   in a given region of space.
+
+   Voxel scales
+   ============
+
+   There are two voxel scales:
+
+      - The coarse voxel scale is the integer ratio of the
+        edge length of a coarse voxel to the edge length of
+        a fine voxel
+
+      - The fine voxel scale is the double precision ratio
+        of the edge length of a fine voxel to the average
+        extent of the plates in the input plate set. &quot;Extents&quot;
+        of a plate are the absolute values of the differences
+        between the respective maximum and minimum X, Y, and Z
+        coordinates of the plate's vertices.
+
+   Voxel scales determine the resolution of the voxel grid.
+   Voxel scales must be chosen to satisfy size constraints and
+   provide reasonable plate lookup performance.
+
+   The following considerations apply to spatial indexes of
+   type 2 DSK segments:
+
+      1)  The maximum number of coarse voxels is fixed at
+          SPICE_DSK02_MAXCGR (declared in SpiceDSK.h).
+
+      2)  If there are too few fine voxels, the average number of
+          plates per fine voxel will be very large. This largely
+          negates the performance improvement afforded by having an
+          index. Also, the number of plates per voxel may exceed
+          limits imposed by DSK subroutines that use static arrays.
+
+      3)  If there are too many fine voxels, the average number of
+          voxels intersected by a given plate may be too large for
+          all the plate-voxel associations to be stored. In
+          addition, the time needed to examine the plate lists for
+          each voxel (including the empty ones) may become quite
+          large, again negating the value of the index.
+
+   In many cases, voxel scales yielding optimum performance must be
+   determined by experiment. However, the following heuristics can
+   provide reasonable starting values:
+
+      Let `np' be the number of plates. Let `fs' be the fine voxel
+      scale. Then a reasonable value of `fs' may be
+
+                 (0.25)
+         fs =  np       / 8.
+
+      In general, `fs' should not smaller than 1.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 13-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   make spatial index for type 2 dsk segment
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

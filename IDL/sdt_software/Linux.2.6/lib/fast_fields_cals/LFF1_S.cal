@@ -1,0 +1,22 @@
+#  SCCS Id
+#  @(#)LFF1_S.cal	1.1 04/15/96
+#
+# LFF1_S.cal
+# REE 6/6/95
+LFF1_S			Data name.
+2    			Exponetial calibration.
+sec			x-axis units.
+mV/m			y-axis units.
+xx			z-axis units.
+13			Boomlength index.
+1			Subtype = LFF.
+0			History.
+# Calibration table as of 6/6/95.
+# Calibration set for 5 kHz input frequency. 
+# Standard log fit.
+0			Time in seconds.
+-6.803			Zerolevel (raw).
+3.8146e-2		Gain (in exponent).
+0.0	 		IL (offset current not needed).
+
+

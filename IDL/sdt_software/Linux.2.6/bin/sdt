@@ -1,0 +1,269 @@
+#!/bin/csh -f
+#
+# For SCCS:
+# @(#)sdt.sh	1.35, 12/16/06
+#
+
+#
+# As of 98/07/15, we don't worry about graphics acceleration since
+# "dxlib" is no longer available on Solaris 2.6
+#
+set USE_GRAPHICS_ACCEL = 0
+if ( $#argv > 0 ) then
+    foreach i ( $argv )
+       if ( $i == "nodxlib" ) then
+          set USE_GRAPHICS_ACCEL = 0
+       endif
+       if ( $i == "NODXLIB" ) then
+          set USE_GRAPHICS_ACCEL = 0
+       endif
+    end
+endif
+
+#
+# Make sure noone else is already running on this machine
+#
+set OS = `uname -s`
+
+if ( $OS == "SunOS" ) then
+   set CUR_MAJOR_REL = 5
+else
+    if ( $OS == "Linux" ) then
+       set CUR_MAJOR_REL = 2
+    else
+       set CUR_MAJOR_REL = 1
+    endif
+endif
+
+set TOO_EARLY_REL = $CUR_MAJOR_REL
+@ TOO_EARLY_REL --
+
+set MAJOR_REL = `uname -r | sed 's/\..*//'`
+set MINOR_REL = `uname -r | sed 's/[0-9]*\.//' | sed 's/\.\{1\}.*//'`
+
+set REL = $MAJOR_REL.$MINOR_REL
+while ( ! -d $FASTHOME/$OS.$REL && $MAJOR_REL != $TOO_EARLY_REL )
+        if ( $MINOR_REL == 0 ) then
+                @ MAJOR_REL --
+                set MINOR_REL = 9
+        else
+                @ MINOR_REL --
+        endif
+        if ( $MAJOR_REL != $TOO_EARLY_REL ) then
+                set REL = $MAJOR_REL.$MINOR_REL
+        else
+                echo "No OS level >= $CUR_MAJOR_REL found!"
+                echo "Unable to setup for workspace $FASTHOME"
+                exit -1
+        endif
+end
+if ($REL != `uname -r`) echo Using OS level $REL binaries.
+set PROG_TEXT = $OS.$REL/bin/UI
+#echo "searching for <$PROG_TEXT>"
+#
+set OS_VERSION = `uname -r`
+
+# Make an initial call to "dqh", just to see if this is a
+# multi-user version of SDT.  If the return is == 255,
+# set "MRUN_SDT" to "0".  Otherwise, this is a multi-user version,
+# and the value in "RUN_IDX_VAL" will be the SDT "Run Index" for
+# this SDT session.
+
+set RUN_IDX_VAL = 0
+$FASTBIN/dqh -i
+set RUN_IDX_VAL = $status
+
+if ( $RUN_IDX_VAL == 255 ) then
+    set MRUN_SDT = 0
+else
+    set MRUN_SDT = 1
+
+   # if "RUN_IDX_VAL" is large, then "dqh -i" is telling us
+   # that, even though this is "multi-user" SDT, there are already
+   # a maximums number of SDTs running.
+   if ( $RUN_IDX_VAL > 200 ) then
+      echo "Too many SDTs are already running."
+      echo "Wait until one of them finishes."
+      exit (1)
+   endif
+
+endif
+
+# If this is single version SDT, then we have to check that
+# no other SDTs are currently running:
+
+if ( $MRUN_SDT == 0 ) then
+
+    set TESTFILE = SDT.already.started.dat
+
+    if ( $OS == "SunOS" ) then
+
+        if ( `echo $OS_VERSION | sed 's/\..*//'` < $CUR_MAJOR_REL ) then
+       /bin/ps -axuw | egrep $PROG_TEXT | awk '$11!="egrep"&&$11!="vi"&&$11!="COMD"{ printf "Not starting SDT: %s is already running SDT on ", $1}' > $TESTFILE
+        else
+           /bin/ps -ef | egrep $PROG_TEXT | awk '$8!="egrep"&&$8!="vi"&&$8!="COMD"{ printf "Not starting SDT: %s is already running SDT on ", $1}' > $TESTFILE
+        endif
+
+    else
+
+        if ( `echo $OS_VERSION | sed 's/\..*//'` < $CUR_MAJOR_REL) then
+           /bin/ps -axuw | egrep $PROG_TEXT | awk '$11!="egrep"&&$11!="vi"&&$11!="COMD"{ printf "Not starting SDT: %s is already running SDT on ", $1}' > $TESTFILE
+        else
+           /bin/ps -ef | egrep $PROG_TEXT | awk '$8!="egrep"&&$8!="vi"&&$8!="COMD"&&$8!="/bin/sh"&&$8!="grep"&&$8!="/bin/grep"{ printf "Not starting SDT: %s is already running SDT on ", $1}' > $TESTFILE
+        endif
+
+    endif
+
+    if ( -z $TESTFILE) then
+       /bin/rm $TESTFILE
+       echo "Starting SDT on `uname -n`"
+    else
+       cat $TESTFILE
+       /bin/rm $TESTFILE
+       echo "`uname -n`"
+       exit (1)
+    endif
+
+endif  # if ( $MRUN_SDT == 0 )
+
+#
+# Make sure environment variable:   FASTBIN is set:
+#
+if ( ${?FASTBIN} ) then
+   if( -f $FASTBIN/UI) then
+      set SDTMAIN = $FASTBIN/UI
+   else if( ${?SDTHOME} ) then
+      set SDTMAIN = $SDTHOME/UI/UI
+   else
+      echo "You need to have environment variable:  SDTHOME set to the"
+      echo "correct pathname."
+      exit (1)
+   endif
+else
+   echo "You need to have environment variable:  FASTBIN set to the"
+   echo "correct pathname."
+   exit (1)
+endif
+
+#
+# Are we running the program locally or over the net?
+# If you are running locally, LOCAL_XSERVER will be set to:    1
+# If you are running elsewhere, LOCAL_XSERVER will be set to:  0
+#
+set LOCAL_XSERVER = 0
+if ( ${?DISPLAY} ) then
+	set TVAR = :0.0
+	if ( $TVAR == $DISPLAY) then
+            set LOCAL_XSERVER = 1
+	else
+	    set TVAR = `uname -n`" $DISPLAY"
+	    set EXITFLAG = `echo $TVAR | awk ' {print index($2, $1)} '`
+	    if ( $EXITFLAG == 1) then
+                set LOCAL_XSERVER = 1
+	    endif
+	endif
+else
+	echo "Your DISPLAY variable is not set"
+endif
+
+if ( -f core) then
+    /bin/rm core
+endif
+
+#
+#  Use the local configuration files, if they exist:
+#
+
+if ( -f UI.Config.dat ) then
+    set SDTCFG = UI.Config.dat
+else
+    if ( -f $FASTCONFIG/sdt_cfg/UI.Config.dat ) then
+       set SDTCFG = $FASTCONFIG/sdt_cfg/UI.Config.dat
+    else
+       set SDTCFG = $FASTLIB/sdt_cfg/UI.Config.dat
+    endif
+endif
+
+if ( -f UI.Exec.dat ) then
+    set SDTEXEC = UI.Exec.dat
+else
+    if ( -f $FASTCONFIG/sdt_cfg/UI.Exec.dat ) then
+       set SDTEXEC = $FASTCONFIG/sdt_cfg/UI.Exec.dat
+    else
+       set SDTEXEC = $FASTLIB/sdt_cfg/UI.Exec.dat
+    endif
+endif
+
+if ( -f UI.Source.dat ) then
+    set SDTSOURCES = UI.Source.dat
+else
+    if ( -f $FASTCONFIG/sdt_cfg/UI.Source.dat ) then
+       set SDTSOURCES = $FASTCONFIG/sdt_cfg/UI.Source.dat
+    else
+       set SDTSOURCES = $FASTLIB/sdt_cfg/UI.Source.dat
+    endif
+endif
+
+# echo "SDTMAIN= $SDTMAIN"
+# echo "SDTEXEC= $SDTEXEC"
+# echo "SDTSOURCES= $SDTSOURCES"
+# echo "SDTCFG= $SDTCFG"
+
+# start real time auxillary processes
+# ifdef OLD_RTINPUT
+# RTInput -geometry +200+0 -iconic -iconposition 168 0 &
+# endif OLD_RTINPUT
+
+onintr CLEANUP
+
+#$SDTMAIN 20 $SDTEXEC $SDTSOURCES 1000 2000 $SDTCFG outUI errUI
+# $* adds command line args into UI command line; allow display on home-ip.
+
+if ( $MRUN_SDT ) then
+   set RID = "SDTRunIndex="$RUN_IDX_VAL
+   $SDTMAIN 20 $SDTEXEC $SDTSOURCES 3000 3000 $SDTCFG outUI errUI $RID $*
+else
+   $SDTMAIN 20 $SDTEXEC $SDTSOURCES 3000 3000 $SDTCFG outUI errUI $*
+endif
+
+CLEANUP:
+if ( $MRUN_SDT ) then
+
+   set CLRPROC = "sdt_clear_proc."$RUN_IDX_VAL
+   if ( -f $CLRPROC ) then
+       source $CLRPROC >& /dev/null
+       /bin/rm $CLRPROC
+   endif
+
+   set CLRMEM = "sdt_clear_shm."$RUN_IDX_VAL
+   if ( -f $CLRMEM ) then
+       source $CLRMEM >& /dev/null
+       /bin/rm $CLRMEM
+   endif
+
+   $FASTBIN/dqh -d $RUN_IDX_VAL
+
+else
+
+   if ( $OS == "SunOS" ) then
+
+       # kill real time auxillary processes
+       /bin/ps -e | egrep 'target' | awk '$4!="egrep"&&$4!="vi"&&$4!="COMD"{ print "kill -9 ", $1}' > cleanupprocesses
+       source cleanupprocesses
+       /bin/rm cleanupprocesses
+
+       # clean up shared memory used with auxillary processes
+       ipcs | egrep '(0x00002710|0x00002711)' | awk '$1=="m"{ print "ipcrm -m ", $2}' > cleanupsharedmemory
+       source cleanupsharedmemory
+       /bin/rm cleanupsharedmemory
+
+       cleanup
+
+   else
+
+       $FASTBIN/cleanup
+
+   endif
+
+endif
+

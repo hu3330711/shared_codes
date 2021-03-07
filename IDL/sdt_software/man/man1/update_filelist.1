@@ -1,0 +1,131 @@
+.\" @(#)update_filelist.1	1.3 11/12/01
+'\"macro stdmacro
+.nr X
+.TH update_filelist 1 11/12/01
+.SH NAME
+update_filelist \- synchronize online_files database with files in data dirs.
+.SH SYNOPSIS
+.B update_filelist
+[
+.B \-d | -c
+] [
+.B -pseudoraid
+] [
+.I pattern
+]
+.SH DESCRIPTION
+.B update_filelist
+helps maintain the fast_online database which tells datamgr which FAST
+data files are available on line.  It's primary purpose is to synchronize
+the record of online files for each data directory in online_files database
+with the actual files online in each data directory.
+.B update_filelist
+finds data directories in the fast_online..OnlineLocations table 
+matching 
+.I pattern 
+For each matching data directory, 
+.B update_filelist
+removes all existing entries in the fast_online..OnlineFiles table which
+record the online files for that data directory, and replaces them
+with entries corresponding to the current contents of that directory.
+Note:  update_filelist does not add new data directoris to the fast_online
+database.  This can be done with 
+.B datamgr(1)
+or with
+.B trimFileList(1)
+.
+
+.SH OPTIONS
+
+.TP 18
+.B \-d
+Only set the OnHost flag for each data directory, without synchronizing 
+directory contents.  The OnHost flag is set only when running 
+.B update_filelist
+on the Domain Host.  The OnHost flag is tested by datamgr running at 
+remote sites to determine
+if a data directory is accessible from the Domain Host.  Any data directory
+not accessible from the Domain Host will not be considered on line by remote 
+datamgrs.
+.TP 18
+.B \-pseudoraid
+Allow to scan directories in the pseudo-raid system.  Careful, unless 
+.B \-d
+option is set, this may take over three hours to run!
+.TP 18
+.B \-c
+Check for bad files and delete them before updating the database.  
+Not compatible with
+.B \-d
+option.
+
+.SH USAGE
+By default, 
+.I pattern
+is set to '*' in order to find all user data directories.
+All data directories which correspond to on-line copies of 
+CDROMs, which are stored in the DANETSTORAGE directories, are 
+excluded by default.
+The locations of the DANETSTORAGE directories are configured in the 
+.B $FASTCONFIG/archive_config
+file.  The default pattern can be overridden
+by specifying
+.I pattern 
+on the command line.  
+.I pattern
+can be one or more patterns which will match the directories in the
+database that you want to be updated.  Files are matched from 
+.I pattern
+using the tcl glob command, which is similar to csh globing.  
+Enclose your entire pattern (or list of patterns) in single
+quotes to combine them into a single argument and protect any
+wildcards in your patterns from the shell.
+
+.SH EXAMPLES
+This command is useful to run from any script you use to remove
+files from data directories using unix commands.  Run
+.TP
+.B update_filelist
+.LP
+After removing any files, so datamgr will know that they are no longer
+on line.
+.LP
+
+To update files for a single CDROM volume FASTXXXXORBITOOOOO:
+.TP
+.B update_filelist '*FASTXXXXORBITOOOOO'
+.LP
+
+To update files only in Chuck Carlson's data directories:
+.TP
+.B update_filelist '*cwc*'
+.LP
+
+.SH ENVIRONMENT
+.LP
+.B update_filelist
+looks in the $FASTCONFIG directory for the Datamgr/Datamgr.conf file
+and archive_conf file.
+
+.SH FILES
+These files ensure that 
+.B update_filelist
+ runs in the same environment as datamgr:
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.LP
+This file determines the setting of DANETSTORAGE:
+.TP
+.B $FASTCONFIG/archive_conf
+.SH SEE ALSO
+.BR datamgr (1), update_filelist(1), dmls(1), fast_onlineAccess(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

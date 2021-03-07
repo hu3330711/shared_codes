@@ -1,0 +1,11 @@
+#! /usr/bin/ksh
+#
+# Created on 10/11/94 by R. Abiad
+#
+# The purpose of this script is to run tar
+# in the mass storage directory on DANET
+#
+. /disks/fast/software/config/archive_config
+
+cd $DANETSTORAGE
+tar xvf $1 $2

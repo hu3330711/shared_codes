@@ -1,0 +1,20 @@
+1. The following empty folders are created by Qianli Ma on 2021-02-22.
+/projectnb/burbsp/home/common/library/IDL
+/projectnb/burbsp/home/common/library/gcc
+/projectnb/burbsp/home/common/library/gfortran
+
+2. The following libraries have been copied into the shared library by Qianli Ma on 2021-02-25.
+/projectnb/burbsp/home/common/library/IDL/NASA_CDF_Patch_v3.7
+/projectnb/burbsp/home/common/library/IDL/colortable
+/projectnb/burbsp/home/common/library/IDL/icy
+/projectnb/burbsp/home/common/library/IDL/idlastro.gsfc.nasa.gov
+/projectnb/burbsp/home/common/library/IDL/old
+/projectnb/burbsp/home/common/library/IDL/sdt_software
+/projectnb/burbsp/home/common/library/IDL/themis_idllib
+/projectnb/burbsp/home/common/library/IDL/catalyst
+/projectnb/burbsp/home/common/library/IDL/coyote
+/projectnb/burbsp/home/common/library/IDL/idl_geopack_106
+/projectnb/burbsp/home/common/library/IDL/morisset
+/projectnb/burbsp/home/common/library/IDL/pp_lib-master
+/projectnb/burbsp/home/common/library/IDL/spedas_4_1
+/projectnb/burbsp/home/common/library/gfortran/lapack-3.5.0

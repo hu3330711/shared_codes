@@ -1,0 +1,37 @@
+#! /usr/bin/ksh
+#
+# which_util
+#
+# Run whichfile with a timespan query as input. This was done as a solution
+# to trying to figure out the required syntax of whichfiles while being called
+# from a perl script.
+#
+# USAGE:
+# 
+#    	which_util stdate endate
+#
+#
+# OPTIONS AND ARGUMENTS:
+#
+#	stdate - Start time of timespan in the form YYYY/MM/DD HH:MM:SS
+#	endate - End time of timespan in the form YYYY/MM/DD HH:MM:SS
+#
+
+if [[ -z $FASTCONFIG ]]; then
+    echo "Setting FASTCONFIG=/disks/fast/software/config"
+    export FASTCONFIG=/disks/fast/software/config
+fi
+
+# Source the archive configuration file
+#
+if [[ -z $configfile ]]; then
+    configfile=$FASTCONFIG/archive_config.integration
+fi
+. $configfile
+
+stdate="$1 $2"
+endate="$3 $4"
+
+$FASTBIN/whichfiles "timespan { \"$stdate\" \"$endate\" }"
+
+exit 0

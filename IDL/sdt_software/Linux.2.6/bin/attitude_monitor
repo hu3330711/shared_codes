@@ -1,0 +1,61 @@
+#!/usr/local/bin/perl
+# This program monitors the attitude data file to check for abnormal file growth as a means to detect corruption
+
+# ARGS - none
+# Notes:
+# 2000.09.25
+# Created by Jeremy Huddleston - jeremyhu@ssl.berkeley.edu
+# Monitors queue.db and creates the hires cdfs then emails the end user.
+
+use integer;
+use strict;
+use sigtrap qw(INT KILL QUIT TERM);
+
+my $mailprog="/usr/bin/mail";
+my $dateprog="/usr/bin/date"; 
+my $prog=`basename $0`;
+my $atfile="/disks/juneau/attitude/attitude.list";
+my $atfilebak="/disks/juneau/attitude/attitude.list.bak";
+my $archive_config="/disks/fast/software/config/archive_config";
+
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'IFS'} = '' if $ENV{'IFS'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config";
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  close (MAIL);
+  exit($stat);
+}
+
+sub compare {
+  my $sizeold = `ls -l $atfilebak | awk '{print \$5}'`; $sizeold =~ s/\n//g;
+  my $sizenew = `ls -l $atfile | awk '{print \$5}'`; $sizenew =~ s/\n//g;
+
+  if( 1.1 * $sizeold < $sizenew ) {
+    # more than 10% growth. Abnormal increase.
+
+    my $date=`$dateprog`; $date =~ s/\n//g;
+    my $email=`cat $archive_config | grep 'ARCHIVEMASTER='`; $email =~ m/^ARCHIVEMASTER=\'([^\']*)\'$/; $email = $1;
+
+    open(MAIL, "|$mailprog $email");
+    print MAIL "Date: $date\n";
+    print MAIL "From: Attitude Data Monitor <noreply\@ssl.berkeley.edu>\n";
+    print MAIL "Subject: Attitude Data Monitor\n\n";
+    print MAIL "The attitude data file (".$atfile.") has grown over 10% since last checked.\n";
+    print MAIL "There is a backup availible at ".$atfilebak.".\n";
+    close(MAIL);
+  } else {
+    # File sizer increase is alright
+    system "cp -f $atfile $atfilebak";
+  }
+}
+
+&compare;

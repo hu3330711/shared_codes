@@ -1,0 +1,171 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	astat_prc	
+#	
+# PURPOSE:	Display information about the active archive system 
+#		processes.
+#
+# INPUTS:       none
+#
+#
+
+# Environment setup
+
+. /disks/fast/software/config/archive_config
+
+# Cleanup function
+
+function quitearly {
+	if [ -a /tmp/astattmp ] ; then
+		rm /tmp/astattmp
+	fi
+	print
+	exit 0
+}
+
+# Must run from FINET machine
+
+host=$(uname -n)
+if [[ "$host" != "$FINETPRIMARY" && $host != "$FINETBACKUP" ]] ; then
+    print "Must run from a FINET machine."
+    exit 1
+fi
+
+# Set trap for premature exit
+
+trap quitearly EXIT
+
+# Report Header
+
+printf '\n\t\t  >>>>> ARCHIVE SYSTEM STATUS REPORT <<<<<\n\t\t\t%s\n\n' "`date`"
+printf "\nACTIVE ARCHIVE PROCESSES\n==============================================================================\n"
+printf "%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n" \
+	"Program" "ID" "PPID" "Parameter" "User" "Host" "Start"
+printf "------------------------------------------------------------------------------\n"
+
+# List the processes on this FINET machine
+#  1   2     3      4    5    6  7  8
+# PID USER STTIME FNAME PPID CMD/ARGS (fields of ps command)
+# PROG ID PARAM USER HOST START (fields of output)
+
+ps -e -o pid= -o user= -o stime= -o fname=0123456789ABCDEF -o ppid -o args |
+nawk -v host=$host '
+$4 ~ /intercept/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)}
+$4 ~ /FastCount/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /prepare/ {
+	# 8th field is 2nd arg to ksh script
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /sdt/ {
+	# Batch file is last field?
+	#param = $NF
+	#n_parts = split(param, array, "\/")
+	# first element is 1st element
+	#batch = array[n_parts]
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /backup/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /transfer/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /arecovery/ {
+	# arecovery takes no arguments
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)}
+$4 ~ /cdromunload/ {
+	# cdromunload takes no arguments
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)
+}' -
+
+# Processes on other FINET host
+
+if [[ "$host" = "manitou" ]] ; then
+    other_finet="barrow"
+else
+    other_finet="manitou"
+fi
+rsh $other_finet ps -e -o pid= -o user= -o stime= -o fname=0123456789ABCDEF -o ppid -o args |
+nawk -v host=$other_finet '
+$4 ~ /intercept/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)}
+$4 ~ /FastCount/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /prepare/ {
+	# 8th field is 2nd arg to ksh script
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /sdt/ {
+	# Batch file is last field?
+	#param = $NF
+	#n_parts = split(param, array, "\/")
+	# first element is 1st element
+	#batch = array[n_parts]
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /backup/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /transfer/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /arecovery/ {
+	# arecovery takes no arguments
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)}
+$4 ~ /cdromunload/ {
+	# cdromunload takes no arguments
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", " ", $2, host, $3)
+}' -
+
+# List the processes on DANET
+#  1   2     3      4    5   (6 7 8)
+# PID USER STTIME FNAME PPID CMD/ARGS (fields of ps command)
+# PPID doesn't correlate across machines
+
+rsh $DANETHOST ps -e -o pid= -o user= -o stime= -o fname=0123456789ABCDEF -o ppid -o args |
+nawk -v host=$DANETHOST '
+$4 ~ /dbupdate/ {
+	# The ID argument is 9 and the CD name is 8, except in call to cutcd
+	# 9th field never printed because line too long.
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", $8, $2, host, $3)}
+$4 ~ /premaster/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", $8, $2, host, $3)}
+$4 ~ /sciplot/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, " ", $8, $2, host, $3)}
+$4 ~ /idl/ && $4 !~ /idl_lmgrd/ {
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, $7, $2, host, $3)}
+$4 ~ /sdt/ {
+	# Batch file last field
+	#param = $NF
+	#n_parts = split(param, array, "\/")
+	# first element is not 0th element
+	#batch = array[n_parts]
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)}
+$4 ~ /cutcd/ {
+	# print ppid in PARAMETER field, pid in ID field.
+	# 8th field is ppid passed by intercept from manitou
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $8, " ", $2, host, $3)}
+$4 ~ /wtcdwrt/ {
+	# print ppid in PARAMETER field, pid in ID field.
+	printf("%-10s %-7s %-7s %-21s %-10s %-9s %-10s\n",
+	$4, $1, $5, " ", $2, host, $3)
+}' -
+
+
+exit 0

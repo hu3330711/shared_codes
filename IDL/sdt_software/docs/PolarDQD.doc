@@ -1,0 +1,7407 @@
+#
+# For SCCS
+#  @(#)PolarDQD.doc	1.3, 09/27/96
+#
+
+------------------------------------------------------------------------
+
+PolarEFI DataQuantity Descriptions (96/09/27):
+
+
+This document contains the data quantity descriptions for the data
+produced by the Polar-EFI decommutator.
+
+NOTES:
+
+     1.  The project attitude and orbit data quantities are near the
+	 end of this document.
+
+     2.  The quantities "V12L", "V34L", and "V56L" and the standard
+	 raw efield measurements.  The standard single probe measurements
+	 are "V_1_LF_EFI", "V_2_LF_EFI", "V_3_LF_EFI", "V_4_LF_EFI",
+	 "V_5_LF_EFI", and "V_6_LF_EFI".  Note also the "U" (unfiltered)
+	 and "H" corresponding quantites also exist, but are used
+	 by the instrument much less often.
+
+     3.  As of 96/05/31, everyone should use the MFE data quantity:
+
+              MagMFECombined
+
+         as this combines inboard and outboard for complete coverage.
+	 Most of the time-tagging issues have been resolved, at least
+	 well enough for EFI studies.
+	
+     4.  There are two quantities containing spacecraft sunpulse
+	 data:
+
+	 "PolarProjectSunPulse" is the more accurate of the two and
+	 comes from the project "K0_SPHA" data files.  It is used
+	 in our ground spin-fit algorithms.
+
+         "EFISunPulse" comes directly from the EFI telemetry.  Its
+	 sunpulse times tend to differ from those in the project data
+	 by any where from 20 to 100 milliseconds.  It is no longer
+	 used in our spin-fit algorithms.
+
+     5.  Burst data comes from either of the two CPUs in the EFI
+	 package - the "Main" CPU and the "Burst" CPU.  Thus, for
+	 most burst data, there are two available data quantities. 
+	 The burst quantity names starting with "M" are from the
+	 "Main" CPU and those starting with "B" are from the "Burst"
+	 CPU.  For instance, the V12L burst data comes from two
+	 quantities:
+
+               MBV_12_LF_EFI
+               BBV_12_LF_EFI
+
+         The burst data from the two CPUs is therefore NOT mixed in
+	 one quantity but is separated into two quantities.
+
+     6.  The data shown in the "legend" at the bottom of all SDT
+	 plot pages is contained in quantity:
+	 
+	    PolarSpDistMLTMagLatLShell
+
+------------------------------------------------------------------------
+
+This quantity is from the EFI telemetry - there is one value per spacecraft
+spin, with the time stamp occuring at SunPulse (and the value is the
+current SpinPeriod in seconds).  The time stamp is only accurate to within
+1.5 degrees of spin.
+
+DataQuantity:  EFISunPulse
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFISunPulse
+               Units:  SpPer_secs
+
+
+------------------------------------------------------------------------
+
+Realtime Quantities:
+-------------------
+
+
+DataQuantity:  V12L_FromV1V2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V12L_FromV1V2
+               Units:  mV/m
+
+
+DataQuantity:  V34L_FromV3V4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V34L_FromV3V4
+               Units:  mV/m
+
+
+DataQuantity:  V56L_FromV5V6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V56L_FromV5V6
+               Units:  mV/m
+
+
+DataQuantity:  Stat_1_3_5_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_1_EFI
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_3_EFI
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_5_EFI
+               Units:  raw
+
+
+DataQuantity:  V_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_1_LF_EFI
+               Units:  mV/m
+
+
+DataQuantity:  V_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_3_LF_EFI
+               Units:  mV/m
+
+
+DataQuantity:  V_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_5_LF_EFI
+               Units:  mV/m
+
+
+DataQuantity:  I_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_1_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_3_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_5_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_1_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_3_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_5_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  I_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_1_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_3_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_5_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_1_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_3_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_5_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  I_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_1_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_3_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_5_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_12_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_34_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_56_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  I_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_12_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_34_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_56_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_12_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_34_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_56_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  I_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_12_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_34_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_56_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_12_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_34_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_56_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  I_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_12_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_34_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_56_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_12_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_34_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  V_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_56_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  I_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_12_AC_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_34_AC_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_56_AC_EFI
+               Units:  nAmps
+
+
+DataQuantity:  Stat_2_4_6_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_2_EFI
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_4_EFI
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Stat_6_EFI
+               Units:  raw
+
+
+DataQuantity:  V_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_2_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_4_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_6_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  I_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_2_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_4_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_6_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_2_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_4_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_6_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  I_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_2_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_4_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_6_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  V_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_2_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_4_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  V_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V_6_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  I_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_2_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_4_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  I_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I_6_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  FLTR_1_2_3_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FLTR_1_EFI
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FLTR_2_EFI
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FLTR_3_EFI
+               Units:  raw
+
+
+DataQuantity:  SCOIL_X_Y_Z_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  SCOIL_X_EFI
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  SCOIL_Y_EFI
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  SCOIL_Z_EFI
+               Units:  raw
+
+
+DataQuantity:  MEP_28_5_CNVRT_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MEP_28_5_CNVRT_EFI_Comp_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MEP_28_5_CNVRT_EFI_Comp_2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MEP_28_5_CNVRT_EFI_Comp_3
+               Units:  raw
+
+
+DataQuantity:  TEST_1_2_3_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  TEST_1_EFI
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  TEST_2_EFI
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  TEST_3_EFI
+               Units:  raw
+
+
+DataQuantity:  Avg_V12_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_V12_L
+               Units:  mV/M
+
+
+DataQuantity:  Avg_V34_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_V34_L
+               Units:  mV/M
+
+
+DataQuantity:  Avg_V56_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_V56_L
+               Units:  mV/M
+
+
+DataQuantity:  Avg_I12_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_I12_L
+               Units:  nAmps
+
+
+DataQuantity:  Avg_I34_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_I34_L
+               Units:  nAmps
+
+
+DataQuantity:  Avg_I56_L
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Avg_I56_L
+               Units:  nAmps
+
+
+DataQuantity:  I1LF_V34LF_V56LF
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I1LF
+               Units:  nAmps
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V34LF
+               Units:  mV/M
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V56LF
+               Units:  mV/M
+
+
+DataQuantity:  V12LF_I3LF_V56LF
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V12LF
+               Units:  mV/M
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  I3LF
+               Units:  nAmps
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  V56LF
+               Units:  mV/M
+
+
+DataQuantity:  MFE
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MFE_X
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MFE_Y
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MFE_Z
+               Units:  raw
+
+
+DataQuantity:  FUSER0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER0_Comp_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER0_Comp_2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER0_Comp_3
+               Units:  raw
+
+
+DataQuantity:  FUSER1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER1_Comp_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER1_Comp_2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  FUSER1_Comp_3
+               Units:  raw
+
+
+DataQuantity:  RamQuantity
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  RamQuantity_Comp_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  RamQuantity_Comp_2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  RamQuantity_Comp_3
+               Units:  raw
+
+------------------------------------------------------------------------
+
+OnBoard SpinFit Quantities:
+--------------------------
+
+DataQuantity:  EFIBoom12SpinFit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  6
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom12SpinFit_A
+               Units:  num
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom12SpinFit_B
+               Units:  num
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom12SpinFit_C
+               Units:  num
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom12SpinFit_SDev
+               Units:  num
+
+      5:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom12SpinFit_N
+               Units:  num
+
+
+DataQuantity:  EFIBoom34SpinFit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  6
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom34SpinFit_A
+               Units:  num
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom34SpinFit_B
+               Units:  num
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom34SpinFit_C
+               Units:  num
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom34SpinFit_SDev
+               Units:  num
+
+      5:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  EFIBoom34SpinFit_N
+               Units:  num
+
+
+------------------------------------------------------------------------
+
+FastDigitalMonitor Quantities:
+-----------------------------
+
+DataQuantity:  EfiFDMPlayback
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMPlayback
+               Units:  raw
+
+
+DataQuantity:  EfiFDMXBit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMXBit
+               Units:  raw
+
+
+DataQuantity:  EfiFDMUBit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMUBit
+               Units:  raw
+
+
+DataQuantity:  EfiFDMSweepBit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMSweepBit
+               Units:  raw
+
+
+DataQuantity:  EfiFDMCPU1BurstStatus
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMCPU1BurstStatus
+               Units:  raw
+
+
+DataQuantity:  EfiFDMCPU2BurstStatus
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMCPU2BurstStatus
+               Units:  raw
+
+
+DataQuantity:  EfiFDMCmdCntMismatch
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiFDMCmdCntMismatch
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeCombined
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeCombined
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV1
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV2
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV3
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV4
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV5
+               Units:  raw
+
+
+DataQuantity:  EfiEDModeV6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int32         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiEDModeV6
+               Units:  raw
+
+
+DataQuantity:  EfiFDMText
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char[80]    text
+      2:  Char[80]    text
+      3:  Char[80]    text
+
+------------------------------------------------------------------------
+
+Normal Sweep Quantities:
+-----------------------
+
+DataQuantity:  EfiSweepHdrText
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char[92]    text
+      2:  Char[92]    text
+      3:  Char[92]    text
+
+DataQuantity:  EfiSweepIBias
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepIBias
+               Units:  raw
+
+
+DataQuantity:  EfiSweepVBias
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepVBias
+               Units:  raw
+
+
+DataQuantity:  EfiSweepV1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV1
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV2
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV1minusV2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV1minusV2
+               Units:  mV/m
+
+
+DataQuantity:  EfiSweepV3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV3
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV4
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV3minusV4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV3minusV4
+               Units:  mV/m
+
+
+DataQuantity:  EfiSweepV5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV5
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV6
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepV5minusV6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepV5minusV6
+               Units:  mV/M
+
+
+DataQuantity:  EfiSweepI1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI1
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI2
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI1minusI2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI1minusI2
+               Units:  raw
+
+
+DataQuantity:  EfiSweepI3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI3
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI4
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI3minusI4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI3minusI4
+               Units:  raw
+
+
+DataQuantity:  EfiSweepI5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI5
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI6
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepI5minusI6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepI5minusI6
+               Units:  raw
+
+------------------------------------------------------------------------
+
+SDT7 Sweep Quantities:
+---------------------
+
+DataQuantity:  EfiSdt7SweepHdrText
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char[92]    text
+      2:  Char[92]    text
+      3:  Char[92]    text
+
+DataQuantity:  EfiSweepSdt7IBias
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7IBias
+               Units:  raw
+
+
+DataQuantity:  EfiSweepSdt7VBias
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7VBias
+               Units:  raw
+
+
+DataQuantity:  EfiSweepSdt7V1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V1
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepSdt7V2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V2
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepSdt7V1minusV2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V1minusV2
+               Units:  mV/M
+
+
+DataQuantity:  EfiSweepSdt7V3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V3
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepSdt7V4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V4
+               Units:  Volts
+
+
+DataQuantity:  EfiSweepSdt7V3minusV4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7V3minusV4
+               Units:  mV/M
+
+
+DataQuantity:  EfiSweepSdt7I1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I1
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepSdt7I2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I2
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepSdt7I1minusI2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I1minusI2
+               Units:  raw
+
+
+DataQuantity:  EfiSweepSdt7I3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I3
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepSdt7I4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I4
+               Units:  nAmps
+
+
+DataQuantity:  EfiSweepSdt7I3minusI4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7I3minusI4
+               Units:  raw
+
+
+DataQuantity:  EfiSweepSdt7Guard
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7Guard
+               Units:  raw
+
+
+DataQuantity:  EfiSweepSdt7Stub
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiSweepSdt7Stub
+               Units:  raw
+
+------------------------------------------------------------------------
+
+DigitalSubcom Quantities:
+------------------------
+
+DataQuantity:  EfiDscRawBytes
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  19
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char[76]    text
+      2:  Char[76]    text
+      3:  Char[76]    text
+      4:  Char[76]    text
+      5:  Char[76]    text
+      6:  Char[76]    text
+      7:  Char[76]    text
+      8:  Char[76]    text
+      9:  Char[76]    text
+      10:  Char[76]    text
+      11:  Char[76]    text
+      12:  Char[76]    text
+      13:  Char[76]    text
+      14:  Char[76]    text
+      15:  Char[76]    text
+      16:  Char[76]    text
+      17:  Char[76]    text
+      18:  Char[76]    text
+
+DataQuantity:  EfiDscExecVersion
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  ExecVersion
+               Units:  raw
+
+
+DataQuantity:  EfiDscExecSpare0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  ExecSpare0
+               Units:  raw
+
+
+DataQuantity:  EfiDscExecSpare1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  ExecSpare1
+               Units:  raw
+
+
+DataQuantity:  EfiDscExecSpare2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  ExecSpare2
+               Units:  raw
+
+
+DataQuantity:  EfiDscExecSpare3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  ExecSpare3
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstFreq
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstFreq
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstTrig
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstTrig
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstChirp
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstChirp
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstPages
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstPages
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstThreshO
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstThreshO
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstParam0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstParam0
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstParam1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstParam1
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstParam2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstParam2
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstParam3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstParam3
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstEvalMax
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstEvalMax
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstThreshold
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstThreshold
+               Units:  raw
+
+
+DataQuantity:  EfiDscMBurstNMax
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurstNMax
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstFreq
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstFreq
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstTrig
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstTrig
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstChirp
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstChirp
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstPages
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstPages
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstThreshO
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstThreshO
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstParam0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstParam0
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstParam1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstParam1
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstParam2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstParam2
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstParam3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstParam3
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstEvalMax
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstEvalMax
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstThreshold
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstThreshold
+               Units:  raw
+
+
+DataQuantity:  EfiDscBBurstNMax
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurstNMax
+               Units:  raw
+
+
+DataQuantity:  EfiDscMfeStatus
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscMfeStatus
+               Units:  raw
+
+
+DataQuantity:  EfiDscMfeX
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int16         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscMfeX
+               Units:  raw
+
+
+DataQuantity:  EfiDscMfeY
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int16         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscMfeY
+               Units:  raw
+
+
+DataQuantity:  EfiDscMfeZ
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Int16         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscMfeZ
+               Units:  raw
+
+
+DataQuantity:  EfiDscSpinMemPhase
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscSpinMemPhase
+               Units:  raw
+
+
+DataQuantity:  EfiDscBandPass0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscBandPass0
+               Units:  raw
+
+
+DataQuantity:  EfiDscBandPass1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscBandPass1
+               Units:  raw
+
+
+DataQuantity:  EfiDscBVersion
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscBVersion
+               Units:  raw
+
+
+DataQuantity:  EfiDscSpare1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscSpare1
+               Units:  raw
+
+
+DataQuantity:  EfiDscSpare2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscSpare2
+               Units:  raw
+
+
+DataQuantity:  EfiDscCpu2FDM
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscCpu2FDM
+               Units:  raw
+
+
+DataQuantity:  EfiDscCpu2FastData
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscCpu2FastData
+               Units:  raw
+
+
+DataQuantity:  EfiDscCpu1Enactl
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscCpu1Enactl
+               Units:  raw
+
+
+DataQuantity:  EfiDscV1Offset
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  DscV1Offset
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias1
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias2
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias3
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias4
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias5
+               Units:  raw
+
+
+DataQuantity:  EfiDscBias6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBias6
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub1
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub2
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub3
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub4
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub5
+               Units:  raw
+
+
+DataQuantity:  EfiDscStub6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStub6
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard1
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard2
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard3
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard4
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard5
+               Units:  raw
+
+
+DataQuantity:  EfiDscGuard6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Char         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuard6
+               Units:  raw
+
+
+DataQuantity:  EfiDscBiasDac1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD1
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscBiasDac2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD2
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscBiasDac3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD3
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscBiasDac4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD4
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscBiasDac5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD5
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscBiasDac6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscBiasD6
+               Units:  V_or_nA
+
+
+DataQuantity:  EfiDscStubDac1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD1
+               Units:  Volts
+
+
+DataQuantity:  EfiDscStubDac2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD2
+               Units:  Volts
+
+
+DataQuantity:  EfiDscStubDac3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD3
+               Units:  Volts
+
+
+DataQuantity:  EfiDscStubDac4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD4
+               Units:  Volts
+
+
+DataQuantity:  EfiDscStubDac5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD5
+               Units:  Volts
+
+
+DataQuantity:  EfiDscStubDac6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscStubD6
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardD1
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardDac2
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardD3
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardD4
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardD5
+               Units:  Volts
+
+
+DataQuantity:  EfiDscGuardDac6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscGuardD6
+               Units:  Volts
+
+
+DataQuantity:  EfiDscDeployPair
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscDeployPair
+               Units:  raw
+
+
+DataQuantity:  EfiDscDeployStatus
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscDeployStatus
+               Units:  raw
+
+
+DataQuantity:  EfiDscDeploySwitches
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscDeploySwitches
+               Units:  raw
+
+
+DataQuantity:  EfiDscLengthA
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscLengthA
+               Units:  raw
+
+
+DataQuantity:  EfiDscLengthB
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscLengthB
+               Units:  raw
+
+
+DataQuantity:  EfiDscDeployLimit
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscDeployLimit
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothOffset
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothOffset
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothDelta
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothDelta
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothPeriod
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothPeriod
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothDivider
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothDivider
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothOptions
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothOptions
+               Units:  raw
+
+
+DataQuantity:  EfiDscSawToothEnabled
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscSawToothEnabled
+               Units:  raw
+
+
+DataQuantity:  EfiDscLoadAddr
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscLoadAddr
+               Units:  raw
+
+
+DataQuantity:  EfiDscCheckLoad
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscCheckLoad
+               Units:  raw
+
+
+DataQuantity:  EfiDscRomId
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UChar         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiDscRomId
+               Units:  raw
+
+------------------------------------------------------------------------
+
+HouseKeeping Quantities:
+-----------------------
+
+DataQuantity:  EfiHkMep28I
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMep28I
+               Units:  mA
+
+
+DataQuantity:  EfiHkMep5I
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMep5I
+               Units:  mA
+
+
+DataQuantity:  EfiHkMepCnvTmp
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMepCnvTmp
+               Units:  degC
+
+
+DataQuantity:  EfiHkMepTemp0
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMepTemp0
+               Units:  degC
+
+
+DataQuantity:  EfiHkMepTemp1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMepTemp1
+               Units:  degC
+
+
+DataQuantity:  EfiHkMepTemp2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkMepTemp2
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp1
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp2
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp3
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp4
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp5
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomTemp6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomTemp6
+               Units:  degC
+
+
+DataQuantity:  EfiHkBoomLen1
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen1
+               Units:  M
+
+
+DataQuantity:  EfiHkBoomLen2
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen2
+               Units:  M
+
+
+DataQuantity:  EfiHkBoomLen3
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen3
+               Units:  M
+
+
+DataQuantity:  EfiHkBoomLen4
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen4
+               Units:  M
+
+
+DataQuantity:  EfiHkBoomLen5
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen5
+               Units:  M
+
+
+DataQuantity:  EfiHkBoomLen6
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiHkBoomLen6
+               Units:  M
+
+
+DataQuantity:  EfiClk1CntLowBytes
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiClk1CntLowBytes
+               Units:  cnt
+
+
+DataQuantity:  EfiClk2CntLowBytes
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  UInt16         Number SubDims= 1
+            SubDim[0]:
+               Label:  EfiClk2CntLowBytes
+               Units:  cnt
+
+------------------------------------------------------------------------
+
+CPU2 Burst Quantities:
+---------------------
+
+DataQuantity:  BBurst_Stat_135
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_3
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_5
+               Units:  raw
+
+
+DataQuantity:  BBV_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_1_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_3_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_5_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_1_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_3_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_5_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBV_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_1_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_3_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_5_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_1_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_3_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_5_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBV_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_1_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_3_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_5_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_1_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_3_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_5_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBV_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_12_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_34_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_56_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBI_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_12_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_34_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_56_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBV_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_12_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_34_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_56_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBI_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_12_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_34_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_56_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBV_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_12_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_34_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_56_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBI_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_12_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_34_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_56_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  BBV_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_12_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_34_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBV_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_56_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  BBI_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_12_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_34_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  BBI_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_56_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  BBurst_Stat_246
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_2
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_4
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Stat_6
+               Units:  raw
+
+
+DataQuantity:  BBV_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_2_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_4_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_6_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_2_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_4_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_6_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBV_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_2_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_4_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_6_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_2_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_4_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_6_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBV_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_2_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_4_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBV_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBV_6_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  BBI_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_2_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_4_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBI_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBI_6_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  BBurst_Filters
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Filter1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Filter2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Filter3
+               Units:  raw
+
+
+DataQuantity:  BBurst_SearchCoil
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_SearchCoilX
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_SearchCoilY
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_SearchCoilZ
+               Units:  raw
+
+
+DataQuantity:  BBurst_Monitors
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MEP1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MEP2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MEP3
+               Units:  raw
+
+
+DataQuantity:  BBurst_Test
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Test1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Test2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_Test3
+               Units:  raw
+
+
+DataQuantity:  BBurst_MFE_XYZ
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_X
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_Y
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_Z
+               Units:  raw
+
+
+DataQuantity:  BBurst_MFE_Info
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_BPFilter
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_SpinAngle
+               Units:  deg
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  BBurst_MFE_ScaleIdx
+               Units:  raw
+
+------------------------------------------------------------------------
+
+CPU1 Burst Quantities:
+---------------------
+
+DataQuantity:  MBurst_Stat_135
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_3
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_5
+               Units:  raw
+
+
+DataQuantity:  MBV_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_1_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_3_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_5_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_1_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_1_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_3_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_3_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_5_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_5_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBV_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_1_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_3_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_5_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_1_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_1_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_3_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_3_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_5_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_5_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBV_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_1_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_3_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_5_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_1_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_1_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_3_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_3_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_5_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_5_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBV_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_12_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_34_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_56_LF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBI_12_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_12_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_34_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_34_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_56_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_56_LF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBV_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_12_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_34_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_56_UF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBI_12_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_12_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_34_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_34_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_56_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_56_UF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBV_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_12_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_34_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_56_HF_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBI_12_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_12_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_34_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_34_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_56_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_56_HF_EFI
+               Units:  raw
+
+
+DataQuantity:  MBV_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_12_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_34_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBV_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_56_AC_EFI
+               Units:  mV/M
+
+
+DataQuantity:  MBI_12_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_12_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_34_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_34_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  MBI_56_AC_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_56_AC_EFI
+               Units:  raw
+
+
+DataQuantity:  MBurst_Stat_246
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_2
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_4
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Stat_6
+               Units:  raw
+
+
+DataQuantity:  MBV_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_2_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_4_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_6_LF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_2_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_2_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_4_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_4_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_6_LF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_6_LF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBV_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_2_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_4_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_6_UF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_2_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_2_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_4_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_4_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_6_UF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_6_UF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBV_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_2_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_4_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBV_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBV_6_HF_EFI
+               Units:  Volts
+
+
+DataQuantity:  MBI_2_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_2_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_4_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_4_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBI_6_HF_EFI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBI_6_HF_EFI
+               Units:  nAmps
+
+
+DataQuantity:  MBurst_Filters
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Filter1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Filter2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Filter3
+               Units:  raw
+
+
+DataQuantity:  MBurst_SearchCoil
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_SearchCoilX
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_SearchCoilY
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_SearchCoilZ
+               Units:  raw
+
+
+DataQuantity:  MBurst_Monitors
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_MEP1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_MEP2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_MEP3
+               Units:  raw
+
+
+DataQuantity:  MBurst_Test
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Test1
+               Units:  raw
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Test2
+               Units:  raw
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MBurst_Test3
+               Units:  raw
+
+
+-------------------------------------------------------------------------
+
+Attitude Quantities:
+-------------------
+
+
+DataQuantity:  PolarSpinAxisECI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  ECI
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  ECI
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  ECI
+
+
+DataQuantity:  PolarSpinAxisGSE
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  GSE
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  GSE
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  GSE
+
+
+DataQuantity:  PolarSpinAxisGSM
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  GSM
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  GSM
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  GSM
+
+
+DataQuantity:  PolarSpinRate
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  2
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  SpinRate
+               Units:  secs
+
+-------------------------------------------------------------------------
+
+Orbit Quantities:
+----------------
+
+DataQuantity:  PolarPositionECI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  ERad
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  ERad
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  ERad
+
+
+DataQuantity:  PolarPositionGSE
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  ERad
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  ERad
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  ERad
+
+
+DataQuantity:  PolarPositionGSM
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  ERad
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  ERad
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  ERad
+
+
+DataQuantity:  PolarVelocityECI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  km/sec
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  km/sec
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  km/sec
+
+
+DataQuantity:  PolarVelocityGSE
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  km/sec
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  km/sec
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  km/sec
+
+
+DataQuantity:  PolarVelocityGSM
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  km/sec
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  km/sec
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  km/sec
+
+
+DataQuantity:  PolarSunVectorECI
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  4
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  ERad
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  ERad
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  ERad
+
+
+DataQuantity:  PolarSpDistMLTMagLatLShell
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  5
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  SPcraftDist
+               Units:  ERad
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MLT
+               Units:  Hours
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  MagLat
+               Units:  Deg
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  LShell
+               Units:  RE
+
+-------------------------------------------------------------------------
+
+MFE Quantities:
+--------------
+
+DataQuantity:  MagMFECombined
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  5
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  nT
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  nT
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  nT
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Magnitude
+               Units:  nT
+
+
+DataQuantity:  MagMFEObrd
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  5
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  nT
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  nT
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  nT
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Magnitude
+               Units:  nT
+
+DataQuantity:  MagMFEIbrd
+   type:  TIME_BASED_DATA
+   storage:  STORE_AS_SEPARATE_ARRAYS
+
+   number components:  5
+   components:
+      0:  Double         Number SubDims= 1
+            SubDim[0]:
+               Label:  time
+               Units:  UTsecs
+
+      1:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  X
+               Units:  nT
+
+      2:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Y
+               Units:  nT
+
+      3:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Z
+               Units:  nT
+
+      4:  Float         Number SubDims= 1
+            SubDim[0]:
+               Label:  Magnitude
+               Units:  nT
+

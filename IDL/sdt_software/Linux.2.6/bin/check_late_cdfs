@@ -1,0 +1,70 @@
+#! /usr/bin/ksh
+#
+# check_late_cdfs.ksh
+#
+# Calls check_late_cdfs.pro to test timespans of CDF files.
+# Meant to be run as a cron job by lzp.
+#
+#
+
+# Archive Config Setup
+
+CONFIGPATH=/disks/fast/software/config
+export CONFIGPATH
+. $CONFIGPATH/archive_config
+
+# IDL Setup
+
+. /usr/local/idl_5/bin/idl_setup.ksh
+IDL_PATH="${IDL_PATH}:/disks/fast/software/integration/idl"
+export IDL_PATH
+
+# CDF-checking setup
+
+DANETDIR="$FAST_CDF_HOME"/cdf_status/timespans
+doy=`date -u '+%j'`
+yr=`date -u '+%y'`
+mo=`date -u '+%m'`
+tsfname="int${yr}_${mo}"
+danetfile=${DANETDIR}/${tsfname}
+ONTIMES=$danetfile
+FIRSTORB=`cat $DANETDIR/check_orbit`
+export DANETDIR ONTIMES FIRSTORB
+
+# Check timespans of latest CDFs for each quantity
+
+QUANTITY='ees'
+latestcdf=`ls -1 $FAST_CDF_HOME/$QUANTITY/fa_k0_${QUANTITY}_*.cdf | tail -1`
+LASTORB=${latestcdf#*${QUANTITY}_%_v*}
+if (( LASTORB > FIRSTORB )) ; then
+    export QUANTITY LASTORB
+    idl check_late_cdfs 1>/dev/null 2>&1
+fi
+QUANTITY='ies'
+latestcdf=`ls -1 $FAST_CDF_HOME/$QUANTITY/fa_k0_${QUANTITY}_*.cdf | tail -1`
+LASTORB=${latestcdf#*${QUANTITY}_%_v*}
+if (( LASTORB > FIRSTORB )) ; then
+    export QUANTITY LASTORB
+    idl check_late_cdfs 1>/dev/null 2>&1
+fi
+QUANTITY='tms'
+latestcdf=`ls -1 $FAST_CDF_HOME/$QUANTITY/fa_k0_${QUANTITY}_*.cdf | tail -1`
+LASTORB=${latestcdf#*${QUANTITY}_%_v*}
+if (( LASTORB > FIRSTORB )) ; then
+    export QUANTITY LASTORB
+    idl check_late_cdfs 1>/dev/null 2>&1
+fi
+QUANTITY='acf'
+latestcdf=`ls -1 $FAST_CDF_HOME/$QUANTITY/fa_k0_${QUANTITY}_*.cdf | tail -1`
+LASTORB=${latestcdf#*${QUANTITY}_%_v*}
+if (( LASTORB > FIRSTORB )) ; then
+    export QUANTITY LASTORB
+    idl check_late_cdfs 1>/dev/null 2>&1
+fi
+QUANTITY='dcf'
+latestcdf=`ls -1 $FAST_CDF_HOME/$QUANTITY/fa_k0_${QUANTITY}_*.cdf | tail -1`
+LASTORB=${latestcdf#*${QUANTITY}_%_v*}
+if (( LASTORB > FIRSTORB )) ; then
+    export QUANTITY LASTORB
+    idl check_late_cdfs 1>/dev/null 2>&1
+fi

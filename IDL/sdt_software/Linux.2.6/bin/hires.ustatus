@@ -1,0 +1,94 @@
+#!/usr/local/bin/perl
+
+# usage: 'hires.ustatus <email>'
+# returns:
+# for new (valid) email address:
+#	unregistered
+# for invalid email address:
+#	invalid
+# for unconfirmed emails:
+#	unconfirmed <Name>|<Institurion>|<Confirmation Number>
+# for registered users:
+#	registered <Name>|<Institution>
+
+use integer;
+use strict;
+
+my $db_dir="/disks/plasma2/www/fast/hires/config/db";
+my $user_db=$db_dir . "/user.db";
+my $unconf_db=$db_dir . "/unconfirmed.db";
+
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'IFS'} = '' if $ENV{'IFS'} ne '';
+
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'}='endProgram';
+$SIG{'KILL'}='endProgram';
+$SIG{'QUIT'}='endProgram';
+
+sub endProgram {
+  close (USER_DB);
+  close (UNCONF_DB);
+  exit (0);
+}
+
+# Barf back usage if incorrect parameters
+die "usage: $0 <email>" if @ARGV != 1;
+
+# strip | from it as that is our DB delimiter
+my $search_email = $ARGV[0];
+$search_email =~ s/\|//g;
+
+# First check if this is a confirmed email address...
+open(USER_DB, $user_db) || die;
+
+foreach(<USER_DB>) {
+  s/\n//g; # kill \n
+  
+  # Line format:
+  # <email address>|<name>|<institution>
+  if (m/^([^#\|]*)\|([^\|]*)\|([^\|]*)$/) {
+    my ($email, $name, $inst) = ($1, $2, $3);
+    if($email eq $search_email) {
+      print "registered ".$name."|".$inst."\n";
+      &endProgram;
+    }
+  }
+}
+
+close(USER_DB);
+
+# Now lets check for unconfirmed emails
+open(UNCONF_DB, $unconf_db) || die;
+
+foreach(<UNCONF_DB>) {
+  s/\n//g; # kill \n
+  
+  # Line format:
+  # <email address>|<name>|<institution>|<confirmation code>
+  if (m/^([^#\|]*)\|([^\|]*)\|([^\|]*)\|([^\|]*)$/) {
+    my ($email, $name, $inst, $code) = ($1, $2, $3, $4);
+    if($email eq $search_email) {
+      print "unconfirmed ".$name."|".$inst."|".$code."\n";
+      &endProgram;
+    }
+  }
+}
+
+close(UNCONF_DB);
+
+# Ok they're not in our DB, so lets check if this is a valid email address:
+if ($search_email =~ m/^[\w\._-]+\@[\w\._-]+$/) {
+  if ($search_email =~ m/hotmail.com|yahoo.com|excite.com|lycos.com|zzn.com|netzero.com|juno.com/) {
+    print "invalid\n";
+    &endProgram;
+  } else {
+    print "unregistered\n";
+    &endProgram;
+  }
+} else {
+  print "invalid\n";
+  &endProgram;
+}

@@ -1,0 +1,372 @@
+************************************************************************
+
+   README.General.UCB.wt.add_scalars_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.add_scalars_002
+
+************************************************************************
+
+   Add multiple scalar quantities, with a primary input.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.add_scalars_002	1.1    01/16/02    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a linear combination of a number of
+       input scalar quantities.
+
+
+
+       One of the the inputs for the quantities is the primary input.
+
+
+
+
+
+    2) There can be any number of input quantities to be added; the
+       minimum is 1.
+
+
+
+       Different quantities must come from different inputs, and
+       therefore the number of data inputs must be the same as the
+       number of quantities.
+
+
+
+       There must always be a primary input, and a corresponding primary
+       quantity.
+
+
+
+
+
+    3) For each input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+
+
+    4) If the values of the quantities are
+
+           v1, v2, ...
+
+       then what is computed is
+
+           Output value = (A1 * v1 + A2 * v2 + ...) - B
+
+       where the coefficients A1, A2, ... and the value B are all
+       specified by the user.
+
+
+
+
+
+    5) An output data point is produced for each input point of the
+       primary input.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding primary input data point.
+
+
+
+
+
+    6) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of each secondary
+       input (these are distinct intervals).
+
+
+
+       Each secondary quantity for the time of the output data point is
+       obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Input component index for the primary quantity.
+
+
+               Int.
+
+
+
+            4) Flag for limits for the primary quantity.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use limits for input values.
+
+                   WT_FALSE  =  Do not use limits for input values.
+
+
+
+            5) Lower limit for the primary quantity.
+
+
+               Double.
+
+
+
+            6) Upper limit for the primary quantity.
+
+
+               Double.
+
+
+
+           If the flag for limits is true, then  the lower limit
+           must be  <=  the upper limit.
+
+
+
+            7) Coefficient for the primary quantity.
+
+
+               Double.
+
+
+
+            8) The group of parameters described here occurs once for
+               each of the secondary data quantities, in the order of
+               the corresponding inputs.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+                2) Input component index.
+
+
+                   Int.
+
+
+
+                3) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                4) Lower limit.
+
+
+                   Double.
+
+
+
+                5) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                6) Coefficient.
+
+
+                   Double.
+
+
+
+            9) Value B to subtract from the linear combination.
+
+
+               Double.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the scalar value.
+
+                   Float.
+
+
+               The first data input is the primary one.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) The sum (linear combination) of the input data
+               quantities.
+
+
+               Float.

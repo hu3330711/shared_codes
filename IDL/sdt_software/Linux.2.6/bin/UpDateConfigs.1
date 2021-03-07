@@ -1,0 +1,36 @@
+#!/bin/csh -f
+#
+# For SCCS:
+# @(#)UpDateConfigs.1	1.1, 03/25/94
+#
+
+# SaR: script to search for a text string and replace with another 
+#      text string in all files on the command line.
+#      e.g.: SEARCH_STRING is replaced by REPLACE_STRING
+
+set SEARCH_STRING = "FAST RealTime"
+set REPLACE_STRING = "FAST"
+
+set FILES = ($*)
+if( $#FILES > 0) then
+else
+   echo "SaR: search for SEARCH_STRING and replace with"
+   echo "     REPLACE_STRING for input filenames."
+   echo "usage: SaR <filenames>."
+   exit( 1)
+endif
+
+if( ${?SEARCH_STRING} && ${?REPLACE_STRING}) then
+   echo "substituting <$REPLACE_STRING> for <$SEARCH_STRING> for..."
+else
+   echo "You need to set environment variables SEARCH_STRING and REPLACE_STRING."
+   exit( 1)
+endif
+
+foreach i ($*)
+   echo "$i"
+   sed s/"$SEARCH_STRING"/"$REPLACE_STRING"/g $i > UDCtmp
+   mv UDCtmp $i
+end
+
+echo "substitution complete."

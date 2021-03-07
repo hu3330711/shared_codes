@@ -1,0 +1,103 @@
+#! /usr/bin/ksh
+#
+# KORN SHELL SCRIPT:
+#
+#   sunnadir_ed
+#
+# PURPOSE:
+#
+#   Edits the file $FASTCONFIG/sunnadirDAT/sunnadir.cfg
+#   Specifically, changes the sunnadir table duration.
+#   Ideal for cron jobs.
+#
+# ARGUMENTS:
+#
+#   duration     Usually either 24 or 72
+#
+
+# Set trap for premature termination
+
+function earlyexit {
+    printf "%s\n" \
+    "Subject: Sunnadir editor failed" \
+    "Sunnadir duration editor failed to change to $1 hrs" |
+    mail rauch@juneau.ssl.berkeley.edu teq@juneau.ssl.berkeley.edu isircar@juneau.ssl.berkeley.edu
+}
+
+trap "earlyexit $1" EXIT
+
+tmpdir=/tmp
+configfile=$FASTCONFIG/sunnadirDAT/sunnadir.cfg
+tmpfile=$tmpdir/sunnadir.cfg.tmp
+ogslock1="/tmp/ogs.lock.*"
+ogslock2="/fast_data/a/ogs/ogswork/ogslock.ogsedtcf.*"
+
+if [[ -z $FASTCONFIG ]] ; then
+    print "Must set FASTCONFIG environment variable"
+    exit 1
+fi
+if [[ ! -w $tmpdir ]] ; then
+    print "No write permission on $tmpdir"
+    exit 1
+fi
+if [[ ! -a $configfile ]] ; then
+    print "Unable to find $configfile"
+    exit 1
+fi
+if [[ $USER != "ogs" ]] && [[ $USER != "" ]] ; then
+    print "cron or user ogs should run $0"
+    exit 1
+fi
+
+# Search for OGS lock files
+
+if [ -a $ogslock1 ] ; then
+    print Lock found: $ogslock1
+    exit 1
+fi
+if [ -a $ogslock2 ] ; then
+    print Lock found: $ogslock2
+    exit 1
+fi
+
+# Check the argument
+
+if [[ ${#} != 1 ]] ; then
+    print "Usage:  sunnadir_ed <duration_hrs>"
+    exit 1
+fi
+duration=$1
+if ((duration <= 0)) ; then
+    print "DURATION must be a positive number. (${duration})"
+    exit 1
+fi
+
+# Stream edit the file
+
+/usr/bin/sed "s/^[ 	]*DURATION[ 	]*[0-9]*[ 	]*/   DURATION        ${duration}/" $configfile > $tmpfile
+
+# Check the differences
+
+/usr/bin/diff -b $configfile $tmpfile 1>/dev/null ; diffcode=$?
+
+if [[ $diffcode = 1 ]]; then
+    # Difference found
+    /usr/ccs/bin/sccs edit $configfile 1>/dev/null 2>&1
+    mv -f $tmpfile $configfile
+    /usr/ccs/bin/sccs delget $configfile 1>/dev/null 2>&1 |&
+    print -p "DURATION changed to $duration hrs"
+    wait
+elif [[ $diffcode = 0 ]] ; then
+    # No differences
+    print "$configfile not changed."
+else
+    # Error
+    print "!! Error comparing file versions !!"
+    exit 1
+fi
+
+# Cleanup and exit
+
+rm -f $tmpfile
+trap - EXIT
+exit 0

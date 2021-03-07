@@ -1,0 +1,70 @@
+# each un-commented line corresponds to a port, starting with port 0 
+# (relative to the base port).
+# each line is a white-space separated list of numbers: 
+# A) numbers > 8 signify individual APID's which are broadcast on that port
+# B) numbers < 8 signify individual VCID's of entire virtual channels which
+#	are broadcast on that port.  There is no facility for determining
+#	which APID's are sent on a given VCID.  Hence there may be redundancy
+#	between APID's specified for a port as in (A) and APID's included
+#	in a virtual channel specified as in (B).
+#    
+# If an APID or VCID is listed for more than one port, the last entry
+# overrides all previous entries.
+#
+# the next uncommented line starts the configuration with port 0:
+# these are science apids:
+1024
+1025
+1026
+1027
+1028
+1029
+1030
+1031
+1032
+1033
+1034
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1047
+1048
+1049
+1050
+1051
+1052
+1053
+1054
+1055
+1056
+1057
+1058
+1059
+1060
+# these are housekeeping apids:
+1080 1081 1082 1083 1084 1085 1086 1087
+#these are vcids:
+0
+1
+2
+3
+4
+5
+6
+7
+# these are fake apids:
+1100
+1101
+1102 
+1103
+1104
+1105

@@ -1,0 +1,27 @@
+#! /usr/bin/ksh
+
+# diskcheck - check capacity level of /fast_data on manitou
+# Kevin Lin
+# 12/14/1999
+
+# Set up environment
+
+if [[ -z $FASTCONFIG ]]; then
+    echo "FASTCONFIG environment variable unset!"
+    exit 1
+fi
+
+. /disks/fast/software/config/archive_config
+
+# How full is disk
+
+percent=$(df -k | grep /fast_data | awk '{print $5}')
+typeset -i number=${percent%%%}
+
+# Mail warning if near full
+
+if ((number >= 80)); then
+    printf "Subject: %s\n%s\n" "FINET disk full" "Disk /fast_data is $percent full!"  | mail $ARCHIVEMASTER
+fi
+
+exit 0

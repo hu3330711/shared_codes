@@ -1,0 +1,39 @@
+#!/usr/bin/ksh
+
+# tqrcreate
+#
+# Creates Transmission Quality Report
+#
+# $1 is intercept's process number
+#
+# S. Kirshner 07/03/96
+#
+
+echo $1:----- **tqrcreate run on $(date)** ----- >> $LOGFILE
+
+if [[ -a $CURRENTREPORT ]]
+then
+	CurrentReportFile=$(cat $CURRENTREPORT)	
+	echo Report covers the week of $(cat $DATEFILE) >> $LOGDIR/$CurrentReportFile
+	echo Total number of directories received: $(cat $RECFILES) \
+		>> $LOGDIR/$CurrentReportFile
+	totf=`grep -c VC $QQFILE`
+	echo Total number of files of questionable quality: $totf \
+		>> $LOGDIR/$CurrentReportFile
+	echo >> $LOGDIR/$CurrentReportFile
+	cat $QQFILE >> $LOGDIR/$CurrentReportFile
+#	rsh $DANETHOST cat $LOGDIR/$CurrentReportFile "|" mailx $TQRREPORTADDRESS
+	host=$(hostname)
+	if [[ $host = $FINETPRIMARY ]]
+	then
+		if rcp $LOGDIR/$CurrentReportFile $FINETBACKUP:$LOGDIR/$CurrentReportFile
+		then
+			echo $1: $LOGDIR/$CurrentReportFile copied from $FINETPRIMARY to $FINETBACKUP
+		fi
+	else
+		echo $1: Don\'t forget to copy $LOGDIR/$CurrentReportFile from $FINETBACKUP to $FINETPRIMARY!!!
+	fi
+	echo $1:----- **tqrcreate done: $(date)** ----- >> $LOGFILE
+else
+	echo $1: !!!!! tqrcreate: $LOGDIR/$CurrentReportFile does not exist! !!!!! >> $LOGFILE
+fi

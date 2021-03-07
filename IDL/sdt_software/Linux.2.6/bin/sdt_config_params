@@ -1,0 +1,665 @@
+#!/bin/csh -f
+#
+# **********************************************************************
+#
+#      sdt_config_params.shp
+#
+#      Author: Winston Teitler.
+#
+# **********************************************************************
+#
+#      SDT plot configuration parameters.
+#
+# **********************************************************************
+#
+#      @(#)sdt_config_params.shp	1.2    08/08/01    UCB SSL
+#
+# **********************************************************************
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set procedure name and title.
+#
+#-----------------------------------------------------------------------
+
+   set proc_name = sdt_config_params
+
+   set proc_title = "SDT plot configuration parameters"
+
+
+# **********************************************************************
+#
+#      Notes:
+#
+#
+#
+#
+#
+#       1) This script extracts the parameters from an SDT plot
+#          configuration file.
+#
+#
+#
+#
+#
+#       2) The parameters can be printed, and/or they can be viewed on
+#          the screen using the utility "more".
+#
+#
+#
+#
+#
+#       3) Usage.
+#
+#
+#
+#              sdt_config_params [-p] [-v] config_name
+#
+#
+#
+#          where:
+#
+#
+#
+#              -p  is an option to cause the parameters to be printed.
+#
+#
+#
+#              -v  is an option to cause the parameters to be viewed.
+#
+#
+#
+#              config_name  is the name of the plot configuration.
+#
+#
+#
+#
+#
+#       4) This procedure must be invoked from the directory in which
+#          the SDT plot configuration file (UIcfg.config_name) is
+#          located.
+#
+#
+#
+#
+#
+#       5) config_name  must be a name without embedded white space
+#          (spaces or tabs); and does not contain the "UIcfg." part of
+#          the file name.
+#
+#
+#
+#
+#
+#       6) If no option is present, then the default is to print.
+#
+#
+#
+#
+#
+#       7) An argument of -- can be used to indicate the end of the
+#          option arguments.
+#
+#
+#
+#
+#
+#       8) If more than 1 configuration name is present, the first one
+#          will be used.
+#
+#
+#
+#
+#
+#       9) Examples.
+#
+#
+#
+#           1) Print the parameters from the configuration big_E.
+#
+#
+#
+#                  sdt_config_params -p big_E
+#
+#
+#
+#              or
+#
+#
+#
+#                  sdt_config_params big_E
+#
+#
+#
+#           2) View the parameters from the configuration big_E.
+#
+#
+#
+#                  sdt_config_params -v big_E
+#
+#
+#
+#           3) Print and view the parameters from the configuration
+#              big_E.
+#
+#
+#
+#                  sdt_config_params -p -v big_E
+#
+#
+#
+#
+#
+#      10) Input files.
+#
+#
+#
+#           1) UIcfg.config_name
+#
+#
+#              This file contains the SDT plot configuration from which
+#              the parameters are to be extracted.
+#
+#
+#
+#
+#
+#      11) Output files.
+#
+#
+#
+#           1) /tmp/sdt_config_params.out
+#
+#
+#              This file contains the extracted text, that is printed
+#              and/or viewed.
+#
+# **********************************************************************
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#-----------------------------------------------------------------------
+
+   set x_err = 1                   # error detected
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#-----------------------------------------------------------------------
+
+   set yes = y
+
+   set no = n
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set other constants.
+#
+#-----------------------------------------------------------------------
+
+   set pgm_name = General_config_params  # program name
+
+
+   set pcf_prefix = "UIcfg."       # plot config. file prefix
+
+
+   set tmp_file = /tmp/$proc_name.out  # temporary output file
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#-----------------------------------------------------------------------
+
+   set opt_end_found = $no         # end of the options found
+
+   set opt_found = $no             # option found
+
+
+   set cfg_name_found = $no        # config name found
+
+
+   set print = $no                 # flag to print
+
+   set view = $no                  # flag to view
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Start main process.
+#
+#-----------------------------------------------------------------------
+
+   set exit_code = $x_err          # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+   set ret_pgm = $x_err
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Echo the procedure name and title.
+#
+#-----------------------------------------------------------------------
+
+   echo
+
+   echo $proc_name
+
+   echo
+
+   echo $proc_title
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Get the command-line arguments.
+#
+#-----------------------------------------------------------------------
+
+   while  ($#argv >= 1)
+
+
+
+       set arg = ($1)
+
+
+
+       if  ($#arg != 1)  then
+           echo
+           echo "$proc_name : " \
+               "Invalid argument - multi-word"
+           echo "$arg"
+           goto l8000
+         endif
+
+
+
+       if  ("xx$arg" == "xx--")  then
+           set opt_end_found = $yes
+           shift
+           continue
+         endif
+
+
+
+#
+#      Split the command-line argument into characters.
+#
+
+       set arg_char = (`wt_arg_to_char_001 $arg`)
+
+
+
+       if  ($#arg_char >= 1)  then
+         else
+           echo
+           echo "$proc_name : " \
+               "Invalid argument - empty"
+           echo "$arg"
+           goto l8000
+         endif
+
+
+
+#
+#      Process a command-line option argument.
+#
+
+       set opt_char = $arg_char[1]
+
+       if  (($opt_end_found == $no) && \
+            ("xx$opt_char" == "xx-"))  then
+
+
+
+           if  ($#arg_char >= 2)  then
+             else
+               echo
+               echo "$proc_name : " \
+                   "Invalid argument - no option specified"
+               echo "$arg"
+               goto l8000
+             endif
+
+
+           set opt_found = $yes
+
+
+           shift arg_char
+
+
+           while  ($#arg_char >= 1)
+
+               set opt_char = $arg_char[1]
+
+               if  ("xx$opt_char" == "xxp")  then
+                   set print = $yes
+
+                 else  if  ("xx$opt_char" == "xxv")  then
+                   set view = $yes
+
+                 else
+                   echo
+                   echo "$proc_name : " \
+                       "Invalid option  $opt_char"
+                   goto l8000
+
+                 endif
+
+               shift arg_char
+
+             end
+
+
+
+#
+#      Process a command-line argument not an option.
+#
+
+         else
+
+
+
+           if  ($cfg_name_found == $no)  then
+
+               set cfg_name_found = $yes
+
+               set cfg_name = $arg
+
+             endif
+
+
+
+         endif
+
+
+
+#
+#      End of the processing of the command-line arguments.
+#
+
+       shift
+
+
+     end
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Check for the configuration name.
+#
+#-----------------------------------------------------------------------
+
+   if  ($cfg_name_found == $yes)  then
+     else
+       echo
+       echo "$proc_name : " \
+           "Required argument missing - Configuration name"
+       goto l8000
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Set the default options.
+#
+#-----------------------------------------------------------------------
+
+   if  ($opt_found == $yes)  then
+
+     else
+
+       set print = $yes
+
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Check the input file.
+#
+#-----------------------------------------------------------------------
+
+   set i_f_path = ${pcf_prefix}${cfg_name}
+
+
+
+   if  (-e $i_f_path)  then
+
+       if  (-d $i_f_path)  then
+
+           echo
+           echo "$proc_name : " \
+               "$i_f_path   is a directory"
+           goto l8000
+
+         endif
+
+     else
+
+       echo
+       echo "$proc_name : " \
+           "Plot configuration file   $i_f_path"
+       echo "does not exist"
+
+       goto l8000
+
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Extract the plot configuration parameters.
+#
+#-----------------------------------------------------------------------
+
+   set wt_echo = 0
+
+
+
+   $pgm_name \
+       $wt_echo $i_f_path >! \
+     $tmp_file
+
+
+
+   set ret_pgm = $status
+
+
+
+   if  ($ret_pgm == 0)  then
+
+     else
+
+       echo
+       echo "$proc_name : " \
+           "Error in program   $pgm_name"
+
+       goto l7000
+
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Print.
+#
+#-----------------------------------------------------------------------
+
+   if  ($print == $yes)  then
+
+
+
+       echo
+       echo
+       echo "Print parameters of SDT plot configuration"
+       echo
+       echo "    $cfg_name"
+
+
+
+       lp $tmp_file
+
+
+
+       set ret_pgm = $status
+
+
+
+       if  ($ret_pgm == 0)  then
+
+         else
+
+           echo
+           echo "$proc_name : " \
+               "Error printing"
+
+           goto l7000
+
+         endif
+
+
+
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      View.
+#
+#-----------------------------------------------------------------------
+
+   if  ($view == $yes)  then
+
+
+
+       echo
+       echo
+       echo "View parameters of SDT plot configuration"
+       echo
+       echo "    $cfg_name"
+       echo
+       echo "using the utility  more"
+       echo
+       echo "Please press  RETURN"
+
+
+
+       set dummy = ($<)
+
+
+
+       more $tmp_file
+
+
+
+       set ret_pgm = $status
+
+
+
+       if  ($ret_pgm == 0)  then
+
+         else
+
+           echo
+           echo "$proc_name : " \
+               "Error viewing"
+
+           goto l7000
+
+         endif
+
+
+
+     endif
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Terminate.
+#
+#-----------------------------------------------------------------------
+
+   goto l7000
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Termination, the procedure has found no error (but a program may
+#      have).
+#
+#-----------------------------------------------------------------------
+
+ l7000:
+
+
+   set exit_code = $ret_pgm
+
+
+   goto l9000
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Termination, the procedure has found an error.
+#
+#-----------------------------------------------------------------------
+
+ l8000:
+
+
+   set exit_code = $x_err
+
+
+   goto l9000
+
+
+
+#-----------------------------------------------------------------------
+#
+#      Termination.
+#
+#-----------------------------------------------------------------------
+
+ l9000:
+
+
+
+   echo
+
+   echo  "$proc_name : " \
+       "Procedure finished, exit code  =  $exit_code"
+
+
+
+   exit($exit_code)

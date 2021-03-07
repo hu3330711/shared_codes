@@ -1,0 +1,66 @@
+How to update the geomag database table with the latest data from NOAA NGDC:
+
+The geomag table in the fast_archive database must be updated manually
+from data files obtained from NGDC.  There are scripts for updating
+the database once the latest data files have been downloaded.
+
+The lastest data files can be retrieved from:
+
+ftp://ftp.ngdc.noaa.gov/STP/GEOMAGNETIC_DATA/INDICES/DST
+
+and 
+
+ftp://ftp.ngdc.noaa.gov/STP/GEOMAGNETIC_DATA/INDICES/KP_AP
+
+DST data is available approximately every 2 months
+in files named dstYYYY.vX
+
+KP and AP data is available from the KP_AP directory in files
+named YYYY.vX
+Rename these files as kp_apYYYY.vX when you download them.
+
+
+Once you have downloaded the files, run the following commands
+to load the data into the database.
+
+run_isql kp_sqlgen kp_file
+
+where kp_file is the latest kp_ap file.
+
+and for the dst,
+
+run_isql dst_sqlgen dst_file
+
+where dst_file is the latest dst data file.
+
+
+Please Note:
+
+THREE-HOUR-RANGE INDEX K-------------------------------------------------------
+K indices isolate solar particle effects on the earth's magnetic field; over a
+3-hour period, they classify into disturbance levels the range of variation of
+the more unsettled horizontal field component.  Each activity level relates al-
+most logarithmically to its corresponding disturbance amplitude.  Three-hour
+indices discriminate conservatively between true magnetic field perturbations
+and the quiet-day variations produced by ionospheric currents.
+
+K indices range in 28 steps from 0 (quiet) to 9 (greatly disturbed) with frac-
+tional parts expressed in thirds of a unit.  A K-value equal to 27, for exam-
+ple, means 2 and 2/3 or 3-; a K-value equal to 30 means 3 and 0/3 or 3 exactly;
+and a K-value equal to 33 means 3 and 1/3 or 3+.  The arithmetic mean of the K
+values scaled at the 13 observatories listed above gives Kp.
+
+
+EQUIVALENT AMPLITUDE-----------------------------------------------------------
+The a-index ranges from 0 to 400 and represents a K-value converted to a linear
+scale in gammas (nanoTeslas)--a scale that measures equivalent disturbance am-
+plitude of a station at which K=9 has a lower limit of 400 gammas.
+
+
+DST ---------------------------------------------------------------------------
+Kp and Ap are 3-hour data, while the dst is 1-hour data.  Therefore
+the same kp and ap values are entered 3 times along side the corresponding
+hourly dst data in the rows of the geomag table.
+
+
+

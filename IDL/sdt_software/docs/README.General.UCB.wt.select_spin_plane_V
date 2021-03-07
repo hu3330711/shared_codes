@@ -1,0 +1,1401 @@
+************************************************************************
+
+   README.General.UCB.wt.select_spin_plane_V
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.select_spin_plane_V
+
+************************************************************************
+
+   Select spin plane component V.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.select_spin_plane_V	1.7    06/13/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module selects data points for the spin plane
+       component of the electric field, V ("Instantaneous" or "Burst"
+       time resolution): V12 or V34.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) Raw component V.
+
+
+
+            2) Spin timing.
+
+
+               This input gives the time of each Sun pulse.
+
+
+
+            3) Magnetic field.
+
+
+               The magnetic field should be despun.
+
+
+
+            4) Sun vector.
+
+
+               The Sun vector should be normalized, and in DSC.
+
+
+
+            5) Inputs for the selection by minimum value.
+
+
+
+
+
+    3) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+    4) If the components of the magnetic field vector are not referred
+       to the DSC (Despun Spacecraft Coordinates) system, then there
+       must be an additional input, which is a rotation matrix that
+       rotates vector components, from the coordinate system of the
+       magnetic field vector into DSC.
+
+
+
+
+
+    5) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    6) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    7) At the user's choice, there is the option of writing out only
+       data points that are in time intervals specified in an external
+       table of inclusion intervals.
+
+
+
+       If this option is chosen, there must be an input file containing
+       the table of inclusion intervals.
+
+
+
+       An output data point is written if its time tag is t, and if
+       there is some inclusion interval, t1 to t2, such that
+
+           t1 <= t <= t2
+
+
+
+
+
+    8) At the user's choice, there is the option of writing out only
+       data points that are not in time intervals specified in an
+       external table of exclusion intervals.
+
+
+
+       If this option is chosen, there must be an input file containing
+       the table of exclusion intervals.
+
+
+
+       An output data point is not written if its time tag is t, and if
+       there is some exclusion interval, t1 to t2, such that
+
+           t1 <= t <= t2
+
+
+
+       Note that this option can be chosen together with the option to
+       use inclusion intervals.
+
+       In this case, a data point is written only if it is in an
+       inclusion interval and it is not in any exclusion interval.
+
+
+
+
+
+    9) At the user's choice, there is the option of writing out a data
+       point only if the angle between the electric field boom used to
+       measure V (boom 12, or boom 34) and the B vector, as well as the
+       angle between the boom and -B; are greater than or equal to a
+       value chosen by the user.
+
+
+
+       This selection criterion is not applied if the magnitude of the B
+       vector is smaller than a threshold value chosen by the user.
+
+       In that case, no data points are discarded on account of this
+       selection criterion.
+
+
+
+
+
+   10) At the user's choice, there is the option of writing out a data
+       point only if the the absolute value of the latitude of the B
+       vector with respect to the spin plane is greater than or equal to
+       a value chosen by the user.
+
+
+
+       This selection criterion is not applied if the magnitude of the B
+       vector is smaller than the threshold value chosen by the user.
+
+       In that case, no data points are discarded on account of this
+       selection criterion.
+
+
+
+
+
+   11) At the user's choice, there is the option of writing out a data
+       point only if the angle between the electric field boom used to
+       measure V (boom 12, or boom 34) and the Sun vector S, as well as
+       the angle between the boom and -S; are greater than or equal to a
+       value chosen by the user.
+
+
+
+
+
+   12) At the user's choice, there is the option of writing out, within
+       one particular time interval, only data points for which the
+       values of some other (scalar) inputs are all greater than or
+       equal to a value chosen by the user.
+
+
+
+
+
+   13) For each of the inputs for selection by minimum value, there is
+       the option of specifying limits and ignoring data values beyond
+       the limits.
+
+
+
+
+
+   14) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the electric field
+       instrument boom on the spin plane; and the azimuth of the Sun
+       pulse.
+
+
+
+
+
+   15) If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle by which the SCC system has rotated with respect
+       to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+       (SCC = Spacecraft Coordinates).
+
+
+
+       The azimuth at time t of a boom on the spin plane with respect to
+       the DSC system is the sum of:
+
+            1) The azimuth of the boom with respect to the Sun pulse.
+
+            2) The angle by which SCC has rotated with respect to DSC.
+
+
+
+
+
+   16) An output data point is produced for each input point of the raw
+       V, subject to the selection described above.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+   17) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the magnetic field
+       vector.
+
+
+
+       Note that this requirement for the output data point does not
+       apply, if no selection will be performed based on the magnetic
+       field; e.g., if the minimum angle between the electric field boom
+       and the magnetic field is chosen to be zero, and the minimum
+       latitude of the magnetic field is also chosen to be zero.
+
+
+
+       The magnetic field vector for the time of the output data point
+       is obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   18) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the Sun vector.
+
+
+
+       Note that this requirement for the output data point does not
+       apply, if no selection will be performed based on the Sun angle;
+       e.g., if the minimum angle between the electric field boom
+       and the Sun vector is chosen to be zero.
+
+
+
+       The Sun vector for the time of the output data point is the Sun
+       vector at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   19) For an output data point to be produced, it must be in the time
+       interval corresponding to a valid spin period.
+
+
+
+
+
+   20) If the selection by minimum value is to be performed, then,
+       within the time interval for the selection by minimum value;
+       additionally for an output data point to be produced, it must be
+       in the time interval defined by two input data points of each of
+       the inputs for the selection.
+
+
+
+       The value of each input for the selection, for the time of the
+       output data point, is obtained by linear interpolation.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   21) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The rotation matrix for the time of the output data point is the
+       input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   0     =  Do not dump.
+
+                   >= 1  =  Dump output data points with indices of:
+                            0, n, 2n, 3n, ...  (where n is the chosen
+                            dump frequency).
+
+
+
+            2) Flag for the file of inclusion time intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            3) Flag to use a table of inclusion intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use a table of inclusion intervals.
+
+                   WT_FALSE  =  Do not use a table of inclusion
+                                intervals.
+
+
+               If a table of inclusion intervals is used,
+               the corresponding input file must be present.
+
+
+
+            4) File name for the table of inclusion intervals.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            5) Flag for the file of exclusion time intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  There is an input file.
+
+                   WT_FALSE  =  There is no input file.
+
+
+
+            6) Flag to use a table of exclusion intervals.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Use a table of exclusion intervals.
+
+                   WT_FALSE  =  Do not use a table of exclusion
+                                intervals.
+
+
+               If a table of exclusion intervals is used,
+               the corresponding input file must be present.
+
+
+
+            7) File name for the table of exclusion intervals.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               If there is an input file, then
+               must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            8) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            9) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+           10) Flag for the magnetic field input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+
+           11) Flag for the coordinate system of the magnetic field
+               vector.
+
+
+               Int.
+
+
+               If the magnetic field input is present, then
+               must be one of the following:
+
+
+                   WT_TRUE   =  The vector is     in DSC.
+
+                   WT_FALSE  =  The vector is not in DSC.
+
+
+
+           12) Flag to perform the selection by avoidance of B.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Perform the selection.
+
+                   WT_FALSE  =  Do not perform the selection.
+
+
+               If the selection is to be performed,
+               and the avoidance angle is  > 0 ,
+               the magnetic field input must be present.
+
+
+
+           13) Flag to perform the selection by latitude of B.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Perform the selection.
+
+                   WT_FALSE  =  Do not perform the selection.
+
+
+               If the selection is to be performed,
+               and the minimum latitude is  > 0 ,
+               the magnetic field input must be present.
+
+
+
+           14) Threshold magnitude of the magnetic field vector.
+
+
+               Double.
+
+
+               If any selection based on B is to be performed, then
+               must be  >  0.
+
+
+
+           15) Avoidance angle (minimum angle between the boom and
+               either B or -B).
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               If the selection by avoidance of B is to be performed,
+               then
+               must be  >=  0  and  <=  90.
+
+
+
+           16) Minimum absolute value of the latitude of the magnetic
+               field vector.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               If the selection by latitude of B is to be performed,
+               then
+               must be  >=  0  and  <=  90.
+
+
+
+           17) Flag for the Sun vector input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+
+           18) Flag to perform the selection by the Sun angle.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Perform the selection.
+
+                   WT_FALSE  =  Do not perform the selection.
+
+
+               If the selection is to be performed,
+               and the minimum angle is  > 0 ,
+               the Sun vector input must be present.
+
+
+
+           19) Minimum Sun angle (minimum angle between the boom and
+               either S or -S).
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               If the selection by the Sun angle is to be performed,
+               then
+               must be  >=  0  and  <=  90.
+
+
+
+           20) Flag for the inputs for selection by minimum value.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  These inputs are     present.
+
+                   WT_FALSE  =  These inputs are not present.
+
+
+
+           21) Flag to perform the selection by minimum value.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Perform the selection.
+
+                    WT_FALSE  =  Do not perform the selection.
+
+
+               If the selection is to be performed,
+               the corresponding inputs must be present.
+
+
+
+           22) Number of inputs for the selection by minimum value.
+
+
+               Int.
+
+
+               Must be  >=  0.
+
+
+               If the selection by minimum value is to be performed,
+               then
+               must be  >=  1.
+
+
+
+           23) Code for the choice of interval for the selection by
+               minimum value.
+
+
+               Int.
+
+
+               If the selection by minimum value is to be performed,
+               must be one of the following:
+
+
+                    1  =  Use the entire time interval.
+
+                    2  =  Use a sub-interval specified by the user.
+
+
+
+           24) Start date for the selection by minimum value.
+
+
+               Char.
+
+
+               If the selection by minimum value is to be performed,
+               with a time sub-interval specified by the user;
+               must be a valid date in the format YYYY/MM/DD (e.g.,
+               1996/05/29).
+
+
+
+           25) Start time for the selection by minimum value.
+
+
+               Char.
+
+
+               If the selection by minimum value is to be performed,
+               with a time sub-interval specified by the user;
+               must be a valid time in the format HH:MM:SS (e.g.,
+               04:00:20).
+
+
+               The format HH:MM is permissible too, and is understood to
+               indicate zero seconds (e.g., 04:18 which means the same
+               as 04:18:00).
+
+
+
+           26) Stop date for the selection by minimum value.
+
+
+               Char.
+
+
+               If the selection by minimum value is to be performed,
+               with a time sub-interval specified by the user;
+               must be a valid date in the same format as the start
+               date.
+
+
+
+           27) Stop time for the selection by minimum value.
+
+
+               Char.
+
+
+               If the selection by minimum value is to be performed,
+               with a time sub-interval specified by the user;
+               must be a valid time in the same format as the start
+               time.
+
+
+
+           28) Minimum value for the selection by minimum value.
+
+
+               Double.
+
+
+
+           29) Flag for the rotation matrix input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               If the magnetic field will be used, and is not in the
+               DSC coordinate system;
+               then this input must be present.
+
+
+
+           30) Input component index for the raw V.
+
+
+               Int.
+
+
+
+           31) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+           32) The group of parameters described here occurs once for
+               each of the inputs for the selection by minimum value.
+
+
+
+                1) Dropout time.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   If the selection by minimum value is to be performed,
+                   must be  >  0.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   If the selection by minimum value is to be performed,
+                   must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the selection by minimum value is to be performed,
+               if the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                5) Input component index.
+
+
+                   Int.
+
+
+
+           33) Dropout time for the magnetic field.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           34) The group of parameters described here occurs once for
+               each of the 3 magnetic field input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+           35) Dropout time for the Sun vector.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           36) The group of parameters described here occurs once for
+               each of the 3 Sun vector input components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+           37) Flag to transpose the input matrix.
+
+
+               Int.
+
+
+               If an input rotation matrix will be used,
+               must be one of the following:
+
+
+                   WT_TRUE   =  Transpose.
+
+                   WT_FALSE  =  Do not transpose.
+
+
+
+           38) Dropout time for the input matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If an input rotation matrix will be used,
+               must be  >  0.
+
+
+
+           39) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If an input rotation matrix will be used,
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+           40) Main part of the azimuth of the electric field instrument
+               boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           41) Additional part of the azimuth of the electric field
+               instrument boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           42) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           43) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The table of inclusion intervals.
+
+
+               This file is an ASCII file.
+
+
+               The following are considered to be comment lines:
+
+                1) Empty lines.
+
+                2) Lines with only white space (spaces and/or tabs).
+
+                3) Lines whose first (or only) non-white space character
+                   is "#".
+
+
+               Each line not a comment line contains one time interval.
+
+
+               Fields within each line must be separated by white space,
+               and are not restricted to fixed character positions.
+
+
+               The fields must be as follows:
+
+
+                1) Start time, year.
+
+                   Integer.
+
+                   Must be the full year (e.g., 1996).
+
+
+                2) Start time, month.
+
+                   Integer.
+
+
+                3) Start time, day of month.
+
+                   Integer.
+
+
+                4) Start time, hours.
+
+                   Integer.
+
+
+                5) Start time, minutes.
+
+                   Integer.
+
+
+                6) Start time, seconds.
+
+                   Real.
+
+
+                7) End time, year.
+
+                   Integer.
+
+                   Must be the full year (e.g., 1996).
+
+
+                8) End time, month.
+
+                   Integer.
+
+
+                9) End time, day of month.
+
+                   Integer.
+
+
+               10) End time, hours.
+
+                   Integer.
+
+
+               11) End time, minutes.
+
+                   Integer.
+
+
+               12) End time, seconds.
+
+                   Real.
+
+
+               Each date must be a valid date.
+
+               Times (hours, minutes, seconds) are not restricted, and
+               in particular can go beyond 24 hours.
+
+
+               For each line, the start time should precede or be equal
+               to the end time.
+
+
+               It is not required that different intervals not overlap.
+
+
+               The lines should be in sequence of increasing start time.
+
+               This is not checked, but if not true may lead to
+               incorrect results.
+
+
+
+            2) The table of exclusion intervals.
+
+
+               This file is an ASCII file.
+
+               Its format is similar to that of the table of inclusion
+               intervals.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The raw component V.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the component V.
+
+                   Float.
+
+
+
+            2) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+            3) The magnetic field.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            4) The Sun vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            5) The inputs for the selection by minimum value.
+
+
+               Each input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the value of the input.
+
+                   Float.
+
+
+
+            6) The input rotation matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component V.
+
+
+               Float.

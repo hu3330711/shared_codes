@@ -1,0 +1,404 @@
+************************************************************************
+
+   README.General.UCB.wt.add_scalars_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.add_scalars_001
+
+************************************************************************
+
+   Add multiple scalar quantities by time match.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.add_scalars_001	1.4    05/14/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a linear combination of a number of
+       input scalar quantities.
+
+
+
+       The inputs for the quantities must have matching times.
+
+
+
+
+
+    2) There can be any number of input quantities to be added; the
+       minimum is 1.
+
+       Different quantities may be data components of the same or of
+       different inputs.
+
+
+
+       There must be enough data inputs for all the input quantities.
+
+       Every input for data quantities must in fact be used, i.e., there
+       must be at least one data quantity for every such input.
+
+       Since different quantities may come from a same input, the number
+       of data inputs may be smaller than the number of quantities.
+
+
+
+
+
+    3) For each input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+
+
+    4) If the values of the quantities are
+
+           v1, v2, ...
+
+       then what is computed is
+
+           Output value = (A1 * v1 + A2 * v2 + ...) - B
+
+       where the coefficients A1, A2, ... and the value B are all
+       specified by the user.
+
+
+
+
+
+    5) An output data point is produced for each successful match
+       containing a data point of each of the inputs for data
+       quantities; provided that all the quantities have valid values
+       (if limits are specified).
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       The weights for the average for the output time tag are specified
+       by the user.
+
+       All the weights must be zero or positive.
+
+
+
+       The user has a choice to have the weights applied as they are,
+       each weight to its corresponding input data point; or to have
+       each weight multiplied by the number of data quantities that come
+       from its corresponding input.
+
+
+
+
+
+    6) The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+
+    7) The user can specify a tolerance factor for the time matching.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of data inputs.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Number of data quantities.
+
+
+               Int.
+
+
+               Must be  >=  the number of data inputs, as each data
+               input must be used for at least one data quantity but can
+               be used for more than one.
+
+
+
+            4) The group of parameters described here occurs once for
+               each data input.
+
+
+
+                1) Weight for output time tag.
+
+
+                   Double.
+
+
+                   Must be  >=  0.
+
+
+
+               The sum of the weights (each multiplied by the
+               corresponding number of data quantities, if applicable)
+               must be  >  0  (not necessarily 1).
+
+
+
+                2) Maximum time separation for consecutive input data
+                   points.
+
+
+                   Double.
+
+
+                   Units are seconds.
+
+
+                   Must be  >  0.
+
+
+
+            5) Tolerance factor for time match.
+
+
+               Double.
+
+
+               Must be  >  0  and  <  1/2.
+
+
+
+            6) Flag for multiplying the time tag weights by the number
+               of quantities.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  Multiply the weight for the time tag of
+                                each input by the number of quantities
+                                from that input.
+
+                   WT_FALSE  =  Do not multiply the weights.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the data quantities.
+
+
+
+                1) Input index for the quantity.
+
+
+                   Int.
+
+
+
+                2) Input component index.
+
+
+                   Int.
+
+
+
+                3) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                4) Lower limit.
+
+
+                   Double.
+
+
+
+                5) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+                6) Coefficient.
+
+
+                   Double.
+
+
+
+            8) Value B to subtract from the linear combination.
+
+
+               Double.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components, one for the value
+                   of each data quantity.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) The sum (linear combination) of the input data
+               quantities.
+
+
+               Float.

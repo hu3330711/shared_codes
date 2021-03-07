@@ -1,0 +1,116 @@
+.\" @(#)trimFileList.1	1.3 11/05/01
+'\"macro stdmacro
+.nr X
+.TH trimFileList 1 11/05/01
+.SH NAME
+trimFileList \- maintain CDROM dirs in fast_online database.
+.SH SYNOPSIS
+.B trimFileList
+[
+.B \-q
+] [
+.B -u
+] [
+.I pattern
+]
+.SH DESCRIPTION
+.B trimFileList
+helps maintain the fast_online database which tells datamgr which FAST
+data files are available on line.  It's primary purpose is to keep the 
+list up to date when copies of the latest CDROMs are placed on line
+and when they are removed.  
+.B trimFileList
+finds data directories in the fast_online..OnlineLocations table 
+matching 
+.I pattern 
+which no longer exist online, and deletes them from the fast_online database.
+Optionally,
+.B trimFileList 
+can also find data directories matching 
+.I pattern
+which exist on line, and add them and the lzp files they contain to the fast_online database.  NOTE:  If a data directory already exists in the database (ie an entry exists in OnlineLocations AND there is at least one file recorded for that directory in OnlineFiles) then 
+.B trimFileList
+will assume that that data directory is already properly added to the database with all of its underlying files.  To synchronize the files online with the files in the database, use 
+.B update_filelist(1).  
+
+.SH OPTIONS
+
+.TP 18
+.B \-u
+Update mode.  Add new data directories found matching
+.I pattern
+to the OnlineLocations table, and add the lzp files they contain to the OnlineFiles table.
+.TP 18
+.B \-q
+Quiet, non-interactive mode.  Will not ask for confirmation before adding
+or deleting data directories from the database.
+
+.SH USAGE
+By default, 
+.I pattern
+is set to find the on-line copies of the most recent
+CDROMs, which are stored in the DANETSTORAGE directories.
+The locations of the DANETSTORAGE directories are configured in the 
+.B $FASTCONFIG/archive_config
+file.  The default pattern is created by adding /* to the end
+of each pathname
+in the DANETSTORAGE array and then concatenating all the elements into
+a single list.  The default pattern can be overridden
+by specifying
+.I pattern 
+on the command line.  
+.I pattern
+can be one or more patterns which will match the directories you want
+to be added or deleted from the filelist.  Files are matched from 
+.I pattern
+using the tcl glob command, which is similar to csh globing.  
+Enclose your entire pattern (or list of patterns) in single
+quotes to combine them into a single argument and protect any
+wildcards in your patterns from the shell.
+
+
+
+.SH EXAMPLES
+This command is useful to run when datamgr is not finding cdstudio
+(that is, DANETSTORAGE) files which you know are on line:
+.TP
+.B trimFileList -u -q
+.LP
+After the command has completed, datamgr should show your files on line
+when you press the 'List Files...' button.
+.LP
+
+The next example gives
+.I pattern
+explicitly to reproduce the default behavior, assuming
+DANETSTORAGE directories are /disks/cdstudio/DANET and /disks/cdstudio2/DANET: 
+.TP
+.B trimFileList '/disks/cdstudio/DANET/* /disks/cdstudio2/DANET/*'
+.LP
+
+.SH ENVIRONMENT
+.LP
+.B trimFileList
+looks in the $FASTCONFIG directory for the Datamgr/Datamgr.conf file
+and archive_conf file.
+
+.SH FILES
+These files ensure that trimFileList runs in the same environment as datamgr:
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.LP
+This file determines the setting of DANETSTORAGE:
+.TP
+.B $FASTCONFIG/archive_conf
+.SH SEE ALSO
+.BR datamgr (1), update_filelist(1), dmls(1), fast_onlineAccess(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

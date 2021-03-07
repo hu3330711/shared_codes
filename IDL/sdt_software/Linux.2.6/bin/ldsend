@@ -1,0 +1,360 @@
+#!/bin/csh -f
+#
+# %W% %G% UCB SSL
+#
+# script to take a PC-GSE format load file, convert it, archive it, and sent it
+# to CMS.
+#
+
+# skip over usage:
+goto MAIN
+
+USAGE:
+echo "usage:"
+echo "  ldsend [-P printer] [-c config] -f [xxxyyyvv] ;sends & archives loadfile from"
+echo "                                                ;floppy"
+echo "  ldsend [options] xxxyyyvv                     ;sends & archives loadfile"
+echo "  ldsend [options] -u xxxyyyvv                  ;re-sends file from user dir"
+echo "    Name for PC-GSE version of loadfile has format xxxyyyvv.log"
+echo "    You may specify a full path for xxxyyyvv (e.g. subdirectory/xxxyyyvv)"
+
+exit 1
+
+MAIN:
+#
+# script starts here
+#
+
+set EDITOR = vi
+
+#parse arguments
+#
+set argv = `getopt P:c:u:f $*`
+
+while (1)
+	switch ($1)
+	case "-P":
+		set prtaut = $2
+		shift; shift
+		breaksw
+#	case "-e"
+#		set EDITOR = $2
+#		shift; shift
+#		breaksw
+	case "-u":
+		# this means send from the "user" directory
+		if ($?floppy) goto USAGE
+		set sendfromuser
+		set loadfile = $2
+		shift; shift
+		breaksw
+	case "-c":
+		if (-r $2) then
+			source $2
+		else
+			echo "can't access specified config file"
+			exit 1
+		endif
+		shift; shift
+		breaksw
+	case "-f":
+		set floppy = /floppy/floppy0
+		shift
+		breaksw
+	case "--":
+		shift	
+		break		
+		breaksw
+	default:
+		goto USAGE
+		breaksw
+	endsw
+end
+
+# get loadfile argument
+if (!($?sendfromuser)) then
+	# without -f option, set dir to argument, or to '.' if no argument. 
+	if (!($?floppy)) then
+		if  ($1 =~ ?*) then
+			# obligatory loadfile arg for harddisk
+			set loadfile = $1
+			shift
+		else 
+			goto USAGE
+		endif
+	else if ($1 =~ ?*) then
+		# optional loadfile arg for floppy
+		set loadfile = $1
+		shift
+	endif
+endif
+
+# leftover arguments is an error
+if ("$argv" =~ ?*) goto USAGE
+
+
+# if config file not already sourced, then source it
+if (!($?cms)) then
+	# source the ogs configuration file
+	if (-f $FASTCONFIG/ogsDAT/ogs.cfg) then
+		while (-f /tmp/ogs.lock.cfg.write)
+			sleep 1
+		end
+		touch /tmp/ogs.lock.cfg.read.$$
+		source $FASTCONFIG/ogsDAT/ogs.cfg
+		\rm -f /tmp/ogs.lock.cfg.read.$$
+	else if (-f $FASTLIB/ogsDAT/ogs.cfg) then
+		source $FASTLIB/ogsDAT/ogs.cfg
+	else
+		echo "NO ogs CONFIGURATION FILE AVAILABLE\!"
+		exit 1
+	endif
+endif
+
+#
+# check that the ~/.netrc is present and uncorrupted
+#
+
+diff ~/.netrc $FASTCONFIG/netrc.CMS >& /dev/null
+if ( $status ) then
+	echo ""
+	echo "You don't have the correct ~/.netrc file for sending to CMS"
+	echo "Perhaps you need to be set up with correct permissions "
+	echo "before you can send files"
+	echo ""
+	echo "Do you want to try to copy the correct .netrc file into your home dir. ? (y/n)"
+	set getnetrc = $<
+	while ("$getnetrc" !~ [yY] && "$getnetrc" !~ [nN])
+		echo "please respond with 'y' or 'n':"
+		set getnetrc = $<
+	end
+	if ("$getnetrc" =~ [yY]) then
+		cp $FASTCONFIG/netrc.CMS ~/.netrc
+		if ( $status ) then
+			echo 'Could not get netrc: abort.'
+			exit 1
+		endif
+	else
+		echo Bye.
+		exit 1
+	endif
+endif
+# make sure .netrc has proper mode.
+chmod 600 ~/.netrc
+
+# wait for floppy
+
+if ($?floppy) then
+	echo "Insert floppy disk with load file(s) and press return:"
+	echo $<
+	volcheck
+	if (!(-d $floppy)) then
+		echo "Could not mount floppy, or floppy not inserted. - abort"
+		exit 1
+	endif
+
+	onintr CLEANUP
+
+	cd $floppy
+endif
+
+if ($?loadfile) then
+	set load = $loadfile:t
+	set load = `DosToUnixFile $load`
+	set load = $load:r
+	if ($?sendfromuser) then
+		if (-d $rduser/ld.send.$load) then
+			cd $rduser/ld.send.$load
+		else
+			echo "No user directory exists corresponding to load file $load"
+			exit 1
+		endif
+	else
+		if (-d $loadfile:h) cd ${loadfile:h}
+	endif
+	if (!(-r ${load}.cmd) || !(-r ${load}.log)) then
+		echo "Need to be able to access both .cmd and .log files."
+		goto CLEANUP
+	endif
+endif
+
+unset noclobber
+
+
+while (!($?load))
+	echo "Enter loadfile (format xxxyyyvv). "
+	echo "   (Press return for a listing; enter directory name to change directory; "
+	echo "    press ^C then press return to exit)"
+
+	set load = $<
+
+	if ($load !~ ?*) then
+		ls -p
+		unset load
+		continue
+	else if (-d ${load}) then
+		cd $load
+		echo ""
+		ls -p
+		unset load
+		continue
+	else if (!(-r ${load:r}.cmd) || !(-r ${load:r}.log)) then
+		echo "Need to be able to access both .cmd and .log files."
+		echo ""
+		unset load
+		continue
+	endif
+
+	if (-d $load:h) cd $load:h
+	set load = $load:t
+	set load = `DosToUnixFile $load`
+	set load = $load:r
+
+end
+
+if (!($?sendfromuser) && -d $rduser/ld.send.$load) then
+	echo "Use -u option to re-send files.  File with this name has already been sent."
+	goto CLEANUP
+endif
+
+# set unique name for log file in this directory
+if (!($?sendfromuser)) then
+	set sendlog = send.log
+else
+	set sendlog = send.log.fromuser`ls | grep -c 'send.log.fromuser[0-9]*$'`
+
+endif
+
+# Create "send" directory and copy the files into it. 
+
+set senddir = $rdsend/ld.send.$load
+mkdir $senddir
+cp ${load}.cmd ${load}.log $senddir
+
+cd $senddir
+
+if ($?floppy) then
+	eject floppy
+	unset floppy
+endif
+
+echo Running ldcmd:
+echo ""
+
+ldcmd ${load}.log >& ldout.$$
+if ($status) then
+	cat ldout.$$
+	echo "ldcmd failed - abort"
+	goto CLEANUP
+endif
+
+cat ldout.$$
+
+set sendfile = `awk '/Output file/ {print $6}' ldout.$$`
+
+rm ldout.$$
+
+#
+#write to log file
+#
+
+
+echo ""
+echo "Here's the log file:"
+echo "    ---------------------------------------------------------------------"
+tee $sendlog <<EOF
+File sent to ${cms}:		$sendfile
+Created by ldcmd from file:	${load}.log
+
+"Send" directory saved in: 	${rduser}/ld.send.${load}
+	Files saved:		${load}.log
+				${load}.cmd
+				$sendfile
+				$sendlog
+
+Time   : `date`
+User   : $user
+EOF
+echo "    ---------------------------------------------------------------------"
+echo ""
+
+#
+# last chance to bail out
+#
+
+echo "Proceed with sending file? (y/n)"
+set proceed = $<
+while ("$proceed" !~ [yY] && "$proceed" !~ [nN])
+	echo "please respond with 'y' or 'n':"
+	set proceed = $<
+end
+if ("$proceed" =~ [nN]) then
+	echo abort.
+	goto CLEANUP
+endif
+
+#
+# print the files
+#
+
+echo ""
+echo "Printing .cmd file and $sendlog to $prtaut."
+$prtcmd -d $prtaut ${load}.cmd $sendlog
+
+if ($status) then
+	echo ""
+	echo "Printout failed, abort? (y/n)"
+	set abort = $<
+	while ("$abort" !~ [yY] && "$abort" !~ [nN])
+		echo "please respond with 'y' or 'n':"
+		set abort = $<
+	end
+	if ("$abort" =~ [yY]) then
+		echo abort.
+		goto CLEANUP
+	endif
+endif
+
+#
+# copy send directory to archive  
+#
+
+echo Copying \"ld.send.${load}\" directory into \"archive\" and \"user\" directories.
+cp -r $senddir $rdarch
+cp -r $senddir $rduser
+
+#
+# send the files to CMS
+#
+
+rcp $sendfile ravi:/home/fastops/data.fast/soctransfer
+
+# Old transfer method when files were ftp'ed to GSFC
+#echo "Sending the files to CMS."
+#ftp $cms <<EOF
+#put $sendfile
+#quit
+#EOF
+
+# remove the "send" directory: it was only temporary
+cd ..
+\rm -rf $senddir
+
+echo ""
+echo Have a nice day.
+
+exit 0
+
+
+CLEANUP:
+
+if ($?floppy) then
+	cd /floppy
+	eject floppy
+endif
+
+if ($?senddir) then
+	cd ..
+	\rm -rf $senddir
+endif
+

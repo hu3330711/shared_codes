@@ -1,0 +1,71 @@
+#!/usr/bin/ksh
+#
+# wwwstuff - copy the contact schedules and integrated prints received
+# from CMS over to the WWW site.
+#
+
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+
+
+# First take care of any contact schedules that have been received
+
+ls -1r /fast_data/a/ogs/ogswork/ogs.godinp/SMEX* 2> /dev/null 1> /tmp/sched$$
+while [[ -s /tmp/sched$$ ]]
+do
+	top=`head -1 /tmp/sched$$`
+	schedname=$(basename $top)
+	nawk -f ${FASTSW}/config/csched.awk $top >/tmp/${schedname}
+	rcp /tmp/${schedname} $DANETHOST:$CONSCHED
+	rm /tmp/${schedname}
+	sed '1d' /tmp/sched$$ > /tmp/SCHED$$
+	mv /tmp/SCHED$$ /tmp/sched$$
+done
+
+rm /tmp/sched$$
+
+
+# Now take care of any INTEGRATED PRINTS that have been received
+
+ls -1r /fast_data/a/ogs/ogswork/ogs.godinp/*INTRPT* 2> /dev/null 1> /tmp/intrpt$$
+while [[ -s /tmp/intrpt$$ ]]
+do
+	top=`head -1 /tmp/intrpt$$`
+	rcp $top $DANETHOST:$INTRPT
+	sed '1d' /tmp/intrpt$$ > /tmp/INTRPT$$
+	mv /tmp/INTRPT$$ /tmp/intrpt$$
+done
+
+rm /tmp/intrpt$$
+
+
+# Now take care of any ORBIT VECTORS that have been received
+
+ls -1r /fast_data/a/ogs/ogswork/ogs.godinp/*EPVPRE* 2> /dev/null 1> /tmp/vector$$
+while [[ -s /tmp/vector$$ ]]
+do
+	top=`head -1 /tmp/vector$$`
+	rcp $top $DANETHOST:$WWWVECTOR
+	sed '1d' /tmp/vector$$ > /tmp/VECTOR$$
+	mv /tmp/VECTOR$$ /tmp/vector$$
+done
+
+rm /tmp/vector$$
+
+
+# Now take care of any ATTITUDE FILES that have been received
+
+ls -1r /fast_data/a/ogs/ogswork/ogs.godinp/*ATTPRE* 2> /dev/null 1> /tmp/att$$
+while [[ -s /tmp/att$$ ]]
+do 
+	top=`head -1 /tmp/att$$`
+	rcp $top $DANETHOST:$ATTFORUCLA
+	sed '1d' /tmp/att$$ > /tmp/ATT$$
+	mv /tmp/ATT$$ /tmp/att$$
+done
+
+rm /tmp/att$$
+
+
+# wwwstuff is done
+

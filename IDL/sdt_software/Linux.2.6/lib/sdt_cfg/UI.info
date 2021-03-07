@@ -1,0 +1,246 @@
+# For SCCS:
+# @(#)UI.info	1.1, 10/26/93
+
+#########1#########2#########3#########4#########5
+12345678901234567890123456789012345687901234567890
+########################50########################
+
+########################50########################
+:MainMenu
+This is the Main Menu for the SDT, the SSL
+DataAnalysis Tool.  It provides choices which
+allow the user to create, manipulate, save and
+recall Configurations of PlotWindows and the Plots
+which they contain.
+
+If a preexisting Configuration exists, the user
+should call it up through the Configuration menu
+series.  If not one should start from scratch by
+selecting the "Blank" configuration from the 
+Configuration menu series.  The user should then
+add plots, arrange them in the desired order, etc.
+using the PlotWindow Menus.  Then the user should
+select a timespan using the TimeSpan Menu series.
+
+These are a short list of Ingredients for Cooking
+up a Configuration:
+   add Blank Plot Window
+   add Plot Panels
+   select a TimeSpan
+   adjust Parameters
+#
+
+########################50########################
+:ConfigurationButton
+This is the Configuration Button and is the 
+starting point for the Configuration Menu Series.
+This Button, when selected using the Right Mouse
+Button provides a menu which will allow a user to
+select, save, save as..., or delete Configurations.
+
+select - choosing this with the Right Mouse button
+	 gives the user the list of the pre-
+	 existing Configurations.  By choosing one
+	 of these, the program will recreate that
+	 Configuration as it was saved.
+save   - choosing this will save the current
+	 arrangement of PlotWindows, Plots,
+	 Timespans as the last Configuration
+	 requested.  If no preexisting
+	 Configuration was requested, the user
+	 will be prompted for a name.
+save as- choosing this will prompt the user for a
+	 name under which to save this new
+	 configuration.  the user should use a
+	 name which does not contain a '/' or a
+	 '-'.
+delete - choosing this with the Right Mouse button
+	 gives the user the list of the pre-
+	 existing Configurations.  By choosing one
+	 of these, the program will delete that
+	 Configuration after verification from the
+	 user.
+#
+
+########################50########################
+:PlotWindowButton
+This is the PlotWindow Button and is the way in
+which the user can add or delete PlotWindows of
+various types.  Selecting this Button with the
+Left Mouse Button will add a Standard PlotWindow
+to the screen.  Selecting this Button with the
+Right Mouse Button provides the user with a menu
+which will allow the addition of a RealTime or 
+Standard PlotWindow or to delete a window.  If the
+user selects "add standard", a Standard PlotWindow
+will be added to the screen.  If the user selects
+"add realtime", a RealTime PlotWindow will be
+added to the screen.  If the user selects "remove"
+with the Right Mouse Button a list of the existing
+PlotWindows will be given.  If the user chooses
+one, it will be deleted after verification from
+the user.
+#
+
+########################50########################
+:TimeSpanButton
+This is the TimeSpan Button and is used to set the
+timespan for plots which exist in the 
+Configuration and plots which are added 
+subsequently.
+
+When selected with the Left Mouse Button is used
+to set the TimeSpan for all of the existing plots
+in the Configuration.  
+
+When selected with the Right Mouse Button, it
+provides a menu which will allow setting the
+timespan for all the existing plots (same as the
+Left Mouse Button case) or some of the plots.  The
+user will follow through several menus and will be
+prompted to select the plots he/she is concerned
+with at the last.
+
+The TimeSpan can be set either before or after
+adding plot panels and setting the TimeSpan for a
+plot which already has a TimeSpan associated with
+it resets the TimeSpan for that plot to the new
+one.
+#
+
+########################50########################
+:ParameterButton
+This is the Parameter Button and is used to reset
+and use Parameters for existing plots with
+TimeSpans and associated Parameters.
+
+When selected and parameters exist for the
+Configuration (for the Plot Quantities within the
+Configuration) a window appears with those 
+parameters and the values which were previously
+assigned to them and to compute the current data.
+
+If the user dismisses this window by pressing the
+Left Mouse button on the pushpin in the upper-left
+hand corner of the window, then nothing happens:
+no parameters are reset, no recomputation of data.
+
+If the user adjusts some parameters and selects 
+the Compute button on this menu, then all of the
+parameters are reset to the values set in the 
+window and all of the quantities which could have
+parameters are recomputed.
+#
+
+########################50########################
+:PrintSetupButton
+This is the Print SetUp Button and is used to set
+defaults for hardcopy output.
+
+When selected the user is presented with a window
+which will allow the user to set the output device
+destination, output type, paper size and 
+orientation.
+#
+
+########################50########################
+:HelpButton
+GENERAL TOPICS
+
+Getting Started:
+   - Bring up an empty Plot Window by pressing
+     the Right Mouse button on the Configuration
+     button on the main SDT menu.  Likewise
+     choose Select then Blank from the ensuing
+     menus.
+   - Add plots by choosing "Add Plot", then the
+     appropriate space craft from the action menu
+     obtained by depressing the Right Mouse button
+     within the Plot Window.
+   - Select a TimeSpan by pressing the Right Mouse
+     button on the Timespan button on the main SDT
+     menu.  Select "All Plots" from the next menu.
+     Continue filling in the selections until no
+     more options are given.  At this point data
+     should begin appearing after a short while.
+
+Mouse Button use:
+   The Right Mouse button can be used to get
+   menus.  When depressed within the Plot Window
+   the user will get menus used to manipulate
+   plot/quantities ( add/delete plots, set limits,
+   etc.).  If the user depresses the Right Mouse
+   button within the plot border of a particular
+   plot, the user will get a menu which actions
+   pertain only to that particular plot or which
+   are valid for only one plot at a time.  If the
+   user depresses the Right Mouse button in the
+   general space around the plot panel, the user
+   will get a menu which has actions apply to all
+   plots or to the window.  Additionally, when a
+   vertical or horizontal caret is seen at the
+   left of a button or menu item one can press the
+   Right Mouse button to see a menu which lists
+   additional selections.
+
+   Generally, the best button to use is the Left
+   Mouse Button.  It is the action button and when
+   it is pressed completes the action you are
+   selecting, such as selection buttons or menu
+   items.  If one selects the Left Mouse button
+   the default from that menu will be used!
+
+   The Left and Middle Mouse buttons also can be
+   used to set the zoom fiducial lines.  When the
+   user presses either of these buttons within the
+   plot window, a line will appear on the screen
+   which indicates what the zoom area will be.
+
+Known Bugs and Work Arounds:
+   1) If the user exceeds the amount of RAM,
+      the program will crash.
+   2) Occasionally, the Science Modules will not
+      get displayed.  type 'run' then 'run' again.
+#
+
+########################50########################
+:QuitButton
+This is the Quit Button and is used to exit the
+program.
+
+When selected with the Left Mouse Button, the
+current Configuration is saved and the program is
+exited.
+
+When selected with the Right Mouse Button, the
+user is given a menu to allow the user to save the
+Configuration (same as Left Mouse Button case),
+save the Configuration under a new name, or just
+to discard the Configuration altogether.
+#
+
+########################50########################
+:PlotWindowCanvas
+This is the PlotWindow Canvas and is where all
+plots are displayed.  In addition it is where the
+user manipulates plots to better represent their
+data.
+
+When the user depresses the Right Mouse Button
+inside this window, a menu appears which allows
+manipulations which pertain to the entire 
+PlotWindow.  This allows the user to add plots,
+set the number of plots per page, print the 
+PlotWindow, zoom all of the plots, set lines/
+points for all plots, and so on.
+
+When Plot Panels are displayed, the user can
+depress the Right Mouse Button inside of the
+individual Plot Panel to get a menu to allow the
+user to manipulate just that one plot.  
+Manipulations include setting limits, deleting the
+plot, zooming, moving the plot within the
+PlotWindow, showing extra information about that
+plot, and so on.
+#
+

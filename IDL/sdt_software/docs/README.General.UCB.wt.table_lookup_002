@@ -1,0 +1,587 @@
+************************************************************************
+
+   README.General.UCB.wt.table_lookup_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.table_lookup_001
+
+************************************************************************
+
+   Table lookup.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.table_lookup_002	1.3    06/16/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module calculates a function by means of a table
+       lookup.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) A scalar that gives the function argument x.
+
+
+
+
+
+    3) Before the function argument is used for the table lookup, it has
+       corrections applied to it.
+
+
+
+       Thus, it is not the value x from the SDT input that is actually
+       used as the function argument, but a corrected value of x (x')
+       instead.
+
+
+
+
+
+    4) First, the values of x are corrected by subtracting the following
+       corrections:
+
+
+
+            1) Constant offset.
+
+
+
+       The new value of x is related to the old value as follows:
+
+
+           New value = Old value - Corrections
+
+
+
+
+
+    5) Then, the values of x are corrected by multiplying them by a
+       constant scale factor.
+
+
+
+       The new value of x is related to the old value as follows:
+
+
+           New value = Scale * Old value
+
+
+
+
+
+    6) The table is loaded from an input file.
+
+
+
+
+
+    7) See the function
+
+           Load_Table_001
+
+       for details on the table input file.
+
+
+
+
+
+    8) It is not required that the entries in the table input file be in
+       sorted sequence.
+
+
+
+       However it is required that, upon sorting, the table have no
+       duplicates.
+
+
+
+
+
+    9) The table input file is searched for in the standard sequence of
+       directories for special configuration files for Science Modules.
+
+
+
+
+
+   10) See the function
+
+           Table_Lookup_001
+
+       for details on the table lookup.
+
+
+
+
+
+   11) An output data point is produced for each input point, for which
+       the output value of the table lookup is defined.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+       The value for the output data point is the function determined
+       (by table lookup) at the argument x'.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) File name for the table input file.
+
+
+               Char.
+
+
+               This is the file name only (no path).
+
+
+               Must be a valid file name (not blank), and
+               the file must exist.
+
+
+
+            3) Maximum number of characters per line for the table
+               input file.
+
+
+               Int.
+
+
+               Does not include the "newline" to terminate the line.
+
+
+               Must be  >=  1.
+
+
+
+            4) Flag to use a comment character for the table input file.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Use a comment character.
+
+                    WT_FALSE  =  Do not use a comment character.
+
+
+
+            5) Comment character for the table input file.
+
+
+               Char.
+
+
+               Must be a single, printable character.
+
+
+               If the flag to use a comment character is false, then
+               this character is ignored.
+
+
+
+            6) Flag to set a user value if the table is empty.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Set a user value.
+
+                    WT_FALSE  =  Do not set a user value.
+
+
+
+            7) User value if the table is empty.
+
+
+               Double.
+
+
+
+            8) Flag to extrapolate if the search key is before the
+               table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Extrapolate.
+
+                    WT_FALSE  =  Do not extrapolate.
+
+
+
+            9) Flag to replicate the first table value if the search key
+               is before the table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Replicate.
+
+                    WT_FALSE  =  Do not replicate.
+
+
+
+           10) Flag to set a user value if the search key is before the
+               table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Set a user value.
+
+                    WT_FALSE  =  Do not set a user value.
+
+
+
+           11) User value if the search key is before the table.
+
+
+               Double.
+
+
+
+           12) Flag to extrapolate if the search key is after the table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Extrapolate.
+
+                    WT_FALSE  =  Do not extrapolate.
+
+
+
+           13) Flag to replicate the last table value if the search key
+               is after the table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Replicate.
+
+                    WT_FALSE  =  Do not replicate.
+
+
+
+           14) Flag to set a user value if the search key is after the
+               table.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Set a user value.
+
+                    WT_FALSE  =  Do not set a user value.
+
+
+
+           15) User value if the search key is after the table.
+
+
+               Double.
+
+
+
+           16) Flag to use a minimum acceptable value for the function.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Use a minimum.
+
+                    WT_FALSE  =  Do not use a minimum.
+
+
+
+           17) Minimum acceptable function value.
+
+
+               Double.
+
+
+
+           18) Flag to set a user value if the function value is too
+               small.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Set a user value.
+
+                    WT_FALSE  =  Do not set a user value.
+
+
+
+           19) User value if the function value is too small.
+
+
+               Double.
+
+
+
+           20) Flag to use a maximum acceptable value for the function.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Use a maximum.
+
+                    WT_FALSE  =  Do not use a maximum.
+
+
+
+           21) Maximum acceptable function value.
+
+
+               Double.
+
+
+
+           If there are both a minimum and a maximum, then
+           the minimum must be  <  the maximum.
+
+
+
+           22) Flag to set a user value if the function value is too
+               large.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Set a user value.
+
+                    WT_FALSE  =  Do not set a user value.
+
+
+
+           23) User value if the function value is too large.
+
+
+               Double.
+
+
+
+           24) Constant offset.
+
+
+               Double.
+
+
+
+           25) Scale factor.
+
+
+               Double.
+
+
+
+           26) The group of parameters described here occurs once for
+               the input function argument.
+
+
+
+                1) Input component index for the scalar value.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           The file containing the table.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The function argument.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One additional component for the function argument.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Function value.
+
+
+               Float.

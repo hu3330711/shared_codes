@@ -1,0 +1,136 @@
+#!/usr/bin/ksh
+#
+# dbrecovery.ksh   -   	Run from FINET, calls dbupdate on DANET
+#			to update database using a cut CD.
+#
+# Created : 15 Jul 1996
+# Creator : J.Rauchleiba
+#
+# 20 Aug 1996	   -	Added handling of the dbfailed$$
+#			files created by intercept.
+#		   -	Set traps.
+
+. /disks/fast/software/config/archive_config
+
+earlyexit () {
+	echo $$:-- dbrecovery ends before calling dbupdate $(date) -- >> $LOGFILE
+	exitcode=$1
+	if [[ $exitcode = "" ]] ; then
+		exitcode=1
+	fi
+	exit $exitcode
+}
+
+trap earlyexit INT QUIT HUP
+
+
+echo $$:---- dbrecovery run $(date) ---- >> $LOGFILE
+
+#### Display CD's that must be loaded to update the database.
+
+cd /$LOGDIR
+dbrecover=`ls -1rt dbfailed*`
+print
+print 'Failures in dbupdate occurred for the following CD volumes '
+print 'in the order listed:'
+cat $dbrecover
+
+
+#### Prompt user to load a CD
+
+print
+print "Load CD into DANET CDROM drive to update the database."
+print "Type 'go' when ready"
+read ready
+while [[ $ready != 'go' ]]
+do
+	print "** Type 'go' to continue **"
+        read ready
+done
+
+
+#### Get CDNAME from DANETHOST cdrom drive
+
+sleep 5
+CDNAME=$(rsh $DANETHOST ls -1 /cdrom | \
+egrep -i '(fast)+([0-9])+_(test|orbit)([0-9])+')
+CDNAME=${CDNAME%/}
+
+if [[ $CDNAME = "" ]] ; then
+	print
+	print "*** Error in dbrecovery: CD volume name not found ***"
+	earlyexit 1
+fi
+
+
+#### Last chance to bail out
+
+print
+print "CD volume name is: $CDNAME "
+read correct?'Use this CD to update the database? (y/n) '
+if [[ $correct != "y" ]] ; then
+	print "User bailed out"
+	earlyexit 0
+fi
+
+
+#### Get proc ID of process during which dbupdate failed for this CD.
+
+for file in $dbrecover ; do
+	if [[ `cat $file` = $CDNAME ]] ; then
+		proc=`echo $file | awk -Fd '{print $3}'`
+	fi
+done
+
+if [[ $proc = "" ]] ; then
+	print
+	print '** Unable to get previous process ID for this CD	**'
+	print '** Make a dbfailed$$ file containing the CD volname **'
+	earlyexit 1
+fi
+
+
+#### Call dbupdate with option -r for CD recovery
+
+echo $$:---- dbrecovery using $CDNAME to recover $proc ---- >> $LOGFILE
+
+TMPDBLOG=/tmp/dblog$proc
+/bin/rm -f $TMPDBLOG
+
+rsh $DANETHOST $FASTBIN/dbupdate -r $CDNAME r$proc > $TMPDBLOG 2>&1 
+
+trap - INT QUIT HUP
+
+cat $TMPDBLOG >> $LOGFILE
+
+
+#### Check $TMPDBLOG for failures or interrupts
+
+failed=0
+if [[ `grep -c 'FAILED' $TMPDBLOG` -ne 0 ]] ; then
+	print
+	echo r$proc:!!!!** dbupdate failed **!!!!
+	echo r$proc:!!!!** dbupdate failed **!!!! >> $LOGFILE
+	failed=1
+fi
+
+if [[ `grep -c 'INTERRUPT' $TMPDBLOG` -ne 0 ]] ; then
+	print
+	echo r$proc:!!!!** dbupdate interrupted **!!!!
+        echo r$proc:!!!!** dbupdate interrupted **!!!! >> $LOGFILE
+	failed=1
+fi
+
+
+#### If dbupdate successful for this CD, remove particular dbfailed$proc
+
+if [[ $failed != 1 ]] ; then
+	print
+	print 'No failures or interrupts reported.'
+	print "Removing file: $LOGDIR/dbfailed$proc "
+	rm $LOGDIR/dbfailed$proc
+fi
+
+print
+echo $$:---- dbrecovery ends ----
+echo $$:---- dbrecovery ends $(date) ---- >> $LOGFILE

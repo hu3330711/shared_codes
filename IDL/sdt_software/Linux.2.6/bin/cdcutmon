@@ -1,0 +1,79 @@
+#!/usr/local/bin/perl -w
+#
+# cdcutmon
+#
+# Monitors serial port for status messages indicating
+# CD cut complete.  Serial port is taken from environment
+# variable SERIALPORT, or can be overridden by a command-
+# line argument.
+#
+# 
+use strict;
+use Fcntl;
+use POSIX qw(:errno_h);
+
+# Exception handler
+
+$SIG{'__DIE__'} = \&death;
+
+# Open CD Studio serial port, readonly and non-blocking
+
+my $serialPort = (shift || $ENV{'SERIALPORT'}) or die "Undefined serial port\n";
+sysopen(CDSTUDIO, $serialPort, (&O_RDONLY | &O_NONBLOCK))
+    or die "sysopen $serialPort: $!";
+
+# Bit mask for use with select
+
+my $rin;
+my $rout = $rin = '';
+vec($rin, fileno(CDSTUDIO), 1) = 1;
+
+# Must receive input within 15 minutes
+
+select($rout=$rin, undef, undef, 900);
+if ( $! == &EAGAIN ) {
+    close(CDSTUDIO);
+    die "Timed out waiting for CD Studio serial output.\n";
+}
+
+# Test lines for cut confirmation
+
+my $masterBuffer = "";
+while ( $masterBuffer !~ m/^00000001/mo ) {
+
+    # Wait no more than 1.5 min for subsequent input
+
+    select($rout=$rin, undef, undef, 90);
+    if ( $! == &EAGAIN ) {
+	close(CDSTUDIO);
+	die "$masterBuffer\nTimed out waiting for cut confirmation.\n";
+    }
+
+    # Append all available input to buffer
+	
+    read CDSTUDIO, $masterBuffer, 1024, length($masterBuffer);
+
+    select undef, undef, undef, .5; # avoid CPU peg
+}
+
+print $masterBuffer, "\n";
+
+close(CDSTUDIO);
+
+exit 0;
+
+#################
+## SUBROUTINES ##
+#################
+
+# Fatal Exeception Handler
+
+sub death {
+    if ( $ENV{'ARCHIVEMASTER'} ) {
+	open(COURIER, "|/usr/bin/mail $ENV{ARCHIVEMASTER}");
+	print COURIER "Subject: Archive System CDs\n\n";
+	print COURIER $_[0], "\n";
+	close(COURIER);
+    }
+    die $_[0], "\n";
+}

@@ -1,0 +1,53 @@
+.\" @(#)orbgen.1	1.6 04/18/95
+.TH ORBGEN 1 "04/18/95"
+.SH NAME
+orbgen \- generate orbit files
+.SH SYNOPSIS
+\fBorbgen [-d \fIduration\fB] [-c \fIcomputation\fB] [-o \fIoutput\fB] [-f]
+[-h] [-n orbit#] [\fIinfile\fB [\fIoutfile\fB]\fR
+.SH DESCRIPTION
+\fBOrbgen\fR generates orbit data in the form of a FAST orbit data
+file, given a set of orbital elements.  The output contains a sequence
+of vectors giving position and velocity, and any or all of the additional
+quantities supported by the FAST orbit data file format.  Output goes to
+the specified \fIoutfile\fR or to stdout if \fIoutfile\fR isn't specified.
+.sp
+The \fIinfile\fR is also a FAST orbit file containing just a header
+listing the initial orbit elements.  
+An optional label record following the header will be used to specify which
+of the orbit data quantities to include in the output file.
+If no label record is present, all data quantities are computed.
+Input comes from stdin if \fIinfile\fR
+isn't specified.
+.SH OPTIONS
+.IP "\fB-d \fIduration\fR"
+Duration (in seconds) of output orbit data file.  Default:  10,000.
+.IP "\fB-c \fIcomputation\fR"
+Computation interval in seconds.  Default:  1.
+.IP "\fB-o \fIoutput\fR"
+Output interval in seconds.  Default:  10.
+.IP "\fB-f  \fR"
+Input is an FDF orbit vector, instead of a FAST Orbit file header.
+All vector columns are computed, unless -h is also specified.
+.IP "\fB-h  \fR"
+Output one header and one vector per orbit, with no other vectors.
+Only the TIME, position (X, Y, Z), and velocity (VX, VY, VZ) columns
+are computed.
+.IP "\fB-n \fIorbit#  \fR"
+Use \fIorbit#\fR as the initial orbit number, instead of the number
+specified in the input file.  Useful with FDF vectors, which don't
+include orbit numbers.
+.IP "\fB-q  "\fR"
+"Quick computation"; ignore atmospheric drag.
+.IP "\fB-z  "\fR
+"Zippy computation"; use a simple gravitational model as well as
+ignoring atmospheric drag.
+.SH FILES
+.IP \fIinfile\fR
+Input orbit data file.
+.IP \fIoutfile\fR
+Output orbit data file.
+.IP $FASTLIB/Fastorb/mag4wi.dat
+Magnetic field model data.
+.SH "SEE ALSO"
+orbitlib(3), orbitprop(3), orbitfile(4)

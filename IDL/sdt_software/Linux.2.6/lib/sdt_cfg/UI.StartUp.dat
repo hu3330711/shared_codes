@@ -1,0 +1,41 @@
+
+
+    SSSS          DDDD         TTTTTTTT
+SS         SS     DD    DD           TT               Space Sciences Laboratory
+ SSSS             DD     DD          TT               Data Analysis
+    SSSS          DD      DD         TT               Tool
+         SSSS     DD     DD          TT               (FAST Version)
+SS         SS     DD    DD           TT   
+    SSSS          DDDD               TT   
+
+
+About SDT:
+   The SDT software package was prepared by programmers at Space Sciences 
+   Laboratory, The University of California, Berkeley for the FAST project.
+   It represents release version 2.1 made on 2/15/95.
+
+Disclaimer:  
+   There are probably some bugs and there are definitely many features 
+   have yet to be added.  Please be patient.
+
+Your two cents worth:
+   Please direct any bugs to be corrected, features to be added, requests 
+   for changes, or comments to the following e-mail address:
+
+          fast-support@sunspot.ssl.berkeley.edu
+
+   Sending mail to this address will insure that we look into, resolve, and 
+   respond to the comments enclosed in that mail message.  
+   
+   Urgent(!) problems can be directed to Chris Sparhawk at 510/643-5487
+   or (preferrably):
+
+          sparhawk@sunspot.ssl.berkeley.edu
+
+   Please note that calling this number or e-mailling to sparhawk does not 
+   carry the same guarantee as, nor should it be in place of, addressing 
+   mail to the fast-support e-mail account.
+
+Be well.
+
+# @(#)UI.StartUp.dat	1.6, 02/14/95

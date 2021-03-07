@@ -1,0 +1,87 @@
+#! /bin/ksh 
+#
+# @(#)remove_CD_from_db.ksh	1.3 12/14/00
+#
+# remove_CD_from_db.ksh
+#
+# remove all entries related to a CD volume from the fast_archive 
+# database
+#
+# Usage:
+#        remove_CD_from_db [-c <config>] volname
+#
+
+# *** Temporary files
+TEMPSQL=/tmp/sql$$
+TEMPOTP=/tmp/otp$$
+
+# *** Exit processing
+finish () {
+	/bin/rm -f ${TEMPSQL}
+}
+trap finish EXIT
+
+# Configuration file.  Look in current directory, then FASTCONFIG
+# then FASTLIB.
+
+# Command line processing
+CONFIG=fast_dbupdate.conf
+. fast_dbenv_setup
+ERR=$?
+if [ ${ERR} -ne 0 ] ; then
+	echo ${ARCH_ERROR} > /dev/tty
+	echo ${ARCH_ERROR} 
+	exit ${ERR}
+fi
+
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		shift 2
+	else
+		VOLNAME=$1
+		shift
+	fi
+done
+
+CHECKCOUNTS=$(. $FASTCONFIG/archive_config; echo $CHECKCOUNTS)
+if [[ ! (-w ${CHECKCOUNTS}) ]] ; then
+    echo "no write permission on ${CHECKCOUNTS}"
+    echo "Try running as user lzp"
+    exit
+fi
+
+echo "removing entries corresponding to $VOLNAME from $ARCH_DB"
+
+stty -echo
+read SAPASSWD?"Enter the password of the database owner ${ARCH_LOGIN} to continue: " > /dev/tty 2>&1
+echo "" > /dev/tty
+stty echo
+
+sed -e 's/xxARCH_DBxx/'${ARCH_DB}'/g' \
+	-e 's/xxVOLNAMExx/'${VOLNAME}'/g' \
+	${FASTLIB}/remove_CD_from_db.sql > ${TEMPSQL}
+
+if [[ $? -eq 0 ]] ; then
+    isql -U${ARCH_LOGIN} -i${TEMPSQL} <<-EOF | tee ${TEMPOTP}
+	${SAPASSWD}
+	EOF
+
+    if grep -c "CD removal complete" ${TEMPOTP} > /dev/null ; then
+	# remove the cd from the check_counts_file db_insertcounts will reprocess it
+	echo "Removing entries for ${VOLNAME} from CHECKCOUNTS file so "
+	echo "db_insertcounts can re-process this volume."
+	read DELIT?"Modify ${CHECKCOUNTS} file? (y/n) " > /dev/tty 2>&1
+	if [[ $DELIT != [nN]*([oO]) ]] ;  then
+	    echo "updating CHECKCOUNTS file: $CHECKCOUNTS"
+	    ed  $CHECKCOUNTS <<-EOF > /dev/null
+		g/${VOLNAME}/d
+		w
+		EOF
+	    if [[ $? -gt 0 ]] ; then 
+		echo "error updating CHECKCOUNTS"
+	    fi
+	else
+	    echo "be sure to update CHECKCOUNTS file manually!"
+	fi
+    fi
+fi

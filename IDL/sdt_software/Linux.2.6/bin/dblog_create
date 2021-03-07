@@ -1,0 +1,70 @@
+#!/bin/ksh
+#
+#	dblog_create.ksh
+#
+#	checks the database and creates a log file with some information
+#	about the database.
+#
+#	Usage:
+#		dblog_create [-c <config>] [-f <sql-file>]
+#
+#	This script creates a log file for the database. The config file
+#	specifies global database parameters, such as database name, owner,
+#	devices, and sizes. The sql-file contains the sql statements
+#	for creating the log-file.
+#
+#	Parameters:
+#	-c <config>	The name of the configuration file
+#			Default: fast_archive.conf
+#	-f <sql-file>	The name of the file with the sql-statements.
+#			is the input for do_isql.
+#			Default: log_create.sql
+#
+
+# *** Temporary files
+TEMPFILE=/tmp/sqlfile$$
+TEMPERR=/tmp/error$$
+
+# *** Exit processing
+finish () {
+	/bin/rm -f ${TEMPFILE}
+	/bin/rm -f ${TEMPERR}
+}
+trap finish EXIT
+
+# *** Configuration
+. /disks/fast/software/config/archive_config
+
+MYNAME=$(basename $0)
+CONFIG=fast_dbupdate.conf
+SQLFILE=${FASTDBSQL}/log_create.sql
+
+. fast_dbenv_setup
+
+ERR=$?
+if [[ ${ERR} -ne 0 ]]; then
+	echo "${MYNAME}: ${ARCH_ERROR}" 1>&2
+	exit ${ERR}
+fi
+
+while [[ $# -gt 0 ]] ; do
+	if [[ "$1" = "-c" ]] ; then
+		CONFIG=$2
+		shift 2
+	elif [[ "$1" = "-f" ]] ; then
+		SQLFILE=$2
+		shift 2
+	else
+		break
+	fi
+done
+
+cat ${SQLFILE} | (do_isql > ${TEMPFILE}; echo $? > ${TEMPERR})
+
+cat ${TEMPFILE} | grep -v 'Password:' > ${REPORT}/report$$
+
+ERR=$(cat ${TEMPERR})
+if [[ ${ERR} != 0 ]]; then
+	echo "${MYNAME}: isql error" 1>&2
+	exit ${ERR}
+fi

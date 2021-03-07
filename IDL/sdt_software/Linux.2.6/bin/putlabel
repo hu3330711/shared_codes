@@ -1,0 +1,56 @@
+#! /usr/bin/ksh
+
+#This script will put a label on a cd with data but no label.
+#Author: Shane Bussmann
+#Date Created: December 7, 2001
+
+. /disks/fast/software/config/archive_config
+
+#First log in to juneau as user lzp
+
+#User must define the label that will be put onto the cd
+
+cdtype=$1
+cdlabel=$2
+
+if [[ -z $cdtype || -z $cdlabel ]]
+then
+	echo "CD label name must be input"
+	exit 1
+fi  
+
+typeset -l correct=n
+while [[ $correct != "y" ]] ; do
+    print "CD name: $cdlabel"
+    read correct?"Is this correct? (y/n) "
+    if [[ $correct != "y" ]] ;then
+	read cdlabel?'Enter CD name: '
+    fi
+done
+
+case $cdtype in
+  FAST)
+  dirname=fastcdlabels;;
+  HESSIENG)
+  dirname=hessicdlabels;;
+  HESSISCI)
+  dirname=hessicdlabels;;
+  GEOTAIL)
+  dirname=geotailcdlabels;;
+  POLAR)
+  dirname=polarlabels;;
+  CFEO)
+  dirname=cfeolabels;;
+  *)
+  echo "CD type is not valid."
+  exit 1;;
+esac
+
+
+echo $cdlabel > /disks/cdwork/workdir/$dirname/cdname
+
+$LABELMAKER/printer.sh $cdtype
+
+mt -f /dev/rmt/1b fsf
+
+echo No CDs were injured in the making of this script.

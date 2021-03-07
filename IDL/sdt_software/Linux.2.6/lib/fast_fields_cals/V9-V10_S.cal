@@ -1,0 +1,18 @@
+#  SCCS Id
+#  @(#)V9-V10_S.cal	1.1 04/15/96
+#
+# V9-V10_S.cal
+# REE 5/25/95
+E9-10_S			Data name.
+1    			Linear calibration.
+sec			x-axis units.
+mV/m			y-axis units.
+na			z-axis units.
+23			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration table as of 6/7/95.
+0			Time in seconds.
+-3.4			Offset.
+-2.750			Gain.
+

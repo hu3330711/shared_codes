@@ -1,0 +1,672 @@
+************************************************************************
+
+   README.General.UCB.wt.angle_plane_boom_and_vector_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.angle_plane_boom_and_vector_001
+
+************************************************************************
+
+   Angle between a spin plane boom and a vector.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.angle_plane_boom_and_vector_001	1.2    06/20/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module determines the angle between a spin plane
+       boom and a vector.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) Spin timing.
+
+
+               This input gives the time of each Sun pulse.
+
+
+
+            2) The vector.
+
+
+               The vector should be in a coordinate system that does not
+               participate in the spacecraft's rotation.
+
+
+
+
+
+    3) Typically, the spin plane boom is an electric field instrument
+       boom; and the vector is the magnetic field B, or the normalized
+       Sun vector S.
+
+
+
+       In any event, the boom must be on the spin plane; and can be
+       thought of as a vector that points from the center of the
+       spacecraft to a point on the edge that is attached to the
+       spacecraft and rotates with it.
+
+
+
+       Even though the boom is constrained to the spin plane; the vector
+       with respect to which the angle of the boom is determined, is a
+       full 3-dimensional vector, and all 3 of its components are used.
+
+
+
+
+
+    4) A spin period is considered valid provided that the time lapse
+       between its beginning and ending Sun pulses is within the limits
+       prescribed for the spacecraft in question.
+
+
+
+
+
+    5) If the components of the vector are not referred to the DSC
+       (Despun Spacecraft Coordinates) system, then there must be an
+       additional SDT input, which is a rotation matrix that rotates
+       vector components, from the coordinate system of the vector into
+       DSC.
+
+
+
+
+
+    6) If there is an input rotation matrix, it is permissible for it to
+       produce a rotation in the opposite direction to that needed.
+
+
+
+       In that case, the transpose of the input matrix is used.
+
+
+
+
+
+    7) A matrix that rotates from system A to system B will transform
+       vector components from system A to system B:
+
+
+           Matrix * [Vector in system A] = [Vector in system B]
+
+
+
+
+
+    8) The user must specify whether the vector is a normalized vector.
+
+
+
+       There is no check that in fact the vector is normalized; if this
+       is not the case, the results may be incorrect.
+
+
+
+
+
+    9) If the vector is not a normalized vector, then in order for the
+       direction of the vector to be well defined, the magnitude of the
+       vector must be greater than or equal to a threshold value chosen
+       by the user.
+
+
+
+       If the vector is unnormalized, and the magnitude of the vector is
+       smaller than the chosen threshold value, no output data point is
+       written.
+
+
+
+
+
+   10) There is a reference line on the spin plane, that rotates with
+       the spacecraft; every azimuth is an angle on the spin plane,
+       measured from this reference line.
+
+
+
+       Each azimuth is made up of the sum of a main part plus an
+       additional part; the sum, then, is azimuth with respect to the
+       reference line.
+
+
+
+       The user can specify: the azimuth of the boom on the spin plane;
+       and the azimuth of the Sun pulse.
+
+
+
+
+
+   11) If a spin period starts at time t0, and ends at time t1, and t is
+       a time
+
+           t0 <= t <= t1
+
+       then the angle by which the SCC system has rotated with respect
+       to the DSC system at the time t is:
+
+           ((t - t0) / duration) * 360   degrees
+
+       where, of course, the duration of the spin period is
+
+           duration = t1 - t0
+
+       (SCC = Spacecraft Coordinates).
+
+
+
+       The azimuth at time t of a boom on the spin plane with respect to
+       the DSC system is the sum of:
+
+            1) The azimuth of the boom with respect to the Sun pulse.
+
+            2) The angle by which SCC has rotated with respect to DSC.
+
+
+
+
+
+   12) The user can specify the time resolution for the output.
+
+
+
+
+
+   13) For an output data point to be produced, it must be in the time
+       interval defined by two input data points of the vector.
+
+
+
+       If the vector is unnormalized, then at the user's choice, the
+       vector for the time of the output data point is obtained by
+       linear interpolation, or the vector for the time of the output
+       data point is the input vector at the closest time available.
+
+
+
+       If the vector is normalized, then the vector for the time of the
+       output data point is the input vector at the closest time
+       available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+   14) For an output data point to be produced, it must be in the time
+       interval corresponding to a valid spin period.
+
+
+
+
+
+   15) If there is an input rotation matrix, then additionally for an
+       output data point to be produced, it must be in the time interval
+       defined by two input data points of the rotation matrix.
+
+
+
+       The rotation matrix for the time of the output data point is the
+       input rotation matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       is larger than a chosen value, this is considered to be a data
+       dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Time resolution for the output.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            3) Minimum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Maximum time separation for consecutive input data points
+               for the spin timing.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >=  the minimum time separation.
+
+
+
+            5) Flag for the coordinate system of the vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  The vector is     in DSC.
+
+                   WT_FALSE  =  The vector is not in DSC.
+
+
+
+            6) Flag for normalized vector.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  The vector is     normalized.
+
+                   WT_FALSE  =  The vector is not normalized.
+
+
+
+            7) Threshold magnitude of the vector.
+
+
+               Double.
+
+
+               If the vector is not normalized,
+               must be  >  0.
+
+
+
+            8) Code for the vector at intermediate times.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Use linear interpolation.
+
+                    2  =  Use closest value.
+
+
+               If the vector is normalized,
+               must be  closest value.
+
+
+
+            9) Flag for the rotation matrix input.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                   WT_TRUE   =  This input is     present.
+
+                   WT_FALSE  =  This input is not present.
+
+
+               If the vector is not in the DSC coordinate system;
+               then this input must be present.
+
+
+
+           10) Input component index for the duration of the spin
+               period.
+
+
+               Int.
+
+
+
+           11) Dropout time for the vector.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+           12) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+           13) Flag to transpose the input matrix.
+
+
+               Int.
+
+
+               If an input rotation matrix will be used,
+               must be one of the following:
+
+
+                   WT_TRUE   =  Transpose.
+
+                   WT_FALSE  =  Do not transpose.
+
+
+
+           14) Dropout time for the input matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               If an input rotation matrix will be used,
+               must be  >  0.
+
+
+
+           15) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   If an input rotation matrix will be used,
+                   the indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+           16) Main part of the azimuth of the spin plane instrument
+               boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           17) Additional part of the azimuth of the spin plane
+               instrument boom.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           18) Main part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+           19) Additional part of the azimuth of the Sun pulse.
+
+
+               Double.
+
+
+               Units are degrees.
+
+
+               Must be  >=  -360  and  <=  +360.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The spin timing.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+                   This component gives the time of the Sun pulse.
+
+
+                2) One additional component for the duration of the spin
+                   period.
+
+                   Float.
+
+
+
+            2) The vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+            3) The input rotation matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Cosine of the angle.
+
+
+               Float.

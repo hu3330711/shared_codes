@@ -1,0 +1,9 @@
+# For SCCS
+# @(#)UI.Help.dat	1.1, 10/26/93
+
+To receive help for the SDT Program, point the Mouse Arrow at the item (Menu, Button, PlotWindow) you are concerned with and press the Help key on the Sun key board.  If no Help key is explicitely labelled, try using the F1 key.
+
+Using the Help (or F1) key on the Help Button on the SDT Main Menu will give the user some introductory information on using this program, general mouse use, and the know bugs and work arounds for them.
+
+To dismiss this window, click the Left Mouse button on the pushpin at the upper left hand corner of this window.
+

@@ -1,0 +1,199 @@
+'\" t
+.\" @(#)orbitprop.3	1.3 03/28/95
+.TH ORBITPROP 3 "03/28/95"
+.SH NAME
+OrbGetVectors \- query an orbit data set based on times
+.SH SYNOPSIS
+.B
+#include <orbitprop.h>
+
+.BI "OrbGetVectors(orbHandle *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	orbHeader *" "elem" ", orbExVector *" "vecs" ","
+.br
+.BI "	orbLabel " "label" ", int " "nvecs" ");"
+.SH DESCRIPTION
+.LP
+.B
+OrbGetVectors()
+returns a list of extended vector structures, each containing an
+orbVector along with an orbit number and absolute time.
+Declarations of this structure and of 
+.B
+OrbGetVectors()
+are given in the file
+.I
+orbitprop.h
+and are as follows:
+.LP
+.nf
+typedef struct {
+        orbVector  vector;
+        long       orbit;
+        orbTime    absTime;
+} orbExVector;
+.fi
+.LP
+.BI "int OrbGetVectors(orbHandle *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	orbHeader *" "elem" ", orbExVector *" "vecs" ","
+.br
+.BI "	orbLabel " "label" ", int " "nvecs" ");"
+.LP
+Retrieve a list of orbit vectors from the orbit data set \fIorp\fR.  
+.LP
+Arguments
+.IP
+.TS
+l lw(4i).
+\fIorp\fR	T{
+The orbit data set handle.
+T}
+\fItimes\fR	T{
+An array of orbTime structures containing the times to search for.
+They don't have to be sorted, but performance is better if they are.
+T}
+\fIelem\fR	T{
+A pointer to an orbHeader structure that will receive the orbit
+elements and other header data.
+T}
+\fIvecs\fR	T{
+An array of orbExVector that will receive the data retrieved from the
+orbit data set
+T}
+\fIlabel\fR	T{
+An orbLabel indicating which of the
+fields to return in the retrieved orbit data.
+T}
+\fInvecs\fR	T{
+The number of elements in the \fItimes\fR, \fIorbits\fR, and
+\fIvecs\fR arrays.
+T}
+.TE
+.LP
+Return Values
+.IP
+.TS
+l lw(4i).
+ORB_OK	Success
+ORB_ERROR	An I/O error occurred.
+ORB_CRD_TIME_ERR	T{
+Requested time is before start of orbit file
+T}
+.TE
+.LP
+.B
+OrbGetVectors() 
+looks up a list of times instead of a
+single time for efficiency.  The orbit propagator only moves forward,
+so with sparse orbit data it's much quicker for a program that needs a
+sequence of orbit vectors to compute them sequentially.
+.LP
+.BI "int OrbQuickVectors(orbHandle *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	orbHeader *" "elem" ", orbExVector *" "vecs" ","
+.br
+.BI "	orbLabel " "label" ", int " "nvecs" ");"
+.LP
+Like
+.B
+OrbGetVectors, 
+but uses a "quick" orbit propagator that uses a simple gravitational
+model and ignores atmospheric drag.
+.LP
+.BI "int OrbComputeVectors(orbHandle *" "orp" ", orbTime *" "times" ","
+.br
+.BI "	orbHeader *" "elem" ", orbExVector *" "vecs" ","
+.br
+.BI "	orbLabel " "label" ", int " "nvecs" ", double " "compintvl" ","
+.br
+.BI "	void (*" "propagator" "(orbVector *" "currentp" ","
+.br
+.BI"	orbVector *" "nextp" ", double " "dt" "));"
+.LP
+Like
+.B
+OrbGetVectors()
+and
+.B
+OrbQuickVectors(),
+but the computation interval
+.I
+compintvl
+and the orbit propagator function
+.I
+propagator
+must be specified.
+.LP
+.BI "DragProp(orbVector *" "currentp" ", "orbVector *" "nextp" ","
+.br
+.BI "	double " "dt" ");"
+.br
+.BI "NoDragProp(orbVector *" "currentp" ", "orbVector *" "nextp" ","
+.br
+.BI "	double " "dt" ");"
+.LP
+Orbit propagators, for use with
+.B
+OrbComputeVectors().
+Given a current position and velocity in
+.I
+currentp,
+compute a new position and velocity 
+.I
+dt
+seconds later and store the results in
+.I
+nextp.  Only the position (X, Y, Z) and velocity (VX, VY, VZ) fields
+are computed.  The TIME field is incremented by
+.I
+dt.
+.B
+NoDragProp()
+is for quick, but approximate computations over short time periods (a
+couple of orbits).  It uses a simple gravitational field model and
+ignores the effects of atmospheric drag.
+.B
+DragProp()
+includes the effects of atmospheric drag, and uses a more complex
+gravitational model than
+.B
+NoDragProp().
+
+.SH FILES
+.TS
+l l.
+$(FASTINCLUDE)/orbitprop.h	datatypes and function declarations
+$(FASTLIB)/liborbitprop.a	orbit propagation library
+$(FASTLIB)/liborbitio.a	basic orbit I/O library
+$(FASTLIB)/liborbitio.so	dynamic linking I/O library
+$(FASTLIB)/Fastorb/mag4wi.dat	magnetic field model data
+.TE
+.SH EXAMPLE
+Programs using the orbitprop library must also be linked with the
+orbitio library.
+The orbitprop library also contains functions
+written in Fortran, so you have to link in the appropriate Fortran
+libraries.  The simplest way to do this is to use \fBf77\fR instead of
+\fBcc\fR to do the linking.  Within the standard workspace Makefiles,
+the predefined \fBLINK.f\fR macro does this, along with any
+\fBFFLAGS\fR and \fBLDFLAGS\fR options.  For example:
+.IP
+.B 
+$(LINK.f) foo foo.o ... -lorbitprop -lorbitio
+.SH "SEE ALSO"
+.LP
+orbitlib(3), orbitfile(4)
+.SH "BUGS"
+.LP
+For magnetic field calculations, 
+.B
+OrbGetVectors() 
+uses a magnetic field
+model in a file named \fImag4wi.dat\fR, which resides in $FASTCONFIG
+or $FASTLIB/Fastorb.  The calling program exits (!) if
+\fImag4wi.dat\fR isn't found.  Obviously, this is undesirable, but
+rearranging the inherited Fortran code necessary to fix it has a low
+priority.
+.SH AUTHOR
+George Kaplan

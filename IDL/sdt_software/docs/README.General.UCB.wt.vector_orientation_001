@@ -1,0 +1,292 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_orientation_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_orientation_001
+
+************************************************************************
+
+   Vector orientation.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_orientation_001	1.1    11/03/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module determines the orientation of a vector (in
+       3D), with respect to the coordinate axes.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+        1) The input vector.
+
+
+           This gives the vector in Cartesian components.
+
+
+
+
+
+    3) The vector orientation data consists of the following:
+
+
+
+        1) The direction cosines.
+
+
+           These are the cosines of the angles between the vector and
+           each of the positive coordinate axes (in the order: X, Y, Z).
+
+
+
+        2) The direction angles.
+
+
+           These are the angles between the vector and each of the
+           positive coordinate axes (in the order: X, Y, Z).
+
+
+           The direction angles are produced in degrees, from 0 to +180.
+
+
+
+        3) Latitude.
+
+
+           The latitude of the vector is latitude with respect to the
+           coordinate X-Y plane.
+
+
+           The latitude is positive if the vector points to the same
+           side of the X-Y plane as the positive Z axis; and
+           negative if the vector points to the other side of the X-Y
+           plane.
+
+
+           The latitude is produced in degrees, from -90 to +90.
+
+
+
+        4) Longitude.
+
+
+           The longitude of the vector is longitude on the X-Y plane.
+
+
+           The longitude is produced in degrees, from -180 to +180.
+
+
+           The longitude is 0 at the  positive X axis, and changes to
+           +90 degrees at the positive Y axis, and on to +180 degrees at
+           the negative X axis.
+
+           Going in the other direction, starting from 0 at the positive
+           X axis, the longitude changes to -90 degrees at the negative
+           Y axis, and on to -180 degrees at the negative X axis.
+
+
+
+
+
+    4) If the vector magnitude is 0, then the direction cosines, the
+       direction angles, the latitude, and the longitude; are all set to
+       0.
+
+
+
+
+
+    6) An output data point is produced for each input data point.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0      =  Do not dump.
+
+                    >= 1   =  Dump output data points with indices of:
+                              0, n, 2n, 3n, ...  (where n is the chosen
+                              dump frequency); i.e., every n-th point.
+
+                    <= -1  =  Dump output data points with indices of:
+                              0, 1, 2, 3, ..., (n-1)  (where -n is the
+                              chosen dump frequency); i.e., the first n
+                              points.
+
+
+
+            2) The group of parameters described here occurs once for
+               each of the 3 input vector components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 3 vector components.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) - 4) Direction cosines.
+
+
+               Float.
+
+
+
+            5) - 7) Direction angles.
+
+
+               Float.
+
+
+
+            8) Latitude.
+
+
+               Float.
+
+
+
+            9) Longitude.
+
+
+               Float.

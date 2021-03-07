@@ -1,0 +1,29 @@
+Shieldose is a computer code for space-shielding radiation dose calculations 
+developed by S. Seltzer (NIST). The program determines the absorbed dose 
+as a function of depth in aluminum shielding material of spacecraft, 
+given the electron and proton fluences encountered in orbit.  The code 
+makes use of precalculated, mono-energetic depth-dose data for an 
+isotropic, broad-beam fluence of radiation incident on uniform aluminum 
+plane media. These precalculated values are the result of detailed 
+electron and electron-bremsstrahlung Monte Carlo calculations. The present 
+version of Shieldose calculates, for arbitrary proton and electron incident 
+spectra, the dose absorbed in small volumes of the detector materials Al, 
+H2O (tissue-equivalent detector), Si, and SiO2, in the following aluminum 
+shield geometries:  (1) in a semi-infinite plane medium, as a function of 
+depth; (2) at the transmission surface of a plane slab, as a function of 
+slab thickness; and (3) at the center of a solid sphere, as a function of 
+sphere radius. The software package consist of two files SHIELDOSE.FOR
+and SHIELDOSE.DAT. (NSSDC-ID: PT-16A).
+
+For an updated version (SHIELDOSE-2, April 1994) please contact the
+software author at Ionizing Radiation Division, National Institute of
+standards and Technology, Geithersburg, MD 20899, USA.
+
+REFERENCES:
+
+S. M. Seltzer, Shieldose:  A Computer Code for Space-Shielding Radiation Dose
+Calculations, National Bureau of Standards, NBS Technical Note 1116, U.S.
+Government Printing Office, Washington, D.C., 1980.
+
+S. M. Seltzer, Electron, Electron-Bremsstrahlung, and Proton Depth-Dose Data 
+for Space-Shielding Applications, IEEE Trans. Nuclear Sci. NS-26, 4896, 1979.

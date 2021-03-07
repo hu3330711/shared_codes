@@ -1,0 +1,173 @@
+#!/usr/local/bin/perl
+# Check last n summary plots of a certain type for gaps and make sure that the latest orbit is recent.
+# usage:
+# checkplots [-t <type>] [-n <number to check>] [-gl]
+# type can be 'ees ies tms acf dcf or all'
+#
+# Created by Jeremy Huddleston (jeremyhu@ssl) 2000.05.09
+# This is my first attempt at perl, so sorry for the ugliness.
+
+# Get Options
+use vars qw($opt_t $opt_n $opt_g $opt_l);
+use Getopt::Std;
+
+#setup other variables
+$sumplotsloc = "/disks/juneau/cdf1";
+
+# Old $last orbit was the last definitive orbit (2 days in future).
+#$lastOrbit = `(tail -5 /disks/fast/almanac/orbit/definitive | head -1 | awk '{print \$2}')`;
+# Now it is today's first orbit.
+$lastOrbit = `(grep \"\`date -u '+%Y %j'\`\" /disks/fast/almanac/orbit/definitive | head -1 | awk '{print \$2}')`;
+
+die "Usage:\r\n".$0." <options>
+
+Options:
+  -t <type>\tOne of 'ees ies tms dcf acf or all' (default 'all')
+  -n <number>\tHow many cdfs to look at. Use '0' for all. (default 100)
+  -l\t\tOnly check orbit of last cdf.
+  -g\t\tShow only cdf gaps. Output is '<type>: <list of orbit numbers>'\r\n"
+  if not getopts('n:t:gl');
+
+($tailnumber, $type) =  ($opt_n, $opt_t);
+
+# setup defaults for ungiven arguements
+if ( not defined($tailnumber) ) {
+  $tailnumber = 100;
+}
+
+if ( not defined($type) ) {
+  $type = "all";
+}
+
+sub checkDirs {
+  if ( $type eq "all" ) {
+    foreach $type ("ees", "ies", "tms", "acf", "dcf") {
+      &checkDirs;
+    }
+    $type = "all"
+  } elsif ( $type eq "ees" || $type eq "ies" || $type eq "tms" || $type eq "acf" || $type eq "dcf" ) {
+    if ( not $opt_l ) { &checkGaps; }
+    if ( not $opt_g ) { &checkLast; }
+  } else {
+    die "Incorrect datatype.  Valid types are 'ees ies tms acf or dcf'\r\n";
+  }
+}
+
+sub checkGaps {
+  # Get setup for this new datatype
+  @fileList;
+  $hasgap = 0;
+  chdir $sumplotsloc."/".$type;
+
+  # Create a list of numbers for the latest cdfs.
+  if ( $tailnumber == 0) {
+    @fileList = `(ls -1 | cut -d_ -f4)`;
+  } else {
+    @fileList = `(ls -1 | tail -$tailnumber | cut -d_ -f4)`;
+  }
+
+  foreach (@fileList) {
+    chop;
+  }
+
+  $first = $fileList[0];
+  $last = $fileList[@fileList - 1];
+
+  # Check for gaps.
+  if ( not $opt_g ) { print $type.": checking for missing cdf files... "; }
+
+  if( $last - $first == @fileList - 1 ) {
+    if ( not $opt_g ) { print "ok\r\n"; }
+  } else {
+    # Create an array of "allowable" missing cdfs.
+    $ok_index = 0;
+    @ok_missing = `(cat $sumplotsloc"/cdf_status/bad_"$type)`;
+    foreach (@ok_missing) {
+      chop;
+    }
+    
+    # Find out what the gaps are. $i is the "previous" index
+    for ($i = 0; $i + 1 < @fileList; $i++) {
+      if ( $fileList[$i] + 1 != $fileList[$i + 1] ) {
+        $gapStart = $fileList[$i] + 1;
+        $gapStop = $fileList[$i + 1] - 1;
+        &processGap;
+      }
+    }
+    
+    if ( (not $opt_g) && (not $hasgap)) { print "ok"; }
+    if ( (not $opt_g) || $hasgap ) { print "\r\n"; }
+  }
+}
+
+# Check this gap for cdfs that are allowed to be missing and then output the remaining missing cdfs.
+sub processGap {
+  # Edit here to include "allowable" missing cdfs
+  $start = $gapStart;
+  
+  while($start <= $gapStop) { 
+    # We still have missing cdfs.
+    # Find our location in @ok_missing by taking our $ok_index and cutting ahead in halves.
+    # Change this search from linear at a later date.
+    # Set $ok_index to be the index in @ok_missing of the first entry >= $start
+    while( $ok_index < @ok_missing && $start > $ok_missing[$ok_index] ) {
+      $ok_index++
+    }
+    ## End of neccessary change #
+    
+    if( $start == $ok_missing[$ok_index] ) {
+      $start++;
+    } else {
+      # ok we have our valid $start, now lets find our $stop.
+      if( $ok_index + 1 >= @ok_missing ) { $stop = $gapStop; &outputGap; $start = $gapStop + 1 }
+      elsif ( $ok_missing[$ok_index] <= $gapStop ) { $stop = $ok_missing[$ok_index] - 1; &outputGap; $start = $ok_missing[$ok_index] + 1}
+      else { $stop = $gapStop; &outputGap; $start = $gapStop + 1}
+    }
+
+  }
+}
+
+# We have verified that this is an unexpected gap, so output the finding.
+sub outputGap {
+  if ( $opt_g && not $hasgap ) {
+    print $type.": ";
+  }
+  $hasgap = 1;
+  $exitcode = 1;
+
+  if ( $opt_g ) {
+    for ($j = $start; $j <= $stop; $j++) {
+      print $j." ";
+    }
+  } else {
+    if ( $start == $stop ) {
+    # Only one missing.
+      print "\r\nERROR: ".$type.": missing summary plot for orbit ".$start.".";
+    } else {
+    # Multiple missing.
+      print "\r\nERROR: ".$type.": missing summary plots from orbit ".$start." to ".$stop.".";
+    }
+  }
+}
+
+sub checkLast {
+  chdir $sumplotsloc."/".$type;
+  if (@fileList) { $lastCreated = $fileList[@fileList - 1];}
+  else { $lastCreated = `(ls -1 | tail -1 | cut -d_ -f4)`; $lastCreated =~ s/\n//; }
+
+  # $lastOrbit is today's first orbit, so if it is 30 off, be worried.
+
+  print $type.": checking last orbit... ";
+  if ( $lastOrbit - 30 > $lastCreated ) {
+    $exitcode = 1;
+    print "\r\nERROR: ".$type.": latest cdf is for orbit ".$lastCreated."\r\nOrbittime for this orbit:\r\n";
+    print `(/disks/fast/software/integration/SunOS.5.6/bin/orbittime $lastCreated)`;
+  } else {
+    print "ok\r\n";
+  }
+}
+
+#Execute
+&checkDirs;
+
+exit $exitcode;

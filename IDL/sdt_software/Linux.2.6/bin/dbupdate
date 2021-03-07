@@ -1,0 +1,253 @@
+#!/usr/bin/ksh
+#
+#	dbupdate
+#
+#	Author:  George Kaplan
+#
+#	@(#)dbupdate.ksh	1.8 08/06/96	UCB SSL
+#
+#	Update the FAST database with information on 
+#	a data CD
+#
+#	Usage:
+#		dbupdate [-r] [-a] [-c config] <cd-directory> <process-id>
+#
+#	This script is part of the automated archive processing
+#	that handles incoming data from GSFC.  It's called
+#	after the data has been grouped into directories for
+#	premastering CD's.  <cd-directory> name of the CD
+#	image directory within the DANETSTORAGE area.  <process-id>
+#	is the PID of the calling process, and will be included
+#	in all messages.
+#
+#	The -r option makes dbupdate run as a recovery process,using
+#	information on a cut CD instead of in DANETSTORAGE.
+#
+#       Use the -a option to skip the db_update_almanac
+#
+#	If present, the -c option specifies an alternate
+#	configuration file to use in place of the standard
+#	one.  This is intended mainly for testing.
+#
+#	Exit status	Meaning
+#	--------------------------------------------
+#		0	Success (except for non-fatal database
+#			problems; see below)
+#		1	Failure; missing or incorrect files or other
+#			fatal error.  Output includes "FAILED" message
+#		2	Interrupt.  Output includes "INTERRUPT" message
+#
+#	Note that errors updating the database do not (as yet)
+#	constitute fatal errors as far as 'dbupdate' is concerned.
+#	Error messages from the database update scripts are logged
+#	kept in the DANETLOG (defined in the config file) directory.
+#
+# ***********************************************************
+
+# ***********************************************************
+# *** Command line processing
+
+MYNAME=$0		# Name of this program
+
+CONFIGFILE=/disks/fast/software/config/archive_config	# Default configuration file
+
+#### Option Handling
+
+run=normal
+almanac=true
+while getopts ":rac:" opt; do
+        case $opt in
+           r )  run=recovery ;;
+           c )  CONFIGFILE=$OPTARG ;;
+           a )  almanac=false ;;
+           * )  ${LOGECHO} "Bad argument to dbupdate"
+                failexit ;;
+        esac
+done
+shift $((OPTIND -1))
+
+#### Argument Handling
+
+CDNAME=$1               # CD volume directory being processed
+PPROC=$2                # Calling process ID (for logging)
+
+FILESLOG=/tmp/fileslog$$	# Output from db_insertfiles
+COUNTSLOG=/tmp/countslog$$	# Output from db_insertcounts
+OPSLOG=/tmp/opslog$$		# Output from db_update_op_events
+ALMLOG=/tmp/almlog$$		# Output from db_update_almanac
+
+# ***********************************************************
+# *** Output log and exit message handling
+
+LOGECHO="echo ${PPROC}:"	# Prepend PPROC to log messages
+
+# *** Say goodbye when we leave
+logfinish () {
+	/bin/rm -f ${FILESLOG} ${COUNTSLOG} ${OPSLOG} ${ALMLOG}
+	/bin/rm -f ${DBLOCK}
+	${LOGECHO} ---- ${MYNAME} ends $(date) ----
+}
+trap logfinish EXIT
+
+# *** Catch interrupts and notify the caller
+trap "${LOGECHO} INTERRUPT; exit 2" INT QUIT HUP
+
+# *** Notify caller of failure
+failexit () {
+	${LOGECHO} ${MYNAME} FAILED
+	exit 1
+}
+
+# ***********************************************************
+# *** Start the real work
+
+echo
+${LOGECHO} ---- ${MYNAME} run on $(date) ----
+
+# *** Archive configuration processing
+
+if [[ ! -r ${CONFIGFILE} ]] ; then
+	${LOGECHO} "${MYNAME} can't read config file ${CONFIGFILE}"
+	failexit
+fi
+. ${CONFIGFILE}
+
+if (( ${#DANETSTORAGE[*]} == 0 )) then
+	${LOGECHO} "Must set DANETSTORAGE variable - check configuration file"
+	failexit
+fi
+
+if [[ "x${DANETLOG}" = "x" ]] ; then
+	${LOGECHO} "Must set DANETLOG directory - check configuration file"
+	failexit
+fi
+
+#### Register Lockfile
+
+while [[ -a ${DBLOCK} ]] ; do
+	${LOGECHO} "dbupdate sleeping 300 for $(cat ${DBLOCK})"
+	sleep 300
+done
+echo ${PPROC} > ${DBLOCK}
+
+#### Find the directory to process
+CDDIR=
+
+if [[ $run = "recovery" ]] ; then
+#### use lowercase for cdname because internal cdroms get mounted that way.
+	typeset -u CDNAME
+	CDDIR=/cdrom/$CDNAME
+	typeset -l CDDIR
+else
+	for SOURCE in ${DANETSTORAGE[*]} ; do
+		if [[ -d ${SOURCE}/${CDNAME} ]] then
+			${LOGECHO} Checking ${SOURCE} ...
+			if [[ "x$CDDIR" = "x" ]] then
+				CDDIR=${SOURCE}/${CDNAME}
+			else
+				${LOGECHO} Duplicate ${CDNAME} directory found:
+				${LOGECHO} "	" ${CDDIR}
+				${LOGECHO} "	" ${SOURCE}/${CDNAME}
+				failexit
+			fi
+		fi
+	done
+fi
+
+if [[ "x${CDDIR}" = "x" ]] then
+	${LOGECHO} "Error in ${MYNAME}: ${CDNAME} directory not found"
+	failexit
+fi
+
+# *** Enter all the files in CDNAME in the database
+
+if [[ $run = "recovery" ]] ; then
+    ${LOGECHO} Running db_insertfiles -v ${CDNAME} ${CDDIR}
+    db_insertfiles -v ${CDNAME} ${CDDIR} > ${FILESLOG} 2>&1
+else
+    ${LOGECHO} Running db_insertfiles ${CDDIR}
+    db_insertfiles ${CDDIR} > ${FILESLOG} 2>&1
+fi
+if [[ $? -ne 0 ]] ; then
+	${LOGECHO} db_insertfiles failed
+	cat ${FILESLOG}
+	failexit
+fi
+if [[ `grep -c '^Msg' ${FILESLOG}` -ne 0 ]] ; then
+	${LOGECHO} Errors inserting files data.  See ${DANETLOG}/${CDNAME}.errs
+	cat ${FILESLOG} >> ${DANETLOG}/${CDNAME}.errs
+	printf "%s\n" "Subject: Archive System Message" \
+	"Errors inserting filenames into database" \
+	"See ${DANETLOG}/${CDNAME}.errs" \
+	"Process ID: $PPROC" |
+	mail $ARCHIVEMASTER
+fi
+
+# *** Enter counts data from directories in CDNAME into the database
+
+${LOGECHO} Running db_insertcounts ${CDDIR}
+db_insertcounts ${CDDIR} > ${COUNTSLOG} 2>&1
+if [[ $? -ne 0 ]] ; then
+	${LOGECHO} db_insertcounts failed
+	cat ${COUNTSLOG}
+	failexit
+fi
+if [[ `grep -c '^Msg' ${COUNTSLOG}` -ne 0 ]] ; then
+	${LOGECHO} Errors inserting counts data.  See ${DANETLOG}/${CDNAME}.errs
+	cat ${COUNTSLOG} >> ${DANETLOG}/${CDNAME}.errs
+	printf "%s\n" "Subject: Archive System Message" \
+	"Errors inserting counts into database" \
+	"See ${DANETLOG}/${CDNAME}.errs" \
+	"Process ID: $PPROC" |
+	mail $ARCHIVEMASTER
+fi
+
+# *** Update new operational events with ephemeris data from the
+#     predicted orbit almanac
+
+${LOGECHO} Running db_update_op_events
+db_update_op_events > ${OPSLOG} 2>&1
+if [[ $? -ne 0 ]] ; then
+	${LOGECHO} db_update_op_events failed
+	cat ${OPSLOG}
+	failexit
+fi
+if [[ `grep -c '^Msg' ${OPSLOG}` -ne 0 ]] ; then
+	${LOGECHO} Errors updating operational events.  
+	${LOGECHO} See ${DANETLOG}/${CDNAME}.errs
+	cat ${OPSLOG} >> ${DANETLOG}/${CDNAME}.errs
+	printf "%s\n" "Subject: Archive System Message" \
+	"Errors updating operational events in database" \
+	"See ${DANETLOG}/${CDNAME}.errs" \
+	"Process ID: $PPROC" |
+	mail $ARCHIVEMASTER
+fi
+
+# *** Process any FDF vectors on the CD, adding ephemeris_events,
+#     updating existing operational_events, and updating the almanac
+#     files.
+
+if [[ ${almanac} = true ]] ; then
+    ${LOGECHO} Running db_update_almanac ${CDDIR}
+    db_update_almanac ${CDDIR} > ${ALMLOG} 2>&1
+    if [[ $? -ne 0 ]] ; then
+	${LOGECHO} db_update_almanac failed
+	cat ${ALMLOG}
+	failexit
+    fi
+    if [[ `grep -c '^Msg' ${ALMLOG}` -ne 0 ]] ; then
+	${LOGECHO} Errors updating almanac data.  See ${DANETLOG}/${CDNAME}.errs
+	cat ${ALMLOG} >> ${DANETLOG}/${CDNAME}.errs
+	printf "%s\n" "Subject: Archive System Message" \
+	"Errors updating almanac data" \
+	"See ${DANETLOG}/${CDNAME}.errs" \
+	"Process ID: $PPROC" |
+	mail $ARCHIVEMASTER
+    fi
+else
+    ${LOGECHO} Skipping db_update_almanac ${CDDIR}
+fi
+
+# *** Clean up and get outta here
+
+exit 0

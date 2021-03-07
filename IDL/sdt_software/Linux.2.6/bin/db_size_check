@@ -1,0 +1,49 @@
+#!/usr/local/bin/perl -w
+#
+# perl script: db_size_check.pl
+#
+# PURPOSE:
+#
+
+# Environment taken from lzpw user
+#
+my $SYBASE = "/disks/fast/sybase";
+my $DSQUERY = "FAST_DB";
+my $SYBASE_TERM = "xterm";
+my $LD_LIBRARY_PATH = "${SYBASE}/lib";
+my $SYBROOT = "/disks/juneau/sybase/sybooks";
+my $EBTRC = "$SYBROOT/unix/ebtrc";
+
+# Load the DBI Module
+#
+use DBI;	
+
+%attr = (
+	PrintError => 0,
+        RaiseError => 0
+);
+
+my $dbh = DBI->connect( "dbi:Sybase:FAST_DB", "fastquery", "slowburn" , \%attr )
+	or die "Can't connect to database: $DBI::errstr!\n";
+
+### Select the appropriate database
+#
+$dbh->do("use fast_archive");
+my $sth = $dbh->prepare( "sp_spaceused --eC_user" );
+$sth->execute();
+do { while(my $d = $sth->fetch) { print "@$d\n"; } }
+while($sth->{syb_more_results});
+
+$dbh->do("use fast_online");
+$sth = $dbh->prepare( "sp_spaceused --eC_user" );
+$sth->execute();
+do { while(my $d = $sth->fetch) { print "@$d\n"; } }
+while($sth->{syb_more_results});
+
+### Now disconnect from the database
+#
+#$dbh->disconnect
+	#or warn "Disconnection failed: $DBI::errstr\n";
+
+
+exit;

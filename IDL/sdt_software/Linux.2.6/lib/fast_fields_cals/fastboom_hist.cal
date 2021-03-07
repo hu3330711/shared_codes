@@ -1,0 +1,115 @@
+#  SCCS Id
+#  @(#)fastboom_hist.cal	1.4 05/23/97
+#
+# fastboom.hist
+# REE 7/26/95
+# Set up for launch.
+0.0			Epoch time in seconds.
+0.0			Sphere 1 to payload.
+0.0			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.0			Sphere 4 to payload.
+0.0			Sphere 5 to payload.
+0.0			Sphere 6 to payload.
+0.0			Sphere 7 to payload.
+0.0			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# Deploy wire A. Wire B did not deploy.
+# print,str_to_time('96-09-03/16:53:40')
+# REE 11/04/96
+#
+8.4176962e+08		Epoch time in seconds.
+5.5			Sphere 1 to payload.
+0.5			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+0.0			Sphere 5 to payload.
+0.0			Sphere 6 to payload.
+0.0			Sphere 7 to payload.
+0.0			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# Deploy wire D.C deployed earlier.
+# print,str_to_time('96-09-10/14:16:40')
+# REE 11/05/96
+#
+8.4236500e+08		Epoch time in seconds.
+5.5			Sphere 1 to payload.
+0.5			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+5.5			Sphere 5 to payload.
+0.5			Sphere 6 to payload.
+0.5			Sphere 7 to payload.
+5.5			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# Deploy wire A, C, and D +25 clicks.
+# print,str_to_time('96-09-11/00:00:00')
+# REE 11/05/96
+#
+8.4240000e+08		Epoch time in seconds.
+8.0			Sphere 1 to payload.
+3.0			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+8.0			Sphere 5 to payload.
+3.0			Sphere 6 to payload.
+3.0			Sphere 7 to payload.
+8.0			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# Fully deploy C and D.
+# print,str_to_time('96-09-15/00:00:00')
+# REE 11/05/96
+#
+8.4274560e+08		Epoch time in seconds.
+8.0			Sphere 1 to payload.
+3.0			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+28.0			Sphere 5 to payload.
+23.0			Sphere 6 to payload.
+23.0			Sphere 7 to payload.
+28.0			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# CD fully deployed. Axials not deployed.
+# print,str_to_time('96-09-29/00:00:00')
+# REE 11/04/96
+#
+8.4395520e+08
+28.3			Sphere 1 to payload.
+23.3			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+28.0			Sphere 5 to payload.
+23.0			Sphere 6 to payload.
+23.0			Sphere 7 to payload.
+28.0			Sphere 8 to payload.
+0.0			Sphere 9 to payload.
+0.0			Sphere 10 to payload.
+#
+# CD fully deployed. Upper axial (V9) deployed. V10 not deployed.
+# print, str_to_time('97-02-03/10:07:20')
+# REE 03/04/97
+# Upper Axial boom length changed to 4.05m - REE 05/23/97.
+# Note: lower axial will be 3.64 m when deployed. 
+#
+8.5496444e+08
+28.3			Sphere 1 to payload.
+23.3			Sphere 2 to payload.
+0.0			Sphere 3 to payload.
+0.6			Sphere 4 to payload.
+28.0			Sphere 5 to payload.
+23.0			Sphere 6 to payload.
+23.0			Sphere 7 to payload.
+28.0			Sphere 8 to payload.
+4.05			Sphere 9 to payload.
+0.0			Sphere 10 to payload.

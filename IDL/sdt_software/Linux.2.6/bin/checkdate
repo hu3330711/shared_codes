@@ -1,0 +1,66 @@
+#!/usr/local/perl-5.6.1/bin/perl -w
+#Author: Nikhil Sharma
+
+#Declare/Initialize Variables
+my $direntry;
+my $filedate;
+my $timelapse = 0;
+my $delta = 86400;  
+my $counter = 0;
+my $Month;
+my $Day;
+my $Year;
+my $mostrecent = time();
+my $dir = "/disks/juneau/scratch/LZPfiles/sessions/";
+
+
+#Open Directory
+opendir(DIR, "$dir") || die("Error Opening $dir");
+
+foreach $direntry (readdir(DIR)) {
+    #Cycle Through Inner Directories
+    $direntry = "/disks/juneau/scratch/LZPfiles/sessions/$direntry";
+
+    #Skip these Directories
+    next if $direntry eq "/disks/juneau/scratch/LZPfiles/sessions/.";          
+    next if $direntry eq "/disks/juneau/scratch/LZPfiles/sessions/..";         
+    next if $direntry eq "/disks/juneau/scratch/LZPfiles/sessions/errfastcnt"; 
+    next if $direntry eq "/disks/juneau/scratch/LZPfiles/sessions/outfastcnt"; 
+    $counter += 1;
+    $filedate = (stat($direntry)) [9] || die("Error");
+    $timelapse = time() - $filedate;                                        
+
+    #Find Most Recent Directory
+    if ($timelapse < $mostrecent) {                                           
+	$mostrecent = $timelapse;
+	($Day, $Month, $Year) = (localtime($filedate))[3..5];
+	$Year += 1900;  }
+    }
+
+    #Compare Time of Most Recent Directory to Delta
+    if ($timelapse > $delta) {
+
+        #Connect to SMTP 
+	use Net::SMTP;	
+	$smtp = Net::SMTP->new('apollo.ssl.berkeley.edu');    
+
+        #Specify Sender and Reciever
+	$smtp->mail('nsharma@apollo.ssl.berkeley.edu' );     
+	$smtp->to('teq@ssl.berkeley.edu');        
+
+        #Start the Email
+	$smtp->data();                       
+	$smtp->datasend("Subject: *FAST Data Not Recieved*\n");
+	$smtp->datasend("\n");
+	$smtp->datasend("Warning: A Significant Amount of Time Has Passed Since Last FAST Data was Recieved\n");
+	$smtp->datasend("\n");
+	$smtp->datasend("Last Data Recieved on $Month/$Day/$Year");
+	$smtp->dataend();
+
+        #Close the SMTP Connection              
+	$smtp->quit;                        
+    }
+
+#Close the Open Directory
+closedir(DIR);
+

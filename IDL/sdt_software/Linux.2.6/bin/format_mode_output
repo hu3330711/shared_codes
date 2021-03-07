@@ -1,0 +1,113 @@
+#!/usr/bin/ksh
+#
+# format_mode_output
+#
+# Makes a database query for mode information and formats the output.
+# By default, the output is formatted for input to compare_cdf_db.pro.
+# With the use of the -s option, output is an instrument mode 
+# configuration schedule.
+# Works on an interval of orbits, an array of non-consecutive
+# orbits, or a single orbit.
+#
+# OPTIONS
+#
+#  -f   Option argument is output file to be APPENDED.  Without this option,
+#       output goes to standard out.
+#  -s   Generate a human-readable schedule instead of regular output.
+#  -r   Print raw output from the database, without formatting, to stdout
+#
+#  -i   Two following arguments are first and last in inverval.
+#  -a   All following arguments are orbits to be processed.
+#  -o   Single following argument is solitary orbit to process.
+#
+# EXAMPLES
+# 
+#   format_mode_output -f <output_file> -o <orbit>
+#   format_mode_output -f <output_file> -i <firstorb> <lastorb>
+#   format_mode_output -f <output_file> -a <orb1> <orb2> <orb3>
+#
+# By:  J. Rauchleiba
+#      11/13/97
+#
+
+# Environment Setup
+
+. /disks/fast/software/config/archive_config
+if [[ -z $FASTBIN ]]; then
+    print "Must set FASTBIN"
+    exit 1
+fi
+if [[ -z $FASTLIB ]]; then
+    print "Must set FASTLIB"
+    exit 1
+fi
+DIRECTORY=`pwd`
+CONFIG=fast_archive.conf
+
+# Database environment
+. /disks/fast/software/integration/SunOS.5.5/bin/fast_dbenv_setup
+if ! whence do_isql 1>/dev/null 2>&1 ; then
+    print "Procedure do_isql was not defined"
+    exit 1
+fi
+
+# Default AWK program file
+
+awkprog=$FASTBIN/inst_onoff.awk
+
+# Option handling
+
+raw=0
+while [[ $1 = -* ]] ; do
+    case $1 in
+	-s) awkprog=$FASTBIN/inst_sched.awk
+	    shift 1 ;;
+	-f) outfile=$2
+	    shift 2 ;;
+	-r) raw=1
+	    shift 1 ;;
+	-i) first=$2 ; last=$3
+	    orb=$first
+	    i=0
+	    while (( $orb <= $last )) ; do
+		orbarray[$i]=$orb
+		let orb=$orb+1
+		let i=$i+1
+	    done
+	    shift 3 ;;
+	-a) shift
+	    set -A orbarray ${@} ;;
+	-o) shift
+	    orbarray[0]=$1 ;;
+	* ) print "Invalid option " $1
+	    exit 1 ;;
+    esac
+done
+
+if [[ ! -a $awkprog ]] ; then
+    print "Cannot find AWK program file $awkprog"
+    exit 1
+fi
+
+
+# Main
+
+if ((raw)) ; then
+    for orbit in ${orbarray[*]} ; do
+	printf "%s %s\ngo\n" "adj_modeperiods_orbit" "$orbit" | do_isql
+    done
+    exit 0
+fi
+
+for orbit in ${orbarray[*]} ; do
+    if [[ -n $outfile ]] ; then
+	printf "%s %s\ngo\n" "adj_modeperiods_orbit" "$orbit" |
+	do_isql |
+	nawk -f $awkprog -v "ORBIT=$orbit" - >> $outfile
+    else
+	printf "%s %s\ngo\n" "adj_modeperiods_orbit" "$orbit" |
+	do_isql |
+	nawk -f $awkprog -v "ORBIT=$orbit" -
+    fi
+done
+

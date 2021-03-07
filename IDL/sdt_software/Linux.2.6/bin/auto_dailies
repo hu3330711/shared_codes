@@ -1,0 +1,298 @@
+#!/usr/local/bin/perl -w
+#
+# perl script: dailies_auto.pl
+#
+# PURPOSE:
+#
+# Make the cdf dailies procedure automated.
+#
+use strict;
+use warnings;
+
+### Source archive_config script
+#
+my $archive_config="/disks/fast/software/config/archive_config";
+$ENV{'PATH'} = '/usr/local/bin:/usr/bin:/bin:/disks/fast/software/integration/SunOS.5.7/bin/';
+$ENV{'SHELL'} = '/bin/sh' if $ENV{'SHELL'} ne '';
+$ENV{'FASTCONFIG'} = "/disks/fast/software/config";
+my $path=$ENV{'PATH'};
+
+$SIG{'INT'} = sub {endProgram(0);};
+$SIG{'KILL'}= sub {endProgram(0);};
+$SIG{'QUIT'}= sub {endProgram(0);};
+$SIG{'TERM'}= sub {endProgram(0);};
+
+sub endProgram {
+  my $stat = $_;
+  exit($stat);
+}
+
+### Assign long names to a variable to save typing, time, and space.
+
+my $dailysite = "ftp://cdaweb.gsfc.nasa.gov/pub/istp/fast";
+my $daily_dir = "/disks/juneau/cdf1/dailycdf";
+my $make_daily = "make_day_cdf_batch.pro";
+
+### Search for date 31 days ago
+
+(my $today, my $month, my $year) = (localtime)[3,4,5];
+my $thisyear = $year + 1900;
+my $thismonth = $month + 1;
+#print "$thismonth/$today/$thisyear\n";
+use Date::Calc qw(Add_Delta_Days);
+(my $lastyear, my $lastmonth, my $day) = Add_Delta_Days($thisyear, $thismonth, $today, -31);
+#print "$lastmonth/$day/$lastyear\n";
+
+### Run ACF Dailies - Currently not working
+
+## First find last acf made by searching dailys' website
+
+#use LWP::Simple;
+#my $acf_page1 = get("$dailysite/acf");
+##print "@acf_page1\n";
+#my $acf_year = substr($acf_page1, -5, 4);
+##print "$acf_year\n";
+
+#use LWP::Simple;
+#my $acf_page2 = get("$dailysite/acf/$acf_year");
+##print "$acf_page2\n";
+#my $last_acf_daily = substr($acf_page2, -17, 8);
+##print "$last_acf_daily\n";
+
+## Find next day to begin making daily
+
+#my $acf_month = substr($last_acf_daily, 4, 2);
+##print "$acf_month\n";
+#my $acf_day = substr($last_acf_daily, 6, 2);
+##print "$acf_day\n";
+
+#use Date::Calc qw(Add_Delta_Days);
+#(my $acf_year_new, my $acf_month_new, my $acf_day_new) = Add_Delta_Days($acf_year, $acf_month, $acf_day, 1);
+##print "$acf_year_new$acf_month_new$acf_day_new\n";
+
+## Find difference between last acf daily made and one month ago.
+#use Date::Calc qw(Delta_Days);
+my $count;
+#$count = Delta_Days($acf_year_new, $acf_month_new, $acf_day_new, $lastyear, $lastmonth, $day);
+##print "$count\n";
+
+## Make SDT batch files and run them
+my $i;
+
+#foreach $i (1..$count) {
+ #use Date::Calc qw(Add_Delta_Days);
+ #($acf_year_new, $acf_month_new, $acf_day_new) = Add_Delta_Days($acf_year, $acf_month, $acf_day, 1);
+ #chdir("$daily_dir/newbatch");
+ #open(DAT,">$make_daily");
+ #print DAT "make_day_cdf, 'acf', $acf_year_new, $acf_month_new, $acf_day_new, versionnumber=1, status=status\n";
+ #print DAT "\n";
+ #print DAT "exit\n";
+ #close(DAT);
+ #system("../idlstart");
+ #system("idl $make_daily");
+ #$acf_year = $acf_year_new;
+ #$acf_month = $acf_month_new;
+ #$acf_day = $acf_day_new;
+#}
+ 
+### Run EES Dailies
+
+# First find last ees made by searching dailys' website
+
+use LWP::Simple;
+my $ees_page1 = get("$dailysite/ees");
+#print "@ees_page1\n";
+my $ees_year = substr($ees_page1, -5, 4);
+#print "$ees_year\n";
+
+use LWP::Simple;
+my $ees_page2 = get("$dailysite/ees/$ees_year");
+#print "$ees_page2\n";
+my $last_ees_daily = substr($ees_page2, -17, 8);
+#print "$last_ees_daily\n";
+
+# Find next day to begin making daily
+
+my $ees_month = substr($last_ees_daily, 4, 2);
+#print "$ees_month\n";
+my $ees_day = substr($last_ees_daily, 6, 2);
+#print "$ees_day\n";
+
+use Date::Calc qw(Add_Delta_Days);
+(my $ees_year_new, my $ees_month_new, my $ees_day_new) = Add_Delta_Days($ees_year, $ees_month, $ees_day, 1);
+#print "$ees_year_new$ees_month_new$ees_day_new\n";
+
+# Find difference between last ees daily made and one month ago.
+use Date::Calc qw(Delta_Days);
+$count = Delta_Days($ees_year_new, $ees_month_new, $ees_day_new, $lastyear, $lastmonth, $day);
+#print "$count\n";
+
+# Make SDT batch files and run them
+
+foreach $i (1..$count) {
+ use Date::Calc qw(Add_Delta_Days);
+ ($ees_year_new, $ees_month_new, $ees_day_new) = Add_Delta_Days($ees_year, $ees_month, $ees_day, 1);
+ chdir("$daily_dir/newbatch");
+ open(DAT,">$make_daily");
+ print DAT "make_day_cdf, 'ees', $ees_year_new, $ees_month_new, $ees_day_new, versionnumber=1, status=status\n";
+ print DAT "\n";
+ print DAT "exit\n";
+ close(DAT);
+ system("../idlstart");
+ system("$ENV{'IDL_DIR'}/bin/idl $make_daily");
+ $ees_year = $ees_year_new;
+ $ees_month = $ees_month_new;
+ $ees_day = $ees_day_new;
+}
+ 
+### Run IES Dailies
+
+# First find last ies made by searching dailys' website
+
+use LWP::Simple;
+my $ies_page1 = get("$dailysite/ies");
+#print "@ies_page1\n";
+my $ies_year = substr($ies_page1, -5, 4);
+#print "$ies_year\n";
+
+use LWP::Simple;
+my $ies_page2 = get("$dailysite/ies/$ies_year");
+#print "$ies_page2\n";
+my $last_ies_daily = substr($ies_page2, -17, 8);
+#print "$last_ies_daily\n";
+
+# Find next day to begin making daily
+
+my $ies_month = substr($last_ies_daily, 4, 2);
+#print "$ies_month\n";
+my $ies_day = substr($last_ies_daily, 6, 2);
+#print "$ies_day\n";
+
+use Date::Calc qw(Add_Delta_Days);
+(my $ies_year_new, my $ies_month_new, my $ies_day_new) = Add_Delta_Days($ies_year, $ies_month, $ies_day, 1);
+#print "$ies_year_new$ies_month_new$ies_day_new\n";
+
+# Find difference between last ies daily made and one month ago.
+use Date::Calc qw(Delta_Days);
+$count = Delta_Days($ies_year_new, $ies_month_new, $ies_day_new, $lastyear, $lastmonth, $day);
+#print "$count\n";
+
+# Make SDT batch files and run them
+
+foreach $i (1..$count) {
+ use Date::Calc qw(Add_Delta_Days);
+ ($ies_year_new, $ies_month_new, $ies_day_new) = Add_Delta_Days($ies_year, $ies_month, $ies_day, 1);
+ chdir("$daily_dir/newbatch");
+ open(DAT,">$make_daily");
+ print DAT "make_day_cdf, 'ies', $ies_year_new, $ies_month_new, $ies_day_new, versionnumber=1, status=status\n";
+ print DAT "\n";
+ print DAT "exit\n";
+ close(DAT);
+ system("../idlstart");
+ system("$ENV{'IDL_DIR'}/bin/idl $make_daily");
+ $ies_year = $ies_year_new;
+ $ies_month = $ies_month_new;
+ $ies_day = $ies_day_new;
+}
+ 
+### Run TMS Dailies
+
+# First find last tms made by searching dailys' website
+
+use LWP::Simple;
+my $tms_page1 = get("$dailysite/tms");
+#print "@tms_page1\n";
+my $tms_year = substr($tms_page1, -5, 4);
+#print "$tms_year\n";
+
+use LWP::Simple;
+my $tms_page2 = get("$dailysite/tms/$tms_year");
+#print "$tms_page2\n";
+my $last_tms_daily = substr($tms_page2, -17, 8);
+#print "$last_tms_daily\n";
+
+# Find next day to begin making daily
+
+my $tms_month = substr($last_tms_daily, 4, 2);
+#print "$tms_month\n";
+my $tms_day = substr($last_tms_daily, 6, 2);
+#print "$tms_day\n";
+
+use Date::Calc qw(Add_Delta_Days);
+(my $tms_year_new, my $tms_month_new, my $tms_day_new) = Add_Delta_Days($tms_year, $tms_month, $tms_day, 1);
+#print "$tms_year_new$tms_month_new$tms_day_new\n";
+
+# Find difference between last tms daily made and one month ago.
+use Date::Calc qw(Delta_Days);
+$count = Delta_Days($tms_year_new, $tms_month_new, $tms_day_new, $lastyear, $lastmonth, $day);
+#print "$count\n";
+
+# Make SDT batch files and run them
+
+foreach $i (1..$count) {
+ use Date::Calc qw(Add_Delta_Days);
+ ($tms_year_new, $tms_month_new, $tms_day_new) = Add_Delta_Days($tms_year, $tms_month, $tms_day, 1);
+ chdir("$daily_dir/newbatch");
+ open(DAT,">$make_daily");
+ print DAT "make_day_cdf, 'tms', $tms_year_new, $tms_month_new, $tms_day_new, versionnumber=1, status=status\n";
+ print DAT "\n";
+ print DAT "exit\n";
+ close(DAT);
+ system("../idlstart");
+ system("$ENV{'IDL_DIR'}/bin/idl $make_daily");
+ $tms_year = $tms_year_new;
+ $tms_month = $tms_month_new;
+ $tms_day = $tms_day_new;
+}
+ 
+### Run DCF Dailies - Currently not working
+
+## First find last dcf made by searching dailys' website
+
+#use LWP::Simple;
+#my $dcf_page1 = get("$dailysite/dcf");
+##print "@dcf_page1\n";
+#my $dcf_year = substr($dcf_page1, -5, 4);
+##print "$dcf_year\n";
+
+#use LWP::Simple;
+#my $dcf_page2 = get("$dailysite/dcf/$dcf_year");
+##print "$dcf_page2\n";
+#my $last_dcf_daily = substr($dcf_page2, -17, 8);
+##print "$last_dcf_daily\n";
+
+## Find next day to begin making daily
+
+#my $dcf_month = substr($last_dcf_daily, 4, 2);
+##print "$dcf_month\n";
+#my $dcf_day = substr($last_dcf_daily, 6, 2);
+##print "$dcf_day\n";
+
+#use Date::Calc qw(Add_Delta_Days);
+#(my $dcf_year_new, my $dcf_month_new, my $dcf_day_new) = Add_Delta_Days($dcf_year, $dcf_month, $dcf_day, 1);
+##print "$dcf_year_new$dcf_month_new$dcf_day_new\n";
+
+## Find difference between last dcf daily made and one month ago.
+#use Date::Calc qw(Delta_Days);
+#$count = Delta_Days($dcf_year_new, $dcf_month_new, $dcf_day_new, $lastyear, $lastmonth, $day);
+##print "$count\n";
+
+## Make SDT batch files and run them
+
+#foreach $i (1..$count) {
+ #use Date::Calc qw(Add_Delta_Days);
+ #($dcf_year_new, $dcf_month_new, $dcf_day_new) = Add_Delta_Days($dcf_year, $dcf_month, $dcf_day, 1);
+ #chdir("$daily_dir/newbatch");
+ #open(DAT,">$make_daily");
+ #print DAT "make_day_cdf, 'dcf', $dcf_year_new, $dcf_month_new, $dcf_day_new, versionnumber=1, status=status\n";
+ #print DAT "\n";
+ #print DAT "exit\n";
+ #close(DAT);
+ #system("../idlstart");
+ #system("idl $make_daily");
+ #$dcf_year = $dcf_year_new;
+ #$dcf_month = $dcf_month_new;
+ #$dcf_day = $dcf_day_new;
+#}
+ 
+exit;

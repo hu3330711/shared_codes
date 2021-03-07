@@ -1,0 +1,155 @@
+Configuration Files For Everyone
+--------------------------------
+
+To configure datamgr to access Sybase 
+you need the following configuration files.
+These files should be copied into the locations given below
+in the FASTCONFIG area of your system.  FASTCONFIG is
+usually installed at /disks/fast/software/config, but may
+be different at your site.
+
+$FASTCONFIG/Datamgr/Datamgr.conf
+$FASTCONFIG/fast_archive.conf
+$FASTCONFIG/Sybase/interfaces
+
+These files can be found at the FAST ftp site:
+"ftp://juneau.ssl.berkeley.edu/pub/fastconfig"
+
+Data File Necessary for Sites Accessing the Juneau Jukeboxes
+------------------------------------------------------------
+
+If you will be accessing the jukeboxes at juneau.ssl.berkeley.edu
+remotely, you will also need the following config file:
+
+$FASTCONFIG/Datamgr/FastDmList
+
+The FastDmList is updated daily to include an up-to-date
+list of all CDROM volumes mounted in the jukeboxes,
+and can be found in the ftp site:
+"ftp://juneau.ssl.berkeley.edu/pub/dailies/FastDmList"
+
+The GetFastInfo script is available which can be used
+as a cron job every night automatically to ftp the latest 
+FastDmList file.  The same script also supplies you with the 
+lates almanac, cdf, and fields calibration files.  Perhaps it is
+already running on your system.  Contact Walter Herrick 
+(wherrick@ssl.berkeley.edu) to have this cron job set 
+up on your system.  You are also welcome to try 
+and install it yourself.  Get the script 
+from "ftp://juneau.ssl.berkeley.edu/pub/fastconfig/GetFastInfo",
+configure it to place the FastDmList at the appropriate place on your
+system by editing the appropriate lines at the beginning
+of the script, and use crontab to run the script at 5 am each morning.
+
+
+Required Modifications to the Datamgr.conf file
+-----------------------------------------------
+
+Of the four configuration files the interfaces file, the fast_archive.conf
+file and the FastDmList file can all be used as-is, copied from our
+ftp site.
+
+The Datamgr.conf file will require some site-specific adjustments:
+
+The line which sets DATA_DIR is currently commented out, so
+you will be prompted to select a data directory each time you start 
+datamgr.
+To avoid this, set DATA_DIR to a directory which is readable
+by all machines from which datamgr will be run at your site:
+
+set DATA_DIR /your/data/dir
+
+When you use datamgr to download files, it will place them in DATA_DIR
+by default.
+
+  Datamgr.conf Modifications for Sites with Local Jukeboxes
+  ---------------------------------------------------------
+
+The JUKEBOX_HOST variable should be set to the name of the
+machine on which the jukeboxes are installed.
+
+The JUKEBOX_VOL_LIST variable should be set to the location
+where the jb_in and jb_out maintain the FastDmList file.
+
+If your jukebox is set up to mount the volumes at a point
+other than /jb/fast, then set JUKEBOX_MOUNTPOINT to
+that location.
+
+  How to Bypass Jukeboxes and Only Read Data From CDROMs
+  ------------------------------------------------------
+
+If you don't have a local jukebox, and reading from juneau's
+jukebox is too slow, you may want to bypass the jukeboxes and
+read data from CDROMs in your local drive.  
+
+To do this create an empty file called 
+
+$FASTCONFIG/Datamgr/FastDmList.empty
+
+for example, if the file does not already exist, you can do this with:
+
+touch $FASTCONFIG/Datamgr/FastDmList.empty
+
+Then make sure that Datamgr.conf sets the JUKEBOX_VOL_LIST variable
+to point to this file, or else let individual users point to this
+file in their own ~/.datamgr.conf file.
+
+Datamgr and Data Directories
+----------------------------
+
+The datamgr also uses a file called 
+$FASTCONFIG/Datamgr/datamgr_listing 
+If you currently have this file it may be out of date,
+delete it before you try running datamgr for 
+the first time.
+The $FASTCONFIG/Datamgr directory must have global write permissions
+for all users who will use datamgr, so that datamgr can create and update
+the datamgr_listing file.
+
+The datamgr_listing file records all files which datamgr downloads.
+As long as all data directories are cross-mounted, data downloaded by
+one user into his own directory will be found by datamgr and
+usable by all other users.
+
+Personal ~/.datamgr.conf Files
+------------------------------
+
+The following variables may be set in the ~/.datamgr.conf file:
+
+COPY_OTHERS_FILES
+GET_JUKEBOX_FILES
+GET_CDROM_FILES
+TRUSTED_DIRS
+DATA_DIR
+CDROM_HOST
+JUKEBOX_VOL_LIST   (in special circumstances)
+
+It is advisable only to set varibles in the ~/.datamgr.conf
+file which you need to define differently from the way they
+are set in the global Datamgr.conf file.  This way you will not
+need to edit your personal configuration every time changes are
+made in the global configuration.
+
+For instance, users can define their own default directory to store
+data by setting the DATA_DIR variable in a personal 
+~/.datamgr.conf file.   
+
+
+
+Testing
+-------
+
+Datamgr is generally started from SDT, but it can also be tested from the 
+command line by typing:
+
+datamgr
+
+If things are configured properly, the datamgr window will come up
+without any accompanying error message windows.
+
+
+
+Further Reading
+---------------
+
+Read the comments in the Datamgr.conf file

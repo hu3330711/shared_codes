@@ -1,0 +1,762 @@
+************************************************************************
+
+   README.General_Matching_Inputs
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Matching data points from different inputs.
+
+************************************************************************
+
+   @(#)README.General_Matching_Inputs	1.2    05/15/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Basic properties of time series inputs.
+
+
+
+
+
+    3. Matching procedure.
+
+
+        3.1 Output time tag.
+
+
+        3.2 Data dropouts.
+
+
+        3.3 Definition of a successful match.
+
+
+        3.4 Properties of a successful match.
+
+
+        3.5 Dropping an unused match.
+
+
+        3.6 Dropping a used match.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes a method for matching data points from
+different time series inputs.
+
+
+
+
+       It is very common that in order to produce some desired quantity,
+data points from 2 or more inputs are required.
+
+
+
+
+       One scheme for combining 2 or more inputs is to interpolate the
+values of the "secondary" inputs, to the times of the data points of the
+"primary" input.
+
+
+       A variation of this would be to define the output time tags
+somehow, independently of all the inputs to be matched; and to
+interpolate the values of all the inputs, to the times of the output
+time tags.
+
+
+
+
+       The scheme described in this document is different: only 1 data
+point from each input is used in each match (there is no interpolation).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Basic properties of time series inputs.
+
+
+
+
+
+       A time series input consists of data points 1, 2, 3, ...; each of
+which has: a time tag, and one or more values.
+
+
+
+
+       For example, for a scalar input, point i will have:
+
+           time tag t(i)
+
+           scalar value a(i)
+
+
+       For a vector input, point i will have:
+
+           time tag t(i)
+
+           vector component values v_1(i), v_2(i), v_3(i)
+
+
+
+
+       It is assumed that the data points for each input are in time
+       order, with no duplicates; that is, for any given input,
+
+           if  j > i  then
+
+           t(j) > t(i), i.e.,
+
+           (time for point[j]) > (time for point[i])
+
+
+
+       While there is no guarantee that actual input data meets this
+       condition; in effect we force the condition to be true, by
+       disregarding input data points with "backwards" or "duplicate"
+       time tags.
+
+
+
+       More precisely, if the "current" data point for some input has
+       index n (current point =  point[n]); then the "next" point will
+       have index j (next point = point[j]); where j is the first
+       integer larger than n, such that
+
+           (time for point[j]) > (time for point[n])
+
+       and, if j is not equal to (n + 1), then all data points for that
+       input, with indices between (n + 1) and (j - 1) inclusive; are
+       skipped.
+
+
+
+       Note that point j is not necessarily the point closest in time to
+       point n, from all the points that follow point n.
+
+       There may be some index k, k > j, such that the time for point k
+       is between the times for points n and j.
+
+       However, following the procedure outlined here, that input data
+       point k will be skipped; so that, of the points that will
+       actually be used, point j is the closest one in time to point n,
+       from all the data points that come after point n.
+
+
+
+       If the point with index j is the "next" point in relation to the
+       point with index n, then the point with index n is the "previous"
+       point in relation to the point with index j.
+
+
+
+       Data points for time series inputs are processed in chronological
+       sequence: for each input, after a data point has been used, we
+       then drop that data point, and use the "next" data point for the
+       same input.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. Matching procedure.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Output time tag.
+
+
+
+
+
+       An output data point is produced for each successful match
+       containing a data point of each of the inputs; provided that the
+       successful match is otherwise suitable for output (just a
+       successful match may not guarantee the creation of an output data
+       point, as there may be additional conditions, depending on each
+       case).
+
+
+
+
+       The conditions to be met for a successful match of input data
+       points are explained below.
+
+
+
+
+       The time tag for the output data point is a weighted average of
+       the time tags of the input data points participating in the
+       match.
+
+
+
+       All the weights must be zero or positive; but at least one of the
+       weights must be strictly positive (non-zero).
+
+       Equivalently, all the weights must be zero or positive; and the
+       sum of all the weights must be strictly positive (non-zero).
+
+
+
+       If there are N inputs to be matched,
+
+       and there is a successful match involving
+
+       point P1 from input 1, point P2 from input 2, ..., point PN from
+       input N;
+
+       with time tags t(1), t(2), ..., t(N);
+
+       and the weights are w1, w2,..., wN;
+
+       then the time tag T for the corresponding output data point is:
+
+           T = (w1 * t(1) + w2 * t(2) + ... + wN * t(N)) /
+
+               (w1 + w2 + ... + wN)
+
+
+
+       Suppose that there is a successful match, and m and n are the
+       subscripts of the inputs whose points in the match have the
+       earliest and the latest time tag, respectively.
+
+       In other words,
+
+           1 <= m,n <= N
+
+           t(m) <= t(i) <= t(n)    for all i, 1 <= i <= N
+
+       Then it is obvious that the time tag T for the corresponding
+       output data point satisfies the condition
+
+           t(m) <= T <= t(n)
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Data dropouts.
+
+
+
+
+
+       The user can specify a separate maximum time separation for each
+       input to be matched; larger time separations between consecutive
+       input data points are considered to be data dropouts.
+
+
+
+
+       We will designate the maximum time separation for input 1, input
+       2, ..., input N; as M1, M2, ..., MN; respectively.
+
+
+
+
+       Of course, each of M1, M2, ..., MN; must be  > 0.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Definition of a successful match.
+
+
+
+
+
+       Suppose we are considering a possible match, involving:
+
+           an input data point P1 of input 1,
+
+           an input data point P2 of input 2,
+
+           ...
+
+           an input data point PN of input N.
+
+
+
+       First, there must be a tolerance factor TFij, that will be used
+       when matching a data point for input i, to data points for input
+       j (i and j different).
+
+       The tolerance factor is specified by the user, and must have a
+       value  > 0  and  < 1/2.
+
+       A small value for the tolerance factor results in a more
+       "restrictive" match; a large value for the tolerance factor
+       results in a more "permissive" match.
+
+
+
+       Next, we determine how far (in time) P1 is from its neighboring
+       data points (for the same input).
+
+       We determine the time difference a1 between P1 and the previous
+       data point; if P1 is the first data point, then we set the
+       difference to M1.  This difference a1 is always > 0.
+
+       Similarly, we determine the time difference b1 between the next
+       data point and P1; if P1 is the last data point, then we set the
+       difference to M1.  This difference b1 is always > 0.
+
+       Having determined the time differences between P1 and its 2
+       neighboring data points, we then determine
+
+           c1 = the minimum of a1 and b1; and
+
+           d1 = the minimum of c1 and M1
+
+       d1 will be greater than zero; and less than or equal to M1.  Of
+       course, d1 will be less than or equal to the time separation
+       between P1 and either of its 2 neighboring data points.
+
+       Clearly, there cannot be another data point P'1 of input 1,
+       different from P1, such that the time difference between P1 and
+       P'1 is  < d1.
+
+
+
+       Similarly, we obtain time differences d2, ..., dN.
+
+
+
+       We can now build a square array Lij (whose diagonal is not of
+       interest), as follows:
+
+           Lij = Minimum of: (TFij * di), (TFji * dj)
+
+       Obviously, Lij > 0, and  2 * Lij < di, and  2 * Lij < dj.
+
+
+       The user must decide how to choose the tolerance factors.
+
+       In the special case that TFji = TFij, Lij is reduced to:
+
+           Lij = TFij * Min(di, dj)
+
+       In the even more special case that all the tolerance factors have
+       the same value TF:
+
+           Lij = TF * Min(di, dj)
+
+       The only requirement for the values of the tolerance factors is
+       that all of them must be  > 0  and  < 1/2, as indicated above.
+
+
+
+       A match is considered successful, if and only if:
+
+           For all i and j,  1 <= i,j <= N,  i and j different,
+
+           the time difference between points Pi and Pj is  <= Lij.
+
+
+
+       It should be noted that the array Lij is symmetric; and that it
+       is sufficient to check only the time differences between all
+       point pairs Pi and Pj where i < j (of course, it could be i > j
+       instead).
+
+       This is true even if the array of tolerance factors itself is
+       not symmetric.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4 Properties of a successful match.
+
+
+
+
+
+       In this whole section, we consider a successful match, and study
+       its properties.
+
+
+
+       For every i (1 <= i <= N):
+
+       If  1 <= k <= N  (k different from i),
+       then Pk is the unique closest point to Pi, of all the points for
+       input k.
+
+       There cannot be another data point P'k for input k as close or
+       closer to Pi than Pk.
+
+       The reason is that Pk is within an interval centered at Pi, of
+       length  2 * Lik  (which is > 0); but
+
+           2 * Lik < dk
+
+       so, any other point for input k, P'k, must be outside the
+       interval centered at Pi, and thus, farther from Pi than Pk.
+       Otherwise, the time difference between Pk and P'k would be
+       < dk , which is impossible.
+
+
+
+       Therefore, if a match is successful; and i, k are different
+       subscripts, 1 <= i,k <= N; and the match consists of points P1,
+       P2, ..., PN; then
+
+       Of all the data points for input k, Pk is the unique closest one
+       to Pi.
+
+       Of all the data points for input i, Pi is the unique closest one
+       to Pk.
+
+
+
+       For every i (1 <= i <= N),
+
+           P1 is contained in a time interval centered at Pi, of length
+           2 * Li1.
+
+           P2 is contained in a time interval centered at Pi, of length
+           2 * Li2.
+
+           ...
+
+           P(i - 1) is contained in a time interval centered at Pi, of
+           length  2 * Li(i - 1).
+
+           P(i + 1) is contained in a time interval centered at Pi, of
+           length  2 * Li(i + 1).
+
+           ...
+
+           PN is contained in a time interval centered at Pi, of length
+           2 * LiN.
+
+
+
+       If we define Ei as
+
+           Ei = Max(Li1, Li2, ..., Li(i - 1), Li(i + 1), ..., LiN)
+
+       then all the Ei are > 0, and:
+
+
+
+       For every i (1 <= i <= N),
+
+           P1 is contained in a time interval centered at Pi, of length
+           2 * Ei.
+
+           P2 is contained in a time interval centered at Pi, of length
+           2 * Ei.
+
+           ...
+
+           P(i - 1) is contained in a time interval centered at Pi, of
+           length  2 * Ei.
+
+           P(i + 1) is contained in a time interval centered at Pi, of
+           length  2 * Ei.
+
+           ...
+
+           PN is contained in a time interval centered at Pi, of length
+           2 * Ei.
+
+
+
+       Obviously, Pi is contained in that same interval.  Therefore,
+
+
+
+       For every i (1 <= i <= N),
+
+           All N points participating in the match (P1, P2, ..., PN),
+           are contained in a time interval centered at Pi, of length
+           2 * Ei.
+
+
+
+       Therefore, in a successful match, the intersection of all N time
+       intervals (of lengths  2 * Ei) is non-empty; and this
+       intersection contains all the matching points P1, P2, ..., PN.
+
+
+
+       For a successful match, the intersection of the N intervals (of
+       lengths  2 * Ei) is not empty; nor can it be reduced to a single
+       point (if it were, then P1, P2, ..., PN, would all coincide; and
+       all the intervals would have the same center, and their
+       intersection would be the smallest of the intervals; but all the
+       intervals have length  > 0, so the smallest interval is not a
+       single point).
+
+       Therefore, the intersection of the N time intervals (of lengths
+       2 * Ei) for a successful match is also a time interval, of length
+       > 0; this time interval will be called the "matching interval".
+
+
+
+       If a match is successful, then all the matching points P1, P2,
+       PN, are contained in the interval centered at Pi, and of length
+       2 * Ei; therefore, the time tag T for the output data point is
+       contained also within the same interval.
+
+       Since this is true for every i, therefore, in a successful match
+       the time tag T for the output data point is contained within the
+       "matching interval".
+
+
+
+       For a successful match, if E is the minimum of all the Ei, then
+       the matching interval is contained in some interval of length
+       2 * E; it follows that the length of the matching interval is
+       > 0  and  <= 2 * E.
+
+
+
+       Let q be the subscript (1 <= q <= N) for which dq is minimum.
+
+       That is to say, for every i,  1 <= i <= N,
+
+           dq <= di
+
+       As has been indicated above, for every i, i not equal to q,
+
+           2 * Lqi < dq
+
+       i.e.,
+
+           Lqi < dq / 2
+
+       Therefore,
+
+           Eq = (maximum of Lqi, i not equal to q) < dq / 2
+
+       Therefore,
+
+           E = (minimum of Ei) < dq / 2
+
+
+
+       This shows that the length of the matching interval is
+
+           < dq
+
+       Therefore, the length of the matching interval is
+
+           < di  for all i
+
+
+
+       The matching data points P1, P2, ..., PN, are all contained
+       within the matching interval.
+
+       However, if  1 <= i <= N, there cannot be another point P'i for
+       input i, different from Pi, in the matching interval.
+
+       The reason for this is that the time difference between Pi and
+       P'i would be  <= the length of the matching interval, i.e.,
+       < di ; which is impossible.
+
+
+
+       In summary, all the matching points P1, P2, ..., PN, are
+       contained within the matching interval; but no other data points
+       for any of the matching inputs are contained in the matching
+       interval.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5 Dropping an unused match.
+
+
+
+
+
+       Suppose that a tentative match is unsuccessful, and that Pj is
+       the input data point in the tentative match, that has the
+       earliest time tag.
+
+
+
+       It would be impossible, then, for a successful match to exist,
+       where the input data point Pj is retained; but an input data
+       point Pk (for another input) is replaced with a later data point,
+       P'k.
+
+       The reason for this is that if there were such a match, then the
+       matching time interval would contain 2 data points for the
+       "other" input, Pk and P'k; which has been shown above to be
+       impossible.
+
+
+
+       In general, if there were any number of inputs, and if one input
+       data point from each input is available; and these points form an
+       unsuccessful match; then it is impossible to have a successful
+       match by replacing some of the data points with later ones, if
+       any one or more of the original data points that had the earliest
+       time tag are retained (more than one original data point could
+       have the same "earliest" time tag).
+
+       The reason for this is that if there were such a match, then the
+       matching time interval would contain 2 data points for each input
+       for which a later data point is now being used; and this has been
+       shown above to be impossible.
+
+
+
+       The conclusion, then, is this: if there is an unsuccessful match,
+       then the earliest time tag of all the participating data points
+       must be determined; and every participating point whose time tag
+       is equal to this earliest time tag, must be replaced with a later
+       data point for the same input; before another attempt at a match
+       is made.
+
+
+
+       This rule would apply in any case in which a set of input data
+       points, one from each input, will not be used as a successful
+       match, for any reason whatsoever.  There could be a successful
+       match, which still cannot be used for some reason.  In any such
+       case, before another attempt at a match is made, every point
+       whose time tag is equal to the earliest time tag, must be
+       replaced with a later data point for the same input.
+
+
+
+       Note that when a successful match is being rejected for some
+       reason, then eventually all the participating data points will
+       have to be replaced with later data points, for another
+       successful match to take place.  This is because in a successful
+       match the points are the uniquely closest to each other.
+       Nevertheless, it is legitimate to do this in stages, replacing
+       each time only the points with the earliest time tag.
+
+
+
+       When dropping a successful match, the result of dropping all the
+       matching points at once, and the result of dropping the matching
+       points in stages (replacing each time only the points with the
+       earliest time tag); will be exactly the same.
+
+       This is because all the original matching points are within the
+       original matching interval, while the "next" data point for each
+       input must be beyond (later than) the original matching interval.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.6 Dropping a used match.
+
+
+
+
+
+       After a successful match has been used, and an output data point
+       has been produced; then all the input data points participating
+       in the match must be replaced with later data points.
+
+
+
+       This is not only so that each point is used only once; but also
+       because in a successful match the points are the uniquely closest
+       to each other.  Therefore, no new successful match can exist,
+       that would include some of the points participating in the
+       previous successful match.
+
+
+
+       Just as in the case of an unused successful match above, the
+       matching points can be dropped all at once, or they can be
+       dropped in stages (replacing each time only the points with the
+       earliest time tag); the result will be exactly the same in either
+       case.

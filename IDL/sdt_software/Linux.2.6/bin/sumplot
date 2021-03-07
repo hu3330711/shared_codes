@@ -1,0 +1,744 @@
+#! /usr/bin/ksh
+#
+# sumplot
+#
+# Make FAST science summary plots for specified orbits.
+#
+# OPTIONS:
+# 
+#	-c  The string argument of this option will be appended to
+#           "$FASTCONFIG/archive_config" to form the name of the
+#           configuration file to be sourced.  This may be used to
+#           test alternate workspaces.
+#       -l  Argument is logfile for this invocation of sumplot.
+#           (Default is $TEMPLOGS/offlinelog_$$)
+#
+#	-a  All of the plots
+#	-i  IESA plots
+#	-e  EESA plots
+#	-t  Teams plots
+#	-f  Fields plots
+#	-E  Both IESA and EESA
+#	-P  Both teams and fields (no longer supported)
+#
+# ARGUMENTS:
+#
+#       List of orbits or orbit intervals
+#
+# Example:
+#
+#       % sumplot -a 547 548 890-930 789
+#
+# The log output can be monitored in the file:
+#
+#        /disks/juneau/www/TEMPLOGS/offlinelog$$
+#
+# SDT and IDL output files are in ~lzp/offline
+#
+
+# FASTCONFIG determines location of archive_config file
+
+if [[ -z $FASTCONFIG ]]; then
+    echo "Setting FASTCONFIG=/disks/fast/software/config"
+    export FASTCONFIG=/disks/fast/software/config
+fi
+
+# Function definitions
+
+function ConvertFromDatehrmmss {
+
+    Time=${1##*/}
+    Date=${1%/*}
+
+    #Parse out the hours, minutes and seconds from $Time
+
+    Hours=${Time%%:*}
+    Minutes=${Time#*:}
+    Minutes=${Minutes%:*}
+    Seconds=${Time##*:}
+    Seconds=${Seconds%.*}
+
+
+    #Get time in total seconds
+
+    HourSeconds=$(( $Hours * 3600 ))
+    MinuteSeconds=$(( $Minutes * 60 ))
+    TotalSeconds=$(( $HourSeconds + $MinuteSeconds + $Seconds ))
+}
+
+function ConvertToHrmmss {
+    ConvertTime=$1
+    if (( $ConvertTime >= 3600 )) ; then
+	ConvertHr=$(( $1 / 3600 ))
+	if (( $ConvertHr <= 9 )); then
+	    ConvertHr=0$ConvertHr
+	fi
+	ConvertTime=$(( $ConvertTime % 3600 ))
+    else
+	ConvertHr=00
+    fi
+    if (( $ConvertTime >= 60 )); then
+	ConvertMm=$(( $ConvertTime / 60 ))
+	if (( $ConvertMm <= 9 )) ; then
+	    ConvertMm=0$ConvertMm
+	fi
+	ConvertTime=$(( $ConvertTime % 60 ))
+    else
+	ConvertMm=00
+    fi
+    ConvertSs=$ConvertTime
+    if (( $ConvertSs <= 9 )); then
+	ConvertSs=0$ConvertSs
+    fi
+    ConvertTime=$(echo $ConvertHr:$ConvertMm:$ConvertSs)
+}
+
+
+# Option Handling
+# Plot type determines apids used
+
+while getopts ":ietfEPac:l:" opt; do
+	case $opt in 
+	  i) type=ies; apidlist="1025" ;;
+	  e) type=ees; apidlist="1024" ;;
+	  t) type=tms; apidlist="1027 1028 1058" ;;
+	  f) type=fields; apidlist="1032 1033 1034 1036 1037 1038 1054 1058 1080" ;;
+	  E) type=esa; apidlist="1024 1025";;
+	  P) echo "Fields/TEAMS compound plot configuration outdated"; exit 1;;
+	  a) type=all; apidlist="1024 1025 1027 1028 1032 1033 1034 1036 1037 1038 1058 1080";;
+	  c) configfile="$FASTCONFIG/archive_config.$OPTARG";;
+	  l) logfile=$OPTARG;;
+	  *) echo "Must specify plot type";  exit 1;;
+	esac
+done
+shift $((OPTIND -1))
+
+# Source the configuration file
+
+if [[ -z $configfile ]]; then
+    configfile=$FASTCONFIG/archive_config
+fi
+. $configfile
+
+# SDT Data Directory
+
+cpdir=/disks/juneau/scratch/LZPfiles/lzp
+
+# SDT and IDL output directory
+
+sdtIdlLogDir=~lzp/offline
+
+# Log File
+
+if [[ -z $logfile ]]; then
+    logfile=$TEMPLOGS/offlinelog_$$
+    if ! touch $logfile; then
+	echo "Cannot write to log: $logfile"
+	exit 1
+    fi
+fi
+
+echo ----- sumplot begins $(date) ------- > $logfile
+
+echo "Plot Type: $type" >> $logfile
+echo "Requested orbits: $*" >> $logfile
+
+# Expand orbit range arguments
+
+I=0
+for span in $@ ; do
+	case $span in
+	  *-*) first=${span%%-*}
+	       last=$(( ${span##*-} + 1 ))
+	       while (( $first < $last )) ; do
+		  orblist[$I]=$first
+		  let first=$first+1
+		  let I=$I+1
+	       done ;;
+	  *) orblist[$I]=$span
+	     let I=$I+1 ;;
+	esac
+done
+
+# Get jukebox host from Datamgr.conf file
+
+datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+if [[ ! -r $datamgr_conf ]] ; then
+    print "Unable to read datamgr config: $FASTCONFIG/Datamgr/Datamgr.conf" >> $logfile
+    exit 1
+fi
+
+
+typeset -i orbiter=-1
+while ((orbiter < (${#orblist[*]} - 1) )) ; do
+
+    let orbiter=$orbiter+1
+    CurrentOrbit=${orblist[$orbiter]}
+    echo "---- Orbit $CurrentOrbit begins $(date '+%H:%M:%S') ----" >> $logfile
+    print $CurrentOrbit > ~lzp/offline/tmp/OrbitOn
+
+#OLDSTUFF
+	
+    # Check database to see if data for that orbit exists
+
+    if [[ ! -n $(isorbitdata $CurrentOrbit) ]] ; then
+
+        echo Data exists for orbit $CurrentOrbit >> $logfile
+
+        # If data exists for this orbit get
+        # Highest Invarient Latitude for this orbit
+        # (Note: gethilat may return two ILATs)
+        #
+        # The times returned by gethilat will be used to produce the
+        # start and stop times for IDL plots
+
+        set -A InLatitudeTimes $($DANETBIN/gethilat $CurrentOrbit)
+        InLatitudeNumber=${#InLatitudeTimes[*]}
+	print "InLatitudeTimes = ${InLatitudeTimes[*]}" >> $logfile
+        print "InLatitudeNumber = $InLatitudeNumber" >> $logfile
+
+        if [[ $InLatitudeNumber == 2 ]]; then
+	    echo "Two ILAT values returned for $CurrentOrbit" >> $logfile
+            echo "ILAT 1 = ${InLatitudeTimes[0]}, ILAT 2 = ${InLatitudeTimes[1]}"  >> $logfile
+        else
+            Year=$(echo ${InLatitudeTimes[0]}| awk -F/ '{print $1}')
+            if (( $Year == 0000 )); then
+		print "gethilat returned no ILAT, next orbit..." >> $logfile
+		continue
+            else
+                echo "ILAT for $CurrentOrbit: ${InLatitudeTimes[0]}"  >> $logfile
+            fi
+        fi
+
+
+        ## FIND ORBIT START & STOP: This next section will use a database
+	## procedure called orbittime to find the orbit start and stop
+	## time.  These times will be passed to the sdt_batch program
+
+	set -A OrbitTimes $($DANETBIN/orbittime $CurrentOrbit)
+	OrbitTimesNumber=${#OrbitTimes[*]}
+	
+	if (( $OrbitTimesNumber == 1 )); then
+		echo "orbittime returned only one value, next orbit..." >> $logfile
+		continue
+	fi
+
+	OrbitStart=$(echo ${OrbitTimes[0]})
+	ConvertFromDatehrmmss $OrbitStart
+
+
+	# Building parts for Summary Plot Data Directory name, which
+	# will be used later
+
+	sumdiryear=$(echo $Date | awk -F/ '{print $1}')
+	sumdirdate=$(echo $Date | awk -F/ '{print $1 "_" $2 "_" $3}')
+
+
+        # Start date and start time for sdt_batch
+
+        sdtStartDate=$Date
+        sdtStartTime=$Time
+
+        # Create the file name parts that will be used by the cdf file.
+        # The year, month, and day have already been produced, just get
+        # the hr mn ss variables set.
+
+	cdfyr=$(echo $Date|awk -F/ '{print $CurrentOrbit}')
+	cdfyear=${cdfyr%%/*}
+	cdfmonth=$(echo $Date|awk -F/ '{print $2}')
+	cdfday=$(echo $Date|awk -F/ '{print $3}')
+        cdfdir=$(echo ${cdfyear}_${cdfmonth}_${cdfday})
+        cdfhr=$Hours
+        cdfmn=$Minutes
+        cdfss=$Seconds
+	
+	# End Time for sdt_batch
+
+	OrbitEnd=$(echo ${OrbitTimes[1]})
+	ConvertFromDatehrmmss $OrbitEnd
+	
+	sdtStopDate=$Date
+	sdtStopTime=$Time
+
+	# Export times and dates for sdt_batch
+
+	export sdtStartDate sdtStartTime sdtStopDate sdtStopTime
+	{
+	    echo "sdt_batch sdate: $sdtStartDate"
+	    echo "sdt_batch stime: $sdtStartTime"
+	    echo "sdt_batch edate: $sdtStopDate"
+	    echo "sdt_batch etime: $sdtStopTime"
+	} >> $logfile
+
+	files=$(get_cd_path -o $CurrentOrbit)
+	export files
+	
+	# Verify that some files were transfered
+
+    	if [[ ! -n $files ]] ; then
+		print "No files for orbit $CurrentOrbit, next orbit..." >> $logfile
+		continue
+    	fi
+
+	echo files=$files >> $logfile
+
+	# Set an environment variable to prevent frac_indices from hanging
+
+	export IDLORBIT=$CurrentOrbit
+
+	# Zero-padded 5-digit string orbit number for file renaming
+
+        export SORBNUM=$(printf "%05d" $CurrentOrbit)
+
+	# Create a Summary Plot Directory
+
+	sumdirorb=$(echo ${sumdirdate}_${SORBNUM})
+	if [[ ! -a $SUMPLOTS/$sumdiryear/$sumdirorb ]] ; then
+		print Creating dir: $SUMPLOTS/$sumdiryear/$sumdirorb >> $logfile
+		mkdir -p $SUMPLOTS/$sumdiryear/$sumdirorb
+		mkdir -p $SUMORBLINK/$sumdiryear/$SORBNUM
+		ln -s ../../../$sumdiryear/$sumdirorb $SUMORBLINK/$sumdiryear/$SORBNUM/$sumdirdate
+		mkdir -p $SUMDIRLINK/$sumdiryear/$sumdirdate
+		ln -s ../../../$sumdiryear/$sumdirorb $SUMDIRLINK/$sumdiryear/$sumdirdate/$SORBNUM
+	fi
+
+
+        # Kill any stray SDT processes
+	
+	$FASTBIN/cleanup >> $logfile 2>&1
+        
+	# Kill SDT Zombies
+	
+	set -A zombies $(ps -u $USER -f | awk '/awk|PID/ {next} /(FastDecom|IseeDcom|EfdSurvey|PolarEFIDcom|EfdDcom|CrresDcom|UI|idl)/ {print $2}')
+	for zombie in ${zombies[*]} ; do
+	    kill -TERM $zombie
+	    if ps -p $zombie > /dev/null ; then
+		 # Still undead
+		 kill -INT $zombie
+	    fi
+	    if ps -p $zombie > /dev/null ; then
+		 kill -HUP $zombie
+	    fi
+	    if ps -p $zombie > /dev/null ; then
+		 kill -KILL $zombie
+	    fi		
+	done
+
+        # SDT and IDL output files go to CWD
+
+        cd $sdtIdlLogDir
+
+	# RUN SDT IN BATCH MODE
+
+	SECONDS=0            # time execution of sdt_batch
+	print "Starting sdt_batch for orbit $CurrentOrbit $(date)" >> $logfile
+
+	## Save environment settings for problem diagnosis
+	#
+	#{ 
+	#    echo "########## ENVIRONMENT VARIABLES ##########"
+	#    env | sort >> $logfile
+	#    echo "######## END ENVIRONMENT VARIABLES ########"
+	#} >> $logfile
+
+	if [[ $type = all ]] ; then
+	    $FASTBIN/sdt_batch $FASTSW/batchjobs/idlarchive.batch  >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv errIDL.fast_fields_batch.pro errIDL.fast_fields_batch.pro_$CurrentOrbit
+		mv errIDL.fast_ie_batch.pro errIDL.fast_ie_batch.pro_$CurrentOrbit
+		mv errIDL.fast_t_batch.pro errIDL.fast_t_batch.pro_$CurrentOrbit
+		mv outIDL.fast_fields_batch.pro outIDL.fast_fields_batch.pro_$CurrentOrbit
+		mv outIDL.fast_ie_batch.pro outIDL.fast_ie_batch.pro_$CurrentOrbit
+		mv outIDL.fast_t_batch.pro outIDL.fast_t_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	elif [[ $type = fields ]] ; then
+	    $FASTBIN/sdt_batch $FASTSW/batchjobs/fields.batch >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv errIDL.fast_fields_batch.pro errIDL.fast_fields_batch.pro_$CurrentOrbit
+		mv outIDL.fast_fields_batch.pro outIDL.fast_fields_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	elif [[ $type = ees ]] ; then
+	    $FASTBIN/sdt_batch $FASTSW/batchjobs/ees.batch >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv outIDL.fast_esolo_batch.pro outIDL.fast_esolo_batch.pro_$CurrentOrbit
+		mv errIDL.fast_esolo_batch.pro errIDL.fast_esolo_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	elif [[ $type = ies ]] ; then
+	$FASTBIN/sdt_batch $FASTSW/batchjobs/ies.batch >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv outIDL.fast_isolo_batch.pro outIDL.fast_isolo_batch.pro_$CurrentOrbit
+		mv errIDL.fast_isolo_batch.pro errIDL.fast_isolo_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	elif [[ $type = tms ]] ; then
+		$FASTBIN/sdt_batch $FASTSW/batchjobs/tms.batch >> $logfile
+		print "Finished sdt_batch $(date)" >> $logfile
+		printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+		mv errIDL.fast_t_batch.pro errIDL.fast_t_batch.pro_$CurrentOrbit
+		mv outIDL.fast_t_batch.pro outIDL.fast_t_batch.pro_$CurrentOrbit
+	elif [[ $type = fldtms ]] ; then
+	    $FASTBIN/sdt_batch $FASTSW/batchjobs/fldtms.batch >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv errIDL.fast_fields_batch.pro errIDL.fast_fields_batch.pro_$CurrentOrbit
+		mv errIDL.fast_t_batch.pro errIDL.fast_t_batch.pro_$CurrentOrbit
+		mv outIDL.fast_fields_batch.pro outIDL.fast_fields_batch.pro_$CurrentOrbit
+		mv outIDL.fast_t_batch.pro outIDL.fast_t_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	elif [[ $type = esa ]] ; then
+	    $FASTBIN/sdt_batch $FASTSW/batchjobs/esa.batch  >> $logfile
+	    print "Finished sdt_batch $(date)" >> $logfile
+	    printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+	    {
+		mv errIDL.fast_ie_batch.pro errIDL.fast_ie_batch.pro_$CurrentOrbit
+		mv outIDL.fast_ie_batch.pro outIDL.fast_ie_batch.pro_$CurrentOrbit
+	    } 2>> $logfile
+	else
+	    print "No Data Type Specified, Exiting..."
+	    exit 1
+	fi
+
+	# Move the error files for later perusal
+
+	{
+	    mv errUI errUI_$CurrentOrbit
+	    mv outUI outUI_$CurrentOrbit
+	} 2>> $logfile
+
+	# Delete apid files that will not be used for next orbit
+	# Array of existing apids persists across orbit iterations
+
+	print 'Cleaning data files...' >> $logfile
+	set -A tossapids ${tossapids[*]} \
+	    $(whichfiles -l ${orblist[$orbiter]} $apidlist) # Append
+	# Set the save array if not last orbit    
+	if [[ -n ${orblist[$((orbiter+1))]} ]] ; then
+	    set -A saveapids $(whichfiles -l ${orblist[$((orbiter+1))]} $apidlist)
+	else
+	    set -A saveapids
+	fi
+	typeset -i tossiter=0
+	while (( tossiter < ${#tossapids[*]} )) ; do
+	    tossapid=${tossapids[$tossiter]}
+	    # See if apid will be needed next orbit
+	    deletable=1
+	    for saveapid in ${saveapids[*]} ; do
+		if [[ "$tossapid" = "$saveapid" ]] ; then
+		    # Cannot delete apid yet
+		    deletable=0
+		    break
+		fi
+	    done
+	    # If apid no longer needed, delete and clear from array
+	    if ((deletable)) ; then
+		rm -f $cpdir/${tossapid#*/*/} # Multiple occurrences possible
+		tossapids[$tossiter]=""
+	    fi
+	    let "tossiter=$tossiter+1"
+	done
+	# Remove empty directories
+	rmdir $cpdir/* 2>> $logfile
+
+	# RENAME AND MOVE OUTPUT FILES FROM IDL
+
+	# Establish loop for times when more than one ILAT is used
+
+	n=0
+	CurrentLatitudeTime=${InLatitudeTimes[$n]}
+	echo CurrentLatitudeTime = $CurrentLatitudeTime >> $logfile
+
+	while [[ -n $CurrentLatitudeTime ]] ; do
+
+		ConvertFromDatehrmmss $CurrentLatitudeTime
+		FirstDate=$Date
+		SecondDate=$Date
+		echo FirstDate = $FirstDate >> $logfile
+		echo SecondDate = $SecondDate >> $logfile
+	
+		# Designate the $hr, $min, and $sec of the invariant
+		# latitude time, $time, to variables used in the naming 
+		# convention of the outgoing summary plot
+	
+		hr2=$Hours
+		mm2=$Minutes
+		ss2=$Seconds
+		totsec=$TotalSeconds
+		echo hr2 = $hr2 >> $logfile
+		echo mm2 = $mm2 >> $logfile
+		echo ss2 = $ss2 >> $logfile
+		echo totsec = $totsec >> $logfile
+		
+		# Create summary plot timespans
+	
+		Delta=1200		# Delta = 20 minutes
+	
+		TimeSpanBegin=$(( $totsec - Delta ))
+		TimeSpanEnd=$(( $totsec + Delta ))
+		echo TimeSpanBegin = $TimeSpanBegin >> $logfile
+		echo TimeSpanEnd = $TimeSpanEnd >> $logfile
+	
+		# The variable $TimeSpanBegin will be the start time of the 
+		# first summary plot. A check is made to see if the the start
+		# time begins on the previous day, and if so, the start date
+		# is decremented
+	
+		if (( $TimeSpanBegin < 0 )) ; then
+			TimeSpanBegin=$(( $TimeSpanBegin + 86400 ))
+			TempDate=$(echo $FirstDate | awk -F/ '{print $2 "/" $3 "/" $1}')
+			FirstDate=$(deltaDate $TempDate -1)
+			
+			# Pad date fields
+	
+			year1=$(echo $FirstDate | awk -F/ '{print $1}')
+			month1=$(echo $FirstDate | awk -F/ '{printf("%02d", $2)}')
+			day1=$(echo $FirstDate | awk -F/ '{printf("%02d", $3)}')
+	
+			FirstDate=${year1}/${month1}/${day1}
+	
+			echo 'TimeSpanBegin < 0' >> $logfile
+			echo Changes to TimeSpanBegin and FirstDate are made.  New values: >> $logfile
+			echo TimeSpanBegin = $TimeSpanBegin >> $logfile
+			echo FirstDate = $FirstDate >> $logfile
+		fi
+	
+		ConvertToHrmmss $TimeSpanBegin
+		TimeSpanBegin=$ConvertTime
+		echo TimeSpanBegin = $TimeSpanBegin >> $logfile
+	
+		if (( $TimeSpanEnd >= 86400 )) ; then
+			TimeSpanEnd=$(( $TimeSpanEnd - 86400 ))
+			echo 'TimeSpanEnd >= 86400' >> $logfile
+			echo Changes to TimeSpanEnd.  New value >> $logfile
+			echo TimeSpanEnd = $TimeSpanEnd >> $logfile
+		fi
+	
+		ConvertToHrmmss $TimeSpanEnd
+		TimeSpanEnd=$ConvertTime
+		echo TimeSpanEnd = $TimeSpanEnd >> $logfile
+	
+		# Create the variable that will reflect the directory
+		# where the summary plot files will be placed - the
+		# directory name will take the form yyyy_mm_dd
+		# Note: The cdf start date might differ from the gif
+		# start dates so two dirs might need to be created
+
+		export SORBNUM=$(printf "%05d" $CurrentOrbit)
+	
+		hr1=$(echo $TimeSpanBegin | awk -F: '{print $1}')
+		mn1=$(echo $TimeSpanBegin | awk -F: '{print $2}')
+		ss1=$(echo $TimeSpanBegin | awk -F: '{print $3}')
+		echo hr1=$hr1, mn1=$mn1, ss1=$ss1 >> $logfile
+		
+		sumdir=$(echo $FirstDate | awk -F/ '{print $1 "_" $2 "_" $3}')
+		sumdiryear=$(echo $FirstDate | awk -F/ '{print $1}')
+		sumdirorb=$(echo ${sumdir}_${SORBNUM})
+		cdfdirorb=$(echo ${cdfdir}_${SORBNUM})
+		echo "Summary Plot Directory: $sumdirorb" >> $logfile
+		echo "CDF Directory: $cdfdirorb" >> $logfile
+	
+		# Create directories if nonexistent
+	
+		if [[ ! -d $SUMPLOTS/$sumdiryear/$sumdirorb ]]; then
+			mkdir -p $SUMPLOTS/$sumdiryear/$sumdirorb
+			mkdir -p $SUMORBLINK/$sumdiryear/$SORBNUM
+			ln -s ../../../$sumdiryear/$sumdirorb $SUMORBLINK/$sumdiryear/$SORBNUM/$sumdir
+			mkdir -p $SUMDIRLINK/$sumdiryear/$sumdir
+			ln -s ../../../$sumdiryear/$sumdirorb $SUMDIRLINK/$sumdiryear/$sumdir/$SORBNUM
+		fi
+		if [[ ! -d $SUMPLOTS/$cdfyear/$cdfdirorb ]]; then
+			mkdir -p $SUMPLOTS/$cdfyear/$cdfdirorb
+			mkdir -p $SUMORBLINK/$cdfyear/$SORBNUM
+			ln -s ../../../$cdfyear/$cdfdirorb $SUMORBLINK/$cdfyear/$SORBNUM/$sumdir
+			mkdir -p $SUMDIRLINK/$cdfyear/$sumdir
+			ln -s ../../../$cdfyear/$sumdirorb $SUMDIRLINK/$cdfyear/$sumdir/$SORBNUM
+		fi
+	
+		
+		# Determine orbit location portion of summary plot file name
+		#
+		# The following sequence is used to determine the orbital
+		# position of the spacecraft in order to designate a
+		# location variable ($lo) that is used in the naming
+		# convention of the summary plot files. This sequence
+		# will designate $lo as either "IN" or "ON" for "Incoming
+		# Northern" or "Outgoing Northern". Otherwise, $lo will
+		# be designated as "Incoming Southern" or "Outgoing Southern"
+		# 
+	
+		# gethilat returned two ILAT times
+		# The first is always the northern latitude
+	
+		if (($n == 0)); then
+			lo=in
+			echo "Incoming North" >> $logfile
+		else
+			lo=is
+			echo "Incoming South" >> $logfile
+		fi
+	
+		#### Convert IDL Incoming Invariant Sumplots ####
+	
+		# Create file names and rename IDL plots
+		# First rename file if created
+	
+		# NOTE: CDF should only be generated once
+	
+		if (( $n == 0 )); then
+	
+		    ## EES CDF ##
+	
+		    if [[ -n $(ls $IDLOUTDIR | grep ees.${CurrentOrbit}.cdf) ]]; then
+			eescdfname=${FAST_CDF_HOME}/ees/fa_k0_ees_${SORBNUM}_v${EESVERSION}.cdf
+			echo eescdfname=$eescdfname >> $logfile
+			mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep ees.${CurrentOrbit}.cdf) $eescdfname
+		    fi
+		
+		    ## IES CDF ##
+		
+		    if [[ -n $(ls $IDLOUTDIR | grep ies.${CurrentOrbit}.cdf) ]]; then
+			iescdfname=${FAST_CDF_HOME}/ies/fa_k0_ies_${SORBNUM}_v${IESVERSION}.cdf
+			mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep ies.${CurrentOrbit}.cdf) $iescdfname     
+		    fi
+		
+		    ## TMS CDF ##
+		
+		    if [[ -n $(ls $IDLOUTDIR | grep tms.${CurrentOrbit}.cdf) ]]; then
+			tmscdfname=${FAST_CDF_HOME}/tms/fa_k0_tms_${SORBNUM}_v${TMSVERSION}.cdf
+			mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep tms.${CurrentOrbit}.cdf) $tmscdfname     
+		    fi
+		
+		    ## DCFIELDS CDF ##
+		
+		    if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.cdf) ]]; then
+			dfldcdfname=${FAST_CDF_HOME}/dcf/fa_k0_dcf_${SORBNUM}_v${DCFVERSION}.cdf
+			mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.cdf) $dfldcdfname
+		    fi
+		    
+		    ## ACFIELDS CDF ##
+
+		    if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.cdf) ]]; then
+			afldcdfname=${FAST_CDF_HOME}/acf/fa_k0_acf_${SORBNUM}_v${ACFVERSION}.cdf
+			mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.cdf) $afldcdfname
+		    fi
+		fi
+	
+		## DCFIELDS GIF ##
+		
+        	if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) ]] ;then
+        		dfldingif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.gif
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) $dfldingif
+        	fi
+		
+		## DCFIELDS PS ##
+		
+        	if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) ]]; then
+        		dfldinps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.ps
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) $dfldinps
+        	fi
+		
+        	## ACFIELDS GIF ##
+ 		
+        	if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) ]]; then
+        		afldingif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.gif
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) $afldingif
+        	fi
+ 		
+        	## ACFIELDS PS ##
+ 		
+        	if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) ]]; then
+        		afldinps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.ps
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) $afldinps
+        	fi
+	
+		# Create the variable that will reflect the directory
+		# where the summary plot files will be placed - the
+		# directory name will take the form yyyy_mm_dd
+		
+		sumdir=$(echo $SecondDate | awk -F/ '{print $1 "_" $2 "_" $3}')
+		sumdiryear=$(echo $SecondDate | awk -F/ '{print $1}')
+		sumdirorb=$(echo ${sumdir}_${SORBNUM})
+		echo "Summary Plot Directory:  $sumdirorb" >> $logfile
+	
+	
+		# Create directory if nonexistent
+	
+		if [[ ! -d $SUMPLOTS/$sumdiryear/$sumdirorb ]] ; then
+			mkdir -p $SUMPLOTS/$sumdiryear/$sumdirorb
+			mkdir -p $SUMORBLINK/$sumdiryear/$SORBNUM
+			ln -s ../../../$sumdiryear/$sumdirorb $SUMORBLINK/$sumdiryear/$SORBNUM/$sumdir
+			mkdir -p $SUMDIRLINK/$sumdiryear/$sumdir
+			ln -s ../../../$sumdiryear/$sumdirorb $SUMDIRLINK/$sumdiryear/$sumdir/$SORBNUM
+		fi
+	
+		#### Outgoing Invariant Sumplots ####	
+	
+	
+		# Determine location name 
+	
+		if [[ $lo = in ]] ; then
+			lo=on
+			echo "Outgoing North" >> $logfile
+		else
+			lo=os
+			echo "Outgoing South" >> $logfile
+		fi
+	
+	
+		#### Convert IDL Outgoing Invariant Sumplots ####
+	
+		# Create file names and rename IDL plots
+		# First rename file if created
+	
+	
+		## DCFIELDS GIF ##
+	
+        	if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) ]]; then
+        		dfldoutgif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.gif
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.gif) $dfldoutgif
+        	fi
+		
+		## DCFIELDS PS ##
+		
+        	if [[ -n $(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) ]]; then
+        		dfldoutps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_dcf_${SORBNUM}_${lo}.ps
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep dcfields.${CurrentOrbit}.${lo}.ps) $dfldoutps
+        	fi
+		
+		## ACFIELDS GIF ##
+ 		
+        	if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) ]]; then
+        		afldoutgif=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.gif
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.gif) $afldoutgif
+        	fi
+ 		
+		## ACFIELDS PS ##
+ 		
+        	if [[ -n $(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) ]]; then
+        		afldoutps=$SUMPLOTS/$sumdiryear/$sumdirorb/fa_k0_acf_${SORBNUM}_${lo}.ps
+        		mv $IDLOUTDIR/$(ls $IDLOUTDIR | grep acfields.${CurrentOrbit}.${lo}.ps) $afldoutps
+        	fi
+	
+	
+		n=$(( $n + 1 ))
+		CurrentLatitudeTime=$(echo ${InLatitudeTimes[$n]})
+	
+		# Remove the postscript files because these are old orbits
+		
+		echo Removing $SUMPLOTS/$sumdiryear/$sumdirorb/*.ps >> $logfile
+		rm $SUMPLOTS/$sumdiryear/$sumdirorb/*.ps 2>> $logfile
+	done # Close CurrentLatitudeTime while loop
+	echo Finished orbit $CurrentOrbit >> $logfile
+  fi    # Close "isorbitdata" IF conditional and automatically go to next orbit
+done    # Close orbit WHILE loop
+
+echo  ----- sumplot ends $(date) ------- >> $logfile
+
+exit 0

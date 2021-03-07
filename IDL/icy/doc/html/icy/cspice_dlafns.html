@@ -1,0 +1,258 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_dlafns</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_dlafns</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_DLAFNS finds the segment following a specified segment in a
+   DLA file.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/dlafns_c.html">dlafns_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+
+   Given:
+
+      handle    the DAS integer handle associated with the file to be
+                searched. This handle is used to identify the file in
+                subsequent calls to other DLA or DAS routines.
+
+      dladsc    the descriptor of the a DLA segment in the file
+                associated with `handle'.
+
+   the call:
+
+      <b>cspice_dlafns</b>, handle, dladsc, nxtdsc, found
+
+   returns:
+
+      nxtdsc    the descriptor of the next DLA segment following the
+                segment associated with the input argument `descr'.
+
+               `nxtdsc' is valid only if the output argument `found'
+               is true.
+
+      found     a logical flag indicating whether the next segment was
+                found.  `found' has the value true if the segment
+                was found; otherwise `found' is false.
+
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   Open a DLA file for read access, traverse the segment
+   list from front to back, and display segment address
+   and size attributes.
+
+      PRO dlab_t, dla
+
+          ;;
+          ;; Constants
+          ;;
+          SPICE_DLA_BWDIDX = 0
+          SPICE_DLA_FWDIDX = 1
+          SPICE_DLA_IBSIDX = 2
+          SPICE_DLA_ISZIDX = 3
+          SPICE_DLA_DBSIDX = 4
+          SPICE_DLA_DSZIDX = 5
+          SPICE_DLA_CBSIDX = 6
+          SPICE_DLA_CSZIDX = 7
+
+          ;;
+          ;; Open the DSK file for read access.
+          ;; We use the DAS-level interface for
+          ;; this function.
+          ;;
+          <a href="cspice_dasopr.html">cspice_dasopr</a>, dla, handle
+
+          ;;
+          ;; Begin a forward search through the
+          ;; kernel, treating the file as a DLA.
+          ;; In this example, it's a very short
+          ;; search.
+          ;;
+          segno = 1L
+
+          <a href="cspice_dlabfs.html">cspice_dlabfs</a>, handle, dladsc, found
+
+          while found do begin
+
+             ;;
+             ;; Display the contents of the current segment
+             ;; descriptor.
+             ;;
+             print
+             print, 'Segment number = ', segno
+             print
+             print, '   Backward segment pointer         = ', $
+                                       dladsc[SPICE_DLA_BWDIDX]
+             print, '   Forward segment pointer          = ', $
+                                        dladsc[SPICE_DLA_FWDIDX]
+             print, '   Integer component base address   = ', $
+                                        dladsc[SPICE_DLA_IBSIDX]
+             print, '   Integer component size           = ', $
+                                        dladsc[SPICE_DLA_ISZIDX]
+             print, '   D.p. component base address      = ', $
+                                        dladsc[SPICE_DLA_DBSIDX]
+             print, '   D.p. component size              = ', $
+                                        dladsc[SPICE_DLA_DSZIDX]
+             print, '   Character component base address = ', $
+                                        dladsc[SPICE_DLA_CBSIDX]
+             print, '   Character component size         = ', $
+                                        dladsc[SPICE_DLA_CSZIDX]
+
+             ;;
+             ;; Find the next segment.
+             ;;
+             current = dladsc
+             segno = segno + 1
+
+             <b>cspice_dlafns</b>, handle, current, dladsc, found
+
+          end
+
+          ;;
+          ;; Close file.
+          ;;
+          <a href="cspice_dascls.html">cspice_dascls</a>, handle
+
+      END
+
+   IDL outputs:
+
+      IDL&gt; dlab_t, 'phobos_3_3.bds'
+
+      Segment number =            1
+
+         Backward segment pointer         =           -1
+         Forward segment pointer          =           -1
+         Integer component base address   =           11
+         Integer component size           =      3311271
+         D.p. component base address      =            0
+         D.p. component size              =       494554
+         Character component base address =            0
+         Character component size         =            0
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   DLA files are built using the DAS low-level format; DLA files are
+   a specialized type of DAS file in which data are organized as a
+   doubly linked list of segments. Each segment's data belong to
+   contiguous components of character, double precision, and integer
+   type.
+
+   This routine supports forward traversal of a DLA file's segment
+   list. A forward traversal may be started from any segment in
+   the file; it is not necessary to call <a href="cspice_dlabfs.html">cspice_dlabfs</a> first. The role
+   of <a href="cspice_dlabfs.html">cspice_dlabfs</a> is simply to return the descriptor of the first
+   segment in the file.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/das.html">DAS.REQ</a>
+   <a href="../req/dsk.html">DSK.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.0, 13-DEC-2016, ML (JPL), EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+
+   find next segment in dla file
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:00 2017</pre>
+
+</body>
+</html>
+

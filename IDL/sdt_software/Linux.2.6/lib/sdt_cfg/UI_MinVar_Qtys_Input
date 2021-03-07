@@ -1,0 +1,191 @@
+#
+# SccsId:
+#
+# @(#)UI_MinVar_Qtys_Input	1.2, 03/22/06
+#
+# This file contains the list of DQD's that can serve as input
+# for minimum/maximum variance analysis and rotation
+# The file:
+#
+#   UI_MinVar_Qtys_Output
+#
+# is the list of DQD's that can be rotated by the results of
+# the minimum variance analysis of these quantities.
+#
+# The format is as follows:
+#
+# DQD     SpId  SubSpc  Src  MinOrMax  TimeComp  XComp  YComp  ZComp
+# String  Int    Int    Int    Int       Int      Int    Int    Int
+#
+# Note that "SubSpc" will be "0" except in the case of CLUSTER, in which
+# case:
+#   SC1 will have a value of "1",
+#   SC2 will have a value of "2",
+#   SC3 will have a value of "3",
+#   SC4 will have a value of "4",
+
+
+
+#=======================================================================
+
+
+
+#
+#  CLUSTER:
+#
+
+CLUSTER_SC1_B_GSE                          30   1   0  1  0  1  2  3
+
+CLUSTER_SC2_B_GSE                          30   2   0  1  0  1  2  3
+
+CLUSTER_SC3_B_GSE                          30   3   0  1  0  1  2  3
+
+CLUSTER_SC4_B_GSE                          30   4   0  1  0  1  2  3
+
+CLUSTER_SC1_B_A_12_GSE                     30   1   0  1  0  1  2  3
+CLUSTER_SC1_B_A_34_GSE                     30   1   0  1  0  1  2  3
+
+CLUSTER_SC2_B_A_12_GSE                     30   2   0  1  0  1  2  3
+CLUSTER_SC2_B_A_34_GSE                     30   2   0  1  0  1  2  3
+
+CLUSTER_SC3_B_A_12_GSE                     30   3   0  1  0  1  2  3
+CLUSTER_SC3_B_A_34_GSE                     30   3   0  1  0  1  2  3
+
+CLUSTER_SC4_B_A_12_GSE                     30   4   0  1  0  1  2  3
+CLUSTER_SC4_B_A_34_GSE                     30   4   0  1  0  1  2  3
+
+CLUSTER_SC1_E_0_L_GSE                      30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_M_GSE                      30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_H_GSE                      30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_L_GSE                   30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_M_GSE                   30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_H_GSE                   30   1   0  0  0  1  2  3
+
+CLUSTER_SC2_E_0_L_GSE                      30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_M_GSE                      30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_H_GSE                      30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_L_GSE                   30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_M_GSE                   30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_H_GSE                   30   2   0  0  0  1  2  3
+
+CLUSTER_SC3_E_0_L_GSE                      30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_M_GSE                      30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_H_GSE                      30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_L_GSE                   30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_M_GSE                   30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_H_GSE                   30   3   0  0  0  1  2  3
+
+CLUSTER_SC4_E_0_L_GSE                      30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_M_GSE                      30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_H_GSE                      30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_L_GSE                   30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_M_GSE                   30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_H_GSE                   30   4   0  0  0  1  2  3
+
+CLUSTER_SC1_E_0_L_A_12_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_L_A_34_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_M_A_12_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_M_A_34_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_H_A_12_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_0_H_A_34_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_L_A_12_GSE              30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_L_A_34_GSE              30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_M_A_12_GSE              30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_M_A_34_GSE              30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_H_A_12_GSE              30   1   0  0  0  1  2  3
+CLUSTER_SC1_E_Dot0_H_A_34_GSE              30   1   0  0  0  1  2  3
+
+CLUSTER_SC2_E_0_L_A_12_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_L_A_34_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_M_A_12_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_M_A_34_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_H_A_12_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_0_H_A_34_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_L_A_12_GSE              30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_L_A_34_GSE              30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_M_A_12_GSE              30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_M_A_34_GSE              30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_H_A_12_GSE              30   2   0  0  0  1  2  3
+CLUSTER_SC2_E_Dot0_H_A_34_GSE              30   2   0  0  0  1  2  3
+
+CLUSTER_SC3_E_0_L_A_12_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_L_A_34_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_M_A_12_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_M_A_34_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_H_A_12_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_0_H_A_34_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_L_A_12_GSE              30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_L_A_34_GSE              30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_M_A_12_GSE              30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_M_A_34_GSE              30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_H_A_12_GSE              30   3   0  0  0  1  2  3
+CLUSTER_SC3_E_Dot0_H_A_34_GSE              30   3   0  0  0  1  2  3
+
+CLUSTER_SC4_E_0_L_A_12_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_L_A_34_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_M_A_12_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_M_A_34_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_H_A_12_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_0_H_A_34_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_L_A_12_GSE              30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_L_A_34_GSE              30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_M_A_12_GSE              30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_M_A_34_GSE              30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_H_A_12_GSE              30   4   0  0  0  1  2  3
+CLUSTER_SC4_E_Dot0_H_A_34_GSE              30   4   0  0  0  1  2  3
+
+CLUSTER_SC1_HKSF_E_0_A_GSE                 30   1   0  0  0  1  2  3
+CLUSTER_SC1_HKSF_E_Dot0_A_GSE              30   1   0  0  0  1  2  3
+
+CLUSTER_SC2_HKSF_E_0_A_GSE                 30   2   0  0  0  1  2  3
+CLUSTER_SC2_HKSF_E_Dot0_A_GSE              30   2   0  0  0  1  2  3
+
+CLUSTER_SC3_HKSF_E_0_A_GSE                 30   3   0  0  0  1  2  3
+CLUSTER_SC3_HKSF_E_Dot0_A_GSE              30   3   0  0  0  1  2  3
+
+CLUSTER_SC4_HKSF_E_0_A_GSE                 30   4   0  0  0  1  2  3
+CLUSTER_SC4_HKSF_E_Dot0_A_GSE              30   4   0  0  0  1  2  3
+
+
+
+#=======================================================================
+
+
+
+#
+#  POLAR:
+#
+
+POLAR_B_GSE                                26   0   0  1  0  1  2  3
+
+POLAR_B_A_12_GSE                           26   0   0  1  0  1  2  3
+POLAR_B_A_34_GSE                           26   0   0  1  0  1  2  3
+
+POLAR_E_GSE                                26   0   0  0  0  1  2  3
+POLAR_E_0_GSE                              26   0   0  0  0  1  2  3
+POLAR_E_Dot0_GSE                           26   0   0  0  0  1  2  3
+
+POLAR_E_A_12_GSE                           26   0   0  0  0  1  2  3
+POLAR_E_A_34_GSE                           26   0   0  0  0  1  2  3
+POLAR_E_0_A_12_GSE                         26   0   0  0  0  1  2  3
+POLAR_E_0_A_34_GSE                         26   0   0  0  0  1  2  3
+POLAR_E_Dot0_A_12_GSE                      26   0   0  0  0  1  2  3
+POLAR_E_Dot0_A_34_GSE                      26   0   0  0  0  1  2  3
+
+
+
+#=======================================================================
+
+
+
+#
+#  GEOTAIL:
+#
+
+BscTgse                                    24   0   0  1  0  1  2  3
+CorrEBV                                    24   0   0  1  0  1  2  3
+"HiRes Magnetometer"                       24   0  24  1  0  1  2  3
+
+
+
+#=======================================================================

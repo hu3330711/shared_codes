@@ -1,0 +1,65 @@
+#!/bin/csh -f
+#
+# For SCCS:
+# @(#)sed_yacc	1.4, 12/09/96
+#
+set prefix = $1
+set inyaccfile = $2
+set outyaccfile = $3
+
+echo "prefix= $prefix"
+echo "inyaccfile= $inyaccfile"
+echo "outyaccfile= $outyaccfile"
+
+set sedyaccfile = "sed_yacc_tmp."$prefix
+echo "sedyaccfile= $sedyaccfile"
+touch $sedyaccfile
+chmod a+rw $sedyaccfile
+
+echo "s/yyact/$1act/g" >> $sedyaccfile
+echo "s/yychar/$1char/g" >> $sedyaccfile
+echo "s/yychk/$1chk/g" >> $sedyaccfile
+echo "s/yydebug/$1debug/g" >> $sedyaccfile
+echo "s/yydef/$1def/g" >> $sedyaccfile
+echo "s/yyerrflag/$1errflag/g" >> $sedyaccfile
+echo "s/yyerror/$1error/g" >> $sedyaccfile
+echo "s/yyexca/$1exca/g" >> $sedyaccfile
+echo "s/yylex/$1lex/g" >> $sedyaccfile
+echo "s/yylineno/$1lineno/g" >> $sedyaccfile
+echo "s/yylval/$1lval/g" >> $sedyaccfile
+echo "s/yynerrs/$1nerrs/g" >> $sedyaccfile
+echo "s/yypact/$1pact/g" >> $sedyaccfile
+echo "s/yyparse/$1parse/g" >> $sedyaccfile
+echo "s/yypgo/$1pgo/g" >> $sedyaccfile
+echo "s/yyps/$1ps/g" >> $sedyaccfile
+echo "s/yypv/$1pv/g" >> $sedyaccfile
+echo "s/yyr1/$1r1/g" >> $sedyaccfile
+echo "s/yyr2/$1r2/g" >> $sedyaccfile
+echo "s/yyreds/$1reds/g" >> $sedyaccfile
+echo "s/yys/$1s/g" >> $sedyaccfile
+echo "s/yystate/$1state/g" >> $sedyaccfile
+echo "s/yytmp/$1tmp/g" >> $sedyaccfile
+echo "s/yytext/$1text/g" >> $sedyaccfile
+echo "s/yytoks/$1toks/g" >> $sedyaccfile
+echo "s/yyv/$1v/g" >> $sedyaccfile
+echo "s/yyval/$1val/g" >> $sedyaccfile
+echo "s/yylhs/$1lhs/g" >> $sedyaccfile
+echo "s/yylen/$1len/g" >> $sedyaccfile
+echo "s/yydgoto/$1dgoto/g" >> $sedyaccfile
+echo "s/yyrindex/$1rindex/g" >> $sedyaccfile
+echo "s/yygindex/$1gindex/g" >> $sedyaccfile
+echo "s/yytable/$1table/g" >> $sedyaccfile
+echo "s/yycheck/$1check/g" >> $sedyaccfile
+echo "s/yy_load_buffer_state/$1_load_buffer_state/g" >> $sedyaccfile
+echo "s/yyrestart/$1restart/g" >> $sedyaccfile
+echo "s/yy_create_buffer/$1_create_buffer/g" >> $sedyaccfile
+echo "s/yy_init_buffer/$1_init_buffer/g" >> $sedyaccfile
+echo "s/yy_flush_buffer/$1_flush_buffer/g" >> $sedyaccfile
+echo "s/yy_switch_to_buffer/$1_switch_to_buffer/g" >> $sedyaccfile
+echo "s/yy_delete_buffer/$1_delete_buffer/g" >> $sedyaccfile
+echo "s/yy_scan_buffer/$1_scan_buffer/g" >> $sedyaccfile
+echo "s/yy_scan_string/$1_scan_string/g" >> $sedyaccfile
+echo "s/yy_scan_bytes/$1_scan_bytes/g" >> $sedyaccfile
+
+sed -f $sedyaccfile $inyaccfile > $outyaccfile
+rm -f $sedyaccfile

@@ -1,0 +1,101 @@
+#!/bin/ksh
+#
+#	db_process_cd.sh
+#
+#	Author:  George Kaplan
+#
+#	@(#)db_process_cd.sh	1.2 09/15/95	UCB SSL
+#
+#	Process data from a FAST archive CD into the database
+#
+#	Usage:  db_process_cd  [-c configfile] [CD-dir]
+#
+#	-c configfile
+#		Use "configfile" instead of the default
+#		$FASTCONFIG/fast_archive.conf.  The -c option must be
+#		the first one if present.
+#
+#	CD-dir  The root directory of the CD being processed.
+#		This can also be an online image of a CD being
+#		prepared for production.  Default:  the current
+#		directory.
+#
+#	Updating the database with newly arrived data from CD's
+#	proceeds in several steps, each with its own script
+#	and supporting programs.  This script performs all
+#	of the processing steps in the proper order.  It 
+#	can be run as part of the automated archive processing
+#	or by hand, if it's necessary to reprocess a CD.
+#
+#	There are two types of error associated with the 
+#	database updates:
+#
+#	1:  Unix or other processing errors that result in
+#	    a non-zero return code from the script.  These
+#	    cause processing to terminate.
+#
+#	2:  Errors or warnings from the Sybase SQL server.
+#	    These do not terminate processing, and the output
+#	    from the script (which includes messages from SQL
+#	    server) goes to stdout.
+# *************************************************************
+
+
+# *************************************************************
+# *** Command line processing
+
+MYNAME=$(basename $0)
+CONFIG=
+CDDIR=
+
+while [ $# -gt 0 ] ; do
+	if [ "$1" = "-c" ] ; then
+		CONFIG="-c $2"
+		shift 2
+	else
+		CDDIR=$1
+		break
+	fi
+done
+
+# *************************************************************
+# *** Temporary files and exit processing
+
+TEMPLOG=/tmp/log$$
+TEMPRES=/tmp/res$$
+
+finish() {
+	/bin/rm -f ${TEMPLOG}
+	echo "----- ${MYNAME} complete at $(date) -----"
+}
+trap finish EXIT
+
+# *************************************************************
+# *** Defaults
+
+# List of scripts to run
+UPDATERS="db_insertfiles db_insertcounts db_update_op_events db_update_almanac"
+
+# *************************************************************
+# *** Do the real work
+echo "----- ${MYNAME} run on $(date) -----"
+
+for prog in ${UPDATERS} ; do
+	/bin/rm -f ${TEMPLOG} ${TEMPRES}
+
+	echo ""
+	echo "----- Running ${prog} ${CONFIG} ${CDDIR} -----"
+
+	(${prog} ${CONFIG} ${CDDIR} ; echo $? > ${TEMPRES}) | \
+		tee ${TEMPLOG}
+	if [[ $(cat ${TEMPRES}) -ne 0 ]] ; then
+		echo ${prog} failed 2>&1
+		exit 1
+	fi
+
+	if [[ `grep -c '^Msg' ${TEMPLOG}` -ne 0 ]] ; then
+		echo Sybase errors from ${prog} 2>&1
+	fi
+done
+
+exit 0

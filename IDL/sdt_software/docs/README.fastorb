@@ -1,0 +1,69 @@
+README.fastorb
+
+@(#)README.fastorb	1.2 03/14/94	UCB SSL
+
+The 'fastorb' directory contains the following programs:
+
+orbgen
+	Generates FAST orbit data files based on an initial set of
+	elements or position and velocity vectors.
+
+orbCheckFile
+	Summarizes data in a FAST orbit file.
+
+fastorb
+	Displays FAST orbit data on an X or OpenWindows display.  (Not
+	yet operational).
+
+--------------------------------------------------------------------
+Basic usage guidelines for 'orbgen' and 'orbCheckFile' are given
+below:
+
+orbgen:
+  Usage:
+    orbgen [-d duration] [-c computation] [-o output] [-f] [infile [outfile]]
+
+  Options:
+	-d duration
+		Duration (in seconds) of output orbit data file.
+		Default: 10,000
+
+	-c computation
+		Computation interval, in seconds.  Default: 1
+
+	-o output
+		Output interval in seconds. Default: 10
+
+	-f	Input is an FDF orbit prediction file
+
+ 	-n orbit#
+		Use 'orbit#' as number of initial orbit instead of
+		number specified in input file.
+*
+	infile
+		Name of input orbit file.  Orbgen reads the first
+		orbit header record to extract the orbital elements.
+		An optional label record can following the header will
+		be used to specify which of the orbit data quantities
+		to include in the output file.
+		Uses stdin if infile is missing.
+
+	outfile
+		Name of output orbit file, which will start with the
+		input header, followed by a sequence of orbit vectors.
+
+
+orbCheckFile:
+	This program will read an orbit file, giving a brief summary
+	of its contents as follows:
+
+		() for every orbit header, the version, orbit number,
+		   epoch, axis, eccentricity, inclination, node, perigee,
+		   mean anomaly, are output.
+
+		() for the first label, the values contained in the orbit
+		   file are listed, as well as the computional step.
+
+		() for each orbit, the minimum and maximum values of each
+		   coordinate are listed.
+

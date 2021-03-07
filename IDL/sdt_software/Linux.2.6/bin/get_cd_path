@@ -1,0 +1,112 @@
+#!/usr/local/pkg/perl-5.8.0/bin/perl -w
+#
+# perl script: get_cd_path.pl
+#
+# PURPOSE:
+#
+# This script will return the latest FAST orbit for which
+# we have data. It uses the Perl DBI, or Database Interface,
+# to connect to the FAST Sybase database and make a query.
+#
+
+
+sub usage {
+  print "Usage:\n".$0." -o <orbit> | -t <timespan>
+
+  Options:
+    -o <orbit>\t\tOrbit Number.
+    -t <timespan>\tStart and Stop times in the form yyyy/mm/dd hh:mm:ss\n";
+
+  exit($_);
+}
+
+sub initialize {
+  # Make sure we're given a command
+
+  if (!($ARGV[0] eq "-o" || $ARGV[0] eq "-t") ||
+      !(($ARGV[0] eq "-o" && @ARGV eq 2) ||
+        ($ARGV[0] eq "-t" && @ARGV eq 5)) ){
+    usage(1);
+  }
+
+  if($ARGV[0] eq "--help" || $ARGV[0] eq "h") {
+    usage(0);
+  }
+
+  if($ARGV[0] eq "-t") {
+    $program = "which_util";
+    $arg = "$ARGV[1] $ARGV[2] $ARGV[3] $ARGV[4]";
+  }
+  if($ARGV[0] eq "-o") {
+    $program = "whichfiles";
+    $arg = $ARGV[1];
+  }
+
+}
+
+&initialize;
+
+# Environment taken from lzpw user
+#
+my $SYBASE = "/disks/fast/sybase";
+my $DSQUERY = "FAST_DB";
+my $SYBASE_TERM = "xterm";
+my $LD_LIBRARY_PATH = "${SYBASE}/lib";
+my $SYBROOT = "/disks/juneau/sybase/sybooks";
+my $EBTRC = "$SYBROOT/unix/ebtrc";
+
+# Load the DBI Module
+#
+use DBI;	
+
+### Create the database handle
+#
+#my $dbh = DBI->connect( "dbi:Sybase:FAST_DB", "fastquery", "slowburn" , {
+	#PrintError => 1,
+	#RaiseError => 1
+#} );
+
+%attr = (
+	PrintError => 0,
+        RaiseError => 0
+);
+
+my $dbh = DBI->connect( "dbi:Sybase:FAST_DB", "fastquery", "slowburn" , \%attr )
+	or die "Can't connect to database: $DBI::errstr!\n";
+#print "Handle Created\n";
+
+### Select the appropriate database
+#
+$dbh->do("use fast_online");
+
+### Run whichfiles for the orbit selected. whichfiles will return
+### all of the data sessions containing data associated with this orbit
+#
+my @files=`(/disks/fast/software/integration/SunOS.5.7/bin/$program $arg)`;
+
+
+foreach $file (@files)
+  {
+	($cdname = $file) =~ s#/.*##;
+	($filename = $file) =~ s#.*/##;
+	my $sth = $dbh->prepare(qq(
+			select VolPath from OnlineVolumes
+			where VolPath like '/disks/FAST%/$cdname'
+			and Domain = 1
+		));
+	$sth->execute();
+	while ( ( $path ) = $sth->fetchrow_array ) {
+		$fullpath="$path/lzp/$filename";
+		push(@fullpaths, $fullpath);
+	}
+}
+print "@fullpaths\n";
+
+
+### Now disconnect from the database
+#
+$dbh->disconnect
+	or warn "Disconnection failed: $DBI::errstr\n";
+
+
+exit;

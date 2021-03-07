@@ -1,0 +1,1 @@
+TCLXLIBS=  -ldl -lm -lieee

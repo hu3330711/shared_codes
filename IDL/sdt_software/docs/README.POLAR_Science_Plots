@@ -1,0 +1,4318 @@
+************************************************************************
+
+   README.POLAR_Science_Plots
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Science quantity plots for POLAR.
+
+************************************************************************
+
+   @(#)README.POLAR_Science_Plots	1.45    01/08/08    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Types of plots.
+
+
+        2.1 Raw quantities.
+
+
+        2.2 Science quantities.
+
+
+        2.3 Special SSL Science quantities.
+
+
+
+
+
+    3. General information on Science quantity plots.
+
+
+        3.1 Time resolution.
+
+
+        3.2 Names of burst plots.
+
+
+        3.3 Names of spin period plots.
+
+
+        3.4 Coordinate systems.
+
+
+        3.5 Minimum time span for plots.
+
+
+        3.6 Electric field quantities and magnetic field.
+
+
+        3.7 Input quantities and plot operations.
+
+
+        3.8 Convolution.
+
+
+        3.9 Vector orientation.
+
+
+
+
+
+    4. Details on the computation of Science quantities.
+
+
+         4.1 Magnetic field.
+
+             4.1.1 Instantaneous magnetic field.
+
+             4.1.2 Spin period magnetic field.
+
+
+         4.2 Electric field.
+
+             4.2.1 Instantaneous electric field.
+
+                 4.2.1.1 Instantaneous electric field, spin plane
+                         components.
+
+                 4.2.1.2 Instantaneous electric field, spin axis
+                         component.
+
+             4.2.2 Burst electric field.
+
+             4.2.3 Spin period electric field.
+
+
+         4.3 Transformed electric field.
+
+
+         4.4 Spacecraft potential.
+
+
+         4.5 ExB plasma velocity.
+
+
+         4.6 Plasma potential.
+
+
+         4.7 Plasma density.
+
+
+         4.8 Poynting flux.
+
+
+         4.9 B flux.
+
+
+        4.10 Angles between the electric field spin plane instrument
+             booms and the magnetic field.
+
+
+        4.11 Angles between the electric field spin plane instrument
+             booms and the Sun vector.
+
+
+        4.12 Electric field FAC component ratios.
+
+
+        4.13 Quality flag for spacecraft potentials.
+
+
+        4.14 Quality flag for large electric field values.
+
+
+        4.15 Selected spacecraft potentials.
+
+
+        4.16 Quality flags for the electric field.
+
+
+
+
+
+    5. Location of the Science plots.
+
+
+       * B ... see: Magnetic field
+
+       * B flux
+
+           ** in GSE, GSM, FAC, SPC coordinates
+
+               *** instantaneous
+
+               *** spin period
+
+       * Coordinate transformation ... see: Rotation matrices
+
+       * Density ... see: Plasma density
+
+       * E ... see: Electric field
+
+       * Electric field
+
+           ** angles between instrument spin plane booms and magnetic
+              field
+
+           ** angles between instrument spin plane booms and Sun vector
+
+           ** corrected spin axis component
+
+               *** burst
+
+               *** instantaneous
+
+           ** corrected spin plane components
+
+               *** burst
+
+               *** instantaneous
+
+           ** E minus E_Dot0
+
+               *** in GSE, GSM, FAC, SPC coordinates
+
+                   **** burst
+
+                   **** instantaneous
+
+                   **** spin period
+
+           ** FAC component ratios
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+           ** in GSE, GSM, FAC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+           ** in SPC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+           ** quality flags
+
+           ** spin period average spin plane component offsets
+
+           ** transformed ... see: Transformed electric field
+
+       * ExB plasma velocity
+
+           ** in GSE, GSM, FAC, SPC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+       * Magnetic field
+
+           ** in GSE, GSM, FAC coordinates
+
+               *** instantaneous
+
+               *** spin period
+
+           ** in SPC coordinates
+
+               *** instantaneous
+
+               *** spin period
+
+           ** latitude ... see: Magnetic field in SPC coordinates
+
+           ** longitude ... see: Magnetic field in SPC coordinates
+
+           ** magnitude ... see: Magnetic field in SPC coordinates
+
+           ** measured minus model
+
+               *** in GSE, GSM, FAC, SPC coordinates
+
+                   **** instantaneous
+
+                   **** spin period
+
+       * Measured B ... see: Magnetic field
+
+       * Model B ... see: Model magnetic field
+
+       * Model magnetic field
+
+           ** in GEI, GSE, GSM, SPC coordinates
+
+       * Plasma density
+
+           ** burst
+
+           ** instantaneous
+
+           ** spin period
+
+       * Plasma potential
+
+           ** burst
+
+           ** instantaneous
+
+           ** spin period
+
+       * Plasma velocity ... see: ExB plasma velocity
+
+       * Potential ... see: Plasma potential, Spacecraft potential
+
+       * Poynting flux
+
+           ** in GSE, GSM, FAC, SPC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+       * Quality flag for large electric field values
+
+           ** instantaneous
+
+           ** spin period
+
+       * Quality flag for spacecraft potentials
+
+           ** instantaneous
+
+           ** spin period
+
+       * Quality flags
+
+           ** electric field ... see: Electric field, quality flags
+
+       * Rotation matrices
+
+       * Spacecraft potential
+
+           ** burst
+
+           ** instantaneous
+
+           ** selected
+
+               *** instantaneous
+
+               *** spin period
+
+           ** spin period
+
+       * Spacecraft velocity
+
+           ** in FAC, SPC coordinates
+
+       * Transformation of coordinates ... see: Rotation matrices
+
+       * Transformed E ... see: Transformed electric field
+
+       * Transformed electric field
+
+           ** in GSE, GSM, FAC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+           ** in SPC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+       * Velocity ... see: Plasma velocity, Spacecraft velocity
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes plots of Science quantities that are
+available for POLAR data.
+
+
+
+       In order to display these plots, one can use the program "sdt".
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Types of plots.
+
+
+
+
+
+       The program "sdt" can be used to create several types of plots.
+
+
+
+       While this document is concerned with Science plots only, it is
+helpful to have some understanding of all the plot types and how they
+are related.
+
+
+
+       The various types of plots are described in the sections that
+follow.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.1 Raw quantities.
+
+
+
+
+
+       Generally speaking, POLAR raw quantities are created by a program
+(part of "sdt") called the POLAR Decommutator, using as input mainly the
+following:
+
+           Level zero electric field data.
+
+           Level zero magnetic field data.
+
+           Orbit data.
+
+           Attitude data.
+
+           Spin phase key parameter data.
+
+
+
+       When a plot of a raw quantity is produced, in general the user
+has no control on how the quantity is determined; i.e., there are no
+parameters to be used in the calculation, that the user could adjust.
+
+       There are exceptions to this, however; in other words, there can
+be raw quantities, produced by the POLAR Decommutator, for which there
+may be parameters that the user can adjust.
+
+
+
+       It should be noted that the name "Raw" is used here only to
+indicate that the quantity is produced by the POLAR Decommutator.  In
+fact, Raw quantities may have undergone a significant degree of
+processing (calibrations, etc.).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.2 Science quantities.
+
+
+
+
+
+       POLAR Science quantities are produced by a set of programs (also
+part of "sdt") known collectively as Science Modules, using as input:
+
+           Raw quantities.
+
+           Other Science quantities.
+
+
+
+       The creation of a Science quantity will always require running
+the POLAR Decommutator; but because Science Modules can use Science
+quantities as inputs to create other Science quantities, the creation of
+a Science quantity may involve a number of Science Modules running to
+produce intermediate Science quantities.
+
+
+
+       When a plot of a Science quantity is produced, there may be user
+parameters to be used in the calculation, that the user could adjust.
+       When this is the case, the user is prompted for the values of the
+parameters.
+       Furthermore, after the plot is completed, the user can change
+parameter values and have "sdt" recompute the Science quantity and
+display a new plot.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.3 Special SSL Science quantities.
+
+
+
+
+
+       POLAR Special SSL Science quantities are Science quantities, just
+like the ones described before.
+
+
+
+       However, these quantities are kept in a separate plot menu,
+because they are intended for special use at SSL: for diagnostics,
+special projects, etc.  SSL stands for the University of California,
+Berkeley, Space Sciences Laboratory.
+
+
+
+       Users interested in of any of these plots can get more
+information from SSL.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. General information on Science quantity plots.
+
+
+
+
+
+       The information in this section is helpful to a better
+understanding of all the Science plots.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Time resolution.
+
+
+
+
+
+       For magnetic field data, there are 2 time resolutions:
+
+
+
+           1) Instantaneous.
+
+              This is usually about 8 data points per second.
+
+
+
+           2) Spin period.
+
+              This results from a least-squares spin fit of the
+              instantaneous data; there is about 1 data point per 6
+              seconds.
+
+
+
+
+       For electric field data, there are 3 time resolutions:
+
+
+
+           1) Instantaneous.
+
+              This is usually about 40 data points per second for V12L,
+              V34L, and V56L; and about 1 data point per 0.4 seconds for
+              V1L, V2L, V3L, V4L, V5L, V6L.
+
+
+
+           2) Burst.
+
+              This is either 1600 data points per second, or 8000 data
+              points per second.
+
+
+
+           3) Spin period.
+
+              This results from a least-squares spin fit of the
+              instantaneous data; there is about 1 data point per 6
+              seconds.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Names of burst plots.
+
+
+
+
+
+       The name of each burst plot contains a 3-letter portion that is
+       one of the following:
+
+
+           BBL
+
+           MBL
+
+           BBU
+
+           MBU
+
+
+
+       The first letter indicates the CPU associated with the burst:
+
+           B = Burst CPU (CPU 2).
+
+           M = Main CPU (CPU 1).
+
+
+
+       The third letter indicates the type of electric field instrument
+       output, depending on the applicable band-pass filter:
+
+           L = Low.
+
+           U = Unfiltered.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Names of spin period plots.
+
+
+
+
+
+       The name of each spin period plot generally contains the letter
+       A, to indicate that it is an average.
+
+
+
+       The name also contains one of the following:
+
+
+           12
+
+           34
+
+
+
+       The spin fit of V12L and the spin fit of V34L are performed
+       starting at different phase angles within the spin period.
+
+       Therefore, the two spin fits have different time tags.
+
+
+
+       For spin period electric field data that could come from either
+       the instantaneous V12L or the instantaneous V34L; "12" or "34"
+       indicates which of the two sets of instantaneous data was used to
+       generate the spin period data.
+
+
+
+       For other spin period electric field data, and for spin period
+       magnetic field data; "12" or "34" indicates which of the two sets
+       of time tags applies.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4 Coordinate systems.
+
+
+
+
+
+       The coordinate systems used for POLAR are documented elsewhere.
+
+
+
+
+       The main coordinate systems for Science plots are:
+
+
+           GSE = Geocentric Solar Ecliptic.
+
+
+           GSM = Geocentric Solar Magnetospheric.
+
+
+           FAC = Field-Aligned Coordinates.
+
+
+
+
+       For FAC, there are really 3 different coordinate systems,
+       depending on the magnetic field used to define them:
+
+
+           FAC_I, defined by the instantaneous magnetic field.
+
+
+           FAC_S, defined by the spin period magnetic field.
+
+
+           FAC_M, defined by the model magnetic field.
+
+
+
+
+       While in principle any FAC coordinate system can be used for any
+       data, in practice these coordinate systems are used as follows:
+
+
+           FAC_I  is used for instantaneous and for burst data.
+
+
+           FAC_S  is used for spin period data.
+
+
+           FAC_M  is used for all data (instantaneous, burst, spin
+                  period).
+
+
+
+
+       Other coordinate systems for Science plots are:
+
+
+           SPC = Spin Plane Coordinates.
+
+                 The SPC coordinate axes are called X-Y, Z, 56.
+
+
+           GEI = Geocentric Equatorial Inertial.
+
+                 Also designated ECI, or GCI.
+
+
+
+
+       All the coordinate systems above are non-rotating; i.e., they do
+       not participate in the rotation of the spacecraft.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5 Minimum time span for plots.
+
+
+
+
+
+       In general, Science plots require the use of auxiliary quantities
+       (attitude, spin pulse, etc.); these quantities are fetched
+       automatically by "sdt" when needed.
+
+
+
+       For a point to be plotted, it must be in the time interval
+       defined by 2 data points for the attitude, if the attitude is
+       needed; and it must be in the time interval defined by 2 data
+       points for the spin pulse, if the spin pulse is needed; etc.
+
+
+
+       Of these auxiliary quantities, the one with the most coarse time
+       resolution within "sdt" is the attitude.  In "sdt", the attitude
+       has one data point every 600 seconds; they occur exactly on the
+       hour, on the hour + 10 minutes, etc.
+
+
+
+       Therefore, it is best to request a time interval that begins a
+       little before the last multiple of 10 minutes preceding the data
+       to be plotted; and that ends a little after the first multiple of
+       10 minutes following the data to be plotted.
+
+
+
+       For example, if the data to be plotted is for the time interval
+
+           04:27:30 - 04:32:10
+
+       then it would be advisable to request an interval such as
+
+           04:19:00 - 04:41:00
+
+       (or simply  04:19 - 04:41 , as "sdt" assumes the seconds to be
+       zero if omitted).
+
+
+
+       Another example: if the data to be plotted is for the time
+       interval
+
+           04:20:00 - 04:40:00
+
+       then it would be advisable to request the same interval as in
+       the previous example, i.e.,
+
+           04:19 - 04:41
+
+
+
+
+       Note that, once a plot has been produced, one can always use the
+       Zoom function of "sdt" to look at a smaller time interval.
+
+
+
+
+       Another reason to extend the time interval is that the
+       processing of important quantities (such as the magnetic field
+       and the electric field) can include the computation of averages
+       over a number of spin periods; these computations cannot be
+       performed near the beginning and the end of the time interval.
+
+       An extra "padding" of 10 to 30 minutes at each end should be
+       amply sufficient in most cases.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.6 Electric field quantities and magnetic field.
+
+
+
+
+
+       We can think of the process of creating a plot of a vector
+       quantity related to the electric field, as consisting of 2 parts:
+
+
+
+           1) Determination of the vector quantity itself.
+
+
+
+           2) Rotation of the vector quantity into the desired
+              coordinate system.
+
+
+
+
+       Examples of such vector quantities include: the various versions
+       of E itself; the "transformed" E, or E_T; and the ExB plasma
+       velocity v.
+
+
+
+
+       The determination of the vector quantity may involve the use of
+       the magnetic field:
+
+
+
+           1) The angles between the electric field instrument booms and
+              B, and the latitude of B with respect to the spin plane;
+              can be used to select data points for the instantaneous
+              and the burst spin plane components of E.
+
+
+
+           2) B may appear in the calculation of the vector quantity (e.
+              g., to determine the spin axis component of E_Dot0; to
+              determine the VxB correction for E_T; or to calculate v).
+
+
+
+       The magnetic field used to determine these vector quantities is
+       always the measured magnetic field; this document specifies in
+       each case whether the B used is the instantaneous B or the spin
+       period B.
+
+
+
+
+       Once the vector quantity has been obtained, it can be plotted in
+       any one of a number of coordinate systems, such as GSE or GSM.
+
+
+
+       If the choice is made to plot the vector quantity in a coordinate
+       system such as FAC, then the magnetic field is involved once
+       again, in the definition of the coordinate system.
+
+
+
+       However, depending on the FAC system chosen, the magnetic field
+       used to define the coordinate system may be the same that was
+       used when obtaining the vector quantity, or may be different.
+
+
+
+       For example, the magnetic field involved in obtaining the
+       instantaneous E_Dot0 is the instantaneous B.
+
+       If the instantaneous E_Dot0 is plotted in FAC_I, then the
+       instantaneous B is used again, to define the coordinate system.
+
+       If, on the other hand, the instantaneous E_Dot0 is plotted in
+       FAC_M, then the model B is used to define the coordinate system.
+       So, in this case we use first the instantaneous B to calculate
+       E_Dot0, and then we use the model B to define the coordinate
+       system into which to rotate that previously calculated E_Dot0.
+
+
+
+
+       The situation can be more complicated in the case of spin period
+       time resolution.
+
+       As an extreme example, if we want to plot the spin period E_Dot0
+       in FAC_M, then we use the following versions of B:
+
+           1) Instantaneous B, to select data points for the
+              instantaneous spin plane components of E.
+
+           2) Spin period B, to calculate the spin axis component of
+              E_Dot0.
+
+           3) Model B, to define the coordinate system for the plot.
+
+
+
+
+       The plasma potential is a scalar quantity, so the issue of which
+       coordinate system to plot it in does not arise.
+
+       However, the plasma potential is defined by E and ds (the
+       element of distance traveled by the spacecraft), both of which
+       are vectors, and both of which are required by the definition to
+       be in a particular FAC coordinate system.
+
+       Therefore, after E has been obtained, which requires B; B will be
+       involved again, in the definition of that FAC coordinate system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7 Input quantities and plot operations.
+
+
+
+
+
+       Usually, plot quantities are chosen from plot menus.  The input
+       quantities for these plots are generally fixed, the user cannot
+       specify which input quantities to use.
+
+
+
+
+       However, some plots can be created "on the fly" by means of "plot
+       operations".
+
+       Here, the user chooses a plot, and chooses an operation to apply
+       to that plot.
+
+       The result is one or more new plots, for which the user has
+       chosen the input quantities.
+
+
+
+
+       Within this document, Science plots that can be created by means
+       of plot operations will be described as appropriate.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.8 Convolution.
+
+
+
+
+
+       Convolution is available as a "plot operation".
+
+
+
+
+       Users interested in this subject can get more information from
+       SSL.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.9 Vector orientation.
+
+
+
+
+
+       Some plots provide the orientation of some vectors with respect
+       to some particular coordinate system.
+
+
+
+
+       What is provided is the following:
+
+
+
+           1) Direction cosines.
+
+              These are the cosines of the angles between the vector and
+              the positive X, Y, and Z coordinate axes.
+
+              The direction cosines are the same as the components of
+              the normalized vector.
+
+
+
+           2) Direction angles.
+
+              These are the angles between the vector and the positive
+              X, Y, and Z coordinate axes.
+
+
+
+           3) Latitude and longitude.
+
+              These are the latitude and longitude that correspond to
+              the direction of the vector; with respect to the
+              coordinate system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4. Details on the computation of Science quantities.
+
+
+
+
+
+       This section has information on how the main Science quantities
+are calculated.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1 Magnetic field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1.1 Instantaneous magnetic field.
+
+
+
+
+
+       The instantaneous magnetic field comes from the measured values
+       of the magnetic field.
+
+
+
+
+       The instantaneous magnetic field is obtained as follows:
+
+
+
+
+           1) Determination of spin period average offsets.
+
+
+
+              There are 2 offsets: one for MFE_X, one for MFE_Y.
+
+
+              Each offset is a spin period running average; the number
+              of spin periods used for the running average can be
+              specified by the user.
+
+
+              The running average is obtained by taking all the data
+              points within the specified number of spin periods, and
+              averaging their values to obtain one output data point;
+              then, the points in the first spin period are discarded,
+              a new spin period is added at the end, and a new average
+              is computed for the next output data point; etc.
+
+
+              It is clear that the running average has one data point
+              for each spin period.
+
+
+              The user can specify also the minimum number of input data
+              points required per spin period, in order to determine an
+              offset.
+
+
+
+              The inputs used to obtain the offsets are the
+              instantaneous "corrected MFE_X 2", or the instantaneous
+              "corrected MFE_Y 2".
+
+
+
+
+              The "corrected MFE_X 2" is the same as the instantaneous
+              "corrected MFE_X" described below; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for MFE_Y.
+
+
+
+
+           2) Applying correction terms.
+
+
+
+              Each spin plane component of the magnetic field can have
+              the following correction terms subtracted:
+
+
+               1) Constant offset.
+
+
+
+
+           3) Applying correction terms.
+
+
+
+              Each spin plane component of the magnetic field can have
+              the following correction terms subtracted:
+
+
+               1) Spin period average offset.
+
+
+
+
+          This produces a "corrected MFE_X" and a "corrected MFE_Y".
+
+
+
+
+           4) Despinning of spin plane components.
+
+
+
+              This removes the effect of having the spin plane
+              components of B measured by an instrument that rotates
+              with the spacecraft.
+
+
+
+
+       Most important user parameters:
+
+           Constant offset for each of MFE_X, MFE_Y.
+
+           Choice of subtracting spin period average offsets from the
+           spin plane components.
+
+           Minimum number of points per spin period.
+
+           Number of spin periods for spin period average offsets.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1.2 Spin period magnetic field.
+
+
+
+
+
+       The spin period magnetic field comes from the measured values of
+       the magnetic field.
+
+
+
+
+       The spin period magnetic field is obtained as follows:
+
+
+
+
+           1) The spin plane components come from a least-squares spin
+              fit of the "corrected MFE_X 2".
+
+
+
+
+              The "corrected MFE_X 2" is the same as the instantaneous
+              "corrected MFE_X" described above; except that it does not
+              have a spin period average offset subtracted.
+
+
+
+
+           2) The spin axis component comes from a least-squares spin
+              fit of the Z component of the instantaneous magnetic
+              field.
+
+
+
+
+       The minimum number of data points per spin period, specified by
+       the user and used to obtain the spin period average offsets for
+       the spin plane components; is also used as a minimum number of
+       data points required for the spin fits.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous magnetic field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2 Electric field.
+
+
+
+
+
+       In what follows, reference is made to the components of the
+       electric field that can be measured: V12, V34, and V56.
+
+
+
+       However, sphere 5 of the electric field instrument failed on
+       2006/03/02.
+
+       Following the failure of sphere 5, no measurement of V56 is
+       possible.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1 Instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1.1 Instantaneous electric field, spin plane components.
+
+
+
+
+
+       The spin plane components of the instantaneous electric field are
+       obtained as follows:
+
+
+
+
+           1) Selection by avoidance of B.
+
+
+
+              Input data points for V12L are selected only if:
+
+               1) The angle between the 12 boom and the B vector is
+                  greater than or equal to a chosen minimum value; and
+
+               2) The angle between the 12 boom and the -B vector is
+                  greater than or equal to the minimum value.
+
+
+
+              The user can specify the minimum value (minimum angle)
+              used in this selection.
+
+
+
+              The user can specify also a threshold value for the
+              magnitude of the B vector, |B|.
+
+              If |B| is less than the threshold, this selection step is
+              not performed, and no data points are discarded on account
+              of it.
+
+              This is because if |B| is very small, the direction of the
+              B vector may be considered to be poorly defined; and also
+              because a very weak B will not affect the electric field
+              measurements as much.
+
+
+
+              An analogous selection is done for V34L, based on the
+              angle between the 34 boom and B (and the angle between the
+              34 boom and -B).
+
+
+
+              It should be noted that the 12 and 34 booms are always on
+              the spin plane; but B and -B are full, 3-dimensional
+              vectors, and their spin plane and their spin axis
+              components are used in these calculations.
+
+
+
+
+           2) Selection by latitude of B.
+
+
+
+              Input data points for V12L are selected only if the
+              absolute value of the latitude of the B vector with
+              respect to the spin plane is greater than or equal to a
+              chosen minimum value.
+
+
+
+              The user can specify the minimum value (minimum latitude)
+              used in this selection.
+
+
+
+              The threshold value for |B|, used in the previous step, is
+              used here as well.
+
+              If |B| is less than the threshold, this selection step is
+              not performed, and no data points are discarded on account
+              of it.
+
+              This is because if |B| is very small, the direction of the
+              B vector may be considered to be poorly defined; and also
+              because a very weak B will not affect the electric field
+              measurements as much.
+
+
+
+              An analogous selection is done for V34L.
+
+
+
+
+          The magnetic field used to select the data points is the
+          instantaneous B.
+
+
+
+
+           3) Selection by avoidance of the Sun vector.
+
+
+
+              Input data points for V12L are selected only if:
+
+               1) The angle between the 12 boom and the Sun vector S is
+                  greater than or equal to a chosen minimum value; and
+
+               2) The angle between the 12 boom and the -S vector is
+                  greater than or equal to the minimum value.
+
+
+
+              The user can specify the minimum value (minimum angle)
+              used in this selection.
+
+
+
+              An analogous selection is done for V34L, based on the
+              angle between the 34 boom and S (and the angle between the
+              34 boom and -S).
+
+
+
+              It should be noted that the 12 and 34 booms are always on
+              the spin plane; but S and -S are full, 3-dimensional
+              vectors, and their spin plane and their spin axis
+              components are used in these calculations.
+
+
+
+
+           4) The result of the selection steps above is a "selected
+              V12L" and a "selected V34L".
+
+
+              These are the data points that satisfy all the selection
+              criteria.
+
+
+
+              From now on, only the selected data points are used.
+
+
+
+
+           5) Determination of spin period average offsets.
+
+
+
+              There are 2 offsets: one for V12L, one for V34L.
+
+
+              Each offset is a spin period running average; the number
+              of spin periods used for the running average can be
+              specified by the user.
+
+
+              The running average is obtained by taking all the data
+              points within the specified number of spin periods, and
+              averaging their values to obtain one output data point;
+              then, the points in the first spin period are discarded,
+              a new spin period is added at the end, and a new average
+              is computed for the next output data point; etc.
+
+
+              It is clear that the running average has one data point
+              for each spin period.
+
+
+              The user can specify also the minimum number of input data
+              points required per spin period, in order to determine an
+              offset.
+
+
+
+              The inputs used to obtain the offsets are the
+              instantaneous "corrected V12L 2", or the instantaneous
+              "corrected V34L 2".
+
+
+
+
+              The "corrected V12L 2" is the same as the instantaneous
+              "corrected V12L" described below; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for V34L.
+
+
+
+
+           6) Applying correction terms.
+
+
+
+              All of these corrections are applied at this point; some
+              of them may be described more completely further below.
+
+
+
+              Each spin plane component of the electric field can have
+              the following correction terms subtracted:
+
+
+               1) Constant offset.
+
+
+               2) Sun angle correction.
+
+
+
+              In addition, V12L can have the following offset
+              subtracted:
+
+
+               1) Offset that is a function of the spacecraft potential
+                  S_C_Pot12.
+
+                  The spacecraft potential used to determine this offset
+                  is at instantaneous time resolution.
+
+
+
+
+           7) Sun angle correction.
+
+
+
+              Each spin plane component of the electric field has a
+              correction subtracted, that is a multiple of the cosine of
+              the azimuth angle of the boom on the spin plane; and a
+              correction subtracted, that is a multiple of the sine of
+              the azimuth angle of the boom on the spin plane.
+
+
+
+              The coefficients for these correction terms can be
+              specified by the user.
+
+
+
+              The coefficients specified by the user are multiplied
+              by an additional factor, which is the cosine of the
+              latitude of the Sun vector (the vector from the Earth to
+              the Sun) with respect to the spin plane.
+
+
+
+
+           8) Scale.
+
+
+
+              Each spin plane component of the electric field has its
+              value multiplied by a constant scale factor.
+
+
+
+              One reason to apply a scale factor is that the wires in
+              the electric field instrument are at the spacecraft's
+              potential; this has the effect of partially diminishing
+              the potential difference between the spheres.
+
+              The proper scale factor to correct for this effect varies
+              somewhat; an average correction is a scale factor of 1.2.
+
+
+
+
+           9) Applying correction terms.
+
+
+
+              Each spin plane component of the electric field can have
+              the following correction terms subtracted:
+
+
+               1) Spin period average offset.
+
+
+
+
+          This produces a "corrected V12L" and a "corrected V34L".
+
+
+
+
+          10) Despinning of spin plane components.
+
+
+
+              This removes the effect of having the spin plane
+              components of E measured by an instrument that rotates
+              with the spacecraft.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1.2 Instantaneous electric field, spin axis component.
+
+
+
+
+
+       The spin axis component of the instantaneous electric field is
+       obtained as follows:
+
+
+
+
+           1) Determination of the coefficients for the spin fit
+              correction.
+
+
+
+              A least-squares spin fit of V56L is performed.
+
+
+              The coefficients obtained for the spin fit are averaged
+              over a chosen time interval; each coefficient is weighted
+              by the final number of points in the fit for the spin
+              period.
+
+
+
+
+           2) Applying correction terms.
+
+
+
+              The spin axis component of the electric field can have the
+              following correction terms subtracted:
+
+
+               1) Constant offset.
+
+
+               2) Spin fit correction, determined by the B and C
+                  averaged spin fit coefficients (cosine and sine
+                  terms).
+
+
+
+
+           3) Scale.
+
+
+
+              The spin axis component of the electric field has its
+              value multiplied by a constant scale factor.
+
+
+
+              One reason to apply a scale factor is that the wires in
+              the electric field instrument are at the spacecraft's
+              potential; this has the effect of partially diminishing
+              the potential difference between the spheres.
+
+              The proper scale factor to correct for this effect varies
+              somewhat; an average correction is a scale factor of 1.2.
+
+
+
+
+          This produces a "corrected V56L".
+
+
+
+
+           4) 3 versions of the electric field.
+
+
+
+              Because the measurement of the spin axis component of the
+              electric field is not as accurate as the measurement of
+              the spin plane components, 3 versions of the electric
+              field are defined, depending on what is used for the value
+              of the spin axis component.
+
+
+
+              The spin plane components for all 3 versions of the
+              electric field are the same.
+
+
+
+               1) E.
+
+
+                  For E ("plain E"), the spin axis component of the
+                  electric field comes from the "corrected V56L", i.e.,
+                  ultimately, from the measured spin axis values.
+
+
+
+               2) E_0.
+
+
+                  For E_0, the spin axis component of the electric field
+                  is assumed to be zero.
+
+
+
+               3) E_Dot0.
+
+
+                  For E_Dot0, the spin axis component of the electric
+                  field is assumed to have a value such, that the dot
+                  product of E_Dot0 and B is zero.
+
+
+                  If the spin plane axes are X and Y, then the spin axis
+                  component for E_Dot0 will be determined by:
+
+                      EZ = - (EX * BX + EY * BY) / BZ
+
+
+                  This expression will not be well defined if |BZ| is
+                  too small; or if either |BX/BZ| or |BY/BZ| is too
+                  large.
+
+                  The user can specify a lower limit for |BZ|, and an
+                  upper limit for |BX/BZ| and |BY/BZ|; if either of
+                  these limits is exceeded, E_Dot0 is undefined.
+
+
+
+
+       The magnetic field used to determine E_Dot0 is the instantaneous
+       B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+           Minimum angle E spin plane boom and B vector.
+
+           Minimum |latitude B|.
+
+           Minimum angle E spin plane boom and Sun vector.
+
+           Constant offset for each of V12, V34.
+
+           Choice of subtracting spin period average offsets from each
+           of V12, V34.
+
+           Minimum number of points per spin period.
+
+           Number of spin periods for spin period average offsets.
+
+           Choice of subtracting from V12 an offset determined by
+           S_C_Pot12.
+
+           Cosine and sine coefficients for Sun angle correction for
+           each of V12, V34.
+
+           Constant scale factor for each of V12, V34.
+
+           Constant offset for V56.
+
+           Choice of subtracting from V56 a spin fit correction.
+
+           Time interval to average the coefficients for the spin fit
+           correction to V56.
+
+           Constant scale factor for V56.
+
+           Minimum |BZ| for E_Dot0.
+
+           Maximum |BX/BZ|, |BY/BZ| for E_Dot0.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.2 Burst electric field.
+
+
+
+
+
+       The burst electric field is obtained in the same manner as the
+       instantaneous electric field; with the obvious difference that
+       burst data is used instead of instantaneous data.
+
+
+
+
+       There are, then, 3 versions of the burst electric field as well:
+       E, E_0, and E_Dot0.
+
+
+
+       The spin plane components for all 3 versions of the electric
+       field are the same.
+
+
+
+
+       The magnetic field used to select the data points, and to
+       determine E_Dot0, is the instantaneous B.
+
+
+
+
+       It must be noted that the instantaneous data values of V12L and
+       V34L are still used for the burst electric field, in the
+       determination of the spin average offsets for the spin plane
+       component.
+
+
+       For the offset for V12L that is a function of the spacecraft
+       potential S_C_Pot12; the spacecraft potential that is used is the
+       one at burst time resolution.
+
+
+       In order to determine the spin fit correction for V56L, the
+       instantaneous data values of V56L are used.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.3 Spin period electric field.
+
+
+
+
+
+       The spin period electric field is obtained as follows:
+
+
+
+
+           1) The spin plane components come from a least-squares spin
+              fit of: either the instantaneous "corrected V12L 2", or
+              the instantaneous "corrected V34L 2".
+
+
+
+
+              The "corrected V12L 2" is the same as the instantaneous
+              "corrected V12L" described above; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for V34L.
+
+
+
+
+           2) 3 versions of the electric field.
+
+
+
+              For the spin period electric field we have also 3
+              versions, depending on what is used for the value of the
+              spin axis component.
+
+
+
+              The spin plane components for all 3 versions of the
+              electric field are the same.
+
+
+
+               1) E.
+
+
+                  For E ("plain E"), the spin axis component of the
+                  electric field comes from a least-squares spin fit of
+                  the instantaneous "corrected V56L 2", i.e.,
+                  ultimately, from the measured spin axis values.
+
+
+                  The "corrected V56L 2" is the same as the
+                  instantaneous "corrected V56L" described above; except
+                  that it does not have a spin fit correction
+                  subtracted.
+
+
+
+               2) E_0.
+
+
+                  For E_0, the spin axis component of the electric field
+                  is assumed to be zero.
+
+
+
+               3) E_Dot0.
+
+
+                  For E_Dot0, the spin axis component of the electric
+                  field is assumed to have a value such, that the dot
+                  product of E_Dot0 and B is zero.
+
+
+                  The same limits specified by the user are applied, as
+                  for the instantaneous and burst cases.
+
+
+
+
+       The minimum number of data points per spin period, specified by
+       the user and used to obtain the spin period average offsets for
+       the spin plane components; is also used as a minimum number of
+       data points required for the spin fits.
+
+
+
+
+       The magnetic field used to determine E_Dot0 is the spin period B.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.3 Transformed electric field.
+
+
+
+
+
+       The electric field obtained so far is in the frame of reference
+       of the spacecraft.
+
+
+
+       We can obtain the electric field in the frame of reference of the
+       center of the Earth: E_T, E_0_T, E_Dot0_T.
+
+
+
+       Each of these versions of the transformed E is obtained by adding
+       to the corresponding E, E_0, or E_Dot0 the appropriate correction
+       determined by
+
+           V x B
+
+       where V is the velocity of the spacecraft.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       and spin period transformed electric field; are the
+       instantaneous, burst, and spin period data, respectively.
+
+
+
+
+       The magnetic field used for the correction, for instantaneous and
+       for burst data, is the instantaneous B; for spin period data, it
+       is the spin period B.
+
+
+
+
+       It should be noted that, although the spin axis component of E_0
+       is zero (by definition); the spin axis component of E_0_T in
+       general will not be zero.
+
+
+
+       On the other hand, since E_Dot0 is perpendicular to B (by
+       definition), and (V x B) is also perpendicular to B; E_Dot0_T
+       will also be perpendicular to B.
+
+
+
+
+       There are plot menus containing plots of the transformed electric
+       field.
+
+       In addition, it is possible to create "on the fly" plots of an E
+       that is transformed by a constant velocity; the value of the
+       constant velocity is specified by the user.
+
+       The resulting quantity is calculated as: E + V x B.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "E + Vconst x B".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where:
+            1) The values of the components of the velocity are to be
+               entered.
+            2) 1 quantity is to be chosen (click left mouse button), for
+               B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+        6) After the plots are created, the values entered for the
+           components of the velocity can be changed via the
+           "Parameter" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.  E must be in
+           units of mV/m.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.  B must be in units of nT.
+
+        3) The values entered for the components of the velocity V must
+           be in units of km/sec.
+
+        4) The components of E, B, and V all refer to the same
+           orientation of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.4 Spacecraft potential.
+
+
+
+
+
+       The spacecraft potential S_C_Pot12 is defined as follows:
+
+
+           S_C_Pot12 = (V1 + V2) / 2
+
+
+
+       The spacecraft potentials S_C_Pot34 and S_C_Pot56 are defined
+       analogously.
+
+
+
+
+       For instantaneous and for spin period time resolutions, V1, V2,
+       etc. stand for V1L, V2L, etc., respectively.
+
+
+       For burst time resolution, different spacecraft potentials can be
+       obtained depending on whether the voltages that are used are all
+       "L" or all "U".
+
+
+
+
+       For instantaneous and for burst time resolutions, the spacecraft
+       potentials come from individual data points for the voltages V1,
+       V2, etc.; at instantaneous or burst time resolution,
+       respectively.
+
+
+       For spin period time resolution, the spacecraft potentials come
+       from spin period averages of the instantaneous voltages V1, V2,
+       etc.
+
+
+
+
+       For all time resolutions, one additional spacecraft potential,
+       S_C_Pot1234, is defined as follows:
+
+
+           S_C_Pot1234 = (S_C_Pot12 + S_C_Pot34) / 2
+
+
+
+
+       For burst time resolution, one additional quantity,
+       S_C_Pot_Delta, is defined as follows:
+
+
+           S_C_Pot_Delta = 2 * (S_C_Pot12 - S_C_Pot34)
+
+
+
+
+       It should be noted that the voltages V1, V2, etc., at
+       instantaneous or burst time resolution; or the spin period
+       averages of the instantaneous voltages V1, V2,, etc.; are
+       spacecraft potential values themselves.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.5 ExB plasma velocity.
+
+
+
+
+
+       The ExB plasma velocity is determined as follows:
+
+
+           v = (E x B) / (|B|^2)
+
+
+       where ^ indicates exponentiation.
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the ExB plasma velocity: the
+       value of v is considered to be undefined if |B| is less than the
+       threshold.
+
+
+
+
+       Since there are 3 versions of the electric field, namely, E, E_0,
+       and E_Dot0; therefore, 3 corresponding versions of the ExB plasma
+       velocity are defined as well, depending on the version of the
+       electric field that is used in the calculation.
+
+       The 3 versions of the ExB plasma velocity are designated v, v_0,
+       and v_Dot0.
+
+
+
+       Furthermore, there are 3 versions of the transformed electric
+       field, namely, E_T, E_0_T, and E_Dot0_T; and from these we can
+       obtain 3 other versions of the ExB plasma velocity, designated as
+       v_T, v_0_T, and v_Dot0_T.
+
+
+
+       In summary, all 6 versions of the ExB plasma velocity are
+       obtained using the same expression above, that involves E and B;
+       the difference among them being which version of the electric
+       field is used for E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       and spin period ExB plasma velocity; are the instantaneous,
+       burst, and spin period data, respectively.
+
+
+
+
+       The magnetic field used to obtain the ExB plasma velocity is the
+       instantaneous B, for instantaneous and for burst data; for spin
+       period data, it is the spin period B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+
+
+
+       There are plot menus containing plots of the ExB plasma velocity.
+
+       In addition, it is possible to create "on the fly" plots of this
+       quantity.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "ExB Vel".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where 1 quantity is to be chosen (click left
+           mouse button), for B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.  E must be in
+           units of mV/m.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.  B must be in units of nT.
+
+        3) The components of E and B both refer to the same orientation
+           of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.6 Plasma potential.
+
+
+
+
+
+       The plasma potential is defined as follows:
+
+
+           Plasma_Pot = - Integral of (E dot ds)
+
+
+       where ds is the element of distance along the path of the
+       spacecraft.
+
+
+
+
+       In practice, instead of using ds in the computation, what is used
+       is
+
+           ds = V * dt
+
+       where V is the spacecraft velocity, and dt is the element of
+       time.
+
+
+
+
+       E and ds are expressed in Field-Aligned Coordinates (FAC); and
+       only the contributions to the dot product from the X and the Y
+       components are used.  The contribution from the Z component (the
+       component of E parallel to B) is excluded from the result.
+
+
+       For instantaneous and for burst time resolution, the FAC
+       coordinate system that is used to obtain the plasma potential is
+       FAC_I.
+
+
+       For spin period time resolution, the FAC coordinate system that
+       is used to obtain the plasma potential is FAC_S.
+
+
+
+
+       At the beginning of the time interval to be plotted, the value of
+       the plasma potential is set to zero.
+
+
+       Whenever there is a data dropout in E, the value of the integral
+       remains "frozen" until more data points are available.
+
+
+       In fact, data gaps in E can occur commonly, as data points are
+       selected so as to exclude data when an electric field instrument
+       boom is near the vector B (or -B).
+
+
+
+
+       Since there are 3 versions of the electric field, namely, E, E_0,
+       and E_Dot0; therefore, 3 corresponding versions of the plasma
+       potential are defined as well, depending on the version of the
+       electric field that is used in the calculation.
+
+       The 3 versions of the plasma potential are designated Plasma_Pot,
+       Plasma_Pot_0, and Plasma_Pot_Dot0.
+
+
+
+       All 3 versions of the plasma potential are obtained using the
+       same expression above, that involves E and ds; the difference
+       among them being which version of the electric field is used for
+       E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       and spin period plasma potential; are the instantaneous, burst,
+       and spin period data, respectively.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.7 Plasma density.
+
+
+
+
+
+       The plasma density n is obtained as a function of the spacecraft
+       potential.
+
+
+
+
+       The function is a power function, provided by Dr. Jack Scudder
+       (University of Iowa).
+
+       It comes from a fit to the POLAR Hydra particle data.
+
+       The function was determined using data for 2001/04/01.
+
+       The validity of the function for dates far from the date above
+       has not been checked.
+
+
+
+
+       n will be in units of cm^(-3), i.e., number of charges per cubic
+       centimeter.
+
+
+
+
+       By using the spacecraft potentials V1, V2, V3, V4, 12, 34, 1234;
+       we obtain the plasma density n_1, n_2, n_3, n_4, n_12, n_34,
+       n_1234, respectively.
+
+
+
+       The spacecraft potentials from spin axis measurements cannot be
+       used to generate plasma density, because the function provided is
+       valid only for the spin plane boom length.
+
+
+
+
+       The spacecraft potential data used to obtain the instantaneous,
+       burst, and spin period plasma density; are the instantaneous,
+       burst, and spin period data, respectively.
+
+
+
+
+       The user can specify an offset to be subtracted from the
+       spacecraft potential; the result is used as the argument to the
+       function to produce the plasma density.
+
+
+
+
+       If the value of the argument to the function is too large, then
+       the plasma density is set to a "missing value" of 1.0e+20.
+
+       Also, if the value of the function is too large, then the result
+       is not reliable, and therefore the plasma density is set to a
+       "missing value" of 1.0e+20.
+
+       If the value of the argument to the function is too small, then
+       the plasma density is set to a "missing value" of 1.0e-20.
+
+
+
+
+
+       Most important user parameters:
+
+           Offset for the spacecraft potential.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.8 Poynting flux.
+
+
+
+
+
+       The Poynting flux is determined as follows:
+
+
+           Poyn_Flux = (Det E) x (Det B)
+
+
+       where "Det" designates "detrended".
+
+
+
+
+       The detrended vector E is the vector E minus a running average of
+       the vector E; the detrended vector B is defined analogously.
+
+
+       The running average is obtained by taking a time interval
+       centered on each original data point, with a total duration equal
+       to some number of spin periods; the original values for all the
+       data points in the interval are averaged, and this becomes the
+       new value for the data point.
+
+
+       It is clear that the running average has one data point for each
+       original data point.
+
+
+       A running average can be obtained for instantaneous or spin
+       period electric field data.
+
+       A running average can be obtained for instantaneous or spin
+       period magnetic field data.
+
+       For instantaneous data, we average the instantaneous data point
+       values; for spin period data, we average the spin period data
+       point values.
+
+
+       Note that when averaging spin period data, it is better to choose
+       an odd number of spin periods; as this will assure that the
+       exact number of data points (except for data gaps) is included in
+       each average.  With an even number of spin periods, there will be
+       uncertainty concerning the end points.
+
+
+       For instantaneous or spin period data, the detrended vector is
+       the original vector minus the corresponding running average.
+
+
+       For burst data, the detrended E is the original E, minus the
+       running average determined by the instantaneous E.
+
+
+
+
+       Since there are 3 versions of the electric field, namely, E, E_0,
+       and E_Dot0; therefore, 3 corresponding versions of the Poynting
+       flux are defined as well, depending on the version of the
+       electric field that is used in the calculation.
+
+       The 3 versions of the Poynting flux are designated Poyn_Flux,
+       Poyn_Flux_0, and Poyn_Flux_Dot0.
+
+
+
+       Furthermore, there are 3 versions of the transformed electric
+       field, namely, E_T, E_0_T, and E_Dot0_T; and from these we can
+       obtain 3 other versions of the Poynting flux, designated as
+       Poyn_Flux_T, Poyn_Flux_0_T, and Poyn_Flux_Dot0_T.
+
+
+
+       In summary, all 6 versions of the Poynting flux are obtained
+       using the same expression above, that involves E and B; the
+       difference among them being which version of the electric field
+       is used for E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       and spin period Poynting flux; are the instantaneous, burst, and
+       spin period data, respectively.
+
+
+
+
+       The magnetic field used to obtain the Poynting flux is the
+       instantaneous B, for instantaneous and for burst data; for spin
+       period data, it is the spin period B.
+
+
+
+
+       It should be noted that, since the spin axis component of E_0 is
+       zero (by definition); the spin axis component of the running
+       average of E_0, and of the detrended E_0; will also be zero.
+
+
+
+       On the other hand, even though E_Dot0 is perpendicular to B (by
+       definition), and E_Dot0_T also is perpendicular to B; in general,
+       the running average and the detrended E_Dot0 and E_Dot0_T, will
+       not be perpendicular to B, or to the running average of B, or to
+       the detrended B.
+
+
+
+
+       Most important user parameters:
+
+           Number of spin periods for the running averages.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.9 B flux.
+
+
+
+
+
+       The B flux is defined as follows:
+
+
+           B_flux = (E x B) / |B|
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the B flux: the value of B_flux
+       is considered to be undefined if |B| is less than the threshold.
+
+
+
+
+       Since there are 3 versions of the electric field, namely, E, E_0,
+       and E_Dot0; therefore, 3 corresponding versions of the B flux are
+       defined as well, depending on the version of the electric field
+       that is used in the calculation.
+
+       The 3 versions of the B flux are designated B_Flux, B_Flux_0,
+       and B_Flux_Dot0.
+
+
+
+       In summary, all 3 versions of the B flux are obtained using the
+       same expression above, that involves E and B; the difference
+       among them being which version of the electric field is used for
+       E.
+
+
+
+
+       The electric field data used to obtain the instantaneous and spin
+       period B flux; are the instantaneous and spin period data,
+       respectively.
+
+
+
+
+       The magnetic field used to obtain the B flux is the instantaneous
+       B, for instantaneous data; for spin period data, it is the spin
+       period B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+
+
+
+       There are plot menus containing plots of B flux.
+
+       In addition, it is possible to create "on the fly" plots of this
+       quantity.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "B Flux".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where 1 quantity is to be chosen (click left
+           mouse button), for B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.
+
+        3) The components of E and B both refer to the same orientation
+           of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.10 Angles between the electric field spin plane instrument
+         booms and the magnetic field.
+
+
+
+
+
+       There are 2 angles that can be determined:
+
+
+            1) The angle between the 12 boom and the B vector.
+
+
+            2) The angle between the 34 boom and the B vector.
+
+
+
+
+       The 12 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 1.
+
+
+       The 34 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 3.
+
+
+
+
+       It should be noted that the 12 and 34 booms are always on the
+       spin plane; but B is a full, 3-dimensional vector, and its spin
+       plane and its spin axis components are used in these
+       calculations.
+
+
+
+
+       The magnetic field used to determine the angles is the
+       instantaneous B.
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the angles between the electric
+       field spin plane instrument booms and the magnetic field: the
+       values of the angles are considered to be undefined if |B| is
+       less than the threshold.
+
+       This is because if |B| is very small, the direction of the
+       B vector may be considered to be poorly defined.
+
+
+
+
+       The determination of the angles can be done at any desired time
+       resolution.
+
+
+
+
+       Most important user parameters:
+
+           Time resolution for the angles.
+
+           Threshold for |B|.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.11 Angles between the electric field spin plane instrument
+         booms and the Sun vector.
+
+
+
+
+
+       There are 2 angles that can be determined:
+
+
+            1) The angle between the 12 boom and the Sun vector.
+
+
+            2) The angle between the 34 boom and the Sun vector.
+
+
+
+
+       The 12 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 1.
+
+
+       The 34 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 3.
+
+
+
+
+       The Sun vector S is the vector that points from the center of the
+       Earth to the Sun.
+
+
+
+
+       It should be noted that the 12 and 34 booms are always on the
+       spin plane; but S is a full, 3-dimensional vector, and its spin
+       plane and its spin axis components are used in these
+       calculations.
+
+
+
+
+       The determination of the angles can be done at any desired time
+       resolution.
+
+
+
+
+       Most important user parameters:
+
+           Time resolution for the angles.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.12 Electric field FAC component ratios.
+
+
+
+
+
+       These are the ratios
+
+
+           EZ / EX
+
+           EZ / EY
+
+
+       where E is in Field-Aligned Coordinates; i.e., the ratios of
+
+           E_parallel / E_perpendicular.
+
+
+
+
+       The ratios are not well defined if the denominators are too
+       small.
+
+
+       The user can specify a lower limit for the absolute value of the
+       denominator.
+
+
+
+
+       If a denominator has an absolute value that is less than the
+       lower limit, it is possible either to consider the corresponding
+       ratio to be undefined (i.e., no data point is produced); or the
+       ratio can be set to a very large value (which can be positive or
+       negative).
+
+
+       The user can specify whether to skip the data point for a small
+       denominator, or to set a huge value.
+
+
+
+
+       Since there are 3 versions of the electric field, namely, E, E_0,
+       and E_Dot0; therefore, 2 corresponding versions of the component
+       ratios are defined as well, depending on the version of the
+       electric field that is used in the calculation (E or E_0).
+
+
+       No component ratios are plotted for E_Dot0 (for E_Dot0, the FAC Z
+       component is zero by definition).
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       and spin period FAC component ratios; are the instantaneous,
+       burst, and spin period data, respectively.
+
+
+
+
+       Most important user parameters:
+
+           Action for small denominator (skip / huge value).
+
+           Minimum |denominator|.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.13 Quality flag for spacecraft potentials.
+
+
+
+
+
+       The quality flag for spacecraft potentials is a measure of the
+       difference between the spin plane spacecraft potentials
+
+
+           S_C_Pot12
+
+           S_C_Pot34
+
+
+
+
+       The user can specify a maximum difference, and a factor for
+       maximum difference.
+
+
+
+
+       If either:
+
+            1) The absolute difference
+
+               |S_C_Pot12 - S_C_Pot34|
+
+       is less than or equal to the maximum difference;
+
+       or:
+
+            2) The absolute difference
+
+               |S_C_Pot12 - S_C_Pot34|
+
+       is less than or equal to the product of: the factor for maximum
+       difference, times the largest of
+
+               |S_C_Pot12|
+
+               |S_C_Pot34|
+
+
+       then the flag is "good" (0);
+
+
+       otherwise, the flag is "bad" (1).
+
+
+
+
+       The spacecraft potential data used to obtain the instantaneous
+       and spin period quality flag; are the instantaneous and spin
+       period data, respectively.
+
+
+
+
+       Most important user parameters:
+
+           Maximum difference.
+
+           Factor for maximum difference.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.14 Quality flag for large electric field values.
+
+
+
+
+
+       The quality flag for large electric field values is a measure of
+       the number of input data points for the raw electric field spin
+       plane components, that have large values.
+
+
+
+
+       The user can specify a maximum value, and a maximum number of bad
+       data points.
+
+
+
+
+       A count is made of the number of data points for the
+       instantaneous V12L and V34L that have absolute value larger than
+       the maximum value, within a time interval.
+
+
+       For instantaneous data, the time interval is the time interval
+       between data points of the instantaneous voltage V1L.
+
+
+       For spin period data, the time interval is the spin period.
+
+
+
+
+       If the number of data points for V12L and V34L with large values
+       in the time interval, is less than or equal to the maximum number
+       of bad data points,
+
+
+       then the flag is "good" (0);
+
+
+       otherwise, the flag is "bad" (1).
+
+
+
+
+       Most important user parameters:
+
+           Maximum value.
+
+           Maximum number of bad data points.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.15 Selected spacecraft potentials.
+
+
+
+
+
+       Points for spacecraft potentials can be selected according to the
+       values of one or more quality flags.
+
+
+
+       Points are selected if all the quality flags are "good", and
+       rejected otherwise.
+
+
+
+
+       For the selection designated as
+
+           QF_1
+
+       the following quality flags are used:
+
+            1) Quality flag for spacecraft potentials.
+
+
+
+
+       For the selection designated as
+
+           QF_2
+
+       the following quality flags are used:
+
+            1) Quality flag for spacecraft potentials.
+
+            2) Quality flag for large electric field values.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.16 Quality flags for the electric field.
+
+
+
+
+
+       The "electric field quality flag 002" is determined by inspecting
+       data in time intervals of equal duration ("computation time
+       interval").
+
+
+
+       The following are determined for each computation interval:
+
+
+
+        1) Standard deviation of the DSC_X component of the electric
+           field at spin period time resolution, "34".
+
+           Standard deviation of the DSC_X component of the electric
+           field at spin period time resolution, "12".
+
+
+
+           Ratio_E_X =
+
+             (SD of the X component of E_34) /
+
+             (SD of the X component of E_12)
+
+
+
+           Diff_E_X =
+
+             (SD of the X component of E_34) -
+
+             (SD of the X component of E_12)
+
+
+
+        2) Standard deviation of the DSC_Y component of the electric
+           field at spin period time resolution, "34".
+
+           Standard deviation of the DSC_Y component of the electric
+           field at spin period time resolution, "12".
+
+
+
+           Ratio_E_Y =
+
+             (SD of the Y component of E_34) /
+
+             (SD of the Y component of E_12)
+
+
+
+           Diff_E_Y =
+
+             (SD of the Y component of E_34) -
+
+             (SD of the Y component of E_12)
+
+
+
+        3) The quality flag Q is determined as follows (where K1, K2,
+           K3, K4, K5, K6, are values specified by the user):
+
+
+
+            1) If
+
+
+               K2 <= |Ratio_E_X| <= K3  and
+
+               K2 <= |Ratio_E_Y| <= K3
+
+
+               then Q is set for "Quality level 1, ratios".
+
+
+
+            2) Otherwise, if
+
+
+               (K4 <= |Ratio_E_X| <= K2  and
+
+                |Diff_E_X| >= K5) or
+
+
+               (K4 <= |Ratio_E_Y| <= K2  and
+
+                |Diff_E_Y| >= K5) or
+
+
+               (K3 <= |Ratio_E_X| <= K6  and
+
+                |Diff_E_X| >= K5) or
+
+
+               (K3 <= |Ratio_E_Y| <= K6  and
+
+                |Diff_E_Y| >= K5)
+
+
+               then Q is set for "Quality level 2".
+
+
+
+            3) Otherwise, if
+
+
+               (|Ratio_E_X| <= K4  and
+
+                |Diff_E_X| >= K5) or
+
+
+               (|Ratio_E_Y| <= K4  and
+
+                |Diff_E_Y| >= K5) or
+
+
+               (|Ratio_E_X| >= K6  and
+
+                |Diff_E_X| >= K5) or
+
+
+               (|Ratio_E_Y| >= K6  and
+
+                |Diff_E_Y| >= K5)
+
+
+               then Q is set for "Quality level 3".
+
+
+
+            4) Otherwise,
+
+
+               then Q is set for "Quality level 1, small fields".
+
+
+
+        4) For the quality flag to be determined, a minimum number of
+           data points is required.  Also, it is required that the
+           denominators of the ratios not be too close to zero (the
+           absolute value of each denominator must be >= K1).
+
+
+
+           If these conditions are not met, then the quality flag is set
+           to a "filler value" (99.0).
+
+
+
+
+       Most important user parameters:
+
+           Duration of the computation time interval.
+
+           Minimum number of points required for each input (points per
+           minute).
+
+           Parameters K1, K2, K3, K4, K5, K6.
+
+           Values to be assigned to the quality flag for each quality
+           level.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    5. Location of the Science plots.
+
+
+
+
+
+       This section helps locate the Science plots in the "sdt" plot
+menus.
+
+
+
+
+
+------------------------------------------------------------------------
+
+    Plot: B flux in GSE, GSM, FAC, SPC coordinates,
+          instantaneous.
+
+    Plot menu: POLAR_Science -> B_Flux -> Inst.
+
+    Plot name: POLAR_B_Flux_GSE_X, Y, Z.
+               POLAR_B_Flux_0_GSE_X, Y, Z.
+               POLAR_B_Flux_Dot0_GSE_X, Y, Z.
+
+               POLAR_B_Flux_GSM_X, Y, Z.
+               POLAR_B_Flux_0_GSM_X, Y, Z.
+               POLAR_B_Flux_Dot0_GSM_X, Y, Z.
+
+               POLAR_B_Flux_FAC_I_X, Y, Z.
+               POLAR_B_Flux_0_FAC_I_X, Y, Z.
+               POLAR_B_Flux_Dot0_FAC_I_X, Y, Z.
+
+               POLAR_B_Flux_FAC_M_X, Y, Z.
+               POLAR_B_Flux_0_FAC_M_X, Y, Z.
+               POLAR_B_Flux_Dot0_FAC_M_X, Y, Z.
+
+               POLAR_B_Flux_SPC_X-Y, Z, 56.
+               POLAR_B_Flux_0_SPC_X-Y, Z, 56.
+               POLAR_B_Flux_Dot0_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: B flux in GSE, GSM, FAC, SPC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> B_Flux -> Spin_P.
+
+    Plot name: POLAR_B_Flux_A_12_GSE_X, Y, Z; 34.
+               POLAR_B_Flux_0_A_12_GSE_X, Y, Z; 34.
+               POLAR_B_Flux_Dot0_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_B_Flux_A_12_GSM_X, Y, Z; 34.
+               POLAR_B_Flux_0_A_12_GSM_X, Y, Z; 34.
+               POLAR_B_Flux_Dot0_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_B_Flux_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_B_Flux_0_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_B_Flux_Dot0_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_B_Flux_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_B_Flux_0_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_B_Flux_Dot0_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_B_Flux_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_B_Flux_0_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_B_Flux_Dot0_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, angles between instrument spin plane booms and
+          magnetic field.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_cos_angle_12_B, 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, angles between instrument spin plane booms and
+          Sun vector.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_cos_angle_12_Sun, 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin axis component, burst.
+
+    Plot menu: POLAR_Science -> Less_Used -> Burst.
+
+    Plot name: POLAR_V56_C_BBL; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin axis component, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_V56L_C.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin plane components, burst.
+
+    Plot menu: POLAR_Science -> Less_Used -> Burst.
+
+    Plot name: POLAR_V12_C_BBL, 34; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin plane components,
+          instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_V12L_C, 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, E minus E_Dot0 in GSE, GSM, FAC, SPC
+          coordinates, burst.
+
+    Plot menu: POLAR_Science -> Less_Used -> Burst.
+
+    Plot name: POLAR_E_minus_E_Dot0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_minus_E_Dot0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_minus_E_Dot0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_minus_E_Dot0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_minus_E_Dot0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, E minus E_Dot0 in GSE, GSM, FAC, SPC
+          coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_E_minus_E_Dot0_GSE_X, Y, Z.
+
+               POLAR_E_minus_E_Dot0_GSM_X, Y, Z.
+
+               POLAR_E_minus_E_Dot0_FAC_I_X, Y, Z.
+
+               POLAR_E_minus_E_Dot0_FAC_M_X, Y, Z.
+
+               POLAR_E_minus_E_Dot0_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, E minus E_Dot0 in GSE, GSM, FAC, SPC
+          coordinates, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_E_minus_E_Dot0_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_E_minus_E_Dot0_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_E_minus_E_Dot0_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_E_minus_E_Dot0_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_E_minus_E_Dot0_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, burst.
+
+    Plot menu: POLAR_Science -> Less_Used -> Burst.
+
+    Plot name: POLAR_E_BBL_FAC_I_Z/X, Y; MBL; BBU; MBU.
+               POLAR_E_0_BBL_FAC_I_Z/X, Y; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_E_FAC_I_Z/X, Y.
+               POLAR_E_0_FAC_I_Z/X, Y.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_E_A_12_FAC_S_Z/X, Y; 34.
+               POLAR_E_0_A_12_FAC_S_Z/X, Y; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC coordinates, burst.
+
+    Plot menu: POLAR_Science -> E_B_Coord -> Burst.
+
+    Plot name: POLAR_E_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> E_B_Coord -> Inst.
+
+    Plot name: POLAR_E_GSE_X, Y, Z.
+               POLAR_E_0_GSE_X, Y, Z.
+               POLAR_E_Dot0_GSE_X, Y, Z.
+
+               POLAR_E_GSM_X, Y, Z.
+               POLAR_E_0_GSM_X, Y, Z.
+               POLAR_E_Dot0_GSM_X, Y, Z.
+
+               POLAR_E_FAC_I_X, Y, Z.
+               POLAR_E_0_FAC_I_X, Y, Z.
+               POLAR_E_Dot0_FAC_I_X, Y, Z.
+
+               POLAR_E_FAC_M_X, Y, Z.
+               POLAR_E_0_FAC_M_X, Y, Z.
+               POLAR_E_Dot0_FAC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> E_B_Coord -> Spin_P.
+
+    Plot name: POLAR_E_A_12_GSE_X, Y, Z; 34.
+               POLAR_E_0_A_12_GSE_X, Y, Z; 34.
+               POLAR_E_Dot0_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_E_A_12_GSM_X, Y, Z; 34.
+               POLAR_E_0_A_12_GSM_X, Y, Z; 34.
+               POLAR_E_Dot0_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_E_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_E_0_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_E_Dot0_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_E_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_E_0_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_E_Dot0_A_12_FAC_M_X, Y, Z; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in SPC coordinates, burst.
+
+    Plot menu: POLAR_Science -> More_Used -> Burst.
+
+    Plot name: POLAR_E_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_E_0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_E_Dot0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in SPC coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> More_Used -> Inst.
+
+    Plot name: POLAR_E_SPC_X-Y, Z, 56.
+               POLAR_E_0_SPC_X-Y, Z, 56.
+               POLAR_E_Dot0_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in SPC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> More_Used -> Spin_P.
+
+    Plot name: POLAR_E_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_E_0_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_E_Dot0_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, quality flags.
+
+    Plot menu: POLAR_Science -> Other_E -> Misc.
+
+    Plot name: POLAR_E_Q_F_002_Q_F.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, spin period average spin plane component
+          offsets.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_V12L_Spin_Avg_Offset; 34.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, SPC coordinates, burst.
+
+    Plot menu: POLAR_Science -> ExB_Velocity -> Burst.
+
+    Plot name: POLAR_v_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_v_Dot0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_v_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_v_0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_v_Dot0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+               POLAR_v_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_v_0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_v_Dot0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, SPC coordinates,
+          instantaneous.
+
+    Plot menu: POLAR_Science -> ExB_Velocity -> Inst.
+
+    Plot name: POLAR_v_GSE_X, Y, Z.
+               POLAR_v_0_GSE_X, Y, Z.
+               POLAR_v_Dot0_GSE_X, Y, Z.
+
+               POLAR_v_T_GSE_X, Y, Z.
+               POLAR_v_0_T_GSE_X, Y, Z.
+               POLAR_v_Dot0_T_GSE_X, Y, Z.
+
+               POLAR_v_GSM_X, Y, Z.
+               POLAR_v_0_GSM_X, Y, Z.
+               POLAR_v_Dot0_GSM_X, Y, Z.
+
+               POLAR_v_T_GSM_X, Y, Z.
+               POLAR_v_0_T_GSM_X, Y, Z.
+               POLAR_v_Dot0_T_GSM_X, Y, Z.
+
+               POLAR_v_FAC_I_X, Y, Z.
+               POLAR_v_0_FAC_I_X, Y, Z.
+               POLAR_v_Dot0_FAC_I_X, Y, Z.
+
+               POLAR_v_T_FAC_I_X, Y, Z.
+               POLAR_v_0_T_FAC_I_X, Y, Z.
+               POLAR_v_Dot0_T_FAC_I_X, Y, Z.
+
+               POLAR_v_FAC_M_X, Y, Z.
+               POLAR_v_0_FAC_M_X, Y, Z.
+               POLAR_v_Dot0_FAC_M_X, Y, Z.
+
+               POLAR_v_T_FAC_M_X, Y, Z.
+               POLAR_v_0_T_FAC_M_X, Y, Z.
+               POLAR_v_Dot0_T_FAC_M_X, Y, Z.
+
+               POLAR_v_SPC_X-Y, Z, 56.
+               POLAR_v_0_SPC_X-Y, Z, 56.
+               POLAR_v_Dot0_SPC_X-Y, Z, 56.
+
+               POLAR_v_T_SPC_X-Y, Z, 56.
+               POLAR_v_0_T_SPC_X-Y, Z, 56.
+               POLAR_v_Dot0_T_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, SPC coordinates, spin
+          period.
+
+    Plot menu: POLAR_Science -> ExB_Velocity -> Spin_P.
+
+    Plot name: POLAR_v_A_12_GSE_X, Y, Z; 34.
+               POLAR_v_0_A_12_GSE_X, Y, Z; 34.
+               POLAR_v_Dot0_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_v_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_v_0_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_v_Dot0_T_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_v_A_12_GSM_X, Y, Z; 34.
+               POLAR_v_0_A_12_GSM_X, Y, Z; 34.
+               POLAR_v_Dot0_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_v_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_v_0_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_v_Dot0_T_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_v_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_v_0_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_v_Dot0_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_v_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_v_0_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_v_Dot0_T_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_v_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_v_0_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_v_Dot0_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_v_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_v_0_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_v_Dot0_T_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_v_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_v_0_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_v_Dot0_A_12_SPC_X-Y, Z, 56; 34.
+
+               POLAR_v_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_v_0_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_v_Dot0_T_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in GSE, GSM, FAC coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> E_B_Coord -> Inst.
+
+    Plot name: POLAR_B_GSE_X, Y, Z.
+
+               POLAR_B_GSE_dir_cos_X, Y, Z.
+
+               POLAR_B_GSE_dir_ang_X, Y, Z.
+
+               POLAR_B_GSE_Lat.
+
+               POLAR_B_GSE_Long.
+
+               POLAR_B_GSM_X, Y, Z.
+
+               POLAR_B_FAC_I_X, Y, Z.
+
+               POLAR_B_FAC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in GSE, GSM, FAC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> E_B_Coord -> Spin_P.
+
+    Plot name: POLAR_B_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_B_A_12_GSE_dir_cos_X, Y, Z; 34.
+
+               POLAR_B_A_12_GSE_dir_ang_X, Y, Z; 34.
+
+               POLAR_B_A_12_GSE_Lat; 34.
+
+               POLAR_B_A_12_GSE_Long; 34.
+
+               POLAR_B_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_B_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_B_A_12_FAC_M_X, Y, Z; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in SPC coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> More_Used -> Inst.
+
+    Plot name: POLAR_B_SPC_X-Y, Z, 56 (rectangular).
+
+               POLAR_B_SPC_Mag, Lat, Long (spherical).
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in SPC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> More_Used -> Spin_P.
+
+    Plot name: POLAR_B_A_12_SPC_X-Y, Z, 56; 34 (rectangular).
+
+               POLAR_B_A_12_SPC_Mag, Lat, Long; 34 (spherical).
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field, measured minus model in GSE, GSM, FAC, SPC
+          coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_B_minus_Model_B_GSE_X, Y, Z.
+
+               POLAR_B_minus_Model_B_GSM_X, Y, Z.
+
+               POLAR_B_minus_Model_B_FAC_I_X, Y, Z.
+
+               POLAR_B_minus_Model_B_FAC_M_X, Y, Z.
+
+               POLAR_B_minus_Model_B_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field, measured minus model in GSE, GSM, FAC, SPC
+          coordinates, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_B_minus_Model_B_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_B_minus_Model_B_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_B_minus_Model_B_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_B_minus_Model_B_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_B_minus_Model_B_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Model magnetic field in GEI, GSE, GSM, SPC coordinates.
+
+    Plot menu: POLAR_Science -> Auxiliary -> Model_B.
+
+    Plot name: BMdlT96_ECI_X, Y, Z.
+
+               BMdlT96_GSE_X, Y, Z.
+
+               BMdlT96_GSM_X, Y, Z.
+
+               POLAR_Model_B_T96_SPC_X-Y, Z, 56.
+
+    Notes: Tsyganenko 1996 model.
+
+    User parameters:
+
+        Solar Wind Pressure (nPascal).
+
+        DST (nT).
+
+        IMF BY (nT).
+
+        IMF BZ (nT).
+
+        Geomagnetic Dipole Tilt (deg).
+
+        Max no. IGRF harmonics for Model B (1-10).
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, burst.
+
+    Plot menu: POLAR_Science -> Plasma_Density -> Burst.
+
+    Plot name: POLAR_n_1_BBL, 2, 3, 4, 12, 34, 1234;
+               MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, instantaneous.
+
+    Plot menu: POLAR_Science -> Plasma_Density -> Inst.
+
+    Plot name: POLAR_n_1, 2, 3, 4, 12, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, spin period.
+
+    Plot menu: POLAR_Science -> Plasma_Density -> Spin_P.
+
+    Plot name: POLAR_n_1_A, 2, 3, 4, 12, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, burst.
+
+    Plot menu: POLAR_Science -> Plasma_Pot -> Burst.
+
+    Plot name: POLAR_Plasma_Pot_BBL; MBL; BBU; MBU.
+               POLAR_Plasma_Pot_0_BBL; MBL; BBU; MBU.
+               POLAR_Plasma_Pot_Dot0_BBL; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, instantaneous.
+
+    Plot menu: POLAR_Science -> Plasma_Pot -> Inst.
+
+    Plot name: POLAR_Plasma_Pot.
+               POLAR_Plasma_Pot_0.
+               POLAR_Plasma_Pot_Dot0.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, spin period.
+
+    Plot menu: POLAR_Science -> Plasma_Pot -> Spin_P.
+
+    Plot name: POLAR_Plasma_Pot_A_12; 34.
+               POLAR_Plasma_Pot_0_A_12; 34.
+               POLAR_Plasma_Pot_Dot0_A_12; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, SPC coordinates, burst.
+
+    Plot menu: POLAR_Science -> Poynting_Flux -> Burst.
+
+    Plot name: POLAR_Poyn_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_Poyn_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_Poyn_0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+               POLAR_Poyn_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_Poyn_0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_Poyn_Dot0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, SPC coordinates,
+          instantaneous.
+
+    Plot menu: POLAR_Science -> Poynting_Flux -> Inst.
+
+    Plot name: POLAR_Poyn_GSE_X, Y, Z.
+               POLAR_Poyn_0_GSE_X, Y, Z.
+               POLAR_Poyn_Dot0_GSE_X, Y, Z.
+
+               POLAR_Poyn_T_GSE_X, Y, Z.
+               POLAR_Poyn_0_T_GSE_X, Y, Z.
+               POLAR_Poyn_Dot0_T_GSE_X, Y, Z.
+
+               POLAR_Poyn_GSM_X, Y, Z.
+               POLAR_Poyn_0_GSM_X, Y, Z.
+               POLAR_Poyn_Dot0_GSM_X, Y, Z.
+
+               POLAR_Poyn_T_GSM_X, Y, Z.
+               POLAR_Poyn_0_T_GSM_X, Y, Z.
+               POLAR_Poyn_Dot0_T_GSM_X, Y, Z.
+
+               POLAR_Poyn_FAC_I_X, Y, Z.
+               POLAR_Poyn_0_FAC_I_X, Y, Z.
+               POLAR_Poyn_Dot0_FAC_I_X, Y, Z.
+
+               POLAR_Poyn_T_FAC_I_X, Y, Z.
+               POLAR_Poyn_0_T_FAC_I_X, Y, Z.
+               POLAR_Poyn_Dot0_T_FAC_I_X, Y, Z.
+
+               POLAR_Poyn_FAC_M_X, Y, Z.
+               POLAR_Poyn_0_FAC_M_X, Y, Z.
+               POLAR_Poyn_Dot0_FAC_M_X, Y, Z.
+
+               POLAR_Poyn_T_FAC_M_X, Y, Z.
+               POLAR_Poyn_0_T_FAC_M_X, Y, Z.
+               POLAR_Poyn_Dot0_T_FAC_M_X, Y, Z.
+
+               POLAR_Poyn_SPC_X-Y, Z, 56.
+               POLAR_Poyn_0_SPC_X-Y, Z, 56.
+               POLAR_Poyn_Dot0_SPC_X-Y, Z, 56.
+
+               POLAR_Poyn_T_SPC_X-Y, Z, 56.
+               POLAR_Poyn_0_T_SPC_X-Y, Z, 56.
+               POLAR_Poyn_Dot0_T_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, SPC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> Poynting_Flux -> Spin_P.
+
+    Plot name: POLAR_Poyn_A_12_GSE_X, Y, Z; 34.
+               POLAR_Poyn_0_A_12_GSE_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_Poyn_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_Poyn_0_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_T_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_Poyn_A_12_GSM_X, Y, Z; 34.
+               POLAR_Poyn_0_A_12_GSM_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_Poyn_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_Poyn_0_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_T_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_Poyn_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_Poyn_0_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_Poyn_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_Poyn_0_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_T_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_Poyn_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_Poyn_0_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_Poyn_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_Poyn_0_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_Poyn_Dot0_T_A_12_FAC_M_X, Y, Z; 34.
+
+               POLAR_Poyn_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_Poyn_0_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_Poyn_Dot0_A_12_SPC_X-Y, Z, 56; 34.
+
+               POLAR_Poyn_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_Poyn_0_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_Poyn_Dot0_T_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Quality flag for large electric field values, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_QFlag_Big_E.
+
+------------------------------------------------------------------------
+
+    Plot: Quality flag for large electric field values, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_QFlag_Big_E_A.
+
+------------------------------------------------------------------------
+
+    Plot: Quality flag for spacecraft potentials, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_QFlag_S_C_Pot12-34.
+
+------------------------------------------------------------------------
+
+    Plot: Quality flag for spacecraft potentials, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_QFlag_S_C_Pot12-34_A.
+
+------------------------------------------------------------------------
+
+    Plot: Rotation matrices.
+
+    Plot menu: POLAR_Science -> Transf_Coord.
+
+    Notes: These plots can be used to display the matrix elements of the
+           various rotation matrices used in the transformations of
+           coordinates.
+
+           Users who are interested can get more information from SSL.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, burst.
+
+    Plot menu: POLAR_Science -> More_Used -> Burst.
+
+    Plot name: POLAR_S_C_Pot12_BBL, 34, 1234, _Delta, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, instantaneous.
+
+    Plot menu: POLAR_Science -> More_Used -> Inst.
+
+    Plot name: POLAR_S_C_Pot12, 34, 1234, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, selected, instantaneous.
+
+    Plot menu: POLAR_Science -> Less_Used -> Inst.
+
+    Plot name: POLAR_S_C_Pot12_QF_1, 34, 1234.
+
+               POLAR_S_C_Pot12_QF_2, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, selected, spin period.
+
+    Plot menu: POLAR_Science -> Less_Used -> Spin_P.
+
+    Plot name: POLAR_S_C_Pot12_QF_1_A, 34, 1234.
+
+               POLAR_S_C_Pot12_QF_2_A, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, spin period.
+
+    Plot menu: POLAR_Science -> More_Used -> Spin_P.
+
+    Plot name: POLAR_S_C_Pot12_A, 34, 1234, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft velocity in FAC, SPC coordinates.
+
+    Plot menu: POLAR_Science -> Auxiliary -> S_C_Vel.
+
+    Plot name: POLAR_S_C_Vel_FAC_I_X, Y, Z.
+
+               POLAR_S_C_Vel_FAC_S_X, Y, Z.
+
+               POLAR_S_C_Vel_FAC_M_X, Y, Z.
+
+               POLAR_S_C_Vel_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC coordinates,
+          burst.
+
+    Plot menu: POLAR_Science -> E_T_Coord -> Burst.
+
+    Plot name: POLAR_E_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_T_BBL_GSE_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_T_BBL_GSM_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_T_BBL_FAC_I_X, Y, Z; MBL; BBU; MBU.
+
+               POLAR_E_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+               POLAR_E_Dot0_T_BBL_FAC_M_X, Y, Z; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC coordinates,
+          instantaneous.
+
+    Plot menu: POLAR_Science -> E_T_Coord -> Inst.
+
+    Plot name: POLAR_E_T_GSE_X, Y, Z.
+               POLAR_E_0_T_GSE_X, Y, Z.
+               POLAR_E_Dot0_T_GSE_X, Y, Z.
+
+               POLAR_E_T_GSM_X, Y, Z.
+               POLAR_E_0_T_GSM_X, Y, Z.
+               POLAR_E_Dot0_T_GSM_X, Y, Z.
+
+               POLAR_E_T_FAC_I_X, Y, Z.
+               POLAR_E_0_T_FAC_I_X, Y, Z.
+               POLAR_E_Dot0_T_FAC_I_X, Y, Z.
+
+               POLAR_E_T_FAC_M_X, Y, Z.
+               POLAR_E_0_T_FAC_M_X, Y, Z.
+               POLAR_E_Dot0_T_FAC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC coordinates,
+          spin period.
+
+    Plot menu: POLAR_Science -> E_T_Coord -> Spin_P.
+
+    Plot name: POLAR_E_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_E_0_T_A_12_GSE_X, Y, Z; 34.
+               POLAR_E_Dot0_T_A_12_GSE_X, Y, Z; 34.
+
+               POLAR_E_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_E_0_T_A_12_GSM_X, Y, Z; 34.
+               POLAR_E_Dot0_T_A_12_GSM_X, Y, Z; 34.
+
+               POLAR_E_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_E_0_T_A_12_FAC_S_X, Y, Z; 34.
+               POLAR_E_Dot0_T_A_12_FAC_S_X, Y, Z; 34.
+
+               POLAR_E_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_E_0_T_A_12_FAC_M_X, Y, Z; 34.
+               POLAR_E_Dot0_T_A_12_FAC_M_X, Y, Z; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in SPC coordinates, burst.
+
+    Plot menu: POLAR_Science -> More_Used -> Burst.
+
+    Plot name: POLAR_E_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_E_0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+               POLAR_E_Dot0_T_BBL_SPC_X-Y, Z, 56; MBL; BBU; MBU.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in SPC coordinates, instantaneous.
+
+    Plot menu: POLAR_Science -> More_Used -> Inst.
+
+    Plot name: POLAR_E_T_SPC_X-Y, Z, 56.
+               POLAR_E_0_T_SPC_X-Y, Z, 56.
+               POLAR_E_Dot0_T_SPC_X-Y, Z, 56.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in SPC coordinates, spin period.
+
+    Plot menu: POLAR_Science -> More_Used -> Spin_P.
+
+    Plot name: POLAR_E_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_E_0_T_A_12_SPC_X-Y, Z, 56; 34.
+               POLAR_E_Dot0_T_A_12_SPC_X-Y, Z, 56; 34.
+
+------------------------------------------------------------------------

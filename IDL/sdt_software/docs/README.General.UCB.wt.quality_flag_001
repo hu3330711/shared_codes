@@ -1,0 +1,661 @@
+************************************************************************
+
+   README.General.UCB.wt.quality_flag_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.quality_flag_001
+
+************************************************************************
+
+   Quality flag.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.quality_flag_001	1.2    11/30/07    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a quality flag by using a number of
+       input quantities, as described below.
+
+
+
+       It is a general Science Module; its first intended use is to
+       produce quality flags for THEMIS electric field.
+
+
+
+
+
+    2) The quality flags are computed for consecutive time intervals of
+       uniform length.
+
+
+
+
+
+    3) There must be the following SDT inputs:
+
+
+
+        1) Input for the quantities referred to as the "plasma
+           densities".
+
+
+
+        2) Input for the quantity referred to as the "boom electric
+           field".
+
+
+
+        3) Input for the quantity referred to as the "plasma electric
+           field".
+
+
+
+
+
+    4) Because the computation time intervals are of uniform length; it
+       is possible that part of the time span requested, either at the
+       beginning and/or at the end, may be ignored.
+
+
+
+       There are 2 choices for the set of begin and end times for the
+       intervals (where the times are with respect to the normalized
+       begin date of the time span):
+
+
+        1) The begin and end times are integer multiples of the interval
+           length.
+
+
+        2) The begin and end times are odd integer multiples of half the
+           interval length.
+
+
+
+
+
+    5) The user can specify a minimum number of data points required for
+       each of the inputs, as number of data points per unit time.
+
+
+
+       This results in a minimum number of data points required for each
+       computation interval.  If this number is less than 2, it is
+       assumed to be 2; because the computation includes standard
+       deviations.
+
+
+
+       If for any time interval there are fewer than the specified
+       minimum number of input data points for any of the inputs; or if
+       the computations cannot be carried out for any other reason
+       (e.g., a denominator has an absolute value that is too small);
+       then there is the choice not to write an output data point, or to
+       write an output data point containing "filler values" for output
+       values that are not to be computed.
+
+
+
+       A "validity flag" is written out for each output data point.  The
+       value of this flag is as follows (converted to the appropriate
+       data type):
+
+           WT_TRUE   =  The data point is a "true" data point, with no
+                        "filler values".
+
+           WT_FALSE  =  The data point is a "filler" data point, with
+                        "filler values".
+
+
+
+
+
+    6) The time tag for the output data point is the mid-point of the
+       computation time interval.
+
+
+
+
+
+    7) The following are determined for each computation interval:
+
+
+
+        1) Mean of the "plasma ion density".
+
+           Mean of the "plasma electron density".
+
+           The "plasma ion density" and the "plasma electron density"
+           both are scalar data components of the input for the "plasma
+           densities".
+
+
+
+           Ratio_n =
+
+             (Mean of the "plasma ion density") /
+
+             (Mean of the "plasma electron density")
+
+
+
+        2) Standard deviation of the X component of the "boom electric
+           field".
+
+           Standard deviation of the X component of the "plasma electric
+           field".
+
+           The "boom electric field" and the "plasma electric field"
+           both are vectors.
+
+
+
+           Ratio_E_X =
+
+             (SD of the X component of the "boom electric field") /
+
+             (SD of the X component of the "plasma electric field")
+
+
+
+        3) Standard deviation of the Y component of the "boom electric
+           field".
+
+           Standard deviation of the Y component of the "plasma electric
+           field".
+
+
+
+           Ratio_E_Y =
+
+             (SD of the Y component of the "boom electric field") /
+
+             (SD of the Y component of the "plasma electric field")
+
+
+
+
+
+    8) The quality flag Q is determined as follows (where A, B, C, D are
+       values specified by the user):
+
+
+
+        1) If
+
+           |Ratio_n| >= A  and
+
+           |Ratio_E_X| <= B  and
+
+           |Ratio_E_Y| <= B
+
+           then Q is set for "Good quality".
+
+
+
+        2) Otherwise, if
+
+           |Ratio_n| >= C  and
+
+           |Ratio_E_X| <= D  and
+
+           |Ratio_E_Y| <= D
+
+           then Q is set for "Marginal quality".
+
+
+
+        3) Otherwise,
+
+           then Q is set for "Poor quality".
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+        1) Dump frequency for the output data points.
+
+
+           Int.
+
+
+           Must be one of the following:
+
+
+                0      =  Do not dump.
+
+                >= 1   =  Dump output data points with indices of:
+                          0, n, 2n, 3n, ...  (where n is the chosen
+                          dump frequency); i.e., every n-th point.
+
+                <= -1  =  Dump output data points with indices of:
+                          0, 1, 2, 3, ..., (n-1)  (where -n is the
+                          chosen dump frequency); i.e., the first n
+                          points.
+
+
+
+        2) Length of computation time interval.
+
+
+           Double.
+
+
+           Units are seconds.
+
+
+           Must be  >  0.
+
+
+
+        3) Code for the time interval endpoints.
+
+
+           Int.
+
+
+           Must be one of the following:
+
+
+                1  =  Multiples of the time averaging interval.
+
+                2  =  Odd multiples of half the time averaging
+                      interval.
+
+
+
+        4) The group of parameters described here occurs once for
+           each of the inputs: "plasma densities", "boom electric
+           field", "plasma electric field".
+
+
+
+            1) Minimum number of input data points.
+
+
+               Int.
+
+
+               Units are data points per minute.
+
+
+               Must be  >=  1.
+
+
+
+        5) Lower limit for |denominator of Ratio_n|.
+
+
+           Double.
+
+
+           Must be  >  0.
+
+
+
+        6) Lower limit for |denominator of Ratio_E_X| and
+           |denominator of Ratio_E_Y|.
+
+
+           Double.
+
+
+           Must be  >  0.
+
+
+
+        7) Flag to write "filler" output data points.
+
+
+           Int.
+
+
+           Must be one of the following:
+
+
+               WT_TRUE   =  Write "filler" output data points.
+
+               WT_FALSE  =  Do not write "filler" output data points.
+
+
+
+        8) "Filler value".
+
+
+           Double.
+
+
+
+        9) The group of parameters described here occurs once for
+           each of the values A, B, C, D.
+
+
+
+            1) Parameter value.
+
+
+               Double.
+
+
+               Must be  >  0.
+
+
+
+       10) The group of parameters described here occurs once for
+           each of the values for the quality flag: Good, Marginal,
+           Poor.
+
+
+
+            1) Parameter value.
+
+
+               Double.
+
+
+
+       11) The group of parameters described here occurs once for
+           each of: "plasma ion density" and "plasma electron density".
+
+
+
+            1) Input component index.
+
+
+               Int.
+
+
+
+       12) The group of parameters described here occurs once for
+           each of: "boom electric field" and "plasma electric field".
+
+
+
+            1) The group of parameters described here occurs once for
+               each vector component to be used in the calculations
+               (i.e., X, Y).
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+       None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+        1) The input for the "plasma densities".
+
+
+           This input must be a time series (Standard data type);
+           the following components are required, and must be of the
+           indicated types:
+
+
+            1) Time.
+
+               Double.
+
+               Must be component 0.
+
+
+            2) "Plasma ion density".
+
+               Float.
+
+
+            3) "Plasma electron density".
+
+               Float.
+
+
+
+        2) The input for the "boom electric field".
+
+
+           This input must be a time series (Standard data type);
+           the following components are required, and must be of the
+           indicated types:
+
+
+            1) Time.
+
+               Double.
+
+               Must be component 0.
+
+
+            2) Additional components for the 3 vector components.
+
+               Float.
+
+
+
+        3) The input for the "plasma electric field".
+
+
+           This input must be a time series (Standard data type);
+           the following components are required, and must be of the
+           indicated types:
+
+
+            1) Time.
+
+               Double.
+
+               Must be component 0.
+
+
+            2) Additional components for the 3 vector components.
+
+               Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+        1) Time.
+
+
+           Double.
+
+
+
+        2) Quality flag.
+
+
+           Float.
+
+
+
+        3) Validity flag.
+
+
+           Float.
+
+
+
+        4) Number of data points for the "plasma densities".
+
+
+           Float.
+
+
+
+        5) Number of data points for the "boom electric field".
+
+
+           Float.
+
+
+
+        6) Number of data points for the "plasma electric field".
+
+
+           Float.
+
+
+
+        7) Mean of the "plasma ion density".
+
+
+           Float.
+
+
+
+        8) Mean of the "plasma electron density".
+
+
+           Float.
+
+
+
+        9) Ratio_n.
+
+
+           Float.
+
+
+
+       10) Standard deviation of the X component of the "boom electric
+           field".
+
+
+           Float.
+
+
+
+       11) Standard deviation of the X component of the "plasma electric
+           field".
+
+
+           Float.
+
+
+
+       12) Ratio_E_X.
+
+
+           Float.
+
+
+
+       13) Standard deviation of the Y component of the "boom electric
+           field".
+
+
+           Float.
+
+
+
+       14) Standard deviation of the Y component of the "plasma electric
+           field".
+
+
+           Float.
+
+
+
+       15) Ratio_E_Y.
+
+
+           Float.
+
+
+
+
+
+    7) The following output data files are written:
+
+
+
+       None.

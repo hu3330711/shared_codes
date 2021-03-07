@@ -1,0 +1,34 @@
+			SOFIP 1979
+			----------
+
+Author: 	E.G.Stassinopoulos
+		NASA/GSFC, Code 933
+		Greenbelt, Maryland 20771 
+
+Parameter: 	Integrated particle flux for geocentric satellites 
+
+NSSDC ID:	PT-15A
+
+Brief Description:
+The Short Orbital Flux Integration Program (SOFIP) is a computer code that 
+has been developed to evaluate the space radiation environment encountered 
+by geocentric satellites. It produces for a given input trajectory a 
+composite integral orbit spectrum of either protons or electrons. Additional
+features include calculation of exposure index, peaks per orbit, percent 
+time in electron trapping zones differential spectrum, and solar proton 
+fluences (using SOLPRO). SOFIP is a structured, modularized code, which can 
+perform all the functions of larger and more complex programs, if the
+correct modules are used. Care should be taken to use the correct epoch 
+(1965 for solar minimum and 1970 for maximum) for the geomagnetic field in 
+the calculation of magnetic field strength B and L-value. B/Bo and L are 
+needed to determine trapped particle fluxes with the help of the electron (AE)
+and proton (AP) models. Otherwise, erroneous fluxes may result at low 
+altitudes. The code includes the following software files as provided 
+by the model author: SOFIP.FOR is the FORTRAN program file, AE%%%%.DAT
+and AP%%%%.DAT are the model maps in form of BLOCKDATA statements.
+
+References:
+
+E. G. Stassinopoulos, J. J. Hebert, E. L. Butler, and J. L. Barth, SOFIP: A
+Short Orbital Flux Integration Program, NSSDC 79-01, Greenbelt, Maryland, 1979. 
+

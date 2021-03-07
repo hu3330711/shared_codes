@@ -1,0 +1,157 @@
+#!/usr/bin/ksh
+#
+#	orbtransfer
+#
+#	Author:  George Kaplan
+#
+#	@(#)orbtransfer.ksh	1.3 05/09/95	UCB SSL
+#
+#	Transfer orbit data to DANET for database processing
+#
+#	Usage:
+#		orbtransfer [-c config] <workdir> <process-id>
+#
+#	This script is part of the automated archive processing
+#	that handles incoming data from GSFC.  It's called
+#	to transfer FDF orbit vectors to DANET.
+#
+#	The FDF data is found in the archive area managed by
+#	the ogs facility.  The OGS config files specify the
+#	location.
+#
+#	The <workdir> is the pathname of a work area to which
+#	the FDF files are transferred on DANET.  This is a subset 
+#	of the 'ogsarch' directory managed by the 'ogs' facility 
+#	on FINET.  The directory structure is preserved, but 
+#	only the FDF orbit vectors are present.  Subdirectories 
+#	of <ogs-directory> each correspond to an ogs run, and 
+#	have names in the form:
+#
+#		ogs.archive.yyyy.ddd.hh.mm.ss
+#
+#	where	yyyy = year
+#		ddd  = day of year (1 Jan = DOY 1)
+#		hh   = hour of the ogs run (UTC)
+#		mm   = minutes
+#		ss   = seconds
+#
+#	<process-id> is the PID of the calling process, and will 
+#	be included in all messages.
+#
+#	If present, the -c option specifies an alternate
+#	configuration file to use in place of the standard
+#	one.  This is intended mainly for testing.
+#
+#	Exit status	Meaning
+#	--------------------------------------------
+#		0	Success (except for non-fatal database
+#			problems; see below)
+#		1	Failure; missing or incorrect files or other
+#			fatal error.  Output includes "FAILED" message
+#		2	Interrupt.  Output includes "INTERRUPT" message
+#
+#
+# ***********************************************************
+
+# ***********************************************************
+# *** Command line processing
+
+MYNAME=$0		# Name of this program
+
+CONFIGFILE=/disks/fast/software/config/archive_config	# Default configuration file
+if [[ "$1" = "-c" ]] ; then
+	CONFIGFILE=$2
+	shift 2
+fi
+
+ORBWORK=$1		# Destination directory path on DANET
+PPROC=$2		# Calling process ID (for logging)
+
+FDFLIST=/tmp/fdflist$$		# List of FDF files to copy
+PAUSE=60		# sleep time while waiting for a lock
+
+OGSPATTERN='ogs.archive.[0-9][0-9][0-9][0-9].[0-3][0-9][0-9].[0-2][0-9].[0-5][0-9].[0-5][0-9]'
+FDFPATTERN='F[09][0-9][0-3][0-9][0-9]EPV....[0-9][0-9]'
+
+# ***********************************************************
+# *** Output log and exit message handling
+
+LOGECHO="echo ${PPROC}:"	# Prepend PPROC to log messages
+
+# *** Clean up and say goodbye when we leave
+logfinish () {
+	/bin/rm -f ${FDFLIST}
+	if [[ -a ${ORBTRANLOCK} && "$(cat ${ORBTRANLOCK})" = "$$" ]] ; then
+		/bin/rm ${ORBTRANLOCK}
+	fi
+	${LOGECHO} ---- ${MYNAME} ends $(date) ----
+}
+trap logfinish EXIT
+
+# *** Catch interrupts and notify the caller
+trap "${LOGECHO} ${MYNAME} INTERRUPT; exit 2" INT
+trap "${LOGECHO} ${MYNAME} INTERRUPT; exit 2" QUIT
+trap "${LOGECHO} ${MYNAME} INTERRUPT; exit 2" HUP
+
+# *** Notify caller of failure
+failexit () {
+	${LOGECHO} ${MYNAME} FAILED
+	exit 1
+}
+
+# ***********************************************************
+# *** Start the real work
+
+echo
+${LOGECHO} ---- ${MYNAME} run on $(date) ----
+
+
+# *** Archive configuration processing
+
+if [[ ! -r ${CONFIGFILE} ]] ; then
+	${LOGECHO} "${MYNAME} can't read config file ${CONFIGFILE}"
+	failexit
+fi
+. ${CONFIGFILE}
+
+# *** Stay out of the way of other orbtransfer runs
+#  (Race condition.  Let's hope we never have more than one
+#  orbtransfer job waiting at a time)
+while [[ -a ${ORBTRANLOCK} ]] ; do
+	${LOGECHO} ${MYNAME} sleeping ${PAUSE} for pid $(cat ${ORBTRANLOCK})
+	sleep ${PAUSE}
+done
+echo $$ > ${ORBTRANLOCK}
+
+
+# *** Find the FDF vectors, if any, in the ogsarch area
+OGSARCH=$(${BINPATH}/archcmd)
+if [[ "x${OGSARCH}" = "x" ]] ; then
+	${LOGECHO} "Can't find OGS archive"
+	failexit
+fi
+cd ${OGSARCH}
+find . -print |egrep "${OGSPATTERN}/${FDFPATTERN}" > ${FDFLIST}
+if [[ "$(wc -l ${FDFLIST}| awk '{print $1}')" = "0" ]] ; then
+	${LOGECHO} "No OGS files to transfer -- quitting."
+	exit 0
+fi
+
+# *** Setup the work directory on DANET and copy the OGS
+#     data there
+if [[ "x$(rsh ${DANETHOST} ls -d ${ORBWORK})" != "x" ]] ; then
+	${LOGECHO} "Directory ${ORBWORK} already exists"
+	failexit
+fi
+rsh ${DANETHOST} mkdir ${ORBWORK}/
+if [[ "x$(rsh ${DANETHOST} ls -d ${ORBWORK})" = "x" ]] ; then
+	${LOGECHO} "Couldn't create directory ${ORBWORK}"
+	failexit
+fi
+
+tar cf - -I ${FDFLIST} | (rsh ${DANETHOST} cd ${ORBWORK} \; tar xfBp -)
+
+
+# *** Clean up and get outta here
+
+exit 0

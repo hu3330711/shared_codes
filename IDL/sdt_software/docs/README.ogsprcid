@@ -1,0 +1,123 @@
+****************************************************************
+
+       README.ogsprcid
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsprcid procedure.
+
+****************************************************************
+
+       @(#)README.ogsprcid	1.1    11/10/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsprcid procedure is to show
+       the process ID's of a currently running ogs job.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsprcid [-c proc-cfg-file]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) The procedure displays the process ID of the ogs
+           procedure ("main process ID"), as well as the process
+           ID's of any children processes.
+
+
+
+        2) The display is in the format produced by the UNIX
+           utility ps with the -f option.

@@ -1,0 +1,80 @@
+***************************************************************************
+* UI.Source.dat
+*
+* For SCCS:
+* @(#)UI.Source.dat	1.13, 02/01/96
+*
+* Sources started and used by the SDT User Interface.
+*
+* * - any line preceeded by a '*' is considered a comment.
+* # - any line preceeded by a '#' is considered a header for seperating
+*     groups of quantities in the user interface selection menu.
+* @ - an '@' tells the software that this is the beginning of a description
+*     entry.  the entry must contain the following types of items in this 
+*     order.  note that a single quote delimits character strings:
+*        constant	  - { SourceDescription
+*        character string - 'Unique Name'
+*        character string - 'RPC Program Name'
+*        int              - RPC Version Number
+*        end of line
+*        character string - 'Executable'
+*        end of line
+*        constant	  - }
+*        end of line
+***************************************************************************
+
+@ { SourceDescription
+   'FAST' 'FAST_RPC_PROG' 1
+   '$(FASTBIN)/FastDecom'
+   'FAST_REALTIME_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'POLAR' 'POLAR_RPC_PROG' 1
+  '$(FASTBIN)/PolarEFIDcom'
+   'POLAR_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'GEOTAIL Decommutator' 'GEOTAIL_RPC_PROG' 1
+  '$(FASTBIN)/EfdDcom'
+  'GEOTAIL_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'GEOTAIL Minute Survey' 'GEOSURVEY_RPC_PROG' 1
+  '$(FASTBIN)/EfdSurvey'
+   'GEOTAIL_SURVEY_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'ISEE Decommutator' 'ISEE_RPC_PROG' 1
+  '$(FASTBIN)/IseeDcom'
+   'ISEE_SPACECRAFT'
+  }
+
+
+@ { SourceDescription
+   'Science Control Module' 'SCM_RPC_PROG' 1
+   '$(FASTBIN)/scm'
+   'ALL_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'CRRES Decommutator' 'CRRES_RPC_PROG' 1
+  '$(FASTBIN)/CrresDcom'
+   'CRRES_SPACECRAFT'
+  }
+
+@ { SourceDescription
+  'Crres Survey' 'CRRSURVEY_RPC_PROG' 1
+  '$(FASTBIN)/CrresSurvey'
+  'CRRES_SURVEY_SPACECRAFT'
+  }
+
+* @ { SourceDescription
+  'WIND' 'WIND_RPC_PROG' 1
+  '$(SDT_CLIENT_HOME)/wind/WindDcom $(SDT_CLIENT_SOURCE)/wind'
+   'WIND_SPACECRAFT'
+  }
+

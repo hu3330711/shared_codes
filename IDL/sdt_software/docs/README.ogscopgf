@@ -1,0 +1,267 @@
+****************************************************************
+
+       README.ogscopgf
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogscopgf procedure.
+
+****************************************************************
+
+       @(#)README.ogscopgf	1.6    09/01/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogscopgf procedure is to
+       provide a copy of the files from Goddard that are used by
+       the programs which start with the FAST input received
+       from Goddard, and produce the instrument commands and
+       shadow ephemeris; i.e., the following programs:
+
+           orbgen
+
+           genCommands
+
+           sunnadir
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogscopgf [-c proc-cfg-file] [-a] [-k] out-dir
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       -a
+
+           is an option to have all the files copied, not just
+           the latest ones.
+
+
+
+       -k
+
+           is an option to keep the "working" subdirectories.
+
+
+
+       out-dir
+
+           is the directory into which the files are to be
+           copied.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) This procedure copies the files from a directory into
+           which they have been collected previously by another
+           procedure, ogscolgf .
+
+
+           The configuration file for this procedure specifies
+           the name of this input directory.
+
+
+
+        2) It is permissible for the output directory either to
+           exist or not to exist prior to the execution of this
+           procedure.
+
+
+           If the output directory does not exist, it is
+           created.
+
+           When the output directory is created, it has write
+           permission for the user and the group.
+
+
+           If the output directory does exist, it must indeed be
+           a directory, and not a "plain" file.
+
+           When the output directory does exist, its permissions
+           are left unchanged.
+
+
+
+        3) The Goddard input files that are copied are left
+           undisturbed in the input directory.
+
+
+
+        4) This procedure creates a "working" subdirectory in
+           the output directory.
+
+           The name of this subdirectory is
+               ogs.godcop
+
+
+           In this base "working" subdirectory, the procedure
+           creates other subordinate "working" subdirectories.
+
+
+           The base "working" subdirectory, and any
+           subdirectories under it at any level, are created
+           with write permission for the user and the group.
+
+
+
+        5) If the output directory exists prior to the execution
+           of this procedure, any preexisting files in it with
+           the same names of files being copied will be
+           overwritten.
+
+           Also, any preexisting file or directory in the output
+           directory with the same name as the base "working"
+           subdirectory mentioned above, will be lost.
+
+           Other contents of a preexisting output directory are
+           left undisturbed.
+
+
+           If the output directory exists prior to the execution
+           of this procedure, any preexisting directories in it
+           with the same names of files being copied will cause
+           the procedure to terminate with an error.
+
+
+
+        6) This procedure processes also some files from Goddard
+           that are not used by the programs in the ogs
+           procedures, but are to be archived along with the
+           others.
+
+
+
+        7) If there are duplications, i.e., if more than one
+           file with the same name had been found by the
+           procedure that did the collecting; then a message
+           is displayed showing the names of all the files for
+           which there is duplication.
+
+
+
+        8) A determination is made of the latest files.
+
+
+           This applies to the types of files that are actually
+           used by the programs.
+
+
+           For each such type, an appropriate number of latest
+           files (i.e., for an appropriate number of dates) is
+           determined.
+
+           If any of these latest files is duplicated, this is
+           an error that causes unsuccessful termination of the
+           procedure.
+
+
+
+        9) The default is that only the latest files of each
+           appropriate type are copied to the output directory;
+           each file is copied with its original Goddard file
+           name (i.e., no Berkeley duplicate version number).
+
+
+           If the -a option is used, then all the files of all
+           types are copied, each with its full name (including
+           Berkeley duplicate version number, if any).
+
+
+
+       10) The default is that the base "working" subdirectory
+           of the output directory, and all its contents, are
+           deleted when the procedure terminates successfully.
+
+
+           If the -k option is used, then all the "working"
+           subdirectories are kept.

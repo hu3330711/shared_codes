@@ -1,0 +1,109 @@
+.\" @(#)fileListToDB.1	1.2 11/12/01
+'\"macro stdmacro
+.nr X
+.TH fileListToDB 1 11/12/01
+.SH NAME
+fileListToDB \- upload obsolete datamgr_listing file to the fast_online database
+.SH SYNOPSIS
+.B fileListToDB
+
+.SH DESCRIPTION
+.B fileListToDB
+was written for migrating from the original version of datamgr, which maintained
+the datamgr_listing file (defined by the DATAFILE_LIST variable in the 
+.B datamgr 
+configuration files) to keep track of all FAST LZP files on line, to the
+new versions, which keep the filelist in the Sybase fast_online database.  The
+new paradigm allows 
+.B datamgr
+to start up much more quickly and to update the filelist much more effeciently
+when files are downloaded.  It also allows remote users to access files 
+in user data directories at Berkeley.  If you used datamgr prior to the year 2000,
+and you are installing a version released since 2000, then you must run
+.B fileListToDB
+in order for the new version of 
+.B datamgr
+to find the files you have online in your data directories.
+.B fileListToDB 
+can also be used to restore a backup of the fast_online database version of the
+filelist, made with
+.B dmls -b.
+
+.SH USAGE
+Before running 
+.B fileListToDB,
+(or the new version of 
+.B datamgr,
+for that matter) it is necessary for the database administrator at UCSOC to 
+add the internet
+address of your file server to the fast_online..OnlineAccess table.  
+
+.LP
+.B datamgr
+defines the
+.I DomainHost
+to be the file server machine on which the $FASTCONFIG directory 
+physically resides.
+Any machine on the domain which shares the same $FASTCONFIG directory
+can have access to the fast_online database once
+the
+.I DomainHost
+is added to the OnlineAccess table using the
+.B fast_onlineAccess(1)
+program at UCSOC.  
+If you are not sure which machine is the
+.I DomainHost
+then go ahead and run
+.B fileListToDB.
+If you do not have access, it will print out an error 
+message giving the name of the file server which 
+.B datamgr
+considers to be the 
+.I DomainHost
+for your site.
+
+.LP
+Note: The definition of the
+.I DomainHost
+is an attempt to mimic the behavior of the old datamgr, in which all machines
+on a domain accessed a single filelist, the $DATAFILE_LIST file, which by default
+lived in the $FASTCONFIG directory.  It was possible in the old version for
+users to have private filelists by editing the setting of $DATAFILE_LIST in their
+.B ~/.datamgr.conf 
+file.  In the new version of datamgr, it is only possible to have a private
+filelist (although it physically resides in the database) by pointing $FASTCONFIG
+to a copy of the configuration directory tree which lives on your local host. 
+Private filelists should be discouraged, since they don't allow for 
+sharing of data, and moreover, the current version of 
+.B datamgr
+has enough bells and whistles that there is no longer any compelling need to 
+have a private list.
+
+.SH ENVIRONMENT
+.LP
+.B fileListToDB
+uses the $FASTCONFIG variable to define the configuration directory 
+where the Datamgr/Datamgr.conf file is found.
+
+.SH FILES
+These files ensure that 
+.B fileListToDB
+finds the same $DATAFILE_LIST (e.g. datamgr_listing file) that is
+used by 
+.B datamgr (or saved by 
+.B dmls -b
+).
+.TP
+.B $FASTCONFIG/Datamgr/Datamgr.conf ~/.datamgr.conf 
+.SH SEE ALSO
+.BR datamgr (1), update_filelist(1), dmls(1), fast_onlineAccess(1)
+.LP
+.SH AVAILABILITY
+.LP
+The FAST software distribution must be installed and the environment must be set up by entering 
+.IP
+source /disks/fast/software/delivery/setup
+.LP
+integration or production may be subsitituted for delivery in the above.
+.LP
+.\".Ee

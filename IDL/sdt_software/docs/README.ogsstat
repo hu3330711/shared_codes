@@ -1,0 +1,128 @@
+****************************************************************
+
+       README.ogsstat
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsstat procedure.
+
+****************************************************************
+
+       @(#)README.ogsstat	1.1    10/28/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsstat procedure is to show
+       the status of an ogs job that is running currently.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsstat [-c proc-cfg-file]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) If an ogs job is currently running, then the job ID
+           and job log are displayed on the standard output.
+
+
+           The job log is displayed using the utility "more".
+
+
+
+        2) If an ogs job is not currently running, that does not
+           in itself constitute an error.
+
+
+           An appropriate message is written.

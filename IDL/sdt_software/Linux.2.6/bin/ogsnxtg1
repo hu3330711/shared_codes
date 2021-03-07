@@ -1,0 +1,700 @@
+#!/bin/csh -f
+#
+# **************************************************************
+#
+#      ogsnxtg1.shp
+#
+#      Author: Winston Teitler.
+#
+# **************************************************************
+#
+#      Determine the next Goddard-type file name of type 1.
+#
+# **************************************************************
+#
+#      @(#)ogsnxtg1.shp	1.1    09/01/94    UCB SSL
+#
+# **************************************************************
+
+
+
+#---------------------------------------------------------------
+#
+#      Set procedure name.
+#
+#---------------------------------------------------------------
+
+   set prcnam = ogsnxtg1
+
+
+
+#---------------------------------------------------------------
+#
+#      Set process ID.
+#
+#---------------------------------------------------------------
+
+   set pid    = $$
+
+
+
+#---------------------------------------------------------------
+#
+#      Set exit code values.
+#
+#---------------------------------------------------------------
+
+   set xok    = 0                  # all worked OK
+
+   set xerr   = 3                  # error detected
+
+
+
+#---------------------------------------------------------------
+#
+#      Start main process.
+#
+#---------------------------------------------------------------
+
+   set xitcod = $xerr              # default return code
+
+
+   umask 002                       # group write permission
+
+
+
+#---------------------------------------------------------------
+#
+#      Set basic constants.
+#
+#---------------------------------------------------------------
+
+   set yes    = y
+
+   set no     = n
+
+
+
+#---------------------------------------------------------------
+#
+#      Set main status indicators.
+#
+#---------------------------------------------------------------
+
+   set crauxf = $no                # any auxiliary file created
+
+
+
+#---------------------------------------------------------------
+#
+#      Set full names for lock files for configuration file.
+#
+#---------------------------------------------------------------
+
+   set lkcfgr = /tmp/ogs.lock.cfg.read.$pid  # lock for read cfg
+
+   set lkcfgw = /tmp/ogs.lock.cfg.write       # lock for write cfg
+
+
+
+#---------------------------------------------------------------
+#
+#      Set times to wait.
+#
+#---------------------------------------------------------------
+
+   set wait1  = 1                  # config file locked out
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the keyword option command line arguments.
+#
+#---------------------------------------------------------------
+
+   set optc   = $no                # procedure config file
+
+
+
+   while  ($#argv >= 1)
+
+
+       set aux001 = ($1)
+
+
+       if  ($#aux001 != 1)  then   # arg multi-word
+           break
+         endif
+
+
+       if  ("$aux001" == "-c")  then
+
+           if  ($#argv >= 2)  then
+             else
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val missing"
+               goto l8000
+             endif
+
+           shift
+
+           set aux002 = ($1)
+
+           if  ($#aux002 != 1)  then
+               echo " $prcnam : " \
+                   "Keyword opt -c arg val must be 1 word"
+               goto l8000
+             endif
+
+           set optc   = $yes
+           set cfgprc = $aux002
+
+
+         else  if  ("$aux001" == "--")  then
+                                   # explicit end of options
+
+           shift
+
+           break
+
+
+         else                      # other arg
+
+           break
+
+
+         endif
+
+
+       shift
+
+
+     end
+
+
+
+#---------------------------------------------------------------
+#
+#      Get the procedure configuration file values.
+#
+#---------------------------------------------------------------
+
+   set fcfg   = $no                # indic cfg file found
+
+
+
+   if  ($optc == $yes)  then       # explicit cfg file
+
+
+       if  (-e $cfgprc)  then
+           source $cfgprc
+           if  ($status == 0)  then
+               set fcfg   = $yes
+             else
+               echo " $prcnam : " \
+                   "Unable to source  $cfgprc"
+               goto l8000
+             endif
+         endif
+
+
+     else                          # no explicit cfg file
+
+
+       while  (-e $lkcfgw)         # wait if write cfg lock
+           sleep $wait1
+         end
+
+       touch $lkcfgr               # create read cfg lock file
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to create read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+
+       set aux001 = ( )
+       if  ($?FASTCONFIG)  then
+           set aux001 = ($aux001 $FASTCONFIG)
+         endif
+       if  ($?FASTLIB)  then
+           set aux001 = ($aux001 $FASTLIB)
+         endif
+
+
+       if  ($#aux001 >= 1)  then   # search default directories
+           foreach defdir ($aux001)
+               set cfgprc = $defdir/ogsDAT/ogs.cfg
+               if  (-e $cfgprc)  then
+                   source $cfgprc
+                   if  ($status == 0)  then
+                       set fcfg   = $yes
+                       break
+                     else
+                       echo " $prcnam : " \
+                           "Unable to source  $cfgprc"
+                       goto l8000
+                     endif
+                 endif
+             end
+         endif
+
+
+     endif
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+           goto l8000
+         endif
+
+     endif
+
+
+
+   if  ($fcfg == $yes)  then
+
+     else
+
+       echo " $prcnam : " \
+           "Unable to find procedure configuration file"
+
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the date and code for the file name.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set yy     = $aux001
+         else
+           echo " $prcnam : " \
+               "Year must be single word"
+           goto l8000
+         endif
+
+       shift
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, year for file name"
+       goto l8000
+
+     endif
+
+
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set ddd    = $aux001
+         else
+           echo " $prcnam : " \
+               "Day must be single word"
+           goto l8000
+         endif
+
+       shift
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, day for file name"
+       goto l8000
+
+     endif
+
+
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set code   = $aux001
+         else
+           echo " $prcnam : " \
+               "Code must be single word"
+           goto l8000
+         endif
+
+       shift
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, code for file type"
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the directory to be searched.
+#
+#---------------------------------------------------------------
+
+   if  ($#argv >= 1)  then         # arg present
+
+       set aux001 = ($1)
+
+       if  ($#aux001 == 1)  then
+           set dir    = $aux001
+         else
+           echo " $prcnam : " \
+               "Directory must be single word"
+           goto l8000
+         endif
+
+       shift
+
+     else                          # arg missing
+
+       echo " $prcnam : " \
+           "Arg missing, directory name"
+       goto l8000
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Check the directory for validity.
+#
+#---------------------------------------------------------------
+
+   if  (-e $dir)  then
+
+       if  (-d $dir)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Directory  $dir  is a plain file"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Create the work directory if needed.
+#
+#---------------------------------------------------------------
+
+   if  (-e $rdwork)  then
+
+       if  (-d $rdwork)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Work directory  $rdwork  is a plain file"
+           goto l8000
+
+         endif
+
+     else
+
+       mkdir $rdwork
+
+       if  ($status == 0)  then
+
+         else
+
+           echo " $prcnam : " \
+               "Unable to create work directory  $rdwork"
+           goto l8000
+
+         endif
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Set names for auxiliary files.
+#
+#---------------------------------------------------------------
+
+   set auxf   = $rdwork/$prcnam.$pid.aux
+
+   set auxf1  = $auxf.1
+
+
+
+#---------------------------------------------------------------
+#
+#      Check if there are any files for this code.
+#
+#---------------------------------------------------------------
+
+   ls $dir/${fnm1a}${yy}${ddd}$code.${fnm1d}* >&! $auxf1
+
+   set retcod = $status
+
+   set crauxf = $yes
+
+
+
+#---------------------------------------------------------------
+#
+#      There are files for this code.
+#
+#---------------------------------------------------------------
+
+   if  ($retcod == 0)  then
+
+
+
+#---------------------------------------------------------------
+#
+#      Produce a list of the file names without path
+#      information.
+#
+#---------------------------------------------------------------
+
+       set list1  = (`cat $auxf1`)
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Unable to read file  $auxf1"
+           goto l8000
+         endif
+
+
+
+       set list2  = ( )
+
+
+       foreach filx ($list1)
+
+           set list2  = ($list2 $filx:t)
+
+         end
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the latest file.
+#
+#---------------------------------------------------------------
+
+       set latfil = `$fnlst[1] $list2`
+
+       if  ($status == 0)  then
+         else
+           echo " $prcnam : " \
+               "Error determining the latest file"
+           goto l8000
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Determine the next Goddard version number.
+#
+#---------------------------------------------------------------
+
+       @ nn     = ($latfil[$fn1gvr] + 1) % 100
+
+
+       if  ($nn < 10)  then
+           set nn     = 0$nn
+         endif
+
+
+
+#---------------------------------------------------------------
+#
+#      There are no files for this code.
+#
+#---------------------------------------------------------------
+
+     else
+
+
+       set nn     = 00
+
+
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Build the next file name.
+#
+#---------------------------------------------------------------
+
+   set fnam   = "${fnm1a}${yy}${ddd}${code}.$nn"
+
+
+
+#---------------------------------------------------------------
+#
+#      Check the next file name.
+#
+#---------------------------------------------------------------
+
+   if  ($#fnam == 1)  then
+     else
+       echo " $prcnam : " \
+           "New file name  $fnam  must be 1 word"
+       goto l8000
+     endif
+
+
+   $fnprse[1] $fnam >&! /dev/null
+
+   if  ($status == 0)  then
+     else
+       echo " $prcnam : " \
+           "New file name  $fnam  is invalid"
+       goto l8000
+     endif
+
+
+
+#---------------------------------------------------------------
+#
+#      Write the next file name.
+#
+#---------------------------------------------------------------
+
+   echo $fnam
+
+
+
+#---------------------------------------------------------------
+#
+#      Main process is completed.
+#
+#---------------------------------------------------------------
+
+   goto l7000
+
+
+
+#---------------------------------------------------------------
+#
+#      Successful termination.
+#
+#---------------------------------------------------------------
+
+ l7000:
+
+
+   set xitcod = $xok
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Error termination.
+#
+#---------------------------------------------------------------
+
+ l8000:
+
+
+   set xitcod = $xerr
+
+
+   goto l9000
+
+
+
+#---------------------------------------------------------------
+#
+#      Termination.
+#
+#---------------------------------------------------------------
+
+ l9000:
+
+
+
+   if  (-e $lkcfgr)  then          # rem read cfg lock if there
+
+
+       rm -f $lkcfgr
+
+       if  ($status == 0)  then
+         else
+           echo  " $prcnam : " \
+               "Unable to delete read cfg lock file  $lkcfgr"
+         endif
+
+
+     endif
+
+
+
+   if  ($crauxf == $yes)  then     # rem auxiliary files
+
+
+       set list1  = (`ls ${auxf}*`)
+
+       if  ($status == 0)  then
+
+           foreach i ($list1)
+
+               rm -f $i
+
+               if  ($status == 0)  then
+                 else
+                   echo  " $prcnam : " \
+                       "Unable to delete auxiliary file  $i"
+                 endif
+
+             end
+
+         else
+
+           echo  " $prcnam : " \
+               "Unable to list auxiliary files  $auxf"
+
+         endif
+
+
+     endif
+
+
+
+   exit($xitcod)

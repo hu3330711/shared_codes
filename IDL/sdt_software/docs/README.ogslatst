@@ -1,0 +1,216 @@
+****************************************************************
+
+       README.ogslatst
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogslatst procedure.
+
+****************************************************************
+
+       @(#)README.ogslatst	1.1    08/11/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogslatst procedure is to
+       determine the latest files out of a list of files from
+       Goddard of the same type.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogslatst [-c proc-cfg-file] code [fnam ...]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       code
+
+           is the file type code.
+
+
+
+       fnam
+
+           are the file names from which the latest are to be
+           determined.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       The results are written to the standard output.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) This procedure takes a list of Goddard file names,
+           and creates a new list (written to the standard
+           output) with the names of the latest files.
+
+
+
+        2) The configuration file for this procedure specifies
+           the codes for the different types of Goddard files.
+
+
+
+        3) The input code must be a valid one, i.e., one that is
+           specified in the configuration file.
+
+
+
+        4) The configuration file also specifies for each type
+           of Goddard file, how many latest dates are to be
+           used.
+
+
+           This number of latest dates can be 0 or greater.
+
+
+
+        5) It is permissible for the list of input file names
+           to be empty.
+
+
+           In this case, or if the number of latest dates to
+           be used for the file type is 0, the list of output
+           file names is empty.
+
+
+
+        6) If the list of input file names is not empty, then
+           every file name must be a valid Goddard file name, of
+           the type indicated by the code.
+
+
+
+        7) If the list of input file names is not empty, and the
+           number of latest dates is  >= 1 , then the output
+           list will contain a number of file names that is
+           >= 1  and  <= the number of file names on the input
+           list.
+
+
+
+        8) The latest file name is determined from the current
+           list (which starts as the list of all the input file
+           names).
+
+
+           If the latest file is duplicated on the current list,
+           this is an error that causes unsuccessful termination
+           of the procedure.
+
+
+           The latest file name just found, and any other file
+           name that corresponds to the same date, is removed
+           from the current list; resulting in a new current
+           list.
+
+
+           This loop continues for as many latest file names as
+           the number of latest dates to be used, unless the
+           current list becomes empty first.
+
+
+
+        9) The list of output file names consists of consecutive
+           pairs of names, one pair for each latest file name.
+
+
+           The first file name in each pair is the file name for
+           the latest file just as it was on the input list,
+           i.e., with or without a Berkeley duplicate version
+           number.
+
+
+           The second file name in each pair is the file name
+           for the latest file without a Berkeley duplicate
+           version number.

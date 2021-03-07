@@ -1,0 +1,669 @@
+************************************************************************
+
+************************************************************************
+* SCM.Data.dat for GEOTAIL Science Algorithms
+*
+* For SCCS:
+* @(#)SCM.Data.UCB_GEOTAIL_Sci_Mod.sparhawk.dat	1.7, 03/22/06
+************************************************************************
+
+
+@2 { DataQuantityDescription
+  'copy of Probe_EField' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'copy of Probe_EField' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Raw 1' TRUE 1 1
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Shade copy?' DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'copy of Probe_A' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'copy of Probe_A' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Raw 1' TRUE 1 1
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Shade copy?' DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'copy of Probe_B' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'copy of Probe_B' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Raw 1' TRUE 1 1
+  'Probe_B' GEOTAIL_SPACECRAFT
+  'Shade copy?' DQ_STORE_INT32 0
+  }
+
+*@2 { DataQuantityDescription
+  'copy of Probe_EField' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'copy of Probe_EField' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Just 1' FALSE 1 0
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Magnitude of Magnetometer(FO)' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Magnitude of Magnetometer(FO)' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Magnitude.Geo' FALSE 2 0
+  'Precomputed BXout Spin Fits' GEOTAIL_SPACECRAFT
+  'Precomputed BZout Spin Fits' GEOTAIL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Spin Fit of Probe_EField' GEOTAIL_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'sqrt(B*B+C*C)' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.SpinFit.Geo 1' FALSE 3 4
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  'Precomputed Probe Spin Fits' GEOTAIL_SPACECRAFT
+  'Minimum Valid Points Per Fit' DQ_STORE_INT32 10
+  'Alpha' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Beta' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Exclude Angle' DQ_STORE_DOUBLE 60.0
+  }
+
+@2 { DataQuantityDescription
+  'Spin Fit of Magnetometer(FO), X' GEOTAIL_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'sqrt(B*B+C*C)' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.SpinFit.Geo 1' FALSE 3 4
+  'Magnetometer(FO)' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  'Precomputed BXout Spin Fits' GEOTAIL_SPACECRAFT
+  'Minimum Valid Points Per Fit' DQ_STORE_INT32 10
+  'Alpha' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Beta' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Exclude Angle' DQ_STORE_DOUBLE 60.0
+  }
+
+@2 { DataQuantityDescription
+  'Spin Fit of Magnetometer(FO), Y' GEOTAIL_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'sqrt(B*B+C*C)' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.SpinFit.Geo 2' FALSE 3 4
+  'Magnetometer(FO)' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  'Precomputed BYout Spin Fits' GEOTAIL_SPACECRAFT
+  'Minimum Valid Points Per Fit' DQ_STORE_INT32 10
+  'Alpha' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Beta' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Exclude Angle' DQ_STORE_DOUBLE 60.0
+  }
+
+@2 { DataQuantityDescription
+  'Spin Fit of Magnetometer(FO), Z' GEOTAIL_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'A' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'B' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'C' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Sigma' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'N' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'sqrt(B*B+C*C)' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.SpinFit.Geo 3' FALSE 3 4
+  'Magnetometer(FO)' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  'Precomputed BZout Spin Fits' GEOTAIL_SPACECRAFT
+  'Minimum Valid Points Per Fit' DQ_STORE_INT32 10
+  'Alpha' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Beta' DQ_LITERAL DQ_STORE_DOUBLE 0.4
+  'Exclude Angle' DQ_STORE_DOUBLE 60.0
+  }
+
+@2 { DataQuantityDescription
+  'Modulus of Probe_A' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Modulus of Probe_A' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ModData 1' FALSE 2 0
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Modulus of Probe_B' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Modulus of Probe_B' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ModData 1' FALSE 2 0
+  'Probe_B' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'Modulus of Probe_EField' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Modulus of Probe_EField' 'mV/m'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ModData 1' FALSE 2 0
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'EBV' GEOTAIL_SPACECRAFT 0 15
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EXGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EYGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZ0GSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BYGSE' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BZGSE' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BTOTGSE' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VXGSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VYGSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZGSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VX0GSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VY0GSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZ0GSE' 'km/sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.EBV' TRUE 4 2
+  'Spin Fit of Probe_EField' ALL_SPACECRAFT
+  'Spin Fit of Magnetometer(FO), X' ALL_SPACECRAFT
+  'Spin Fit of Magnetometer(FO), Z' ALL_SPACECRAFT
+  'Spin Axis (GSE)' GEOTAIL_SPACECRAFT
+  'Ez, Bx/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  'Ez, By/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  }
+
+@2 { DataQuantityDescription
+  'CorrEBV' GEOTAIL_SPACECRAFT 0 7
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EXGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EYGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZGSE' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VXGSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VYGSE' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZGSE' 'km/sec'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV 0 2 3 1 2 3 2 1 3 1 4 1 $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F1.EX.dat $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F1.EY.dat $FASTSNAPONS/GEOTAIL.UCB.sparhawk.CorrEBV.F2.dat' TRUE 5 8
+  'Spin Fit of Probe_EField' ALL_SPACECRAFT
+  'Spin Fit of Magnetometer(FO), X' ALL_SPACECRAFT
+  'Spin Fit of Magnetometer(FO), Z' ALL_SPACECRAFT
+  'SBias' GEOTAIL_SPACECRAFT
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Ez, Bx/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  'Ez, By/Bz Threshold' DQ_STORE_DOUBLE 5.0
+  'EX Offset' DQ_STORE_DOUBLE 0.0
+  'EY Offset' DQ_STORE_DOUBLE 0.0
+  'E Scaling' DQ_STORE_DOUBLE 1.0
+  'Alpha Correction' DQ_STORE_DOUBLE 1.0
+  'Beta Correction' DQ_STORE_DOUBLE 1.0
+  'SumThreshold' DQ_STORE_DOUBLE 25
+  }
+
+@2 { DataQuantityDescription
+  'RotEBV' GEOTAIL_SPACECRAFT 0 11
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EXGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EYGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZGSE(CP)' 'mV/m'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BXGSE(CP)' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VXGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VYGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'VZGSE(CP)' 'km/sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'FlowAngle' 'deg'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.RotEBV 0 5 6 7' TRUE 2 2
+  'EBV' ALL_SPACECRAFT
+  'CorrEBV' ALL_SPACECRAFT
+  'Theta' DQ_STORE_DOUBLE 45.5
+  'Phi' DQ_STORE_DOUBLE 5.0
+  }
+
+@2 { DataQuantityDescription
+  'ECPoverBZP' GEOTAIL_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-1000*EXGSE(CP)/BZGSE(P)' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '1000*EYGSE(CP)/BZGSE(P)' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ECPoverBZP' TRUE 1 3
+  'RotEBV' ALL_SPACECRAFT
+  'E/B, Bz Threshold' DQ_STORE_DOUBLE 1.0
+  'E/B, Bx/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  'E/B, By/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  }
+
+@2 { DataQuantityDescription
+  'ECoverBZ' GEOTAIL_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '-1000*EXGSE(C)/BZGSE' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '1000*EYGSE(C)/BZGSE' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.ECoverBZ 0 1 2 1 5 6 7' TRUE 2 3
+  'CorrEBV' ALL_SPACECRAFT
+  'EBV' ALL_SPACECRAFT
+  'E/B, Bz Threshold' DQ_STORE_DOUBLE 1.0
+  'E/B, Bx/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  'E/B, By/Bz Threshold' DQ_STORE_DOUBLE 10.0
+  }
+
+@2 { DataQuantityDescription
+  'Interval Average ECPoverBZP' GEOTAIL_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '<-1000*EXGSE(CP)/BZGSE(P)>' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '<1000*EYGSE(CP)/BZGSE(P)>' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Average' TRUE 1 1
+  'ECPoverBZP' ALL_SPACECRAFT
+  'Average Interval' DQ_STORE_DOUBLE 30.0
+  }
+
+@2 { DataQuantityDescription
+  'Interval Average ECoverBZ' GEOTAIL_SPACECRAFT 0 3
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '<-1000*EXGSE(C)/BZGSE>' 'km/s'
+  DQ_STORE_FLOAT 1 1
+  FALSE '<1000*EYGSE(C)/BZGSE>' 'km/s'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.Average' TRUE 1 1
+  'ECoverBZ' ALL_SPACECRAFT
+  'Average Interval' DQ_STORE_DOUBLE 30.0
+  }
+
+@2 { DataQuantityDescription
+  'EBVStdDev' GEOTAIL_SPACECRAFT 0 8
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EX Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EY Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'EZ Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BX Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BY Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BZ Rel StdDev' 'Log10'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'BTOT Rel StdDev' 'Log10'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.EBVStdDev' TRUE 1 0
+  'EBV' ALL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'BmagTsc' GEOTAIL_SPACECRAFT 0 4
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.BmagTsc' FALSE 3 2
+  'Magnetometer(FO)' GEOTAIL_SPACECRAFT
+  'Precomputed BXout Spin Fits' GEOTAIL_SPACECRAFT
+  'Precomputed BYout Spin Fits' GEOTAIL_SPACECRAFT
+  'Spin Axis Angle' DQ_STORE_DOUBLE 1.85
+  'SFA Average Interval' DQ_STORE_DOUBLE 60.0
+  }
+
+@2 { DataQuantityDescription
+  'BscTgse' GEOTAIL_SPACECRAFT 0 5
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'TOT' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.BscTgse' FALSE 3 1
+  'BmagTsc' ALL_SPACECRAFT
+  'Raw Sun Pulse' GEOTAIL_SPACECRAFT
+  'Precomputed BZout Spin Fits' GEOTAIL_SPACECRAFT
+  'Magnetometer Angle' DQ_STORE_DOUBLE 30.0
+  }
+
+@2 { DataQuantityDescription
+  'BscTgseRotated' GEOTAIL_SPACECRAFT 0 4
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.RotArb 0 1 2 3' FALSE 1 9
+  'BscTgse' ALL_SPACECRAFT
+  'EigenVector,X of EigenValue L' DQ_STORE_DOUBLE 1.0
+  'EigenVector,Y of EigenValue L' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Z of EigenValue L' DQ_STORE_DOUBLE 0.0
+  'EigenVector,X of EigenValue M' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Y of EigenValue M' DQ_STORE_DOUBLE 1.0
+  'EigenVector,Z of EigenValue M' DQ_STORE_DOUBLE 0.0
+  'EigenVector,X of EigenValue N' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Y of EigenValue N' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Z of EigenValue N' DQ_STORE_DOUBLE 1.0
+  }
+
+@2 { DataQuantityDescription
+  'ECGSERotated' GEOTAIL_SPACECRAFT 0 4
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Z' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.RotArb 0 1 2 3' FALSE 1 9
+  'CorrEBV' ALL_SPACECRAFT
+  'EigenVector,X of EigenValue L' DQ_STORE_DOUBLE 1.0
+  'EigenVector,Y of EigenValue L' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Z of EigenValue L' DQ_STORE_DOUBLE 0.0
+  'EigenVector,X of EigenValue M' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Y of EigenValue M' DQ_STORE_DOUBLE 1.0
+  'EigenVector,Z of EigenValue M' DQ_STORE_DOUBLE 0.0
+  'EigenVector,X of EigenValue N' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Y of EigenValue N' DQ_STORE_DOUBLE 0.0
+  'EigenVector,Z of EigenValue N' DQ_STORE_DOUBLE 1.0
+  }
+
+@2 { DataQuantityDescription
+  'U' GEOTAIL_SPACECRAFT 0 4
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'X' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'P' 'nT'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Y' 'nT'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.U 2 1 2 3' TRUE 3 0
+  'EBV' ALL_SPACECRAFT
+  'ECoverBZ' ALL_SPACECRAFT
+  'CorrEBV' ALL_SPACECRAFT
+  }
+
+@2 { DataQuantityDescription
+  'FFT( Probe_EField)' GEOTAIL_SPACECRAFT 0 2
+  DQ_ONE_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'FFT' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.FFT 0 1 0' FALSE 1 4
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Interval' DQ_STORE_DOUBLE 300.0
+  'Overlap (%)' DQ_STORE_DOUBLE 0.0
+  'Remove DC Offset (1-T/0-F)' DQ_STORE_INT32 0
+  'Use Hanning Window (1-T/0-F)' DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'fft( Probe_EField)' GEOTAIL_SPACECRAFT 0 2
+  DQ_ONE_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'fft' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.fft 0 1 0' FALSE 1 4
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Interval' DQ_STORE_DOUBLE 300.0
+  'Overlap (%)' DQ_STORE_DOUBLE 0.0
+  'Remove DC Offset (1-T/0-F)' DQ_STORE_INT32 0
+  'Use Hanning Window (1-T/0-F)' DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'Realtime FFT( Probe_EField)' GEOTAIL_SPACECRAFT 0 2
+  DQ_ONE_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'FFT' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.FFT 0 1 1' FALSE 1 4
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Interval' DQ_STORE_DOUBLE 300.0
+  'Overlap (%)' DQ_STORE_DOUBLE 0.0
+  'Remove DC Offset (1-T/0-F)' DQ_STORE_INT32 0
+  'Use Hanning Window (1-T/0-F)' DQ_STORE_INT32 0
+  }
+
+@2 { DataQuantityDescription
+  'Particle Simulation' GEOTAIL_SPACECRAFT 0 2
+  DQ_TWO_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'PSim' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.PSim 0' FALSE 1 3
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Time Bins' DQ_STORE_INT32 100
+  'Angle Bins' DQ_STORE_INT32 16
+  'Energy Bins' DQ_STORE_INT32 48
+  }
+
+@2 { DataQuantityDescription
+  'particle simulation' GEOTAIL_SPACECRAFT 0 2
+  DQ_TWO_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'psim' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.psim 0' FALSE 1 3
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Time Bins' DQ_STORE_INT32 100
+  'Angle Bins' DQ_STORE_INT32 16
+  'Energy Bins' DQ_STORE_INT32 48
+  }
+
+@2 { DataQuantityDescription
+  'Realtime Particle Simulation' GEOTAIL_SPACECRAFT 0 2
+  DQ_TWO_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'RT PSim' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.PSim 1' FALSE 1 3
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'Time Bins' DQ_STORE_INT32 100
+  'Angle Bins' DQ_STORE_INT32 16
+  'Energy Bins' DQ_STORE_INT32 48
+  }
+
+@2 { DataQuantityDescription
+  '3D Data' GEOTAIL_SPACECRAFT 0 2
+  DQ_THREE_DIMENSIONAL_HDR 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE '3D Data' '-'
+  }
+  { Science Control Module Particulars
+  1 0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.3DDemo' FALSE 1 1
+  'Probe_EField' GEOTAIL_SPACECRAFT
+  'Array Count' DQ_STORE_INT32 10
+  }
+************************************************************************
+
+
+# @(#)SCM.Data.UCB_GEOTAIL_Sci_Mod.sparhawk.events.dat	1.7, 03/22/06
+
+
+@2 { DataQuantityDescription
+  'Events' GEOTAIL_SPACECRAFT 0 2
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Time' 'Sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'Events' 'Y/N'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/GEOTAIL.UCB.sparhawk.events' FALSE 3 12
+  'EBV' ALL_SPACECRAFT
+  'Probe_A' GEOTAIL_SPACECRAFT
+  'SPcraft Pos (GSE)' GEOTAIL_SPACECRAFT
+  'N' DQ_STORE_INT32 5
+  'V' DQ_STORE_DOUBLE 5.0
+  'T' DQ_STORE_DOUBLE 5.0
+  'A' DQ_STORE_DOUBLE 5.0
+  'B' DQ_STORE_DOUBLE 5.0
+  'C' DQ_STORE_DOUBLE 5.0
+  'D' DQ_STORE_DOUBLE 5.0
+  'E' DQ_STORE_DOUBLE 5.0
+  'F' DQ_STORE_DOUBLE 5.0
+  'BeMonotonic Falling' DQ_STORE_INT32 1
+  'BeMonotonic Rising' DQ_STORE_INT32 1
+  'Debug Why DisQualified' DQ_STORE_INT32 0
+  }

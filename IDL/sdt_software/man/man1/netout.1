@@ -1,0 +1,64 @@
+'\" te
+.\" @(#)netout.1	1.2 11/11/93
+.TH NETOUT 1 "11/11/93"
+.SH NAME
+netout \- simple TCP/IP traffic generator
+.SH SYNOPSIS
+usage \- \fBnetout [-p \fIpattern\fB] [-b \fIbufsize\fB] \fIhost\fB [\fI#kilobytes\fB]\fR
+.SH DESCRIPTION
+\fBnetout\fR is a simple traffic generator to test throughput on TCP/IP
+networks.
+It establishes a connection to the TCP "discard" port and sends a stream
+of bytes to the target \fIhost\fR, which performs all normal TCP handshaking,
+but otherwise ignores the test data.  \fBnetout\fR measures the throughput
+(i.e. the rate at which data can be sent to the sending computer's TCP layer)
+and prints a running account of the throughput.  When the program terminates
+(with a ctrl-C) it prints the number of bytes sent, the minimum, average,
+and maximum throughput measurements, and the standard deviation of the
+average throughput.
+
+The \fIhost\fR may be specified either as a hostname or an IP address in
+the form \fIa.b.c.d\fR.
+
+Throughput is measured by sending chunks of test data and noting how long
+it takes to send each chunk.  The default chunk size is 200 Kbyte.  An
+optional \fI#kilobytes\fR following will specify a different chunk size.
+.SH OPTIONS
+.IP "\fB-p \fIpattern\fR"
+A string of hexadecimal digits specifying the bit pattern to send.  The
+default is 0x5555.
+.IP "\fB-b \fIbufsize\fR"
+This specifies the size of the TCP send and receive buffers.  The default
+is system-dependent, and the TCP implementation may not provide the
+as much space as requested.  \fBnetout\fR prints the actual size used.
+.SH EXAMPLE
+Send test pattern 0xaaaa to host sitka
+.IP
+\fBnetout -p aaaa sitka\fR
+.RS
+
+.nf
+NETOUT sitka:
+PATTERN: 0xaaaa
+RCVBUF: 4096
+SNDBUF: 4096
+sent 200 kilobytes in 0.447 seconds (457.735 KBps)
+sent 200 kilobytes in 0.269 seconds (760.496 KBps)
+sent 200 kilobytes in 0.280 seconds (731.481 KBps)
+     ...
+
+---- sitka NETOUT statistics ----
+sent 2600 kilobytes in 4.441 seconds
+throughput (kbytes/sec)  min/avg/max = 260.994/657.767/788.630
+sigma = 156.951
+.fi
+.SH DIAGNOSTICS
+Error messages for invalid hostnames, TCP errors, etc.
+.SH WARNINGS
+Use a chunk size several times larger than the TCP buffer size, or the
+apparent throughput will fluctuate due to the granularity of writes
+into the TCP send buffer.  On the other hand, using too large a chunk
+size will tend to wash out any real short-term network fluctuations.
+
+Running \fBnetout\fR for extended periods on a busy network will not win
+you a lot of friends.

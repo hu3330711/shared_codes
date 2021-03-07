@@ -1,0 +1,193 @@
+****************************************************************
+
+       README.ogsbrwss
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsbrwss procedure.
+
+****************************************************************
+
+       @(#)README.ogsbrwss	1.1    11/10/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsbrwss procedure is to allow
+       browsing ATS command files that can be sent to Goddard.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsbrwss [-c proc-cfg-file] [-u u-job-ID] [-p printer]
+           [s-job-ID]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       u-job-ID
+
+           is the job ID of the ogs job that created the send
+           directory currently in the user area.
+
+
+
+       printer
+
+           is the printer to be used to print any files.
+
+           The default is specified in the procedure
+           configuration file (print on request).
+
+
+
+       s-job-ID
+
+           is the job ID of the ogs job that created the send
+           directory currently in the send area.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) The files to be browsed are all from the same
+           subdirectory of files to be sent to Goddard.
+
+
+           If the -u option is used, then the subdirectory is
+           from the user area; the name of the subdirectory is
+
+               ogs.user.u-job-ID
+
+           In this case, any argument s-job-ID is ignored.
+
+
+           If the -u option is not used, then the subdirectory
+           is from the send area; the name of the subdirectory
+           is
+
+               ogs.send.s-job-ID
+
+           if an argument s-job-ID is present; otherwise, the
+           latest ogs.send subdirectory in the send area is
+           used.
+
+
+
+        2) Any one or more ATS command files in the subdirectory
+           being used may be printed.
+
+
+
+        3) Any one or more ATS command files in the subdirectory
+           being used may be browsed.
+
+
+
+        4) Browsing is done by means of a text editor; and a
+           choice of text editors is offered.
+
+
+
+        5) The files being browsed are copies of the actual ATS
+           command files; the intention is that these files not
+           be changed, but that they only be viewed.
+
+
+           The reason why the files are not supposed to be
+           changed is that changes using just a text editor
+           would bypass any validity checking for ATS commands,
+           and thus could result in files that contain invalid
+           commands.
+
+           The procedure ogs can be used to run program
+           editCommands, which allows making changes to the
+           latest ATS command files with a text editor, while
+           checking for validity of all commands.

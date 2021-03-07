@@ -1,0 +1,837 @@
+************************************************************************
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the GENERAL SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.General_Science.002_Rot_Mat.UCB.wt.dat	1.6    04/23/07    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Rotation matrices between standard coordinate systems.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSE' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSE (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Time resolution for Rot_Mat_GEI_GSE (sec)' DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GEI' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSE' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GEI (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSM' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Time resolution for Rot_Mat_GEI_GSM (sec)' DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GEI' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSM' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GEI (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GSM' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GSM (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GSE_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Time resolution for Rot_Mat_GSE_GSM (sec)' DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GSE' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GSE_GSM' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GSE (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSE_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSE_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSE (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.1
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GEI_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSE_0.1_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GEI_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSM_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSM_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.1
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GEI_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSM_0.1_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GEI_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GSM_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GSM_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GSE_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_0.1_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 0.1
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GSE_0.1_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GSE_GSM_0.1_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GSE_0.1_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSE_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSE_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSE (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GEI_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSE_1.0_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GEI_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GEI_GSM_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GEI_GSM_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GEI_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GEI_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GEI_GSM_1.0_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GEI_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSE_GSM_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.standard_rotation_matrix' FALSE 0 3
+  'GENERAL: Output dump freq for Rot_Mat_GSE_GSM_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Rot for Rot_Mat_GSE_GSM (1 = GEI_GSE / 2 = GEI_GSM / 3 = GSE_GSM)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Time resolution for GENERAL_Rot_Mat_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Rot_Mat_GSM_GSE_1.0_sec' ALL_SPACECRAFT 0 10
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a11' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a12' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a13' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a21' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a22' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a23' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a31' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a32' '-'
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'a33' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.transpose_matrix_3D' FALSE 1 10
+  'GENERAL_Rot_Mat_GSE_GSM_1.0_sec' ALL_SPACECRAFT
+  'GENERAL: Output dump freq for Rot_Mat_GSM_GSE_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Matrix comp for elem (1,1)' DQ_LITERAL DQ_STORE_INT32 1
+  'GENERAL: Matrix comp for elem (1,2)' DQ_LITERAL DQ_STORE_INT32 2
+  'GENERAL: Matrix comp for elem (1,3)' DQ_LITERAL DQ_STORE_INT32 3
+  'GENERAL: Matrix comp for elem (2,1)' DQ_LITERAL DQ_STORE_INT32 4
+  'GENERAL: Matrix comp for elem (2,2)' DQ_LITERAL DQ_STORE_INT32 5
+  'GENERAL: Matrix comp for elem (2,3)' DQ_LITERAL DQ_STORE_INT32 6
+  'GENERAL: Matrix comp for elem (3,1)' DQ_LITERAL DQ_STORE_INT32 7
+  'GENERAL: Matrix comp for elem (3,2)' DQ_LITERAL DQ_STORE_INT32 8
+  'GENERAL: Matrix comp for elem (3,3)' DQ_LITERAL DQ_STORE_INT32 9
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the GENERAL SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.General_Science.301_Auxiliary.006_Sun_Vector.UCB.wt.dat	1.4    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Sun vector in GEI.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Sun_Vector_GEI' ALL_SPACECRAFT 0 8
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_X' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_Y' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_Z' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_X' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Y' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Z' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Mag' 'AU'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.Sun_vector_001' FALSE 0 2
+  'GENERAL: Output dump freq for Sun_Vector_GEI (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Time resolution for Sun_Vector_GEI (sec)' DQ_STORE_DOUBLE 1.0
+  }
+
+
+*-----------------------------------------------------------------------
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Sun_Vector_GEI_1.0_sec' ALL_SPACECRAFT 0 8
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'Time' 'sec'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_X' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_Y' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Norm_Z' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_X' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Y' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Z' 'AU'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'r_Mag' 'AU'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.Sun_vector_001' FALSE 0 2
+  'GENERAL: Output dump freq for Sun_Vector_GEI_1.0_sec (0 = No dump)' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Time resolution for Sun_Vector_1.0_sec (sec)' DQ_LITERAL DQ_STORE_DOUBLE 1.0
+  }
+
+
+************************************************************************
+
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Data Description file for the GENERAL SDT Science quantities.
+*
+************************************************************************
+*
+*      @(#)SCM.Data.General_Science.301_Auxiliary.900_Dummy_Quantity.UCB.wt.dat	1.4    03/22/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      Dummy quantity - 1 double component and N float components.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Dummy_D_1_F_1' ALL_SPACECRAFT 0 2
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'D_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_1' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.dummy_quantity_001' FALSE 0 2
+  'GENERAL: Number of array elements for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Number of unsigned characters for array descriptions for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Dummy_D_1_F_2' ALL_SPACECRAFT 0 3
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'D_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_2' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.dummy_quantity_001' FALSE 0 2
+  'GENERAL: Number of array elements for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Number of unsigned characters for array descriptions for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Dummy_D_1_F_3' ALL_SPACECRAFT 0 4
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'D_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_2' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_3' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.dummy_quantity_001' FALSE 0 2
+  'GENERAL: Number of array elements for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Number of unsigned characters for array descriptions for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  }
+
+
+@2 { DataQuantityDescription
+  'GENERAL_Dummy_D_1_F_4' ALL_SPACECRAFT 0 5
+  DQ_STORE_DOUBLE 1 1
+  FALSE 'D_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_1' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_2' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_3' '-'
+  DQ_STORE_FLOAT 1 1
+  FALSE 'F_4' '-'
+  }
+  { Science Control Module Particulars
+  1.0 0.0 '$FASTSNAPONS/General.UCB.wt.dummy_quantity_001' FALSE 0 2
+  'GENERAL: Number of array elements for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  'GENERAL: Number of unsigned characters for array descriptions for Standard data type' DQ_LITERAL DQ_STORE_INT32 0
+  }

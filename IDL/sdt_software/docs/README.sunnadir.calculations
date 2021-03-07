@@ -1,0 +1,1069 @@
+****************************************************************
+
+       README.sunnadir.calculations
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the sunnadir program.
+
+****************************************************************
+
+       @(#)README.sunnadir.calculations	1.2    04/06/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Introduction.
+
+       2. User Start Time.
+
+       3. Configuration File Values.
+
+       4. The Orbit Data Table.
+
+       5. The Orbital Period.
+
+       6. The Shadow Times.
+
+       7. The Ephemeris Data Table.
+
+       8. The Spacecraft Packet File.
+
+       9. Sample Archive File.
+
+       A. Arithmetic Manipulation of Angles.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Introduction.
+
+
+
+
+               The purpose of the sunnadir program is to create
+       memory load files for the FAST satellite.
+
+               These files are uploaded to the satellite, where
+       they are used by software that controls instruments.
+
+               The information contained in these files concerns
+       the orientation of the spacecraft with respect to the
+       Earth and the Sun; this, plus horizon sensor data, makes
+       it possible to generate "pseudo Sun pulses" when the
+       spacecraft is in shadow.
+
+
+
+               This documentation file describes the main
+       processing steps for a program run, and specifies the
+       calculations that are carried out.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. User Start Time.
+
+
+
+
+               The User Start Time is the time specified by the
+       user on the program run command line.
+
+
+               Note that for all times,
+       Day of year starts at 1 for January 1, time is UTC.
+
+
+               The User Start Time is reported in the Archive
+       file, with the seconds part of the time rounded to some
+       number of decimal places, and with the time of day
+       between 0 hours (incl.) and 24 hours (excl.); the date is
+       adjusted accordingly, if necessary.
+
+
+               If, due to the operations above, the date
+       reported is not the same as the date entered by the user,
+       the date and time as entered by the user are reported as
+       well.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Configuration File Values.
+
+
+
+
+        1) The value that is reported in the Archive file for
+           the time resolution for the Ephemeris Table, is the
+           value from the Configuration file rounded to the
+           nearest integer.
+
+
+           This rounded value is what is used in the
+           calculations, as explained in the Configuration file.
+
+
+
+        2) For any type of value that is not specified in the
+           Configuration file, a default value is used.
+
+
+           When this happens, the value reported in the Archive
+           file is annotated as being a default value.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. The Orbit Data Table.
+
+
+
+
+               A table is created containing orbit data and
+       other data.
+
+
+
+
+       4.1 Times Included in the Table.
+
+
+
+               The start time for the table is set to the User
+       Start Time; except if the Orbit file starts later than
+       this, in which case the start time for the table is set
+       to the start time of the Orbit file.
+
+
+
+               The step time for the table is set to the time
+       resolution for the orbit data, specified in the
+       Configuration file.
+
+               All values of time for the table are obtained by
+       adding integer multiples of this step time to the table
+       start time.
+
+               The actual time resolution for the Orbit file may
+       be different than the value specified in the
+       Configuration file; the actual value is reported in the
+       Archive file, and is highlighted if it is larger than the
+       value from the Configuration file.
+
+
+
+               The end time for the table is the first value of
+       time greater than or equal to the sum of the User Start
+       Time and the Duration specified in the Configuration
+       file; except if the Orbit file ends earlier than this, in
+       which case the end time for the table is the last value
+       of time within the range of the Orbit file.
+
+
+
+
+       4.2 Orbit Position Vector.
+
+
+
+               For each time in the table, an orbit position
+       vector is determined.
+
+
+               This is the position vector of the spacecraft
+       with respect to the center of the Earth.
+
+
+               The orbit position vector is obtained by
+       interpolating the position vector in the Orbit file to
+       the appropriate time.
+
+
+
+
+       4.3 Sun Vector.
+
+
+
+               For each time in the table, a Sun vector is
+       determined.
+
+
+               This is the position vector of the Sun with
+       respect to the spacecraft (which, because of the large
+       distance to the Sun, is the same as the position vector
+       of the Sun with respect to the center of the Earth).
+
+
+               The Sun vector is obtained according to standard
+       formulas from Astronomy, and is in the same coordinate
+       system that is used by Goddard for the orbit and attitude
+       data.
+
+
+
+
+       4.4 Attitude Vector.
+
+
+
+               For each time in the table, an attitude vector is
+       determined.
+
+
+               This is the unit spin vector for the spacecraft.
+
+
+               Each data line of the attitude file contains as
+       the first data items the date and time, and the
+       components of the unit attitude vector for that date and
+       time.
+
+
+
+               The attitude vector is determined as follows:
+
+
+
+        1) The unit vectors from the file are converted to
+           spherical coordinates (latitude and azimuth).
+
+
+
+        2) If both the X and Y components for a vector are zero,
+           the azimuth is undefined.
+
+
+           If this is the first vector in the file, the azimuth
+           is set to zero; otherwise, it is set to the same
+           value of azimuth as for the previous vector.
+
+
+
+        3) The latitude and azimuth are interpolated to the time
+           for the table.
+
+
+           It is required that the time for the table be in the
+           range of the attitude file; i.e., it is an error if
+           extrapolation would be required.
+
+
+
+        4) The spherical coordinates are converted to a unit
+           vector.
+
+
+
+
+       4.5 Angle Gamma.
+
+
+
+               For each time in the table, a value of the angle
+       Gamma is determined.
+
+
+               This is the difference between the azimuths of
+       the projections on the spin plane of the Sun vector and
+       the Nadir vector; where the Nadir vector is the vector
+       from the spacecraft to the center of the Earth.
+
+
+
+               The angle Gamma is determined as follows:
+
+
+
+        1) Two unit vectors, p1 and p2, are determined; these
+           vectors are on the spin plane, are perpendicular to
+           each another, and such that p1, p2, and the attitude
+           vector form a right-handed system.
+
+
+           A positive rotation on the p1, p2 plane corresponds
+           to an increase in azimuth on that plane, and also
+           corresponds to the sense of the spin of the
+           spacecraft.
+
+
+
+        2) The projections of the Sun vector and the Nadir
+           vector on the spin plane are determined.
+
+
+           For each vector, its projection is a vector of 2
+           components; and the value of the component along the
+           pi axis (i = 1,2) is the dot product of the vector of
+           3 components and the unit vector pi.
+
+
+
+        3) Let the components of the projection of the Sun
+           vector be s1 and s2; and the components of the
+           projection of the Nadir vector be n1 and n2.
+
+
+           Let the magnitude of the projections be s and n,
+           respectively; and let the azimuth angles of the
+           projections be azs and azn, respectively.
+
+
+           Then:
+
+               s1 = s * cos(azs)
+
+               s2 = s * sin(azs)
+
+               n1 = n * cos(azn)
+
+               n2 = n * sin(azn)
+
+
+           The angle Gamma is:
+
+               Gamma = azs - azn
+
+
+
+           The angle Gamma can be determined from:
+
+               Gamma = atan2(s*n*sin(Gamma), s*n*cos(Gamma))
+
+
+           and
+
+               s*n*sin(Gamma) = s2 * n1 - s1 * n2
+
+               s*n*cos(Gamma) = s1 * n1 + s2 * n2
+
+
+
+        4) The method shown breaks down if either s or n is
+           zero.
+
+
+           This could happen if the spin vector were parallel
+           (or anti-parallel) to either the Sun vector or the
+           Nadir vector.
+
+
+           While this situation is not supposed to occur, the
+           program is set up to check for this, and to skip
+           table entries for which the angle Gamma cannot be
+           determined.
+
+
+           The number of points skipped due to "bad Gamma" is
+           reported in the Archive file, and is highlighted if
+           it is not zero.
+
+
+
+
+       4.6 Shadow Value.
+
+
+
+               For each time in the table, a Shadow Value is
+       determined.
+
+
+               The Shadow Value is a phase parameter that varies
+       continuously with time, and describes the location of the
+       spacecraft in relation to the Earth and the Sun; in order
+       to determine when the spacecraft is in light and when it
+       is in shadow.
+
+
+
+               The Shadow Value is determined as follows:
+
+
+
+        1) The shape of the Earth is approximated by a sphere of
+           some "effective radius"; this radius is specified in
+           the Configuration file, and will be designated here
+           by R.
+
+
+
+        2) Since R could be greater than the actual radius of
+           the Earth, the distance from the spacecraft to the
+           center of the Earth could conceivably be smaller than
+           R.
+
+
+
+        3) First, let us consider the case when the distance
+           from the spacecraft to the center of the Earth is
+           greater than R.
+
+
+           We can consider a cone with apex at the spacecraft
+           and tangent to the Earth; and clearly the spacecraft
+           will be in light if the vector from the spacecraft to
+           the Sun is outside this cone, and in shadow if the
+           vector is within the cone.
+
+
+           Let us define:
+
+               angle1 = angle between the vector from the S/C to
+                        the center of the Earth and the vector
+                        from the S/C to the Sun
+
+               angle2 = angle between the vector from the S/C to
+                        the center of the Earth and a vector
+                        from the S/C that is tangent to the
+                        Earth
+
+
+           angle1 can have any value between 0 and 180 degrees.
+
+           angle2 is between 0 and 90 degrees.
+
+
+           The S/C will be in light if  angle1 > angle2 , and in
+           shadow if  angle1 < angle2 .
+
+
+           Let us define:
+
+               Shadow Value = cos(angle1) - cos(angle2)
+
+
+           The Shadow Value is between -2 and +1.
+
+
+           The S/C will be in light if the Shadow Value is
+           negative, and in shadow if it is positive.
+
+
+
+        4) Now, let us consider the case when the distance from
+           the spacecraft to the center of the Earth is not
+           greater than R.
+
+
+           This means that the spacecraft is at low altitude,
+           i.e., very close to the surface of the Earth.
+
+
+           We can consider the point on the surface of the Earth
+           that is along the same radius as the spacecraft; and
+           assume that the spacecraft is in light or in shadow
+           depending on whether this point on the surface of the
+           Earth is in light or shadow, respectively.
+
+
+           Let us define:
+
+               angle3 = angle between the vector from the center
+                        of the Earth to the Sun and the vector
+                        from the center of the Earth to the S/C.
+
+
+           angle3 can have any value between 0 and 180 degrees.
+
+
+           The S/C will be in light if  angle3 < 90 deg , and in
+           shadow if  angle3 > 90 deg .
+
+
+           Let us define:
+
+               Shadow Value = -cos(angle3)
+
+
+           The Shadow Value is between -1 and +1.
+
+
+           The S/C will be in light if the Shadow Value is
+           negative, and in shadow if it is positive.
+
+
+           In fact, this case is almost the same as the case
+           when the distance from the spacecraft to the center
+           of the Earth is greater than R, because:
+
+               - Due to the very large distance to the Sun,
+
+                     angle3 = 180 deg - angle1
+
+                 and therefore
+
+                     -cos(angle3) = cos(angle1)
+
+               - As the distance from the spacecraft to the
+                 center of the Earth decreases and approaches R,
+                 angle2 increases and approaches 90 deg, and
+                 therefore cos(angle2) approaches 0.
+
+               - Therefore, one can use the same procedure as in
+                 the case when the distance is greater than R,
+                 except that one must use 0 instead of
+                 cos(angle2).
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. The Orbital Period.
+
+
+
+
+               Several values, including the Orbital Period, the
+       Ephemeris Start Time, etc.; are determined as follows:
+
+
+
+        1) The Orbit Data Table is searched, to find the times
+           for which the angle Gamma is equal to the value
+           Gamma0  specified in the Configuration file.
+
+
+           This requires interpolating the values of time.
+
+
+
+        2) The first time found, for which Gamma is equal to
+           Gamma0, is the Ephemeris Start Time T0.
+
+
+           This value is reported in the Archive file.
+
+
+
+        3) If the time for which Gamma equals Gamma0 is not the
+           first one, tentative values are set for the orbital
+           period and the number of ephemeris table elements.
+
+
+           The tentative orbital period is the mean value of the
+           time interval between consecutive times for which
+           Gamma equals Gamma0.
+
+           Let the times for which Gamma equals Gamma0 be T1,
+           T2, ..., Tn, where Tn is the latest one found.
+
+           The tentative orbital period is
+               (Tn - T0) / n
+
+
+           The tentative number of ephemeris table elements is
+           the smaller of:
+
+               - A/B rounded down to the nearest integer, where
+                 A = tentative orbital period, and
+                 B = time resolution for the ephemeris table,
+                     specified in the Configuration file.
+
+               - The number of ephemeris table elements
+                 requested, specified in the Configuration file.
+
+           The first limit on the tentative number of table
+           elements is to assure that the table covers at most
+           one complete orbital period.
+
+
+           If a set of ephemeris table elements, starting at
+           time Tn, with a number of table elements equal to the
+           tentative number of ephemeris table elements, and
+           time step equal to the time resolution for the
+           ephemeris table; fits within the allowed computation
+           time; then this time Tn will be used as part of the
+           ephemeris table, and the search continues for the
+           next time T(n+1); otherwise, Tn is not used and the
+           search ends.
+
+           The set of table elements fits within the allowed
+           computation time if the time for the last table
+           element is not later than the smaller of:
+
+               - The sum of the User Start Time and the
+                 Duration.
+
+               - The last value of time in the Orbit Data Table.
+
+
+
+        4) The orbital period and the number of ephemeris table
+           elements are set to the tentative values for the last
+           time Tn that is used in the ephemeris table.
+
+
+           These values are reported in the Archive file; the
+           number of ephemeris table elements is highlighted if
+           it is different from the number requested in the
+           Configuration file.
+
+
+           Also reported are: the number of orbital period
+           intervals in the ephemeris table (number of intervals
+           between consecutive times Tn); and the minimum,
+           maximum, and standard deviation of the orbital
+           period, i.e., measures of the variability of the
+           time interval between consecutive times Tn.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       6. The Shadow Times.
+
+
+
+
+               The Shadow Times are determined as follows:
+
+
+
+        1) The size of the span of time for one orbit period in
+           the ephemeris table will be equal to the number of
+           ephemeris table elements minus one, multiplied by the
+           time resolution for the ephemeris.
+
+
+           The start time for the orbit period is the Ephemeris
+           Start Time plus an appropriate integer multiple of
+           the Orbital Period; the end time is the start time
+           plus the time span.
+
+
+
+        2) First, the Shadow Value in the Orbit Data Table is
+           interpolated to the start time of the orbit period.
+
+
+           At the start time of the orbit period, the spacecraft
+           must be in sunlight; otherwise, an error occurs.
+
+
+
+        3) Within the time span for the orbit period, the Shadow
+           Value is inspected, to find the time when the S/C
+           goes into shadow, and the time when it goes back into
+           sunlight.
+
+
+           It is not an error if the S/C does not go into shadow
+           at all within the time span for an orbit period; but
+           it is an error if it goes into shadow, and does not
+           return to sunlight within the same time span.
+
+
+
+        4) The steps outlined are carried out for each orbit
+           period.
+
+
+           If the S/C does not go into shadow for any orbit
+           period, the Shadow Times are undefined.
+
+           In this case, the Shadow Start Time and the Shadow
+           End Time are both set to zero.
+
+
+           Otherwise,
+
+               - Only the orbit periods for which the S/C does
+                 go into shadow participate in the calculation.
+
+               - The Shadow Start Time is the smallest interval
+                 between the start of an orbit period and the
+                 time when the S/C goes into shadow for the same
+                 orbit period; plus the appropriate time offset
+                 specified in the Configuration file; and the
+                 result rounded down to the nearest integer
+                 second.
+
+               - The Shadow End Time is the largest interval
+                 between the start of an orbit period and the
+                 time when the S/C goes back into sunlight for
+                 the same orbit period; plus the appropriate
+                 time offset specified in the Configuration
+                 file; and the result rounded up to the nearest
+                 integer second.
+
+           The reason for rounding to integer values is that no
+           fraction of a second for these values is sent to the
+           spacecraft.
+
+
+           The Shadow Times are reported in the Archive file;
+           a message is included indicating whether or not the
+           spacecraft enters the shadow.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       7. The Ephemeris Data Table.
+
+
+
+
+        1) A table is created, which is a matrix of values of
+           the angle Gamma.
+
+
+           The table contains values for each of the orbit
+           periods; within each period, for each of the table
+           elements (whose times are separated by the time
+           resolution for the ephemeris).
+
+
+           The values of Gamma are obtained from the Orbit Data
+           Table, by interpolation to the appropriate times.
+
+
+
+        2) A table is created, containing the values of the
+           angle DeltaGamma.
+
+
+           The table contains values for one set of table
+           elements (i.e., not for a set for each period).
+
+
+           Each value of DeltaGamma is the mean value of the
+           difference between the values of Gamma for the
+           corresponding table element, for consecutive periods.
+
+
+
+        3) The values of Gamma for the first period (which are
+           the ones to be sent to the spacecraft) are reported
+           in the Archive file, as are the values of DeltaGamma.
+
+
+
+        4) Also reported are the minimum, maximum, mean, and
+           standard deviation of the discrepancy for each table
+           element (one set of table elements).
+
+
+           The discrepancy is the difference between the value
+           of the angle Gamma computed by linear approximation,
+           and the value of Gamma that has been determined
+           already.
+
+
+           The linear approximation for Gamma is
+
+               Gamma(n) = Gamma(0) + n * DeltaGamma
+
+           where
+               Gamma(n) is the value of Gamma for a table
+                   element, for n periods after the first
+                   period;
+               Gamma(0) is the value of Gamma for the same
+                   element, for the first period;
+               DeltaGamma is the value for the same element.
+
+
+           It should be noted that, even though the same linear
+           approximation is carried out on the spacecraft, the
+           results may be different; as the values sent to the
+           spacecraft have lower precision than is used by the
+           program.
+
+
+           The minimum, maximum, mean, and standard deviation
+           are determined for each table element separately,
+           from the values of the discrepancy for that table
+           element from all the periods.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       8. The Spacecraft Packet File.
+
+
+
+
+               The values are set in the Spacecraft Packet file
+       according to the prescribed format.
+
+
+
+               The following should be noted:
+
+
+
+
+       8.1 Ephemeris Start Time.
+
+
+
+               The Shadow Ephemeris Start Time is expressed as a
+       time elapsed since the base epoch for FAST, which is
+
+                   1968/05/24 (145)  00:00:00  UTC
+
+
+
+
+       8.2 Upload Windows.
+
+
+
+        1) The number of Upload Windows is specified in the
+           Configuration file.
+
+
+
+        2) The Start Time for the first Upload Window is
+           calculated as follows:
+
+               Ephemeris Start Time +
+               Time span for one period -
+               Orbital Period +
+               Appropriate time offset specified in the
+                   Configuration file
+
+
+
+        3) The End Time for the first Upload Window is
+           calculated as follows:
+
+               Ephemeris Start Time +
+               Appropriate time offset specified in the
+                   Configuration file
+
+
+
+        4) The Start Time and End Time for each consecutive
+           Upload Window is calculated by adding to the above
+           an appropriate multiple of the Orbital Period.
+
+
+
+        5) Each Upload Window Start Time is rounded up to the
+           nearest integer second.
+
+
+           Each Upload Window End Time is rounded down to the
+           nearest integer second.
+
+
+
+        6) It is an error if the duration of any Upload Window
+           is less than 60 seconds.
+
+
+
+
+       8.3 Encoding of Angles.
+
+
+
+               The values of Gamma and DeltaGamma to be sent to
+       the spacecraft are encoded first as integers, as follows:
+
+
+
+        1) Put the angle in the interval from 0 to 360 degrees.
+
+
+
+        2) If A is the value of the angle in degrees, determine
+
+               (A / 360) * (16 to the 4th. power)
+
+
+
+        3) The number obtained is rounded to the nearest
+           integer, and the value used is this integer modulo
+           16 to the 4th. power.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       9. Sample Archive File.
+
+
+
+
+ --------------------------------
+
+ sunnadir
+ Produce the FAST Sun-Nadir Ephemeris table
+ Archive for run started :  Wed Mar 16 15:33:55 1994
+
+ Orbit file :
+     /disks/sitka/disk2/gckaplan/eetest/F95014ORBIT.01
+
+ Attitude Prediction file :
+     /disks/sitka/disk2/gckaplan/eetest/F95014ATTPRE.00
+
+ Spacecraft Packet file :
+     /disks/sitka/disk2/gckaplan/eetest/F95017sunnadir.scp.01
+
+ Archive file :
+     /disks/sitka/disk2/gckaplan/eetest/F95017sunnadir.arc.01
+
+ Log file :
+     /disks/sitka/disk2/gckaplan/eetest/F95017sunnadir.log.01
+
+ User Messages file :
+     standard error
+
+ User Start Time :  1995/01/17 (017)  00:00:00.000
+
+ Configuration file :
+     /disks/sitka/disk2/gckaplan/eetest/sunnadir.cfg
+
+ Duration of computation (hr) :              24.000
+ Time resolution for orbit data (sec) :      10.000
+ Time resolution for ephemeris (sec) :      200.000
+ Number of table elements requested :            20
+ Initial ephemeris angle (deg) :            -75.000
+ Effective Earth radius (Km) :             6400.000
+ Offset for Shadow Start Time (sec) :       -20.000
+ Offset for Shadow End Time (sec) :          40.000
+ Number of Upload Windows :                       4
+ Offset for Upload Start Time (sec) :        20.000
+ Offset for Upload End Time (sec) :         -20.000
+ Shadow Object if there is shadow :              0B
+ Shadow Object if there is no shadow :           00
+
+ Actual time res. in Orbit file (sec) :      10.000
+
+ Number of points skipped (bad gamma) :           0
+
+ Shadow Ephemeris Start Time :  1995/01/17 (017)  02:13:10.773
+
+ Number of orbital period intervals :             9
+ Orbital period (sec) :                    8009.317
+ Minimum orbital period (sec) :            8009.232
+ Maximum orbital period (sec) :            8009.404
+ Std dev for orbital period (sec) :           0.060
+ Number of ephemeris table elements :            20
+
+ The spacecraft does enter the shadow
+ Shadow Start Time rel Eph Start (sec) :    678.000
+ Shadow End   Time rel Eph Start (sec) :   2717.000
+
+ All angles are in degrees.
+ Discrepancy D is A - B, where
+     A = value of gamma computed by linear approximation, and
+     B = actual value of gamma
+
+         gamma  delta gamma   min D    max D   mean D    sd D
+        ------- ----------- -------- -------- -------- --------
+    0   285.000     0.000      0.000    0.010    0.004    0.003
+    1   295.566   359.985     -0.000    0.009    0.004    0.003
+    2   305.353   359.971      0.000    0.008    0.004    0.003
+    3   314.441   359.959      0.000    0.008    0.004    0.003
+    4   322.917   359.949      0.000    0.008    0.004    0.003
+    5   330.863   359.940     -0.000    0.007    0.004    0.003
+    6   338.359   359.932     -0.000    0.007    0.003    0.002
+    7   345.473   359.926     -0.000    0.007    0.003    0.002
+    8   352.270   359.921      0.000    0.007    0.003    0.002
+    9   358.805   359.916      0.000    0.007    0.003    0.002
+   10     5.128   359.913     -0.000    0.007    0.003    0.002
+   11    11.286   359.910     -0.000    0.007    0.003    0.002
+   12    17.318   359.908      0.000    0.007    0.003    0.002
+   13    23.265   359.907      0.000    0.007    0.004    0.002
+   14    29.163   359.907      0.000    0.007    0.004    0.002
+   15    35.047   359.907      0.000    0.007    0.004    0.002
+   16    40.953   359.907      0.000    0.007    0.004    0.002
+   17    46.915   359.909      0.000    0.007    0.004    0.002
+   18    52.972   359.911      0.000    0.007    0.004    0.003
+   19    59.160   359.914     -0.000    0.008    0.004    0.003
+
+ Ephem Start Time, sec since epoch :  841025590.773
+
+ Spacecraft Packet file
+ ----------------------
+# FAST IDPU Shadow Ephemeris Memory Load for  1995/01/17 (017)
+# 1995/017:01:03:22, 1995/017:02:12:50
+# 1995/017:03:16:51, 1995/017:04:26:20
+# 1995/017:05:30:21, 1995/017:06:39:49
+# 1995/017:07:43:50, 1995/017:08:53:18
+1995/017:01:03:22, 1995/017:02:12:50
+# IDPU CCSDS packet number 1
+1C 00 C0 00 00 67 00 01
+00 00 92 00 36 08 21 32 49 1F A6 02 9D 0A 0B 13
+C8 00 FC C5 0D 51 AB CA 00 00 2E D2 FD FF 24 D9
+FB FF 9A DF F9 FF A1 E5 F7 FF 48 EB F5 FF 9C F0
+F4 FF AB F5 F3 FF 81 FA F2 FF 26 FF F1 FF A6 03
+F0 FF 06 08 F0 FF 51 0C EF FF 8B 10 EF FF BD 14
+EF FF EC 18 EF FF 1F 1D EF FF 5D 21 EF FF AB 25
+F0 FF 12 2A F0 FF
+
+1C 00 C0 00 00 F1 00 00
+00 00 00 E0 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+ sunnadir  -  Termination
+ Error code :  0
+
+
+
+       ---------------------------------------------------------
+
+
+
+       A. Arithmetic Manipulation of Angles.
+
+
+
+
+               When the value of an angle may be known only to
+       within a multiple of a whole circle, ambiguities can
+       arise when angles are used in calculations (e.g., to
+       obtain a mean value, to interpolate, etc.).
+
+
+
+               Care is taken to avoid these ambiguities, by
+       requiring that angles that are used together must be
+       close in value.

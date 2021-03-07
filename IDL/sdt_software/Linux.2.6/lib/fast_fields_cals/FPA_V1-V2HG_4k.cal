@@ -1,0 +1,34 @@
+#  SCCS Id
+#  @(#)FPA_V1-V2HG_4k.cal	1.2 11/05/96
+#
+# FPA_V1-V2HG_4k.cal
+# REE 11/05/96
+#
+FPA_V1-V2HG_4k	        Data Name
+13			Type:  FPA
+sec			x-axis units
+kHz			y-axis units
+(V/m)^2/Hz		z-axis units
+11			Boomlength index
+0			No gain state
+0			History
+#
+# Amplitude vs frequency is renormalized with amplitude array.
+# Frequecies in amplitude array are in kHz!
+# Cof_type 0 - polynomial fit up to 9th order (10 cofs).
+# Cof_type 1 - High pass filters up to 10 1-pole filters.
+# Cof_type 2 - Low pass filters up to 10 1-pole filters.
+# Cof_type 3 - Simple RC-CC crossover. Give: crossover
+#              frequency , capacitive coupled gain.
+#
+0				Time in seconds
+0.00				Frequency minimum.
+16.0				Frequency maximum.
+0 				Cof_type. 0=poly, 1=highps, 2=lowpass, 3 = RC/C
+6				Number of coeficients. MUST MATCH BELOW!!!
+-0.0067208289    1.5858014	0 order Amplitude / Phase vs frequency fits
+ 0.28409346     -0.34586941	1 order Frequency in kHz!
+-0.045078868     0.040217051	2 order Use polynomial evaluation.
+ 0.0037273391   -0.0024767530	3 order
+-0.00015546882   7.2867866e-05	4 order
+2.5800832e-06   -7.3117018e-07	5 order

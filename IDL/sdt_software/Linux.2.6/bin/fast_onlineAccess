@@ -1,0 +1,266 @@
+#!/usr/local/bin/sybtclx7.4
+# renamed tcl to sybtclx7.4 to clarify requred version number and extensions.
+# so this script will still work if tcl is upgraded.
+# utility to maintain the Datamgr fast_online database
+# @(#)fast_onlineAccess.tcl	1.5 11/12/01
+# Author: Ken Bromund
+#----- USAGE USAGE USAGE USAGE USAGE -----
+if {[llength $argv] > 0} {
+    puts file2 {
+	Add, delete or rename a DomainHost in the fast_online..OnlineAccess
+	table, which controlls access to the fast_online database.
+	In the OnlineAccess table,
+	DomainHost should be a fully qualified internet address, and
+	AllowedIP is the IP address of the DomainHost.
+	
+	usage: fast_onlineAccess
+
+	The delete command will remove the DomainHost and all associated files
+	    The effects are ir-reversible.
+	The rename command will rename the DomainHost for all associated files
+	    This option can be reversed, if necessary.
+    }
+    exit
+}
+
+# set defaults
+set RSH /usr/bin/rsh
+set EJECT /usr/bin/eject
+set CSH /bin/csh
+set SH /usr/bin/sh
+set RM /usr/bin/rm
+set TAR /usr/bin/tar
+set CD cd
+set UNAME /usr/bin/uname
+set AWK /usr/bin/awk
+set LS /usr/bin/ls
+set DF /usr/bin/df
+set FILE /usr/bin/file
+set FIND /usr/bin/find
+set KSH /usr/bin/ksh
+set CAT /usr/bin/cat
+
+# we must read datamgr's config files.  For this, we need FASTCONFIG ...
+
+if {[catch {set env(FASTCONFIG)}]} {
+    puts "FASTCONFIG environment variable not set"
+    exit
+}
+if ([file exists $env(FASTCONFIG)/Datamgr/Datamgr.conf]) {
+    source $env(FASTCONFIG)/Datamgr/Datamgr.conf
+}
+
+# read DATA_DIR, etc from config file, if there is one
+if ([file exists ~/.datamgr.conf]) {
+    source ~/.datamgr.conf
+} 
+
+set env(LANG) us_english
+
+# read the database conf file:
+# for development purposes DBCONF points to config file for test database
+if {![catch {glob $DBCONF}]} {
+    # variables defined in fast_archive.conf are set in the
+    # array tcl array syb ; an awk script reads the conf file &
+    # converts it into a tcl list appropriate for the array set command
+    array set syb [exec awk {/^#/ {next}; $1 ~ /[a-zA-Z]/ {print $1 " " $2}} [glob $DBCONF]]
+} else {
+    puts "$argv0: Cannot find DBCONF file: $DBCONF"
+    exit
+}
+
+set env(SYBASE) $env(FASTCONFIG)/Sybase
+set env(DSQUERY) $syb(DSQUERY)
+
+set database_name $syb(ARCH_DB)
+
+# prompt for sa passwd from terminal
+
+set login sa
+
+puts -nonewline "Enter sa Password: "
+exec stty -echo
+gets file0 password
+exec stty echo
+puts {}
+
+if {[catch {set sybh [sybconnect $login $password $syb(DSQUERY) FastOnlineAccess]}]} {
+    puts "Sybase Connect Error: $sybmsg(dberrstr):\n$sybmsg(msgtext)"
+    exit
+}
+
+proc mysybsql {handle query} {
+    global sybmsg
+    if ([catch "sybsql $handle [list $query]"]) {
+	error "$sybmsg(dberrstr):\n$sybmsg(msgtext)"
+    }
+}
+
+sybuse $sybh fast_online
+
+set hostip [scancontext create]
+
+scanmatch $hostip {Server:} {
+    set namemode 0
+    set count 0
+}
+scanmatch $hostip {Name:} {
+    set namemode 1
+    set a [split $matchInfo(line)]
+    set n [lindex $a end]
+    puts "Name: $n"
+}
+scanmatch $hostip {Address:} {
+    if {$namemode} {
+	set a [split $matchInfo(line)]
+	set i [lindex $a end]
+	puts "IP Address: $i\n"
+	set namemode 0
+	incr count
+    }
+}
+
+proc gethost {name ip} {
+    upvar $name n
+    upvar $ip i
+    global hostip
+
+    set useit n
+    while {![regexp -nocase ^y $useit ]} {
+	set count 0
+	while {$count != 1} {
+
+	    puts -nonewline "Enter a host name or IP address for nslookup: "
+	    gets file0 hname
+
+	    if {[cequal [string trim $hname] {}]} {
+		set byhand 1
+	    } else {
+		set nsl [open "| /usr/sbin/nslookup $hname" r]
+		scanfile $hostip $nsl
+		if [catch "close $nsl" result] {
+		    set count 0
+		    puts $result
+		}
+		set byhand 0
+	    }
+
+	    if {$count == 0} {
+		puts "unknown host: $hname"
+		puts -nonewline "Do you want enter the fully qualified host hame and IP address by hand? (y/n) "
+		gets file0 byhand
+	    } elseif {$count > 1} {
+		puts "multiple matches for $hname"
+	    }
+	    if {$count > 1 || [regexp -nocase ^y $byhand]} {
+		puts -nonewline "Enter correct fully qualified host name: "
+		gets file0 n
+		puts -nonewline "Enter correct IP address: "
+		gets file0 i
+		set count 1
+	    }
+	}
+	puts -nonewline "Use $n ( $i ) ? (y/n) "
+	gets file0 useit
+
+    }
+
+    return $count
+}
+
+proc gethostfromdb {name ip} {
+    upvar $name n
+    upvar $ip i
+    global sybh
+
+    mysybsql $sybh "select DomainHost, AllowedIP from fast_online..OnlineAccess"
+    puts "Currently allowed hosts:"
+    set row 1
+    sybnext $sybh {set rows($row) {@1 @2}; puts "${row}: @1 (@2)"; incr row}
+    set selection -1
+    if {$row == 1} {
+	return 0
+    }
+
+    while {$selection < 1 || $selection >= $row} {
+	puts -nonewline "Enter number: "
+	gets file0 selection
+	if [cequal [string trim $selection] {}] {return 0}
+    }
+    set n [lindex $rows($selection) 0]
+    set i [lindex $rows($selection) 1]
+    return $selection
+}
+    
+set choice none
+while {![regexp -nocase ^Exit $choice]} {
+    puts {}
+    puts {[A]dd Host to Access List}
+    puts {[R]emove Host from Access List}
+    puts {[C]hange Host name or IP in Access List}
+    puts {[Exit]}
+
+    puts -nonewline "? "
+    gets file0 choice
+
+    switch -glob $choice {
+	{[Aa]} {
+	    if [gethost addhost addip] {
+		
+		if [catch {mysybsql $sybh "insert fast_online..OnlineAccess (DomainHost, AllowedIP) values (\"$addhost\", \"$addip\")"} result] {
+		    puts $result
+		} else {
+		    puts "$addhost ( $addip ) added to access list"
+		}
+	    }
+
+	}
+	{[Rr]} {
+	    if [gethostfromdb rmhost rmip] {
+		puts -nonewline "Permanently remove all files \nfor $rmhost ( $rmip ) (y/n)? "
+		gets file0 remove
+		if [regexp -nocase ^y $remove] {
+		    mysybsql $sybh "delete fast_online..OnlineFiles from  fast_online..OnlineFiles, fast_online..OnlineLocations, fast_online..OnlineAccess where DomainHost = \"$rmhost\" and DomainId = Domain and LocId = Location"
+		    mysybsql $sybh "delete fast_online..OnlineLocations from fast_online..OnlineAccess, fast_online..OnlineLocations where DomainHost = \"$rmhost\" and DomainId = Domain"
+
+		    if [catch {mysybsql $sybh "delete from fast_online..OnlineAccess where DomainHost = \"$rmhost\" and AllowedIP = \"$rmip\""} result] {
+			puts $result
+		    } else {
+			puts "$rmhost ( $rmip ) removed from access list"
+		    }
+		
+		}
+	    } else {
+		puts "No host selected"
+	    }
+	    
+	}
+	{[Cc]} {
+	    if [gethostfromdb rmhost rmip] {
+		puts -nonewline "Change $rmhost ( $rmip ) ? (y/n) "
+		gets file0 useit
+		if {![regexp -nocase ^y $useit]} {
+		    continue
+		}
+		puts "New host:"
+		if [gethost addhost addip] {
+		    puts -nonewline "Change $rmhost ( $rmip ) \n    to $addhost ($addip) (y/n)? "
+		    gets file0 change
+		    if [regexp -nocase ^y $change] {
+			if [catch {mysybsql $sybh "update fast_online..OnlineAccess set DomainHost = \"$addhost\", AllowedIP = \"$addip\" where DomainHost = \"$rmhost\" and AllowedIP = \"$rmip\""} result] {
+			    puts $result
+			}
+		    }
+		}
+	    } else {
+		puts "No allowed hosts in database."
+	    }
+
+	}
+	{[Ee][Xx][Ii][Tt]} {
+	    exit
+	}
+    }
+}	    
+exit
+    

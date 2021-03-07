@@ -1,0 +1,86 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#   CD_GEN       Premasters a directory to an image file,
+#                downloads it to CDStudio,  and cuts a CD.
+#
+# OPTIONS:
+#
+#   -l           Copy files and directories pointed to by symbolic links
+#                in the sub-tree.  This is helpful when the data structure
+#                is not readily premasterable, but moving the data is not
+#                desired. By default, only the link itself is copied.
+#
+#
+# ARGUMENTS:
+#
+#   CDNAME       The root directory and label name of the CD.
+#   SOURCE_DIR   The full path of the directory whose contents are to
+#                be put to CDROM.
+#
+# R. Abiad  08 Dec 1995
+#
+
+. /disks/fast/software/config/archive_config
+
+if [[ $1 = "" ]] ; then
+	echo Usage: CD_GEN cdname source_path
+	exit 1
+fi
+if [[ $1 = "-l" ]] ; then
+    linkopt="-C"
+    shift
+fi
+
+date=`date`
+
+sed -e s/CDNAME/$1/ -e s/DATE/"${date}"/ \
+	$WORKDIR/template > $WORKDIR/volume.inf
+
+# premaster the image
+
+echo Beginning premastering...
+mt -f $CDSTUDIO rewind
+if $COMMBIN/makedisc/makedisc -R -d -b16 -s -t -g $linkopt \
+	$WORKDIR $2 $CDSTUDIO 700 
+then
+	echo Done premastering 
+	echo
+else
+	echo Premastering failed!
+	echo
+	rm $WORKDIR/*.*
+	exit 1
+fi
+
+# remove all premastering temporary files
+
+rm $WORKDIR/*.*
+
+# Check to see if any images are already on the cdstudio.
+# If so, make a note that the image is no longer there.
+
+next=`head -1 $WORKDIR/ymi_images`
+next_image=`echo $next | awk '{print $1}'`
+if [[ $next_image = "preloaded" ]]
+then
+	cp $WORKDIR/ymi_images /tmp/geo$$
+	sed 's/preloaded//' /tmp/geo$$ > $WORKDIR/ymi_images
+	rm /tmp/geo$$
+fi
+
+# cut the disc
+
+if mt -f $CDSTUDIO fsf
+then 
+        $DANETBIN/wtcdwrt $SERIALPORT
+else
+        echo $1: Error executing cut, aborting!
+        rm $CUTCDLOCK
+        exit 1
+fi
+
+
+
+

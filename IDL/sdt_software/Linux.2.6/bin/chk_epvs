@@ -1,0 +1,25 @@
+#!/usr/bin/ksh
+#
+# chk_epv.ksh - Check on epv processing
+#
+
+## Set the environment variables
+#
+. /disks/fast/software/config/archive_config
+
+#
+## Check status of predicted and definitive files
+#
+	for file_type in predicted definitive
+	do
+		file_chk=$(find $EPV_PROCESS_DIR -name $file_type -mtime $CHK_EPV_MTIME)
+
+		if [[ -z $file_chk ]]
+		then
+			printf "%s\n" "script: $0" \
+			"Warning: WARNING: $file_type ephemeris file is out of date. Please check." |
+			mailx -s "FAST Ephemeris Production Problem" $ARCHIVEMASTER
+		fi
+	done
+
+exit 0

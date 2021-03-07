@@ -1,0 +1,409 @@
+************************************************************************
+
+   README.General.UCB.wt.avg_003
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.avg_003
+
+************************************************************************
+
+   Average for multiple quantities by time interval.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.avg_003	1.1    10/02/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces separate time averages for a number
+       of input quantities.
+
+
+
+       The averages are for consecutive time intervals of uniform
+       length.
+
+
+
+
+
+    2) There can be any number of input quantities to be averaged; the
+       minimum is 1.
+
+
+
+       All the quantities must be data components of the same input.
+
+
+
+
+
+    3) There must be the following SDT inputs:
+
+
+
+            1) Input for the quantities to be averaged.
+
+
+
+
+
+    4) Although the time intervals are of uniform length, the input data
+       points are restricted to the time span requested; therefore, for
+       the first and/or the last time intervals, some data points may be
+       ignored.
+
+
+
+       There are 2 choices for the set of begin and end times for the
+       intervals (where the times are with respect to the normalized
+       begin date of the time span):
+
+
+            1) The begin and end times are integer multiples of the
+               interval length.
+
+
+            2) The begin and end times are odd integer multiples of half
+               the interval length.
+
+
+
+
+
+    5) For each input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+       Note that for an input data point, if any data component that is
+       a quantity to be averaged is beyond its specified limits; then
+       the entire data point is ignored.
+
+
+
+
+
+    6) For each averaging time interval, a chosen minimum number of
+       input data points is required.
+
+
+
+       Of course, if limits are used for the input values, only valid
+       input data points are counted.
+
+
+
+       If for any time interval there are fewer than the specified
+       minimum number of valid input data points; no output data point
+       is written.
+
+
+
+
+
+    7) When there are enough valid data points for a time interval, an
+       output data point is produced.
+
+
+
+       The output data point contains the average of each of the
+       quantities; each average is computed separately from the data
+       values of the corresponding quantity.
+
+
+
+
+
+    8) The time tag for the output data point is the mid-point of the
+       time interval.
+
+
+
+
+
+    9) The output can be either in "short average format" or in "long
+       average format".
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of data quantities to be averaged.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Length of time averaging interval.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            4) Code for the time interval endpoints.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Multiples of the time averaging interval.
+
+                    2  =  Odd multiples of half the time averaging
+                          interval.
+
+
+
+            5) Minimum number of input data points for an interval.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            6) Code for the output format.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_SM_AVG_FMT_SHORT  =  Use short format.
+
+                    WT_SM_AVG_FMT_LONG   =  Use long format.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the quantities to be averaged.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+                2) Flag for limits.
+
+
+                   Int.
+
+
+                   Must be one of the following:
+
+
+                       WT_TRUE   =  Use limits for input values.
+
+                       WT_FALSE  =  Do not use limits for input values.
+
+
+
+                3) Lower limit.
+
+
+                   Double.
+
+
+
+                4) Upper limit.
+
+
+                   Double.
+
+
+
+               If the flag for limits is true, then  the lower limit
+               must be  <=  the upper limit.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The input for the quantities to be averaged.
+
+
+               This input must be a time series (Standard data type);
+               the following components are required, and must be of the
+               indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components for quantities to
+                   be averaged.
+
+                   Float.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Begin time for interval.
+
+
+               Double.
+
+
+               This component is present only for "long average format".
+
+
+
+            3) End time for interval.
+
+
+               Double.
+
+
+               This component is present only for "long average format".
+
+
+
+            4) Number of valid data points for interval.
+
+
+               Float, for "short average format".
+
+               Double, for "long average format".
+
+
+
+            5) One component for the average of each input data
+               quantity.
+
+
+               Float.

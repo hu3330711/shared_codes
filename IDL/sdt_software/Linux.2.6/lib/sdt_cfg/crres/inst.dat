@@ -1,0 +1,329 @@
+* For SCCS
+* @(#)inst.dat	1.3, 07/23/94
+*
+* maximum number of quantites here
+MAX 140
+*
+* variables    A     B
+VARIABLES   409.6 20938.75
+*
+* plotted quantity = (telem.quantity - offset) / scale
+*                                             
+* Type: 1 = real time data
+*       2 = burst data
+*       3 = Fast Digital Monitor (chan 0-7), or DSC quantity (chan 8-15)
+*       4 = special:
+*           chan= 0,1,2: Bx, By, Bz magnetometer
+*                 3: Bias value during boom deployment       
+*                 4-12 bias sweeps
+*       5 = chan 0-13: Spin Fit results
+*
+* Mode: bit0 on => use if FDM current bit = 0 
+*       bit1 on => use if FDM current bit = 1 
+*       bit2 on => use if filter mux bit 3 = 0
+*       bit3 on => use if filter mux bit 3 = 1
+*
+*Id Name                                          low gain       high gain           low gain    high gain
+*       Type Chan Mode Title Units   Min  Max   Scale  Offset   Scale  Offset      Scale Offset  Scale Offset
+*
+#Fast Digital Monitor  
+22  Fast Digital Monitor
+         3    0   3   FDM     raw     -.1   256   1.0    0.0     1.0       0.0
+23  FDM Current/Voltage mode
+         3    1   3   Mode    Volt/Curr  -.1  1.1   1.0    0.0     1.0       0.0
+24  FDM Command Error Count
+         3    2   3   CmdErr  off/on  -.1  1.1   1.0    0.0     1.0       0.0
+28  FDM Test Calibrate mode 
+         3    6   3   Test    off/on  -.1  1.1   1.0    0.0     1.0       0.0
+25  FDM Bias Sweep 
+         3    3   3   Sweep   off/on  -.1  1.1   1.0    0.0     1.0       0.0
+29  FDM Playback on/off 
+         3    7   3   Playback(off/on) off/on -.1  1.1   1.0    0.0     1.0       0.0
+26  FDM Playback Main/Burst 
+         3    4   3   Playback(Bur/Main)  Bur/Main -.1  1.1   1.0    0.0     1.0       0.0
+27  FDM Burst condition (1=search,2=collect,3=wait)
+         3    5   3   Burst   Srch/Coll  -.1  3.1   1.0    0.0     1.0       0.0
+*
+#Main Multiplexor Quantities
+ 4  V3 (cylinder) (mux 3)
+         1    3   3   V3     volts   -6   2  20.7678  4.2531   1061.407 134.15
+ 5  V2 (sphere) (mux 4)
+         1    4   1   V2     volts   -6   2  -20.8729 -5.564  -1065.63 -348.35
+ 6  V1 - voltage mode only (sphere) (mux 5)
+         1    5   8   V1v    volts   -6   2  -20.6538 -5.366  -1056.19 -344.99
+ 7  V1 both voltage and current mode (mux 6)
+         1    6   3   V1     volts   -6   2   20.6699  4.86    1058.992 179.40
+ 8  V12 voltage difference spheres (mux 8)
+         1    8   1 E-Field12 mV/m   -20  20  3.71654 -.7750   189.750 -127.017
+ 9  V12 through BP Filter F3 (2048 Hz center freq) (mux 9)
+         1    9   1   E-Filter_(2048_Hz)  volts(tm)  -0.05  0.2    A      0        B        0
+10  V12 through BP Filter F2 (256 Hz center freq) (mux 10)
+         1   10   1   E-Filter_(256_Hz)  volts(tm)  -0.05  0.2    A      0        B        0
+11  V12 through BP Filter F1 (32 Hz center freq) (mux 11)
+         1   11   1   E-Filter_(32_Hz)  volts(tm)  -0.05  0.2    A      0        B        0
+12  V4 (cylinder) (mux 12)
+         1   12   3   V4     volts   -6  2    20.8372 4.335   1064.    0
+13  V12 unfiltered (mux 14)
+         1   14   1   V12u   volts   -2   2   39.1996 -1.255  2002.64 -135.017
+14  V34 voltage difference cylinders (mux 15)
+         1   15   3 E-Field34 mV/m   -20  20   3.816755 5.5061  195.158 201.313
+15  RI2 current from sphere 2 (mux 4)
+         1    4   2   RI2    uAmps   -400  400  -1267.25 -3.2291  -6250.00  0
+*Id Name                                          low gain       high gain           low gain    high gain
+*       Type Chan Mode Title Units   Min  Max   Scale  Offset   Scale  Offset      Scale Offset  Scale Offset
+16  Search Coil (mux 5)
+         1    5   4  MSC(300Hz-10kHz)  nT  -1  1   28.672   0      1465.7     0
+17  RI1 current from sphere 1 (mux 8)
+         1    8   2   RI1    uAmps   -400  400  -1227.63 .80679 -62796.6 -51.319
+18  RI1 through BP Filter F3 (2048 Hz center freq) (mux 9)
+         1    9   2   RI1-F3  volts(tm)  -5  5    A      0       B        0
+19  RI1 through BP Filter F2 (256 Hz center freq) (mux 10)
+         1   10   2   RI1-F2  volts(tm)  -5  5    A      0       B        0
+20  RI1 through BP Filter F1 (32 Hz center freq) (mux 11)
+         1   11   2   RI1-F1  volts(tm)  -5  5    A      0       B        0
+21  RI1 current from sphere 1 - unfiltered (mux 14)
+         1   14   2   RI1u   uAmps   -400  400  -1227.63 .80679 -61827.6 -73.212
+*
+#Magnetometer
+ 1  Magnetometer BZ 
+         4    2   3   BZ    nTelsa 50 250  -.045475  2      -2.3256    22  1.0       0    1.0       0      2.090      270.350
+ 2  Magnetometer BY 
+         4    1   3   BY    nTelsa -50 50  -.045351  2      -2.3180    12  .301295  -1    15.3846  -96     -75.200    188.590
+ 3  Magnetometer BX 
+         4    0   3   BX    nTelsa -50 50  -.045516  4      -2.331     91  1.0       0     1.0      0       14.625     179.910
+*
+#Burst Multiplexor Quantities
+30  Burst BZ (bmux 0)
+         2    0   3   BBZ    nTelsa -50 50  -.045475  2      2.3256  22
+31  Burst BX (bmux 1)
+         2    1   3   BBX    nTelsa -50 50  -.045516  4      2.331   91
+32  Burst BY (bmux 2)
+         2    2   3   BBY    nTelsa -50 50  -.045351  2      2.3180  12    .301295  -1    15.3846  -96
+33  Burst V3 (bmux 3)
+         2    3   3   BV3    volts  -15   15    20.7678 4.2531  -1061.407 -134.15
+34  Burst V4 (bmux 4)
+         2    4   3   BV4    volts   -5    5    20.8372  4.335  -1064. 0
+35  Burst V34 (bmux 5)
+         2    5   3   BurstEF34 Burst-mV/m -20 20  3.86365 5.5061 -195.158 -201.312
+36  Burst V34 AC (bmux 6)
+         2    6   3   BV34-AC  volts(tm) -5  5  A    0     B    0
+37  Burst V1 - voltage mode (bmux 7)
+         2    7   8   BV1v   volts   -15    15  -20.654 -5.3658  1056.19 344.99
+38  Burst V12 AC (bmux 8)
+         2    8   1   BV12-AC volts(tm)  -5  5  A    0     B    0
+39  Burst V2 (bmux 9)
+         2    9   3   BV2    volts   -15    15  -20.873 -5.564  1065.63 348.354
+40  Burst V1 (bmux 10)
+         2   10   3   BV1    volts   -15    15  20.67   4.86  -1058.992 -179.398
+41  Burst V12 (bmux 11)
+         2   11   1  BurstEF12 Burst-mV/m -20 20  3.714162 -1.255 -189.750 127.017
+42  Burst Direct AGC (bmux 12)
+         2   12   3   BD-ACG  volts(tm)  -5   5     A      0         B        0
+43  Burst AGC unfiltered (bmux 13)
+         2   13   3   BAGCu   volts(tm)  -5   5     A      0         B        0
+44  Burst Guard 1 (bmux 14)
+         2   14   3   BGuard1  volts(tm)  -5   5    A      0         B        0
+45  Burst Stub 1 (bmux 15)
+         2   15   3   BStub1   volts(tm)  -5   5    A      0         B        0
+46  Burst Search Coil (bmux 7)
+         2    7   4 B-Field_(300Hz-10kHz)  Burst-nT -.5 .5 28.672  0       1465.7      0
+47  Burst RI1 AC (bmux 8)
+         2    8   2   BRI1-AC volts(tm)  -5   5     A      0         B        0
+48  Burst RI2 current (bmux 9)
+         2    9   2   BRI2   uAmps   -400  400  -1267.25 -3.2291   6250.00 0
+49  Burst RI1 (bmux 10)
+         2   10   2   BRI1   uAmps   -400  400  -1227.627 .8068  62796.6 51.3188
+*
+*Id Name                                          low gain       high gain           low gain    high gain
+*       Type Chan Mode Title Units   Min  Max   Scale  Offset   Scale  Offset      Scale Offset  Scale Offset
+*
+#Digital SubCom (DSC) values
+50  DSC Number signed ###
+         3    8   3   DSC###    raw   -128   +128      1.0      0      1.0      0
+51  DSC Number unsigned ###
+         3    10  3   DSCu###   raw   0      +256      1.0      0      1.0      0
+79  DSC Sun angle
+         3    12  3   SunAngle  raw   0    +66000      1.0      0      1.0      0
+80  DSC Sun period
+         3    13  3   SunPeriod sec   0      +100     62.5      0      1.0      0
+*
+#Raw Data Plots
+ 0  Raw Mux Channel ###
+         1    0   3   Mux###   raw    -2050   2050    1.0      0      1.0      0 
+*
+* for bias sweep, mode = 1 is sphere. mode = 2 is cylinder
+*
+*Id Name                                          low gain       high gain           low gain    high gain
+*       Type Chan Mode Title Units   Min  Max   Scale  Offset   Scale  Offset      Scale Offset  Scale Offset
+#Bias Sweep quantities
+53  Bias value (Voltage mode)
+         4    4   3   bias      nAmps   -320  320   .4     0      .4     0
+54  V1 Bias Sweep 
+         4    5   1   V1(bias)  volts   -15   15  20.6699  4.86    0      0
+55  V2 Bias Sweep 
+         4    6   1   V2(bias)  volts   -15   15  20.8729  5.564   0      0
+56  V3 Bias Sweep 
+         4    7   2   V3(bias)  volts   -15   15  20.7678  4.2531   0      0
+57  V4 Bias Sweep 
+         4    8   2   V4(bias)  volts   -15   15  20.8372  4.335   0    0
+58  Bias value (Current mode)
+         4    9   1   bias     raw    -128    +128    1.0      0      1.0     0
+59  I1 Bias Sweep 
+         4    10  1   I1(bias)  uAmps   -400  400  -1227.63 .80679 -62796.6 -51.319
+60  I2 Bias Sweep 
+         4    11  1   I2(bias)  uAmps   -400  400  -1267.25 -3.2291  -6250.00  0
+#Special
+52  Diagnostic Bias stepping (RAM quantity)
+         4    3   3   BiasStep raw    -128    +128    1.0      0      1.0     0
+#Spin Fits
+61  Spheres: Spin Fit\nCoefficient AHI
+         5    0   3   Sphere:SpinFit(AHI)  Volts  -10   10   0.0018792      0      0.0018792     0
+62  Spheres: Spin Fit\nCoefficient ALO
+         5    1   3   Sphere:SpinFit(ALO)  Volts  -10   10   0.0018792      0      0.0018792     0
+63  Spheres: Spin Fit\nCoefficient B
+         5    2   3   Sphere:SpinFit(B)  mV/m  -10    10  0.0018792      0      0.0018792     0
+64  Spheres: Spin Fit\nCoefficient C
+         5    3   3   Sphere:SpinFit(C)  mV/m  -10    10    0.0018792      0      0.0018792   0
+65  Spheres: Spin Fit\nStd. Deviation
+         5    4   3   Sphere:SpinFit\n(StdDvn)  mV/m  -10   10   0.0018792   0   0.0018792  0
+66  Spheres:\nPoints in Spin Fit 
+         5    5   3   Sphere:SpinFit(Npts)  -  0   40   1.0   0    1.0     0
+67  Spheres:\nSQRT (B\u2 + C\u2)
+         5    6   3   Sphere:\nsqrt(b\u2+c\u2)  mV/m  -10   10   0.0018792   0   0.0018792 
+68  Cylinders: Spin Fit\nCoefficient AHI
+         5    7   3   Cyl:SpinFit(AHI)  Volts  -10   10   0.002     0     0.002     0
+69  Cylinders: Spin Fit\nCoefficient ALO
+         5    8   3   Cyl:SpinFit(ALO)  Volts  -10   10   0.002      0    0.002     0
+70  Cylinders: Spin Fit\nCoefficient B
+         5    9   3   Cyl:SpinFit(B)  mV/m  -10    10    0.002      0  0.002     0
+71  Cylinders: Spin Fit\nCoefficient C
+         5   10   3   Cyl:SpinFit(C)  mV/m  -10    10    0.002      0  0.002     0
+72  Cylinders: Spin Fit\nStd. Deviation
+         5   11   3   Cyl:SpinFit\n(StdDvn)  mV/m  -10   10   0.002   0  0.002     0
+73  Cylinders:\nPoints in Spin Fit 
+         5   12   3   Cyl:SpinFit(Npts)  -  0   40   1.0   0      1.0     0
+74  Cylinders:\nSQRT (B\u2 + C\u2)
+         5   13   3   Cyl:\nsqrt(b\u2+c\u2)  mV/m  -10   10   0.002   0   0.002     0
+#Despun Spin fits:
+75  Ey\nSphere
+         4   12   3   Ey\nSphere mV/m -10  10  0.0018792   0   0.0018792     0
+76  Ez\nSphere
+         4   13   3   Ez\nSphere mV/m -10  10  0.0018792   0   0.0018792     0
+77  Ey\nCylinder
+         4   14   3   Ey\nCylinder mV/m -10  10  0.002   0   0.002     0
+78  Ez\nCylinder
+         4   15   3   Ez\nCylinder mV/m -10  10  0.002   0   0.002     0
+
+81  jcs_dbg_level 0
+
+#Ephemeris quantities:
+83  Spacecraft_Position_X
+         6    0   0   SpcPosX  km(ECI) -50000  50000  1.0   0   1.0   0
+84  Spacecraft_Position_Y
+         6    1   0   SpcPosY  km(ECI) -50000  50000  1.0   0   1.0   0
+85  Spacecraft_Position_Z
+         6    2   0   SpcPosZ  km(ECI) -50000  50000  1.0   0   1.0   0
+86  Spacecraft_Velocity_X
+         6    3   0   SpcVelX  km/sec -50000  50000  1.0   0   1.0   0
+87  Spacecraft_Velocity_Y
+         6    4   0   SpcVelY  km/sec -50000  50000  1.0   0   1.0   0
+88  Spacecraft_Velocity_Z
+         6    5   0   SpcVelZ  km/sec -50000  50000  1.0   0   1.0   0
+89  Spacecraft_Radius
+         6    6   0   SpcRad  km   0  50000  1.0   0   1.0   0
+90  Spacecraft_Altitude
+         6    7   0   SpcAlt  km   0  50000  1.0   0   1.0   0
+91  Spacecraft_Latitude
+         6    8   0   SpcLat  deg   -180.0  180.0  1.0   0   1.0   0
+92  Spacecraft_Longitude
+         6    9   0   SpcLng  deg   -90.0  90.0  1.0   0   1.0   0
+93  Spacecraft_Velocity
+         6    10   0   SpcVel  km/sec   0.0  50000.0  1.0   0   1.0   0
+94  Spacecraft_LocalTime
+         6    11   0   SpcLtm  Hr   -25.0  25.0  1.0   0   1.0   0
+95  Magnetic_Radius
+         6    12   0   MagRad  EMR   -10.0  10.0  1.0   0   1.0   0
+96  Magnetic_Latitude
+         6    13   0   MagLat  deg -90  90  1.0   0   1.0   0
+97  Magnetic_Longitude
+         6    14   0   MagLng  deg -180  180  1.0   0   1.0   0
+98  SM_Radius
+         6    15   0   SM_Rad  EMR   -10.0  10.0  1.0   0   1.0   0
+99  SM_Latitude
+         7     0   0   SM_Lat  deg -90  90  1.0   0   1.0   0
+100  SM_LocalTime
+         7     1   0   SM_Ltm  Hr -25  25  1.0   0   1.0   0
+101  GSM_Radius
+         7     2   0   GSM_Rad  EMR   -10.0  10.0  1.0   0   1.0   0
+102  GSM_Latitude
+         7     3   0   GSM_Lat  deg   -90.0  90.0  1.0   0   1.0   0
+103  GSM_Localtime
+         7     4   0   GSM_Ltm  Hr -25  25  1.0   0   1.0   0
+104  Model_BField_Magnitude
+         7     5  0   |BMdl|  nTesla   0  40000  1.0   0   1.0   0
+105  Model_BField_X
+         7     6  0   BMdl_Z  nTesla(ECI) -40000  40000  1.0  0  1.0  0
+106  Model_BField_Y
+         7     7  0   BMdl_Y  nTesla(ECI) -40000  40000  1.0  0  1.0  0
+107  Model_BField_Z
+         7     8  0   BMdl_Y  nTesla(ECI) -40000  40000  1.0  0  1.0  0
+108  Magnetic_LocalTime
+         7     9   0   MagLtm  hr -25  25  1.0   0   1.0   0
+109  SolarZenithAngle
+         7    10   0   SZenAng  deg -180  180  1.0   0   1.0   0
+110  InvariantLatitude
+         7    11   0   InvLat deg -90  90  1.0   0   1.0   0
+111  B100NLat
+         7    12   0   B100NLat deg -90  90  1.0   0   1.0   0
+112  B100NLong
+         7    13   0   B100NLng deg -180  180  1.0   0   1.0   0
+113  B100SLat
+         7    14   0   B100SLat deg -90  90  1.0   0   1.0   0
+114  B100SLong
+         7    15   0   B100SLng deg -180  180  1.0   0   1.0   0
+115  LShell
+         8     0   0   LShell  EMR -10  10  1.0   0   1.0   0
+116  BMin
+         8     1   0   BMin  nT -40000  40000  1.0   0   1.0   0
+117  BMinLat
+         8     2   0   BMinLat  deg -90  90  1.0   0   1.0   0
+118  BMinLong
+         8     3   0   BMinLng  deg -180  180  1.0   0   1.0   0
+119  BMinAlt
+         8     4   0   BMinAlt  km 0  60000  1.0   0   1.0   0
+120  BConjLat
+         8     5   0   BCnjLat  deg -90  90  1.0   0   1.0   0
+121  BConjLong
+         8     6   0   BCnjLng  deg -180  180  1.0   0   1.0   0
+122  BConjAlt
+         8     7   0   BConjAlt  km 0  60000  1.0   0   1.0   0
+123  Sun_Pos_X
+         8     8  0   Sun_X  10\u6km(ECI) -200  200  1.0   0   1.0   0
+124  Sun_Pos_Y
+         8     9  0   Sun_Y  10\u6km(ECI) -200  200  1.0   0   1.0   0
+125  Sun_Pos_Z
+         8    10  0   Sun_Z  10\u6km(ECI) -200  200  1.0   0   1.0   0
+126  Moon_Pos_X
+         8    11  0   Moon_X  km(ECI) -500000  500000  1.0   0   1.0   0
+127  Moon_Pos_Y
+         8    12  0   Moon_Y  km(ECI) -500000  500000  1.0   0   1.0   0
+128  Moon_Pos_Z
+         8    13  0   Moon_Z  km(ECI) -500000  500000  1.0   0   1.0   0
+129  RightAscension
+         8    14  0   RgtAsc  Hr -25  25  1.0   0   1.0   0
+130  B100NMeas
+         8    15  0   B100NM  nT -40000  40000  1.0   0   1.0   0
+131  B100SMeas
+         9     0  0   B100SM  nT -40000  40000  1.0   0   1.0   0
+132  MxDipole_ECI
+         9     1  0   MxDECI  nT -40000  40000  1.0   0   1.0   0
+133  MyDipole_ECI
+         9     2  0   MyDECI  nT -40000  40000  1.0   0   1.0   0
+134  MzDipole_ECI
+         9     3  0   MzDECI  nT -40000  40000  1.0   0   1.0   0
+135  DxOffset_ECI
+         9     4  0   DxOECI  km -50000  50000  1.0   0   1.0   0
+136  DyOffset_ECI
+         9     5  0   DyOECI  km -50000  50000  1.0   0   1.0   0
+137  DzOffset_ECI
+         9     6  0   DzOECI  km -50000  50000  1.0   0   1.0   0

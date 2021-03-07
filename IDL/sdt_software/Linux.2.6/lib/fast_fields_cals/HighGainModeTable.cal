@@ -1,0 +1,14 @@
+# configuration mapping fmode to gain state of V1-V4HG and V5-V8HG.
+# 1: high gain   0: low gain (calibrator will multiply by 4.0)
+# fmodes not listed will default to HG1=1, HG2=2
+#
+# fmode	HG1	HG2
+024	0	0
+033	0	0
+034	0	0
+048	0	0
+050	0	0
+051	0	0
+055	0	0
+128	0	0
+129	0	0

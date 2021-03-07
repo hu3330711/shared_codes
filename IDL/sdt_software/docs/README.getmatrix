@@ -1,0 +1,38 @@
+README.getmatrix
+# VERSION: @(#)README.getmatrix	1.4 11/25/96 UCLA
+--------------------------------------------------------------------
+
+Getmatrix1 and Getmatrix2 are demo programs illustrating the
+usage of the Attquery library call. Using this program requires
+compiling and linking with the "attlib.h" include file and the
+Attlib.a or Attlib.so library.  Basic usage guidelines for
+'Getmatrix1' and 'Getmatrix2' are given below:
+
+Basic usage guidelines for 'Getmatrix1' and 'Getmatrix2' are given
+below:
+
+Getmatrix1:
+Getmatrix2:
+  Usage:
+    Getmatrix1 [-d]
+    Getmatrix2 [-d]
+
+  Options:
+	-d 	Error messages displayed when errors are caught.
+		Default: FALSE
+
+  Getmatrix1:
+        Input time, return coordinate system, and data level.
+        Prints the returned output of the Attquery call.
+ 
+  Getmatrix2:
+        No input. reads a default datafile and then
+        prints the returned output of Attquery call
+        for the entire time span of the datafile.
+ 
+  Information:
+        Attitude data must exist in the data almanac area for
+        the Getmatrix programs to work. The default time is
+        set fro usage if a default attitude file
+
+--------------------------------------------------------------------

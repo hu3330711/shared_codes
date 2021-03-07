@@ -1,0 +1,65 @@
+#!/usr/bin/ksh
+#
+# 	gen_int:	Gets instrument on and off times out of 
+#                       most up-to-date ATS loads and formats the output.
+#			Output meant for input to compare_cdf_ats.pro.
+#
+#	Creator: 	J. Rauchleiba
+#
+
+firstday=$1
+lastday=$2
+if [[ $lastday = "" ]] ; then
+	lastday=$firstday
+fi
+
+cd /fast_data/a/ogs/ogsuser
+
+n=$firstday
+while (( n <= lastday )) ; do
+	# Make doy 3 chars long
+	if (( n <= 99 )) ; then
+		ind="0"${n}
+	else
+		ind=${n}
+	fi
+	# Would rather use a "send" directory, which reflects edits.
+	list=$(find ./ogs.send* -name *${ind}ATSNOR* -type f -print | sort -t/ -k 3 -k 2)
+	hiver=0
+	for each in $list ; do
+		ver=${each##*.}
+		if (( ver > hiver )) ; then
+			latest=$each
+			hiver=$ver
+		fi
+	done
+	loads[$n]=$latest
+	let n=n+1
+done
+print "Using ATS loads: " >&2
+for atsload in ${loads[*]} ; do
+	print $atsload >&2
+done
+cat ${loads[*]} | 
+nawk '
+BEGIN {
+	orbit = 0
+	usedorb = 0
+}
+/ORBIT:/ {
+	orbit = $3
+}
+$0 !~ /^#/ && $2 ~ /ISTMODE/ && $4 !~ /P=255/ {
+	if ( orbit != usedorb ) {
+		printf("\n%-5s\t%2s\t%3s\t%8s", orbit, substr($1,3,2), substr($1,6,3), substr($1,10,8))
+		usedorb = orbit
+	}
+#	else {
+#		printf("%2s\t%3s\t%8s", substr($1,3,2), substr($1,6,3), substr($1,10,8))
+#	}
+}
+$0 !~ /^#/ && $2 ~ /ISTMODE/ && $4 ~ /P=255/ {
+	printf("\t%2s\t%3s\t%8s", substr($1,3,2), substr($1,6,3), substr($1,10,8))
+}' -
+
+cd - > /dev/null 2>&1

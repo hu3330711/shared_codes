@@ -1,0 +1,44 @@
+/* xmm.ah */
+
+/* For SCCS */
+#define SccsId_xmm_ah "@(#)xmm.ah	1.1, 11/14/92"
+
+#ifdef ANSI_STD_C
+
+static  int AssignMem(struct Xptr_ *ptr);
+static  struct Xlarry_ *AddNewLA(struct Xpos_ *pos);
+static  int Find_time(struct MarkS_ *mark,long *time);
+static  int IncrementLA(struct Xpos_ *pos,long bytes);
+static  int TransferFromX(char *data,long nwant,int chan,struct Xpos_ *pos);
+static  int TransferToX(void *data,long nbytes,int chan,struct Xptr_ *start,struct Xptr_ *dest);
+extern  int XMMinit(int num_chan);
+extern  void XMMexit(void);
+extern  int XMMreinit(void);
+extern  int XMMmark(long time);
+extern  int XMMstore(void *data,long bytes,int chan);
+extern  int XMMsetMark(int forward);
+extern  char *XMMretrieveInit(void *data,long max_bytes,int chan,long time);
+extern  int XMMretrieve(struct RetStruct_ *rets,long *read_bytes,int *more);
+extern  void XMMretrieveExit(struct RetStruct_ *rets);
+extern  boolean XMMstoreMods(struct RetStruct_ *rets);
+
+#else
+
+static  int AssignMem();
+static  struct Xlarry_ *AddNewLA() ;
+static  int Find_time();
+static  int IncrementLA();
+static  int TransferFromX();
+static  int TransferToX();
+extern  int XMMinit();
+extern  void XMMexit();
+extern  int XMMreinit();
+extern  int XMMmark();
+extern  int XMMstore();
+extern  int XMMsetMark();
+extern  char *XMMretrieveInit();
+extern  int XMMretrieve();
+extern  void XMMretrieveExit();
+extern  boolean XMMstoreMods();
+
+#endif /* ANSI_STD_C */

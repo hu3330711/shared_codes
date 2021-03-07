@@ -1,0 +1,322 @@
+************************************************************************
+
+   README.General.UCB.wt.combine_components_003
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.combine_components_003
+
+************************************************************************
+
+   Combine input components with functions of 2 variables.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.combine_components_003	1.1    02/23/06    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module combines components of an input quantity
+       using functions of 2 variables, and computes errors.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+        1) The input to be operated upon.
+
+
+           This input has the data components to be combined, and their
+           errors.
+
+
+
+
+
+    3) There can be any number of output combinations of input
+       components; the minimum is 1.
+
+
+
+
+
+    4) The functions that can be used are contained in the
+       general-purpose function Gen_F_2_Var_002.
+
+
+
+
+
+    5) Each combination of 2 input components is used to create
+       ultimately an output quantity.
+
+
+
+       Different output quantities can use different function codes.
+
+
+
+
+
+    6) An output data point is produced for each input data point;
+       provided that all of the output quantities can be produced.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0      =  Do not dump.
+
+                    >= 1   =  Dump output data points with indices of:
+                              0, n, 2n, 3n, ...  (where n is the chosen
+                              dump frequency); i.e., every n-th point.
+
+                    <= -1  =  Dump output data points with indices of:
+                              0, 1, 2, 3, ..., (n-1)  (where -n is the
+                              chosen dump frequency); i.e., the first n
+                              points.
+
+
+
+            2) Number of output data quantities.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) The group of parameters described here occurs once for
+               each of the output data quantities.
+
+
+
+                1) Input component index for input variable 1.
+
+
+                   Int.
+
+
+
+                2) Input component index for the error for input
+                   variable 1.
+
+
+                   Int.
+
+
+
+                3) Input component index for input variable 2.
+
+
+                   Int.
+
+
+
+                4) Input component index for the error for input
+                   variable 2.
+
+
+                   Int.
+
+
+
+                5) Code for the function of 2 variables.
+
+
+                   Int.
+
+
+                   Must be a valid function code for compute mode.
+
+
+
+                6) Auxiliary int parameters for the function of 2
+                   variables.
+
+
+                   Int.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+                7) Auxiliary double parameters for the function of 2
+                   variables.
+
+
+                   Double.
+
+
+                   The exact number depends on the function code, and
+                   can be zero.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The data input for the quantities to be combined.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components for quantities to
+                   be combined.
+
+                   Float.
+
+
+                3) One or more additional components for the errors for
+                   the quantities to be combined.
+
+                   Float.
+
+
+               The components for the quantities and the components for
+               the errors can be in any order, and can be intermingled.
+
+
+
+
+
+    6) The SDT output data quantity is a time series (Standard data
+       type), and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for the 1st. output quantity.
+
+
+               Float.
+
+
+
+            3) One component for the error for the 1st. output quantity.
+
+
+               Float.
+
+
+
+            4) Additional pairs of components for the subsequent output
+               quantities and their errors.
+
+
+               Float.

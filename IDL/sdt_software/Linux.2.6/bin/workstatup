@@ -1,0 +1,53 @@
+#!/usr/bin/ksh
+# workstatup - this procedure will be used to bring the 
+#		prime FINET workstation back to operational
+#		status.
+#
+# 10 Jul 96  -	J.Rauch-Leiba added checks for holdup and 
+#		preparelock on both machines.  
+#		Added finishing comment.
+#		Added echo to $LOGFILE.
+#
+
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+host=$(uname -n)
+
+echo $$:-----** workstatup run from $host on $(date) **----- >> $LOGFILE
+
+#### Update the CD number on the other machine #######
+ 
+if [[ $host = $FINETPRIMARY ]]
+then
+	other=$FINETBACKUP
+else
+	other=$FINETPRIMARY
+fi
+        rcp $CDNUM $other:$CDNUM
+
+#### The remaining data in the LZP target directory on the backup
+#### workstation will be copied over to the target directory on 
+#### the prime workstation in preparation for resumption of 
+#### normal operations
+
+#### Sleep if data session or prepare is in progress on either station.
+
+while [[ `rsh $other ls /tmp | egrep '(holdup|preparelock)'` != "" || \
+	 `ls /tmp | egrep '(holdup|preparelock)'` != "" ]]
+do
+	print "*** workstatup sleeping 90 while a workstation is busy ***"
+	print "*** data session or prepare is in progress on a workstation ***"
+	echo $$:----** workstatup sleeping 90 for either holdup or preparelock **----- >> $LOGFILE
+	sleep 90
+done
+
+lzpdir=$(grep lzp /etc/passwd | awk -F: '{ print $6}')
+cd $lzpdir
+
+rcp -r fast_lzp_DSS* $other:$lzpdir
+rcp $ACSDIR/* $other:$lzpdir/$ACSDIR
+
+print "$$:*** copy to primary workstation complete ***" >> $LOGFILE
+print "$$:*** copy to primary workstation complete ***"

@@ -1,0 +1,264 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_spkapp</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_spkapp</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_SPKAPP returns the state 6-vector of a target 
+   body relative to an observer, optionally corrected for
+   light time and stellar aberration, given the geometric 
+   state 6-vector of the observer relative to the Solar System 
+   Barycenter. The routine signals an error if the input vector 
+   is not a 6-vector.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/spkapp_c.html">spkapp_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+   
+   Given:
+   
+      targ      the NAIF integer ID of the target body (the
+                observed body)
+                
+      et        the double precision ephemeris time (ET) epoch
+                for the observation of interest
+                
+      ref       the string name of the reference frame in
+                which to output the position 3-vector
+                
+      sobs      the geometric (uncorrected) double precision state 
+                6-vector of the observer relative to the solar 
+                system barycenter at epoch 'et'
+                
+      abcorr    the string name of the aberration correction
+                to apply to 'sobs'
+   
+   the call:
+   
+      <b>cspice_spkapp</b>, targ, et, ref, sobs, abcorr, starg, ltime
+   
+   returns:
+   
+      starg      the double precision 6-vector describing the state
+                 of target 'targ' with respect to the observer
+                 with aberration correction 'abcorr' in reference
+                 frame 'ref'
+      ltime      the one-way light time between the observer and 'targ'
+   
+                 Please note, CSPICE documentation and source code 
+                 uniformly uses the variable name 'lt' to designate
+                 the light-time between an observer and target. IDL 
+                 uses &quot;lt&quot; as the less-than numeric comparison 
+                 operator and so does not allow &quot;lt&quot; as a variable name. 
+                 Therefore, Icy documentation uses the name 'ltime' 
+                 for the light-time value.
+   
+   Note: NAIF recommends the use of <a href="cspice_spkezr.html">cspice_spkezr</a>.
+   
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+   
+      ;;
+      ;; Define the needed parameters.
+      ;;
+      MARS   = 499
+      MOON   = 301
+      EPOCH  = 'Jan 1 2004 5:00 PM' 
+      REF    = 'J2000'
+      ABCORR = 'LT+S'   
+   
+      ;;
+      ;; Load a meta kernel listing a leapseconds kernel.
+      ;;
+      <a href="cspice_furnsh.html">cspice_furnsh</a>, '<a href= "standard.html">standard.tm</a>'
+   
+      ;;
+      ;; Convert the time string to ephemeris time J2000.
+      ;;
+      <a href="cspice_str2et.html">cspice_str2et</a>, EPOCH, et
+   
+      ;;
+      ;; Compute the geometric state of the Moon wrt the
+      ;; the Solar System barycenter.
+      ;;
+      <a href="cspice_spkssb.html">cspice_spkssb</a>, MOON, et, REF, state
+   
+      ;;
+      ;; Apply an aberration correction for a position vector 
+      ;; of the MOON as seen from Mars. 
+      ;;
+      <b>cspice_spkapp</b>, MARS, et, REF, state, ABCORR, state_vec, ltime
+   
+      print, 'State vector of    : ' + string(MARS)
+      print, '...as seen from    : ' + string(MOON)
+      print, '...in frame        : ' + REF
+      print, '...at time         : ' + EPOCH
+      print, '...with correction : ' + ABCORR
+      print, '...R equals (KM)   : ', state_vec[0:2]
+      print, '...V equals (KM/S) : ', state_vec[3:5]
+   
+   IDL outputs:
+   
+      State vector of    :      499
+      ...as seen from    :      301
+      ...in frame        : J2000
+      ...at time         : Jan 1 2004 5:00 PM
+      ...with correction : LT+S
+      ...R equals (KM)   : 1.6453447e+08  25121995.   11145412.
+      ...V equals (KM/S) :     12.311977  19.888401   9.4067869
+   
+   The <a href="cspice_spkezr.html">cspice_spkezr</a> call equivalent to the preceding code:
+   
+      <a href="cspice_spkezr.html">cspice_spkezr</a>, 'MARS', et, REF, ABCORR, 'MOON', state_vec, ltime
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   Please refer to the Aberation Corrections Required Reading (<a href="../req/abcorr.html">ABCORR.REQ</a>)
+   for detailed information describing the nature and calculation of the
+   applied corrections.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/abcorr.html">ABCORR.REQ</a>
+   <a href="../req/spk.html">SPK.REQ</a>
+   <a href="../req/naif_ids.html">NAIF_IDS.REQ</a> 
+   <a href="../req/frames.html">FRAMES.REQ</a>
+   <a href="../req/time.html">TIME.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.0.5, 22-DEC-2015 (EDW)
+
+       Corrected typo in Version section. The 07-NOV-2013
+       version entry lacked a version ID.
+       
+       Particulars updated to refer to Aberration Corrections
+       Required Reading document.
+
+   -Icy Version 1.0.4, 10-JUL-2014 (NJB)(EDW)
+
+      Discussion of light time corrections was updated. Assertions
+      that converged light time corrections are unlikely to be
+      useful were removed.
+
+   -Icy Version 1.0.3, 07-NOV-2013 (EDW)
+
+      Improvement of I/O section descriptions. Added aberration 
+      algorithm explanation to Particulars section.
+
+   -Icy Version 1.0.2, 18-MAY-2010, BVS (JPL)
+
+      Index lines now state that this routine is deprecated.
+
+   -Icy Version 1.0.1, 23-SEP-2008, EDW (JPL)
+
+      Eliminated error in English.
+      
+   -Icy Version 1.0.0, 16-JUN-2003, EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+ 
+   DEPRECATED low-level aberration correction 
+   DEPRECATED apparent state from spk file 
+   DEPRECATED get apparent state 
+ 
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:03 2017</pre>
+
+</body>
+</html>
+

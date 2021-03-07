@@ -1,0 +1,45 @@
+
+***************************************************************************
+* UI.Config.dat
+*
+* For SCCS:
+* @(#)UI.Config.dat	1.7, 09/07/94
+*
+* Execs started and used by the SDT User Interface.
+*
+* * - any line preceeded by a '*' is considered a comment.
+* # - any line preceeded by a '#' is considered a header for seperating
+*     groups of quantities in the user interface selection menu.
+* @ - an '@' tells the software that this is the beginning of a description
+*     entry.  the entry must contain the following types of items in this 
+*     order.  note that a single quote delimits character strings:
+*        constant	  - { ConfigDescription
+*        character string - 'Output Destination'
+*        character string - 'Output Type'
+*        character string - 'Output Paper Size'
+*        character string - 'Output Orientation'
+*        character string - 'Output Printer Name'
+*        character string - 'Output File Name'
+*        end of line
+*        character string - 'configuration preffix'
+*        int              - number of configuration directories
+*        end of line
+*        character string - 'Config Dir #1'
+*        end of line
+*        ...
+*        character string - 'Config Dir #n'
+*        end of line
+********* this is an optional field
+*        int              - itimer delay 
+*********
+*        constant	  - }
+*        end of line
+***************************************************************************
+
+@ { ConfigDescription
+  'PLT_REMOTE' 'PLT_POSTSCRIPT' 'PLT_SIZE_A' 'PLT_PORTRAIT' 'lp' 'Plot.out'
+  'UIcfg' 1
+  './' local-configs
+  500000
+  }
+

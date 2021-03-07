@@ -1,0 +1,262 @@
+****************************************************************
+
+       README.ogscopcf
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogscopcf procedure.
+
+****************************************************************
+
+       @(#)README.ogscopcf	1.5    12/05/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. File for orbgen.
+
+       6. Files for genCommands.
+
+       7. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogscopcf procedure is to copy
+       into one single directory the configuration files that
+       are used by the programs which start with the FAST input
+       received from Goddard, and produce the instrument
+       commands and shadow ephemeris; i.e., the following
+       programs:
+
+           orbgen
+
+           genCommands
+
+           sunnadir
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogscopcf [-c proc-cfg-file] [-b orb-cfg-dir]
+           [-r gen-cfg-dir] [-u sun-cfg-file] out-dir
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       orb-cfg-dir
+
+           is the directory for the configuration file for
+           orbgen.
+
+           The default is
+               $FASTCONFIG/Fastorb
+           or, if that is not found, then
+               $FASTLIB/Fastorb
+
+
+
+       gen-cfg-dir
+
+           is the directory for the configuration files for
+           genCommands.
+
+           The default is
+               $FASTCONFIG/ATSConfig
+           or, if that is not found, then
+               $FASTLIB/ATSConfig
+
+
+
+       sun-cfg-file
+
+           is the configuration file for sunnadir.
+
+           The default is
+               $FASTCONFIG/sunnadirDAT/sunnadir.cfg
+           or, if that is not found, then
+               $FASTLIB/sunnadirDAT/sunnadir.cfg
+
+
+
+       out-dir
+
+           is the directory into which the files are to be
+           copied.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Error messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. File for orbgen.
+
+
+
+
+               The configuration file for orbgen is:
+
+
+           mag4wi.dat
+
+
+
+       ---------------------------------------------------------
+
+
+
+       6. Files for genCommands.
+
+
+
+
+               The configuration files for genCommands are:
+
+
+           ATSCmd.defs
+
+           BiasCurrent.rules
+
+           BurstTrig.rules
+
+           CovRed.rules
+
+           FastSlowSurv.rules
+
+           InstMode.rules
+
+           MassMem.rules
+
+           Mode.info
+
+
+
+       ---------------------------------------------------------
+
+
+
+       7. Notes.
+
+
+
+
+        1) It is permissible for the output directory either to
+           exist or not to exist prior to the execution of this
+           procedure.
+
+
+           If the output directory does not exist, it is
+           created.
+
+           When the output directory is created, it has write
+           permission for the user and the group.
+
+
+           If the output directory does exist, it must indeed be
+           a directory, and not a "plain" file.
+
+           When the output directory does exist, its permissions
+           are left unchanged.
+
+
+
+        2) The original program configuration files that are
+           copied are left undisturbed.
+
+
+           The copies of the files have write permission for the
+           user and the group.
+
+
+
+        3) If the output directory exists prior to the execution
+           of this procedure, any preexisting files in it with
+           the same names of files being copied will be
+           overwritten (any such preexisting files that are
+           write-protected will cause the procedure to terminate
+           with an error).
+
+           Other contents of a preexisting output directory are
+           left undisturbed.
+
+
+           If the output directory exists prior to the execution
+           of this procedure, any preexisting directories in it
+           with the same names of files being copied will cause
+           the procedure to terminate with an error.

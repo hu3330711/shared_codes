@@ -1,0 +1,41 @@
+  @(#)README.secBackupScripts	1.2 06/04/96 UCB SSL
+
+Jonathan Loran 
+18 April 1995
+
+This file explains the two additional scripts to the FAST tapemgr system
+which allows for specific support to backup of FINET security logs.
+These two scripts: sclabel and scputfiles are modified versions of
+the scripts itlabel and itputfiles used to archive FAST data at 
+various realtime data acquisition sites.  
+
+This document is an addendum to the file README.tapemgr.  Please
+become familiar with that document before refering to this file.
+The utility of the two scripts described in this file depend up
+on the tapemgr scripts: readlabel, readindex and getfile.
+
+1) sclabel -- This script labels a tape with a FAST label which
+indicates that this tape is for us to backup FINET security logs. It
+takes, as a required argument, the sequential number to be included in
+the label. It may be run from anywhere on the machine on which the
+tape drive is mounted.  Before writing a label, it looks for an
+existing label or for existing data at the beginning of the tape, and
+if either is found, the user is given the opportunity to abort. When a
+database is implemented, it is anticipated that the labeling will be
+recorded there as well and that some level of labeling consistency
+will be enforced.  This script now supports an optional argument
+to specify a tape divice.
+
+3) scputfiles -- This script writes an informational file and a "tar"
+file of a directory to a FINET security log archive tape.  It takes no
+arguments.  It must be run on the machine on which the tape drive is
+mounted and from the directory that is to be archived. Before writing
+the files, it first looks for a FAST tape label, displaying it if one
+is found and aborting otherwise. If one is found, it reads past the
+informational files, counting bytes as it goes, and skips the "tar"
+files until it reaches the end of the tape. It then reports the number
+of kilobytes on the tape and the number of kilobytes that the proposed
+archive would add. The user is then given the opportunity to abort the
+archive.  This script now supports an optional argumentto specify a
+tape divice.
+

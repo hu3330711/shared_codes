@@ -1,0 +1,23 @@
+#  SCCS Id
+#  @(#)HfqV14-V78.cal	1.1 04/15/96
+#
+# HfqV14-V78.cal
+# IS 7/12/95
+HfqV14-V78		Data name.
+7			Type: HFQ.
+sec			x-axis units.
+Degrees			y-axis units.
+xx			z-axis units.
+0			Boomlength index.
+0			Gain state.
+0			History.
+# Calibrations derived from WPC phase calibration diferences.
+# The gains are all set to same value. HFQ phase differences fit to
+# third order polynomial. A negative phase indicates the first pair
+# lags the second pair. 
+0			Epoch time in seconds.
+1.4815			Gain.
+0.3653			Z0. Offset.
+-5.894e-2		Z1. Linear.
+1.4012e-6		Z2. 2nd order.
+-4.0011e-9		Z3. Cubic.

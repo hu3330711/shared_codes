@@ -1,0 +1,21 @@
+#!/usr/bin/csh
+# archcmd
+# created 10/3/94
+# by R. Abiad
+# This file will setup for archiving the files used and 
+# created by the SOC command function
+#
+while  (-e /tmp/ogs.lock.cfg.write)         # wait if write cfg lock
+   sleep 2
+ end
+
+
+touch /tmp/ogs.lock.cfg.read               # create read cfg lock file
+if  ($status == 0)  then
+ else
+   echo  " archcmd : " \
+       "Unable to create read cfg lock file"
+         endif
+source $FASTCONFIG/ogsDAT/ogs.cfg
+rm /tmp/ogs.lock.cfg.read
+echo $rdarch

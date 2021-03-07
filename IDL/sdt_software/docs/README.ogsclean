@@ -1,0 +1,189 @@
+****************************************************************
+
+       README.ogsclean
+
+       Author: Winston Teitler.
+
+****************************************************************
+
+       Documentation file for the ogsclean procedure.
+
+****************************************************************
+
+       @(#)README.ogsclean	1.1    11/10/94    UCB SSL
+
+****************************************************************
+
+
+
+       Contents:
+
+       1. Purpose.
+
+       2. Usage.
+
+       3. Exit Status.
+
+       4. Standard Input/Output.
+
+       5. Notes.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       1. Purpose.
+
+
+
+
+               The purpose of the ogsclean procedure is to clean
+       up files from jobs in the ogs system.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       2. Usage.
+
+
+
+
+       ogsclean [-c proc-cfg-file] [-a] [-t] [prcjob]
+
+
+
+       where:
+
+
+
+       proc-cfg-file
+
+           is the configuration file for this procedure.
+
+           The default is
+               $FASTCONFIG/ogsDAT/ogs.cfg
+           or, if that is not found, then
+               $FASTLIB/ogsDAT/ogs.cfg
+
+
+
+       -a
+
+           is an option to clean up all work files.
+
+
+
+       -t
+
+           is an option to clean up all read/write lock files
+           for configuration files.
+
+
+
+       prcjob
+
+           is the name of a procedure for which all work files
+           are to be cleaned up.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       3. Exit Status.
+
+
+
+
+        0  means the procedure was successful.
+
+
+        3  means the procedure detected an error.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       4. Standard Input/Output.
+
+
+
+
+       There is no input.
+
+
+       Messages are written to the standard output.
+
+
+
+       ---------------------------------------------------------
+
+
+
+       5. Notes.
+
+
+
+
+        1) This procedure deletes files that are used normally
+           by procedures in the ogs system.
+
+
+           Therefore, caution must be used to check that no such
+           procedures are running.
+
+
+           However, such a check may give erroneous results
+           after a job has been terminated by canceling or by a
+           machine crash (precisely because these files, which
+           the job normally would have deleted, are still
+           present).
+
+
+
+        2) If the -t option is used, then all read/write lock
+           files for configuration files are deleted before this
+           procedure reads the procedure configuration file.
+
+
+           If the -t option is not used, and if the write lock
+           file for configuration files exists, then this
+           procedure will be unable to read the procedure
+           configuration file; the procedure will wait (possibly
+           indefinitely) until the lock file is gone.
+
+
+           Should such an indefinite wait develop, the procedure
+           can be killed, and then started again with the -t
+           option.
+
+
+
+        3) If the -a option is used, or if a procedure name is
+           specified on the command line, then work files are
+           deleted: auxiliary files that are created in the
+           ogs work area, and lock files that are created to
+           assure that a run of a procedure does not collide
+           with a run of another "copy" of the same procedure.
+
+
+           With the -a option, all such work files are deleted;
+           and a procedure name argument, if present, is
+           ignored.
+
+
+           Without the -a option, but with a procedure name on
+           the command line, only work files created by runs of
+           that procedure are deleted.
+
+
+           Without the -a option, and without a procedure name
+           on the command line, no work files are deleted.

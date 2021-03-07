@@ -1,0 +1,76 @@
+This code was provided by Dan Leonard (dleonard@cfa.havard.edu) from
+the Harvard-Smithsonian Center for Astrophysics, Cambridge, MA. Please
+read the e-mail messages below for more information about the status
+of this code.
+
+
+Date: Mon, 10 Aug 1998 19:31:05 -0400 (EDT)
+From: Dan Leonard <dleonard@karellen.harvard.edu>
+Reply-To: Dan Leonard <dleonard@karellen.harvard.edu>
+Subject: RE: A C-version of TRARA1/2 (radbelt)
+To: BILITZA@ndadsb-f.gsfc.nasa.gov
+MIME-Version: 1.0
+
+Content-Type: TEXT/plain; charset=us-ascii
+Content-MD5: WTPhv/vl8Le9/EnTuvcD9g==
+
+
+Dieter,
+
+I spent some time tonight commenting and de-integrating the ported
+radbelt C code I created in August.  I include it here (main.c).  
+I compared its output with your people's older paper proton report that 
+has level curve plots of various energies versus RE-mag latitude, and it 
+is very close.  File "example.out" has proton and electron outputs at 
+various radii and magnetic latitude, though over the limited energies
+we are most interested in.
+
+I am less sure about the electron fluxes since I do not have a paper 
+report to compare it to.  However, the change is only in the input file,
+and the first line, so it ought to be okay. 
+
+One needs to delete the first line in any of AP8MIN.ASC, AE8MIN.ASC, 
+AP8MAX.ASC, and AE8MAN.ASC and place its 8 integers into a static array.   
+For instance, for AP8MIN you see at line 75 (or just a few lines past main())
+of the main.c I sent you:
+ 
+ static int descrprtns[] = {  2,     4,  1964,   100,
+
+                           2048,  2048,  1024, 16584 };
+
+These values come from the first line of "AP8MIN.ASC":
+
+      2     4  1964   100  2048  2048  1024 16584
+   1895    10     3     0     0     3  2299     0    11  2334  2001    17
+     12    13    12    12    10     9     9    14  2355  2665    31    24
+     23    21    19    13    10     6     5     1     1    16  2396  3252
+     64    44    33    19    12    10     7     6     6     5     4     4
+      4    18  2457  3659   124    96    72    43    34    29    23    20
+     16    12    10     8     7     5     9    22  2662  4673   220   209
+    185   158   132   105    78    60    48    34    25    21    18    16
+     14    11    10    10    16    24  2867  5312   207   252   294   295
+     ...
+    
+My C version espects the first line to be gone, and for "AP8MIN.ASCt"
+(t for truncated) to look like:
+
+   1895    10     3     0     0     3  2299     0    11  2334  2001    17
+     12    13    12    12    10     9     9    14  2355  2665    31    24
+     23    21    19    13    10     6     5     1     1    16  2396  3252
+     64    44    33    19    12    10     7     6     6     5     4     4
+      4    18  2457  3659   124    96    72    43    34    29    23    20
+     16    12    10     8     7     5     9    22  2662  4673   220   209
+    185   158   132   105    78    60    48    34    25    21    18    16
+     14    11    10    10    16    24  2867  5312   207   252   294   295
+     ...
+
+Let me know what you think.  
+
+Dan
+
+===================================
+Dan Leonard                                   dleonard@cfa.havard.edu
+Computer Specialist (Programmer)              phone:  (617) 496-7075
+Harvard-Smithsonian Center for Astrophysics   fax:    (617) 496-7049 
+60 Garden Street, SAO MS33/34                 
+Cambridge, MA 02139

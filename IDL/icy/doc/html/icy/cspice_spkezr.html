@@ -1,0 +1,542 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+
+<HEAD>
+   <TITLE>cspice_spkezr</TITLE>
+</HEAD>
+
+<BODY style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<A name="TOP"></A>
+
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 800px;"
+ border="0" cellpadding="5" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="background-color: rgb(153, 153, 153); vertical-align: middle; text-align: center;">
+      <div align="right"> 
+      <small><small><a href="index.html">Index Page</a></small></small>
+      </div>
+      <b>cspice_spkezr</b> </td>
+    </tr>
+
+    <tr>
+      <td style="vertical-align: top;">
+
+<small><div align="center">
+<A HREF="index.html#A">A</A>&nbsp;
+<A HREF="index.html#B">B</A>&nbsp;
+<A HREF="index.html#C">C</A>&nbsp;
+<A HREF="index.html#D">D</A>&nbsp;
+<A HREF="index.html#E">E</A>&nbsp;
+<A HREF="index.html#F">F</A>&nbsp;
+<A HREF="index.html#G">G</A>&nbsp;
+<A HREF="index.html#H">H</A>&nbsp;
+<A HREF="index.html#I">I</A>&nbsp;
+<A HREF="index.html#J">J</A>&nbsp;
+<A HREF="index.html#K">K</A>&nbsp;
+<A HREF="index.html#L">L</A>&nbsp;
+<A HREF="index.html#M">M</A>&nbsp;
+<A HREF="index.html#N">N</A>&nbsp;
+<A HREF="index.html#O">O</A>&nbsp;
+<A HREF="index.html#P">P</A>&nbsp;
+<A HREF="index.html#Q">Q</A>&nbsp;
+<A HREF="index.html#R">R</A>&nbsp;
+<A HREF="index.html#S">S</A>&nbsp;
+<A HREF="index.html#T">T</A>&nbsp;
+<A HREF="index.html#U">U</A>&nbsp;
+<A HREF="index.html#V">V</A>&nbsp;
+<A HREF="index.html#W">W</A>&nbsp;
+<A HREF="index.html#X">X</A>&nbsp;
+</div></small>
+       <br>
+       <table style="text-align: left; width: 60%; margin-left: auto; margin-right: auto;"
+       border="0" cellspacing="2" cellpadding="2">
+        <tbody>
+          <tr>
+            <td style="width: 33%; text-align: center;">
+            <small>
+              <a href="#Abstract">Abstract<br></a>
+              <a href="#I/O">I/O<br></a>
+              <a href="#Examples">Examples<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Particulars">Particulars<br></a>
+              <a href="#Required Reading">Required Reading<br></a>
+              <a href="#Version">Version<br></a>
+
+              </small>
+              </td>
+              <td style="vertical-align: top; width: 33%; text-align: center;">
+              <small>               <a href="#Index_Entries">Index_Entries<br></a>
+             </small>
+            </td>
+          </tr>
+        </tbody>
+</table>
+
+
+<PRE>
+
+</pre><h4><a name="Abstract">Abstract</a></h4><pre>
+
+   CSPICE_SPKEZR returns the state (position and velocity) of 
+   a target body relative to an observing body, optionally 
+   corrected for light  time (planetary aberration) and stellar 
+   aberration.
+
+   For important details concerning this module's function, please refer to
+   the CSPICE routine <a href="../cspice/spkezr_c.html">spkezr_c</a>.
+
+</pre><h4><a name="I/O">I/O</a></h4><pre>
+   
+   Given:
+   
+      targ      the scalar string name of a target body.
+                Optionally, you may supply the integer ID code 
+                for the object as an integer string, i.e. both 
+                'MOON' and '301' are legitimate strings that 
+                indicate the Moon is the target body.
+   
+                The target and observer define a state vector 
+                whose position component points from the observer 
+                to the target.
+   
+      et        the scalar or N-vector of double precision ephemeris time,
+                expressed as seconds past J2000 TDB, at which the state 
+                of the target body relative to the observer is to be 
+                computed, 'et' refers to time at the observer's location
+   
+      ref       the scalar string name of the reference frame relative
+                to which the output state vector should be
+                expressed. This may be any frame supported by the SPICE
+                system, including built-in frames (documented in the
+                Frames Required Reading) and frames defined by a loaded
+                frame kernel (FK). 
+ 
+                When 'ref' designates a non-inertial frame, the 
+                orientation of the frame is evaluated at an epoch  
+                dependent on the selected aberration correction. 
+   
+      abcorr    a scalar string that indicates the aberration corrections
+                to apply to the state of the target body to account  
+                for one-way light time and stellar aberration.
+                  
+                'abcorr' may be any of the following: 
+  
+                   'NONE'     Apply no correction. Return the  
+                              geometric state of the target body  
+                              relative to the observer.  
+  
+                The following values of 'abcorr' apply to the
+                &quot;reception&quot; case in which photons depart from the
+                target's location at the light-time corrected epoch
+                et-lt and *arrive* at the observer's location at
+                'et':
+  
+                   'LT'       Correct for one-way light time (also 
+                              called &quot;planetary aberration&quot;) using a 
+                              Newtonian formulation. This correction 
+                              yields the state of the target at the 
+                              moment it emitted photons arriving at 
+                              the observer at 'et'. 
+  
+                              The light time correction uses an
+                              iterative solution of the light time 
+                              equation (see Particulars for details). 
+                              The solution invoked by the &quot;LT&quot; option 
+                              uses one iteration. 
+  
+                   'LT+S'     Correct for one-way light time and 
+                              stellar aberration using a Newtonian 
+                              formulation. This option modifies the 
+                              state obtained with the &quot;LT&quot; option to 
+                              account for the observer's velocity 
+                              relative to the solar system 
+                              barycenter. The result is the apparent 
+                              state of the target---the position and 
+                              velocity of the target as seen by the 
+                              observer. 
+  
+                   'CN'       Converged Newtonian light time
+                              correction. In solving the light time
+                              equation, the 'CN' correction iterates
+                              until the solution converges (three
+                              iterations on all supported platforms).
+                              Whether the 'CN+S' solution is
+                              substantially more accurate than the
+                              'LT' solution depends on the geometry
+                              of the participating objects and on the
+                              accuracy of the input data. In all
+                              cases this routine will execute more
+                              slowly when a converged solution is
+                              computed. See the Particulars section
+                              below for a discussion of precision of
+                              light time corrections.
+
+                   'CN+S'     Converged Newtonian light time
+                              correction and stellar aberration
+                              correction.
+  
+  
+                The following values of 'abcorr' apply to the 
+                &quot;transmission&quot; case in which photons *depart* from 
+                the observer's location at 'et' and arrive at the 
+                target's location at the light-time corrected epoch 
+                et+lt: 
+  
+                   'XLT'      &quot;Transmission&quot; case:  correct for 
+                              one-way light time using a Newtonian 
+                              formulation. This correction yields the 
+                              state of the target at the moment it 
+                              receives photons emitted from the 
+                              observer's location at 'et'. 
+  
+                   'XLT+S'    &quot;Transmission&quot; case:  correct for 
+                              one-way light time and stellar 
+                              aberration using a Newtonian 
+                              formulation  This option modifies the 
+                              state obtained with the &quot;XLT&quot; option to 
+                              account for the observer's velocity 
+                              relative to the solar system 
+                              barycenter. The position component of 
+                              the computed target state indicates the 
+                              direction that photons emitted from the 
+                              observer's location must be &quot;aimed&quot; to 
+                              hit the target. 
+  
+                   'XCN'      &quot;Transmission&quot; case:  converged  
+                              Newtonian light time correction. 
+  
+ 
+                   'XCN+S'    &quot;Transmission&quot; case: converged Newtonian
+                              light time correction and stellar
+                              aberration correction.
+  
+  
+                Neither special nor general relativistic effects are 
+                accounted for in the aberration corrections applied 
+                by this routine. 
+  
+                Both letter case and embedded blanks are not significant 
+                in the 'abcorr' string. 
+   
+      obs       the scalar string name of a observing body. 
+                Optionally, you may supply the integer ID code 
+                for the object as an integer string, i.e. both 
+                'MOON' and '301' are legitimate strings that 
+                indicate the Moon is the observing body.
+   
+   the call:
+   
+      <b>cspice_spkezr</b>, targ, et, ref, abcorr, obs, starg, ltime
+   
+   returns:
+   
+      starg   a double precision 6-array or double precision 6xN array
+              of Cartesian state vector(s) representing the position 
+              and velocity of the target body relative to the 
+              specified observer at 'et'. 'starg' is corrected for 
+              the specified aberrations 'abcorr'.
+              
+              The first three components of a 6-array 'starg' represent 
+              the x-, y- and z-components of the target's position as
+              measure in kilometers; the last three components form the 
+              corresponding velocity vector as measured in kilometers-per-
+              second.
+
+              The position component of 'starg' points from the 
+              observer's location at 'et' to the aberration-corrected 
+              location of the target. Note that the sense of the 
+              position vector is independent of the direction of 
+              radiation travel implied by the aberration 
+              correction. 
+
+              The velocity component of 'starg' is the derivative with 
+              respect to time of the position component of 'starg.'
+
+              Non-inertial frames are treated as follows: letting 
+              'ltcent' be the one-way light time between the observer 
+              and the central body associated with the frame, the 
+              orientation of the frame is evaluated at et-ltcent, 
+              et+ltcent, or 'et' depending on whether the requested
+              aberration correction is, respectively, for received
+              radiation, transmitted radiation, or is omitted. 'ltcent'
+              is computed using the method indicated by 'abcorr'.
+
+              The 6xN form of 'starg' returns as starg[6,N]. Retrieve
+              the ith state vector via:
+              
+                 state_i = state[*,i]
+   
+      ltime   the double precision scalar or N-vector of one-way 
+              light time(s) between the observer and target
+              in seconds; if the target state is corrected 
+              for aberrations, then 'ltime' is the one-way 
+              light time between the observer and the light
+              time corrected target location.
+   
+              Please note, CSPICE documentation and source code 
+              uniformly uses the variable name 'lt' to designate
+              the light-time between an observer and target. IDL 
+              uses 'lt' as the less-than numeric comparison 
+              operator and so does not allow 'lt' as a variable name. 
+              Therefore, Icy documentation uses the name 'ltime' 
+              for the light-time value. 
+
+              'starg' and 'ltime' return with the same measure of 
+              vectorization (N) as 'et'.
+
+
+   The <b><a href="cspice_spkez.html">cspice_spkez</a>r</b> function performs the same operation as cspice_spkez 
+   with the exception that <b>cspice_spkezr</b> expects arguments 'targ' and 
+   'obs' to pass as strings, whereas <a href="cspice_spkez.html">cspice_spkez</a> expects the arguments
+   as integers. <b>cspice_spkezr</b> also accepts the string form of the 
+   integer NAIF IDs as inputs to 'targ' and 'obs', e.g.
+   
+      targ = 'Mars'
+      obs  = 'Earth'
+   
+   or (remember, string representation of the integers)
+   
+      targ = '499'
+      obs  = '399'
+   
+</pre><h4><a name="Examples">Examples</a></h4><pre>
+
+   Any numerical results shown for this example may differ between
+   platforms as the results depend on the SPICE kernels used as input
+   and the machine specific arithmetic implementation.
+
+      ;;
+      ;; Load a set of kernels: an SPK file, a PCK
+      ;; file and a leapseconds file. Use a meta
+      ;; kernel for convenience.
+      ;;
+      <a href="cspice_furnsh.html">cspice_furnsh</a>, '<a href= "standard.html">standard.tm</a>'
+   
+      ;;
+      ;; Define parameters for a state lookup:
+      ;;
+      ;; Return the state vector of Mars (499) as seen from
+      ;; Earth (399) in the J2000 frame
+      ;; using aberration correction LT+S (light time plus
+      ;; stellar aberration) at the epoch 
+      ;; July 4, 2003 11:00 AM PST.
+      ;;
+      target   = 'Mars'
+      epoch    = 'July 4, 2003 11:00 AM PST'
+      frame    = 'J2000'
+      abcorr   = 'LT+S'
+      observer = 'Earth'
+   
+      ;;
+      ;; Convert the epoch to ephemeris time.
+      ;;
+      <a href="cspice_str2et.html">cspice_str2et</a>, epoch, et
+      
+      ;;
+      ;; Look-up the state for the defined parameters.
+      ;;
+      <b>cspice_spkezr</b>, target, et, frame, abcorr, observer, $
+                  state, ltime
+      ;;
+      ;; Output...
+      ;;
+      print, 'The position of    : ', target
+      print, 'As observed from   : ', observer
+      print, 'In reference frame : ', frame
+      print, 'At epoch           : ', epoch
+      print
+      
+      ;;
+      ;; The first three entries of state contain the
+      ;; X, Y, Z position components. The final three contain
+      ;; the Vx, Vy, Vz velocity components.
+      ;;
+      print, 'Scalar'
+      print, 'R (kilometers)     : ', state[0:2]
+      print, 'V (kilometers/sec) : ', state[3:5]
+      print, 'Light time (secs)  : ', ltime
+      print, ' between observer'
+      print, ' and target'
+      print
+
+      ;;
+      ;; Create a vector of et's, starting at 'epoch'
+      ;; in steps of 100000 ephemeris seconds.
+      ;;
+      SIZE   = 5
+      vec_et = dindgen( SIZE )*100000. + et
+
+      ;;
+      ;; Look up the 'state' vectors and light time values
+      ;; 'lt'  corresponding to the vector of input
+      ;; ephemeris time 'vec_et'.
+      ;;
+      ;;
+      <b>cspice_spkezr</b>, target  , vec_et, frame, abcorr, $
+                     observer, state , ltime
+
+      print, 'Vector'
+      <a href="cspice_et2utc.html">cspice_et2utc</a>, vec_et, 'C', 3, vec_epoch
+
+      ;;
+      ;; When called with a vector 'et', <b>cspice_spkezr</b> returns
+      ;; 'state' as an 6xN matrix. Extract the ith state from the
+      ;; matrix as:
+      ;;
+      ;;   state_i = state[*,i] 
+      ;;
+      for i=0, 4 do begin
+
+         print, 'At epoch (UTC)     : ', vec_epoch[i]
+         print, 'R (kilometers)     : ', (state[*,i])[0:2]
+         print, 'V (kilometers/sec) : ', (state[*,i])[3:5]
+         print, 'Light time (secs)  : ', ltime[i]
+         print, ' between observer'
+         print, ' and target'
+         print
+
+     endfor
+
+      ;;
+      ;; It's always good form to unload kernels after use,
+      ;; particularly in IDL due to data persistence.
+      ;;
+      <a href="cspice_kclear.html">cspice_kclear</a>
+
+   IDL outputs:
+   
+      The position of    : Mars
+      As observed from   : Earth
+      In reference frame : J2000
+      At epoch           : July 4, 2003 11:00 AM PST
+
+      Scalar
+      R (kilometers)     :        73822235.      -27127919.      -18741306.
+      V (kilometers/sec) :       -6.8090923       7.5131823       3.0009890
+      Light time (secs)  :        269.68988
+       between observer
+       and target
+
+      Vector
+      At epoch (UTC)     : 2003 JUL 04 19:00:00.000
+      R (kilometers)     :        73822235.      -27127919.      -18741306.
+      V (kilometers/sec) :       -6.8090923       7.5131823       3.0009890
+      Light time (secs)  :        269.68988
+       between observer
+       and target
+
+      At epoch (UTC)     : 2003 JUL 05 22:46:40.000
+      R (kilometers)     :        73140185.      -26390525.      -18446763.
+      V (kilometers/sec) :       -6.8317855       7.2333512       2.8893940
+      Light time (secs)  :        266.56404
+       between observer
+       and target
+
+      At epoch (UTC)     : 2003 JUL 07 02:33:20.000
+      R (kilometers)     :        72456240.      -25681031.      -18163339.
+      V (kilometers/sec) :       -6.8470343       6.9552228       2.7786326
+      Light time (secs)  :        263.48035
+       between observer
+       and target
+
+      At epoch (UTC)     : 2003 JUL 08 06:20:00.000
+      R (kilometers)     :        71771127.      -24999259.      -17890947.
+      V (kilometers/sec) :       -6.8551544       6.6789442       2.6687919
+      Light time (secs)  :        260.43952
+       between observer
+       and target
+
+      At epoch (UTC)     : 2003 JUL 09 10:06:40.000
+      R (kilometers)     :        71085544.      -24345021.      -17629491.
+      V (kilometers/sec) :       -6.8564772       6.4045794       2.5599191
+      Light time (secs)  :        257.44220
+       between observer
+       and target
+
+</pre><h4><a name="Particulars">Particulars</a></h4><pre>
+
+   Please refer to the Aberation Corrections Required Reading (<a href="../req/abcorr.html">ABCORR.REQ</a>)
+   for detailed information describing the nature and calculation of the
+   applied corrections.
+
+</pre><h4><a name="Required Reading">Required Reading</a></h4><pre>
+
+   <a href="../req/icy.html">ICY.REQ</a>
+   <a href="../req/abcorr.html">ABCORR.REQ</a>
+   <a href="../req/spk.html">SPK.REQ</a>
+   <a href="../req/naif_ids.html">NAIF_IDS.REQ</a> 
+   <a href="../req/frames.html">FRAMES.REQ</a>
+   <a href="../req/time.html">TIME.REQ</a>
+
+</pre><h4><a name="Version">Version</a></h4><pre>
+
+   -Icy Version 1.1.5, 22-DEC-2015 (EDW)
+
+       Corrected typo in Version section. The 07-NOV-2013
+       version entry lacked a version ID.
+       
+       Particulars updated to refer to Aberration Corrections
+       Required Reading document.
+
+   -Icy Version 1.1.4, 07-JUL-2014 (NJB)(EDW)
+
+       Discussion of light time corrections was updated. Assertions
+       that converged light time corrections are unlikely to be
+       useful were removed.
+
+   -Icy Version 1.1.3, 07-NOV-2013 (EDW)
+
+      Added aberration algorithm explanation to Particulars section.
+
+   -Icy Version 1.1.2, 22-DEC-2008, EDW (JPL)
+
+      Header edits performed to improve argument descriptions.
+      These descriptions should now closely match the descriptions
+      in the corresponding CSPICE routine.
+
+   -Icy Version 1.1.1, 29-SEP-2007, EDW (JPL)
+      
+      Replaced the comment fragment in the I/O section
+      
+         &quot;return with the same order&quot;
+         
+      with
+      
+         &quot;return with the same measure of vectorization&quot;
+
+   -Icy Version 1.1.0, 01-AUG-2004, EDW (JPL)
+
+       Added capability to process vector 'et' input
+       returning a matrix 'starg' and vector 'ltime'
+       on output.
+
+   -Icy Version 1.0.0, 16-JUN-2003, EDW (JPL)
+
+</pre><h4><a name="Index_Entries">Index_Entries</a></h4><pre>
+ 
+   using body names get target state relative to an observer 
+   get state relative to observer corrected for aberrations 
+   read ephemeris data 
+   read trajectory data 
+ 
+
+
+
+</PRE>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+   <pre>Wed Apr  5 17:58:03 2017</pre>
+
+</body>
+</html>
+

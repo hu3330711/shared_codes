@@ -1,0 +1,296 @@
+************************************************************************
+
+   README.General.UCB.wt.merge_inputs_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.merge_inputs_001
+
+************************************************************************
+
+   Merge inputs of multiple quantities.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.merge_inputs_001	1.1    07/20/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module merges a number of inputs, each consisting of
+       a number of input scalar (float) quantities.
+
+
+
+
+
+    2) There can be any number of inputs to be merged; the minimum is 1.
+
+
+
+
+
+    3) Each input must contain the same number of scalar quantities.
+
+
+
+       The number of quantities can have any value; the minimum is 1.
+
+
+
+
+
+    4) For each input quantity, there is the option of specifying limits
+       and ignoring data values beyond the limits.
+
+
+
+       If limits are specified for 1 or more quantities in an input; and
+       if the values of 1 or more quantities for an input data point are
+       beyond the limits; then the entire input data point is discarded.
+
+
+
+
+
+    5) Input data points from the different inputs are merged based on
+       their time tags, i.e., in chronological sequence.
+
+
+
+       If input data points for two or more inputs have the same time
+       tag, the point chosen will be that of the input that comes first
+       in the list of inputs.
+
+
+
+
+
+    6) An output data point is produced for each input data point for
+       each of the inputs; provided that the corresponding quantities
+       have valid values (if limits are specified); and with the
+       exception explained above, for multiple input data points with
+       the same time tag.
+
+
+
+       The time tag for the output data point is the same as the time
+       tag of the corresponding input data point.
+
+
+
+       The quantity values for the output data point are the same as the
+       quantity values of the corresponding input data point.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Number of data inputs.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            3) Number of data quantities in each input.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the inputs.
+
+
+
+                1) The group of parameters described here occurs once
+                   for each of the data quantities.
+
+
+
+                    1) Input component index.
+
+
+                       Int.
+
+
+
+                    2) Flag for limits.
+
+
+                       Int.
+
+
+                       Must be one of the following:
+
+
+                           WT_TRUE   =  Use limits for input values.
+
+                           WT_FALSE  =  Do not use limits for input
+                                        values.
+
+
+
+                    3) Lower limit.
+
+
+                       Double.
+
+
+
+                    4) Upper limit.
+
+
+                       Double.
+
+
+
+                   If the flag for limits is true, then  the lower limit
+                   must be  <=  the upper limit.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The data inputs for the data quantities.
+
+
+               Each of these inputs consists of a time series (Standard
+               data type); the following components are required, and
+               must be of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components, for the values of
+                   the data quantities.
+
+                   Float.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One component for the value of each quantity.
+
+
+               Float.

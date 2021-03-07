@@ -1,0 +1,29 @@
+#  SCCS Id
+#  @(#)Dsp_BBF3_V5-V6.cal	1.1 04/15/96
+#
+# Dsp_BBF3_V5-V6.cal
+# REE 6/7/95
+Dsp_BBF3_V5-V6		Data name.
+11			Type:  Dsp.
+sec			x-axis units.
+mV/m			y-axis units.
+xx			z-axis units.
+17			Boomlength index.
+0			No subtype.
+0			History.
+# Calibration table as of 6/7/95.
+# Calibration set for 400 kHz input frequency. 
+# Linear calibration on decompressed output.
+# Output in mV/m 1/2 Vpp.
+# Since data collected requires only 12 bits, there will be little 
+# discrepency in data between frequency domains, so BBF files are 
+# identical for two given spheres.
+# The Dsp removes the offset, so it is always zero.
+# To find the gain, scale the ADC value by 32.28.  This value was found by
+# comparing ADC bits to (Dsp bits)^1/2.  The exponent is present since the
+# Dsp goes as power, <Gain>^2.  Thus, gain is simply:  Dsp gain =
+# (ADC gain)/ 32.28, and has units mV (or V)/(Dsp bit)^1/2.
+0			Time in seconds.
+9.873e-2		Gain (in exponent).
+
+

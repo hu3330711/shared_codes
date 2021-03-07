@@ -1,0 +1,4221 @@
+************************************************************************
+
+   README.CLUSTER_Science_Plots
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Science quantity plots for CLUSTER.
+
+************************************************************************
+
+   @(#)README.CLUSTER_Science_Plots	1.27    01/08/08    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+    2. Types of plots.
+
+
+        2.1 Raw quantities.
+
+
+        2.2 Science quantities.
+
+
+        2.3 Special SSL Science quantities.
+
+
+
+
+
+    3. General information on Science quantity plots.
+
+
+        3.1 Time resolution.
+
+
+        3.2 Types of electric field instrument output.
+
+
+        3.3 Names of burst plots.
+
+
+        3.4 Names of spin period plots.
+
+
+        3.5 Names of housekeeping spin fit plots.
+
+
+        3.6 Coordinate systems.
+
+
+        3.7 Minimum time span for plots.
+
+
+        3.8 Electric field quantities and magnetic field.
+
+
+        3.9 Input quantities and plot operations.
+
+
+       3.10 Convolution.
+
+
+       3.11 Vector orientation.
+
+
+
+
+
+    4. Details on the computation of Science quantities.
+
+
+         4.1 Magnetic field.
+
+             4.1.1 Instantaneous magnetic field.
+
+             4.1.2 Spin period magnetic field.
+
+
+         4.2 Electric field.
+
+             4.2.1 Instantaneous electric field.
+
+                 4.2.1.1 Instantaneous electric field, spin plane
+                         components.
+
+                 4.2.1.2 Instantaneous electric field, spin axis
+                         component.
+
+             4.2.2 Burst electric field.
+
+             4.2.3 Spin period electric field.
+
+             4.2.4 Housekeeping spin fit electric field.
+
+
+         4.3 Transformed electric field.
+
+
+         4.4 Spacecraft potential.
+
+
+         4.5 ExB plasma velocity.
+
+
+         4.6 Plasma potential.
+
+
+         4.7 Plasma density.
+
+
+         4.8 Poynting flux.
+
+
+         4.9 B flux.
+
+
+        4.10 Angles between the electric field spin plane instrument
+             booms and the magnetic field.
+
+
+        4.11 Angles between the electric field spin plane instrument
+             booms and the Sun vector.
+
+
+        4.12 Electric field FAC component ratios.
+
+
+
+
+
+    5. Location of the Science plots.
+
+
+       * B ... see: Magnetic field
+
+       * B flux
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+       * Coordinate transformation ... see: Rotation matrices
+
+       * Density ... see: Plasma density
+
+       * E ... see: Electric field
+
+       * Electric field
+
+           ** angles between instrument spin plane booms and magnetic
+              field
+
+           ** angles between instrument spin plane booms and Sun vector
+
+           ** combined V12
+
+               *** burst
+
+               *** instantaneous
+
+           ** combined V32
+
+               *** burst
+
+               *** instantaneous
+
+           ** corrected spin plane components
+
+               *** burst
+
+               *** instantaneous
+
+           ** FAC component ratios
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+           ** ground V32
+
+               *** burst
+
+               *** instantaneous
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+           ** spin period average spin plane component offsets
+
+           ** transformed ... see: Transformed electric field
+
+       * ExB plasma velocity
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+       * Magnetic field
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** instantaneous
+
+               *** spin period
+
+           ** measured minus model
+
+               *** in GSE, GSM, FAC, BSC coordinates
+
+                   **** instantaneous
+
+                   **** spin period
+
+       * Measured B ... see: Magnetic field
+
+       * Model B ... see: Model magnetic field
+
+       * Model magnetic field
+
+           ** in GEI, GSE, GSM coordinates
+
+       * Plasma density
+
+           ** burst
+
+           ** instantaneous
+
+           ** spin period
+
+       * Plasma potential
+
+           ** burst
+
+           ** instantaneous
+
+           ** spin period
+
+           ** housekeeping spin fit
+
+       * Plasma velocity ... see: ExB plasma velocity
+
+       * Potential ... see: Plasma potential, Spacecraft potential
+
+       * Poynting flux
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+       * Rotation matrices
+
+       * Spacecraft potential
+
+           ** burst
+
+           ** instantaneous
+
+           ** spin period
+
+       * Transformation of coordinates ... see: Rotation matrices
+
+       * Transformed E ... see: Transformed electric field
+
+       * Transformed electric field
+
+           ** in GSE, GSM, FAC, BSC coordinates
+
+               *** burst
+
+               *** instantaneous
+
+               *** spin period
+
+               *** housekeeping spin fit
+
+       * Velocity ... see: Plasma velocity
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    1. Introduction.
+
+
+
+
+
+       This document describes plots of Science quantities that are
+available for CLUSTER data.
+
+
+
+       In order to display these plots, one can use the program "sdt".
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2. Types of plots.
+
+
+
+
+
+       The program "sdt" can be used to create several types of plots.
+
+
+
+       While this document is concerned with Science plots only, it is
+helpful to have some understanding of all the plot types and how they
+are related.
+
+
+
+       The various types of plots are described in the sections that
+follow.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.1 Raw quantities.
+
+
+
+
+
+       Generally speaking, CLUSTER raw quantities are created by a
+program (part of "sdt") called the CLUSTER Decommutator, using as input
+mainly the following:
+
+           Level zero electric field data.
+
+           Level zero magnetic field data.
+
+           Orbit data.
+
+           Attitude data.
+
+           Level zero Housekeeping data.
+
+           Data from the Cluster Active Archive.
+
+
+
+       When a plot of a raw quantity is produced, in general the user
+has no control on how the quantity is determined; i.e., there are no
+parameters to be used in the calculation, that the user could adjust.
+
+       There are exceptions to this, however; in other words, there can
+be raw quantities, produced by the CLUSTER Decommutator, for which there
+may be parameters that the user can adjust.
+
+
+
+       It should be noted that the name "Raw" is used here only to
+indicate that the quantity is produced by the CLUSTER Decommutator.  In
+fact, Raw quantities may have undergone a significant degree of
+processing (calibrations, etc.).
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.2 Science quantities.
+
+
+
+
+
+       CLUSTER Science quantities are produced by one of a number of
+programs (also part of "sdt") known collectively as Science Modules,
+using as input:
+
+           Raw quantities.
+
+           Other Science quantities.
+
+
+
+       The creation of a Science quantity will always require running
+the CLUSTER Decommutator; but because Science Modules can use Science
+quantities as inputs to create other Science quantities, the creation of
+a Science quantity may involve a number of Science Modules running to
+produce intermediate Science quantities.
+
+
+
+       When a plot of a Science quantity is produced, there may be user
+parameters to be used in the calculation, that the user could adjust.
+       When this is the case, the user is prompted for the values of the
+parameters.
+       Furthermore, after the plot is completed, the user can change
+parameter values and have "sdt" recompute the Science quantity and
+display a new plot.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    2.3 Special SSL Science quantities.
+
+
+
+
+
+       CLUSTER Special SSL Science quantities are Science quantities,
+just like the ones described before.
+
+
+
+       However, these quantities are kept in a separate plot menu,
+because they are intended for special use at SSL: for diagnostics,
+special projects, etc.  SSL stands for the University of California,
+Berkeley, Space Sciences Laboratory.
+
+
+
+       Users interested in of any of these plots can get more
+information from SSL.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3. General information on Science quantity plots.
+
+
+
+
+
+       The information in this section is helpful to a better
+understanding of all the Science plots.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.1 Time resolution.
+
+
+
+
+
+       For magnetic field data, there are 2 time resolutions:
+
+
+
+           1) Instantaneous.
+
+              This is usually about 25 data points per second.
+
+
+
+           2) Spin period.
+
+              This results from a least-squares spin fit of the
+              instantaneous data; there is about 1 data point per 4
+              seconds.
+
+
+
+
+       For electric field data, there are 4 time resolutions:
+
+
+
+           1) Instantaneous.
+
+              This is usually about 25 data points per second for V12,
+              V34 (although occasionally there may be 450 data points
+              per second for V12, V34); and about 5 data points per
+              second for V1, V2, V3, V4.
+
+
+
+           2) Burst.
+
+              This is from 450 data points per second to 36000 data
+              points per second.
+
+
+
+           3) Spin period.
+
+              This results from a least-squares spin fit of the
+              instantaneous data; there is about 1 data point per 4
+              seconds.
+
+
+
+           4) Housekeeping spin fits.
+
+              The electric field data at the time resolutions described
+              above (Instantaneous, Burst, Spin period) is obtained from
+              data transmitted from the spacecraft as Science data.
+
+              The least-squares spin fit for the Spin period data is
+              computed on the ground.
+
+              By contrast, the electric field data in the Housekeeping
+              spin fits is transmitted from the spacecraft as
+              Housekeeping data; this data includes values for a spin
+              fit computed on board the spacecraft.
+
+              There should be one data point for every spin period,
+              i.e., about 1 data point per 4 seconds.  In fact, the
+              data that can be transmitted is slightly less, so that
+              1 spin period out of about every 4 or 5 is missing.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.2 Types of electric field instrument output.
+
+
+
+
+
+       There are the following types of electric field instrument
+       output, depending on the applicable band-pass filter:
+
+           L = Low.
+
+           M = Medium.
+
+           H = High.
+
+           U = Unfiltered.
+
+
+
+       It should be noted that electric field data of some types may not
+       be present for some time resolutions.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.3 Names of burst plots.
+
+
+
+
+
+       The name of each burst plot generally contains the letter B.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.4 Names of spin period plots.
+
+
+
+
+
+       The name of each spin period plot generally contains the letter
+       A, to indicate that it is an average.
+
+
+
+       The name also contains one of the following:
+
+
+           12
+
+           34
+
+
+
+       The spin fit of V12 and the spin fit of V34 are performed
+       starting at different phase angles within the spin period.
+
+       Therefore, the two spin fits have different time tags.
+
+
+
+       For spin period electric field data that could come from either
+       the instantaneous V12 or the instantaneous V34; "12" or "34"
+       indicates which of the two sets of instantaneous data was used to
+       generate the spin period data.
+
+
+
+       For other spin period electric field data, and for spin period
+       magnetic field data; "12" or "34" indicates which of the two sets
+       of time tags applies.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.5 Names of housekeeping spin fit plots.
+
+
+
+
+
+       The name of each housekeeping spin fit plot generally contains
+       the letters HKSF.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.6 Coordinate systems.
+
+
+
+
+
+       The coordinate systems used for CLUSTER are documented elsewhere.
+
+
+
+
+       The main coordinate systems for Science plots are:
+
+
+           GSE = Geocentric Solar Ecliptic.
+
+
+           GSM = Geocentric Solar Magnetospheric.
+
+
+           FAC = Field-Aligned Coordinates.
+
+
+
+
+       For FAC, there are really 3 different coordinate systems,
+       depending on the magnetic field used to define them:
+
+
+           FAC_I, defined by the instantaneous magnetic field.
+
+
+           FAC_S, defined by the spin period magnetic field.
+
+
+           FAC_M, defined by the model magnetic field.
+
+
+
+
+       While in principle any FAC coordinate system can be used for any
+       data, in practice these coordinate systems are used as follows:
+
+
+           FAC_I  is used for instantaneous and for burst data.
+
+
+           FAC_S  is used for spin period and for housekeeping spin fit
+                  data.
+
+
+           FAC_M  is used for all data (instantaneous, burst, spin
+                  period, housekeeping spin fit).
+
+
+
+
+       Other coordinate systems for Science plots are:
+
+
+           BSC = Magnetic Spacecraft Coordinates.
+
+                 Analogously to FAC, there are BSC_I, BSC_S, BSC_M.
+
+
+           GEI = Geocentric Equatorial Inertial.
+
+                 Also designated ECI, or GCI.
+
+
+
+
+       All the coordinate systems above are non-rotating; i.e., they do
+       not participate in the rotation of the spacecraft.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.7 Minimum time span for plots.
+
+
+
+
+
+       In general, Science plots require the use of auxiliary quantities
+       (attitude, spin pulse, etc.); these quantities are fetched
+       automatically by "sdt" when needed.
+
+
+
+       For a point to be plotted, it must be in the time interval
+       defined by 2 data points for the attitude, if the attitude is
+       needed; and it must be in the time interval defined by 2 data
+       points for the spin pulse, if the spin pulse is needed; etc.
+
+
+
+       Of these auxiliary quantities, the one with the most coarse time
+       resolution within "sdt" is the attitude.  In "sdt", the attitude
+       has one data point every 600 seconds; they occur exactly on the
+       hour, on the hour + 10 minutes, etc.
+
+
+
+       Therefore, it is best to request a time interval that begins a
+       little before the last multiple of 10 minutes preceding the data
+       to be plotted; and that ends a little after the first multiple of
+       10 minutes following the data to be plotted.
+
+
+
+       For example, if the data to be plotted is for the time interval
+
+           04:27:30 - 04:32:10
+
+       then it would be advisable to request an interval such as
+
+           04:19:00 - 04:41:00
+
+       (or simply  04:19 - 04:41 , as "sdt" assumes the seconds to be
+       zero if omitted).
+
+
+
+       Another example: if the data to be plotted is for the time
+       interval
+
+           04:20:00 - 04:40:00
+
+       then it would be advisable to request the same interval as in
+       the previous example, i.e.,
+
+           04:19 - 04:41
+
+
+
+
+       Note that, once a plot has been produced, one can always use the
+       Zoom function of "sdt" to look at a smaller time interval.
+
+
+
+
+       Another reason to extend the time interval is that the
+       processing of important quantities (such as the magnetic field
+       and the electric field) can include the computation of averages
+       over a number of spin periods; these computations cannot be
+       performed near the beginning and the end of the time interval.
+
+       An extra "padding" of 10 to 30 minutes at each end should be
+       amply sufficient in most cases.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.8 Electric field quantities and magnetic field.
+
+
+
+
+
+       We can think of the process of creating a plot of a vector
+       quantity related to the electric field, as consisting of 2 parts:
+
+
+
+           1) Determination of the vector quantity itself.
+
+
+
+           2) Rotation of the vector quantity into the desired
+              coordinate system.
+
+
+
+
+       Examples of such vector quantities include: the various versions
+       of E itself; the "transformed" E, or E_T; and the ExB plasma
+       velocity v.
+
+
+
+
+       The determination of the vector quantity may involve the use of
+       the magnetic field:
+
+
+
+           1) The angles between the electric field instrument booms and
+              B, and the latitude of B with respect to the spin plane;
+              can be used to select data points for the instantaneous
+              and the burst spin plane components of E.
+
+
+
+           2) B may appear in the calculation of the vector quantity (e.
+              g., to determine the spin axis component of E_Dot0; to
+              determine the VxB correction for E_T; or to calculate v).
+
+
+
+       The magnetic field used to determine these vector quantities is
+       always the measured magnetic field; this document specifies in
+       each case whether the B used is the instantaneous B or the spin
+       period B.
+
+
+
+
+       Once the vector quantity has been obtained, it can be plotted in
+       any one of a number of coordinate systems, such as GSE or GSM.
+
+
+
+       If the choice is made to plot the vector quantity in a coordinate
+       system such as FAC, then the magnetic field is involved once
+       again, in the definition of the coordinate system.
+
+
+
+       However, depending on the FAC system chosen, the magnetic field
+       used to define the coordinate system may be the same that was
+       used when obtaining the vector quantity, or may be different.
+
+
+
+       For example, the magnetic field involved in obtaining the
+       instantaneous E_Dot0 is the instantaneous B.
+
+       If the instantaneous E_Dot0 is plotted in FAC_I, then the
+       instantaneous B is used again, to define the coordinate system.
+
+       If, on the other hand, the instantaneous E_Dot0 is plotted in
+       FAC_M, then the model B is used to define the coordinate system.
+       So, in this case we use first the instantaneous B to calculate
+       E_Dot0, and then we use the model B to define the coordinate
+       system into which to rotate that previously calculated E_Dot0.
+
+
+
+
+       The situation can be more complicated in the case of spin period
+       time resolution.
+
+       As an extreme example, if we want to plot the spin period E_Dot0
+       in FAC_M, then we use the following versions of B:
+
+           1) Instantaneous B, to select data points for the
+              instantaneous spin plane components of E.
+
+           2) Spin period B, to calculate the spin axis component of
+              E_Dot0.
+
+           3) Model B, to define the coordinate system for the plot.
+
+
+
+
+       The quantities E_X0, E_Y0, E_Z0 are exceptions to the above; this
+       is because these quantities are defined in terms of one
+       particular FAC coordinate system.
+
+       For these quantities, then, the same B is involved automatically
+       in defining the coordinate system, and in obtaining the quantity.
+
+       For example, the magnetic field involved in obtaining the burst
+       E_X0 is the instantaneous B.
+
+       Here, too, we can have a more complicated situation in the case
+       of spin period time resolution.  The spin period E_X0 involves
+       the instantaneous B, in the selection of data points for the
+       instantaneous spin plane components of E; and then, it involves
+       the spin period B, in the definition of the coordinate system and
+       in the determination of the spin axis component of E_X0.
+
+
+
+
+       The plasma potential is a scalar quantity, so the issue of which
+       coordinate system to plot it in does not arise.
+
+       However, the plasma potential is defined by E and ds (the
+       element of distance traveled by the spacecraft), both of which
+       are vectors, and both of which are required by the definition to
+       be in a particular FAC coordinate system.
+
+       Therefore, after E has been obtained, which requires B; B will be
+       involved again, in the definition of that FAC coordinate system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.9 Input quantities and plot operations.
+
+
+
+
+
+       Usually, plot quantities are chosen from plot menus.  The input
+       quantities for these plots are generally fixed, the user cannot
+       specify which input quantities to use.
+
+
+
+
+       However, some plots can be created "on the fly" by means of "plot
+       operations".
+
+       Here, the user chooses a plot, and chooses an operation to apply
+       to that plot.
+
+       The result is one or more new plots, for which the user has
+       chosen the input quantities.
+
+
+
+
+       Within this document, Science plots that can be created by means
+       of plot operations will be described as appropriate.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.10 Convolution.
+
+
+
+
+
+       Convolution is available as a "plot operation".
+
+
+
+
+       Users interested in this subject can get more information from
+       SSL.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    3.11 Vector orientation.
+
+
+
+
+
+       Some plots provide the orientation of some vectors with respect
+       to some particular coordinate system.
+
+
+
+
+       What is provided is the following:
+
+
+
+           1) Direction cosines.
+
+              These are the cosines of the angles between the vector and
+              the positive X, Y, and Z coordinate axes.
+
+              The direction cosines are the same as the components of
+              the normalized vector.
+
+
+
+           2) Direction angles.
+
+              These are the angles between the vector and the positive
+              X, Y, and Z coordinate axes.
+
+
+
+           3) Latitude and longitude.
+
+              These are the latitude and longitude that correspond to
+              the direction of the vector; with respect to the
+              coordinate system.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4. Details on the computation of Science quantities.
+
+
+
+
+
+       This section has information on how the main Science quantities
+are calculated.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1 Magnetic field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1.1 Instantaneous magnetic field.
+
+
+
+
+
+       The instantaneous magnetic field comes from the measured values
+       of the magnetic field.
+
+
+
+
+       The instantaneous magnetic field is obtained as follows:
+
+
+
+
+           1) Determination of spin period average offsets.
+
+
+
+              There are 2 offsets: one for FGM_Y, one for FGM_Z.
+
+
+              Each offset is a spin period running average; the number
+              of spin periods used for the running average can be
+              specified by the user.
+
+
+              The running average is obtained by taking all the data
+              points within the specified number of spin periods, and
+              averaging their values to obtain one output data point;
+              then, the points in the first spin period are discarded,
+              a new spin period is added at the end, and a new average
+              is computed for the next output data point; etc.
+
+
+              It is clear that the running average has one data point
+              for each spin period.
+
+
+              The user can specify also the minimum number of input data
+              points required per spin period, in order to determine an
+              offset.
+
+
+
+              The inputs used to obtain the offsets are the
+              instantaneous "corrected FGM_Y 2", or the instantaneous
+              "corrected FGM_Z 2".
+
+
+
+
+              The "corrected FGM_Y 2" is the same as the instantaneous
+              "corrected FGM_Y" described below; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for FGM_Z.
+
+
+
+
+           2) Applying correction terms.
+
+
+
+              Each spin plane component of the magnetic field can have
+              the following correction terms subtracted:
+
+
+               1) Constant offset.
+
+
+
+
+           3) Applying correction terms.
+
+
+
+              Each spin plane component of the magnetic field can have
+              the following correction terms subtracted:
+
+
+               1) Spin period average offset.
+
+
+
+
+          This produces a "corrected FGM_Y" and a "corrected FGM_Z".
+
+
+
+
+           4) Despinning of spin plane components.
+
+
+
+              This removes the effect of having the spin plane
+              components of B measured by an instrument that rotates
+              with the spacecraft.
+
+
+
+
+       Most important user parameters:
+
+           Constant offset for each of FGM_Y, FGM_Z.
+
+           Choice of subtracting spin period average offsets from the
+           spin plane components.
+
+           Minimum number of points per spin period.
+
+           Number of spin periods for spin period average offsets.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.1.2 Spin period magnetic field.
+
+
+
+
+
+       The spin period magnetic field comes from the measured values of
+       the magnetic field.
+
+
+
+
+       The spin period magnetic field is obtained as follows:
+
+
+
+
+           1) The spin plane components come from a least-squares spin
+              fit of the "corrected FGM_Y 2".
+
+
+
+
+              The "corrected FGM_Y 2" is the same as the instantaneous
+              "corrected FGM_Y" described above; except that it does not
+              have a spin period average offset subtracted.
+
+
+
+
+           2) The spin axis component comes from a least-squares spin
+              fit of the FGM_X component of the instantaneous magnetic
+              field.
+
+
+
+
+       The minimum number of data points per spin period, specified by
+       the user and used to obtain the spin period average offsets for
+       the spin plane components; is also used as a minimum number of
+       data points required for the spin fits.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous magnetic field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2 Electric field.
+
+
+
+
+
+       In what follows, reference is made to the components of the
+       electric field that can be measured, V12 and V34.
+
+
+
+       However, sphere 1 of the electric field instrument on spacecraft
+       1 failed on 2001/12/28; sphere 1 of the electric field instrument
+       on spacecraft 3 failed on 2002/07/29; and sphere 1 of the
+       electric field instrument on spacecraft 2 failed on 2007/05/13.
+
+       Following the failure of sphere 1, no measurement of V12 is
+       possible on any of these spacecraft (spacecrafts 1, 2, and 3).
+
+
+
+       The mode of operation of the electric field instrument can be
+       changed, so that instead of V12 and V34 it will measure and
+       transmit V34 and V32.
+
+       This instrument mode was used briefly for tests starting in March
+       of 2003, for spacecraft 1 and 3; and was put into effect on a
+       regular basis starting on 2003/05/25.
+
+       Similar tests were done for spacecraft 2 after the failure of its
+       sphere 1; V32 became available on a regular basis on 2007/11/24.
+
+       Spacecraft 4 continues to measure and transmit V12 and V34.
+
+       It is intended that spacecraft 4 will continue to provide V12 and
+       V34; and that spacecraft 1, 2, and 3 will provide V34 and V32.
+
+
+
+       The program "sdt" has been modified to use the measured value of
+       V12 when available; and to calculate a value for V12, deduced
+       from the values of V34 and V32, when V34 and V32 are available
+       instead (see Warning below).
+
+
+
+       However, there is a long period of time during which neither V12
+       nor V32 is available for spacecraft 1, 2, and 3 (see Warning
+       below).
+
+       Therefore, a ground-computed V32 ("ground V32") is calculated by
+       "sdt", from the single-probe values V3 and V2; as well as a
+       "combined V32", which is equal to the on-board V32 when
+       available, and equal to the ground V32 before the on-board V32
+       became available.  The combined V32 is then used together with
+       V34 to calculate V12.
+
+       Note that for Instantaneous data, V34 and the on-board V32
+       typically have a time resolution of about 25 data points per
+       second; but V3 and V2 typically have a time resolution of about 5
+       data points per  second.  If the ground V32 is used to obtain
+       V12, then the resulting electric field will be at this lower time
+       resolution.
+
+
+
+       IMPORTANT WARNING:
+
+       Before nearly the end of May 2003, no values of on-board V32 are
+       available for spacecraft 1 or spacecraft 3, except for the brief
+       tests mentioned above.
+
+       Furthermore, the quality of the values of V32 is likely to be
+       inferior to that of V34; the V12 calculated from V34 and V32 is
+       likely to be of inferior quality.
+
+       Whenever spin period time resolution is adequate, the better
+       option is to use spin period "34" quantities, which come from a
+       least-squares spin fit of V34, and do not involve V12 at all.
+
+       A similar situation occurs for spacecraft 2, starting in 2007, as
+       indicated above.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1 Instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1.1 Instantaneous electric field, spin plane components.
+
+
+
+
+
+       The spin plane components of the instantaneous electric field are
+       obtained as follows:
+
+
+
+
+           1) Determination of the combined V12.
+
+
+
+              The "combined V12" is determined as follows:
+
+               1) For spacecraft 4: this is the "regular" V12.
+
+               2) For spacecraft 1, 2, and 3, before sphere 1 of each of
+                  these spacecraft failed: this is the "regular" V12.
+
+               3) For spacecraft 1, 2, and 3, after sphere 1 of each of
+                  these spacecraft failed: this is the V12 calculated
+                  from V34 and the combined V32.
+
+                  The "ground V32" is calculated on the ground, from the
+                  on-board V3 and V2.
+
+                  Starting on 2003/05/25, the V32 for spacecraft 1 and 3
+                  is among the on-board data.
+
+                  Starting on 2007/11/24, the V32 for spacecraft 2 is
+                  among the on-board data.
+
+                  The "combined V32" is equal to the on-board V32 after
+                  the on-board V32 became available for spacecraft 1, 2,
+                  and 3; and equal to the ground V32 before then.
+
+
+              Please refer to the information at the beginning of the
+              section on Electric field; particularly, the Warning
+              provided there.
+
+
+
+
+           2) Selection by avoidance of B.
+
+
+
+              Input data points for V12 are selected only if:
+
+               1) The angle between the 12 boom and the B vector is
+                  greater than or equal to a chosen minimum value; and
+
+               2) The angle between the 12 boom and the -B vector is
+                  greater than or equal to the minimum value.
+
+
+
+              The user can specify the minimum value (minimum angle)
+              used in this selection.
+
+
+
+              The user can specify also a threshold value for the
+              magnitude of the B vector, |B|.
+
+              If |B| is less than the threshold, this selection step is
+              not performed, and no data points are discarded on account
+              of it.
+
+              This is because if |B| is very small, the direction of the
+              B vector may be considered to be poorly defined; and also
+              because a very weak B will not affect the electric field
+              measurements as much.
+
+
+
+              An analogous selection is done for V34, based on the angle
+              between the 34 boom and B (and the angle between the 34
+              boom and -B).
+
+
+
+              It should be noted that the 12 and 34 booms are always on
+              the spin plane; but B and -B are full, 3-dimensional
+              vectors, and their spin plane and their spin axis
+              components are used in these calculations.
+
+
+
+
+           3) Selection by latitude of B.
+
+
+
+              Input data points for V12 are selected only if the
+              absolute value of the latitude of the B vector with
+              respect to the spin plane is greater than or equal to a
+              chosen minimum value.
+
+
+
+              The user can specify the minimum value (minimum latitude)
+              used in this selection.
+
+
+
+              The threshold value for |B|, used in the previous step, is
+              used here as well.
+
+              If |B| is less than the threshold, this selection step is
+              not performed, and no data points are discarded on account
+              of it.
+
+              This is because if |B| is very small, the direction of the
+              B vector may be considered to be poorly defined; and also
+              because a very weak B will not affect the electric field
+              measurements as much.
+
+
+
+              An analogous selection is done for V34.
+
+
+
+
+          The magnetic field used to select the data points is the
+          instantaneous B.
+
+
+
+
+           4) Selection by avoidance of the Sun vector.
+
+
+
+              Input data points for V12 are selected only if:
+
+               1) The angle between the 12 boom and the Sun vector S is
+                  greater than or equal to a chosen minimum value; and
+
+               2) The angle between the 12 boom and the -S vector is
+                  greater than or equal to the minimum value.
+
+
+
+              The user can specify the minimum value (minimum angle)
+              used in this selection.
+
+
+
+              An analogous selection is done for V34, based on the angle
+              between the 34 boom and S (and the angle between the 34
+              boom and -S).
+
+
+
+              It should be noted that the 12 and 34 booms are always on
+              the spin plane; but S and -S are full, 3-dimensional
+              vectors, and their spin plane and their spin axis
+              components are used in these calculations.
+
+
+
+
+           5) The result of the selection steps above is a "selected
+              V12" and a "selected V34".
+
+
+              These are the data points that satisfy all the selection
+              criteria.
+
+
+
+              From now on, only the selected data points are used.
+
+
+
+
+           6) Determination of spin period average offsets.
+
+
+
+              There are 2 offsets: one for V12, one for V34.
+
+
+              Each offset is a spin period running average; the number
+              of spin periods used for the running average can be
+              specified by the user.
+
+
+              The running average is obtained by taking all the data
+              points within the specified number of spin periods, and
+              averaging their values to obtain one output data point;
+              then, the points in the first spin period are discarded,
+              a new spin period is added at the end, and a new average
+              is computed for the next output data point; etc.
+
+
+              It is clear that the running average has one data point
+              for each spin period.
+
+
+              The user can specify also the minimum number of input data
+              points required per spin period, in order to determine an
+              offset.
+
+
+
+              The inputs used to obtain the offsets are the
+              instantaneous "corrected V12 2", or the instantaneous
+              "corrected V34 2".
+
+
+
+
+              The "corrected V12 2" is the same as the instantaneous
+              "corrected V12" described below; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for V34.
+
+
+
+              First, an offset is determined for V12L as explained
+              above; and an offset is obtained similarly for V12M.
+
+              Offsets are obtained also for V34L and for V34M.
+
+
+
+              Then, a combined offset for V12 is built by merging the
+              data points for the offsets for V12L and for V12M.
+
+              Similarly, a combined offset for V34 is built by merging
+              the data points for the offsets for V34L and for V34M.
+
+
+
+              Note that V12H and V34H are not included in the process of
+              obtaining the combined offsets.  Since V12H and V34H
+              correspond to high band-pass filtered data, it is
+              appropriate to exclude them from this calculation.
+
+
+
+
+           7) Applying correction terms.
+
+
+
+              All of these corrections are applied at this point; some
+              of them may be described more completely further below.
+
+
+
+              Each spin plane component of the electric field can have
+              the following correction terms subtracted:
+
+
+               1) Constant offset.
+
+
+               2) Sine wave correction.
+
+
+
+
+           8) Sine wave correction.
+
+
+
+              A sine wave correction is subtracted from each spin plane
+              component of the electric field; to correspond to a
+              specified Sunward field to be subtracted, and to a
+              specified dawn-dusk field to be subtracted.
+
+
+
+
+           9) Scale.
+
+
+
+              Each spin plane component of the electric field has its
+              value multiplied by a constant scale factor.
+
+
+
+              One reason to apply a scale factor is that the wires in
+              the electric field instrument are at the spacecraft's
+              potential; this has the effect of partially diminishing
+              the potential difference between the spheres.
+
+              The proper scale factor to correct for this effect varies
+              somewhat; an average correction is a scale factor of 1.2.
+
+
+
+              When plotting electric field data for CLUSTER for times
+              prior to the full deployment of the instrument spheres,
+              users must be aware of the need to adjust the electric
+              field values for the actual sphere separation.
+
+
+
+              This is explained in the following Warning by Professor
+              Forrest Mozer, that was issued quite some time ago, and is
+              reproduced here.
+
+
+              "The Cluster science quantities produced by the recently
+              released version of SDT assume that the sphere separation
+              is 88 meters.
+              This is correct when the spheres are fully deployed.
+              However, for any boom length less than the fully deployed
+              length, you have to multiply V12 or V34 by a factor for
+              the plots to correctly display the electric field.  These
+              factors may be found by clicking on "parameter" in the
+              main menu and changing the values of "Scale factor for
+              V12" or "Scale factor for V34" for the appropriate
+              spacecraft.  For example, if spheres 1 and 2 are each
+              deployed 20 meters, their sphere-to-sphere separation is
+              46 meters, so the scale factor is 88/46".
+
+
+
+              In summary:
+
+
+               1) The user must find out what the actual
+                  sphere-to-sphere separation is for the time of
+                  interest.
+
+
+               2) In the example given above, where the sphere-to-sphere
+                  separation is 46 meters for spheres 1 and 2, the scale
+                  factor is 88/46, or 1.91.
+
+
+               3) This factor of 1.91 is on top of the scale factor
+                  explained above, to correct for the effect of the
+                  wires.
+
+                  If we assume that the scale factor for the effect of
+                  the wires is 1.2, then the final factor will be
+                  (1.2 * 1.91), or 2.3.
+
+
+               4) In the parameter menu, you must set the scale factor
+                  appropriately.
+
+                  In the example given above, the scale factor for V12
+                  in the parameter menu must be set to 2.3.
+
+
+               5) An analogous procedure must be followed to determine
+                  and set the scale factor for V34.
+
+
+
+              The boom deployments took place over several weeks after
+              the launches, and were completed by the end of October,
+              2000.  Therefore, the analysis of any data for 2000/11/01
+              or later will not require a correction for the sphere
+              separation.
+
+              On the other hand, the correction for the effect of the
+              wires may be needed at any time.
+
+
+
+
+          10) Applying correction terms.
+
+
+
+              Each spin plane component of the electric field can have
+              the following correction terms subtracted:
+
+
+               1) Spin period average offset.
+
+                  The spin period average offset that is used is the
+                  combined spin period averaged offset.
+
+                  The correction for spin period average offset is not
+                  applied to high band-pass filtered data (V12H, V34H).
+
+
+
+
+          This produces a "corrected V12" and a "corrected V34".
+
+
+
+
+          11) Despinning of spin plane components.
+
+
+
+              This removes the effect of having the spin plane
+              components of E measured by an instrument that rotates
+              with the spacecraft.
+
+
+
+
+          12) Filtering.
+
+
+
+              A convolution can be performed on each despun spin plane
+              component of the electric field; to remove shadow effects.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.1.2 Instantaneous electric field, spin axis component.
+
+
+
+
+
+       The spin axis component of the instantaneous electric field is
+       obtained as follows:
+
+
+
+
+           1) 5 versions of the electric field.
+
+
+
+              Because a measurement of the spin axis component of the
+              electric field is not available, 5 versions of the
+              electric field are defined, depending on what is used for
+              the value of the spin axis component.
+
+
+
+              The spin plane components for all 5 versions of the
+              electric field are the same.
+
+
+
+               1) E_0.
+
+
+                  For E_0, the spin axis component of the electric field
+                  is assumed to be zero.
+
+
+
+               2) E_Dot0.
+
+
+                  For E_Dot0, the spin axis component of the electric
+                  field is assumed to have a value such, that the dot
+                  product of E_Dot0 and B is zero.
+
+
+                  If the spin plane axes are X and Y, then the spin axis
+                  component for E_Dot0 will be determined by:
+
+                      EZ = - (EX * BX + EY * BY) / BZ
+
+
+                  This expression will not be well defined if |BZ| is
+                  too small; or if either |BX/BZ| or |BY/BZ| is too
+                  large.
+
+                  The user can specify a lower limit for |BZ|, and an
+                  upper limit for |BX/BZ| and |BY/BZ|; if either of
+                  these limits is exceeded, E_Dot0 is undefined.
+
+
+
+               3) E_X0.
+
+
+                  For E_X0, the spin axis component of the electric
+                  field is assumed to have a value such, that the X
+                  component of E_X0 in Field-Aligned Coordinates is
+                  zero.
+
+
+                  If the spin plane axes are X and Y, and if A is a
+                  rotation matrix that transforms vector components from
+                  the spin plane/spin axis system to the Field-Aligned
+                  system (with aij denoting the element of A in row i
+                  and column j); then the spin axis component for E_X0
+                  will be determined by:
+
+                      a11 * EX + a12 * EY + a13 * EZ = 0
+
+                  i.e.,
+
+                      EZ = - (a11 * EX + a12 * EY) / a13
+
+
+                  This expression will not be well defined if |a13| is
+                  too small.
+
+                  The user can specify a lower limit for the absolute
+                  value of the coefficient of EZ for E_X0; if this limit
+                  is exceeded, E_X0 is undefined.
+
+
+
+               4) E_Y0.
+
+
+                  For E_Y0, the spin axis component of the electric
+                  field is assumed to have a value such, that the Y
+                  component of E_Y0 in Field-Aligned Coordinates is
+                  zero.
+
+
+                  All the above relating to E_X0 can be applied to E_Y0
+                  as well.  For E_Y0 we must use the second row of the
+                  matrix A (elements a21, a22, a23).
+
+
+
+               5) E_Z0.
+
+
+                  For E_Z0, the spin axis component of the electric
+                  field is assumed to have a value such, that the Z
+                  component of E_Z0 in Field-Aligned Coordinates is
+                  zero.
+
+
+                  All the above relating to E_X0 can be applied to E_Z0
+                  as well.  For E_Z0 we must use the third row of the
+                  matrix A (elements a31, a32, a33).
+
+
+                  It should be noted that E_Z0 is conceptually the same
+                  as E_Dot0, as each of them is perpendicular to B.
+
+                  In practice, there may be differences in the values of
+                  E_Dot0 and E_Z0, due to different procedures for
+                  calculating each of the quantities; but any
+                  differences should be very small.
+
+
+
+
+       The magnetic field used to determine E_Dot0 is the instantaneous
+       B.
+
+
+       The magnetic field used to define the Field-Aligned Coordinate
+       system used in the determination of E_X0, E_Y0, E_Z0; is the
+       instantaneous B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+           Minimum angle E spin plane boom and B vector.
+
+           Minimum |latitude B|.
+
+           Minimum angle E spin plane boom and Sun vector.
+
+           Constant offset for each of V12, V34.
+
+           Choice of subtracting spin period average offsets from each
+           of V12, V34.
+
+           Minimum number of points per spin period.
+
+           Number of spin periods for spin period average offsets.
+
+           Sunward field for sine wave correction for each of V12, V34.
+
+           Dawn-dusk field for sine wave correction for each of V12,
+           V34.
+
+           Constant scale factor for each of V12, V34.
+
+           Minimum |BZ| for E_Dot0.
+
+           Maximum |BX/BZ|, |BY/BZ| for E_Dot0.
+
+           Minimum |coefficient of EZ| for E_X0.
+
+           Minimum |coefficient of EZ| for E_Y0.
+
+           Minimum |coefficient of EZ| for E_Z0.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.2 Burst electric field.
+
+
+
+
+
+       The burst electric field is obtained in the same manner as the
+       instantaneous electric field; with the obvious difference that
+       burst data is used instead of instantaneous data.
+
+
+
+
+       There are, then, 5 versions of the burst electric field as well:
+       E_0, E_Dot0, E_X0, E_Y0, E_Z0.
+
+
+
+       The spin plane components for all 5 versions of the electric
+       field are the same.
+
+
+
+
+       The magnetic field used to select the data points, to determine
+       E_Dot0, and to determine E_X0, E_Y0, E_Z0; is the instantaneous
+       B.
+
+
+
+
+       It must be noted that the instantaneous data values of V12 and
+       V34 are still used for the burst electric field, in the
+       determination of the spin average offsets for the spin plane
+       component.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.3 Spin period electric field.
+
+
+
+
+
+       The spin period electric field is obtained as follows:
+
+
+
+
+           1) The spin plane components come from a least-squares spin
+              fit of: either the instantaneous "corrected V12 2", or the
+              instantaneous "corrected V34 2".
+
+
+
+
+              The "corrected V12 2" is the same as the instantaneous
+              "corrected V12" described above; except that it does not
+              have a spin period average offset subtracted.
+
+
+              This is analogous for V34.
+
+
+
+
+           2) 5 versions of the electric field.
+
+
+
+              For the spin period electric field we have also 5
+              versions, the same as for the instantaneous and burst time
+              resolutions.
+
+
+
+              The spin plane components for all 5 versions of the
+              electric field are the same.
+
+
+
+              In the calculation of E_Dot0, E_X0, E_Y0, E_Z0; the same
+              limits specified by the user are applied, as for the
+              instantaneous and burst cases.
+
+
+
+
+       The minimum number of data points per spin period, specified by
+       the user and used to obtain the spin period average offsets for
+       the spin plane components; is also used as a minimum number of
+       data points required for the spin fits.
+
+
+
+
+       The magnetic field used to determine E_Dot0, E_X0, E_Y0, E_Z0; is
+       the spin period B.
+
+
+
+
+       Most important user parameters:
+
+           Applicable parameters from the instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.2.4 Housekeeping spin fit electric field.
+
+
+
+
+
+       The housekeeping spin fit electric field is obtained as follows:
+
+
+
+
+           1) The spin plane components come from a least-squares spin
+              fit of either V12U or V34U.
+
+
+
+
+           2) 5 versions of the electric field.
+
+
+
+              For the housekeeping spin fit electric field we have also
+              5 versions, the same as for the other time resolutions.
+
+
+
+              The spin plane components for all 5 versions of the
+              electric field are the same.
+
+
+
+              In the calculation of E_0, corrections can be applied in
+              the form of a Sunward field and a dawn-dusk field to be
+              subtracted.
+
+
+
+              In the calculation of E_Dot0, E_X0, E_Y0, E_Z0; the same
+              limits specified by the user are applied, as for the other
+              time resolutions.
+
+
+
+
+       The magnetic field used to determine E_Dot0, E_X0, E_Y0, E_Z0; is
+       the spin period B.
+
+
+
+
+       Most important user parameters:
+
+           Sunward field for correction to E_0.
+
+           Dawn-dusk field for correction to E_0.
+
+           Applicable parameters from the instantaneous electric field.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.3 Transformed electric field.
+
+
+
+
+
+       The electric field obtained so far is in the frame of reference
+       of the spacecraft.
+
+
+
+       We can obtain the electric field in the frame of reference of the
+       center of the Earth.
+
+
+
+       For 2 versions of the electric field, namely, E_0 and E_Dot0; 2
+       corresponding versions of the transformed electric field are
+       defined, depending on the version of the electric field that is
+       used in the calculation.
+
+       The 2 versions of the transformed electric field are designated
+       E_0_T and E_Dot0_T.
+
+
+
+       Each of these versions of the transformed E is obtained by adding
+       to the corresponding E_0, or E_Dot0, the appropriate correction
+       determined by
+
+           V x B
+
+       where V is the velocity of the spacecraft.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       spin period, and housekeeping spin fit transformed electric
+       field; are the instantaneous, burst, spin period, and
+       housekeeping spin fit data, respectively.
+
+
+
+
+       The magnetic field used for the correction, for instantaneous and
+       for burst data, is the instantaneous B; for spin period data, and
+       for housekeeping spin fit data, it is the spin period B.
+
+
+
+
+       It should be noted that, although the spin axis component of E_0
+       is zero (by definition); the spin axis component of E_0_T in
+       general will not be zero.
+
+
+
+       On the other hand, since E_Dot0 is perpendicular to B (by
+       definition), and (V x B) is also perpendicular to B; E_Dot0_T
+       will also be perpendicular to B.
+
+
+
+
+       There are plot menus containing plots of the transformed electric
+       field.
+
+       In addition, it is possible to create "on the fly" plots of an E
+       that is transformed by a constant velocity; the value of the
+       constant velocity is specified by the user.
+
+       The resulting quantity is calculated as: E + V x B.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "E + Vconst x B".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where:
+            1) The values of the components of the velocity are to be
+               entered.
+            2) 1 quantity is to be chosen (click left mouse button), for
+               B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+        6) After the plots are created, the values entered for the
+           components of the velocity can be changed via the
+           "Parameter" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.  E must be in
+           units of mV/m.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.  B must be in units of nT.
+
+        3) The values entered for the components of the velocity V must
+           be in units of km/sec.
+
+        4) The components of E, B, and V all refer to the same
+           orientation of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.4 Spacecraft potential.
+
+
+
+
+
+       The spacecraft potential S_C_Pot12 is defined as follows:
+
+
+           S_C_Pot12 = (V1 + V2) / 2
+
+
+
+       The spacecraft potential S_C_Pot34 is defined analogously.
+
+
+
+
+       Different spacecraft potentials can be obtained depending on
+       whether the voltages that are used are all "L", or all "M", etc.
+
+
+
+
+       For instantaneous and for burst time resolutions, the spacecraft
+       potentials come from individual data points for the voltages V1,
+       V2, etc.; at instantaneous or burst time resolution,
+       respectively.
+
+
+       For spin period time resolution, the spacecraft potentials come
+       from spin period averages of the instantaneous voltages V1, V2,
+       etc.
+
+
+
+
+       For instantaneous, burst, and spin period time resolutions, one
+       additional spacecraft potential, S_C_Pot1234, is defined as
+       follows:
+
+
+           S_C_Pot1234 = (S_C_Pot12 + S_C_Pot34) / 2
+
+
+
+
+       For burst time resolution, one additional quantity,
+       S_C_Pot_Delta, is defined as follows:
+
+
+           S_C_Pot_Delta = 2 * (S_C_Pot12 - S_C_Pot34)
+
+
+
+
+       It should be noted that the voltages V1, V2, etc., at
+       instantaneous or burst time resolution; or the spin period
+       averages of the instantaneous voltages V1, V2,, etc.; are
+       spacecraft potential values themselves.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.5 ExB plasma velocity.
+
+
+
+
+
+       The ExB plasma velocity is determined as follows:
+
+
+           v = (E x B) / (|B|^2)
+
+
+       where ^ indicates exponentiation.
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the ExB plasma velocity: the
+       value of v is considered to be undefined if |B| is less than the
+       threshold.
+
+
+
+
+       For 2 versions of the electric field, namely, E_0 and E_Dot0; 2
+       corresponding versions of the ExB plasma velocity are defined,
+       depending on the version of the electric field that is used in
+       the calculation.
+
+       The 2 versions of the ExB plasma velocity are designated v_0 and
+       v_Dot0.
+
+
+
+       Furthermore, there are 2 versions of the transformed electric
+       field, namely, E_0_T, and E_Dot0_T; and from these we can obtain
+       2 other versions of the ExB plasma velocity, designated as v_0_T
+       and v_Dot0_T.
+
+
+
+       In summary, all 4 versions of the ExB plasma velocity are
+       obtained using the same expression above, that involves E and B;
+       the difference among them being which version of the electric
+       field is used for E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       spin period, and housekeeping spin fit ExB plasma velocity; are
+       the instantaneous, burst, spin period, and housekeeping spin fit
+       data, respectively.
+
+
+
+
+       The magnetic field used to obtain the ExB plasma velocity is the
+       instantaneous B, for instantaneous and for burst data; for spin
+       period data, and for housekeeping spin fit data, it is the spin
+       period B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+
+
+
+       There are plot menus containing plots of the ExB plasma velocity.
+
+       In addition, it is possible to create "on the fly" plots of this
+       quantity.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "ExB Vel".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where 1 quantity is to be chosen (click left
+           mouse button), for B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.  E must be in
+           units of mV/m.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.  B must be in units of nT.
+
+        3) The components of E and B both refer to the same orientation
+           of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.6 Plasma potential.
+
+
+
+
+
+       The plasma potential is defined as follows:
+
+
+           Plasma_Pot = - Integral of (E dot ds)
+
+
+       where ds is the element of distance along the path of the
+       spacecraft.
+
+
+
+
+       In practice, instead of using ds in the computation, what is used
+       is
+
+           ds = V * dt
+
+       where V is the spacecraft velocity, and dt is the element of
+       time.
+
+
+
+
+       E and ds are expressed in Field-Aligned Coordinates (FAC); and
+       only the contributions to the dot product from the X and the Y
+       components are used.  The contribution from the Z component (the
+       component of E parallel to B) is excluded from the result.
+
+
+       For instantaneous and for burst time resolution, the FAC
+       coordinate system that is used to obtain the plasma potential is
+       FAC_I.
+
+
+       For spin period and for housekeeping spin fit time resolution,
+       the FAC coordinate system that is used to obtain the plasma
+       potential is FAC_S.
+
+
+
+
+       At the beginning of the time interval to be plotted, the value of
+       the plasma potential is set to zero.
+
+
+       Whenever there is a data dropout in E, the value of the integral
+       remains "frozen" until more data points are available.
+
+
+       In fact, data gaps in E can occur commonly, as data points are
+       selected so as to exclude data when an electric field instrument
+       boom is near the vector B (or -B).
+
+
+
+
+       For 2 versions of the electric field, namely, E_0 and E_Dot0; 2
+       corresponding versions of the plasma potential are defined,
+       depending on the version of the electric field that is used in
+       the calculation.
+
+       The 2 versions of the plasma potential are designated
+       Plasma_Pot_0 and Plasma_Pot_Dot0.
+
+
+
+       The 2 versions of the plasma potential are obtained using the
+       same expression above, that involves E and ds; the difference
+       among them being which version of the electric field is used for
+       E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       spin period, and housekeeping spin fit plasma potential; are the
+       instantaneous, burst, spin period, and housekeeping spin fit
+       data, respectively.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.7 Plasma density.
+
+
+
+
+
+       The plasma density n is obtained as a function of the spacecraft
+       potential.
+
+
+
+
+       The function is a sum of exponential functions, provided by Dr.
+       Jim McFadden (University of California, Berkeley, Space Sciences
+       Laboratory).
+
+       It comes from a fit to the CLUSTER electron density data.
+
+
+
+
+       n will be in units of cm^(-3), i.e., number of charges per cubic
+       centimeter.
+
+
+
+
+       By using the spacecraft potentials V1, V2, V3, V4, 12, 34, 1234;
+       we obtain the plasma density n_1, n_2, n_3, n_4, n_12, n_34,
+       n_1234, respectively.
+
+
+
+
+       The spacecraft potential data used to obtain the instantaneous,
+       burst, and spin period plasma density; are the instantaneous,
+       burst, and spin period data, respectively.
+
+
+
+
+       The user can specify an offset to be subtracted from the
+       spacecraft potential; the result is used as the argument to the
+       function to produce the plasma density.
+
+
+
+
+       If the value of the argument to the function is too large, then
+       the plasma density is set to a "missing value" of 1.0e+20.
+
+       Also, if the value of the function is too large, then the result
+       is not reliable, and therefore the plasma density is set to a
+       "missing value" of 1.0e+20.
+
+       If the value of the argument to the function is too small, then
+       the plasma density is set to a "missing value" of 1.0e-20.
+
+
+
+
+       Most important user parameters:
+
+           Offset for the spacecraft potential.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.8 Poynting flux.
+
+
+
+
+
+       The Poynting flux is determined as follows:
+
+
+           Poyn_Flux = (Det E) x (Det B)
+
+
+       where "Det" designates "detrended".
+
+
+
+
+       The detrended vector E is the vector E minus a running average of
+       the vector E; the detrended vector B is defined analogously.
+
+
+       The running average is obtained by taking a time interval
+       centered on each original data point, with a total duration equal
+       to some number of spin periods; the original values for all the
+       data points in the interval are averaged, and this becomes the
+       new value for the data point.
+
+
+       It is clear that the running average has one data point for each
+       original data point.
+
+
+       A running average can be obtained for instantaneous, spin period,
+       or housekeeping spin fit electric field data.
+
+       A running average can be obtained for instantaneous or spin
+       period magnetic field data.
+
+       For instantaneous data, we average the instantaneous data point
+       values; for spin period data, we average the spin period data
+       point values; for housekeeping spin fit data, we average the
+       housekeeping spin fit data point values.
+
+
+       Note that when averaging spin period data or housekeeping spin
+       fit data, it is better to choose an odd number of spin periods;
+       as this will assure that the exact number of data points (except
+       for data gaps) is included in each average.  With an even number
+       of spin periods, there will be uncertainty concerning the end
+       points.
+
+
+       For instantaneous, spin period, or housekeeping spin fit data,
+       the detrended vector is the original vector minus the
+       corresponding running average.
+
+
+       For burst data, the detrended E is the original E, minus the
+       running average determined by the instantaneous E.
+
+
+
+
+       For 2 versions of the electric field, namely, E_0 and E_Dot0; 2
+       corresponding versions of the Poynting flux are defined,
+       depending on the version of the electric field that is used in
+       the calculation.
+
+       The 2 versions of the Poynting flux are designated Poyn_Flux_0
+       and Poyn_Flux_Dot0.
+
+
+
+       Furthermore, there are 2 versions of the transformed electric
+       field, namely, E_0_T, and E_Dot0_T; and from these we can obtain
+       2 other versions of the Poynting flux, designated as
+       Poyn_Flux_0_T and Poyn_Flux_Dot0_T.
+
+
+
+       In summary, all 4 versions of the Poynting flux are obtained
+       using the same expression above, that involves E and B; the
+       difference among them being which version of the electric field
+       is used for E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       spin period, and housekeeping spin fit Poynting flux; are the
+       instantaneous, burst, spin period, and housekeeping spin fit
+       data, respectively.
+
+
+
+
+       The magnetic field used to obtain the Poynting flux is the
+       instantaneous B, for instantaneous and for burst data; for spin
+       period data, and for housekeeping spin fit data, it is the spin
+       period B.
+
+
+
+
+       It should be noted that, since the spin axis component of E_0 is
+       zero (by definition); the spin axis component of the running
+       average of E_0, and of the detrended E_0; will also be zero.
+
+
+
+       On the other hand, even though E_Dot0 is perpendicular to B (by
+       definition), and E_Dot0_T also is perpendicular to B; in general,
+       the running average and the detrended E_Dot0 and E_Dot0_T, will
+       not be perpendicular to B, or to the running average of B, or to
+       the detrended B.
+
+
+
+
+       Most important user parameters:
+
+           Number of spin periods for the running averages.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.9 B flux.
+
+
+
+
+
+       The B flux is defined as follows:
+
+
+           B_flux = (E x B) / |B|
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the B flux: the value of B_flux
+       is considered to be undefined if |B| is less than the threshold.
+
+
+
+
+       For 2 versions of the electric field, namely, E_0 and E_Dot0; 2
+       corresponding versions of the B flux are defined, depending on
+       the version of the electric field that is used in the
+       calculation.
+
+       The 2 versions of the B flux are designated B_Flux_0 and
+       B_Flux_Dot0.
+
+
+
+       In summary, all 2 versions of the B flux are obtained using the
+       same expression above, that involves E and B; the difference
+       among them being which version of the electric field is used for
+       E.
+
+
+
+
+       The electric field data used to obtain the instantaneous, spin
+       period, and housekeeping spin fit B flux; are the instantaneous,
+       spin period, and housekeeping spin fit data, respectively.
+
+
+
+
+       The magnetic field used to obtain the B flux is the instantaneous
+       B, for instantaneous data; for spin period data, and for
+       housekeeping spin fit data, it is the spin period B.
+
+
+
+
+       Most important user parameters:
+
+           Threshold for |B|.
+
+
+
+
+       There are plot menus containing plots of B flux.
+
+       In addition, it is possible to create "on the fly" plots of this
+       quantity.
+
+
+       The procedure for creating an "on the fly" plot is as follows:
+
+        1) At least 1 component of the E to be used must be plotted.
+           At least 1 component of the B to be used must be plotted.
+
+        2) Click the right mouse button on the plot of a component of E.
+           In the menu that appears, select "Operations".
+           In the menu that appears, select "B Flux".
+
+        3) If the plot chosen has more than 1 line plot ("trace") in it,
+           a box appears where 1 trace is to be chosen (click left mouse
+           button), for a component of E.
+
+        4) A box appears where 1 quantity is to be chosen (click left
+           mouse button), for B.
+
+        5) Click the left mouse button on the "Compute" button.
+
+
+       It is the responsibility of the user to make sure that:
+
+        1) The plot or trace selected for a component of E does, indeed,
+           correspond to a component of an electric field.
+
+        2) The quantity selected for B does, indeed, correspond to a
+           magnetic field.
+
+        3) The components of E and B both refer to the same orientation
+           of coordinate system axes.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.10 Angles between the electric field spin plane instrument
+         booms and the magnetic field.
+
+
+
+
+
+       There are 2 angles that can be determined:
+
+
+            1) The angle between the 12 boom and the B vector.
+
+
+            2) The angle between the 34 boom and the B vector.
+
+
+
+
+       The 12 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 1.
+
+
+       The 34 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 3.
+
+
+
+
+       It should be noted that the 12 and 34 booms are always on the
+       spin plane; but B is a full, 3-dimensional vector, and its spin
+       plane and its spin axis components are used in these
+       calculations.
+
+
+
+
+       The magnetic field used to determine the angles is the
+       instantaneous B.
+
+
+
+
+       The same threshold value for |B| that is used in the selection of
+       data points for the instantaneous and burst electric fields, is
+       used also in the computation of the angles between the electric
+       field spin plane instrument booms and the magnetic field: the
+       values of the angles are considered to be undefined if |B| is
+       less than the threshold.
+
+       This is because if |B| is very small, the direction of the
+       B vector may be considered to be poorly defined.
+
+
+
+
+       The determination of the angles can be done at any desired time
+       resolution.
+
+
+
+
+       Most important user parameters:
+
+           Time resolution for the angles.
+
+           Threshold for |B|.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.11 Angles between the electric field spin plane instrument
+         booms and the Sun vector.
+
+
+
+
+
+       There are 2 angles that can be determined:
+
+
+            1) The angle between the 12 boom and the Sun vector.
+
+
+            2) The angle between the 34 boom and the Sun vector.
+
+
+
+
+       The 12 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 1.
+
+
+       The 34 boom is represented by a vector that points from the
+       center of the spacecraft to sphere 3.
+
+
+
+
+       The Sun vector S is the vector that points from the center of the
+       Earth to the Sun.
+
+
+
+
+       It should be noted that the 12 and 34 booms are always on the
+       spin plane; but S is a full, 3-dimensional vector, and its spin
+       plane and its spin axis components are used in these
+       calculations.
+
+
+
+
+       The determination of the angles can be done at any desired time
+       resolution.
+
+
+
+
+       Most important user parameters:
+
+           Time resolution for the angles.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    4.12 Electric field FAC component ratios.
+
+
+
+
+
+       These are the ratios
+
+
+           EZ / EX
+
+           EZ / EY
+
+
+       where E is in Field-Aligned Coordinates; i.e., the ratios of
+
+           E_parallel / E_perpendicular.
+
+
+
+
+       The ratios are not well defined if the denominators are too
+       small.
+
+
+       The user can specify a lower limit for the absolute value of the
+       denominator.
+
+
+
+
+       If a denominator has an absolute value that is less than the
+       lower limit, it is possible either to consider the corresponding
+       ratio to be undefined (i.e., no data point is produced); or the
+       ratio can be set to a very large value (which can be positive or
+       negative).
+
+
+       The user can specify whether to skip the data point for a small
+       denominator, or to set a huge value.
+
+
+
+
+       Only 1 version of the component ratios is defined, using E_0 in
+       the calculation.
+
+
+       No component ratios are plotted for E_Dot0 (for E_Dot0, the FAC Z
+       component is zero by definition).
+
+
+
+
+       The electric field data used to obtain the instantaneous, burst,
+       spin period, and housekeeping spin fit FAC component ratios; are
+       the instantaneous, burst, spin period, and housekeeping spin fit
+       data, respectively.
+
+
+
+
+       Most important user parameters:
+
+           Action for small denominator (skip / huge value).
+
+           Minimum |denominator|.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+    5. Location of the Science plots.
+
+
+
+
+
+       This section helps locate the Science plots in the "sdt" plot
+menus.
+
+
+
+       The plot names in this section all have "SC1".
+
+       The same plots exist for all 4 spacecraft, and the corresponding
+plot names can be obtained by changing the "SC1" into "SC2", "SC3", or
+"SC4", as appropriate.
+
+
+
+
+
+------------------------------------------------------------------------
+
+    Plot: B flux in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> B_Flux -> Inst.
+
+    Plot name: CLUSTER_SC1_B_Flux_0_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_BSC_M_X, Y, Z; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: B flux in GSE, GSM, FAC, BSC coordinates, spin period.
+
+    Plot menu: CLUSTER_Science -> B_Flux -> Spin_P.
+
+    Plot name: CLUSTER_SC1_B_Flux_0_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_B_Flux_0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_B_Flux_Dot0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: B flux in GSE, GSM, FAC, BSC coordinates, housekeeping
+          spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits ->
+                 B_Flux.
+
+    Plot name: CLUSTER_SC1_HKSF_B_Flux_0_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_B_Flux_0_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_B_Flux_0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_B_Flux_0_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_B_Flux_0_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_B_Flux_0_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_B_Flux_Dot0_A_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, angles between instrument spin plane booms and
+          magnetic field.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_cos_angle_12_B, 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, angles between instrument spin plane booms and
+          Sun vector.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_cos_angle_12_Sun, 34.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, combined V12, burst.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_BV12L_Comb; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, combined V12, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_V12L_Comb; M.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, combined V32, burst.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_BV32L_Comb; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, combined V32, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_V32L_Comb; M.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin plane components, burst.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_BV12L_C, 34; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, corrected spin plane components,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_V12L_C, 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, burst.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_E_0_B_L_FAC_I_Z/X, Y; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_E_0_L_FAC_I_Z/X, Y; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, spin period.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Spin_P.
+
+    Plot name: CLUSTER_SC1_E_0_L_A_12_FAC_S_Z/X, Y; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, FAC component ratios, housekeeping spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits -> Less_Used.
+
+    Plot name: CLUSTER_SC1_HKSF_E_0_A_FAC_S_Z/X, Y.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, ground V32, burst.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_BV32L_Ground; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, ground V32, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_V32L_Ground; M.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC, BSC coordinates, burst.
+
+    Plot menu: CLUSTER_Science -> E_B_Coord -> Burst.
+
+    Plot name: CLUSTER_SC1_E_0_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_X0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Y0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Z0_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_B_L_BSC_M_X, Y, Z; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> E_B_Coord -> Inst.
+
+    Plot name: CLUSTER_SC1_E_0_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_X0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Y0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Z0_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_L_BSC_M_X, Y, Z; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC, BSC coordinates, spin period.
+
+    Plot menu: CLUSTER_Science -> E_B_Coord -> Spin_P.
+
+    Plot name: CLUSTER_SC1_E_0_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_X0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Y0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Z0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field in GSE, GSM, FAC, BSC coordinates, housekeeping
+          spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits -> E_B_Coord.
+
+    Plot name: CLUSTER_SC1_HKSF_E_0_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_X0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Y0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Z0_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_A_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Electric field, spin period average spin plane component
+          offsets.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_V12_Comb_Spin_Avg_Offset, 34.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, BSC coordinates, burst.
+
+    Plot menu: CLUSTER_Science -> ExB_Velocity -> Burst.
+
+    Plot name: CLUSTER_SC1_v_0_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_B_L_BSC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_v_0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_v_Dot0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> ExB_Velocity -> Inst.
+
+    Plot name: CLUSTER_SC1_v_0_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_L_BSC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_v_0_T_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_BSC_M_X, Y, Z; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, BSC coordinates, spin
+          period.
+
+    Plot menu: CLUSTER_Science -> ExB_Velocity -> Spin_P.
+
+    Plot name: CLUSTER_SC1_v_0_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_v_0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_v_Dot0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: ExB plasma velocity in GSE, GSM, FAC, BSC coordinates,
+          housekeeping spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits -> ExB_Velocity.
+
+    Plot name: CLUSTER_SC1_HKSF_v_0_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_A_BSC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_v_0_T_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_v_Dot0_T_A_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> E_B_Coord -> Inst.
+
+    Plot name: CLUSTER_SC1_B_GSE_X, Y, Z.
+
+               CLUSTER_SC1_B_GSE_dir_cos_X, Y, Z.
+
+               CLUSTER_SC1_B_GSE_dir_ang_X, Y, Z.
+
+               CLUSTER_SC1_B_GSE_Lat.
+
+               CLUSTER_SC1_B_GSE_Long.
+
+               CLUSTER_SC1_B_GSM_X, Y, Z.
+
+               CLUSTER_SC1_B_FAC_I_X, Y, Z.
+
+               CLUSTER_SC1_B_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_B_BSC_I_X, Y, Z.
+
+               CLUSTER_SC1_B_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field in GSE, GSM, FAC, BSC coordinates, spin period.
+
+    Plot menu: CLUSTER_Science -> E_B_Coord -> Spin_P.
+
+    Plot name: CLUSTER_SC1_B_A_12_GSE_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_GSE_dir_cos_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_GSE_dir_ang_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_GSE_Lat; 34.
+
+               CLUSTER_SC1_B_A_12_GSE_Long; 34.
+
+               CLUSTER_SC1_B_A_12_GSM_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_FAC_S_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_FAC_M_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_BSC_S_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_A_12_BSC_M_X, Y, Z; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field, measured minus model in GSE, GSM, FAC, BSC
+          coordinates, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_B_minus_Model_B_GSE_X, Y, Z.
+
+               CLUSTER_SC1_B_minus_Model_B_GSM_X, Y, Z.
+
+               CLUSTER_SC1_B_minus_Model_B_FAC_I_X, Y, Z.
+
+               CLUSTER_SC1_B_minus_Model_B_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_B_minus_Model_B_BSC_I_X, Y, Z.
+
+               CLUSTER_SC1_B_minus_Model_B_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Magnetic field, measured minus model in GSE, GSM, FAC, BSC
+          coordinates, spin period.
+
+    Plot menu: CLUSTER_Science -> Less_Used -> Spin_P.
+
+    Plot name: CLUSTER_SC1_B_minus_Model_B_A_12_GSE_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_minus_Model_B_A_12_GSM_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_minus_Model_B_A_12_FAC_S_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_minus_Model_B_A_12_FAC_M_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_minus_Model_B_A_12_BSC_S_X, Y, Z; 34.
+
+               CLUSTER_SC1_B_minus_Model_B_A_12_BSC_M_X, Y, Z; 34.
+
+------------------------------------------------------------------------
+
+    Plot: Model magnetic field in GEI, GSE, GSM coordinates.
+
+    Plot menu: CLUSTER_Science -> Auxiliary -> Model_B.
+
+    Plot name: CLUSTER_SC1_Model_B_T96_GEI_X, Y, Z.
+
+               CLUSTER_SC1_Model_B_T96_GSE_X, Y, Z.
+
+               CLUSTER_SC1_Model_B_T96_GSM_X, Y, Z.
+
+    Notes: Tsyganenko 1996 model.
+
+    User parameters:
+
+        Solar Wind Pressure (nPascal).
+
+        DST (nT).
+
+        IMF BY (nT).
+
+        IMF BZ (nT).
+
+        Geomagnetic Dipole Tilt (deg).
+
+        Max no. IGRF harmonics for Model B (1-10).
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, burst.
+
+    Plot menu: CLUSTER_Science -> Plasma_Density -> Burst.
+
+    Plot name: CLUSTER_SC1_n_1_B_L, 2, 3, 4, 12, 34, 1234; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Plasma_Density -> Inst.
+
+    Plot name: CLUSTER_SC1_n_1, 2, 3, 4, 12, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma density, spin period.
+
+    Plot menu: CLUSTER_Science -> Plasma_Density -> Spin_P.
+
+    Plot name: CLUSTER_SC1_n_1_A, 2, 3, 4, 12, 34, 1234.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, burst.
+
+    Plot menu: CLUSTER_Science -> Plasma_Pot -> Burst.
+
+    Plot name: CLUSTER_SC1_Plasma_Pot_0_B_L; M; H; U.
+               CLUSTER_SC1_Plasma_Pot_Dot0_B_L; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, instantaneous.
+
+    Plot menu: CLUSTER_Science -> Plasma_Pot -> Inst.
+
+    Plot name: CLUSTER_SC1_Plasma_Pot_0_L; M; H.
+               CLUSTER_SC1_Plasma_Pot_Dot0_L; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, spin period.
+
+    Plot menu: CLUSTER_Science -> Plasma_Pot -> Spin_P.
+
+    Plot name: CLUSTER_SC1_Plasma_Pot_0_L_A_12, 34; M; H.
+               CLUSTER_SC1_Plasma_Pot_Dot0_L_A_12, 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Plasma potential, housekeeping spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits -> Plasma_Pot.
+
+    Plot name: CLUSTER_SC1_HKSF_Plasma_Pot_0_A.
+               CLUSTER_SC1_HKSF_Plasma_Pot_Dot0_A.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, BSC coordinates, burst.
+
+    Plot menu: CLUSTER_Science -> Poynting_Flux -> Burst.
+
+    Plot name: CLUSTER_SC1_Poyn_0_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_B_L_BSC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_Poyn_0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_Poyn_Dot0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> Poynting_Flux -> Inst.
+
+    Plot name: CLUSTER_SC1_Poyn_0_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_BSC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_BSC_M_X, Y, Z; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, BSC coordinates, spin period.
+
+    Plot menu: CLUSTER_Science -> Poynting_Flux -> Spin_P.
+
+    Plot name: CLUSTER_SC1_Poyn_0_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_Poyn_0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_Poyn_Dot0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Poynting flux in GSE, GSM, FAC, BSC coordinates, housekeeping
+          spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits ->
+                 Poynting_Flux.
+
+    Plot name: CLUSTER_SC1_HKSF_Poyn_0_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_A_BSC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_Poyn_0_T_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_Poyn_Dot0_T_A_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------
+
+    Plot: Rotation matrices.
+
+    Plot menu: CLUSTER_Science -> Transf_Coord.
+
+    Notes: These plots can be used to display the matrix elements of the
+           various rotation matrices used in the transformations of
+           coordinates.
+
+           Users who are interested can get more information from SSL.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, burst.
+
+    Plot menu: CLUSTER_Science -> More_Used -> Burst.
+
+    Plot name: CLUSTER_SC1_S_C_Pot12_B_L, 34, 1234, _Delta; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, instantaneous.
+
+    Plot menu: CLUSTER_Science -> More_Used -> Inst.
+
+    Plot name: CLUSTER_SC1_S_C_Pot12_L, 34, 1234; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Spacecraft potential, spin period.
+
+    Plot menu: CLUSTER_Science -> More_Used -> Spin_P.
+
+    Plot name: CLUSTER_SC1_S_C_Pot12_L_A, 34, 1234; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC, BSC coordinates,
+          burst.
+
+    Plot menu: CLUSTER_Science -> E_T_Coord -> Burst.
+
+    Plot name: CLUSTER_SC1_E_0_T_B_L_GSE_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_GSE_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_T_B_L_GSM_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_GSM_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_FAC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_FAC_M_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_BSC_I_X, Y, Z; M; H; U.
+
+               CLUSTER_SC1_E_0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+               CLUSTER_SC1_E_Dot0_T_B_L_BSC_M_X, Y, Z; M; H; U.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC, BSC coordinates,
+          instantaneous.
+
+    Plot menu: CLUSTER_Science -> E_T_Coord -> Inst.
+
+    Plot name: CLUSTER_SC1_E_0_T_L_GSE_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_GSE_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_T_L_GSM_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_GSM_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_T_L_FAC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_FAC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_T_L_FAC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_FAC_M_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_T_L_BSC_I_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_BSC_I_X, Y, Z; M; H.
+
+               CLUSTER_SC1_E_0_T_L_BSC_M_X, Y, Z; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_BSC_M_X, Y, Z; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC, BSC coordinates,
+          spin period.
+
+    Plot menu: CLUSTER_Science -> E_T_Coord -> Spin_P.
+
+    Plot name: CLUSTER_SC1_E_0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_GSE_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_GSM_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_FAC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_FAC_M_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_BSC_S_X, Y, Z; 34; M; H.
+
+               CLUSTER_SC1_E_0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+               CLUSTER_SC1_E_Dot0_T_L_A_12_BSC_M_X, Y, Z; 34; M; H.
+
+------------------------------------------------------------------------
+
+    Plot: Transformed electric field in GSE, GSM, FAC, BSC coordinates,
+          housekeeping spin fit.
+
+    Plot menu: CLUSTER_Science -> HouseKeeping_SpinFits -> E_T_Coord.
+
+    Plot name: CLUSTER_SC1_HKSF_E_0_T_A_GSE_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_GSE_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_T_A_GSM_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_GSM_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_T_A_FAC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_FAC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_T_A_FAC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_FAC_M_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_T_A_BSC_S_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_BSC_S_X, Y, Z.
+
+               CLUSTER_SC1_HKSF_E_0_T_A_BSC_M_X, Y, Z.
+               CLUSTER_SC1_HKSF_E_Dot0_T_A_BSC_M_X, Y, Z.
+
+------------------------------------------------------------------------

@@ -1,0 +1,327 @@
+#! /usr/bin/ksh
+#
+# hires_cdf
+#
+# Make FAST High Resolution CDF Files
+#
+# USAGE:
+# 
+#    	hires_cdf [-c workspace] [-o orbit or -t "StartTime EndTime"] [DATATYPE]
+#
+#
+# OPTIONS AND ARGUMENTS:
+#
+#       -c  The string argument of this option will be appended to
+#           "$FASTCONFIG/archive_config" to form the name of the
+#           configuration file to be sourced.  This may be used to
+#           test alternate workspaces.
+#
+#	-o orbit, where orbit is a 1 to 5 digit number specifying 
+#        the desired orbit
+#
+#	-t "StartTime EndTime", where StartTime and EndTime follow the
+#	 format "YYYY/MM/DD HH:MM:SS YYYY/MM/DD HH:MM:SS"
+#
+#       DATATYPE, one of the datatypes found in the configuration file
+#	/disks/fast/software/config/hires_cdf.cfg
+#
+# Example:
+#	Create a CDF files for orbit 1000, DATATYPE=Fields_Survey
+#
+#       % hires_cdf -o 1000 Fields_Survey
+#
+# Example:
+#	Create a CDF files for the time period of 12:00:00 to 12:30:00 GMT on
+#	15 March 2000, for the DATATYPE Fields_Survey
+#
+#       % hires_cdf -t "2000-03-15 12:00:00 2000-03-15 12:30:00" Fields_Survey
+#
+#
+# The log output can be monitored in the file:
+#
+#        /disks/juneau/www/TEMPLOGS/hires/hireslog_$$
+#
+# SDT and IDL output files are in ~lzp/hires
+#
+
+# let the calling process know my pid
+echo "Pid:$$"
+
+# FASTCONFIG determines location of archive_config file
+
+if [[ -z $FASTCONFIG ]]; then
+    echo "Setting FASTCONFIG=/disks/fast/software/config"
+    export FASTCONFIG=/disks/fast/software/config
+fi
+
+# Function definitions
+
+function ConvertFromDatehrmmss {
+
+    Time=${1##*/}
+    Date=${1%/*}
+
+    #Parse out the hours, minutes and seconds from $Time
+
+    Hours=${Time%%:*}
+    Minutes=${Time#*:}
+    Minutes=${Minutes%:*}
+    Seconds=${Time##*:}
+    Seconds=${Seconds%.*}
+
+
+    #Get time in total seconds
+
+    HourSeconds=$(( $Hours * 3600 ))
+    MinuteSeconds=$(( $Minutes * 60 ))
+    TotalSeconds=$(( $HourSeconds + $MinuteSeconds + $Seconds ))
+}
+
+function ConvertToHrmmss {
+    ConvertTime=$1
+    if (( $ConvertTime >= 3600 )) ; then
+	ConvertHr=$(( $1 / 3600 ))
+	if (( $ConvertHr <= 9 )); then
+	    ConvertHr=0$ConvertHr
+	fi
+	ConvertTime=$(( $ConvertTime % 3600 ))
+    else
+	ConvertHr=00
+    fi
+    if (( $ConvertTime >= 60 )); then
+	ConvertMm=$(( $ConvertTime / 60 ))
+	if (( $ConvertMm <= 9 )) ; then
+	    ConvertMm=0$ConvertMm
+	fi
+	ConvertTime=$(( $ConvertTime % 60 ))
+    else
+	ConvertMm=00
+    fi
+    ConvertSs=$ConvertTime
+    if (( $ConvertSs <= 9 )); then
+	ConvertSs=0$ConvertSs
+    fi
+    ConvertTime=$(echo $ConvertHr:$ConvertMm:$ConvertSs)
+}
+
+
+# Option Handling
+# Plot type determines apids used
+
+USAGE="usage: hires_cdf [-o orbit or -t time] [DATATYPE]"
+while getopts ":c:o:t:" opt; do
+        case $opt in
+	  c) configfile="$FASTCONFIG/archive_config.$OPTARG";;
+          o) orbit=$OPTARG ;;
+          t) timespan=$OPTARG ;;
+          *) print "$OPTARG is not a valid option."
+             print $USAGE; exit 1;;
+        esac
+done
+shift $((OPTIND -1))
+
+# Verify DATATYPE was specified at start of script
+if [[ -z $1 ]];then
+	print "Datatype was not set, check usage."
+	print $USAGE;  exit 1
+fi
+
+# 
+# Assign DATATYPE variable name to command line argument 
+DATATYPE=$1
+
+# Created a new configuration file to create env variables. This was
+# done due to DBI access troubles created by the environment created by
+# the regular archive_config file
+#
+#. /disks/fast/software/config/archive_config.hires
+WORKSPACE=integration
+export WORKSPACE
+. /disks/fast/software/config/archive_config
+
+# Set the environment variable pointing at the HIRES
+# config file
+#
+HIRES_CONFIG_FILE=$HIRES_CONFIG_DIR/hires_cdf.cfg
+
+# Using DATATYPE, search hires_cdf.cfg for apid list, IDL routine
+# name, and sdt plot configuration which will be passed to whichfiles 
+# later in the script
+#
+APIDLIST=$(grep "^$DATATYPE" $HIRES_CONFIG_FILE | awk '{print $2}' | sed 's/,/ /g')
+IDLSCRIPT=$(grep "^$DATATYPE" $HIRES_CONFIG_FILE | awk '{print $3}')
+SDT_PLOTCONFIG=$(grep "^$DATATYPE" $HIRES_CONFIG_FILE | awk '{print $4}')
+
+# Export values for sdt_batch
+#
+export DATATYPE APIDLIST IDLSCRIPT SDT_PLOTCONFIG
+
+# Verify the variables for the CDF name the output directory
+# that are passed to IDL are set 
+
+if [[ -z $IDL_HIRES_CDFNAME ]];then
+	echo IDL_HIRES_CDFNAME not set
+	exit 1
+fi
+
+if [[ -z $IDL_HIRES_OUTDIR ]];then
+	echo IDL_HIRES_OUTDIR not set
+	exit 1
+fi
+
+# SDT and IDL output directory for log files
+sdtIdlLogDir=~lzp/hires
+
+# Create Log File
+if [[ -z $logfile ]]; then
+    logfile=$TEMPLOGS/hires/hireslog_$$
+    if ! touch $logfile; then
+	echo "Cannot write to log: $logfile"
+	exit 1
+    fi
+fi
+
+echo ----- HIRES CDF Production begins $(date) ------- > $logfile
+
+# Echo important variables to log file
+
+echo "Plot Type: $DATATYPE" >> $logfile
+if [[ -z $orbit ]];then
+	echo "Requested Timespan = $timespan" >> $logfile
+else
+	echo "Requested orbit = $orbit" >> $logfile
+fi
+echo >> $logfile
+echo "IDL_HIRES_CDFNAME = $IDL_HIRES_CDFNAME" >> $logfile
+echo >> $logfile
+echo "IDL_HIRES_OUTDIR = $IDL_HIRES_OUTDIR" >> $logfile
+echo >> $logfile
+
+# Get jukebox host from Datamgr.conf file
+
+datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+if [[ ! -r $datamgr_conf ]] ; then
+    print "Unable to read datamgr config: $FASTCONFIG/Datamgr/Datamgr.conf" >> $logfile
+    exit 1
+fi
+
+# Prepare start and stop times which will be passed to 
+# the sdt_batch program
+#
+if [[ -z $orbit ]] ; then
+	sdtStartDate=$(print $timespan | awk '{print $1}')
+	sdtStartTime=$(print $timespan | awk '{print $2}')
+	sdtStopDate=$(print $timespan | awk '{print $3}')
+	sdtStopTime=$(print $timespan | awk '{print $4}')
+else
+	## FIND ORBIT START & STOP: This next section will use a database
+	## procedure called orbittime to find the orbit start and stop
+	## time.  These times will be passed to the sdt_batch program
+
+	set -A OrbitTimes $($DANETBIN/orbittime $orbit)
+	OrbitTimesNumber=${#OrbitTimes[*]}
+
+	if (( $OrbitTimesNumber == 1 )); then
+        	echo "orbittime returned only one value..." >> $logfile
+        	exit 1
+	fi
+
+	OrbitStart=$(echo ${OrbitTimes[0]})
+	ConvertFromDatehrmmss $OrbitStart
+
+	sdtStartDate=$Date
+	sdtStartTime=$Time
+	
+	# End Time for sdt_batch
+
+	OrbitEnd=$(echo ${OrbitTimes[1]})
+	ConvertFromDatehrmmss $OrbitEnd
+	
+	sdtStopDate=$Date
+	sdtStopTime=$Time
+fi
+	
+# Export times and dates for sdt_batch
+
+export sdtStartDate sdtStartTime sdtStopDate sdtStopTime
+{
+ echo "sdt_batch sdate: $sdtStartDate"
+ echo "sdt_batch stime: $sdtStartTime"
+ echo "sdt_batch edate: $sdtStopDate"
+ echo "sdt_batch etime: $sdtStopTime"
+} >> $logfile
+
+# Set the variable, to be used by sdt, that will
+# contain all of the full paths to the data files
+#
+if [[ -z $orbit ]] ; 
+then
+	echo Starting get_cd_path -t $timespan >> $logfile
+	export files=$($FASTBIN/get_cd_path -t $timespan)
+else
+	echo Starting get_cd_path -o orbit >> $logfile
+	export files=$(get_cd_path -o $orbit)
+fi
+echo files=$files >> $logfile
+
+# Set an environment variable to prevent frac_indices from hanging
+#
+export IDLORBIT=$CurrentOrbit
+
+# Kill any stray SDT processes
+#	
+$FASTBIN/cleanup >> $logfile 2>&1
+        
+# Kill SDT Zombies
+#	
+set -A zombies $(ps -u $USER -f | awk '/awk|PID/ {next} /(FastDecom|IseeDcom|EfdSurvey|PolarEFIDcom|EfdDcom|CrresDcom|UI|idl)/ {print $2}')
+for zombie in ${zombies[*]} ; do
+    kill -TERM $zombie
+    if ps -p $zombie > /dev/null ; then
+	 # Still undead
+	 kill -INT $zombie
+    fi
+    if ps -p $zombie > /dev/null ; then
+	 kill -HUP $zombie
+    fi
+    if ps -p $zombie > /dev/null ; then
+	 kill -KILL $zombie
+    fi		
+done
+
+# SDT and IDL output files go to CWD
+
+cd $sdtIdlLogDir
+
+# RUN SDT IN BATCH MODE
+
+SECONDS=0            # time execution of sdt_batch
+print "Starting sdt_batch for orbit $CurrentOrbit $(date)" >> $logfile
+
+$FASTBIN/sdt_batch $FASTSW/batchjobs/hires_cdf.batch  >> $logfile
+print "Finished sdt_batch $(date)" >> $logfile
+printf "sdt_batch execution time: %s min\n" $(($SECONDS/60)) >> $logfile
+{
+    mv outIDL.cdfhires.pro outIDL.cdfhires.pro_$$
+    mv errIDL.cdfhires.pro errIDL.cdfhires.pro_$$
+} 2>> $logfile
+
+# Move the error files for later perusal
+
+{
+    mv errUI errUI_$$
+    mv outUI outUI_$$
+    mv errfast errfast_$$
+    mv outfast outfast_$$
+    mv errdqh errdqh_$$
+    mv outdqh outdqh_$$
+} 2>> $logfile
+
+
+# Remove data used for this run
+#rmdir $cpdir/* 2>> $logfile
+
+
+echo  ----- hires_cdf ends $(date) ------- >> $logfile
+
+exit 0

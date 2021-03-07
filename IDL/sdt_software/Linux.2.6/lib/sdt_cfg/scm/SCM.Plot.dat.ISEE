@@ -1,0 +1,299 @@
+
+@2 { PlotQuantityDescription
+   'SBlock ISEE_Science' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock ISE_030_B' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock ISE_B_003_Spin_P' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the ISEE SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.ISEE_Science+ISE_030_B+ISE_B_003_Spin_P.UCB.wt.dat	1.1    09/14/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*=======================================================================
+*
+*      Spacecraft: ISEE_1.
+*
+*=======================================================================
+*
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      B in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_B_A_DSC_X' TIME_SERIES 1 1 2 1
+  'ISEE_1_B_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_B_A_DSC_X' 'nT' LINEAR TRUE -1000.0 1000.0
+  'IS1_B_A_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_B_A_DSC' 0 0 0
+  'ISEE_1_B_A_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_B_A_DSC_Y' TIME_SERIES 1 1 2 1
+  'ISEE_1_B_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_B_A_DSC_Y' 'nT' LINEAR TRUE -1000.0 1000.0
+  'IS1_B_A_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_B_A_DSC' 0 0 0
+  'ISEE_1_B_A_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_B_A_DSC_Z' TIME_SERIES 1 1 2 1
+  'ISEE_1_B_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_B_A_DSC_Z' 'nT' LINEAR TRUE -1000.0 1000.0
+  'IS1_B_A_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_B_A_DSC' 0 0 0
+  'ISEE_1_B_A_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_B_A_DSC_Mag' TIME_SERIES 1 1 2 1
+  'ISEE_1_B_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_B_A_DSC_Mag' 'nT' LINEAR TRUE -1000.0 1000.0
+  'IS1_B_A_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_B_A_DSC' 0 0 0
+  'ISEE_1_B_A_DSC' 4 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock ISE_B_003_Spin_P' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock ISE_030_B' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock ISE_040_E' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'SBlock ISE_E_003_Spin_P' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+************************************************************************
+*
+*      Author: Winston Teitler.
+*
+************************************************************************
+*
+*      Plot Description file for the ISEE SDT Science plots.
+*
+************************************************************************
+*
+*      @(#)SCM.Plot.ISEE_Science+ISE_040_E+ISE_E_003_Spin_P.UCB.wt.dat	1.1    09/14/06    UCB SSL
+*
+************************************************************************
+
+
+*
+*=======================================================================
+*
+*      Spacecraft: ISEE_1.
+*
+*=======================================================================
+*
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_0 in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_0_A_DSC_X' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_0_A_DSC_X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_0_A_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_0_A_DSC' 0 0 0
+  'ISEE_1_E_0_A_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_0_A_DSC_Y' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_0_A_DSC_Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_0_A_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_0_A_DSC' 0 0 0
+  'ISEE_1_E_0_A_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_0_A_DSC_Z' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_0_A_DSC_Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_0_A_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_0_A_DSC' 0 0 0
+  'ISEE_1_E_0_A_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_0_A_DSC_Mag' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_0_A_DSC_Mag' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_0_A_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_0_A_DSC' 0 0 0
+  'ISEE_1_E_0_A_DSC' 4 0 0
+  }
+
+
+*
+*-----------------------------------------------------------------------
+*
+*      E_Dot0 in DSC - Spin Period.
+*
+*-----------------------------------------------------------------------
+*
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_Dot0_A_DSC_X' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_Dot0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_Dot0_A_DSC_X' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_Dot0_A_DSC_X' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_Dot0_A_DSC' 0 0 0
+  'ISEE_1_E_Dot0_A_DSC' 1 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_Dot0_A_DSC_Y' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_Dot0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_Dot0_A_DSC_Y' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_Dot0_A_DSC_Y' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_Dot0_A_DSC' 0 0 0
+  'ISEE_1_E_Dot0_A_DSC' 2 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_Dot0_A_DSC_Z' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_Dot0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_Dot0_A_DSC_Z' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_Dot0_A_DSC_Z' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_Dot0_A_DSC' 0 0 0
+  'ISEE_1_E_Dot0_A_DSC' 3 0 0
+  }
+
+
+@2 { PlotQuantityConstants
+  'ISEE_1_E_Dot0_A_DSC_Mag' TIME_SERIES 1 1 2 1
+  'ISEE_1_E_Dot0_A_DSC' ALL_SPACECRAFT
+  FALSE 0.0 0.0
+  FALSE 0.0 0.0
+  'Time' 'sec' LINEAR TRUE 0.0 86400.0
+  'IS1_E_Dot0_A_DSC_Mag' 'mV/m' LINEAR TRUE -10.0 10.0
+  'IS1_E_Dot0_A_DSC_Mag' SDT_MLSTYLE_COLOR TRUE FALSE 0.0 0.0 GRAPH_MODE_LINE 0 0 TRUE 10.0 NO_ERROR_BARS 0 0 2 0
+  'ISEE_1_E_Dot0_A_DSC' 0 0 0
+  'ISEE_1_E_Dot0_A_DSC' 4 0 0
+  }
+
+
+************************************************************************
+
+
+
+@2 { PlotQuantityDescription
+   'EBlock ISE_E_003_Spin_P' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock ISE_040_E' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }
+
+@2 { PlotQuantityDescription
+   'EBlock ISEE_Science' BLOCK 0 0 0 0
+   FALSE 0.0 0.0
+   FALSE 0.0 0.0
+   }

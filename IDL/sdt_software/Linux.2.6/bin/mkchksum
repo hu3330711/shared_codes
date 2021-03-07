@@ -1,0 +1,25 @@
+#!/usr/bin/sh
+#
+#	mkchksum
+#	@(#)mkchksum	1.1 04/25/94
+#
+#	Compute checksums of all files in the a specified directory
+#	leaving results in a CHECKSUMS file.
+#
+#	Usage:
+#		mkchksum <directory>
+#	(or)
+#		cd <directory>
+#		mkchksum
+#
+
+SUM=/usr/bin/sum
+
+TARGET=$1
+
+if [ "x$TARGET" != "x" ] ; then
+	cd $TARGET
+fi
+
+/bin/rm -f CHECKSUMS
+find . ! -type d ! -name CHECKSUMS -exec $SUM {} \; |sort +2 > CHECKSUMS

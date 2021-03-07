@@ -1,0 +1,411 @@
+#!/usr/bin/ksh
+# openside_intercept - Updated intercept for openside operation
+# Update History:
+#		11/15/05 - Let there be scripting
+#
+WORKSPACE=integration; export WORKSPACE
+CONFIGPATH=/disks/fast/software/config
+. $CONFIGPATH/archive_config
+export CONFIGPATH
+
+## Begin the real work
+#
+	echo "$$:" >> $LOGFILE
+	echo "$$:-----** new_intercept run on $(date) **-----" >> $LOGFILE
+
+## Check for lock file indicating process is already running
+#
+	if [[ -a $INTERCEPTLOCK ]] ; then
+		echo "$$:" >> $LOGFILE
+		echo "$$: A process is already running. Quitting.." >> $LOGFILE
+		exit 0
+	fi
+	echo $$ > $INTERCEPTLOCK
+
+## Check the bdps directory for sessions to process
+#
+	ls -1 $BDPSPRODUCTS/*log |awk -F. '{print $1}' > /tmp/bdps_sessions$$
+
+## Process each session found
+#
+	while [[ -s /tmp/bdps_sessions$$ ]]
+	do
+		session=$(head -1 /tmp/bdps_sessions$$)
+		echo "$$:" >> $LOGFILE
+		echo "$$: Processing session $session" >> $LOGFILE
+		sessionlog=$session.log
+
+		## Move session to working directory
+		#
+			mv $session $LZPSESSIONDIR
+			session=$(basename $session)
+			mv $sessionlog $LZPSESSIONDIR/$session
+			echo "$$:" >> $LOGFILE
+			echo "$$: Moved $session to $LZPSESSIONDIR" >> $LOGFILE
+
+		## Check if session has already been used
+		## and rename if necessary.
+		#
+		###START RENAME PROCESS###
+		#
+			HOLDFILE=$WORKFILEDIR/holdfile
+			checkhold=$(grep $session $HOLDFILE)	
+			if [[ $checkhold != "" ]]
+			then
+				echo $$: Duplicate session name received  >> $LOGFILE
+				echo $$: $session will be renamed  >> $LOGFILE
+				#
+				# Create unique name for data session file
+				# First create search strings
+				#
+					pared=${session#*_*_}
+					station=${pared%%_*}
+					string=${station%-*}
+					change=${station#*-}
+					orb=${pared#*_}
+					orbit=${orb%_*}
+					letter=""
+				#
+				# If antenna DSS-77 was used at Wallops, find a name
+				# that hasn't been used.
+				#
+					if [[ $change = 7[7-9] ]]; then
+		   			ant=76
+		   			while [[ -z $letter ]] && (( $ant <= 79 )) ; do
+		      		let ant=$ant+1
+		      		if [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_t) ]] ; then
+			 					letter=t
+		      		elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_r) ]] ; then
+			 					letter=r
+		      		elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_p) ]] ; then
+			 					letter=p
+		      		fi
+		   			done
+					fi
+				#
+				# Find name for antennas other
+				# than 77 at Wallops.
+				#
+					# Initialize variables
+					links=0 
+					recht=0
+					ant=0
+	
+					# Set the two key letters of the station for GN-??E types
+					if [[ $string = GN ]]; then
+		  			twol=${change%?}
+						# Set the array for GN-??E types
+		  			set -A alph Z Y X W V U T S R Q P O N M L K J I H G F E D C B A
+					fi  
+
+					# Set the range of names 
+					case $change in
+						2?) 		links=30
+										recht=21 ;;
+						7[5-6]) links=77
+										recht=76 ;;
+						7[0-4]) links=75
+										recht=31 ;;
+						8[0-2]) links=83
+										recht=81 ;;
+						9?) 		links=100
+										recht=89 ;;
+						[A-Z][A-Z]?)	links=22
+										recht=1 ;;
+					esac
+
+					if [[ -z $letter ]] && (( $links != 0 )) ; then
+		   			while [[ -z $letter ]] && (( $links >= $recht )) ; do
+			 				let links=$links-1
+							echo links=$links
+			 				# Allow for conversion to string
+			 				if [[ $string = GN ]]; then
+			    			ant=$twol${alph[$links]}
+			 				elif [[ $string = DSS ]]; then
+			    			ant=$links
+								echo ant=$ant
+			 				else
+			    			echo $$:!!! Unknown station name!  !!! >> $LOGFILE
+			    			let links=$recht-1
+			 				fi
+	       			if [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_t) ]] ; then
+								letter=t
+		        	elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_r) ]] ; then
+			        	letter=r
+			 				elif [[ -z $(grep $string-$ant $HOLDFILE | grep $orbit\_p) ]] ; then
+			        	letter=p
+		        	fi
+							echo letter=$letter
+		   			done
+	       	fi
+				#
+				# If no good name has been found, save the data
+	      # to hold and send an error message.
+				#
+	      	if [[ -z $letter ]] ; then
+	        	echo $$:!!!!! There are no available names!!!! >> $LOGFILE
+ 		  			echo $$:!!!! Session $session copied to $HOLDDIR !!!! >> $LOGFILE
+		  			printf "%s\n" "Subject: Archive System message" \
+		  							"script : $0" \
+		  							"$session can't be renamed." \
+		  							"!!!! Session $session copied to $HOLDDIR !!!!" \
+		  							"Process ID: $$" |
+		  			mail $ARCHIVEMASTER
+		  			mv $LZPSESSIONDIR/$session $HOLDDIR
+						rm $INTERCEPTLOCK
+		  			exit 0
+	      	fi
+				#
+				# Rename the data files and directory
+				#
+					mv $LZPSESSIONDIR/$session $LZPSESSIONDIR/fast_lzp_$string-$ant\_$orbit\_$letter
+        	session=fast_lzp_$string-$ant\_$orbit\_$letter
+					echo $$: >> $LOGFILE
+					echo $$: Data session renamed to $session   >> $LOGFILE
+					cd $LZPSESSIONDIR/$session
+					ls -1 fast* > /tmp/files$$
+					while [[ -s /tmp/files$$ ]]
+					do
+		    		this=$(head -1 /tmp/files$$)
+		    		new=$(echo $this | awk -F_ 'NF == 6 {printf "%s_%s_%s-%s_%s_%s_%s",$1,$2,string,ant,$4,letter,$6} NF == 5 {printf "%s_%s_%s-%s_%s_%s.log",$1,$2,string,ant,$4,letter}' string=$string ant=$ant letter=$letter)
+		    		mv $this $new
+		    		sed '1d' /tmp/files$$ > /tmp/FILES$$
+		    		mv /tmp/FILES$$ /tmp/files$$
+       		done
+	     		renamed=1
+			fi	
+		##
+		## END RENAME PROCESS ##
+		##
+		
+		## Add session name to holdfile (here and on backup/DANET machines)
+		#
+			print $LZPSESSIONDIR/$session >> $HOLDFILE
+	
+		## Set some old variables that will be used by subsequent
+		## programs
+		#
+			lzpdir=$LZPSESSIONDIR
+			target=$session
+			export lzpdir target
+
+		## Run FastCount and then check error status
+		#
+		echo $$: ---- FastCount run on $(date) ---- >> $LOGFILE
+		cd $LOGDIR
+		$FASTBIN/FastCount DA InDir=$LZPSESSIONDIR/$session OutDir=$LZPSESSIONDIR/$session \
+			>> $LOGFILE 2>&1
+		estatus=$?
+		if (( $estatus < 0 )) # Irrecoverable error
+		then
+			echo $$:!!!! FastCount failed, quitting !!!! >> $LOGFILE
+			printf "%s\n" "Subject: Archive System message" \
+		              	"script : $0" \
+			      	"FastCount returns negative error status." \
+		              	"!!!! FastCount failed, quitting !!!!" \
+			      	"Process ID: $$" |
+			mail $ARCHIVEMASTER
+	
+			mv errfastcnt errfastcnt.${session}
+			echo $$: See errfastcnt.${session} file  >> $LOGFILE
+			mv outfastcnt outfastcnt.${session}
+			echo $$: See outfastcnt.${session} file >> $LOGFILE
+			rm $INTERCEPTLOCK
+			exit 0
+		elif (( $? > 0 )) # Recoverable error
+		then
+			echo "$$:!!!! FastCount: Discrepancy in LZP Directory! exitcode $estatus !!!!" >>$LOGFILE
+			mv errfastcnt errfastcnt.${session}
+			echo $$: ---- See errfastcnt.${session} file  >> $LOGFILE
+			mv outfastcnt outfastcnt.${session}
+			echo $$: See outfastcnt.${session} file >> $LOGFILE
+		elif (( $(ls -go errfastcnt | awk '{print $3}') != 0 ))
+		then
+			mv errfastcnt errfastcnt.${session}
+			echo $$: ---- See errfastcnt.${session} file  >> $LOGFILE
+			mv outfastcnt outfastcnt.${session}
+			echo $$: See outfastcnt.${session} file >> $LOGFILE
+		fi
+	
+		## Produce Engineering Summary Plots on current data session.
+		#
+			# First register SDT lockfile
+    	while [[ -a $SCIPLOTLOCK ]]
+    	do
+				echo $$: sdt sleeping 60 for $(cat $SCIPLOTLOCK) >>$LOGFILE
+      	sleep 60
+    	done
+    	echo $$ > $SDTLOCK
+	
+			# Construct name of PS file(s) to be created by sdt_batch
+			gndstn_junk=${session#*_*_}
+			gndstn=${gndstn_junk%_*_*}
+			orbit_junk=${session#*_*_*_orbit}
+			orbit=${orbit_junk%_*}
+			psname="${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}"
+			export psname
+		
+			echo $$: >> $LOGFILE
+			echo $$: ---- sdt_batch run on $(date) ---- >> $LOGFILE
+			echo $$:  Begin making housekeeping plots.... >> $LOGFILE
+			$FASTBIN/cleanup > /dev/null 2>&1
+			$FASTBIN/sdt_batch   $FASTSW/batchjobs/HKSurvey.batch 2>&1 |
+	    	nawk -v "prcid=$$" '{printf "%s: %s\n", prcid, $0}' >> $LOGFILE
+			echo $$:  ....housekeeping plots finished >> $LOGFILE
+		
+			# Do PS-->GIF and copy to juneau while altering filenames
+			if [ -a ${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}* ] ; then
+	    	psfiles=`ls -1 ${WWWENGRTEMP}/FASTHK_${gndstn}_${orbit}*`
+			else
+	    	echo $$:!!!! No Engineering plots generated !!!! >> $LOGFILE
+	    	printf "%s\n" "Subject: Archive System message" \
+            	"script : $0" \
+	    	"!!!! No Engineering plots generated !!!!" \
+	    	"Target Session: $session" \
+	    	"Process ID: $$" |
+	    	mail $ARCHIVEMASTER
+			fi
+	   	 
+			typeset -i made_eng_dir=0 # flag tells if remote eng. dir created
+    	for ps in $psfiles  
+			do
+    		page=${ps#*.page}
+      	case $page in
+      		1 ) datastr='cvs' ;;
+      		2 ) datastr='tmp' ;;
+      		3 ) datastr='acs' ;;
+      		4 ) datastr='fld' ;;
+      		5 ) datastr='esa' ;;
+      		6 ) datastr='tms' ;;
+      	esac
+	
+				# Convert to GIF format and copy to DANET if successful
+    		outgif=${ps%%.*}_${datastr}.gif
+    		/usr/local/bin/ps2gif ${ps} ${outgif} > /dev/null 2>&1
+				if [[ -s ${outgif} ]] ; then
+					if (( ! made_eng_dir )) ; then
+						mkdir ${WWWENGR}/${orbit} > /dev/null 2>&1
+						made_eng_dir=1
+		  		fi
+		  		cp ${outgif} ${WWWENGR}/${orbit}/$(basename $outgif)
+				else
+					echo $$:!!!! Engineering GIF failed: ${outgif} !!!! >> $LOGFILE
+				fi	
+				rm -f ${ps} ${outgif}
+			done
+	
+		## Execute the AttgenBatch program tp generate Attitude data files.
+		## Set $ATTSTAGEFORUCLA here or In the $FAST_CONFIG/archive_config file.
+		## Set $ATTRESFORUCLA here or In the $FAST_CONFIG/archive_config file.
+		##
+		##  ATTSTAGEFORUCLA="/disks/fast/almanac/attitude/stage" [Juneau Dirs]
+		##  ATTPREFORUCLA="/disks/cdstudio/att"	
+		##
+		##  ATTSTAGEFORUCLA="/fast_data/b/ucla/scratch" 		[FINET Dir]
+		##  ATTPREFORUCLA="/fast_data/b/ucla/att"	
+		#
+			$FASTBIN/cleanup > /dev/null 2>&1
+			echo $$: >> $LOGFILE
+			echo $$: ---- sdt_batch run on $(date) ---- >> $LOGFILE
+			echo $$:  Begin processing attitude data.... >> $LOGFILE
+    	$FASTBIN/sdt_batch   $FASTSW/batchjobs/AttgenBatch.batch 2>&1 |
+	    	nawk -v "prcid=$$" '{printf "%s: %s\n", prcid, $0}'  >> $LOGFILE
+			echo $$:  ....attitude data finished >> $LOGFILE
+	
+			mv $ATTSTAGEFORUCLA/$target /disks/fast/almanac/attitude/stage/$target
+	
+		## Remove the SDT lock file
+		#
+    	rm $SDTLOCK
+	
+		## Check to see if there's enough data for a CD
+		## and make a CD if there is.
+		#
+			currentdirsize=$(/usr/local/bin/dirusage $LZPSESSIONDIR | awk '{print $1}')
+			if (( $currentdirsize > $CDLIMIT ))
+			then
+				# Create CD directory
+				echo $$: >> $LOGFILE
+				echo $$: Enough data for CD: Current size = $currentdirsize >> $LOGFILE
+				echo $$: processing........................ >> $LOGFILE
+				cdnumber=$(cat $WORKFILEDIR/cdnumber)
+				cdorbit=$orbit
+				cdname=FAST${cdnumber}_ORBIT${cdorbit}
+				echo $$: New CD is $CDHOME/$cdname >> $LOGFILE
+				mkdir -p $CDHOME/$cdname/lzp
+				mkdir -p $CDHOME/$cdname/ogsarch
+				ogsarchdirs=$(ls -1 $OGSARCHOPEN)
+				echo $$: >> $LOGFILE
+				echo $$: Checking for OGS archive directories...... >> $LOGFILE
+				for ogsarchdir in $ogsarchdirs
+				do
+					echo $$: ....moving $OGSARCHOPEN/$ogsarchdir to >> $LOGFILE
+					echo $$: ....$CDHOME/$cdname/ogsarch >> $LOGFILE
+					mv $OGSARCHOPEN/$ogsarchdir $CDHOME/$cdname/ogsarch
+				done 
+				cdsize=$(/usr/local/bin/dirusage $CDHOME/$cdname | awk '{print $1}')
+				# Make a listing of sessions to be moved
+				session_list=$(ls -1 $LZPSESSIONDIR) 
+				for current_session in $session_list
+				do
+					mv $LZPSESSIONDIR/$current_session $CDHOME/$cdname/lzp
+					echo $$: Moving $current_session to $CDHOME/$cdname >> $LOGFILE
+					cdsize=$(/usr/local/bin/dirusage $CDHOME/$cdname | awk '{print $1}')
+					if (( $cdsize > $CDLIMIT ))
+					then
+						echo $$: >> $LOGFILE
+						echo $$: CD Size Limit reached >> $LOGFILE
+						# First move session back, then start moving individual files
+						# from that session
+						mv $CDHOME/$cdname/lzp/$current_session $LZPSESSIONDIR
+						mkdir $CDHOME/$cdname/lzp/$current_session
+						mv $LZPSESSIONDIR/$current_session/$current_session.cnt \
+									$CDHOME/$cdname/lzp/$current_session
+						apid_file_list=$(ls -1 $LZPSESSIONDIR/$current_session)
+						for apid_file in $apid_file_list
+						do
+							mv $LZPSESSIONDIR/$current_session/$apid_file \
+									$CDHOME/$cdname/lzp/$current_session
+							echo $$: Cannot move all of $current_session..... >> $LOGFILE
+							echo $$: ...Moving $current_session/$apid_file to $CDHOME/$cdname >> $LOGFILE
+							cdsize=$(/usr/local/bin/dirusage $CDHOME/$cdname | awk '{print $1}')
+							if (( $cdsize > $CDLIMIT ))
+							then
+								echo $$: ...CD limit reached >> $LOGFILE
+								echo $$: ...Moving $current_session/$apid_file back >> $LOGFILE
+								mv $CDHOME/$cdname/lzp/$current_session/$apid_file \
+										$LZPSESSIONDIR/$current_session
+								echo $cdname > $LZPSESSIONDIR/$current_session/split
+								# Update CD number
+								cdnumber_update=$(( $cdnumber + 1 ))	
+								echo $cdnumber_update > $WORKFILEDIR/cdnumber
+								## Get CD name and create a file on DANET which
+								## will be used to run the CD processing on that system
+								#
+								echo $$:  >> $LOGFILE
+								echo $$: Sending signal to start dbupdate and sciplot >> $LOGFILE
+								echo $cdname > /tmp/$cdname
+								cp /tmp/$cdname $FINET_TRANSFER
+								rm /tmp/$cdname
+								break 2
+							fi
+						done
+					fi
+				done
+				# Update CD number
+				cdnumber_update=$(( $cdnumber + 1 ))	
+				echo $cdnumber_update > $WORKFILEDIR/cdnumber
+				echo $$:  >> $LOGFILE
+				echo $$: Sending signal to start dbupdate and sciplot >> $LOGFILE
+				echo $cdname > /tmp/$cdname
+				cp /tmp/$cdname $FINET_TRANSFER
+				rm /tmp/$cdname
+			fi
+		sed '1d' /tmp/bdps_sessions$$ > /tmp/BDPS_SESSION$$
+		mv /tmp/BDPS_SESSION$$ /tmp/bdps_sessions$$
+	done
+	rm /tmp/bdps_sessions$$
+	rm $INTERCEPTLOCK
+	echo "$$:" >> $LOGFILE
+	echo "$$:-----** new_intercept finished at $(date) **-----" >> $LOGFILE
+	exit 0

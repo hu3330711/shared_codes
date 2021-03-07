@@ -1,0 +1,265 @@
+#! /usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#   temp_trend
+#
+# PURPOSE:
+#
+#   Produces IDL dat files for use in temperature trending.
+#   Copies necessary data from the jukeboxes.
+#   Calls sdt_batch to run an IDL batch job.
+#
+# POSITIONAL PARAMETERS:
+#
+#   YEAR   4-digit year
+#   DOY1   Starting day-of-year.
+#   DOY2   (Optional) Ending day-of-year.
+#
+# ENVIRONMENT VARIABLES:
+#
+#   TT_OUTPUT_DIR -	Overrides the default output directory:
+#			/disks/juneau/scratch/LZPfiles/trend/temps/dat
+# CREATED:
+#
+#   1998/5/26
+#   By J.Rauchleiba
+#
+
+# Function doy2date
+# Given a year (yyyy) and a day-of-year (ddd),
+# returns a regular date (yyyy/mm/dd).
+
+function doy2date {
+    # Usage
+
+    if [[ ${#} != "2" ]] ; then
+	print "doy2date: Usage:  doy2date yyyy ddd"
+	exit 1
+    fi
+
+    # Function Argument Handling
+    
+    typeset -i yyyy=$1
+    typeset -i ddd=$2
+    if [[ ${#yyyy} != 4 || $ddd -gt 366 ]] ; then
+	print "doy2date: Arguments out of range:  yyyy=$yyyy  ddd=$ddd"
+	exit 1
+    fi
+
+    # Leap year check
+    # Set array containing number of days accumulated prior to each month
+
+    if ((yyyy%4 == 0 && (yyyy%100 != 0 || yyyy%400 == 0) )) ; then
+	set -A numdays 0 31 60 91 121 152 182 213 244 274 305 335 366
+    else
+	set -A numdays 0 31 59 90 120 151 181 212 243 273 304 334 365
+    fi
+
+    # Loop through months until "leftover days" less than number in following
+    # month.
+
+    typeset -i month=1
+    typeset -i ndays dom
+    while ((month <= 12)) ;do
+	ndays=${numdays[$((month-1))]}
+	dom=$(( ddd - ndays ))
+	if (( dom <= $(( ${numdays[$month]} - ndays )) )) ; then
+	    break
+	fi
+	let 'month=month+1'
+    done
+
+    # Output
+    
+    Date="$yyyy/$(printf '%02s' $month)/$(printf '%02s' $dom)"
+
+    return 0
+}
+
+# Function set_jb_host
+#
+# References system file Datamgr.conf to set jukebox host.
+# Variable 'jb_host' will be set to the machine name.
+# All other variables are local to this function.
+#
+# Options:
+#
+#  -m   Also set the variable 'jb_mount' to the jukebox mount point.
+#
+
+function set_jb_host {
+
+    # Declare local variables
+
+    typeset datamgr_conf
+
+    # Check FASTCONFIG
+    
+    if [[ -z $FASTCONFIG ]] ; then
+	print "Must set FASTCONFIG environment variable" 1>&2
+	return 1
+    fi
+
+    # Find the Datamgr.conf file
+
+    datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+    if [[ ! -r $datamgr_conf ]] ; then
+	print "Unable to read data manager config:
+	$FASTCONFIG/Datamgr/Datamgr.conf" 1>&2
+	return 1
+    fi
+
+    # Read the Jukebox Host
+
+    jb_host=$(nawk '
+    NF == 3 {
+        if ($1 == "set" && $2 == "JUKEBOX_HOST") print $3;
+    }' $datamgr_conf | tail -1)
+
+    if [[ -z "$jb_host" ]] ; then
+	print "Unable to determine jukebox host" 1>&2
+	return 1
+    fi
+
+    # Set jukebox mount point if desired
+
+    if [[ $1 = "-m" ]] ; then
+	shift 1
+	jb_mount=$(nawk '
+        NF == 3 {
+            if ($1 == "set" && $2 == "JUKEBOX_MOUNTPOINT") print $3;
+        }' $datamgr_conf | tail -1)
+
+	if [[ -z "$jb_mount" ]] ; then
+	    print "Error setting jukebox mount point" 1>&2
+	    return 1
+	fi
+    fi
+
+    return 0
+}
+
+
+# Argument Handling
+
+if [[ ${#} -lt 2 ]] ; then
+    print 'Usage:  temp_trend  yyyy doy1 [doy2]'
+    exit 1
+fi
+    
+yyyy=$1
+doy1=$2
+if [[ ${#} = "3" ]] ; then
+    doy2=$3
+else
+    doy2=$doy1
+fi
+
+# Environment setup
+
+if [[ -z $FASTCONFIG ]] ; then
+    print "Must set FASTCONFIG environment variable"
+    exit 1
+fi
+. $FASTCONFIG/archive_config
+IDL_PATH="$IDL_PATH:/home/rauch/idl/pro/temp_trend"
+
+host=$(uname -n)
+tmpdir=/tmp
+batchdir=/home/rauch/sdt/batch
+batchname=temp_trend.bat
+SdtBatchFile=$batchdir/$batchname
+output_dir=/disks/juneau/scratch/LZPfiles/trend/temps/dat
+[[ -n $TT_OUTPUT_DIR ]] && output_dir=$TT_OUTPUT_DIR
+output_filename="$(printf "trend_%04s_%03s_%03s_temp.dat" ${yyyy} ${doy1} ${doy2})"
+output_datafile=$output_dir/$output_filename
+apids="1081 1082 1083"
+
+# Following variables referenced by SDT or IDL batch files
+
+export DataDirectory=/disks/juneau/scratch/LZPfiles/trend/temps/lzp
+export files SdtStartDate SdtStartTime SdtEndDate SdtEndTime
+export output_datafile
+
+doy2date $yyyy $doy1
+SdtStartDate=$Date
+doy2date $yyyy $doy2
+SdtEndDate=$Date
+SdtStartTime="00:00:00"
+SdtEndTime="23:59:59"
+
+print "Epoch: $SdtStartDate $SdtStartTime $SdtEndDate $SdtEndTime"
+print "DataDirectory: $DataDirectory"
+
+# Confirm various settings
+
+if [[ ! -s $SdtBatchFile ]] ; then
+    print "Bad SDT batch file: $SdtBatchFile"
+    exit 1
+fi
+if [[ ! -w $output_dir ]] ; then
+    print "No write permission on CDF directory: $output_dir"
+    exit 1
+fi
+if [[ -z $apids ]] ; then
+    print "No apids requested"
+    exit 1
+fi
+if [[ ! -w $tmpdir ]] ; then
+    print "No write permission on temp directory: $tmpdir"
+    exit 1
+fi
+if [[ -z $DataDirectory ]] ; then
+    print "Data directory not set"
+    exit 1
+fi
+    
+# Copy the data from the jukeboxes
+
+if ! set_jb_host ; then
+    print "Error setting jukebox host"
+    exit 1
+fi
+if [[ "$host" = "$jb_host" ]] ; then
+    set -A file_array \
+    $($FASTBIN/get_apids -d $DataDirectory \
+	-s "'$SdtStartDate $SdtStartTime'"   \
+	-e "'$SdtEndDate $SdtEndTime'"  $apids)
+else
+    set -A file_array \
+    $(rsh -n $jb_host $FASTBIN/get_apids -d $DataDirectory \
+	  -s "'$SdtStartDate $SdtStartTime'"                  \
+	  -e "'$SdtEndDate $SdtEndTime'"  $apids)
+    if (($? != 0)) ; then
+	print "rsh command to get apid files failed"
+	exit 1
+    fi
+fi
+if [[ ${#file_array[*]} = "0" ]] ; then
+    print 'No data files retrieved'
+    exit 1
+fi
+files=${file_array[*]}
+print "Data Sessions: "
+print "$files" | tr ' ' '\n'
+    
+# Call sdt_batch
+
+$FASTBIN/cleanup
+print "sdt_batch begins $(date)"
+$FASTBIN/sdt_batch $SdtBatchFile
+print "sdt_batch ends $(date)"
+    
+# Cleanup the data files
+
+# print "Removing data sessions from $DataDirectory"
+#for session in $files ; do
+#    if [[ -w $DataDirectory/$session ]] ; then
+#	 print "Removing: $session"
+#	 rm -rf $DataDirectory/$session
+#    fi
+#done
+
+exit 0
+    

@@ -1,0 +1,127 @@
+#! /usr/bin/ksh
+#
+# romburn        Burns the contents of a directory onto a CD and makes
+#		 multiple copies. Registers lockfiles to avoid interference
+#                with the archive system.  Calls CD_GEN to premaster,
+#                download, and cut the first image.
+#
+# OPTIONS:
+#
+#   -p <PROJECT> Use PROJECT configuration for the Rimage CDR printer.
+#                PROJECT must have an entry in $LABELMAKER/rimage.cfg.
+#		 Default project is FAST.
+#
+#   -n <file>    Override where to store the name of the CD so it will be
+#                printed as a label.  It must match the fn_field in the
+#		 <PROJECT> section of the rimage.cfg file.
+#		 For FAST, default is $CDLABELNAME.
+#                For HESSI, default is $WORKDIR/hessicdlabels/cdname.
+#
+#   -l           Copy files and directories pointed to by symbolic links
+#                in the sub-tree.  This is helpful when the data structure
+#                is not readily premasterable, but moving the data is not
+#                desired. This option is simply passed to CD_GEN.
+#                By default, only the link itself is copied.
+#
+# ARGUMENTS:
+#
+#   CDNAME       The root directory and label name of the CD.
+#   SOURCE_DIR   The full path of the directory whose contents are to
+#                be put to CDROM.
+#   COPIES       The number of copies.  Default is one copy.
+#
+# CREATED:
+#
+#   DATE         April 1998
+#   BY           J. Rauchleiba
+#
+
+. /disks/fast/software/config/archive_config
+
+# Make sure user is running correctly
+
+if [[ $(uname -n) != $DANETHOST ]]; then
+    print "romburn must be run on $DANETHOST" 1>&2
+    exit 1
+fi
+if [[ -n $USER && $USER != "lzp" && $USER != "root" ]] ; then
+    print "romburn must be run by user lzp" 1>&2
+    exit 1
+fi
+
+# Option Handling
+
+project="FAST"			# Default project
+cdlabelfile=$CDLABELNAME	# Default CD label
+while getopts ":lp:n:" option ; do
+    case $option in
+       l ) linkopt="-l" ;;
+       p ) project="$OPTARG"
+	   if [[ $project = "HESSI" || $project = "HESSIENG" || $project = "HESSISCI" ]]; then
+	       cdlabelfile=$WORKDIR/hessicdlabels/cdname
+	   fi ;;
+       n ) cdlabelfile="$OPTARG" ;;
+      \? ) echo "Illegal option: $option" 1>&2
+	   exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+# Check existence of CD label file
+
+if [[ ! -a $cdlabelfile ]]; then
+    echo "CD label file does not exist: $cdlabelfile" 1>&2
+    exit 1
+fi
+
+# Do not collide with premaster or cutcd
+# Check for both lock files at once
+
+while [[ -a $PREMASTERLOCK || -a $CUTCDLOCK ]]; do
+    [[ -a $PREMASTERLOCK ]] && echo romburn sleeping 900 for $(cat $PREMASTERLOCK) 1>&2
+    [[ -a $CUTCDLOCK ]] && echo romburn sleeping 900 for $(cat $CUTCDLOCK) 1>&2
+    sleep 900
+done
+
+# Set trap to remove lockfiles upon EXIT
+
+trap "rm -f $PREMASTERLOCK $CUTCDLOCK" EXIT
+
+# Create both lock files (almost) simultaneously
+
+echo $$ | tee $PREMASTERLOCK $CUTCDLOCK >/dev/null
+
+# Create label and load it to the printer
+
+echo $1 > $cdlabelfile
+$LABELMAKER/printer.sh $project
+
+# Premaster the image and cut a CD
+
+$DANETBIN/CD_GEN $linkopt $1 $2 ; cdgenstat=$?
+if [[ $cdgenstat = 1 ]] ; then
+    print "CD_GEN returned error, aborting!" 1>&2
+    exit 1
+fi
+
+typeset -i copies=${3:-'1'}
+typeset -i c=1
+while ((c <= $((copies-1)) )) ; do
+    print "Cutting copy $((c+1))/$copies of $1"
+    if mt -f $CDSTUDIO fsf ; then
+	$DANETBIN/cdcutmon
+    else
+	print "Error executing cut, aborting!" 1>&2
+	exit 1
+    fi
+    let c=$c+1
+done
+
+# Remove the lockfiles
+
+rm $PREMASTERLOCK $CUTCDLOCK
+
+# Reset trap and exit
+
+trap - EXIT
+exit 0

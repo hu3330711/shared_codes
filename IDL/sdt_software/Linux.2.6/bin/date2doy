@@ -1,0 +1,74 @@
+#! /usr/bin/ksh
+#
+# KORN SHELL SCRIPT:
+#
+# date2doy
+#
+# PURPOSE:
+#
+# Converts various date formats to day-of-year, seconds.
+# Inputs can be any of the forms:
+#    yyyy/mm/dd/hh:mm:ss
+#    yyyy-mm-dd/hh:mm:ss
+#    yyyy/mm/dd
+#    yyyy-mm-dd
+#
+# OPTIONS:
+#
+#    -s   Convert the time of day into seconds and print
+#         the total on the same output line as the day-of-year.
+#         Do not use this option with inputs of the two latter formats.
+#
+# By J. Rauchleiba
+# Oct 5 1998
+#
+
+# Parse command line
+
+if [[ ${#} > 1 ]]; then
+    input=$2
+    prsec=1
+else
+    input=$1
+    prsec=0
+fi
+
+# Parse the input date
+
+date=$(echo $input | tr '-' '/')
+yyyy=${date%%/*}
+mo_junk=${date#*/}
+mo=${mo_junk%%/*}
+dd_junk=${date#*/*/}
+dd=${dd_junk%%/*}
+time=${date##*/}
+
+# Determine if leap year
+
+if ((yyyy%4 == 0 && (yyyy%100 != 0 || yyyy%400 == 0) )) ; then
+    set -A numdays 0 31 60 91 121 152 182 213 244 274 305 335
+else
+    set -A numdays 0 31 59 90 120 151 181 212 243 273 304 334
+fi
+
+# Calculate day of year
+
+doy=$(( ${numdays[$((mo-1))]} + dd ))
+
+# Calculate seconds if desired
+
+if ((prsec)) ; then
+    hh=${time%%:*}
+    mm_junk=${time#*:}
+    mm=${mm_junk%:*}
+    ss=${time##*:}
+    secs=$(print "${hh}*3600 + ${mm}*60 + ${ss}" | bc -l)
+else
+    secs=
+fi
+
+print $doy $secs
+
+exit 0
+
+

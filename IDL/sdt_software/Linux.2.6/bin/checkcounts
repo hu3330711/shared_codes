@@ -1,0 +1,64 @@
+#! /usr/bin/ksh
+#
+# checkcounts.ksh
+#
+# Check the checkcounts file for cd's that have not been
+# processed.
+# 
+#
+# Tim Quinn
+# 29 November 2001
+#
+
+# Execute the configuration file which sets environment 
+# variables
+#
+. /disks/fast/software/config/archive_config
+
+# Make a logfile for information transfer
+#
+CHKCOUNTLOG=/tmp/chkcountlog$$
+
+echo "$$:"							>> $CHKCOUNTLOG
+echo "$$: Starting gap check of $CHECKCOUNTS at $(date)" 	>> $CHKCOUNTLOG
+echo "$$:"							>> $CHKCOUNTLOG
+
+# Cat the checkcounts file for CD numbers, sort, and dump to
+# a file
+#
+cat $CHECKCOUNTS | sort | awk -F/ '{print substr($1,5,4)}' > /var/tmp/checkcounts$$
+
+# Now sequence through the file checking for gaps
+#
+integer checkstatus=0
+while [[ -s /var/tmp/checkcounts$$ ]] 
+do
+	this=$(head -1 /var/tmp/checkcounts$$)
+	sed '1d' /var/tmp/checkcounts$$ > /var/tmp/CHECKCOUNTS$$
+	mv /var/tmp/CHECKCOUNTS$$ /var/tmp/checkcounts$$
+	that=$(head -1 /var/tmp/checkcounts$$)
+	integer diff=$(( $that - $this ))
+	if (( $diff > 1 )) 
+	then
+		integer checkstatus=1
+		echo $$: 					>> $CHKCOUNTLOG
+		echo $$: Gap found between $this and $that	>> $CHKCOUNTLOG
+		echo $$:					>> $CHKCOUNTLOG
+	fi
+done
+
+if [[ $checkstatus != 0 ]];
+then
+	printf "%s\n" "Subject: FAST Database Gap Detected" \
+		      "Contents of log file are listed below" \
+		      ""	\
+		      "$(cat $CHKCOUNTLOG)" \
+	| mail teq@ssl.berkeley.edu
+else
+		echo $$: No gaps detected			>> $CHKCOUNTLOG
+		echo $$:					>> $CHKCOUNTLOG
+
+fi	
+rm /var/tmp/checkcounts$$
+
+exit 0

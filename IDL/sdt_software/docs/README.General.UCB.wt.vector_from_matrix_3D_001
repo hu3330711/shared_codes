@@ -1,0 +1,240 @@
+************************************************************************
+
+   README.General.UCB.wt.vector_from_matrix_3D_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.vector_from_matrix_3D_001
+
+************************************************************************
+
+   Extract vector from matrix in 3D.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.vector_from_matrix_3D_001	1.1    05/25/01    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module extracts a row or a column from a matrix in
+       3D.
+
+
+
+
+
+    2) There must be the following SDT inputs:
+
+
+
+            1) The matrix from which to extract the vector.
+
+
+
+
+
+    3) An output data point is produced for each input matrix.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input matrix.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for extracting row or column.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Extract row.
+
+                    2  =  Extract column.
+
+
+
+            3) Number of the row or column to be extracted.
+
+
+               Int.
+
+
+               Must be  >=  1  and  <=  3.
+
+
+               The first row (or column) is designated by 1.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 9 input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following SDT input data quantities:
+
+
+
+            1) The matrix from which to extract the vector.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) Component 1 of the output vector.
+
+
+               Float.
+
+
+
+            3) Component 2 of the output vector.
+
+
+               Float.
+
+
+
+            4) Component 3 of the output vector.
+
+
+               Float.

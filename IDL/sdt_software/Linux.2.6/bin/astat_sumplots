@@ -1,0 +1,109 @@
+#!/usr/bin/ksh
+#
+# KSH SCRIPT:	astat_sumplots	
+#	
+# PURPOSE:	Display information about the archive system.
+#
+# INPUTS:       none
+#
+#
+
+# Environment setup
+
+. /disks/fast/software/config/archive_config
+
+# Cleanup function
+
+function quitearly {
+	if [ -a /tmp/astattmp ] ; then
+		rm /tmp/astattmp
+	fi
+	print
+	exit 0
+}
+
+# Set trap for premature exit
+
+trap quitearly EXIT
+
+# Generate data for display
+#
+cd $CDF_DIR/ees
+latest_info_ees=$(ls -l | sort -t_ -n -k 4|tail -1)
+orbit_ees=$(echo $latest_info_ees |awk '{print substr($9,11,5)}')
+date_time_ees=$(echo $latest_info_ees |awk '{print $6,$7,$8}')
+orb_time_ees=$($DANETBIN/orbittime $orbit_ees)
+orb_start_ees=$(echo $orb_time_ees |awk '{print $1}')
+orb_stop_ees=$(echo $orb_time_ees |awk '{print $2}')
+
+cd $CDF_DIR/ies
+latest_info_ies=$(ls -l | sort -t_ -n -k 4|tail -1)
+orbit_ies=$(echo $latest_info_ies |awk '{print substr($9,11,5)}')
+date_time_ies=$(echo $latest_info_ies |awk '{print $6,$7,$8}')
+orb_time_ies=$($DANETBIN/orbittime $orbit_ies)
+orb_start_ies=$(echo $orb_time_ies |awk '{print $1}')
+orb_stop_ies=$(echo $orb_time_ies |awk '{print $2}')
+
+cd $CDF_DIR/tms
+latest_info_tms=$(ls -l | sort -t_ -n -k 4|tail -1)
+orbit_tms=$(echo $latest_info_tms |awk '{print substr($9,11,5)}')
+date_time_tms=$(echo $latest_info_tms |awk '{print $6,$7,$8}')
+orb_time_tms=$($DANETBIN/orbittime $orbit_tms)
+orb_start_tms=$(echo $orb_time_tms |awk '{print $1}')
+orb_stop_tms=$(echo $orb_time_tms |awk '{print $2}')
+
+cd $CDF_DIR/acf
+latest_info_acf=$(ls -l | sort -t_ -n -k 4|tail -1)
+orbit_acf=$(echo $latest_info_acf |awk '{print substr($9,11,5)}')
+date_time_acf=$(echo $latest_info_acf |awk '{print $6,$7,$8}')
+orb_time_acf=$($DANETBIN/orbittime $orbit_acf)
+orb_start_acf=$(echo $orb_time_acf |awk '{print $1}')
+orb_stop_acf=$(echo $orb_time_acf |awk '{print $2}')
+
+cd $CDF_DIR/dcf
+latest_info_dcf=$(ls -l | sort -t_ -n -k 4|tail -1)
+orbit_dcf=$(echo $latest_info_dcf |awk '{print substr($9,11,5)}')
+date_time_dcf=$(echo $latest_info_dcf |awk '{print $6,$7,$8}')
+orb_time_dcf=$($DANETBIN/orbittime $orbit_dcf)
+orb_start_dcf=$(echo $orb_time_dcf |awk '{print $1}')
+orb_stop_dcf=$(echo $orb_time_dcf |awk '{print $2}')
+
+
+# Report Header
+#
+printf '\n\t\t  >>>>> ARCHIVE SYSTEM STATUS REPORT <<<<<\n\t\t\t%s\n\n' "`date`"
+
+# Display the latest summary plot produced
+#
+printf "\nLatest Electron ESA Summary Plot Production Information\n=====================================================================\n"
+echo "The latest summary plot production occurred at --* $date_time_ees (Pacific)*--"
+echo "For orbit --* $orbit_ees *--"
+echo "Orbit start time (GMT) = $orb_start_ees"
+echo "Orbit stop time (GMT) = $orb_stop_ees"
+
+printf "\nLatest Ion ESA Summary Plot Production Information\n=====================================================================\n"
+echo "The latest summary plot production occurred at --* $date_time_ies (Pacific)*--"
+echo "For orbit --* $orbit_ies *--"
+echo "Orbit start time (GMT) = $orb_start_ies"
+echo "Orbit stop time (GMT) = $orb_stop_ies"
+
+printf "\nLatest Teams Summary Plot Production Information\n=====================================================================\n"
+echo "The latest summary plot production occurred at --* $date_time_tms (Pacific)*--"
+echo "For orbit --* $orbit_tms *--"
+echo "Orbit start time (GMT) = $orb_start_tms"
+echo "Orbit stop time (GMT) = $orb_stop_tms"
+
+printf "\nLatest AC Fields Summary Plot Production Information\n=====================================================================\n"
+echo "The latest summary plot production occurred at --* $date_time_acf (Pacific)*--"
+echo "For orbit --* $orbit_acf *--"
+echo "Orbit start time (GMT) = $orb_start_acf"
+echo "Orbit stop time (GMT) = $orb_stop_acf"
+
+printf "\nLatest DC Fields Summary Plot Production Information\n=====================================================================\n"
+echo "The latest summary plot production occurred at --* $date_time_dcf (Pacific)*--"
+echo "For orbit --* $orbit_dcf *--"
+echo "Orbit start time (GMT) = $orb_start_dcf"
+echo "Orbit stop time (GMT) = $orb_stop_dcf"
+
+
+exit 0

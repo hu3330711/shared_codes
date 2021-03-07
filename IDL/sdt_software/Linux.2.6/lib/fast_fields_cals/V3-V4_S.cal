@@ -1,0 +1,18 @@
+#  SCCS Id
+#  @(#)V3-V4_S.cal	1.1 04/15/96
+#
+# V3-V4_S.cal
+# REE 5/26/95
+E3-4_S			Data name.
+1    			Linear calibration.
+sec			x-axis units.
+mV/m			y-axis units.
+xx			z-axis units.
+16			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration table as of 6/7/95.
+0			Time in seconds.
+5.6			Offset.
+-2.759			Gain.
+

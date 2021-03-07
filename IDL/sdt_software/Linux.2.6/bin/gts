@@ -1,0 +1,502 @@
+#! /usr/bin/ksh
+#
+# KSH SCRIPT:
+#
+#   GTS (Generic Trending System)
+#
+# PURPOSE:
+#
+#   Generalized system for loading data into SDT, transfering it to IDL,
+#   and saving it in a format directly readable by IDL.
+#   Outputs one data file of arbitrary time length per call.
+#   Only works for FAST 2D time sequence data.
+#
+# OPTIONS:
+#
+#   -r     Remove data sessions copied from jukebox after use.
+#   -i     Include this option's argument as a filename passed to sdt_batch.
+#          This filename will augment the list already passed to sdt_batch.
+#          Use this option if a data session is accessible from some directory
+#          but not from the jukeboxes.  (Multiple uses are accepted.)
+#   -c     Argument is the configuration file for this project.
+#          Entries are of the form:  variablename=value
+#	   The file should set the following variables:
+#
+#          project       Name of project will be part of output filenames.
+#          output_dir    Directory in which to place output data files.
+#          DQIlist       List of Data Quantity Instances as shown by utility
+#                        showDQIs when data is loaded in SDT. (Exclude
+#                        orbit quantities.  Enclose space-separated
+#                        list in "".)
+#          DQIunits      Units of data quantities.  Must have one-to-one
+#                        correspondence with DQIlist.
+#          apids         Apids containing data quantities to load into SDT.
+#                        (Enclose space-separated list in "".)
+#          DataDirectory Directory to hold data sessions copied from jukeboxes.
+#          PlotConfig    Full path of SDT plotconfig file
+#                        (Do not include "UIcfg." prefix.)
+#          tmpdir        Directory to hold temporary files. Default is current.
+#          IDLpath       Path to IDL procs needed for this project.
+#                        (Optional, augments $IDL_PATH.)
+#          IDLbatch	 Optional, for debugging only.
+#
+# ENVIRONMENT VARIABLES:
+#
+#          The following environment variables take precedence over the
+#	   settings in the configuration file described above.
+#
+#	   GTS_PROJECT_NAME - same as "project"
+#	   GTS_OUTPUT_DIR   - same as "output_dir"
+#	   GTS_DQI_LIST	    - same as "DQIlist"
+#	   GTS_DQI_UNITS    - same as "DQIunits"
+#	   GTS_APID_LIST    - same as "apids"
+#	   GTS_DATA_DIR	    - same as "DataDirectory"
+#	   GTS_PLOT_CONFIG  - same as "PlotConfig"
+#	   GTS_TEMP_DIR	    - same as "tmpdir"
+#	   GTS_IDL_PATH	    - same as "IDLpath"
+#	   GTS_IDL_BATCH    - same as "IDLbatch"     
+#
+#
+# POSITIONAL PARAMETERS:
+#
+#   YEAR   4-digit year
+#   DOY1   Starting day-of-year.
+#   DOY2   (Optional) Ending day-of-year.
+#
+# CREATED:
+#
+#   1998/8/18
+#   By J.Rauchleiba
+##
+###########################################################################
+
+# Function writebatch
+# Writes an SDT batch file
+# Assumes fully variable Timespan line
+# Arguments: SdtBatchFileName DataDirectory PlotConfig IDLBatchProcedure
+
+function writebatch {
+    if ! touch $1 ; then
+	print "Unable to create SDT batch file: $1"
+	exit 1
+    fi
+    # Clobber any existing batch file of same name
+    {
+	printf 'BatchJob: "Generic Trending System"\n'
+	printf 'NoPlots:\n'
+	printf "DataDirectory: %s\n" "$2"
+	printf 'TimeSpan: { $files } $SdtStartDate $SdtStartTime $SdtEndDate $SdtEndTime\n'
+	printf "PlotConfigurationDir: %s\n" "$(dirname $3)"
+	printf "PlotConfigurationFile: %s\n" "$(basename $3)"
+	printf "IDL: %s\n" "$4"
+    } > $1
+    return 0
+}
+
+
+
+# function edit_template
+# Fills generic fields in IDL "get" template with actual parameters.
+# $1  Quoted, space-separated list of DQIs
+# $2  List of DQI units
+
+function edit_template {
+    # Declare local vars
+    typeset template q qty qtylist qty_name qty_NAME unit unitlist n_qty n_unit routine
+    # Argument processing
+    set -A qtylist $1
+    set -A unitlist $2
+    typeset -i n_qty=${#qtylist[*]}
+    typeset -i n_unit=${#unitlist[*]}
+    if (( n_qty != n_unit )) ; then
+	print "Units do not correspond to quantities"
+	print "Qties: ${qtylist[*]}"
+	print "Units: ${unitlist[*]}"
+	exit 1
+    fi
+    if (( n_qty == 0 )) ; then
+	print "No data quantities specified"
+	exit 1
+    fi
+    # The master template
+    template=$FASTHOME/idl/get_ts_from_sdt_template.pro
+    if [[ ! -r $template ]] ; then
+	print "Cannot read IDL template: $template"
+	exit 1
+    fi
+    # Loop through each file to be created
+    typeset -i q=0
+    while (( q < n_qty )) ; do
+	qty=${qtylist[$q]}
+	unit=${unitlist[$q]}             
+	typeset -l qty_name=$qty
+	typeset -u qty_NAME=$qty
+
+	# Retain original case in 'DataName' only
+
+	routine="get_fa_${qty_name}.pro"
+	
+	sed "
+	{
+	s/<_satellite_>/fa/g
+	s/<_inst_>/${qty_name}/g
+	s/<_yourDataName_>/${qty}/g
+	s/<_yourProject_>/FAST/g
+	s/<_unitsOfData_>/${unit}/g
+	s/<_unitsProcedure_>/UNITS_PROCEDURE/g
+	s/<_NumberOfDataComp_>/1/g
+	s/<_DepthOfEachComp_>/1/g
+	s/<_yourSatelliteCode_>/2001/g
+	}
+	/;.*DATA1.*<_Type_>/ {
+	    s/DATA1/${qty_name}/
+	    s/<_Type_>/FLOAT/
+	    s/,<_depth(0)_>//
+	    s/; Data component .//
+	}
+	/;.*DATA[23n]/ d
+	/^<_/ d
+	/CALIBRATED/ d
+	/calibrated/ d
+	/data1:[ 	]*dat.comp1/ s/data1/${qty_name}/
+	/data2:[ 	]*dat.comp/,/data20:[ 	]*dat.comp/ d
+	" $template > $tmpdir/$routine
+	let 'q=q+1'
+    done
+}
+
+
+# Function doy2date
+# Given a year (yyyy) and a day-of-year (ddd),
+# returns a regular date (yyyy/mm/dd).
+
+function doy2date {
+    # Usage
+
+    if [[ ${#} != "2" ]] ; then
+	print "doy2date: Usage:  doy2date yyyy ddd"
+	exit 1
+    fi
+
+    # Function Argument Handling
+    
+    typeset -i yyyy=$1
+    typeset -i ddd=$2
+    if [[ ${#yyyy} != 4 || $ddd -gt 366 ]] ; then
+	print "doy2date: Arguments out of range:  yyyy=$yyyy  ddd=$ddd"
+	exit 1
+    fi
+
+    # Leap year check
+    # Set array containing number of days accumulated prior to each month
+
+    if ((yyyy%4 == 0 && (yyyy%100 != 0 || yyyy%400 == 0) )) ; then
+	set -A numdays 0 31 60 91 121 152 182 213 244 274 305 335 366
+    else
+	set -A numdays 0 31 59 90 120 151 181 212 243 273 304 334 365
+    fi
+
+    # Loop through months until "leftover days" less than number in following
+    # month.
+
+    typeset -i month=1
+    typeset -i ndays dom
+    while ((month <= 12)) ;do
+	ndays=${numdays[$((month-1))]}
+	dom=$(( ddd - ndays ))
+	if (( dom <= $(( ${numdays[$month]} - ndays )) )) ; then
+	    break
+	fi
+	let 'month=month+1'
+    done
+
+    # Output
+    
+    Date="$yyyy/$(printf '%02s' $month)/$(printf '%02s' $dom)"
+
+    return 0
+}
+
+# Function set_jb_host
+#
+# References system file Datamgr.conf to set jukebox host.
+# Variable 'jb_host' will be set to the machine name.
+# All other variables are local to this function.
+#
+# Options:
+#
+#  -m   Also set the variable 'jb_mount' to the jukebox mount point.
+#
+
+function set_jb_host {
+
+    # Declare local variables
+
+    typeset datamgr_conf
+
+    # Check FASTCONFIG
+    
+    if [[ -z $FASTCONFIG ]] ; then
+	print "Must set FASTCONFIG environment variable" 1>&2
+	return 1
+    fi
+
+    # Find the Datamgr.conf file
+
+    datamgr_conf=$FASTCONFIG/Datamgr/Datamgr.conf
+    if [[ ! -r $datamgr_conf ]] ; then
+	print "Unable to read data manager config:
+	$FASTCONFIG/Datamgr/Datamgr.conf" 1>&2
+	return 1
+    fi
+
+    # Read the Jukebox Host
+
+    jb_host=$(nawk '
+    NF == 3 {
+        if ($1 == "set" && $2 == "JUKEBOX_HOST") print $3;
+    }' $datamgr_conf | tail -1)
+
+    if [[ -z "$jb_host" ]] ; then
+	print "Unable to determine jukebox host" 1>&2
+	return 1
+    fi
+
+    # Set jukebox mount point if desired
+
+    if [[ $1 = "-m" ]] ; then
+	shift 1
+	jb_mount=$(nawk '
+        NF == 3 {
+            if ($1 == "set" && $2 == "JUKEBOX_MOUNTPOINT") print $3;
+        }' $datamgr_conf | tail -1)
+
+	if [[ -z "$jb_mount" ]] ; then
+	    print "Error setting jukebox mount point" 1>&2
+	    return 1
+	fi
+    fi
+
+    return 0
+}
+
+
+# Argument Handling
+# set configuration file
+
+typeset -i inc=0
+typeset -i rm_sessions=0
+while getopts ":ri:c:" option ; do
+    case $option in
+       r ) rm_sessions=1 ;;
+       i ) includes[${inc}]=$OPTARG
+	   let 'inc=inc+1' ;;
+       c ) gtscfg=$OPTARG ;;
+      \? ) print 'Usage:  gts [-r] -c <configfile> yyyy doy1 [doy2]'
+	   exit 1 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+if [[ -z ${gtscfg} ]] ; then
+    print "Must supply config file using -c option."
+    exit 1
+fi
+if [[ ! -r ${gtscfg} ]] ; then
+    print "Cannot read config file: $gtscfg"
+    exit 1
+fi
+if [[ ${#} -lt 2 ]] ; then
+    print 'Usage:  gts [-r] -c <configfile> yyyy doy1 [doy2]'
+    exit 1
+fi
+
+# Timespan set
+
+yyyy=$1
+doy1=$2
+if [[ -n ${3} ]] ; then
+    doy2=$3
+else
+    doy2=$doy1
+fi
+
+# ENVIRONMENT SETUP
+
+if [[ -z $FASTCONFIG ]] ; then
+    print "Must set FASTCONFIG environment variable"
+    exit 1
+fi
+. $FASTCONFIG/archive_config
+host=$(uname -n)
+proc=$$
+tmpdir=${PWD}
+IDLbatch=$FASTHOME/idl/gts_batch.pro
+
+# Read configuration file
+
+. ${gtscfg}
+
+# Environment variables take precedence over config file settings
+
+[[ -n $GTS_PROJECT_NAME ]] && project=$GTS_PROJECT_NAME
+[[ -n $GTS_OUTPUT_DIR   ]] && output_dir=$GTS_OUTPUT_DIR
+[[ -n $GTS_DQI_LIST     ]] && DQIlist=$GTS_DQI_LIST
+[[ -n $GTS_DQI_UNITS    ]] && DQIunits=$GTS_DQI_UNITS
+[[ -n $GTS_APID_LIST    ]] && apids=$GTS_APID_LIST
+[[ -n $GTS_DATA_DIR     ]] && DataDirectory=$GTS_DATA_DIR
+[[ -n $GTS_PLOT_CONFIG  ]] && PlotConfig=$GTS_PLOT_CONFIG
+[[ -n $GTS_TEMP_DIR     ]] && tmpdir=$GTS_TEMP_DIR
+[[ -n $GTS_IDL_PATH     ]] && IDLpath=$GTS_IDL_PATH
+[[ -n $GTS_IDL_BATCH    ]] && IDLbatch=$GTS_IDL_BATCH
+
+# Verify and augment IDL path
+
+if [[ -n $IDLpath ]] ; then
+    if [[ ! -r $IDLpath ]] ; then
+	print "Cannot read IDL path: $IDLpath"
+	exit 1
+    fi
+    IDL_PATH="${IDL_PATH}:${IDLpath}:${tmpdir}"
+else
+    IDL_PATH="${IDL_PATH}:${tmpdir}"
+fi
+
+# Set output file name
+
+output_filename=$(printf "${project:-trend}_%04s_%03s_%03s.dat" ${yyyy} ${doy1} ${doy2})
+output_datafile=$output_dir/$output_filename
+
+# Following variables referenced by SDT or IDL batch files
+
+export DataDirectory files SdtStartDate SdtStartTime SdtEndDate SdtEndTime
+export DQIlist DQIunits output_datafile 
+
+doy2date $yyyy $doy1 # Defines "Date"
+SdtStartDate=$Date
+doy2date $yyyy $doy2 # Defines "Date"
+SdtEndDate=$Date
+SdtStartTime="00:00:00"
+SdtEndTime="23:59:59"
+
+#print "Epoch: $SdtStartDate $SdtStartTime $SdtEndDate $SdtEndTime"
+#print "DataDirectory: $DataDirectory"
+
+# Confirm various settings
+
+if [[ ! -w $output_dir ]] ; then
+    print "No write permission on output directory: $output_dir"
+    exit 1
+fi
+if [[ ! -w . ]] ; then
+    print "Cannot write to current working directory"
+    exit 1
+fi
+if [[ -z "$DQIlist" ]] ; then
+    print "No DQIs specified"
+    exit 1
+fi
+if [[ -z "$DQIunits" ]] ; then
+    print "No DQI units specified"
+    exit 1
+fi
+set -A DQIlist_arr $DQIlist
+set -A DQIunits_arr $DQIunits
+if [[ ${#DQIlist_arr[*]} != ${#DQIunits_arr[*]} ]] ; then
+    print "No one-to-one correspondence between DQIlist and DQIunits"
+    print "DQIlist: $DQIlist"
+    print "DQIunits: $DQIunits"
+    exit 1
+fi
+if [[ -z "$apids" ]] ; then
+    print "No apids requested"
+    exit 1
+fi
+if [[ ! -w $tmpdir ]] ; then
+    print "No write permission on temp directory: $tmpdir"
+    exit 1
+fi
+if [[ ! -r $DataDirectory ]] ; then
+    print "Cannot read data directory: $DataDirectory"
+    exit 1
+fi
+true_plotconfig="$(dirname $PlotConfig)/UIcfg.$(basename $PlotConfig)"
+if [[ ! -r $true_plotconfig ]] ; then
+    print "Cannot read SDT plot config: $true_plotconfig"
+    exit 1
+fi
+if [[ ! -r $IDLbatch ]] ; then
+    print "Cannot read IDL batch procedure: $IDLbatch"
+    exit 1
+fi
+    
+# Copy the data from the jukeboxes
+
+if ! set_jb_host ; then
+    print "Error setting jukebox host"
+    exit 1
+fi
+if [[ "$host" = "$jb_host" ]] ; then
+    set -A file_array \
+    $($FASTBIN/get_apids -d $DataDirectory \
+	-s "'$SdtStartDate $SdtStartTime'"   \
+	-e "'$SdtEndDate $SdtEndTime'"  $apids)
+else
+    set -A file_array \
+    $(rsh -n $jb_host $FASTBIN/get_apids -d $DataDirectory \
+	  -s "'$SdtStartDate $SdtStartTime'"                  \
+	  -e "'$SdtEndDate $SdtEndTime'"  $apids)
+    if (($? != 0)) ; then
+	print "rsh command to get apid files failed"
+	exit 1
+    fi
+fi
+
+# Set "files" variable for passing to sdt_batch through batchfile
+
+if [[ ${#file_array[*]} = "0" && ${#includes[*]} = "0" ]] ; then
+    print 'No data files retrieved or included'
+    exit 1
+fi
+if ((inc)); then
+    files="${file_array[*]} ${includes[*]}"
+else
+    files=${file_array[*]}    
+fi
+print "Data Sessions: "
+print "$files" | tr ' ' '\n'
+
+# Write the SDT batch file
+
+batchname=$tmpdir/SdtBatchFile${proc}.bat
+writebatch $batchname $DataDirectory $PlotConfig $IDLbatch
+
+# Generate the IDL get routines from template
+
+edit_template "$DQIlist" "$DQIunits"
+
+# Call sdt_batch
+
+$FASTBIN/cleanup
+print "sdt_batch begins $(date)"
+SECONDS=0
+$FASTBIN/sdt_batch $batchname
+print "sdt_batch ends $(date)"
+printf "Total execution time: %s min\n" $((SECONDS/60))
+    
+# Cleanup
+
+rm $batchname
+eval rm $tmpdir/get_fa_@($(print $DQIlist | tr ' [:upper:]' '|[:lower:]')).pro
+
+if ((rm_sessions)) ; then
+    print "Removing data sessions from $DataDirectory"
+    for session in $files ; do
+	if [[ -w $DataDirectory/$session ]] ; then
+	    print "Removing: $session"
+	    rm -rf $DataDirectory/$session
+	fi
+    done
+fi
+
+exit 0

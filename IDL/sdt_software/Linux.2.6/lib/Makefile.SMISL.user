@@ -1,0 +1,23 @@
+#
+#	Makefile
+#
+#	@(#)Makefile.SMISL.user	1.4, 06/19/95
+#
+#	Makefile for FAST science modules using
+#	Science Module Interface Secondary Layer (SMISL).
+#
+
+install: 
+
+
+LIBS = -L$(FASTLIB) -lSMISL -lsdtlib -lsciutil -lnsl -ldl -lm
+
+CCINCDIR = /usr/include
+
+CC = CC
+
+%: %.c $(FASTLIB)/libSMISL.a
+	$(CC) -I. -I$(CCINCDIR) -I$(FASTHOME)/include -c $@.c
+	$(SENTINEL) $(CC) $@.o $(LIBS) -o $@
+
+

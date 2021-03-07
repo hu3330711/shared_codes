@@ -1,0 +1,105 @@
+/* dlm.ah */
+
+/* For SCCS */
+#define SccsId_dlm_ah "@(#)dlm.ah	1.1, 11/14/92"
+
+typedef struct  DLMhead_ DLMhead;
+
+struct  DLMnode_
+   {
+      void     *data;           /* ptr to data           */
+      struct   DLMnode_ *prev;  /* ptr to previous node  */
+      struct   DLMnode_ *next;  /* ptr to next node      */
+      DLMhead  *list_id;        /* ptr to list this node belongs to */
+   } ;
+typedef struct  DLMnode_ DLMnode;
+
+/* the list header record is hidden by interface; header file #included by
+ * other modules types parameters of type DLMhead as type hidden.
+ */
+struct  DLMhead_
+   {
+      int16    length;       /* number of nodes in list. */
+      DLMnode  *first,       /* pointer to first node        */
+               *last,        /* pointer to last node         */
+               *current;     /* pointer to current node      */
+      int16    status;       /* traversal status */
+   } ;
+
+#ifdef ANSI_STD_C
+
+static  void LinkNode(struct DLMhead_ *list,struct DLMnode_ *node,struct DLMnode_ *previous);
+static  int UnlinkNode(struct DLMhead_ *list,struct DLMnode_ *node);
+extern  void DLMinit(void);
+extern  struct DLMhead_ *DLMcreateList(void);
+extern  void DLMdestroyList(struct DLMhead_ *list);
+extern  struct DLMhead_ *DLMclone(struct DLMhead_ *original);
+extern  void DLMdestroyHead(struct DLMhead_ *list);
+extern  struct DLMnode_ *DLMcreateNode(void *data);
+extern  void DLMdeleteNode(struct DLMhead_ *list,struct DLMnode_ *node);
+extern  struct DLMnode_ *DLMappendNode(struct DLMhead_ *list,struct DLMnode_ *node);
+extern  struct DLMnode_ *DLMprependNode(struct DLMhead_ *list,struct DLMnode_ *node);
+
+#ifdef DOS_OS
+extern  struct DLMnode_ *DLMinsertNode(struct DLMhead_ *list,struct DLMnode_ *node,int (cdecl *lessthan_fn)(void *,void *));
+#else
+extern  struct DLMnode_ *DLMinsertNode(struct DLMhead_ *list,struct DLMnode_ *node,int (*lessthan_fn)(void *,void *));
+#endif
+
+extern  void DLMinitGet(struct DLMhead_ *list);
+extern  struct DLMnode_ *DLMgetNext(struct DLMhead_ *list,void * *data);
+extern  void DLMinitGetBackwards(struct DLMhead_ *list);
+extern  struct DLMnode_ *DLMgetPrev(struct DLMhead_ *list,void * *data);
+extern  struct DLMnode_ *DLMgetCurrent(struct DLMhead_ *list,void * *data);
+extern  void DLMsetCurrent(struct DLMhead_ *list,struct DLMnode_ *node);
+extern  struct DLMnode_ *DLMaddAfter(struct DLMhead_ *list,void *data);
+extern  struct DLMnode_ *DLMappend(struct DLMhead_ *list,void *data);
+
+#ifdef DOS_OS
+extern  struct DLMnode_ *DLMinsert(struct DLMhead_ *list,void *data,int (cdecl *lessthan_fn)(void *,void *));
+extern  struct DLMnode_ *DLMsearch(struct DLMhead_ *list,void * *data,int (cdecl *search_fn)(void *,void *),void *param);
+extern  struct DLMnode_ *DLMsearchC(struct DLMhead_ *list,void * *data,int (cdecl *search_fn)(void *,void *),void *param);
+#else
+extern  struct DLMnode_ *DLMinsert(struct DLMhead_ *list,void *data,int (*lessthan_fn)(void *,void *));
+extern  struct DLMnode_ *DLMsearch(struct DLMhead_ *list,void * *data,int (*search_fn)(void *,void *),void *param);
+extern  struct DLMnode_ *DLMsearchC(struct DLMhead_ *list,void * *data,int (*search_fn)(void *,void *),void *param);
+#endif
+
+extern  struct DLMnode_ *DLMdelete(struct DLMhead_ *list,struct DLMnode_ *node,unsigned size,int16 struct_id);
+extern  struct DLMhead_ *DLMdestroy(struct DLMhead_ *list,unsigned size,int16 struct_id);
+extern  struct DLMnode_ *DLMpush(struct DLMhead_ *list,void *data);
+extern  struct DLMnode_ *DLMpop(struct DLMhead_ *list,unsigned size,int16 struct_id);
+extern  struct DLMnode_ *DLMpromote(struct DLMhead_ *list,void *data);
+
+#else
+
+static  void LinkNode();
+static  int UnlinkNode();
+extern  void DLMinit();
+extern  struct DLMhead_ *DLMcreateList();
+extern  void DLMdestroyList();
+extern  struct DLMhead_ *DLMclone();
+extern  void DLMdestroyHead();
+extern  struct DLMnode_ *DLMcreateNode();
+extern  void DLMdeleteNode();
+extern  struct DLMnode_ *DLMappendNode();
+extern  struct DLMnode_ *DLMprependNode();
+extern  struct DLMnode_ *DLMinsertNode();
+extern  void DLMinitGet();
+extern  struct DLMnode_ *DLMgetNext();
+extern  void DLMinitGetBackwards();
+extern  struct DLMnode_ *DLMgetPrev();
+extern  struct DLMnode_ *DLMgetCurrent();
+extern  void DLMsetCurrent();
+extern  struct DLMnode_ *DLMaddAfter();
+extern  struct DLMnode_ *DLMappend();
+extern  struct DLMnode_ *DLMinsert();
+extern  struct DLMnode_ *DLMsearch();
+extern  struct DLMnode_ *DLMsearchC();
+extern  struct DLMnode_ *DLMdelete();
+extern  struct DLMhead_ *DLMdestroy();
+extern  struct DLMnode_ *DLMpush();
+extern  struct DLMnode_ *DLMpop();
+extern  struct DLMnode_ *DLMpromote();
+
+#endif /* ANSI_STD_C */

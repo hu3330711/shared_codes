@@ -1,0 +1,13 @@
+#!/bin/csh -fb
+# keeps trying command till a socket is free (or just return status is 0)
+
+set stat = 1
+
+while ( $stat )
+	$argv[1-]
+	set stat=$status
+	sleep 5
+end
+
+# got it, done
+

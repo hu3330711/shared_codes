@@ -1,0 +1,414 @@
+************************************************************************
+
+   README.General.UCB.wt.matrix_multiplication_3D_002
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.matrix_multiplication_3D_002
+
+************************************************************************
+
+   Matrix multiplication in 3D, with a primary matrix.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.matrix_multiplication_3D_002	1.1    02/09/00    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces the product of two matrices in 3D.
+
+
+
+       One of the matrices is designated as the primary matrix.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) The primary matrix.
+
+
+
+            2) The secondary matrix.
+
+
+
+
+
+    3) The output matrix is calculated as follows:
+
+
+       Either
+
+
+           Primary_Matrix * Secondary_Matrix
+
+
+       or
+
+
+           Secondary_Matrix * Primary_Matrix
+
+
+       depending on the user's choice.
+
+
+
+
+
+    4) At the user's option, the transpose of either input matrix can be
+       used in the calculation instead of the input matrix itself.
+
+
+
+       This replacement of using the transpose instead of the input
+       matrix can be done simultaneously for both input matrices.
+
+
+
+
+
+    5) An output data point is produced for each input primary matrix.
+
+
+
+       The time tag for the output data point is the same as that for
+       the corresponding input primary matrix.
+
+
+
+
+
+    6) For an output data point to be produced, the input primary matrix
+       must be in the interval defined by two input data points for the
+       secondary matrix.
+
+
+
+       The secondary matrix for the time of the output data point is the
+       input secondary matrix at the closest time available.
+
+
+
+       However, if the time interval between the two input data points
+       for the secondary matrix is larger than a chosen value, this is
+       considered to be a data dropout.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Dump frequency for the output data points.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    0     =  Do not dump.
+
+                    >= 1  =  Dump output data points with indices of:
+                             0, n, 2n, 3n, ...  (where n is the chosen
+                             dump frequency).
+
+
+
+            2) Code for the order of the product.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    1  =  Compute Primary_Matrix * Secondary_Matrix.
+
+                    2  =  Compute Secondary_Matrix * Primary_Matrix.
+
+
+
+            3) Flag to transpose the primary matrix.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            4) The group of parameters described here occurs once for
+               each of the 9 primary input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+            5) Flag to transpose the secondary matrix.
+
+
+               Int.
+
+
+               Must be one of the following:
+
+
+                    WT_TRUE   =  Transpose.
+
+                    WT_FALSE  =  Do not transpose.
+
+
+
+            6) Dropout time for the secondary matrix.
+
+
+               Double.
+
+
+               Units are seconds.
+
+
+               Must be  >  0.
+
+
+
+            7) The group of parameters described here occurs once for
+               each of the 9 secondary input matrix components.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+                   The indices must correspond to the matrix elements in
+                   row-major order (column subscript varies fastest).
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+           None.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The primary matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+            2) The secondary matrix.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) Additional components for the 9 matrix components.
+
+                   Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) a(1,1).
+
+
+               Double.
+
+
+
+            3) a(1,2).
+
+
+               Double.
+
+
+
+            4) a(1,3).
+
+
+               Double.
+
+
+
+            5) a(2,1).
+
+
+               Double.
+
+
+
+            6) a(2,2).
+
+
+               Double.
+
+
+
+            7) a(2,3).
+
+
+               Double.
+
+
+
+            8) a(3,1).
+
+
+               Double.
+
+
+
+            9) a(3,2).
+
+
+               Double.
+
+
+
+           10) a(3,3).
+
+
+               Double.
+
+
+
+       Note: The matrix is designated "a", with rows and columns
+       numbered 1 to 3; the first subscript is the row number, the
+       second subscript is the column number.

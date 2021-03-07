@@ -1,0 +1,102 @@
+#! /usr/bin/ksh
+#
+# SCRIPT:
+#
+# ogs_edit
+#
+# PURPOSE:
+#
+# Creates a lock file on DANET and starts the procedure ogsedtcf.  
+# When this procedure (used for editing ogs config files) terminates, 
+# the lock file is removed.  This ensures that edits made
+# via the web interface do not interfere with edits on FINET.
+#
+# This procedure FTPs the rules files from DANET to FINET just before
+# running ogsedtcf and then back again when finished.
+#
+# INPUTS:
+# 
+# none
+#
+# CREATION:
+#
+# J.Rauchleiba
+# 6-16-97
+#
+
+if [[ -z $FASTCONFIG ]] ; then
+    print 'Must set FASTCONFIG variable'
+fi
+
+# SETUP
+
+DANETHOST=juneau
+rulesdir='/disks/plasma2/www/fast/soc/rules/'
+danet_lock='update_num.lock'
+lock_str='locked'
+unlock_str='unlocked'
+lockbatch="$FASTCONFIG/danet_lock.ftp"
+
+# Cleanup function in case of interrupt
+
+function earlyexit {
+    print "$0: Cleaning up and exiting..."
+    #rsh $DANETHOST rm -f $rulesdir/$danet_lock
+    lock_danet $unlock_str
+}
+
+# Functions to lock and unlock web interface on DANET
+
+function lock_danet {
+    print $1 > /tmp/$danet_lock
+    ftp -n $DANETHOST 2>/dev/null < $lockbatch
+    wait
+    rm -f /tmp/$danet_lock
+}
+
+# Only OGS updates the ogs config files
+
+if [[ $USER != 'ogs' ]]; then
+    print "$0: ogs user must run this script"
+    exit 1
+fi
+
+# Create the lock file on DANET
+
+print "Locking web interface on $DANETHOST"
+trap earlyexit EXIT
+lock_danet $lock_str
+
+# FTP the config files from DANET to local machine
+
+print "Retrieving files from $DANETHOST..."
+getogsrules -v
+
+# Start the procedure to edit the config files
+
+print 'Starting ogsedtcf...'
+ogsedtcf
+exitcode=$?
+
+# Check the exit code of the editing procedure
+
+if [[ $exitcode = 1 ]]; then
+    print "** Error: ogsedtcf collided with another job **"
+    exit 1
+fi
+if [[ $exitcode != 0 ]]; then
+    print "** Error in ogsedtcf **"
+    exit 3
+fi
+
+# FTP the updated rules files back to DANET
+
+print "Updating rules files on $DANETHOST..."
+getogsrules -v 'put'
+
+# Remove the lockfile from DANET and reset trap
+
+lock_danet $unlock_str
+trap - EXIT
+
+exit 0

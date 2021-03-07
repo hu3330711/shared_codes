@@ -1,0 +1,341 @@
+************************************************************************
+
+   README.General.UCB.wt.convolution_001
+
+   Author: Winston Teitler.
+
+************************************************************************
+
+   Documentation file for the SDT Science Module
+
+       General.UCB.wt.convolution_001
+
+************************************************************************
+
+   Convolution.
+
+************************************************************************
+
+   @(#)README.General.UCB.wt.convolution_001	1.1    09/09/05    UCB SSL
+
+************************************************************************
+
+
+
+
+
+   Contents:
+
+
+
+   1. Science Description.
+
+   2. Usage Description.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   1. Science Description.
+
+
+
+
+
+    1) This Science Module produces a convolution.
+
+
+
+
+
+    2) There must be the following inputs:
+
+
+
+            1) Input quantity to the convolution.
+
+
+
+
+
+    3) The user can choose how many and which data components of the
+       input quantity to process.
+
+
+
+       Each input data component is processed separately.
+
+
+
+
+
+    4) Each input data component to be processed must be of type float
+       or double.
+
+
+
+
+
+    5) The output quantity must contain at least as many data components
+       as:
+
+         the largest index for an input data component to be processed
+         + 1
+
+
+
+       Each input data component that is processed, produces its result
+       as the output quantity data component with the same index as the
+       input data component.
+
+
+
+       Each output data component that is to be a result must be of type
+       float or double.
+
+       It is not required that the type of an output result component
+       must match the type of the corresponding input component.
+
+
+
+
+
+    6) Any output components that are not results of the convolution
+       will not have any values set.
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+   2. Usage Description.
+
+
+
+
+
+    1) This Science Module can operate in Data Analysis mode only.
+
+
+
+
+
+    2) There must be the following command-line arguments:
+
+
+
+           None.
+
+
+
+
+
+    3) There must be the following user parameters:
+
+
+
+            1) Number of input data components to process.
+
+
+               Int.
+
+
+               Must be  >=  1.
+
+
+
+            2) The group of parameters described here occurs once for
+               each input data component to process.
+
+
+
+                1) Input component index.
+
+
+                   Int.
+
+
+
+           The user parameters for the convolution, and for the sample
+           rate; that follow must have appropriate, legal values.
+
+
+
+            3) ConvolutionTable.
+
+
+               Char.
+
+
+               Parameter for the convolution.
+
+
+
+            4) method.
+
+
+               Int.
+
+
+               Parameter for the convolution.
+
+
+
+            5) clip.
+
+
+               Int.
+
+
+               Parameter for the convolution.
+
+
+
+            6) i_nskips.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+            7) i_consist.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+            8) i_srate_fuzz.
+
+
+               Double.
+
+
+               Parameter for the sample rate.
+
+
+
+            9) i_max_t_diff.
+
+
+               Double.
+
+
+               Parameter for the sample rate.
+
+
+
+           10) i_min_pts.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           11) i_show_only_consistent.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+           12) i_hist_alg_code.
+
+
+               Int.
+
+
+               Parameter for the sample rate.
+
+
+
+
+
+    4) The following input data files are used:
+
+
+
+            1) The convolution "setup" file.
+
+
+               The name of this file is given by the user parameter
+               "ConvolutionTable" above.
+
+
+               This file is read by the function
+
+                   Read_Conv_Control_File
+
+               which should be consulted for further details.
+
+
+
+
+
+    5) There must be the following input data quantities:
+
+
+
+            1) The input quantity to be processed.
+
+
+               This input consists of a time series (Standard data
+               type); the following components are required, and must be
+               of the indicated types:
+
+
+                1) Time.
+
+                   Double.
+
+                   Must be component 0.
+
+
+                2) One or more additional components for the data
+                   values.
+
+                   Float or Double.
+
+
+
+
+
+    6) The output data quantity is a time series (Standard data type)
+       and consists of the following components:
+
+
+
+            1) Time.
+
+
+               Double.
+
+
+
+            2) One or more additional components for the data values.
+
+
+               Float or Double.

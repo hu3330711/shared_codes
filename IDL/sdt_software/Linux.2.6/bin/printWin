@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# sccs ID    @(#)printWin.sh	1.1 01/24/94
+
+# Script to print an X11 window of title given in $1 to printer given in $2
+# (optional).  Postscript printer type is assumed.  The printout will have
+# colors reversed.
+
+if [ $# = 2 ] ; then
+	xwd -id `xwininfo -name "$1" | awk '$3 == "id:"{print $4}'` | xpr -device ps -rv | lp -s -d $2 
+elif [ $# = 1 ] ; then
+	xwd -id `xwininfo -name "$1" | awk '$3 == "id:"{print $4}'` | xpr -device ps -rv | lp -s 
+else
+	echo "Usage: printWin win_title printer" ; exit 1 
+fi
+
+exit 0

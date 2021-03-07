@@ -1,0 +1,24 @@
+#  SCCS Id
+#  @(#)NE2_S.cal	1.1 04/15/96
+#
+# NE2_S.cal
+# REE 5/31/95
+NE2_S			Data name.
+2    			Exponetial calibration.
+sec			x-axis units.
+nA			y-axis units.
+xx			z-axis units.
+0			Boomlength index.
+0			No gain state.
+0			History.
+# Calibration table as of 5/31/95.
+# Calibration set for 0x80. Need correction for bias 0xA0, multiply result
+# (after exponetiation) by .8929. For 0xC0 multiply by .6429.
+# General formula for correction: (24 - Bias*10/128)/14.
+# 20 Iteration fit.
+0			Time in seconds.
+-681.9			Zerolevel (raw).
+3.3091e-3		Gain (in exponent).
+-10.625 		IL (offset current in nA).
+
+

@@ -1,0 +1,24 @@
+#  SCCS Id
+#  @(#)Mag2dc_S.cal	1.2 02/06/97
+#
+# Mag2dc_S.cal
+#
+# REE 05/25/95
+# REE 02/06/97
+#
+Mag2dc_S		Data name.
+1    			Linear calibration.
+sec			x-axis units.
+RAW			y-axis units.
+xx			z-axis units.
+0			Boomlength index.
+0			No gain state.
+0			History.
+#
+# Calibration table as of 5/25/95.
+# Blanked out by REE 02/06/97.
+#
+0			Time in seconds.
+0			Offset.
+1.0			Gain.
+# End of Entry 0.
