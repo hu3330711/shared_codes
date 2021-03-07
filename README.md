@@ -1,1 +1,2 @@
-# shared_codes
+# Purpose
+To share useful codes and packages
